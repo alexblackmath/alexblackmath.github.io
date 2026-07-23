@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MRI Compressed Sensing Lab</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #061018;
+      --panel: #0b1c28;
+      --panel-2: #102a38;
+      --ink: #edfaff;
+      --muted: #a8c3cf;
+      --accent: #27d3c2;
+      --accent-2: #ff9f43;
+      --good: #66e3a4;
+      --border: #285063;
+      --grid: rgba(72, 202, 228, .08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+        radial-gradient(circle at 50% 20%, rgba(39, 211, 194, .16), transparent 34%),
+        radial-gradient(circle at 88% 85%, rgba(82, 168, 255, .13), transparent 32%),
+        var(--bg);
+      background-size: 28px 28px, 28px 28px, auto, auto, auto;
+      color: var(--ink);
+    }
+
+    .game {
+      position: relative;
+      width: min(960px, 100%);
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(11, 28, 40, .98), rgba(5, 16, 24, .98));
+      border: 1px solid #2b6575;
+      border-radius: 22px;
+      box-shadow: 0 26px 70px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255,255,255,.04);
+      padding: clamp(18px, 4vw, 34px);
+    }
+
+    .game::before {
+      content: "";
+      position: absolute;
+      width: 310px;
+      height: 310px;
+      right: -130px;
+      top: -145px;
+      border: 1px solid rgba(39, 211, 194, .20);
+      border-radius: 50%;
+      box-shadow: 0 0 0 30px rgba(39,211,194,.05), 0 0 0 62px rgba(82,168,255,.035);
+      pointer-events: none;
+    }
+
+    .screen { position: relative; z-index: 1; }
+    .screen[hidden] { display: none; }
+    .menu { text-align: center; padding: clamp(12px, 4vw, 32px) 0; }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      letter-spacing: .015em;
+      color: #f5fdff;
+      font-weight: 800;
+    }
+
+    .menu p {
+      max-width: 700px;
+      margin: 18px auto 26px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-weight: 500;
+    }
+
+    .lab-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      padding: 7px 13px;
+      border: 1px solid rgba(39, 211, 194, .45);
+      border-radius: 999px;
+      background: rgba(39, 211, 194, .09);
+      color: #8ff5e9;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: .78rem;
+      font-weight: 800;
+    }
+
+    .lab-badge::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
+    }
+
+    .level-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .level-card {
+      min-height: 145px;
+      display: grid;
+      align-content: center;
+      gap: 9px;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: linear-gradient(145deg, rgba(16,42,56,.95), rgba(7,22,32,.95));
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.035);
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    }
+
+    .level-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      background: linear-gradient(145deg, rgba(20,55,70,.98), rgba(8,27,38,.98));
+    }
+
+    .level-card strong { font-size: 1.08rem; color: #f7feff; }
+    .level-card span { color: var(--muted); line-height: 1.45; font-weight: 500; }
+
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 14px; }
+    .topbar-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .topbar h1 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: clamp(1.25rem, 3.5vw, 2rem); }
+
+    .stats {
+      color: #dffcff;
+      font-size: .95rem;
+      white-space: nowrap;
+      padding: 8px 12px;
+      border: 1px solid rgba(82,168,255,.55);
+      border-radius: 999px;
+      background: rgba(5,16,24,.85);
+      font-weight: 800;
+    }
+
+    .instructions { margin: 0 0 14px; color: var(--muted); line-height: 1.55; font-weight: 500; }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: .9rem;
+      font-weight: 700;
+    }
+
+    .legend span { display: inline-flex; align-items: center; gap: 7px; }
+    .legend i { width: 28px; height: 4px; border-radius: 99px; display: inline-block; }
+    .legend .target { background: #00aeb8; }
+    .legend .guess { background: #ff9f43; }
+
+    .graph-wrap {
+      border: 1px solid #347889;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #f7fcff;
+      box-shadow: 0 12px 30px rgba(0,0,0,.32);
+    }
+
+    canvas { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; }
+
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .slider-card {
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(16, 42, 56, .72);
+    }
+
+    .slider-card[hidden] { display: none; }
+    .slider-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 9px; }
+    .slider-head label { font-weight: 800; color: #effdff; }
+    .slider-value { min-width: 4.2ch; text-align: right; color: #ffd19b; font-variant-numeric: tabular-nums; font-weight: 900; }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent-2);
+      cursor: pointer;
+    }
+
+    .actions { display: flex; justify-content: center; gap: 12px; margin-top: 18px; }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 18px;
+      font: 800 1rem/1 system-ui, sans-serif;
+      cursor: pointer;
+      background: var(--accent);
+      color: #03201d;
+      letter-spacing: .015em;
+    }
+    button:hover { filter: brightness(1.08); }
+    button:focus-visible { outline: 3px solid rgba(143,245,233,.5); outline-offset: 2px; }
+    .menu-button { flex: 0 0 auto; padding: 9px 12px; background: #1e6f95; color: #fff; }
+    #nextButton { display: none; }
+
+    .feedback { min-height: 28px; margin: 16px 0 0; text-align: center; font: 800 1rem/1.35 system-ui, sans-serif; }
+    .feedback.good { color: var(--good); }
+    .footer-note { margin-top: 9px; color: var(--muted); font: 600 .82rem/1.4 system-ui, sans-serif; text-align: center; }
+
+    @media (max-width: 680px) {
+      .level-list, .controls { grid-template-columns: 1fr; }
+      .topbar { align-items: flex-start; }
+      .topbar-left { align-items: flex-start; }
+      .stats { font-size: .82rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="game">
+    <section id="menuScreen" class="screen menu" aria-labelledby="menuTitle">
+      <div class="lab-badge">MRI Signal Reconstruction</div>
+      <h1 id="menuTitle">MRI Compressed Sensing Lab</h1>
+      <p>Match hidden harmonic signals by tuning continuous coefficient sliders. Your reconstruction appears live over the target curve on the interval −2π to 2π.</p>
+
+      <div class="level-list">
+        <button class="level-card" type="button" data-level="1">
+          <strong>Level 1: Sine Calibration</strong>
+          <span>Tune one coefficient in a sin(t).</span>
+        </button>
+        <button class="level-card" type="button" data-level="2">
+          <strong>Level 2: Cosine Calibration</strong>
+          <span>Tune one coefficient in a cos(t).</span>
+        </button>
+        <button class="level-card" type="button" data-level="3">
+          <strong>Level 3: Signal Identification</strong>
+          <span>Determine whether the target is sine or cosine by tuning both channels.</span>
+        </button>
+        <button class="level-card" type="button" data-level="4">
+          <strong>Level 4: Harmonic Reconstruction</strong>
+          <span>Tune the coefficients in a sin(t) + b cos(t).</span>
+        </button>
+        <button class="level-card" type="button" data-level="5">
+          <strong>Level 5: Multi-Frequency Reconstruction</strong>
+          <span>Tune four coefficients using frequencies 1 and 2.</span>
+        </button>
+      </div>
+    </section>
+
+    <section id="gameScreen" class="screen" hidden aria-labelledby="gameTitle">
+      <div class="topbar">
+        <div class="topbar-left">
+          <button id="menuButton" class="menu-button" type="button">Lab Menu</button>
+          <h1 id="gameTitle">Level 1: Sine Calibration</h1>
+        </div>
+        <div class="stats" aria-live="polite">Solved <span id="score">0</span></div>
+      </div>
+
+      <p id="instructions" class="instructions"></p>
+      <div class="legend" aria-label="Graph legend">
+        <span><i class="target"></i>Target signal</span>
+        <span><i class="guess"></i>Your reconstruction</span>
+      </div>
+
+      <div class="graph-wrap">
+        <canvas id="graph" width="900" height="600" aria-label="Target and reconstructed signal curves"></canvas>
+      </div>
+
+      <div id="controls" class="controls" aria-label="Coefficient sliders">
+        <div class="slider-card" data-coefficient="sin1">
+          <div class="slider-head"><label for="sin1">sin(t) coefficient</label><output id="sin1Value" class="slider-value">0.00</output></div>
+          <input id="sin1" type="range" min="-5" max="5" step="0.01" value="0" />
+        </div>
+        <div class="slider-card" data-coefficient="cos1">
+          <div class="slider-head"><label for="cos1">cos(t) coefficient</label><output id="cos1Value" class="slider-value">0.00</output></div>
+          <input id="cos1" type="range" min="-5" max="5" step="0.01" value="0" />
+        </div>
+        <div class="slider-card" data-coefficient="cos2">
+          <div class="slider-head"><label for="cos2">cos(2t) coefficient</label><output id="cos2Value" class="slider-value">0.00</output></div>
+          <input id="cos2" type="range" min="-5" max="5" step="0.01" value="0" />
+        </div>
+        <div class="slider-card" data-coefficient="sin2">
+          <div class="slider-head"><label for="sin2">sin(2t) coefficient</label><output id="sin2Value" class="slider-value">0.00</output></div>
+          <input id="sin2" type="range" min="-5" max="5" step="0.01" value="0" />
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="nextButton" type="button">Next scan</button>
+      </div>
+      <p id="feedback" class="feedback" role="status" aria-live="polite"></p>
+      <p class="footer-note">A round is solved when every active coefficient is within 0.15 of its hidden target value.</p>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const menuScreen = document.getElementById('menuScreen');
+      const gameScreen = document.getElementById('gameScreen');
+      const levelButtons = document.querySelectorAll('[data-level]');
+      const menuButton = document.getElementById('menuButton');
+      const gameTitle = document.getElementById('gameTitle');
+      const instructions = document.getElementById('instructions');
+      const canvas = document.getElementById('graph');
+      const ctx = canvas.getContext('2d');
+      const feedback = document.getElementById('feedback');
+      const scoreEl = document.getElementById('score');
+      const nextButton = document.getElementById('nextButton');
+      const sliderCards = [...document.querySelectorAll('.slider-card')];
+
+      const sliders = {
+        sin1: document.getElementById('sin1'),
+        cos1: document.getElementById('cos1'),
+        cos2: document.getElementById('cos2'),
+        sin2: document.getElementById('sin2')
+      };
+      const outputs = {
+        sin1: document.getElementById('sin1Value'),
+        cos1: document.getElementById('cos1Value'),
+        cos2: document.getElementById('cos2Value'),
+        sin2: document.getElementById('sin2Value')
+      };
+
+      const levels = {
+        1: { name: 'Sine Calibration', active: ['sin1'], text: 'Tune the slider until your reconstruction matches the hidden target a sin(t).' },
+        2: { name: 'Cosine Calibration', active: ['cos1'], text: 'Tune the slider until your reconstruction matches the hidden target a cos(t).' },
+        3: { name: 'Signal Identification', active: ['sin1', 'cos1'], text: 'The target is either a pure sine or a pure cosine signal. Tune both channels to identify it and match its amplitude.' },
+        4: { name: 'Harmonic Reconstruction', active: ['sin1', 'cos1'], text: 'Tune both coefficients in a sin(t) + b cos(t) until the reconstruction overlaps the target.' },
+        5: { name: 'Multi-Frequency Reconstruction', active: ['cos1', 'sin1', 'cos2', 'sin2'], text: 'Tune all four coefficients in a cos(t) + b sin(t) + c cos(2t) + d sin(2t).' }
+      };
+
+      const TOLERANCE = 0.15;
+      let currentLevel = 1;
+      let target = { sin1: 0, cos1: 0, cos2: 0, sin2: 0 };
+      let score = 0;
+      let solved = false;
+      let yLimit = 5;
+      let previousTarget = '';
+
+      function randomContinuous() {
+        return -5 + Math.random() * 10;
+      }
+
+      function makeTarget() {
+        let next;
+        do {
+          next = { sin1: 0, cos1: 0, cos2: 0, sin2: 0 };
+          if (currentLevel === 1) next.sin1 = randomContinuous();
+          if (currentLevel === 2) next.cos1 = randomContinuous();
+          if (currentLevel === 3) {
+            if (Math.random() < 0.5) next.sin1 = randomContinuous();
+            else next.cos1 = randomContinuous();
+          }
+          if (currentLevel === 4) {
+            next.sin1 = randomContinuous();
+            next.cos1 = randomContinuous();
+          }
+          if (currentLevel === 5) {
+            next.cos1 = randomContinuous();
+            next.sin1 = randomContinuous();
+            next.cos2 = randomContinuous();
+            next.sin2 = randomContinuous();
+          }
+        } while (
+          Math.hypot(next.sin1, next.cos1, next.cos2, next.sin2) < 0.9 ||
+          Object.values(next).map(v => v.toFixed(2)).join(',') === previousTarget
+        );
+        target = next;
+        previousTarget = Object.values(next).map(v => v.toFixed(2)).join(',');
+      }
+
+      function currentGuess() {
+        return {
+          sin1: Number(sliders.sin1.value),
+          cos1: Number(sliders.cos1.value),
+          cos2: Number(sliders.cos2.value),
+          sin2: Number(sliders.sin2.value)
+        };
+      }
+
+      function evaluate(coeffs, x) {
+        return coeffs.sin1 * Math.sin(x)
+          + coeffs.cos1 * Math.cos(x)
+          + coeffs.cos2 * Math.cos(2 * x)
+          + coeffs.sin2 * Math.sin(2 * x);
+      }
+
+      function updateYLimit() {
+        const guess = currentGuess();
+        let maxAbs = 0;
+        for (let i = 0; i <= 1600; i++) {
+          const x = -2 * Math.PI + (i / 1600) * 4 * Math.PI;
+          maxAbs = Math.max(maxAbs, Math.abs(evaluate(target, x)), Math.abs(evaluate(guess, x)));
+        }
+        yLimit = Math.max(5, Math.ceil(maxAbs + 0.75));
+      }
+
+      function xToCanvas(x, plot) {
+        return plot.left + ((x + 2 * Math.PI) / (4 * Math.PI)) * plot.width;
+      }
+
+      function yToCanvas(y, plot) {
+        return plot.top + ((yLimit - y) / (2 * yLimit)) * plot.height;
+      }
+
+      function formatPiQuarter(numerator) {
+        if (numerator === 0) return '0';
+        const sign = numerator < 0 ? '−' : '';
+        const absolute = Math.abs(numerator);
+        const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+        const divisor = gcd(absolute, 4);
+        const top = absolute / divisor;
+        const bottom = 4 / divisor;
+        const coefficient = top === 1 ? '' : String(top);
+        return bottom === 1 ? `${sign}${coefficient}π` : `${sign}${coefficient}π/${bottom}`;
+      }
+
+      function drawCurve(coeffs, plot, color, width, dashed = false) {
+        ctx.save();
+        ctx.beginPath();
+        for (let i = 0; i <= 1000; i++) {
+          const x = -2 * Math.PI + (i / 1000) * 4 * Math.PI;
+          const px = xToCanvas(x, plot);
+          const py = yToCanvas(evaluate(coeffs, x), plot);
+          if (i === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        }
+        ctx.strokeStyle = color;
+        ctx.lineWidth = width;
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        if (dashed) ctx.setLineDash([13, 8]);
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function drawGraph() {
+        if (gameScreen.hidden) return;
+        updateYLimit();
+
+        const width = canvas.width;
+        const height = canvas.height;
+        const plot = { left: 82, right: 32, top: 30, bottom: 70 };
+        plot.width = width - plot.left - plot.right;
+        plot.height = height - plot.top - plot.bottom;
+
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, width, height);
+        ctx.font = '18px system-ui, sans-serif';
+        ctx.textBaseline = 'middle';
+
+        const yStep = yLimit <= 6 ? 1 : yLimit <= 12 ? 2 : 5;
+        for (let y = -Math.ceil(yLimit / yStep) * yStep; y <= yLimit; y += yStep) {
+          const py = yToCanvas(y, plot);
+          ctx.beginPath();
+          ctx.moveTo(plot.left, py);
+          ctx.lineTo(plot.left + plot.width, py);
+          ctx.strokeStyle = y === 0 ? '#596579' : '#e6eaf1';
+          ctx.lineWidth = y === 0 ? 2 : 1;
+          ctx.stroke();
+          ctx.fillStyle = '#334b61';
+          ctx.textAlign = 'right';
+          ctx.fillText(String(y), plot.left - 12, py);
+        }
+
+        ctx.font = '14px system-ui, sans-serif';
+        for (let quarter = -8; quarter <= 8; quarter++) {
+          const x = quarter * Math.PI / 4;
+          const px = xToCanvas(x, plot);
+          ctx.beginPath();
+          ctx.moveTo(px, plot.top);
+          ctx.lineTo(px, plot.top + plot.height);
+          ctx.strokeStyle = x === 0 ? '#596579' : '#e6eaf1';
+          ctx.lineWidth = x === 0 ? 2 : 1;
+          ctx.stroke();
+          ctx.fillStyle = '#334b61';
+          ctx.textAlign = 'center';
+          ctx.fillText(formatPiQuarter(quarter), px, plot.top + plot.height + 30);
+        }
+
+        ctx.strokeStyle = '#6f879b';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(plot.left, plot.top, plot.width, plot.height);
+
+        drawCurve(target, plot, '#00aeb8', 6, false);
+        drawCurve(currentGuess(), plot, '#ff9f43', 4, true);
+
+        ctx.fillStyle = '#0b2431';
+        ctx.font = '20px system-ui, sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText('t', plot.left + plot.width + 8, yToCanvas(0, plot) - 18);
+        ctx.textAlign = 'left';
+        ctx.fillText('y', xToCanvas(0, plot) + 12, plot.top + 12);
+      }
+
+      function updateOutputs() {
+        Object.keys(sliders).forEach(key => {
+          outputs[key].textContent = Number(sliders[key].value).toFixed(2);
+        });
+      }
+
+      function checkSolved() {
+        if (solved) return;
+        const guess = currentGuess();
+        const active = levels[currentLevel].active;
+        const closeEnough = active.every(key => Math.abs(guess[key] - target[key]) <= TOLERANCE);
+        if (!closeEnough) return;
+
+        solved = true;
+        score += 1;
+        scoreEl.textContent = String(score);
+        feedback.textContent = 'Reconstruction complete — your coefficients match the hidden signal.';
+        feedback.className = 'feedback good';
+        nextButton.style.display = 'inline-block';
+        active.forEach(key => sliders[key].disabled = true);
+        nextButton.focus();
+      }
+
+      function onSliderInput() {
+        updateOutputs();
+        drawGraph();
+        checkSolved();
+      }
+
+      function resetSliders() {
+        Object.values(sliders).forEach(slider => {
+          slider.value = '0';
+          slider.disabled = false;
+        });
+        updateOutputs();
+      }
+
+      function configureControls() {
+        const active = new Set(levels[currentLevel].active);
+        sliderCards.forEach(card => {
+          card.hidden = !active.has(card.dataset.coefficient);
+        });
+      }
+
+      function newRound() {
+        solved = false;
+        feedback.textContent = '';
+        feedback.className = 'feedback';
+        nextButton.style.display = 'none';
+        resetSliders();
+        makeTarget();
+        drawGraph();
+        sliders[levels[currentLevel].active[0]].focus();
+      }
+
+      function startLevel(levelNumber) {
+        currentLevel = levelNumber;
+        score = 0;
+        previousTarget = '';
+        scoreEl.textContent = '0';
+        gameTitle.textContent = `Level ${currentLevel}: ${levels[currentLevel].name}`;
+        instructions.textContent = levels[currentLevel].text;
+        configureControls();
+        menuScreen.hidden = true;
+        gameScreen.hidden = false;
+        newRound();
+      }
+
+      function showMenu() {
+        gameScreen.hidden = true;
+        menuScreen.hidden = false;
+        levelButtons[0].focus();
+      }
+
+      levelButtons.forEach(button => {
+        button.addEventListener('click', () => startLevel(Number(button.dataset.level)));
+      });
+      menuButton.addEventListener('click', showMenu);
+      nextButton.addEventListener('click', newRound);
+      Object.values(sliders).forEach(slider => slider.addEventListener('input', onSliderInput));
+      window.addEventListener('resize', drawGraph);
+    })();
+  </script>
+</body>
+</html>
