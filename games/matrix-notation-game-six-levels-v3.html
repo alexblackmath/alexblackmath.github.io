@@ -1,0 +1,787 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Matrix Notation Game</title>
+
+  <style>
+    :root {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #1f2937;
+      background: #eef2f7;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      padding: 1rem;
+    }
+
+    .card {
+      width: min(100%, 42rem);
+      padding: 2rem;
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 0.10);
+      text-align: center;
+    }
+
+    .hidden { display: none; }
+
+    h1, h2 { margin-top: 0; }
+
+    .subtitle {
+      color: #4b5563;
+      line-height: 1.5;
+    }
+
+    .level-grid {
+      display: grid;
+      gap: 0.9rem;
+      margin-top: 1.5rem;
+    }
+
+    button, input {
+      font: inherit;
+      border-radius: 0.55rem;
+    }
+
+    button {
+      padding: 0.75rem 1rem;
+      border: 0;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover { background: #1d4ed8; }
+
+    button.secondary { background: #4b5563; }
+    button.secondary:hover { background: #374151; }
+
+    button.level-button {
+      width: 100%;
+      text-align: left;
+      padding: 1rem;
+    }
+
+    button.level-button strong {
+      display: block;
+      margin-bottom: 0.25rem;
+      font-size: 1rem;
+    }
+
+    button.level-button span {
+      display: block;
+      font-size: 0.9rem;
+      opacity: 0.92;
+      line-height: 1.4;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      color: #4b5563;
+      font-size: 0.95rem;
+    }
+
+    #display-math {
+      min-height: 11rem;
+      display: grid;
+      place-items: center;
+      overflow-x: auto;
+      font-size: 1.3rem;
+      padding: 0.5rem;
+    }
+
+    .question {
+      margin: 1rem 0;
+      font-size: 1.15rem;
+      line-height: 1.6;
+    }
+
+    .answer-row {
+      display: flex;
+      justify-content: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    input {
+      width: 9rem;
+      padding: 0.7rem;
+      border: 1px solid #9ca3af;
+      text-align: center;
+    }
+
+    #feedback {
+      min-height: 1.6rem;
+      margin: 1rem 0;
+      font-weight: 700;
+    }
+
+    #answer-reveal {
+      min-height: 2rem;
+      margin: 0.5rem 0 1rem;
+      overflow-x: auto;
+    }
+
+    .impossible {
+      color: #dc2626;
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+    }
+
+    .game-actions {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .progress {
+      width: 100%;
+      height: 0.75rem;
+      margin: 1rem 0 0.5rem;
+      overflow: hidden;
+      background: #e5e7eb;
+      border-radius: 999px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      background: #2563eb;
+      transition: width 180ms ease;
+    }
+
+    .result-score {
+      font-size: 2rem;
+      font-weight: 800;
+      margin: 1rem 0;
+    }
+  </style>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-svg.js"></script>
+</head>
+
+<body>
+  <main class="card">
+    <section id="home-screen">
+      <h1>Matrix Notation Game</h1>
+      <p class="subtitle">
+        Practice matrix entries, vector sums, and row and column sums.
+        Choose a topic to begin.
+      </p>
+
+      <div class="level-grid">
+        <button class="level-button" data-level="matrix-entry">
+          <strong>Matrix Entries</strong>
+          <span>
+            Read matrices of varying sizes and find entries such as
+            \(A_{i,j}\).
+          </span>
+        </button>
+
+        <button class="level-button" data-level="vector-sum">
+          <strong>Vector Sum Notation</strong>
+          <span>
+            Read a vector and compute sums such as
+            \(\sum_{i=j}^{k} x_i\).
+          </span>
+        </button>
+
+        <button class="level-button" data-level="matrix-sum">
+          <strong>Row and Column Sums</strong>
+          <span>
+            Compute a sum across one row or one column of a matrix.
+          </span>
+        </button>
+
+        <button class="level-button" data-level="matrix-vector">
+          <strong>Matrix–Vector Products</strong>
+          <span>
+            Given \(A\vec{x}=\vec{b}\), compute a selected component
+            \(b_i\).
+          </span>
+        </button>
+
+        <button class="level-button" data-level="matrix-product-dimensions">
+          <strong>Matrix Product Dimensions</strong>
+          <span>
+            Decide the dimensions of \(C=AB\), or determine that the
+            multiplication is impossible.
+          </span>
+        </button>
+
+        <button class="level-button" data-level="matrix-product-entry">
+          <strong>Matrix Product Entries</strong>
+          <span>
+            Given \(C=AB\), compute a selected entry \(C_{i,j}\).
+          </span>
+        </button>
+      </div>
+    </section>
+
+    <section id="game-screen" class="hidden">
+      <div class="top-bar">
+        <span id="level-name"></span>
+        <span id="score"></span>
+      </div>
+
+      <div class="progress" aria-label="Level progress">
+        <div id="progress-bar" class="progress-bar"></div>
+      </div>
+      <p id="question-count"></p>
+
+      <div id="display-math" aria-label="Mathematical expression"></div>
+
+      <p class="question">
+        Compute <span id="prompt"></span>.
+      </p>
+
+      <form id="answer-form" class="answer-row">
+        <input
+          id="answer"
+          type="text"
+          inputmode="text"
+          required
+          autocomplete="off"
+          aria-label="Answer"
+        >
+        <button id="submit-button" type="submit">Check</button>
+      </form>
+
+      <p id="feedback" aria-live="polite"></p>
+      <div id="answer-reveal" aria-live="polite"></div>
+
+      <div class="game-actions">
+        <button id="new-question" class="secondary" type="button">
+          New question
+        </button>
+        <button id="home-button" class="secondary" type="button">
+          Home
+        </button>
+      </div>
+    </section>
+
+    <section id="result-screen" class="hidden">
+      <h2>Topic complete!</h2>
+      <p id="result-level"></p>
+      <div id="result-score" class="result-score"></div>
+      <p id="result-message" class="subtitle"></p>
+
+      <div class="game-actions">
+        <button id="play-again" type="button">Play again</button>
+        <button id="result-home" class="secondary" type="button">Home</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const screens = {
+      home: document.querySelector('#home-screen'),
+      game: document.querySelector('#game-screen'),
+      result: document.querySelector('#result-screen')
+    };
+
+    const levelNameElement = document.querySelector('#level-name');
+    const scoreElement = document.querySelector('#score');
+    const questionCountElement = document.querySelector('#question-count');
+    const progressBarElement = document.querySelector('#progress-bar');
+    const displayMathElement = document.querySelector('#display-math');
+    const promptElement = document.querySelector('#prompt');
+    const answerForm = document.querySelector('#answer-form');
+    const answerInput = document.querySelector('#answer');
+    const feedbackElement = document.querySelector('#feedback');
+    const answerRevealElement = document.querySelector('#answer-reveal');
+    const submitButton = document.querySelector('#submit-button');
+    const newQuestionButton = document.querySelector('#new-question');
+    const homeButton = document.querySelector('#home-button');
+    const resultLevelElement = document.querySelector('#result-level');
+    const resultScoreElement = document.querySelector('#result-score');
+    const resultMessageElement = document.querySelector('#result-message');
+    const playAgainButton = document.querySelector('#play-again');
+    const resultHomeButton = document.querySelector('#result-home');
+
+    const levels = {
+      'matrix-entry': {
+        name: 'Matrix Entries',
+        questions: 7
+      },
+      'vector-sum': {
+        name: 'Vector Sum Notation',
+        questions: 7
+      },
+      'matrix-sum': {
+        name: 'Row and Column Sums',
+        questions: 7
+      },
+      'matrix-vector': {
+        name: 'Matrix–Vector Products',
+        questions: 7
+      },
+      'matrix-product-dimensions': {
+        name: 'Matrix Product Dimensions',
+        questions: 7
+      },
+      'matrix-product-entry': {
+        name: 'Matrix Product Entries',
+        questions: 7
+      }
+    };
+
+    let currentLevelKey = 'matrix-entry';
+    let currentLevel = levels[currentLevelKey];
+    let correctAnswer = 0;
+    let answerMode = 'number';
+    let productForReveal = null;
+    let revealedProduct = null;
+    let currentProductTarget = null;
+    let correctAnswers = 0;
+    let currentQuestion = 1;
+    let acceptingAnswer = true;
+
+    function showScreen(name) {
+      Object.values(screens).forEach(screen => screen.classList.add('hidden'));
+      screens[name].classList.remove('hidden');
+    }
+
+    function randomInteger(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function createRandomMatrix(rows, columns, min = -9, max = 9) {
+      return Array.from(
+        { length: rows },
+        () => Array.from(
+          { length: columns },
+          () => randomInteger(min, max)
+        )
+      );
+    }
+
+    function matrixToLatex(name, values) {
+      const rows = values.map(row => row.join(' & ')).join(' \\\\ ');
+      return `\\[${name} = \\begin{pmatrix}${rows}\\end{pmatrix}\\]`;
+    }
+
+    function partialMatrixToLatex(name, values) {
+      const rows = values
+        .map(row => row.map(value => value === null ? '?' : value).join(' & '))
+        .join(' \\\\ ');
+      return `\\[${name} = \\begin{pmatrix}${rows}\\end{pmatrix}\\]`;
+    }
+
+    function vectorToLatex(name, values) {
+      const entries = values.join(' \\\\ ');
+      return `\\[\\vec{${name}} = \\begin{pmatrix}${entries}\\end{pmatrix}\\]`;
+    }
+
+    function randomMatrixName() {
+      const names = ['A', 'B', 'C', 'D', 'E'];
+      return names[randomInteger(0, names.length - 1)];
+    }
+
+    function randomVectorName() {
+      const names = ['x', 'y', 'z'];
+      return names[randomInteger(0, names.length - 1)];
+    }
+
+    async function typeset(elements) {
+      if (window.MathJax?.typesetPromise) {
+        await MathJax.typesetPromise(elements);
+      }
+    }
+
+    function updateStatus() {
+      levelNameElement.textContent = currentLevel.name;
+      scoreElement.textContent = `Score: ${correctAnswers}`;
+      questionCountElement.textContent =
+        `Question ${currentQuestion} of ${currentLevel.questions}`;
+
+      const completed = currentQuestion - 1;
+      progressBarElement.style.width =
+        `${(completed / currentLevel.questions) * 100}%`;
+    }
+
+    function buildMatrixEntryQuestion() {
+      const rows = randomInteger(2, 5);
+      const columns = randomInteger(2, 5);
+      const matrix = createRandomMatrix(rows, columns);
+      const matrixName = randomMatrixName();
+
+      const row = randomInteger(1, rows);
+      const column = randomInteger(1, columns);
+
+      correctAnswer = matrix[row - 1][column - 1];
+      displayMathElement.textContent = matrixToLatex(matrixName, matrix);
+      promptElement.textContent =
+        `\\(${matrixName}_{${row},${column}}\\)`;
+    }
+
+    function buildVectorSumQuestion() {
+      const length = randomInteger(3, 7);
+      const vector = Array.from(
+        { length },
+        () => randomInteger(-9, 9)
+      );
+      const vectorName = randomVectorName();
+
+      const j = randomInteger(1, length);
+      const k = randomInteger(j, length);
+
+      correctAnswer = vector
+        .slice(j - 1, k)
+        .reduce((sum, value) => sum + value, 0);
+
+      displayMathElement.textContent =
+        vectorToLatex(vectorName, vector);
+      promptElement.textContent =
+        `\\(\\displaystyle \\sum_{i=${j}}^{${k}} ${vectorName}_i\\)`;
+    }
+
+    function buildMatrixSumQuestion() {
+      const rows = randomInteger(2, 5);
+      const columns = randomInteger(2, 5);
+      const matrix = createRandomMatrix(rows, columns);
+      const matrixName = randomMatrixName();
+
+      const sumColumn = Math.random() < 0.5;
+      displayMathElement.textContent =
+        matrixToLatex(matrixName, matrix);
+
+      if (sumColumn) {
+        const b = randomInteger(1, columns);
+        correctAnswer = matrix.reduce(
+          (sum, row) => sum + row[b - 1],
+          0
+        );
+        promptElement.textContent =
+          `\\(\\displaystyle \\sum_{i=1}^{${rows}} ${matrixName}_{i,${b}}\\)`;
+      } else {
+        const c = randomInteger(1, rows);
+        correctAnswer = matrix[c - 1].reduce(
+          (sum, value) => sum + value,
+          0
+        );
+        promptElement.textContent =
+          `\\(\\displaystyle \\sum_{j=1}^{${columns}} ${matrixName}_{${c},j}\\)`;
+      }
+    }
+
+    function buildMatrixVectorQuestion() {
+      const rows = randomInteger(2, 4);
+      const columns = randomInteger(2, 4);
+      const matrix = createRandomMatrix(rows, columns, -5, 5);
+      const vector = Array.from(
+        { length: columns },
+        () => randomInteger(-5, 5)
+      );
+
+      const matrixName = randomMatrixName();
+      const inputVectorName = randomVectorName();
+      const outputVectorName = 'b';
+      const targetIndex = randomInteger(1, rows);
+
+      correctAnswer = matrix[targetIndex - 1].reduce(
+        (sum, entry, columnIndex) =>
+          sum + entry * vector[columnIndex],
+        0
+      );
+
+      const matrixRows =
+        matrix.map(row => row.join(' & ')).join(' \\\\ ');
+      const vectorEntries = vector.join(' \\\\ ');
+
+      displayMathElement.textContent =
+        `\\[
+          ${matrixName}
+          =
+          \\begin{pmatrix}
+            ${matrixRows}
+          \\end{pmatrix},
+          \\qquad
+          \\vec{${inputVectorName}}
+          =
+          \\begin{pmatrix}
+            ${vectorEntries}
+          \\end{pmatrix},
+          \\qquad
+          ${matrixName}\\vec{${inputVectorName}}=\\vec{${outputVectorName}}
+        \\]`;
+
+      promptElement.textContent =
+        `\\(${outputVectorName}_{${targetIndex}}\\)`;
+    }
+
+    function multiplyMatrices(left, right) {
+      return left.map((row, i) =>
+        right[0].map((_, j) =>
+          row.reduce(
+            (sum, value, k) => sum + value * right[k][j],
+            0
+          )
+        )
+      );
+    }
+
+    function normalizeDimensionAnswer(value) {
+      return value
+        .trim()
+        .toLowerCase()
+        .replace(/[×*]/g, 'x')
+        .replace(/\bby\b/g, 'x')
+        .replace(/[(),]/g, ' ')
+        .replace(/\s+/g, '');
+    }
+
+    function buildMatrixProductDimensionsQuestion() {
+      answerMode = 'dimension';
+      const shouldBePossible = Math.random() < 0.5;
+
+      const aRows = randomInteger(2, 4);
+      const aColumns = randomInteger(2, 4);
+      const bColumns = randomInteger(2, 4);
+      let bRows;
+
+      if (shouldBePossible) {
+        bRows = aColumns;
+      } else {
+        const choices = [2, 3, 4].filter(value => value !== aColumns);
+        bRows = choices[randomInteger(0, choices.length - 1)];
+      }
+
+      const A = createRandomMatrix(aRows, aColumns, -5, 5);
+      const B = createRandomMatrix(bRows, bColumns, -5, 5);
+
+      displayMathElement.textContent =
+        `${matrixToLatex('A', A)}
+         ${matrixToLatex('B', B)}
+         \\[C=AB\\]`;
+
+      promptElement.textContent =
+        '\\(\\text{the dimensions of }C\\text{, or write IMPOSSIBLE}\\)';
+
+      if (shouldBePossible) {
+        correctAnswer = `${aRows}x${bColumns}`;
+        productForReveal = multiplyMatrices(A, B);
+      } else {
+        correctAnswer = 'impossible';
+        productForReveal = null;
+      }
+    }
+
+    function buildMatrixProductEntryQuestion() {
+      answerMode = 'number';
+
+      const aRows = randomInteger(2, 4);
+      const sharedDimension = randomInteger(2, 4);
+      const bColumns = randomInteger(2, 4);
+
+      const A = createRandomMatrix(aRows, sharedDimension, -5, 5);
+      const B = createRandomMatrix(sharedDimension, bColumns, -5, 5);
+      const C = multiplyMatrices(A, B);
+
+      const row = randomInteger(1, aRows);
+      const column = randomInteger(1, bColumns);
+
+      correctAnswer = C[row - 1][column - 1];
+      productForReveal = C;
+      revealedProduct = Array.from(
+        { length: aRows },
+        () => Array.from({ length: bColumns }, () => null)
+      );
+      currentProductTarget = { row: row - 1, column: column - 1 };
+
+      displayMathElement.textContent =
+        `${matrixToLatex('A', A)}
+         ${matrixToLatex('B', B)}
+         \\[C=AB\\]
+         ${partialMatrixToLatex('C', revealedProduct)}`;
+
+      promptElement.textContent = `\\(C_{${row},${column}}\\)`;
+    }
+
+    async function revealDimensionResult() {
+      if (productForReveal) {
+        answerRevealElement.textContent =
+          matrixToLatex('C', productForReveal);
+        await typeset([answerRevealElement]);
+      } else {
+        answerRevealElement.innerHTML =
+          '<div class="impossible">IMPOSSIBLE</div>';
+      }
+    }
+
+    async function createQuestion() {
+      acceptingAnswer = true;
+      feedbackElement.textContent = '';
+      answerRevealElement.textContent = '';
+      answerInput.value = '';
+      answerMode = 'number';
+      productForReveal = null;
+      revealedProduct = null;
+      currentProductTarget = null;
+      updateStatus();
+
+      if (currentLevelKey === 'matrix-entry') {
+        buildMatrixEntryQuestion();
+      } else if (currentLevelKey === 'vector-sum') {
+        buildVectorSumQuestion();
+      } else if (currentLevelKey === 'matrix-sum') {
+        buildMatrixSumQuestion();
+      } else if (currentLevelKey === 'matrix-vector') {
+        buildMatrixVectorQuestion();
+      } else if (currentLevelKey === 'matrix-product-dimensions') {
+        buildMatrixProductDimensionsQuestion();
+      } else {
+        buildMatrixProductEntryQuestion();
+      }
+
+      await typeset([displayMathElement, promptElement]);
+      answerInput.focus();
+    }
+
+    function startLevel(levelKey) {
+      currentLevelKey = levelKey;
+      currentLevel = levels[levelKey];
+      correctAnswers = 0;
+      currentQuestion = 1;
+      showScreen('game');
+      createQuestion();
+    }
+
+    function finishLevel() {
+      showScreen('result');
+      resultLevelElement.textContent = currentLevel.name;
+      resultScoreElement.textContent =
+        `${correctAnswers} / ${currentLevel.questions}`;
+
+      const percentage = correctAnswers / currentLevel.questions;
+
+      if (percentage === 1) {
+        resultMessageElement.textContent =
+          'Perfect score! Every answer was correct.';
+      } else if (percentage >= 0.75) {
+        resultMessageElement.textContent =
+          'Great work! You have a strong understanding of this notation.';
+      } else if (percentage >= 0.5) {
+        resultMessageElement.textContent =
+          'Good progress. Try the topic again to improve your accuracy.';
+      } else {
+        resultMessageElement.textContent =
+          'Keep practicing and pay close attention to the index bounds.';
+      }
+    }
+
+    document.querySelectorAll('[data-level]').forEach(button => {
+      button.addEventListener('click', () => {
+        startLevel(button.dataset.level);
+      });
+    });
+
+    answerForm.addEventListener('submit', async event => {
+      event.preventDefault();
+
+      if (!acceptingAnswer) return;
+      acceptingAnswer = false;
+
+      let isCorrect;
+
+      if (answerMode === 'dimension') {
+        const submittedAnswer =
+          normalizeDimensionAnswer(answerInput.value);
+        isCorrect = submittedAnswer === correctAnswer;
+      } else {
+        const submittedAnswer = Number(answerInput.value);
+        isCorrect = submittedAnswer === correctAnswer;
+      }
+
+      if (isCorrect) {
+        correctAnswers += 1;
+        feedbackElement.textContent = 'Correct!';
+      } else {
+        const displayedAnswer =
+          answerMode === 'dimension' && correctAnswer !== 'impossible'
+            ? correctAnswer.replace('x', ' × ')
+            : String(correctAnswer).toUpperCase();
+        feedbackElement.textContent =
+          `The correct answer is ${displayedAnswer}.`;
+      }
+
+      scoreElement.textContent = `Score: ${correctAnswers}`;
+
+      if (
+        currentLevelKey === 'matrix-product-entry' &&
+        revealedProduct &&
+        currentProductTarget
+      ) {
+        revealedProduct[currentProductTarget.row][currentProductTarget.column] =
+          correctAnswer;
+        answerRevealElement.textContent =
+          partialMatrixToLatex('C', revealedProduct);
+        await typeset([answerRevealElement]);
+      }
+
+      if (answerMode === 'dimension') {
+        await revealDimensionResult();
+      }
+
+      if (
+        answerMode === 'dimension' ||
+        currentLevelKey === 'matrix-product-entry'
+      ) {
+        submitButton.textContent = 'Next';
+        submitButton.type = 'button';
+        submitButton.onclick = () => {
+          submitButton.textContent = 'Check';
+          submitButton.type = 'submit';
+          submitButton.onclick = null;
+          if (currentQuestion >= currentLevel.questions) {
+            progressBarElement.style.width = '100%';
+            finishLevel();
+          } else {
+            currentQuestion += 1;
+            createQuestion();
+          }
+        };
+      } else {
+        window.setTimeout(() => {
+          if (currentQuestion >= currentLevel.questions) {
+            progressBarElement.style.width = '100%';
+            finishLevel();
+          } else {
+            currentQuestion += 1;
+            createQuestion();
+          }
+        }, 1200);
+      }
+    });
+
+    newQuestionButton.addEventListener('click', createQuestion);
+    homeButton.addEventListener('click', () => showScreen('home'));
+    resultHomeButton.addEventListener('click', () => showScreen('home'));
+    playAgainButton.addEventListener('click', () => startLevel(currentLevelKey));
+  </script>
+</body>
+</html>
