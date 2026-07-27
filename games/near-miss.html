@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Near Miss</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07223a;
+      --panel: #0d3554;
+      --panel-2: #15486e;
+      --text: #f5fbff;
+      --muted: #c4dae8;
+      --accent: #7dd3fc;
+      --success: #86efac;
+      --danger: #fda4af;
+      --line: #e0f2fe;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 18% 14%, rgba(255,255,255,0.24) 0, rgba(255,255,255,0) 14%),
+        radial-gradient(circle at 82% 10%, rgba(255,255,255,0.18) 0, rgba(255,255,255,0) 13%),
+        linear-gradient(180deg, #5fa9d7 0%, #24557a 48%, #07223a 100%);
+      color: var(--text);
+    }
+
+    .app {
+      width: min(760px, 100%);
+      background: rgba(9, 39, 61, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 22px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+    }
+
+    .screen {
+      display: none;
+      padding: clamp(24px, 5vw, 48px);
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .home {
+      min-height: 520px;
+      text-align: center;
+      place-content: center;
+    }
+
+    .home.active {
+      display: grid;
+    }
+
+    h1, h2, p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 12px;
+      font-size: clamp(2.4rem, 8vw, 4.6rem);
+      line-height: 0.95;
+      letter-spacing: -0.055em;
+    }
+
+    h2 {
+      margin-bottom: 6px;
+      font-size: clamp(1.65rem, 4vw, 2.2rem);
+    }
+
+    .subtitle,
+    .instructions,
+    .status {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .subtitle {
+      max-width: 520px;
+      margin: 0 auto 30px;
+      font-size: 1.05rem;
+    }
+
+    button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 13px 24px;
+      background: var(--accent);
+      color: #08111f;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 120ms ease, filter 120ms ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button.secondary {
+      background: var(--panel-2);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .topbar,
+    .actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .topbar {
+      margin-bottom: 18px;
+    }
+
+    .level-label {
+      color: var(--accent);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+    }
+
+    .attempts {
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .game-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 190px;
+      gap: 18px;
+      align-items: start;
+      margin: 22px auto 18px;
+      max-width: 100%;
+    }
+
+    .canvas-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #dff4ff;
+      box-shadow:
+        inset 0 0 0 1px rgba(8, 34, 58, 0.15),
+        0 14px 35px rgba(0, 0, 0, 0.22);
+    }
+
+    .coordinate-panel {
+      background: var(--panel-2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .coordinate-panel h3 {
+      margin: 0 0 12px;
+      font-size: 1rem;
+    }
+
+    .coordinate-group + .coordinate-group {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .coordinate-label {
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .coordinate-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 4px 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .coordinate-value {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    .triangle-bary-group + .triangle-bary-group {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .triangle-bary-title {
+      margin-bottom: 5px;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    .status {
+      min-height: 28px;
+      margin: 12px 0 18px;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .status.success {
+      color: var(--success);
+    }
+
+    .status.failure {
+      color: var(--danger);
+    }
+
+    .actions {
+      justify-content: center;
+    }
+
+    .small-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.87rem;
+    }
+
+    @media (max-width: 760px) {
+      .game-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .coordinate-panel {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .coordinate-group + .coordinate-group {
+        margin-top: 0;
+        padding-top: 0;
+        border-top: 0;
+      }
+
+      .inside-indicator {
+        grid-column: 1 / -1;
+        margin-top: 0;
+      }
+    }
+
+    @media (max-width: 560px) {
+      body {
+        padding: 0;
+      }
+
+      .app {
+        min-height: 100vh;
+        border-radius: 0;
+      }
+
+      .screen {
+        padding: 22px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section id="levelSelectScreen" class="screen home active">
+      <div>
+        <div class="level-label">Airspace Training Simulator</div>
+        <h1>Near Miss</h1>
+        <p class="subtitle">
+          Select a mission. Each level contains five rounds, and your job is to place
+          a waypoint safely inside the target airspace.
+        </p>
+        <div class="actions">
+          <button id="level1Button">Level 1 · Visible Corridor</button>
+          <button id="level2Button">Level 2 · Hidden Corridor</button>
+          <button id="level3Button">Level 3 · Visible Hull</button>
+          <button id="level4Button">Level 4 · Visible Sectors</button>
+          <button id="level5Button">Level 5 · Blind Sectors</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="gameScreen" class="screen">
+      <div class="topbar">
+        <div>
+          <div class="level-label"><span id="levelLabel">Level 1</span> · <span id="roundLabel">Triangle 1 of 5</span></div>
+          <h2 id="objectiveTitle">Find the flight corridor</h2>
+        </div>
+        <div id="attemptCounter" class="attempts">Attempts: 0</div>
+      </div>
+
+      <p class="instructions">
+        <span id="levelInstructions">The three blue points are coordinates in the square
+        <strong>[-1, 1]²</strong>. Click any point lying inside their triangle.
+        The triangle’s edges are intentionally hidden.</span>
+      </p>
+
+      <div class="game-layout">
+        <div class="canvas-wrap">
+          <canvas id="gameCanvas" aria-label="Interactive coordinate square"></canvas>
+        </div>
+
+        <aside class="coordinate-panel" aria-live="polite">
+          <h3>Cursor Coordinates</h3>
+
+          <div class="coordinate-group">
+            <div class="coordinate-label">Cartesian</div>
+            <div class="coordinate-row"><span>g</span><span id="cursorX" class="coordinate-value">—</span></div>
+            <div class="coordinate-row"><span>h</span><span id="cursorY" class="coordinate-value">—</span></div>
+          </div>
+
+          <div id="barycentricGroup" class="coordinate-group">
+            <div class="coordinate-label">Barycentric</div>
+            <div id="barycentricValues">
+              <div class="coordinate-row"><span>x</span><span class="coordinate-value">—</span></div>
+              <div class="coordinate-row"><span>y</span><span class="coordinate-value">—</span></div>
+              <div class="coordinate-row"><span>z</span><span class="coordinate-value">—</span></div>
+            </div>
+          </div>
+
+        </aside>
+      </div>
+
+      <div id="status" class="status" aria-live="polite">
+        Move the cursor and click inside the triangle.
+      </div>
+
+      <div class="actions">
+        <button id="newTriangleButton" class="secondary">New Round</button>
+        <button id="homeButton" class="secondary">Mission Select</button>
+        <button id="nextButton" hidden>Next Round</button>
+      </div>
+    </section>
+
+    <section id="completeScreen" class="screen home">
+      <div>
+        <div class="level-label">Mission complete</div>
+        <h1>Smooth landing!</h1>
+        <p id="finalMessage" class="subtitle"></p>
+        <div class="actions">
+          <button id="continueButton">Continue</button>
+          <button id="completeHomeButton" class="secondary">Mission Select</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    "use strict";
+
+    const levelSelectScreen = document.getElementById("levelSelectScreen");
+    const gameScreen = document.getElementById("gameScreen");
+    const completeScreen = document.getElementById("completeScreen");
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const level1Button = document.getElementById("level1Button");
+    const level2Button = document.getElementById("level2Button");
+    const level3Button = document.getElementById("level3Button");
+    const level4Button = document.getElementById("level4Button");
+    const level5Button = document.getElementById("level5Button");
+    const newTriangleButton = document.getElementById("newTriangleButton");
+    const homeButton = document.getElementById("homeButton");
+    const nextButton = document.getElementById("nextButton");
+    const continueButton = document.getElementById("continueButton");
+    const completeHomeButton = document.getElementById("completeHomeButton");
+    const attemptCounter = document.getElementById("attemptCounter");
+    const roundLabel = document.getElementById("roundLabel");
+    const levelLabel = document.getElementById("levelLabel");
+    const levelInstructions = document.getElementById("levelInstructions");
+    const objectiveTitle = document.getElementById("objectiveTitle");
+    const status = document.getElementById("status");
+    const finalMessage = document.getElementById("finalMessage");
+    const cursorXDisplay = document.getElementById("cursorX");
+    const cursorYDisplay = document.getElementById("cursorY");
+    const baryXDisplay = document.getElementById("baryX");
+    const baryYDisplay = document.getElementById("baryY");
+    const baryZDisplay = document.getElementById("baryZ");
+    const barycentricGroup = document.getElementById("barycentricGroup");
+    const barycentricValues = document.getElementById("barycentricValues");
+
+    let points = [];
+    let hullPoints = [];
+    let triangulation = [];
+    let attempts = 0;
+    let solved = false;
+    let cursorPoint = null;
+    let clickedPoints = [];
+    let coordinatesLocked = false;
+    const totalRounds = 5;
+    const totalLevels = 5;
+    let currentLevel = 1;
+    let currentRound = 1;
+    let totalAttempts = 0;
+
+    function showScreen(screen) {
+      [levelSelectScreen, gameScreen, completeScreen].forEach((item) => {
+        item.classList.toggle("active", item === screen);
+      });
+
+      if (screen === gameScreen) {
+        requestAnimationFrame(resizeCanvas);
+      }
+    }
+
+    function randomCoordinate() {
+      return Math.random() * 2 - 1;
+    }
+
+    function triangleDoubleArea(a, b, c) {
+      return Math.abs(
+        a.x * (b.y - c.y) +
+        b.x * (c.y - a.y) +
+        c.x * (a.y - b.y)
+      );
+    }
+
+    function cross(o, a, b) {
+      return (a.x - o.x) * (b.y - o.y) -
+        (a.y - o.y) * (b.x - o.x);
+    }
+
+    function convexHull(inputPoints) {
+      const sorted = [...inputPoints].sort(
+        (p, q) => p.x === q.x ? p.y - q.y : p.x - q.x
+      );
+
+      if (sorted.length <= 1) return sorted;
+
+      const lower = [];
+      for (const point of sorted) {
+        while (
+          lower.length >= 2 &&
+          cross(lower[lower.length - 2], lower[lower.length - 1], point) <= 0
+        ) {
+          lower.pop();
+        }
+        lower.push(point);
+      }
+
+      const upper = [];
+      for (let i = sorted.length - 1; i >= 0; i -= 1) {
+        const point = sorted[i];
+        while (
+          upper.length >= 2 &&
+          cross(upper[upper.length - 2], upper[upper.length - 1], point) <= 0
+        ) {
+          upper.pop();
+        }
+        upper.push(point);
+      }
+
+      lower.pop();
+      upper.pop();
+      return lower.concat(upper);
+    }
+
+    function polygonDoubleArea(polygon) {
+      let sum = 0;
+      for (let i = 0; i < polygon.length; i += 1) {
+        const next = polygon[(i + 1) % polygon.length];
+        sum += polygon[i].x * next.y - next.x * polygon[i].y;
+      }
+      return Math.abs(sum);
+    }
+
+    function triangulateConvexPolygon(polygon) {
+      const triangles = [];
+      for (let i = 1; i < polygon.length - 1; i += 1) {
+        triangles.push([polygon[0], polygon[i], polygon[i + 1]]);
+      }
+      return triangles;
+    }
+
+    function generateRound() {
+      if (currentLevel === 3 || currentLevel === 4 || currentLevel === 5) {
+        const sampleCount = currentLevel >= 4 ? 6 : 10;
+        let randomPoints;
+        let candidateHull;
+
+        do {
+          randomPoints = Array.from({ length: sampleCount }, () => ({
+            x: randomCoordinate(),
+            y: randomCoordinate()
+          }));
+          candidateHull = convexHull(randomPoints);
+        } while (candidateHull.length < 3 || polygonDoubleArea(candidateHull) < 0.65);
+
+        points = randomPoints;
+        hullPoints = candidateHull;
+        triangulation = currentLevel >= 4
+          ? triangulateConvexPolygon(candidateHull)
+          : [];
+      } else {
+        let candidate;
+
+        do {
+          candidate = [
+            { x: randomCoordinate(), y: randomCoordinate() },
+            { x: randomCoordinate(), y: randomCoordinate() },
+            { x: randomCoordinate(), y: randomCoordinate() }
+          ];
+        } while (triangleDoubleArea(...candidate) < 0.32);
+
+        points = candidate;
+        hullPoints = candidate;
+        triangulation = [];
+      }
+
+      attempts = 0;
+      solved = false;
+      coordinatesLocked = false;
+      cursorPoint = null;
+      clickedPoints = [];
+      updateCoordinatePanel();
+      nextButton.hidden = true;
+      nextButton.textContent =
+        currentRound === totalRounds ? "Complete Level" : "Next Round";
+      levelLabel.textContent = `Level ${currentLevel}`;
+      barycentricGroup.hidden = currentLevel === 3;
+      roundLabel.textContent = `Round ${currentRound} of ${totalRounds}`;
+
+      if (currentLevel === 1) {
+        objectiveTitle.textContent = "Find the flight corridor";
+        levelInstructions.innerHTML =
+          'Three blue beacons define a triangular flight corridor in <strong>[-1, 1]²</strong>. Click a waypoint inside the corridor. The corridor edges are hidden.';
+      } else if (currentLevel === 2) {
+        objectiveTitle.textContent = "Find the hidden corridor";
+        levelInstructions.innerHTML =
+          'A triangular flight corridor lies somewhere in <strong>[-1, 1]²</strong>, but its beacons and edges are hidden. Use the live barycentric coordinates to guide a safe waypoint inside it.';
+      } else if (currentLevel === 3) {
+        objectiveTitle.textContent = "Find the patrol zone";
+        levelInstructions.innerHTML =
+          'The blue beacons are the vertices of a hidden convex patrol zone in <strong>[-1, 1]²</strong>. Click a waypoint inside that zone.';
+      } else if (currentLevel === 4) {
+        objectiveTitle.textContent = "Find the safe sector";
+        levelInstructions.innerHTML =
+          'Six radar contacts generate a convex patrol zone. It is triangulated into sectors, and the barycentric coordinates for every sector are shown on the right.';
+      } else {
+        objectiveTitle.textContent = "Fly blind";
+        levelInstructions.innerHTML =
+          'This mission uses the same six-point triangulated patrol zone as Level 4, but the beacons and sector lines are hidden until after you click. Use the barycentric coordinates on the right to guide your waypoint.';
+      }
+
+      status.className = "status";
+      status.textContent =
+        currentLevel >= 3
+          ? "Move the cursor and click inside the patrol zone."
+          : "Move the cursor and click inside the flight corridor.";
+      updateAttempts();
+      draw();
+    }
+
+    function updateAttempts() {
+      attemptCounter.textContent = `Attempts: ${attempts}`;
+    }
+
+    function coordinateToCanvas(point) {
+      return {
+        x: ((point.x + 1) / 2) * canvas.width,
+        y: ((1 - point.y) / 2) * canvas.height
+      };
+    }
+
+    function canvasToCoordinate(clientX, clientY) {
+      const rect = canvas.getBoundingClientRect();
+      const canvasX = (clientX - rect.left) * (canvas.width / rect.width);
+      const canvasY = (clientY - rect.top) * (canvas.height / rect.height);
+
+      return {
+        x: (canvasX / canvas.width) * 2 - 1,
+        y: 1 - (canvasY / canvas.height) * 2
+      };
+    }
+
+    function barycentricCoordinates(p, a, b, c) {
+      const denominator =
+        (b.y - c.y) * (a.x - c.x) +
+        (c.x - b.x) * (a.y - c.y);
+
+      const x =
+        ((b.y - c.y) * (p.x - c.x) +
+          (c.x - b.x) * (p.y - c.y)) /
+        denominator;
+
+      const y =
+        ((c.y - a.y) * (p.x - c.x) +
+          (a.x - c.x) * (p.y - c.y)) /
+        denominator;
+
+      const z = 1 - x - y;
+
+      return { x, y, z };
+    }
+
+    function pointInTriangle(p, a, b, c) {
+      const bary = barycentricCoordinates(p, a, b, c);
+      const epsilon = 1e-10;
+      return (
+        bary.x >= -epsilon &&
+        bary.y >= -epsilon &&
+        bary.z >= -epsilon
+      );
+    }
+
+    function pointInPolygon(point, polygon) {
+      let inside = false;
+
+      for (
+        let i = 0, j = polygon.length - 1;
+        i < polygon.length;
+        j = i, i += 1
+      ) {
+        const a = polygon[i];
+        const b = polygon[j];
+
+        const onEdge =
+          Math.abs(cross(a, b, point)) < 1e-10 &&
+          point.x >= Math.min(a.x, b.x) - 1e-10 &&
+          point.x <= Math.max(a.x, b.x) + 1e-10 &&
+          point.y >= Math.min(a.y, b.y) - 1e-10 &&
+          point.y <= Math.max(a.y, b.y) + 1e-10;
+
+        if (onEdge) return true;
+
+        const intersects =
+          (a.y > point.y) !== (b.y > point.y) &&
+          point.x <
+            ((b.x - a.x) * (point.y - a.y)) / (b.y - a.y) + a.x;
+
+        if (intersects) inside = !inside;
+      }
+
+      return inside;
+    }
+
+    function formatCoordinate(value) {
+      if (!Number.isFinite(value)) return "—";
+      const rounded = Math.abs(value) < 0.00005 ? 0 : value;
+      return rounded.toFixed(4);
+    }
+
+    function updateCoordinatePanel() {
+      cursorXDisplay.textContent = cursorPoint ? formatCoordinate(cursorPoint.x) : "—";
+      cursorYDisplay.textContent = cursorPoint ? formatCoordinate(cursorPoint.y) : "—";
+
+      if (currentLevel === 3) return;
+
+      if (currentLevel === 4 || currentLevel === 5) {
+        barycentricValues.innerHTML = "";
+        triangulation.forEach((triangle, index) => {
+          const bary = cursorPoint
+            ? barycentricCoordinates(cursorPoint, ...triangle)
+            : { x: NaN, y: NaN, z: NaN };
+          const group = document.createElement("div");
+          group.className = "triangle-bary-group";
+          group.innerHTML = `
+            <div class="triangle-bary-title">Triangle ${index + 1}</div>
+            <div class="coordinate-row"><span>x</span><span class="coordinate-value">${formatCoordinate(bary.x)}</span></div>
+            <div class="coordinate-row"><span>y</span><span class="coordinate-value">${formatCoordinate(bary.y)}</span></div>
+            <div class="coordinate-row"><span>z</span><span class="coordinate-value">${formatCoordinate(bary.z)}</span></div>
+          `;
+          barycentricValues.appendChild(group);
+        });
+        return;
+      }
+
+      const bary = cursorPoint
+        ? barycentricCoordinates(cursorPoint, ...points)
+        : { x: NaN, y: NaN, z: NaN };
+      barycentricValues.innerHTML = `
+        <div class="coordinate-row"><span>x</span><span class="coordinate-value">${formatCoordinate(bary.x)}</span></div>
+        <div class="coordinate-row"><span>y</span><span class="coordinate-value">${formatCoordinate(bary.y)}</span></div>
+        <div class="coordinate-row"><span>z</span><span class="coordinate-value">${formatCoordinate(bary.z)}</span></div>
+      `;
+    }
+
+    function drawGrid() {
+      const size = canvas.width;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#dff4ff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.lineWidth = Math.max(1, size / 700);
+      ctx.strokeStyle = "#b6d8ee";
+
+      for (let i = 1; i < 10; i++) {
+        const position = (size / 10) * i;
+        ctx.beginPath();
+        ctx.moveTo(position, 0);
+        ctx.lineTo(position, size);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(0, position);
+        ctx.lineTo(size, position);
+        ctx.stroke();
+      }
+
+      ctx.strokeStyle = "#5f88a5";
+      ctx.lineWidth = Math.max(1.5, size / 420);
+
+      ctx.beginPath();
+      ctx.moveTo(size / 2, 0);
+      ctx.lineTo(size / 2, size);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(0, size / 2);
+      ctx.lineTo(size, size / 2);
+      ctx.stroke();
+
+      ctx.strokeStyle = "#1e4f72";
+      ctx.lineWidth = Math.max(2, size / 260);
+      ctx.strokeRect(1, 1, size - 2, size - 2);
+
+      ctx.fillStyle = "#476884";
+      ctx.font = `${Math.max(12, size / 45)}px system-ui`;
+      ctx.fillText("-1", 8, size - 10);
+      ctx.fillText("1", size - 20, size - 10);
+      ctx.fillText("1", size / 2 + 7, 20);
+      ctx.fillText("-1", size / 2 + 7, size - 10);
+    }
+
+    function drawShapeReveal() {
+      if (!solved) return;
+
+      const polygon = hullPoints.map(coordinateToCanvas);
+      ctx.beginPath();
+      ctx.moveTo(polygon[0].x, polygon[0].y);
+      for (let i = 1; i < polygon.length; i += 1) {
+        ctx.lineTo(polygon[i].x, polygon[i].y);
+      }
+      ctx.closePath();
+
+      ctx.fillStyle = "rgba(74, 222, 128, 0.20)";
+      ctx.fill();
+      ctx.strokeStyle = "#16a34a";
+      ctx.lineWidth = Math.max(3, canvas.width / 180);
+      ctx.stroke();
+    }
+
+    function drawTriangulation() {
+      if (currentLevel !== 4 && !(currentLevel === 5 && coordinatesLocked)) return;
+      ctx.strokeStyle = "rgba(37, 99, 235, 0.5)";
+      ctx.lineWidth = Math.max(1.5, canvas.width / 350);
+      triangulation.forEach((triangle) => {
+        const [a, b, c] = triangle.map(coordinateToCanvas);
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.lineTo(c.x, c.y);
+        ctx.closePath();
+        ctx.stroke();
+      });
+    }
+
+    function drawPoint(point, fill, radiusScale = 1) {
+      const screenPoint = coordinateToCanvas(point);
+      const radius = Math.max(6, canvas.width / 65) * radiusScale;
+
+      ctx.beginPath();
+      ctx.arc(screenPoint.x, screenPoint.y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = fill;
+      ctx.fill();
+      ctx.strokeStyle = "#ffffff";
+      ctx.lineWidth = Math.max(2, canvas.width / 300);
+      ctx.stroke();
+    }
+
+    function drawCursorMarker() {
+      if (!cursorPoint || solved) return;
+
+      const screenPoint = coordinateToCanvas(cursorPoint);
+      const radius = Math.max(6, canvas.width / 75);
+      ctx.beginPath();
+      ctx.arc(screenPoint.x, screenPoint.y, radius, 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(15, 23, 42, 0.55)";
+      ctx.lineWidth = Math.max(1.5, canvas.width / 350);
+      ctx.stroke();
+    }
+
+    function draw() {
+      drawGrid();
+      drawShapeReveal();
+      drawTriangulation();
+
+      clickedPoints.forEach((entry) => {
+        drawPoint(entry.point, entry.correct ? "#22c55e" : "#fb7185", 0.72);
+      });
+
+      if (currentLevel === 1 || (currentLevel === 2 && solved)) {
+        points.forEach((point) => drawPoint(point, "#2563eb"));
+      } else if (
+        currentLevel === 3 ||
+        currentLevel === 4 ||
+        (currentLevel === 5 && coordinatesLocked)
+      ) {
+        hullPoints.forEach((point) => drawPoint(point, "#2563eb"));
+      }
+      drawCursorMarker();
+    }
+
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const size = Math.max(1, Math.round(rect.width * dpr));
+
+      if (canvas.width !== size || canvas.height !== size) {
+        canvas.width = size;
+        canvas.height = size;
+      }
+
+      draw();
+    }
+
+    function startGame() {
+      currentLevel = 1;
+      currentRound = 1;
+      totalAttempts = 0;
+      showScreen(gameScreen);
+      generateRound();
+    }
+
+    function startLevel(levelNumber) {
+      currentLevel = levelNumber;
+      currentRound = 1;
+      totalAttempts = 0;
+      showScreen(gameScreen);
+      generateRound();
+    }
+
+    function handlePointerMove(event) {
+      if (coordinatesLocked) return;
+      cursorPoint = canvasToCoordinate(event.clientX, event.clientY);
+      updateCoordinatePanel();
+      draw();
+    }
+
+    function handleClick(event) {
+      if (solved) return;
+
+      const selectedPoint = canvasToCoordinate(event.clientX, event.clientY);
+      const correct =
+        currentLevel >= 3
+          ? pointInPolygon(selectedPoint, hullPoints)
+          : pointInTriangle(selectedPoint, ...points);
+
+      cursorPoint = selectedPoint;
+      coordinatesLocked = true;
+      updateCoordinatePanel();
+
+      attempts += 1;
+      totalAttempts += 1;
+      clickedPoints.push({ point: selectedPoint, correct });
+      updateAttempts();
+
+      if (correct) {
+        solved = true;
+        status.className = "status success";
+        status.textContent =
+          attempts === 1
+            ? "Clear skies — you nailed it on the first try!"
+            : `Clear skies — you found the safe waypoint in ${attempts} attempts.`;
+        nextButton.hidden = false;
+      } else {
+        status.className = "status failure";
+        status.textContent = "Near miss — that waypoint is outside the safe region. Try again.";
+      }
+
+      draw();
+    }
+
+    function advanceRound() {
+      if (currentRound < totalRounds) {
+        currentRound += 1;
+        generateRound();
+        return;
+      }
+
+      finalMessage.textContent =
+        totalAttempts === totalRounds
+          ? `You completed Mission ${currentLevel} with a perfect ${totalRounds} attempts.`
+          : `You completed Mission ${currentLevel} in ${totalAttempts} total attempts.`;
+      continueButton.textContent = "Choose Another Mission";
+
+      showScreen(completeScreen);
+    }
+
+    level1Button.addEventListener("click", () => startLevel(1));
+    level2Button.addEventListener("click", () => startLevel(2));
+    level3Button.addEventListener("click", () => startLevel(3));
+    level4Button.addEventListener("click", () => startLevel(4));
+    level5Button.addEventListener("click", () => startLevel(5));
+    continueButton.addEventListener("click", () => {
+      showScreen(levelSelectScreen);
+    });
+    newTriangleButton.addEventListener("click", () => {
+      generateRound();
+    });
+    nextButton.addEventListener("click", advanceRound);
+    homeButton.addEventListener("click", () => showScreen(levelSelectScreen));
+    completeHomeButton.addEventListener("click", () => showScreen(levelSelectScreen));
+
+    canvas.addEventListener("pointermove", handlePointerMove);
+    canvas.addEventListener("pointerleave", () => {
+      if (coordinatesLocked) return;
+      cursorPoint = null;
+      updateCoordinatePanel();
+      draw();
+    });
+    canvas.addEventListener("pointerdown", handleClick);
+
+    window.addEventListener("resize", resizeCanvas);
+  </script>
+</body>
+</html>
