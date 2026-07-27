@@ -1,0 +1,2505 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fighting the System: A Linear Algebra Revolution</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172033;
+      --muted: #607089;
+      --paper: #ffffff;
+      --page: #eef3f8;
+      --accent: #3659e3;
+      --accent-dark: #243da7;
+      --good: #16794b;
+      --bad: #b42318;
+      --line: #ccd6e3;
+      --soft: #f6f8fb;
+      --shadow: 0 16px 45px rgba(31, 50, 81, 0.12);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(54, 89, 227, 0.12), transparent 34rem),
+        var(--page);
+    }
+
+    button, input { font: inherit; }
+
+    .game-shell {
+      width: min(1020px, calc(100% - 28px));
+      margin: 28px auto;
+    }
+
+    .game-card {
+      background: var(--paper);
+      border: 1px solid rgba(204, 214, 227, 0.8);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .game-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      padding: 26px 30px;
+      color: white;
+      background: linear-gradient(135deg, #233b9f, #4f72f5);
+    }
+
+    .game-header h1 {
+      margin: 0 0 6px;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .game-header p {
+      margin: 0;
+      max-width: 680px;
+      color: rgba(255,255,255,.86);
+    }
+
+    .scoreboard {
+      min-width: 166px;
+      padding: 12px 16px;
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 14px;
+      background: rgba(255,255,255,.12);
+      text-align: center;
+      backdrop-filter: blur(5px);
+    }
+
+    .scoreboard strong {
+      display: block;
+      font-size: 1.7rem;
+    }
+
+    .scoreboard > span {
+      display: block;
+      font-size: .78rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: rgba(255,255,255,.8);
+    }
+
+    .score-detail {
+      margin-top: 6px;
+      font-size: .72rem;
+      color: rgba(255,255,255,.78);
+    }
+
+    .game-body { padding: 28px 30px 32px; }
+
+    [hidden] { display: none !important; }
+
+    .home-screen {
+      min-height: 520px;
+      display: grid;
+      place-items: center;
+      padding: 32px 0;
+      text-align: center;
+    }
+
+    .home-content {
+      width: min(900px, 100%);
+    }
+
+    .home-kicker {
+      margin: 0 0 8px;
+      color: var(--accent-dark);
+      font-size: .8rem;
+      font-weight: 900;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+
+    .home-content h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      letter-spacing: -.035em;
+    }
+
+    .home-intro {
+      max-width: 620px;
+      margin: 14px auto 26px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .home-levels {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .home-level-button {
+      min-height: 190px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      color: var(--ink);
+      background: var(--soft);
+      text-align: left;
+      cursor: pointer;
+      transition: transform .14s ease, border-color .14s ease, box-shadow .14s ease;
+    }
+
+    .home-level-button:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      box-shadow: 0 10px 28px rgba(31, 50, 81, .12);
+    }
+
+    .home-level-button .level-number { margin-bottom: 18px; }
+
+    .home-level-button strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.15rem;
+    }
+
+    .home-level-button small {
+      display: block;
+      color: var(--muted);
+      font-size: .94rem;
+      line-height: 1.5;
+    }
+
+    .home-level-four {
+      border: 2px solid var(--accent);
+      background: linear-gradient(135deg, var(--soft), #eef2ff);
+    }
+
+    .home-level-five {
+      grid-column: 1 / -1;
+      min-height: 150px;
+      border: 2px solid #16794b;
+      background: linear-gradient(135deg, #f6f8fb, #ecfdf3);
+    }
+
+    .game-screen { min-width: 0; }
+
+    .level-select {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .level-button {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 4px 12px;
+      align-items: center;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      color: var(--ink);
+      background: var(--soft);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .level-button:hover { border-color: #9cadc4; }
+
+    .level-button[aria-pressed="true"] {
+      border-color: var(--accent);
+      background: #eef2ff;
+      box-shadow: inset 0 0 0 1px var(--accent);
+    }
+
+    .level-number {
+      grid-row: 1 / span 2;
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      color: white;
+      background: var(--accent);
+      font-weight: 900;
+    }
+
+    .level-button strong { font-size: .98rem; }
+    .level-button small { color: var(--muted); line-height: 1.3; }
+
+    .instruction {
+      margin: 0 0 20px;
+      font-size: 1.08rem;
+      line-height: 1.55;
+    }
+
+    .format-label {
+      display: inline-block;
+      margin-bottom: 10px;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--accent-dark);
+    }
+
+    .challenge-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .panel {
+      min-width: 0;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--soft);
+    }
+
+    .panel h2 {
+      margin: 0 0 16px;
+      font-size: 1.05rem;
+    }
+
+    .math-display {
+      min-height: 220px;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      border-radius: 12px;
+      background: white;
+      border: 1px solid #dce3ec;
+      overflow-x: auto;
+    }
+
+    .equation-system {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0 12px;
+      align-items: center;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1rem, 2.6vw, 1.3rem);
+      line-height: 1.8;
+      white-space: nowrap;
+    }
+
+    .brace {
+      align-self: stretch;
+      display: grid;
+      place-items: center;
+      font-size: 5.7rem;
+      line-height: .8;
+      font-weight: 300;
+      transform: scaleX(.7);
+      transform-origin: right center;
+    }
+
+    .matrix-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.22rem;
+      white-space: nowrap;
+    }
+
+    .matrix {
+      position: relative;
+      display: inline-grid;
+      grid-template-columns: repeat(var(--cols), minmax(2.2rem, auto));
+      gap: 8px 11px;
+      padding: 8px 13px;
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    .matrix::before,
+    .matrix::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 8px;
+      border-top: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+    }
+
+    .matrix::before {
+      left: 0;
+      border-left: 2px solid currentColor;
+    }
+
+    .matrix::after {
+      right: 0;
+      border-right: 2px solid currentColor;
+    }
+
+    .column-form {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.18rem;
+    }
+
+    .answer-area {
+      min-height: 220px;
+      padding: 18px;
+      border-radius: 12px;
+      background: white;
+      border: 1px solid #dce3ec;
+      overflow-x: auto;
+    }
+
+    .answer-equations {
+      display: grid;
+      gap: 12px;
+    }
+
+    .answer-line {
+      display: grid;
+      grid-template-columns: 55px 20px 55px 20px 55px 28px 55px;
+      gap: 6px;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+    }
+
+    .answer-line span,
+    .answer-matrix-layout span,
+    .answer-column-layout span {
+      text-align: center;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.05rem;
+    }
+
+    .answer-matrix-layout {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-width: 440px;
+      padding-top: 35px;
+    }
+
+    .answer-column-layout {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-width: 620px;
+      padding-top: 20px;
+    }
+
+    .answer-augmented-layout {
+      display: grid;
+      place-items: center;
+      min-width: 310px;
+      padding-top: 28px;
+    }
+
+    .rref-matrix .augmented-entry {
+      margin-left: 2px;
+      padding-left: 12px;
+      border-left: 2px solid currentColor;
+    }
+
+    .dimension-answer {
+      min-height: 220px;
+      display: grid;
+      align-content: center;
+      gap: 22px;
+      text-align: center;
+    }
+
+    .dimension-answer p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .dimension-choices {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .dimension-choice {
+      min-width: 58px;
+      min-height: 52px;
+      padding: 8px 16px;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      color: var(--ink);
+      background: white;
+      cursor: pointer;
+      font-size: 1.15rem;
+      font-weight: 900;
+    }
+
+    .dimension-choice:hover { border-color: var(--accent); }
+
+    .dimension-choice[aria-pressed="true"] {
+      color: white;
+      border-color: var(--accent);
+      background: var(--accent);
+      box-shadow: 0 0 0 3px rgba(54, 89, 227, .16);
+    }
+
+    .no-solution-button {
+      width: min(430px, 100%);
+      min-height: 72px;
+      margin-inline: auto;
+      padding: 14px 20px;
+      border: 0;
+      border-radius: 14px;
+      color: white;
+      background: #c81e1e;
+      box-shadow: 0 8px 20px rgba(180, 35, 24, .25);
+      cursor: pointer;
+      font-size: clamp(1rem, 3vw, 1.3rem);
+      font-weight: 950;
+    }
+
+    .no-solution-button:hover { background: #a91616; }
+
+    .no-solution-button:focus-visible,
+    .dimension-choice:focus-visible {
+      outline: 3px solid rgba(200, 30, 30, .24);
+      outline-offset: 3px;
+    }
+
+    .operation-answer {
+      min-height: 220px;
+      display: grid;
+      align-content: center;
+      gap: 18px;
+    }
+
+    .operation-answer p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .operation-types {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .operation-type {
+      min-height: 54px;
+      padding: 10px 12px;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      color: var(--ink);
+      background: white;
+      cursor: pointer;
+      font-weight: 900;
+    }
+
+    .operation-type:hover { border-color: var(--accent); }
+
+    .operation-type[aria-pressed="true"] {
+      color: white;
+      border-color: var(--accent);
+      background: var(--accent);
+      box-shadow: 0 0 0 3px rgba(54, 89, 227, .16);
+    }
+
+    .operation-fields {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .operation-field {
+      display: grid;
+      gap: 7px;
+      color: var(--muted);
+      font-size: .85rem;
+      font-weight: 800;
+    }
+
+    .operation-field select {
+      width: 100%;
+      min-height: 44px;
+      padding: 8px 10px;
+      border: 1px solid #aebbd0;
+      border-radius: 9px;
+      color: var(--ink);
+      background: white;
+      font-weight: 800;
+    }
+
+    .operation-field select:focus,
+    .operation-type:focus-visible {
+      outline: 3px solid rgba(54, 89, 227, .22);
+      outline-offset: 2px;
+    }
+
+    .operation-preview {
+      min-height: 34px;
+      display: block;
+      padding: 7px 12px;
+      border-radius: 9px;
+      color: var(--accent-dark);
+      background: #eef2ff;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.55;
+    }
+
+    .operation-reveal {
+      margin-top: 4px;
+      padding: 18px;
+      border: 2px solid #9eb0f7;
+      border-radius: 14px;
+      background: #f7f8ff;
+    }
+
+    .operation-reveal h3 {
+      margin: 0 0 14px;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .operation-visual {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      align-items: center;
+      justify-items: center;
+      overflow-x: auto;
+    }
+
+    .operation-matrix-block {
+      min-width: 0;
+      width: 100%;
+      text-align: center;
+    }
+
+    .operation-matrix-block small {
+      display: block;
+      margin-bottom: 9px;
+      color: var(--muted);
+      font-weight: 850;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .operation-arrow {
+      display: grid;
+      gap: 6px;
+      place-items: center;
+      min-width: 0;
+      color: var(--accent-dark);
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .operation-arrow strong {
+      font-size: 1.75rem;
+      transform: rotate(90deg);
+    }
+
+    .level4-matrix {
+      grid-template-columns: repeat(8, minmax(1.75rem, auto));
+      gap: 7px 8px;
+      font-size: 1rem;
+    }
+
+    .level4-matrix .row-primary,
+    .level4-matrix .row-secondary {
+      margin: -3px -4px;
+      padding: 3px 4px;
+      border-radius: 4px;
+    }
+
+    .level4-matrix .row-primary { background: #dfe6ff; }
+    .level4-matrix .row-secondary { background: #fff0c7; }
+
+    .level4-matrix .row-primary.row-secondary {
+      background: linear-gradient(135deg, #dfe6ff 50%, #fff0c7 50%);
+    }
+
+    .level5-workspace {
+      min-height: 220px;
+      display: grid;
+      gap: 16px;
+      align-content: start;
+    }
+
+    .level5-workspace > p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .level5-fields {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .operation-field input {
+      width: 100%;
+      min-height: 44px;
+      padding: 8px 10px;
+      border: 1px solid #aebbd0;
+      border-radius: 9px;
+      color: var(--ink);
+      background: white;
+      font-weight: 800;
+    }
+
+    .operation-field input:focus {
+      outline: 3px solid rgba(54, 89, 227, .22);
+      outline-offset: 2px;
+    }
+
+    .level5-apply-row,
+    .level5-tools {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .level5-history {
+      max-height: 180px;
+      overflow-y: auto;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--soft);
+    }
+
+    .level5-history h3 {
+      margin: 0 0 8px;
+      font-size: .9rem;
+    }
+
+    .level5-history ol {
+      margin: 0;
+      padding-left: 24px;
+      color: var(--accent-dark);
+      font-family: Georgia, "Times New Roman", serif;
+      line-height: 1.65;
+    }
+
+    .level5-history-empty {
+      margin: 0;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .input-matrix {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(var(--cols), 50px);
+      gap: 8px;
+      padding: 10px 14px;
+    }
+
+    .input-matrix::before,
+    .input-matrix::after {
+      content: "";
+      position: absolute;
+      inset-block: 0;
+      width: 8px;
+      border-top: 2px solid var(--ink);
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .input-matrix::before {
+      left: 0;
+      border-left: 2px solid var(--ink);
+    }
+
+    .input-matrix::after {
+      right: 0;
+      border-right: 2px solid var(--ink);
+    }
+
+    .augmented-divider {
+      position: absolute;
+      top: 6px;
+      bottom: 6px;
+      left: 184px;
+      width: 0;
+      border-left: 2px solid var(--ink);
+      pointer-events: none;
+    }
+
+    .number-input {
+      width: 55px;
+      height: 40px;
+      border: 1px solid #aebbd0;
+      border-radius: 8px;
+      background: white;
+      color: var(--ink);
+      text-align: center;
+      font-weight: 700;
+      transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+
+    .number-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(54, 89, 227, .16);
+    }
+
+    .number-input.correct {
+      border-color: var(--good);
+      background: #ecfdf3;
+    }
+
+    .number-input.incorrect {
+      border-color: var(--bad);
+      background: #fff1f0;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .button {
+      min-height: 44px;
+      padding: 10px 17px;
+      border: 0;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 800;
+      transition: transform .12s ease, filter .12s ease;
+    }
+
+    .button:hover { filter: brightness(.98); }
+    .button:active { transform: translateY(1px); }
+    .button:focus-visible,
+    .level-button:focus-visible,
+    .home-level-button:focus-visible {
+      outline: 3px solid rgba(54, 89, 227, .27);
+      outline-offset: 2px;
+    }
+
+    .primary { color: white; background: var(--accent); }
+    .secondary { color: var(--ink); background: #e8edf5; }
+    .ghost { color: var(--accent-dark); background: transparent; border: 1px solid var(--line); }
+
+    .feedback {
+      min-height: 28px;
+      margin: 16px 0 0;
+      font-weight: 750;
+      line-height: 1.45;
+    }
+
+    .feedback.good { color: var(--good); }
+    .feedback.bad { color: var(--bad); }
+
+    .tip {
+      margin: 16px 0 0;
+      padding: 13px 15px;
+      border-left: 4px solid var(--accent);
+      border-radius: 8px;
+      background: #eef2ff;
+      line-height: 1.45;
+    }
+
+    .tip[hidden] { display: none; }
+
+    .footer-note {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    @media (max-width: 780px) {
+      .game-header { grid-template-columns: 1fr; }
+      .scoreboard { width: 166px; }
+      .challenge-grid { grid-template-columns: 1fr; }
+      .game-body, .game-header { padding-inline: 20px; }
+      .answer-line {
+        grid-template-columns: 46px 17px 46px 17px 46px 25px 46px;
+        gap: 4px;
+      }
+      .number-input { width: 46px; }
+      .operation-visual { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .level-select,
+      .home-levels { grid-template-columns: 1fr; }
+      .home-screen { min-height: auto; padding-block: 12px; }
+      .home-level-button { min-height: 0; }
+      .operation-types,
+      .operation-fields,
+      .level5-fields { grid-template-columns: 1fr; }
+      .home-level-five { grid-column: auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+  
+
+    /* French Revolution theme: tricolor, parchment, pamphlets, and mathematically lawful chaos. */
+    :root {
+      --ink: #241a14;
+      --muted: #6d5a49;
+      --paper: #fffaf0;
+      --page: #e8dfca;
+      --accent: #174a7e;
+      --accent-dark: #0d3158;
+      --revolution-red: #b91f2e;
+      --revolution-blue: #174a7e;
+      --parchment: #f5e7c6;
+      --parchment-dark: #dfc898;
+      --good: #174a7e;
+      --bad: #a31621;
+      --line: #cbb98e;
+      --soft: #fbf2dc;
+      --shadow: 0 18px 52px rgba(63, 38, 18, 0.20);
+      --radius: 10px;
+    }
+
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        linear-gradient(rgba(240, 230, 202, .76), rgba(240, 230, 202, .76)),
+        repeating-linear-gradient(0deg, transparent 0 3px, rgba(93, 64, 34, .035) 3px 4px),
+        radial-gradient(circle at 15% 10%, rgba(23, 74, 126, .20), transparent 28rem),
+        radial-gradient(circle at 88% 15%, rgba(185, 31, 46, .18), transparent 28rem),
+        #e8dfca;
+    }
+
+    body::before,
+    body::after {
+      position: fixed;
+      z-index: -1;
+      font-size: clamp(8rem, 18vw, 15rem);
+      font-weight: 900;
+      opacity: .035;
+      pointer-events: none;
+    }
+
+    body::before { content: "1789"; left: 2vw; bottom: -2rem; transform: rotate(-8deg); }
+    body::after { content: "RREF"; right: 1vw; top: 8vh; transform: rotate(8deg); }
+
+    button, input, select { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+
+    .game-card {
+      border: 2px solid #8b6c3e;
+      box-shadow: var(--shadow), inset 0 0 0 4px rgba(255,255,255,.42);
+      background: var(--paper);
+    }
+
+    .tricolor-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      height: 13px;
+      border-bottom: 1px solid rgba(36,26,20,.3);
+    }
+    .tricolor-bar span:nth-child(1) { background: #174a7e; }
+    .tricolor-bar span:nth-child(2) { background: #fffaf0; }
+    .tricolor-bar span:nth-child(3) { background: #b91f2e; }
+
+    .game-header {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 78% 25%, rgba(255,255,255,.13), transparent 13rem),
+        linear-gradient(118deg, #0d3158 0 58%, #8f1722 100%);
+      border-bottom: 4px double #efd892;
+    }
+
+    .game-header::after {
+      content: "⚜";
+      position: absolute;
+      right: 25%;
+      top: 50%;
+      transform: translateY(-50%) rotate(12deg);
+      font-size: 8rem;
+      opacity: .08;
+    }
+
+    .revolution-kicker {
+      margin: 0 0 8px !important;
+      color: #f4d98a !important;
+      font: 800 .75rem/1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .game-header h1,
+    .home-content h2,
+    .panel h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      text-shadow: 0 1px 0 rgba(255,255,255,.16);
+    }
+
+    .game-header h1 { letter-spacing: -.025em; }
+
+    .scoreboard {
+      border: 2px solid rgba(244,217,138,.65);
+      border-radius: 50%;
+      min-width: 174px;
+      min-height: 174px;
+      display: grid;
+      align-content: center;
+      background: rgba(75, 10, 20, .28);
+      box-shadow: inset 0 0 0 5px rgba(255,255,255,.08);
+    }
+
+    .scoreboard::before {
+      content: "★ COMMITTEE TALLY ★";
+      display: block;
+      margin-bottom: 4px;
+      color: #f4d98a;
+      font: 800 .58rem/1.2 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing: .12em;
+    }
+
+    .game-body {
+      background:
+        linear-gradient(rgba(255,250,240,.90), rgba(255,250,240,.90)),
+        repeating-linear-gradient(0deg, transparent 0 27px, rgba(105,77,43,.055) 27px 28px);
+    }
+
+    .home-screen { min-height: 600px; }
+
+    .home-kicker,
+    .format-label {
+      color: var(--revolution-red);
+      font-family: ui-sans-serif, system-ui, sans-serif;
+    }
+
+    .home-content h2 { color: var(--accent-dark); }
+
+    .home-intro { font-size: 1.08rem; }
+
+    .proclamation {
+      width: fit-content;
+      max-width: 760px;
+      margin: -8px auto 24px;
+      padding: 10px 18px;
+      border-top: 1px solid #9d7d4d;
+      border-bottom: 1px solid #9d7d4d;
+      color: #5a1b20;
+      font-style: italic;
+      font-weight: 700;
+      transform: rotate(-.35deg);
+    }
+
+    .home-level-button,
+    .level-button,
+    .panel,
+    .tip,
+    .operation-preview,
+    .level5-history,
+    .operation-reveal {
+      border-color: var(--line);
+      background:
+        linear-gradient(rgba(255,250,240,.92), rgba(255,250,240,.92)),
+        repeating-linear-gradient(0deg, transparent 0 23px, rgba(89,62,34,.04) 23px 24px);
+      box-shadow: 0 5px 0 rgba(113,82,46,.10);
+    }
+
+    .home-level-button {
+      position: relative;
+      border-width: 2px;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .home-level-button::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 7px;
+      background: linear-gradient(90deg, #174a7e 0 33.33%, #fffaf0 33.33% 66.66%, #b91f2e 66.66%);
+    }
+
+    .home-level-button::after {
+      content: "☞";
+      position: absolute;
+      right: 16px;
+      bottom: 10px;
+      color: rgba(185,31,46,.25);
+      font-size: 2.2rem;
+    }
+
+    .home-level-button:hover {
+      transform: translateY(-4px) rotate(-.35deg);
+      border-color: var(--revolution-red);
+      box-shadow: 0 12px 0 rgba(23,74,126,.10);
+    }
+
+    .home-level-four,
+    .home-level-five {
+      border-color: var(--line);
+      background: var(--paper);
+    }
+
+    .level-number {
+      border: 2px solid #f3d58a;
+      background: var(--revolution-blue);
+      box-shadow: 2px 2px 0 var(--revolution-red);
+      font-family: ui-sans-serif, system-ui, sans-serif;
+    }
+
+    .home-level-button:nth-child(even) .level-number,
+    .level-button:nth-child(even) .level-number { background: var(--revolution-red); box-shadow: 2px 2px 0 var(--revolution-blue); }
+
+    .level-button {
+      border-radius: 5px;
+    }
+
+    .level-button[aria-pressed="true"] {
+      border-color: var(--revolution-red);
+      background: #fff3d8;
+      box-shadow: inset 0 0 0 2px rgba(23,74,126,.30), 0 4px 0 rgba(185,31,46,.12);
+    }
+
+    .instruction {
+      padding: 14px 18px;
+      border-left: 7px solid var(--revolution-blue);
+      border-right: 7px solid var(--revolution-red);
+      background: #f7e8c4;
+      box-shadow: 0 3px 0 rgba(75,48,24,.12);
+    }
+
+    .panel {
+      border-width: 2px;
+      border-radius: 7px;
+    }
+
+    .panel h2::after {
+      content: "";
+      display: block;
+      width: 90px;
+      height: 4px;
+      margin-top: 8px;
+      background: linear-gradient(90deg, #174a7e 0 33.33%, #fff 33.33% 66.66%, #b91f2e 66.66%);
+      border: 1px solid rgba(36,26,20,.15);
+    }
+
+    .button {
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: .045em;
+      font-weight: 900;
+      box-shadow: 0 4px 0 rgba(36,26,20,.20);
+    }
+
+    .button:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(36,26,20,.20); }
+    .button.primary { background: var(--revolution-red); border-color: #7a1019; }
+    .button.primary:hover { background: #971722; }
+    .button.secondary { background: var(--revolution-blue); border-color: #0d3158; color: white; }
+    .button.secondary:hover { background: #103c68; }
+    .button.ghost { background: #f5e7c6; border-color: #9f8050; color: #4e3823; }
+
+    .number-input,
+    .operation-field input,
+    .operation-field select {
+      border-radius: 2px;
+      border: 1px solid #9c8059;
+      background: #fffef8;
+    }
+
+    .number-input:focus,
+    .operation-field input:focus,
+    .operation-field select:focus {
+      outline: 3px solid rgba(23,74,126,.22);
+      border-color: var(--revolution-blue);
+    }
+
+    .operation-type,
+    .dimension-choice {
+      border-radius: 3px;
+      background: #f7e8c4;
+      border-color: #a68a5d;
+      font-weight: 800;
+    }
+
+    .operation-type[aria-pressed="true"],
+    .dimension-choice[aria-pressed="true"] {
+      color: white;
+      background: var(--revolution-blue);
+      border-color: #0d3158;
+      box-shadow: inset 0 0 0 2px #f4d98a;
+    }
+
+    .no-solution-button {
+      position: relative;
+      border: 4px double #4b070d;
+      border-radius: 4px;
+      background: #b41624;
+      box-shadow: 0 7px 0 #5f0b12;
+      text-transform: uppercase;
+      letter-spacing: .025em;
+    }
+
+    .no-solution-button::before { content: "⚠  "; }
+    .no-solution-button::after { content: "  ⚠"; }
+    .no-solution-button:active { transform: translateY(4px); box-shadow: 0 3px 0 #5f0b12; }
+
+    .feedback.good {
+      border-left-color: var(--revolution-blue);
+      background: #e8f0f8;
+      color: #0d3158;
+    }
+
+    .feedback.bad { background: #fae3df; color: #7b131c; }
+
+    .tip::before {
+      content: "🗞️ REVOLUTIONARY PAMPHLET";
+      display: block;
+      margin-bottom: 6px;
+      color: var(--revolution-red);
+      font: 900 .72rem/1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing: .08em;
+    }
+
+    .matrix,
+    .input-matrix {
+      background: rgba(255,255,255,.52);
+    }
+
+    .matrix::before,
+    .matrix::after,
+    .input-matrix::before,
+    .input-matrix::after { border-color: #3c2c21; }
+
+    .operation-reveal {
+      border: 2px dashed var(--revolution-red);
+      transform: rotate(.15deg);
+    }
+
+    .operation-reveal h3 {
+      color: var(--revolution-red);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .footer-note {
+      padding-top: 16px;
+      border-top: 1px solid #bda477;
+      color: #67513a;
+      font-style: italic;
+    }
+
+    .footer-note::before { content: "Note from the Committee: "; font-weight: 800; color: var(--revolution-red); }
+
+    .revolution-footer {
+      padding: 14px 22px 17px;
+      border-top: 1px solid #9d7d4d;
+      color: #6b5137;
+      background: #f1dfb8;
+      font-size: .82rem;
+      font-style: italic;
+      text-align: center;
+    }
+
+    @media (max-width: 760px) {
+      .scoreboard {
+        min-width: 150px;
+        min-height: 150px;
+        border-radius: 14px;
+      }
+      .game-header::after { display: none; }
+    }
+
+  </style>
+</head>
+<body>
+  <main class="game-shell">
+    <section class="game-card" aria-labelledby="game-title">
+      <div class="tricolor-bar" aria-hidden="true"><span></span><span></span><span></span></div>
+      <header class="game-header">
+        <div class="title-block">
+          <p class="revolution-kicker">Liberté · Égalité · Row-Reduction</p>
+          <h1 id="game-title">Fighting the System</h1>
+          <p>Join the linear-algebra revolution. Overthrow bad notation, liberate the pivots, and establish the Republic of RREF.</p>
+        </div>
+        <div class="scoreboard" aria-live="polite">
+          <strong id="score">0</strong>
+          <span>systems overthrown</span>
+          <div class="score-detail" id="score-detail">L1: 0 · L2: 0 · L3: 0 · L4: 0 · L5: 0</div>
+        </div>
+      </header>
+
+      <div class="game-body">
+        <section class="home-screen" id="home-screen" aria-labelledby="home-heading">
+          <div class="home-content">
+            <p class="home-kicker">A Mathematical Revolution · 1789-ish</p>
+            <h2 id="home-heading">Citoyen, choose your uprising</h2>
+            <p class="home-intro">The ancien régime of confusing representations has ruled long enough. Rally the rows, distribute the coefficients fairly, and fight your way toward reduced row echelon form. Bread not included.</p>
+            <div class="proclamation" aria-label="Revolutionary proclamation"><span aria-hidden="true">🥖</span> Citizens, arm yourselves with pencils and nonzero scalars! <span aria-hidden="true">🗞️</span></div>
+            <div class="home-levels">
+              <button class="home-level-button" type="button" data-home-level="1">
+                <span class="level-number">1</span>
+                <strong>Three Forms, One Republic</strong>
+                <small>Unite equations, matrix-vector form, and column-vector form under one glorious mathematical republic.</small>
+              </button>
+              <button class="home-level-button" type="button" data-home-level="2">
+                <span class="level-number">2</span>
+                <strong>Storm the Augmented Matrix</strong>
+                <small>Seize the coefficients, place b beyond the barricade, and assemble [A | b].</small>
+              </button>
+              <button class="home-level-button" type="button" data-home-level="3">
+                <span class="level-number">3</span>
+                <strong>Liberté, Égalité, Dimensionalité</strong>
+                <small>Count the free variables, proclaim the dimension, or expose a counterrevolutionary contradiction row.</small>
+              </button>
+              <button class="home-level-button home-level-four" type="button" data-home-level="4" aria-label="Play Level 4: One Operation to Revolution">
+                <span class="level-number">4</span>
+                <strong>One Operation to Revolution</strong>
+                <small>The matrix is one row operation from liberation. Name the final revolutionary maneuver.</small>
+              </button>
+              <button class="home-level-button home-level-five" type="button" data-home-level="5" aria-label="Play Level 5: The Great Row Reduction">
+                <span class="level-number">5</span>
+                <strong>The Great Row Reduction</strong>
+                <small>Lead a full Gauss–Jordan uprising: swap, scale, and replace until RREF reigns.</small>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="game-screen" id="game-screen" hidden>
+        <nav class="level-select" aria-label="Choose a revolutionary game level">
+          <button class="level-button" type="button" data-level="1" aria-pressed="true">
+            <span class="level-number">1</span>
+            <strong>Three Forms, One Republic</strong>
+            <small>Move between equations, matrix-vector form, and column-vector form.</small>
+          </button>
+          <button class="level-button" type="button" data-level="2" aria-pressed="false">
+            <span class="level-number">2</span>
+            <strong>Storm the Augmented Matrix</strong>
+            <small>Seize the coefficients and assemble the revolutionary banner [A | b].</small>
+          </button>
+          <button class="level-button" type="button" data-level="3" aria-pressed="false">
+            <span class="level-number">3</span>
+            <strong>Liberté, Égalité, Dimensionalité</strong>
+            <small>Inspect the Republic of RREF and count how many variables remain free citizens.</small>
+          </button>
+          <button class="level-button" type="button" data-level="4" aria-pressed="false">
+            <span class="level-number">4</span>
+            <strong>One Operation to Revolution</strong>
+            <small>Identify the last swap, scale, or replacement before the old order collapses.</small>
+          </button>
+          <button class="level-button" type="button" data-level="5" aria-pressed="false">
+            <span class="level-number">5</span>
+            <strong>The Great Row Reduction</strong>
+            <small>Command the rows until every pivot stands for liberty and RREF.</small>
+          </button>
+        </nav>
+
+        <p class="instruction" id="instruction"></p>
+
+        <div class="challenge-grid">
+          <section class="panel" aria-labelledby="given-heading">
+            <span class="format-label" id="given-format"></span>
+            <h2 id="given-heading">The Old Order</h2>
+            <div class="math-display" id="given-display"></div>
+          </section>
+
+          <section class="panel" aria-labelledby="answer-heading">
+            <span class="format-label" id="target-format"></span>
+            <h2 id="answer-heading">Your Revolutionary Decree</h2>
+            <form id="answer-form" autocomplete="off">
+              <div class="answer-area" id="answer-area"></div>
+              <div class="actions">
+                <button class="button primary" type="submit" id="submit-button">Pass judgment</button>
+                <button class="button secondary" type="button" id="hint-button">Read a pamphlet</button>
+                <button class="button ghost" type="button" id="new-button">New regime</button>
+                <button class="button ghost" type="button" id="home-button">Return to the Assembly</button>
+              </div>
+            </form>
+            <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
+            <p class="tip" id="tip" hidden></p>
+          </section>
+        </div>
+
+        <p class="footer-note" id="footer-note">The Committee permits integers, including suspiciously negative ones.</p>
+        </section>
+      </div>
+      <footer class="revolution-footer">No matrices were guillotined in the making of this republic. Several pivots were, however, strongly encouraged to become 1.</footer>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const FORMS = {
+        equations: "System of equations (the First Estate)",
+        matrix: "Matrix-vector form (the Second Estate)",
+        columns: "Column-vector form (the Third Estate)"
+      };
+
+      const state = {
+        A: [],
+        b: [],
+        source: "equations",
+        target: "matrix",
+        level: 1,
+        scores: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+        rref: [],
+        level4Matrix: [],
+        level4Target: [],
+        level4Operation: null,
+        selectedOperationType: null,
+        selectedRowA: null,
+        selectedRowB: null,
+        level4Revealed: false,
+        level5Start: [],
+        level5Current: [],
+        level5Target: [],
+        level5History: [],
+        level5Snapshots: [],
+        level5OperationType: null,
+        level5RowA: null,
+        level5RowB: null,
+        level5Factor: null,
+        variableCount: 0,
+        solutionDimension: 0,
+        noSolution: false,
+        selectedDimension: null,
+        solved: false
+      };
+
+      const els = {
+        score: document.getElementById("score"),
+        scoreDetail: document.getElementById("score-detail"),
+        instruction: document.getElementById("instruction"),
+        givenFormat: document.getElementById("given-format"),
+        targetFormat: document.getElementById("target-format"),
+        givenDisplay: document.getElementById("given-display"),
+        answerHeading: document.getElementById("answer-heading"),
+        answerArea: document.getElementById("answer-area"),
+        form: document.getElementById("answer-form"),
+        submitButton: document.getElementById("submit-button"),
+        feedback: document.getElementById("feedback"),
+        tip: document.getElementById("tip"),
+        hintButton: document.getElementById("hint-button"),
+        newButton: document.getElementById("new-button"),
+        homeButton: document.getElementById("home-button"),
+        homeScreen: document.getElementById("home-screen"),
+        gameScreen: document.getElementById("game-screen"),
+        footerNote: document.getElementById("footer-note"),
+        levelButtons: [...document.querySelectorAll(".level-button[data-level]")],
+        homeLevelButtons: [...document.querySelectorAll("[data-home-level]")]
+      };
+
+      function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      function randomNonZeroInt(min = -6, max = 6) {
+        let value = 0;
+        while (value === 0) value = Math.floor(Math.random() * (max - min + 1)) + min;
+        return value;
+      }
+
+      function determinant3(m) {
+        return (
+          m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1]) -
+          m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0]) +
+          m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0])
+        );
+      }
+
+      function createSystem() {
+        let A;
+        do {
+          A = Array.from({ length: 3 }, () =>
+            Array.from({ length: 3 }, () => randomNonZeroInt())
+          );
+        } while (determinant3(A) === 0);
+
+        const solution = Array.from({ length: 3 }, () => randomNonZeroInt(-4, 4));
+        const b = A.map(row => row.reduce((sum, coefficient, i) => sum + coefficient * solution[i], 0));
+        return { A, b };
+      }
+
+      function shuffled(values) {
+        const copy = [...values];
+        for (let i = copy.length - 1; i > 0; i--) {
+          const j = randomInt(0, i);
+          [copy[i], copy[j]] = [copy[j], copy[i]];
+        }
+        return copy;
+      }
+
+      function createRrefChallenge() {
+        const rows = 5;
+        const totalColumns = randomInt(5, 10);
+        const variableCount = totalColumns - 1;
+        const inconsistent = Math.random() < 0.28;
+        const maxCoefficientRank = inconsistent
+          ? Math.min(rows - 1, variableCount)
+          : Math.min(rows, variableCount);
+        const rank = randomInt(0, maxCoefficientRank);
+        const pivotColumns = shuffled(Array.from({ length: variableCount }, (_, i) => i))
+          .slice(0, rank)
+          .sort((a, b) => a - b);
+        const matrix = Array.from({ length: rows }, () => Array(variableCount + 1).fill(0));
+
+        pivotColumns.forEach((pivotColumn, pivotRow) => {
+          matrix[pivotRow][pivotColumn] = 1;
+          for (let col = pivotColumn + 1; col < variableCount; col++) {
+            if (!pivotColumns.includes(col) && Math.random() < 0.65) {
+              matrix[pivotRow][col] = randomInt(-4, 4);
+            }
+          }
+          matrix[pivotRow][variableCount] = inconsistent ? 0 : randomInt(-6, 6);
+        });
+
+        if (inconsistent) {
+          matrix[rank][variableCount] = 1;
+        }
+
+        return {
+          matrix,
+          variableCount,
+          noSolution: inconsistent,
+          solutionDimension: inconsistent ? null : variableCount - rank
+        };
+      }
+
+      function createLevel4Rref() {
+        const rows = 4;
+        const cols = 8;
+        const pivotColumns = shuffled(Array.from({ length: cols }, (_, i) => i))
+          .slice(0, rows)
+          .sort((a, b) => a - b);
+        const matrix = Array.from({ length: rows }, () => Array(cols).fill(0));
+
+        pivotColumns.forEach((pivotColumn, pivotRow) => {
+          matrix[pivotRow][pivotColumn] = 1;
+          for (let col = pivotColumn + 1; col < cols; col++) {
+            if (!pivotColumns.includes(col) && Math.random() < 0.58) {
+              matrix[pivotRow][col] = randomInt(-4, 4);
+            }
+          }
+        });
+        return matrix;
+      }
+
+      function cloneMatrix(matrix) {
+        return matrix.map(row => [...row]);
+      }
+
+      function createLevel4Challenge() {
+        const target = createLevel4Rref();
+        const matrix = cloneMatrix(target);
+        const type = ["swap", "scale", "replacement"][randomInt(0, 2)];
+        let operation;
+
+        if (type === "swap") {
+          const rowA = randomInt(0, 3);
+          let rowB = rowA;
+          while (rowB === rowA) rowB = randomInt(0, 3);
+          [matrix[rowA], matrix[rowB]] = [matrix[rowB], matrix[rowA]];
+          operation = { type, rowA, rowB };
+        } else if (type === "scale") {
+          const rowA = randomInt(0, 3);
+          const distortionFactor = [-3, -2, 2, 3][randomInt(0, 3)];
+          matrix[rowA] = matrix[rowA].map(value => value * distortionFactor);
+          operation = { type, rowA, factor: 1 / distortionFactor, denominator: distortionFactor };
+        } else {
+          const rowA = randomInt(0, 3);
+          let rowB = rowA;
+          while (rowB === rowA) rowB = randomInt(0, 3);
+          const factor = [-3, -2, -1, 1, 2, 3][randomInt(0, 5)];
+          matrix[rowA] = matrix[rowA].map((value, col) => value - factor * target[rowB][col]);
+          operation = { type, rowA, rowB, factor };
+        }
+
+        return { matrix, target, operation };
+      }
+
+
+      function cleanNumber(value, tolerance = 1e-10) {
+        if (Math.abs(value) < tolerance) return 0;
+        const nearestInteger = Math.round(value);
+        if (Math.abs(value - nearestInteger) < tolerance) return nearestInteger;
+        return value;
+      }
+
+      function formatNumber(value) {
+        const cleaned = cleanNumber(value);
+        if (Number.isInteger(cleaned)) return String(cleaned);
+        for (let denominator = 2; denominator <= 24; denominator++) {
+          const numerator = Math.round(cleaned * denominator);
+          if (Math.abs(cleaned - numerator / denominator) < 1e-8) {
+            return `${numerator}/${denominator}`;
+          }
+        }
+        return String(Number(cleaned.toFixed(4)));
+      }
+
+      function parseScalar(text) {
+        const trimmed = text.trim();
+        if (!trimmed) return null;
+        const fractionMatch = trimmed.match(/^([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*\/\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))$/);
+        if (fractionMatch) {
+          const numerator = Number(fractionMatch[1]);
+          const denominator = Number(fractionMatch[2]);
+          if (!Number.isFinite(numerator) || !Number.isFinite(denominator) || denominator === 0) return null;
+          return numerator / denominator;
+        }
+        const value = Number(trimmed);
+        return Number.isFinite(value) ? value : null;
+      }
+
+      function applyRowOperation(matrix, operation) {
+        const result = cloneMatrix(matrix);
+        if (operation.type === "swap") {
+          [result[operation.rowA], result[operation.rowB]] = [result[operation.rowB], result[operation.rowA]];
+        } else if (operation.type === "scale") {
+          result[operation.rowA] = result[operation.rowA].map(value => cleanNumber(value * operation.factor));
+        } else {
+          result[operation.rowA] = result[operation.rowA].map((value, col) =>
+            cleanNumber(value + operation.factor * result[operation.rowB][col])
+          );
+        }
+        return result;
+      }
+
+      function matrixMaxAbs(matrix) {
+        return Math.max(...matrix.flat().map(value => Math.abs(value)));
+      }
+
+      function matricesClose(a, b, tolerance = 1e-6) {
+        return a.length === b.length && a.every((row, r) =>
+          row.length === b[r].length && row.every((value, c) => Math.abs(value - b[r][c]) < tolerance)
+        );
+      }
+
+      function rrefStatus(matrix, tolerance = 1e-6) {
+        let previousPivot = -1;
+        let foundZeroRow = false;
+
+        for (let row = 0; row < matrix.length; row++) {
+          const pivot = matrix[row].findIndex(value => Math.abs(value) > tolerance);
+          if (pivot === -1) {
+            foundZeroRow = true;
+            continue;
+          }
+          if (foundZeroRow) {
+            return { ok: false, reason: `Row ${row + 1} is nonzero below a zero row.` };
+          }
+          if (pivot <= previousPivot) {
+            return { ok: false, reason: `The leading entry of row ${row + 1} must be farther right than the pivot above it.` };
+          }
+          if (Math.abs(matrix[row][pivot] - 1) > tolerance) {
+            return { ok: false, reason: `The leading entry in row ${row + 1} is not 1.` };
+          }
+          for (let otherRow = 0; otherRow < matrix.length; otherRow++) {
+            if (otherRow !== row && Math.abs(matrix[otherRow][pivot]) > tolerance) {
+              return { ok: false, reason: `Pivot column ${pivot + 1} has a nonzero entry outside its pivot.` };
+            }
+          }
+          previousPivot = pivot;
+        }
+        return { ok: true, reason: "The matrix satisfies every RREF condition." };
+      }
+
+      function randomLevel5Operation() {
+        const type = ["swap", "scale", "replacement"][randomInt(0, 2)];
+        const rowA = randomInt(0, 3);
+        let rowB = rowA;
+        while (rowB === rowA) rowB = randomInt(0, 3);
+        if (type === "swap") return { type, rowA, rowB };
+        if (type === "scale") {
+          const factor = [-2, -1, 2][randomInt(0, 2)];
+          return { type, rowA, factor };
+        }
+        const factor = [-2, -1, 1, 2][randomInt(0, 3)];
+        return { type, rowA, rowB, factor };
+      }
+
+      function createLevel5Challenge() {
+        for (let attempt = 0; attempt < 200; attempt++) {
+          const target = createLevel4Rref();
+          let matrix = cloneMatrix(target);
+          const scrambleCount = randomInt(3, 5);
+          for (let step = 0; step < scrambleCount; step++) {
+            matrix = applyRowOperation(matrix, randomLevel5Operation());
+          }
+          if (!rrefStatus(matrix).ok && !matricesClose(matrix, target) && matrixMaxAbs(matrix) <= 80) {
+            return { matrix, target };
+          }
+        }
+
+        const target = createLevel4Rref();
+        let matrix = applyRowOperation(target, { type: "replacement", rowA: 0, rowB: 1, factor: 2 });
+        matrix = applyRowOperation(matrix, { type: "swap", rowA: 1, rowB: 3 });
+        return { matrix, target };
+      }
+
+      function randomForm() {
+        const keys = Object.keys(FORMS);
+        return keys[Math.floor(Math.random() * keys.length)];
+      }
+
+      function pickDifferentTarget(source) {
+        let target = source;
+        while (target === source) target = randomForm();
+        return target;
+      }
+
+      function signedTerm(value, variable, isFirst) {
+        const magnitude = Math.abs(value);
+        const coefficient = magnitude === 1 ? "" : magnitude;
+        if (isFirst) return `${value < 0 ? "−" : ""}${coefficient}${variable}`;
+        return `${value < 0 ? " − " : " + "}${coefficient}${variable}`;
+      }
+
+      function equationText(row, rhs) {
+        return `${signedTerm(row[0], "x", true)}${signedTerm(row[1], "y", false)}${signedTerm(row[2], "z", false)} = ${rhs}`;
+      }
+
+      function matrixHTML(values, cols) {
+        return `<span class="matrix" style="--cols:${cols}">${values.flat().map(v => `<span>${v}</span>`).join("")}</span>`;
+      }
+
+      function rowClass(row, operation) {
+        if (!operation) return "";
+        const primary = row === operation.rowA;
+        const secondary = operation.type !== "scale" && row === operation.rowB;
+        return `${primary ? " row-primary" : ""}${secondary ? " row-secondary" : ""}`;
+      }
+
+      function level4MatrixHTML(matrix, operation = null) {
+        const cells = matrix.flatMap((rowValues, row) => rowValues.map(value =>
+          `<span class="${rowClass(row, operation).trim()}">${formatNumber(value)}</span>`
+        )).join("");
+        return `<span class="matrix level4-matrix" style="--cols:8">${cells}</span>`;
+      }
+
+      function rowName(row) {
+        return `R<sub>${row + 1}</sub>`;
+      }
+
+      function scaleFactorText(operation) {
+        const denominator = operation.denominator;
+        const sign = denominator < 0 ? "−" : "";
+        return `${sign}1/${Math.abs(denominator)}`;
+      }
+
+      function operationText(operation) {
+        if (operation.type === "swap") {
+          return `${rowName(operation.rowA)} ↔ ${rowName(operation.rowB)}`;
+        }
+        if (operation.type === "scale") {
+          const factorText = operation.denominator !== undefined ? scaleFactorText(operation) : formatNumber(operation.factor);
+          return `${rowName(operation.rowA)} ← (${factorText})${rowName(operation.rowA)}`;
+        }
+        const factor = operation.factor;
+        const middle = factor === 1
+          ? ` + ${rowName(operation.rowB)}`
+          : factor === -1
+            ? ` − ${rowName(operation.rowB)}`
+            : factor > 0
+              ? ` + ${factor}${rowName(operation.rowB)}`
+              : ` − ${Math.abs(factor)}${rowName(operation.rowB)}`;
+        return `${rowName(operation.rowA)} ← ${rowName(operation.rowA)}${middle}`;
+      }
+
+      function renderEquations() {
+        return `
+          <div class="equation-system" aria-label="System of three linear equations">
+            <span class="brace" aria-hidden="true">{</span>
+            <span>${state.A.map((row, i) => equationText(row, state.b[i])).join("<br>")}</span>
+          </div>`;
+      }
+
+      function renderMatrixForm() {
+        return `
+          <div class="matrix-row" aria-label="A x equals b matrix-vector form">
+            ${matrixHTML(state.A, 3)}
+            ${matrixHTML([["x"], ["y"], ["z"]], 1)}
+            <span>=</span>
+            ${matrixHTML(state.b.map(v => [v]), 1)}
+          </div>`;
+      }
+
+      function renderColumnForm() {
+        const columns = [0, 1, 2].map(col => state.A.map(row => [row[col]]));
+        return `
+          <div class="column-form" aria-label="x A one plus y A two plus z A three equals b column-vector form">
+            <span>x</span>${matrixHTML(columns[0], 1)}
+            <span>+</span><span>y</span>${matrixHTML(columns[1], 1)}
+            <span>+</span><span>z</span>${matrixHTML(columns[2], 1)}
+            <span>=</span>${matrixHTML(state.b.map(v => [v]), 1)}
+          </div>`;
+      }
+
+      function renderRrefAugmented() {
+        const cols = state.variableCount + 1;
+        const cells = state.rref.flatMap(row => row.map((value, col) =>
+          `<span class="${col === cols - 1 ? "augmented-entry" : ""}">${value}</span>`
+        )).join("");
+        return `<div class="matrix-row" aria-label="Reduced row echelon form augmented matrix with ${state.rref.length} rows and ${cols} columns">
+          <span class="matrix rref-matrix" style="--cols:${cols}">${cells}</span>
+        </div>`;
+      }
+
+      function level5SelectionOperation() {
+        if (!state.level5OperationType) return null;
+        return {
+          type: state.level5OperationType,
+          rowA: state.level5RowA,
+          rowB: state.level5RowB
+        };
+      }
+
+      function renderGiven() {
+        if (state.level === 5) {
+          els.givenDisplay.innerHTML = `<div class="matrix-row" aria-label="Current four by eight matrix">${level4MatrixHTML(state.level5Current, level5SelectionOperation())}</div>`;
+          return;
+        }
+        if (state.level === 4) {
+          els.givenDisplay.innerHTML = `<div class="matrix-row" aria-label="Four by eight matrix one row operation away from reduced row echelon form">${level4MatrixHTML(state.level4Matrix, state.level4Revealed ? state.level4Operation : null)}</div>`;
+          return;
+        }
+        if (state.level === 3) {
+          els.givenDisplay.innerHTML = renderRrefAugmented();
+          return;
+        }
+        const renderers = {
+          equations: renderEquations,
+          matrix: renderMatrixForm,
+          columns: renderColumnForm
+        };
+        els.givenDisplay.innerHTML = renderers[state.source]();
+      }
+
+      function numberInput(name, label) {
+        return `<input class="number-input" inputmode="numeric" type="number" step="1" name="${name}" aria-label="${label}" required>`;
+      }
+
+      function answerEquationsHTML() {
+        return `<div class="answer-equations">
+          ${state.A.map((_, row) => `
+            <div class="answer-line">
+              ${numberInput(`a${row}0`, `Equation ${row + 1}, coefficient of x`)}<span>x +</span>
+              ${numberInput(`a${row}1`, `Equation ${row + 1}, coefficient of y`)}<span>y +</span>
+              ${numberInput(`a${row}2`, `Equation ${row + 1}, coefficient of z`)}<span>z =</span>
+              ${numberInput(`b${row}`, `Equation ${row + 1}, right side`)}
+            </div>`).join("")}
+        </div>`;
+      }
+
+      function inputMatrixHTML(rows, cols, prefix, labelPrefix, extraClass = "") {
+        const fields = [];
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            fields.push(numberInput(`${prefix}${r}${c}`, `${labelPrefix}, row ${r + 1}, column ${c + 1}`));
+          }
+        }
+        const divider = extraClass.includes("augmented")
+          ? '<span class="augmented-divider" aria-hidden="true"></span>'
+          : "";
+        return `<span class="input-matrix ${extraClass}" style="--cols:${cols}">${fields.join("")}${divider}</span>`;
+      }
+
+      function answerMatrixHTML() {
+        return `<div class="answer-matrix-layout">
+          ${inputMatrixHTML(3, 3, "a", "Matrix A")}
+          ${matrixHTML([["x"], ["y"], ["z"]], 1)}
+          <span>=</span>
+          ${inputMatrixHTML(3, 1, "b", "Vector b")}
+        </div>`;
+      }
+
+      function inputColumnVector(col) {
+        return inputMatrixHTML(3, 1, `c${col}`, `Column vector A${col + 1}`);
+      }
+
+      function answerColumnsHTML() {
+        return `<div class="answer-column-layout">
+          <span>x</span>${inputColumnVector(0)}
+          <span>+</span><span>y</span>${inputColumnVector(1)}
+          <span>+</span><span>z</span>${inputColumnVector(2)}
+          <span>=</span>${inputMatrixHTML(3, 1, "b", "Vector b")}
+        </div>`;
+      }
+
+      function answerAugmentedMatrixHTML() {
+        return `<div class="answer-augmented-layout">
+          ${inputMatrixHTML(3, 4, "aug", "Augmented matrix", "augmented")}
+        </div>`;
+      }
+
+      function answerDimensionHTML() {
+        const choices = Array.from({ length: state.variableCount + 1 }, (_, dimension) =>
+          `<button class="dimension-choice" type="button" data-dimension="${dimension}" aria-pressed="false">${dimension}</button>`
+        ).join("");
+        return `<div class="dimension-answer">
+          <p>Proclaim the dimension of the liberated solution set.</p>
+          <div class="dimension-choices" role="group" aria-label="Choose the dimension of the solution set">${choices}</div>
+          <button class="no-solution-button" id="no-solution-button" type="button">But there is no solution!</button>
+        </div>`;
+      }
+
+      function rowOptions() {
+        return `<option value="">Choose a row-citizen</option>${Array.from({ length: 4 }, (_, row) => `<option value="${row}">Row ${row + 1}</option>`).join("")}`;
+      }
+
+      function answerOperationHTML() {
+        return `<div class="operation-answer">
+          <p>Identify the revolutionary maneuver, then name the row-citizens involved.</p>
+          <div class="operation-types" role="group" aria-label="Choose the revolutionary elementary row operation type">
+            <button class="operation-type" type="button" data-operation-type="swap" aria-pressed="false">Swap the Estates</button>
+            <button class="operation-type" type="button" data-operation-type="scale" aria-pressed="false">Redistribute by Scaling</button>
+            <button class="operation-type" type="button" data-operation-type="replacement" aria-pressed="false">Revolutionary Replacement</button>
+          </div>
+          <div class="operation-fields" id="operation-fields" hidden>
+            <label class="operation-field" id="row-a-label"><span id="row-a-label-text">First row</span><select id="row-a-select">${rowOptions()}</select></label>
+            <label class="operation-field" id="row-b-label"><span id="row-b-label-text">Second row</span><select id="row-b-select">${rowOptions()}</select></label>
+          </div>
+          <div class="operation-preview" id="operation-preview">Choose a revolutionary maneuver to begin.</div>
+          <div class="operation-reveal" id="operation-reveal" hidden></div>
+        </div>`;
+      }
+
+      function updateOperationFields() {
+        const fields = document.getElementById("operation-fields");
+        const rowBLabel = document.getElementById("row-b-label");
+        const rowALabelText = document.getElementById("row-a-label-text");
+        const rowBLabelText = document.getElementById("row-b-label-text");
+        if (!fields) return;
+
+        fields.hidden = !state.selectedOperationType;
+        if (!state.selectedOperationType) return;
+        rowBLabel.hidden = state.selectedOperationType === "scale";
+        rowALabelText.textContent = state.selectedOperationType === "swap"
+          ? "First row to swap"
+          : state.selectedOperationType === "scale"
+            ? "Row to scale"
+            : "Row to replace";
+        rowBLabelText.textContent = state.selectedOperationType === "swap" ? "Second row to swap" : "Row to add";
+        updateOperationPreview();
+      }
+
+      function updateOperationPreview() {
+        const preview = document.getElementById("operation-preview");
+        if (!preview) return;
+        const a = state.selectedRowA;
+        const b = state.selectedRowB;
+        if (!state.selectedOperationType) {
+          preview.textContent = "Choose a revolutionary maneuver to begin.";
+        } else if (state.selectedOperationType === "swap") {
+          preview.innerHTML = a === null || b === null ? "Choose both row-citizens." : `${rowName(a)} ↔ ${rowName(b)}`;
+        } else if (state.selectedOperationType === "scale") {
+          preview.innerHTML = a === null ? "Choose the row-citizen to scale." : `Scale ${rowName(a)} by the needed nonzero constant.`;
+        } else {
+          preview.innerHTML = a === null || b === null ? "Choose the target and source row-citizens." : `${rowName(a)} ← ${rowName(a)} + k${rowName(b)}`;
+        }
+      }
+
+      function bindOperationControls() {
+        els.answerArea.querySelectorAll("[data-operation-type]").forEach(button => {
+          button.addEventListener("click", () => {
+            if (state.level4Revealed) return;
+            state.selectedOperationType = button.dataset.operationType;
+            state.selectedRowA = null;
+            state.selectedRowB = null;
+            els.answerArea.querySelectorAll("[data-operation-type]").forEach(choice => {
+              choice.setAttribute("aria-pressed", String(choice === button));
+            });
+            const rowA = document.getElementById("row-a-select");
+            const rowB = document.getElementById("row-b-select");
+            rowA.value = "";
+            rowB.value = "";
+            updateOperationFields();
+          });
+        });
+        document.getElementById("row-a-select").addEventListener("change", event => {
+          state.selectedRowA = event.target.value === "" ? null : Number(event.target.value);
+          updateOperationPreview();
+        });
+        document.getElementById("row-b-select").addEventListener("change", event => {
+          state.selectedRowB = event.target.value === "" ? null : Number(event.target.value);
+          updateOperationPreview();
+        });
+      }
+
+      function revealLevel4Answer() {
+        state.level4Revealed = true;
+        renderGiven();
+        const reveal = document.getElementById("operation-reveal");
+        reveal.hidden = false;
+        reveal.innerHTML = `<h3>The Committee’s Correct Decree</h3>
+          <div class="operation-visual">
+            <div class="operation-matrix-block"><small>Before the uprising</small>${level4MatrixHTML(state.level4Matrix, state.level4Operation)}</div>
+            <div class="operation-arrow"><span>${operationText(state.level4Operation)}</span><strong aria-hidden="true">→</strong></div>
+            <div class="operation-matrix-block"><small>After the Republic of RREF is proclaimed</small>${level4MatrixHTML(state.level4Target, state.level4Operation)}</div>
+          </div>`;
+        els.answerArea.querySelectorAll("button, select").forEach(control => { control.disabled = true; });
+        els.submitButton.disabled = true;
+      }
+
+
+      function answerLevel5HTML() {
+        return `<div class="level5-workspace">
+          <p>Issue row-operation decrees until the matrix has cast off tyranny and entered the Republic of RREF.</p>
+          <div class="operation-types" role="group" aria-label="Choose a revolutionary row operation">
+            <button class="operation-type" type="button" data-level5-operation-type="swap" aria-pressed="false">Swap the Estates</button>
+            <button class="operation-type" type="button" data-level5-operation-type="scale" aria-pressed="false">Redistribute by Scaling</button>
+            <button class="operation-type" type="button" data-level5-operation-type="replacement" aria-pressed="false">Revolutionary Replacement</button>
+          </div>
+          <div class="operation-fields level5-fields" id="level5-fields" hidden>
+            <label class="operation-field"><span id="level5-row-a-text">Target row</span><select id="level5-row-a">${rowOptions()}</select></label>
+            <label class="operation-field" id="level5-row-b-label"><span id="level5-row-b-text">Source row</span><select id="level5-row-b">${rowOptions()}</select></label>
+            <label class="operation-field" id="level5-factor-label"><span id="level5-factor-text">Scalar</span><input id="level5-factor" type="text" inputmode="decimal" placeholder="e.g. -2, 0.5, or 1/3"></label>
+          </div>
+          <div class="operation-preview" id="level5-preview">Choose a revolutionary maneuver to begin.</div>
+          <div class="level5-apply-row">
+            <button class="button secondary" id="level5-apply" type="button" disabled>Issue the decree</button>
+          </div>
+          <div class="level5-tools">
+            <button class="button ghost" id="level5-undo" type="button" disabled>Recall the last decree</button>
+            <button class="button ghost" id="level5-reset" type="button">Restore the ancien régime</button>
+          </div>
+          <div class="level5-history" id="level5-history" aria-live="polite"></div>
+        </div>`;
+      }
+
+      function updateLevel5History() {
+        const history = document.getElementById("level5-history");
+        const undo = document.getElementById("level5-undo");
+        if (!history) return;
+        undo.disabled = state.level5History.length === 0;
+        history.innerHTML = state.level5History.length
+          ? `<h3>Decrees issued</h3><ol>${state.level5History.map(operation => `<li>${operationText(operation)}</li>`).join("")}</ol>`
+          : `<p class="level5-history-empty">No decrees have been issued. The rows are growing restless.</p>`;
+      }
+
+      function updateLevel5Preview() {
+        const preview = document.getElementById("level5-preview");
+        const applyButton = document.getElementById("level5-apply");
+        if (!preview || !applyButton) return;
+        const type = state.level5OperationType;
+        const rowA = state.level5RowA;
+        const rowB = state.level5RowB;
+        const factor = state.level5Factor;
+        let valid = false;
+
+        if (!type) {
+          preview.textContent = "Choose a revolutionary maneuver to begin.";
+        } else if (type === "swap") {
+          valid = rowA !== null && rowB !== null && rowA !== rowB;
+          preview.innerHTML = valid ? `${rowName(rowA)} ↔ ${rowName(rowB)}` : "Choose two different row-citizens to swap.";
+        } else if (type === "scale") {
+          valid = rowA !== null && Number.isFinite(factor) && factor !== 0;
+          preview.innerHTML = valid ? `${rowName(rowA)} ← (${formatNumber(factor)})${rowName(rowA)}` : "Choose a row-citizen and enter a nonzero scalar. Zero is suspected of royalist sympathies.";
+        } else {
+          valid = rowA !== null && rowB !== null && rowA !== rowB && Number.isFinite(factor) && factor !== 0;
+          if (valid) {
+            preview.innerHTML = operationText({ type, rowA, rowB, factor });
+          } else {
+            preview.textContent = "Choose different target and source row-citizens, then enter a nonzero scalar.";
+          }
+        }
+        applyButton.disabled = !valid || state.solved;
+        renderGiven();
+      }
+
+      function updateLevel5Fields() {
+        const fields = document.getElementById("level5-fields");
+        if (!fields) return;
+        const rowBLabel = document.getElementById("level5-row-b-label");
+        const factorLabel = document.getElementById("level5-factor-label");
+        const rowAText = document.getElementById("level5-row-a-text");
+        const rowBText = document.getElementById("level5-row-b-text");
+        const factorText = document.getElementById("level5-factor-text");
+        fields.hidden = !state.level5OperationType;
+        if (!state.level5OperationType) return;
+
+        rowBLabel.hidden = state.level5OperationType === "scale";
+        factorLabel.hidden = state.level5OperationType === "swap";
+        rowAText.textContent = state.level5OperationType === "swap" ? "First row-citizen" : state.level5OperationType === "scale" ? "Row to scale" : "Row to replace";
+        rowBText.textContent = state.level5OperationType === "swap" ? "Second row-citizen" : "Row to add";
+        factorText.textContent = state.level5OperationType === "scale" ? "Scale factor" : "Multiple of source row";
+        updateLevel5Preview();
+      }
+
+      function resetLevel5Builder() {
+        state.level5OperationType = null;
+        state.level5RowA = null;
+        state.level5RowB = null;
+        state.level5Factor = null;
+        els.answerArea.querySelectorAll("[data-level5-operation-type]").forEach(button => button.setAttribute("aria-pressed", "false"));
+        const rowA = document.getElementById("level5-row-a");
+        const rowB = document.getElementById("level5-row-b");
+        const factor = document.getElementById("level5-factor");
+        if (rowA) rowA.value = "";
+        if (rowB) rowB.value = "";
+        if (factor) factor.value = "";
+        const fields = document.getElementById("level5-fields");
+        if (fields) fields.hidden = true;
+        updateLevel5Preview();
+      }
+
+      function applyLevel5Operation() {
+        const operation = {
+          type: state.level5OperationType,
+          rowA: state.level5RowA,
+          rowB: state.level5RowB,
+          factor: state.level5Factor
+        };
+        state.level5Snapshots.push(cloneMatrix(state.level5Current));
+        state.level5Current = applyRowOperation(state.level5Current, operation);
+        state.level5History.push(operation);
+        els.feedback.textContent = "";
+        els.feedback.className = "feedback";
+        resetLevel5Builder();
+        updateLevel5History();
+        renderGiven();
+      }
+
+      function bindLevel5Controls() {
+        els.answerArea.querySelectorAll("[data-level5-operation-type]").forEach(button => {
+          button.addEventListener("click", () => {
+            state.level5OperationType = button.dataset.level5OperationType;
+            state.level5RowA = null;
+            state.level5RowB = null;
+            state.level5Factor = null;
+            els.answerArea.querySelectorAll("[data-level5-operation-type]").forEach(choice => {
+              choice.setAttribute("aria-pressed", String(choice === button));
+            });
+            document.getElementById("level5-row-a").value = "";
+            document.getElementById("level5-row-b").value = "";
+            document.getElementById("level5-factor").value = "";
+            updateLevel5Fields();
+          });
+        });
+        document.getElementById("level5-row-a").addEventListener("change", event => {
+          state.level5RowA = event.target.value === "" ? null : Number(event.target.value);
+          updateLevel5Preview();
+        });
+        document.getElementById("level5-row-b").addEventListener("change", event => {
+          state.level5RowB = event.target.value === "" ? null : Number(event.target.value);
+          updateLevel5Preview();
+        });
+        document.getElementById("level5-factor").addEventListener("input", event => {
+          state.level5Factor = parseScalar(event.target.value);
+          updateLevel5Preview();
+        });
+        document.getElementById("level5-apply").addEventListener("click", applyLevel5Operation);
+        document.getElementById("level5-undo").addEventListener("click", () => {
+          if (!state.level5Snapshots.length || state.solved) return;
+          state.level5Current = state.level5Snapshots.pop();
+          state.level5History.pop();
+          els.feedback.textContent = "The last decree has been recalled by the Assembly.";
+          els.feedback.className = "feedback";
+          resetLevel5Builder();
+          updateLevel5History();
+          renderGiven();
+        });
+        document.getElementById("level5-reset").addEventListener("click", () => {
+          if (state.solved) return;
+          state.level5Current = cloneMatrix(state.level5Start);
+          state.level5History = [];
+          state.level5Snapshots = [];
+          els.feedback.textContent = "The ancien régime has been temporarily restored.";
+          els.feedback.className = "feedback";
+          resetLevel5Builder();
+          updateLevel5History();
+          renderGiven();
+        });
+        updateLevel5History();
+      }
+
+      function renderAnswer() {
+        if (state.level === 5) {
+          els.answerArea.innerHTML = answerLevel5HTML();
+          bindLevel5Controls();
+          return;
+        }
+        if (state.level === 4) {
+          els.answerArea.innerHTML = answerOperationHTML();
+          bindOperationControls();
+          return;
+        }
+        if (state.level === 3) {
+          els.answerArea.innerHTML = answerDimensionHTML();
+          els.answerArea.querySelectorAll("[data-dimension]").forEach(button => {
+            button.addEventListener("click", () => {
+              state.selectedDimension = Number(button.dataset.dimension);
+              els.answerArea.querySelectorAll("[data-dimension]").forEach(choice => {
+                choice.setAttribute("aria-pressed", String(choice === button));
+              });
+              els.feedback.textContent = "";
+              els.feedback.className = "feedback";
+            });
+          });
+          document.getElementById("no-solution-button").addEventListener("click", () => checkNoSolution());
+          return;
+        }
+        if (state.level === 2) {
+          els.answerArea.innerHTML = answerAugmentedMatrixHTML();
+          return;
+        }
+
+        const renderers = {
+          equations: answerEquationsHTML,
+          matrix: answerMatrixHTML,
+          columns: answerColumnsHTML
+        };
+        els.answerArea.innerHTML = renderers[state.target]();
+      }
+
+      function expectedValue(inputName) {
+        if (/^aug\d\d$/.test(inputName)) {
+          const row = Number(inputName[3]);
+          const col = Number(inputName[4]);
+          return col < 3 ? state.A[row][col] : state.b[row];
+        }
+        if (/^a\d\d$/.test(inputName)) {
+          return state.A[Number(inputName[1])][Number(inputName[2])];
+        }
+        if (/^b\d$/.test(inputName)) {
+          return state.b[Number(inputName[1])];
+        }
+        if (/^b\d0$/.test(inputName)) {
+          return state.b[Number(inputName[1])];
+        }
+        if (/^c\d\d\d$/.test(inputName)) {
+          const col = Number(inputName[1]);
+          const row = Number(inputName[2]);
+          return state.A[row][col];
+        }
+        return NaN;
+      }
+
+      function hintText() {
+        if (state.level === 5) {
+          return "Pamphlet No. 5: March from left to right. Create a leading 1, clear every other entry in its pivot column, and send zero rows to the bottom. Recall a decree if your operation strengthens the ancien régime.";
+        }
+        if (state.level === 4) {
+          return "Pamphlet No. 4: In RREF, pivots are 1, pivot columns are zero elsewhere, and pivots march rightward as rows descend. Disorder in the row ranks suggests a swap; a bloated pivot suggests scaling; one stubborn extra entry suggests replacement.";
+        }
+        if (state.level === 3) {
+          return "Pamphlet No. 3: First hunt for [0 0 … 0 | 1], the unmistakable banner of contradiction. Otherwise, every variable column without a pivot is a free citizen and contributes one dimension.";
+        }
+        if (state.level === 2) {
+          if (state.source === "columns") {
+            return "Pamphlet No. 2: Place A₁, A₂, and A₃ in the first three columns. March b to the far side of the barricade to form [A | b].";
+          }
+          return "Pamphlet No. 2: The first three columns hold the coefficients of x, y, and z. The final column belongs to b, safely beyond the barricade.";
+        }
+        if (state.target === "equations") {
+          return "Pamphlet No. 1: Read each row of A as one equation. Its entries govern x, y, and z; the matching entry of b takes the right-hand side.";
+        }
+        if (state.target === "matrix") {
+          return "Pamphlet No. 1: Fill A row by row from equations. From column-vector form, A₁, A₂, and A₃ become the first, second, and third columns—the three estates, finally cooperating.";
+        }
+        return "Pamphlet No. 1: Read the x-coefficients from top to bottom to form A₁. Repeat for y and z to assemble A₂ and A₃. No aristocratic coefficient receives special treatment.";
+      }
+
+      function updateScoreboard() {
+        const total = state.scores[1] + state.scores[2] + state.scores[3] + state.scores[4] + state.scores[5];
+        els.score.textContent = total;
+        els.scoreDetail.textContent = `L1: ${state.scores[1]} · L2: ${state.scores[2]} · L3: ${state.scores[3]} · L4: ${state.scores[4]} · L5: ${state.scores[5]}`;
+      }
+
+      function awardPoint(message) {
+        if (!state.solved) {
+          state.scores[state.level]++;
+          updateScoreboard();
+        }
+        state.solved = true;
+        els.feedback.className = "feedback good";
+        els.feedback.textContent = message;
+      }
+
+      function checkNoSolution() {
+        if (state.noSolution) {
+          awardPoint("Vive la révolution! The contradiction row has toppled the system: there is no solution.");
+        } else {
+          els.feedback.className = "feedback bad";
+          els.feedback.textContent = "This system remains loyal and consistent. Count the non-pivot variable columns to find its dimension.";
+        }
+      }
+
+      function checkDimensionAnswer() {
+        if (state.selectedDimension === null) {
+          els.feedback.className = "feedback bad";
+          els.feedback.textContent = "Proclaim a dimension, or strike the large red button if the system is inconsistent.";
+          return;
+        }
+        if (state.noSolution) {
+          els.feedback.className = "feedback bad";
+          els.feedback.textContent = "A contradiction row is waving a red flag: this system has no solution.";
+          return;
+        }
+        if (state.selectedDimension === state.solutionDimension) {
+          awardPoint(`Vive la révolution! ${state.solutionDimension} free variable${state.solutionDimension === 1 ? " remains a free citizen" : "s remain free citizens"}, so the solution set has dimension ${state.solutionDimension}.`);
+        } else {
+          els.feedback.className = "feedback bad";
+          els.feedback.textContent = "The Assembly objects. Count variable columns, then subtract pivot columns.";
+        }
+      }
+
+      function checkLevel4Answer() {
+        if (!state.selectedOperationType) {
+          els.feedback.className = "feedback bad";
+          els.feedback.textContent = "First choose swap, scale, or replacement. Even revolutions require paperwork.";
+          return;
+        }
+        if (state.selectedRowA === null || (state.selectedOperationType !== "scale" && state.selectedRowB === null)) {
+          els.feedback.className = "feedback bad";
+          els.feedback.textContent = "Name every row-citizen involved in the operation.";
+          return;
+        }
+        if (state.selectedOperationType !== "scale" && state.selectedRowA === state.selectedRowB) {
+          els.feedback.className = "feedback bad";
+          els.feedback.textContent = "A swap or replacement requires two different row-citizens; one row cannot revolt against itself.";
+          return;
+        }
+
+        const correct = state.selectedOperationType === state.level4Operation.type && (
+          state.level4Operation.type === "swap"
+            ? new Set([state.selectedRowA, state.selectedRowB]).size === 2 &&
+              [state.selectedRowA, state.selectedRowB].every(row => [state.level4Operation.rowA, state.level4Operation.rowB].includes(row))
+            : state.level4Operation.type === "scale"
+              ? state.selectedRowA === state.level4Operation.rowA
+              : state.selectedRowA === state.level4Operation.rowA && state.selectedRowB === state.level4Operation.rowB
+        );
+
+        if (correct) {
+          awardPoint("Vive la révolution! You identified the correct elementary row operation.");
+        } else {
+          els.feedback.className = "feedback bad";
+          els.feedback.textContent = "Counterrevolutionary maneuver detected. The visual decree shows the operation that actually produces RREF.";
+        }
+        revealLevel4Answer();
+      }
+
+
+      function checkLevel5Answer() {
+        const status = rrefStatus(state.level5Current);
+        if (status.ok && matricesClose(state.level5Current, state.level5Target)) {
+          awardPoint(`Vive la révolution! The Republic of RREF has been established after ${state.level5History.length} decree${state.level5History.length === 1 ? "" : "s"}.`);
+          els.answerArea.querySelectorAll("button, select, input").forEach(control => { control.disabled = true; });
+          els.submitButton.disabled = true;
+          renderGiven();
+        } else if (status.ok) {
+          els.feedback.className = "feedback bad";
+          els.feedback.textContent = "The matrix has adopted fashionable revolutionary dress, but it is not row-equivalent to the original. Recall a decree or restore the matrix.";
+        } else {
+          els.feedback.className = "feedback bad";
+          els.feedback.textContent = `The old order still clings on: ${status.reason}`;
+        }
+      }
+
+      function checkAnswer() {
+        if (state.level === 5) {
+          checkLevel5Answer();
+          return;
+        }
+        if (state.level === 4) {
+          checkLevel4Answer();
+          return;
+        }
+        if (state.level === 3) {
+          checkDimensionAnswer();
+          return;
+        }
+        const inputs = [...els.answerArea.querySelectorAll("input")];
+        let allCorrect = true;
+        let blankCount = 0;
+
+        inputs.forEach(input => {
+          const isBlank = input.value.trim() === "";
+          const correct = !isBlank && Number(input.value) === expectedValue(input.name);
+          input.classList.toggle("correct", correct);
+          input.classList.toggle("incorrect", !correct);
+          input.setAttribute("aria-invalid", String(!correct));
+          if (isBlank) blankCount++;
+          if (!correct) allCorrect = false;
+        });
+
+        if (allCorrect) {
+          awardPoint(state.level === 2
+            ? "Vive la révolution! The augmented matrix has been successfully stormed."
+            : "Vive la révolution! Every coefficient has taken its rightful place.");
+        } else {
+          els.feedback.className = "feedback bad";
+          els.feedback.textContent = blankCount
+            ? `Keep fighting, citoyen: ${blankCount} box${blankCount === 1 ? " remains" : "es remain"} empty, and the Committee has highlighted incorrect entries.`
+            : state.level === 2
+              ? "The barricade is misplaced. Check each row and keep b in the final column."
+              : "The Committee has highlighted the dissenters. Check whether the numbers march by rows or by columns.";
+        }
+      }
+
+      function updateLevelControls() {
+        els.levelButtons.forEach(button => {
+          button.setAttribute("aria-pressed", String(Number(button.dataset.level) === state.level));
+        });
+      }
+
+      function newChallenge() {
+        state.solved = false;
+        state.selectedDimension = null;
+        state.selectedOperationType = null;
+        state.selectedRowA = null;
+        state.selectedRowB = null;
+        state.level4Revealed = false;
+        state.level5History = [];
+        state.level5Snapshots = [];
+        state.level5OperationType = null;
+        state.level5RowA = null;
+        state.level5RowB = null;
+        state.level5Factor = null;
+        els.submitButton.disabled = false;
+        els.submitButton.textContent = state.level === 5 ? "The matrix is liberated — inspect RREF" : state.level === 4 ? "Declare the operation" : "Pass judgment";
+        els.newButton.textContent = state.level >= 3 ? "New matrix uprising" : "New regime";
+
+        if (state.level === 5) {
+          const challenge = createLevel5Challenge();
+          state.level5Start = cloneMatrix(challenge.matrix);
+          state.level5Current = cloneMatrix(challenge.matrix);
+          state.level5Target = cloneMatrix(challenge.target);
+          els.givenFormat.textContent = "Matrix under the ancien régime";
+          els.targetFormat.textContent = "Revolutionary row decrees";
+          els.answerHeading.textContent = "Lead the Great Row Reduction";
+          els.instruction.innerHTML = "Level 5 — The Great Row Reduction: Command this <strong>4 × 8 matrix</strong> through swaps, scalings, and replacements until the <strong>Republic of RREF</strong> is established. Then submit it for inspection by the Committee.";
+          els.footerNote.textContent = "Revolutionary replacement uses R(target) ← R(target) + kR(source). The Committee accepts integers, decimals, or fractions such as 1/3.";
+        } else if (state.level === 4) {
+          const challenge = createLevel4Challenge();
+          state.level4Matrix = challenge.matrix;
+          state.level4Target = challenge.target;
+          state.level4Operation = challenge.operation;
+          els.givenFormat.textContent = "One decree from RREF";
+          els.targetFormat.textContent = "Revolutionary row maneuver";
+          els.answerHeading.textContent = "Name the final revolutionary maneuver";
+          els.instruction.innerHTML = "Level 4 — One Operation to Revolution: This <strong>4 × 8 matrix</strong> is one elementary row operation from the <strong>Republic of RREF</strong>. Identify the maneuver and the row-citizens involved.";
+          els.footerNote.textContent = "For replacement, name the row being changed first and the supporting row second. The secret scalar is declassified after your declaration.";
+        } else if (state.level === 3) {
+          const challenge = createRrefChallenge();
+          state.rref = challenge.matrix;
+          state.variableCount = challenge.variableCount;
+          state.solutionDimension = challenge.solutionDimension;
+          state.noSolution = challenge.noSolution;
+          els.givenFormat.textContent = "The Republic of RREF";
+          els.targetFormat.textContent = "Dimension of liberty";
+          els.answerHeading.textContent = "Proclaim the fate of the solution set";
+          els.instruction.innerHTML = `Level 3 — Liberté, Égalité, Dimensionalité: This ${state.rref.length} × ${state.variableCount + 1} augmented matrix already lives in the <strong>Republic of RREF</strong>. Proclaim the dimension of its solution set.`;
+          els.footerNote.textContent = "The final column stands beyond the barricade. A pivot there exposes a contradiction and topples the system entirely.";
+        } else {
+          const system = createSystem();
+          state.A = system.A;
+          state.b = system.b;
+          state.source = randomForm();
+          state.target = state.level === 1 ? pickDifferentTarget(state.source) : "augmented";
+          els.givenFormat.textContent = FORMS[state.source];
+          els.footerNote.textContent = "The Committee permits integers, including suspiciously negative ones.";
+        }
+
+        if (state.level === 1) {
+          els.targetFormat.textContent = FORMS[state.target];
+          els.answerHeading.textContent = "Your Revolutionary Decree";
+          els.instruction.innerHTML = `Level 1 — Three Forms, One Republic: Translate the <strong>${FORMS[state.source].toLowerCase()}</strong> into <strong>${FORMS[state.target].toLowerCase()}</strong>. Unite the representations!`;
+        } else if (state.level === 2) {
+          els.targetFormat.textContent = "The augmented barricade [A | b]";
+          els.answerHeading.textContent = "Storm the augmented matrix";
+          els.instruction.innerHTML = `Level 2 — Storm the Augmented Matrix: Rally the entries of the <strong>${FORMS[state.source].toLowerCase()}</strong> and build the barricade <strong>[A | b]</strong>.`;
+        }
+
+        els.feedback.textContent = "";
+        els.feedback.className = "feedback";
+        els.tip.hidden = true;
+        els.hintButton.textContent = "Read a pamphlet";
+
+        renderGiven();
+        renderAnswer();
+        const firstInput = els.answerArea.querySelector("input");
+        if (firstInput) firstInput.focus();
+      }
+
+      function showHome() {
+        els.gameScreen.hidden = true;
+        els.homeScreen.hidden = false;
+        els.feedback.textContent = "";
+        els.tip.hidden = true;
+        els.hintButton.textContent = "Read a pamphlet";
+        const firstLevelButton = els.homeLevelButtons[0];
+        if (firstLevelButton) firstLevelButton.focus();
+      }
+
+      function showGame() {
+        els.homeScreen.hidden = true;
+        els.gameScreen.hidden = false;
+      }
+
+      function setLevel(level) {
+        if (![1, 2, 3, 4, 5].includes(level)) return;
+        state.level = level;
+        showGame();
+        updateLevelControls();
+        newChallenge();
+      }
+
+      els.form.addEventListener("submit", event => {
+        event.preventDefault();
+        checkAnswer();
+      });
+
+      els.hintButton.addEventListener("click", () => {
+        els.tip.textContent = hintText();
+        els.tip.hidden = !els.tip.hidden;
+        els.hintButton.textContent = els.tip.hidden ? "Read a pamphlet" : "Fold the pamphlet";
+      });
+
+      els.newButton.addEventListener("click", newChallenge);
+      els.homeButton.addEventListener("click", showHome);
+
+      els.levelButtons.forEach(button => {
+        button.addEventListener("click", () => setLevel(Number(button.dataset.level)));
+      });
+
+      els.homeLevelButtons.forEach(button => {
+        button.addEventListener("click", () => setLevel(Number(button.dataset.homeLevel)));
+      });
+
+      updateScoreboard();
+      updateLevelControls();
+      showHome();
+    })();
+  </script>
+</body>
+</html>
