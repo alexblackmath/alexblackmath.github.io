@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Storcks Bring the Babies</title>
+  <link rel="preload" as="image" href="assets/menu/main-menu.png" />
+  <style>
+    :root {
+      color-scheme: light dark;
+      --page-bg: #111827;
+      --panel-bg: #1f2937;
+      --card-back: #2563eb;
+      --card-back-hover: #3b82f6;
+      --card-front: #f8fafc;
+      --text: #f8fafc;
+      --dark-text: #111827;
+      --success: #22c55e;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at top, rgba(37, 99, 235, 0.2), transparent 35%),
+        var(--page-bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .game {
+      width: min(94vw, 680px);
+      padding: 24px;
+      border-radius: 20px;
+      background: rgba(31, 41, 55, 0.94);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.7rem, 5vw, 2.5rem);
+    }
+
+    .subtitle {
+      margin: 0 0 18px;
+      color: #cbd5e1;
+    }
+
+    .title-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: 0;
+      background: #0f172a;
+    }
+
+    .title-banner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: clamp(76px, 13vh, 138px);
+      padding: 16px clamp(16px, 4vw, 48px);
+      border-bottom: 4px solid rgba(255, 255, 255, 0.22);
+      background: #17365d;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+    }
+
+    .title-screen h1 {
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      font-size: clamp(1.25rem, 6vw, 4.75rem);
+      line-height: 1;
+      letter-spacing: 0.025em;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .title-art {
+      position: relative;
+      min-height: 0;
+      background-color: #d8c6a5;
+      background-image: url("assets/menu/main-menu.png");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    .title-screen .control-button {
+      position: absolute;
+      right: max(20px, env(safe-area-inset-right));
+      bottom: max(20px, env(safe-area-inset-bottom));
+      padding: 13px 26px;
+      border: 2px solid rgba(255, 255, 255, 0.75);
+      font-size: 1.1rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.42);
+    }
+
+    .status-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .stats {
+      display: flex;
+      gap: 16px;
+      font-weight: 700;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .control-button {
+      border: 0;
+      border-radius: 999px;
+      padding: 9px 15px;
+      background: #f8fafc;
+      color: #111827;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .control-button.secondary {
+      background: #334155;
+      color: #f8fafc;
+      box-shadow: inset 0 0 0 1px #64748b;
+    }
+
+    .control-button:hover {
+      transform: translateY(-1px);
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: clamp(8px, 1.7vw, 14px);
+      perspective: 1000px;
+    }
+
+    .card {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      border: 0;
+      padding: 0;
+      border-radius: 14px;
+      background: transparent;
+      cursor: pointer;
+      transform-style: preserve-3d;
+      transition: transform 0.42s ease;
+    }
+
+    .card:hover:not(.flipped):not(.matched) .card-back {
+      background: var(--card-back-hover);
+    }
+
+    .card:focus-visible {
+      outline: 4px solid #facc15;
+      outline-offset: 4px;
+    }
+
+    .card.flipped,
+    .card.matched {
+      transform: rotateY(180deg);
+    }
+
+    .card.matched {
+      cursor: default;
+    }
+
+    .card-face {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+    }
+
+    .card-back {
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent 55%),
+        var(--card-back);
+      color: white;
+      font-size: clamp(1.5rem, 7vw, 2.5rem);
+      font-weight: 900;
+    }
+
+    .card-front {
+      transform: rotateY(180deg);
+      background: var(--card-front);
+      color: var(--dark-text);
+    }
+
+    .card.matched .card-front {
+      box-shadow: 0 0 0 4px var(--success), 0 6px 16px rgba(0, 0, 0, 0.25);
+    }
+
+    .card-visual {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      height: 100%;
+      padding: 8px;
+    }
+
+    .card-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .image-fallback {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      padding: 8px;
+      color: #475569;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-align: center;
+      overflow-wrap: anywhere;
+    }
+
+    .message {
+      min-height: 28px;
+      margin: 18px 0 0;
+      font-weight: 800;
+      color: #bbf7d0;
+    }
+
+    .options-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    .options-header h2 {
+      margin: 0 0 4px;
+      font-size: clamp(1.4rem, 4vw, 2rem);
+    }
+
+    .options-header p {
+      margin: 0;
+      color: #cbd5e1;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: clamp(8px, 1.7vw, 14px);
+    }
+
+    .option-card {
+      aspect-ratio: 1 / 1;
+      display: grid;
+      place-items: center;
+      border: 0;
+      padding: 0;
+      border-radius: 14px;
+      background: var(--card-front);
+      color: var(--dark-text);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      cursor: zoom-in;
+    }
+
+    .option-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .option-card:focus-visible {
+      outline: 4px solid #facc15;
+      outline-offset: 4px;
+    }
+
+    body.viewer-open {
+      overflow: hidden;
+    }
+
+    .image-viewer {
+      width: 100vw;
+      height: 100vh;
+      max-width: none;
+      max-height: none;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: rgba(2, 6, 23, 0.98);
+      color: #f8fafc;
+    }
+
+    .image-viewer::backdrop {
+      background: #020617;
+    }
+
+    .viewer-shell {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      padding: clamp(56px, 8vw, 88px) clamp(16px, 4vw, 48px);
+    }
+
+    .viewer-image {
+      display: block;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .viewer-close {
+      position: absolute;
+      top: max(16px, env(safe-area-inset-top));
+      right: max(16px, env(safe-area-inset-right));
+      z-index: 2;
+      border: 1px solid #64748b;
+      border-radius: 999px;
+      padding: 10px 16px;
+      background: #f8fafc;
+      color: #111827;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .viewer-caption {
+      position: absolute;
+      left: 50%;
+      bottom: max(16px, env(safe-area-inset-bottom));
+      transform: translateX(-50%);
+      max-width: calc(100% - 32px);
+      margin: 0;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.82);
+      color: #f8fafc;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .viewer-fallback {
+      max-width: 34rem;
+      padding: 24px;
+      border: 1px solid #64748b;
+      border-radius: 14px;
+      color: #e2e8f0;
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 600px) {
+      .board {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .options-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 420px) {
+      body {
+        padding: 12px;
+      }
+
+      .game {
+        padding: 18px;
+      }
+
+      .status-bar,
+      .options-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .actions {
+        justify-content: flex-start;
+      }
+
+      .options-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .card,
+      .control-button {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="game">
+    <section class="title-screen" id="title-screen" aria-labelledby="main-title">
+      <header class="title-banner">
+        <h1 id="main-title">Storcks Bring the Babies</h1>
+      </header>
+      <div
+        class="title-art"
+        role="img"
+        aria-label="Pixel-art nurse at a medical reception desk speaking on the phone"
+      >
+        <button class="control-button" id="start-button" type="button">Start game</button>
+      </div>
+    </section>
+
+    <section id="game-screen" aria-labelledby="game-title" hidden>
+      <h1 id="game-title">Memory Match</h1>
+      <p class="subtitle">Find all ten matching pairs.</p>
+
+      <div class="status-bar">
+        <div class="stats" aria-live="polite">
+          <span>Moves: <strong id="moves">0</strong></span>
+          <span>Pairs: <strong id="pairs">0</strong>/10</span>
+        </div>
+        <div class="actions">
+          <button class="control-button secondary" id="view-options" type="button">View cards</button>
+          <button class="control-button" id="restart" type="button">Restart game</button>
+        </div>
+      </div>
+
+      <section class="board" id="board" aria-label="Memory game board"></section>
+      <p class="message" id="message" aria-live="polite"></p>
+    </section>
+
+    <section id="options-screen" aria-labelledby="options-title" hidden>
+      <div class="options-header">
+        <div>
+          <h2 id="options-title">Card Options</h2>
+          <p>These images are loaded from <code>assets/cards/</code>.</p>
+        </div>
+        <button class="control-button" id="back-to-game" type="button">Back to game</button>
+      </div>
+      <div class="options-grid" id="options-grid" aria-label="All ten card options"></div>
+    </section>
+  </main>
+
+  <dialog class="image-viewer" id="image-viewer" aria-labelledby="viewer-caption">
+    <div class="viewer-shell" id="viewer-shell">
+      <button class="viewer-close" id="viewer-close" type="button" aria-label="Close full-screen image">Close</button>
+      <img class="viewer-image" id="viewer-image" alt="" />
+      <div class="viewer-fallback" id="viewer-fallback" hidden></div>
+      <p class="viewer-caption" id="viewer-caption"></p>
+    </div>
+  </dialog>
+
+  <script>
+    const cardTypes = [
+      { id: "card-01", label: "Card image 1", src: "assets/cards/card-01.png" },
+      { id: "card-02", label: "Card image 2", src: "assets/cards/card-02.png" },
+      { id: "card-03", label: "Card image 3", src: "assets/cards/card-03.png" },
+      { id: "card-04", label: "Card image 4", src: "assets/cards/card-04.png" },
+      { id: "card-05", label: "Card image 5", src: "assets/cards/card-05.png" },
+      { id: "card-06", label: "Card image 6", src: "assets/cards/card-06.png" },
+      { id: "card-07", label: "Card image 7", src: "assets/cards/card-07.png" },
+      { id: "card-08", label: "Card image 8", src: "assets/cards/card-08.png" },
+      { id: "card-09", label: "Card image 9", src: "assets/cards/card-09.png" },
+      { id: "card-10", label: "Card image 10", src: "assets/cards/card-10.png" },
+    ];
+
+    const titleScreen = document.getElementById("title-screen");
+    const startButton = document.getElementById("start-button");
+    const board = document.getElementById("board");
+    const movesDisplay = document.getElementById("moves");
+    const pairsDisplay = document.getElementById("pairs");
+    const message = document.getElementById("message");
+    const restartButton = document.getElementById("restart");
+    const viewOptionsButton = document.getElementById("view-options");
+    const backToGameButton = document.getElementById("back-to-game");
+    const gameScreen = document.getElementById("game-screen");
+    const optionsScreen = document.getElementById("options-screen");
+    const optionsGrid = document.getElementById("options-grid");
+    const imageViewer = document.getElementById("image-viewer");
+    const viewerShell = document.getElementById("viewer-shell");
+    const viewerImage = document.getElementById("viewer-image");
+    const viewerFallback = document.getElementById("viewer-fallback");
+    const viewerCaption = document.getElementById("viewer-caption");
+    const viewerCloseButton = document.getElementById("viewer-close");
+
+    let firstCard = null;
+    let secondCard = null;
+    let boardLocked = false;
+    let moves = 0;
+    let matchedPairs = 0;
+    let hideTimer = null;
+    let lastViewerTrigger = null;
+
+    function shuffle(items) {
+      const shuffled = [...items];
+      for (let i = shuffled.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    }
+
+    function createFaceMarkup(cardType) {
+      return `
+        <span class="card-visual">
+          <img
+            class="card-image"
+            src="${cardType.src}"
+            alt="${cardType.label}"
+            loading="eager"
+          />
+          <span class="image-fallback" aria-hidden="true" hidden>Missing: ${cardType.src}</span>
+        </span>
+      `;
+    }
+
+    function attachImageFallbacks(root) {
+      root.querySelectorAll(".card-image").forEach((image) => {
+        image.addEventListener("error", () => {
+          image.hidden = true;
+          const fallback = image.nextElementSibling;
+          if (fallback) fallback.hidden = false;
+          console.error(`Could not load card image: ${image.getAttribute("src")}`);
+        }, { once: true });
+      });
+    }
+
+    function buildOptionsGallery() {
+      optionsGrid.innerHTML = "";
+      cardTypes.forEach((cardType, index) => {
+        const option = document.createElement("button");
+        option.type = "button";
+        option.className = "option-card";
+        option.setAttribute("aria-label", `Open card option ${index + 1}, ${cardType.label}, full screen`);
+        option.innerHTML = createFaceMarkup(cardType);
+        option.addEventListener("click", () => openImageViewer(cardType, option));
+        optionsGrid.appendChild(option);
+      });
+      attachImageFallbacks(optionsGrid);
+    }
+
+    function openImageViewer(cardType, trigger) {
+      lastViewerTrigger = trigger;
+      viewerImage.hidden = false;
+      viewerFallback.hidden = true;
+      viewerFallback.textContent = "";
+      viewerImage.alt = cardType.label;
+      viewerCaption.textContent = cardType.label;
+      viewerImage.src = cardType.src;
+      imageViewer.showModal();
+      document.body.classList.add("viewer-open");
+      viewerCloseButton.focus();
+    }
+
+    function closeImageViewer() {
+      if (imageViewer.open) {
+        imageViewer.close();
+      }
+    }
+
+    function showGameFromTitle() {
+      titleScreen.hidden = true;
+      gameScreen.hidden = false;
+      const firstCardButton = board.querySelector(".card");
+      if (firstCardButton) firstCardButton.focus();
+    }
+
+    function showOptions() {
+      gameScreen.hidden = true;
+      optionsScreen.hidden = false;
+      backToGameButton.focus();
+    }
+
+    function showGame() {
+      optionsScreen.hidden = true;
+      gameScreen.hidden = false;
+      viewOptionsButton.focus();
+    }
+
+    function createCard(cardType, index) {
+      const card = document.createElement("button");
+      card.type = "button";
+      card.className = "card";
+      card.dataset.cardId = cardType.id;
+      card.dataset.label = cardType.label;
+      card.setAttribute("aria-label", `Card ${index + 1}, face down`);
+      card.setAttribute("aria-pressed", "false");
+
+      card.innerHTML = `
+        <span class="card-face card-back" aria-hidden="true">?</span>
+        <span class="card-face card-front" aria-hidden="true">${createFaceMarkup(cardType)}</span>
+      `;
+
+      card.addEventListener("click", () => revealCard(card));
+      return card;
+    }
+
+    function startGame() {
+      if (hideTimer) {
+        clearTimeout(hideTimer);
+        hideTimer = null;
+      }
+
+      firstCard = null;
+      secondCard = null;
+      boardLocked = false;
+      moves = 0;
+      matchedPairs = 0;
+
+      movesDisplay.textContent = "0";
+      pairsDisplay.textContent = "0";
+      message.textContent = "";
+      board.innerHTML = "";
+
+      const deck = shuffle([...cardTypes, ...cardTypes]);
+      deck.forEach((cardType, index) => {
+        board.appendChild(createCard(cardType, index));
+      });
+      attachImageFallbacks(board);
+    }
+
+    function revealCard(card) {
+      if (
+        boardLocked ||
+        card === firstCard ||
+        card.classList.contains("matched")
+      ) {
+        return;
+      }
+
+      card.classList.add("flipped");
+      card.setAttribute("aria-pressed", "true");
+      card.setAttribute("aria-label", `Revealed card: ${card.dataset.label}`);
+
+      if (!firstCard) {
+        firstCard = card;
+        return;
+      }
+
+      secondCard = card;
+      moves += 1;
+      movesDisplay.textContent = String(moves);
+      boardLocked = true;
+
+      if (firstCard.dataset.cardId === secondCard.dataset.cardId) {
+        handleMatch();
+      } else {
+        hideUnmatchedCards();
+      }
+    }
+
+    function handleMatch() {
+      firstCard.classList.add("matched");
+      secondCard.classList.add("matched");
+      firstCard.disabled = true;
+      secondCard.disabled = true;
+
+      matchedPairs += 1;
+      pairsDisplay.textContent = String(matchedPairs);
+
+      resetTurn();
+
+      if (matchedPairs === cardTypes.length) {
+        message.textContent = `You found every pair in ${moves} moves!`;
+      }
+    }
+
+    function hideUnmatchedCards() {
+      hideTimer = window.setTimeout(() => {
+        [firstCard, secondCard].forEach((card) => {
+          card.classList.remove("flipped");
+          card.setAttribute("aria-pressed", "false");
+          const cardNumber = Array.from(board.children).indexOf(card) + 1;
+          card.setAttribute("aria-label", `Card ${cardNumber}, face down`);
+        });
+
+        hideTimer = null;
+        resetTurn();
+      }, 850);
+    }
+
+    function resetTurn() {
+      firstCard = null;
+      secondCard = null;
+      boardLocked = false;
+    }
+
+    viewerImage.addEventListener("error", () => {
+      const failedPath = viewerImage.getAttribute("src");
+      viewerImage.hidden = true;
+      viewerFallback.hidden = false;
+      viewerFallback.textContent = `Could not load image: ${failedPath}`;
+    });
+
+    viewerCloseButton.addEventListener("click", closeImageViewer);
+    viewerShell.addEventListener("click", (event) => {
+      if (event.target === viewerShell) closeImageViewer();
+    });
+    imageViewer.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      closeImageViewer();
+    });
+    imageViewer.addEventListener("close", () => {
+      document.body.classList.remove("viewer-open");
+      viewerImage.removeAttribute("src");
+      if (lastViewerTrigger) lastViewerTrigger.focus();
+    });
+
+    startButton.addEventListener("click", showGameFromTitle);
+    restartButton.addEventListener("click", startGame);
+    viewOptionsButton.addEventListener("click", showOptions);
+    backToGameButton.addEventListener("click", showGame);
+
+    buildOptionsGallery();
+    startGame();
+  </script>
+</body>
+</html>
