@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Storcks Bring the Babies</title>
+  <link rel="preload" as="image" href="assets/menu/main-menu.png" />
   <style>
     :root {
       color-scheme: light dark;
@@ -55,23 +56,58 @@
     }
 
     .title-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
       display: grid;
-      justify-items: center;
-      gap: 18px;
-      padding: clamp(36px, 10vw, 72px) 12px;
+      grid-template-rows: auto minmax(0, 1fr);
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: 0;
+      background: #0f172a;
+    }
+
+    .title-banner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: clamp(76px, 13vh, 138px);
+      padding: 16px clamp(16px, 4vw, 48px);
+      border-bottom: 4px solid rgba(255, 255, 255, 0.22);
+      background: #17365d;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
     }
 
     .title-screen h1 {
-      max-width: 12ch;
+      width: 100%;
+      max-width: none;
       margin: 0;
-      font-size: clamp(2.4rem, 10vw, 4.6rem);
-      line-height: 0.98;
-      text-wrap: balance;
+      font-size: clamp(1.25rem, 6vw, 4.75rem);
+      line-height: 1;
+      letter-spacing: 0.025em;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .title-art {
+      position: relative;
+      min-height: 0;
+      background-color: #d8c6a5;
+      background-image: url("assets/menu/main-menu.png");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
     }
 
     .title-screen .control-button {
-      padding: 12px 24px;
+      position: absolute;
+      right: max(20px, env(safe-area-inset-right));
+      bottom: max(20px, env(safe-area-inset-bottom));
+      padding: 13px 26px;
+      border: 2px solid rgba(255, 255, 255, 0.75);
       font-size: 1.1rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.42);
     }
 
     .status-bar {
@@ -385,8 +421,16 @@
 <body>
   <main class="game">
     <section class="title-screen" id="title-screen" aria-labelledby="main-title">
-      <h1 id="main-title">Storcks Bring the Babies</h1>
-      <button class="control-button" id="start-button" type="button">Start game</button>
+      <header class="title-banner">
+        <h1 id="main-title">Storcks Bring the Babies</h1>
+      </header>
+      <div
+        class="title-art"
+        role="img"
+        aria-label="Pixel-art nurse at a medical reception desk speaking on the phone"
+      >
+        <button class="control-button" id="start-button" type="button">Start game</button>
+      </div>
     </section>
 
     <section id="game-screen" aria-labelledby="game-title" hidden>
