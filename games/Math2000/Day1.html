@@ -35,7 +35,7 @@ const shuffle=a=>{a=[...a];for(let i=a.length-1;i;i--){const j=ri(0,i);[a[i],a[j
 const same=(A,B)=>JSON.stringify(A)===JSON.stringify(B);
 function tally(ok){tries++;if(ok){right++;score+=10}document.getElementById('score').textContent=score;document.getElementById('right').textContent=right;document.getElementById('tries').textContent=tries}
 function feedback(id,ok,msg){const e=document.getElementById(id);e.className='feedback '+(ok?'good':'bad');e.textContent=msg}
-function eq(coefs,c,vars){return coefs.map((v,i)=>`${i?(v<0?'−':'+'):(v<0?'−':'')} ${Math.abs(v)}${vars[i]}`).join(' ').trim()+` = ${c}`}
+function eq(coefs,c,vars){const terms=coefs.map((v,i)=>({v,i})).filter(t=>t.v!==0);if(!terms.length)return `0 = ${c}`;return terms.map((t,j)=>`${j?(t.v<0?'−':'+'):(t.v<0?'−':'')} ${Math.abs(t.v)}${vars[t.i]}`).join(' ').trim()+` = ${c}`}
 function pair(max=5){let a,b;do{a=ri(0,max);b=ri(0,max)}while(!a&&!b);return[a,b]}
 
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{level=+b.dataset.level;document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x===b));render()});
