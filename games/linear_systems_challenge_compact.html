@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Linear Systems Challenge</title>
+<style>
+  *{box-sizing:border-box} body{margin:0;background:#f4f6fa;color:#182033;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+  .app{max-width:950px;margin:24px auto;padding:0 14px} header{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+  h1{margin:0;font-size:clamp(1.6rem,4vw,2.25rem)} .score{font-weight:800;background:white;border:1px solid #d7dce6;border-radius:999px;padding:9px 14px}
+  nav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0} button{border:0;border-radius:10px;padding:11px 14px;font-weight:800;cursor:pointer}
+  nav button,.secondary{background:white;border:1px solid #d7dce6;color:#182033}.active,.primary{background:#3455d1!important;color:white!important;border-color:#3455d1!important}
+  .panel{background:white;border:1px solid #d7dce6;border-radius:16px;padding:22px;box-shadow:0 8px 24px #1720330d}.muted{color:#667085;line-height:1.5}
+  .eqs{display:grid;gap:8px;margin:16px 0;font:1.25rem Georgia,serif}.eq{padding:8px 12px;background:#f8f9ff;border-left:4px solid #3455d1;border-radius:7px}
+  .choices{display:grid;gap:9px;margin:16px 0}.choice{padding:10px 12px;border:1px solid #d7dce6;border-radius:9px;display:flex;gap:9px;align-items:center}
+  .actions{display:flex;gap:8px;flex-wrap:wrap}.feedback{display:none;margin-top:14px;padding:11px 13px;border-radius:9px;font-weight:700}.good{display:block;background:#ecfdf3;color:#067647}.bad{display:block;background:#fef3f2;color:#b42318}
+  #graphBox{display:none;margin-top:18px;padding-top:16px;border-top:1px solid #e3e7ee}canvas{width:100%;max-width:620px;height:auto;border:1px solid #d7dce6;border-radius:10px}
+  .matrix{display:inline-grid;gap:6px;border-left:3px solid #182033;border-right:3px solid #182033;padding:10px 14px;margin:12px 0}.mrow{display:grid;grid-template-columns:repeat(var(--n),54px);gap:6px}.matrix input{width:54px;padding:8px 4px;text-align:center;border:1px solid #cfd5df;border-radius:6px;font-size:1rem}.divider{border-left:2px solid #7d8798!important}.cellGood{background:#ecfdf3!important;border-color:#32d583!important}.cellBad{background:#fef3f2!important;border-color:#f04438!important}
+  .systems{display:grid;grid-template-columns:1fr 1fr;gap:14px}.sys{border:1px solid #d7dce6;border-radius:10px;padding:12px}.sys h3{margin:0;color:#667085;font-size:1rem}.answer{white-space:pre-wrap;font-family:ui-monospace,monospace;color:#667085;margin-top:10px}
+  @media(max-width:680px){nav,.systems{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header><div><h1>Linear Systems Challenge</h1><div class="muted">Infinite practice • +10 points per correct answer</div></div><div class="score">Score <span id="score">0</span> • <span id="right">0</span>/<span id="tries">0</span></div></header>
+  <nav><button class="active" data-level="1">Level 1: Solutions</button><button data-level="2">Level 2: Matrices</button><button data-level="3">Level 3: Row Operations</button></nav>
+  <main class="panel" id="panel"></main>
+</div>
+<script>
+let level=1,problem=null,locked=false,score=0,right=0,tries=0;
+const panel=document.getElementById('panel');
+const ri=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i;i--){const j=ri(0,i);[a[i],a[j]]=[a[j],a[i]]}return a};
+const same=(A,B)=>JSON.stringify(A)===JSON.stringify(B);
+function tally(ok){tries++;if(ok){right++;score+=10}document.getElementById('score').textContent=score;document.getElementById('right').textContent=right;document.getElementById('tries').textContent=tries}
+function feedback(id,ok,msg){const e=document.getElementById(id);e.className='feedback '+(ok?'good':'bad');e.textContent=msg}
+function eq(coefs,c,vars){return coefs.map((v,i)=>`${i?(v<0?'−':'+'):(v<0?'−':'')} ${Math.abs(v)}${vars[i]}`).join(' ').trim()+` = ${c}`}
+function pair(max=5){let a,b;do{a=ri(0,max);b=ri(0,max)}while(!a&&!b);return[a,b]}
+
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{level=+b.dataset.level;document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x===b));render()});
+
+// LEVEL 1 ---------------------------------------------------------------
+function makeL1(){
+  const type=pick(['zero','one','infinite']); let a1,b1,c1,a2,b2,c2;
+  if(type==='one'){
+    [a1,b1]=pair();do{[a2,b2]=pair()}while(a1*b2-a2*b1===0);c1=ri(-10,10);c2=ri(-10,10);
+  }else if(type==='zero'){
+    [a1,b1]=pair();a2=a1;b2=b1;c1=ri(-10,10);do{c2=ri(-10,10)}while(c2===c1);
+  }else{
+    [a1,b1]=pair(2);c1=ri(-5,5);a2=2*a1;b2=2*b1;c2=2*c1;
+  }
+  return{type,lines:[{a:a1,b:b1,c:c1},{a:a2,b:b2,c:c2}]};
+}
+function renderL1(){
+  problem=makeL1();locked=false;const [p,q]=problem.lines;
+  panel.innerHTML=`<h2>Level 1 — How many solutions?</h2><p class="muted">Choose 0, 1, or infinitely many solutions. The graph appears after submission.</p>
+  <div class="eqs"><div class="eq">${eq([p.a,p.b],p.c,['x','y'])}</div><div class="eq">${eq([q.a,q.b],q.c,['x','y'])}</div></div>
+  <div class="choices"><label class="choice"><input type="radio" name="sol" value="zero">0 solutions</label><label class="choice"><input type="radio" name="sol" value="one">1 solution</label><label class="choice"><input type="radio" name="sol" value="infinite">Infinitely many solutions</label></div>
+  <div class="actions"><button class="primary" id="s1">Submit</button><button class="secondary" id="n1">New Problem</button></div><div id="f1" class="feedback"></div>
+  <div id="graphBox"><canvas id="graph" width="620" height="380"></canvas><div class="muted">Solid = equation 1 • dashed = equation 2</div></div>`;
+  document.getElementById('s1').onclick=submitL1;document.getElementById('n1').onclick=renderL1;
+}
+function submitL1(){
+  if(locked)return;const c=document.querySelector('input[name=sol]:checked');if(!c){feedback('f1',false,'Choose an answer first.');return}
+  locked=true;document.querySelectorAll('input[name=sol]').forEach(x=>x.disabled=true);document.getElementById('s1').disabled=true;const ok=c.value===problem.type;tally(ok);
+  const label={zero:'0 solutions',one:'1 solution',infinite:'infinitely many solutions'}[problem.type];feedback('f1',ok,(ok?'Correct! ':'Not quite. ')+`This system has ${label}.`);document.getElementById('graphBox').style.display='block';draw(problem.lines);
+}
+function draw(lines){
+  const c=document.getElementById('graph'),g=c.getContext('2d'),W=c.width,H=c.height,pad=34,[u,v]=lines,det=u.a*v.b-v.a*u.b;let R=10;
+  if(det){const x=(u.c*v.b-u.b*v.c)/det,y=(u.a*v.c-u.c*v.a)/det;R=Math.max(10,Math.ceil(1.25*Math.max(Math.abs(x),Math.abs(y))+1))}
+  const X=x=>pad+(x+R)/(2*R)*(W-2*pad),Y=y=>H-pad-(y+R)/(2*R)*(H-2*pad);g.clearRect(0,0,W,H);g.fillStyle='white';g.fillRect(0,0,W,H);
+  g.strokeStyle='#e7eaf0';g.lineWidth=1;g.setLineDash([]);for(let i=0;i<=10;i++){let x=pad+i/10*(W-2*pad),y=pad+i/10*(H-2*pad);g.beginPath();g.moveTo(x,pad);g.lineTo(x,H-pad);g.stroke();g.beginPath();g.moveTo(pad,y);g.lineTo(W-pad,y);g.stroke()}
+  g.strokeStyle='#667085';g.lineWidth=1.5;g.beginPath();g.moveTo(X(0),pad);g.lineTo(X(0),H-pad);g.stroke();g.beginPath();g.moveTo(pad,Y(0));g.lineTo(W-pad,Y(0));g.stroke();
+  ['#3455d1','#d92d20'].forEach((color,i)=>{const L=lines[i];g.strokeStyle=color;g.lineWidth=3;g.setLineDash(i?[10,7]:[]);g.beginPath();if(L.b){const yl=(L.c+L.a*R)/L.b,yr=(L.c-L.a*R)/L.b;g.moveTo(X(-R),Y(yl));g.lineTo(X(R),Y(yr))}else{const x=L.c/L.a;g.moveTo(X(x),Y(-R));g.lineTo(X(x),Y(R))}g.stroke()});g.setLineDash([]);
+}
+
+// LEVEL 2 ---------------------------------------------------------------
+function makeL2(){
+  const rows=ri(3,5),cols=ri(3,5),A=[],b=[];for(let r=0;r<rows;r++){let row;do{row=Array.from({length:cols},()=>ri(-2,2))}while(row.every(x=>x===0));A.push(row);b.push(ri(-5,5))}return{rows,cols,A,b,type:Math.random()<.5?'coefficient':'augmented'};
+}
+function renderL2(){
+  problem=makeL2();locked=false;const p=problem,vars=Array.from({length:p.cols},(_,i)=>`x${i+1}`),n=p.cols+(p.type==='augmented');
+  const eqs=p.A.map((r,i)=>`<div class="eq">${eq(r,p.b[i],vars)}</div>`).join('');
+  const matrix=Array.from({length:p.rows},(_,r)=>`<div class="mrow" style="--n:${n}">${Array.from({length:n},(_,c)=>`<input inputmode="numeric" data-r="${r}" data-c="${c}" class="${p.type==='augmented'&&c===p.cols?'divider':''}">`).join('')}</div>`).join('');
+  panel.innerHTML=`<h2>Level 2 — Build the matrix</h2><p class="muted">Enter the <strong>${p.type} matrix</strong> for this ${p.rows}-equation, ${p.cols}-variable system.</p><div class="eqs">${eqs}</div><div style="overflow:auto"><div class="matrix">${matrix}</div></div><div class="actions"><button class="primary" id="s2">Submit Matrix</button><button class="secondary" id="n2">New Problem</button></div><div id="f2" class="feedback"></div><div id="a2" class="answer"></div>`;
+  document.getElementById('s2').onclick=submitL2;document.getElementById('n2').onclick=renderL2;
+}
+function submitL2(){
+  if(locked)return;const p=problem,E=p.A.map((r,i)=>p.type==='augmented'?[...r,p.b[i]]:[...r]),ins=[...panel.querySelectorAll('.matrix input')];if(ins.some(x=>x.value.trim()==='')){feedback('f2',false,'Fill every entry first.');return}
+  let good=0;ins.forEach(x=>{const ok=Number.isInteger(Number(x.value))&&Number(x.value)===E[+x.dataset.r][+x.dataset.c];good+=ok;x.classList.add(ok?'cellGood':'cellBad')});locked=true;ins.forEach(x=>x.disabled=true);document.getElementById('s2').disabled=true;const ok=good===ins.length;tally(ok);feedback('f2',ok,ok?'Correct! Every entry is right.':`You got ${good} of ${ins.length} entries correct.`);if(!ok)document.getElementById('a2').textContent='Correct matrix:\n'+E.map(r=>'[ '+r.join('   ')+' ]').join('\n');
+}
+
+// LEVEL 3 ---------------------------------------------------------------
+const scales=[-2,-1,2],adds=[-2,-1,1,2],OPS=[];
+for(let i=0;i<3;i++)for(let j=i+1;j<3;j++)OPS.push({t:'swap',i,j});
+for(let i=0;i<3;i++)for(const k of scales)OPS.push({t:'scale',i,k});
+for(let i=0;i<3;i++)for(let j=0;j<3;j++)if(i!==j)for(const k of adds)OPS.push({t:'add',i,j,k});
+function apply(S,o){const T=S.map(r=>[...r]);if(o.t==='swap')[T[o.i],T[o.j]]=[T[o.j],T[o.i]];if(o.t==='scale')T[o.i]=T[o.i].map(x=>o.k*x);if(o.t==='add')T[o.i]=T[o.i].map((x,c)=>x+o.k*T[o.j][c]);return T}
+function opText(o){if(o.t==='swap')return`Swap R${o.i+1} and R${o.j+1}`;if(o.t==='scale')return`R${o.i+1} → ${o.k}R${o.i+1}`;return`R${o.i+1} → R${o.i+1} ${o.k<0?'−':'+'} ${Math.abs(o.k)}R${o.j+1}`}
+function base(){return Array.from({length:3},()=>{let r;do{r=[ri(-4,4),ri(-4,4),ri(-4,4),ri(-8,8)]}while(r.slice(0,3).every(x=>x===0));return r})}
+function makeL3(){
+  for(let z=0;z<500;z++){const A=base(),kind=pick(['swap','scale','add']),correct=pick(OPS.filter(o=>o.t===kind)),B=apply(A,correct),matches=OPS.filter(o=>same(apply(A,o),B));if(matches.length!==1)continue;const ds=shuffle(OPS.filter(o=>!same(o,correct)&&!same(apply(A,o),B))).slice(0,5);return{A,B,correct,options:shuffle([correct,...ds])}}
+  const A=[[1,2,0,3],[0,1,-1,2],[2,-1,1,4]],correct={t:'swap',i:0,j:2},B=apply(A,correct),ds=shuffle(OPS.filter(o=>!same(o,correct)&&!same(apply(A,o),B))).slice(0,5);return{A,B,correct,options:shuffle([correct,...ds])};
+}
+function sys(S,title){return`<div class="sys"><h3>${title}</h3><div class="eqs">${S.map(r=>`<div class="eq">${eq(r.slice(0,3),r[3],['x','y','z'])}</div>`).join('')}</div></div>`}
+function renderL3(){
+  problem=makeL3();locked=false;const opts=problem.options.map((o,i)=>`<label class="choice"><input type="radio" name="op" value="${i}">${opText(o)}</label>`).join('');
+  panel.innerHTML=`<h2>Level 3 — Identify the row operation</h2><p class="muted">System B comes from System A by exactly one elementary row operation.</p><div class="systems">${sys(problem.A,'System A')}${sys(problem.B,'System B')}</div><div class="choices">${opts}</div><div class="actions"><button class="primary" id="s3">Submit</button><button class="secondary" id="n3">New Problem</button></div><div id="f3" class="feedback"></div>`;document.getElementById('s3').onclick=submitL3;document.getElementById('n3').onclick=renderL3;
+}
+function submitL3(){
+  if(locked)return;const c=document.querySelector('input[name=op]:checked');if(!c){feedback('f3',false,'Choose an operation first.');return}locked=true;document.querySelectorAll('input[name=op]').forEach(x=>x.disabled=true);document.getElementById('s3').disabled=true;const chosen=problem.options[+c.value],ok=same(chosen,problem.correct);tally(ok);feedback('f3',ok,(ok?'Correct! ':'Not quite. The operation was: ')+opText(problem.correct));
+}
+
+function render(){if(level===1)renderL1();if(level===2)renderL2();if(level===3)renderL3()}render();
+</script>
+</body>
+</html>
