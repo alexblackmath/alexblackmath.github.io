@@ -54,17 +54,19 @@ function makeL1(){
 }
 function renderL1(){
   problem=makeL1();locked=false;const [p,q]=problem.lines;
-  panel.innerHTML=`<h2>Level 1 — How many solutions?</h2><p class="muted">Choose 0, 1, or infinitely many solutions. The graph appears after submission.</p>
+  panel.innerHTML=`<h2>Level 1 — How many solutions?</h2><p class="muted">Choose 0, 1, or infinitely many solutions, and decide whether the system is consistent or inconsistent. The graph appears after submission.</p>
   <div class="eqs"><div class="eq">${eq([p.a,p.b],p.c,['x','y'])}</div><div class="eq">${eq([q.a,q.b],q.c,['x','y'])}</div></div>
   <div class="choices"><label class="choice"><input type="radio" name="sol" value="zero">0 solutions</label><label class="choice"><input type="radio" name="sol" value="one">1 solution</label><label class="choice"><input type="radio" name="sol" value="infinite">Infinitely many solutions</label></div>
+  <div class="choices"><label class="choice"><input type="radio" name="cons" value="consistent">Consistent</label><label class="choice"><input type="radio" name="cons" value="inconsistent">Inconsistent</label></div>
   <div class="actions"><button class="primary" id="s1">Submit</button><button class="secondary" id="n1">New Problem</button></div><div id="f1" class="feedback"></div>
   <div id="graphBox"><canvas id="graph" width="620" height="380"></canvas><div class="muted">Solid = equation 1 • dashed = equation 2</div></div>`;
   document.getElementById('s1').onclick=submitL1;document.getElementById('n1').onclick=renderL1;
 }
 function submitL1(){
-  if(locked)return;const c=document.querySelector('input[name=sol]:checked');if(!c){feedback('f1',false,'Choose an answer first.');return}
-  locked=true;document.querySelectorAll('input[name=sol]').forEach(x=>x.disabled=true);document.getElementById('s1').disabled=true;const ok=c.value===problem.type;tally(ok);
-  const label={zero:'0 solutions',one:'1 solution',infinite:'infinitely many solutions'}[problem.type];feedback('f1',ok,(ok?'Correct! ':'Not quite. ')+`This system has ${label}.`);document.getElementById('graphBox').style.display='block';draw(problem.lines);
+  if(locked)return;const c=document.querySelector('input[name=sol]:checked'),d=document.querySelector('input[name=cons]:checked');if(!c||!d){feedback('f1',false,'Choose both the number of solutions and whether the system is consistent or inconsistent.');return}
+  locked=true;document.querySelectorAll('input[name=sol],input[name=cons]').forEach(x=>x.disabled=true);document.getElementById('s1').disabled=true;
+  const correctConsistency=problem.type==='zero'?'inconsistent':'consistent',ok=c.value===problem.type&&d.value===correctConsistency;tally(ok);
+  const label={zero:'0 solutions',one:'1 solution',infinite:'infinitely many solutions'}[problem.type];feedback('f1',ok,(ok?'Correct! ':'Not quite. ')+`This system has ${label} and is ${correctConsistency}.`);document.getElementById('graphBox').style.display='block';draw(problem.lines);
 }
 function draw(lines){
   const c=document.getElementById('graph'),g=c.getContext('2d'),W=c.width,H=c.height,pad=34,[u,v]=lines,det=u.a*v.b-v.a*u.b;let R=10;
