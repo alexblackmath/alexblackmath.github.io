@@ -10,10 +10,10 @@
   </docinfo>
 
   <article xml:id="shorttitlelowercase">
-    <title>Day 1 Solutions</title>
+    <title>Day 2 Solutions</title>
 
     <xi:include href="./frontmatter.ptx" />
-    <xi:include href="./section-1.ptx" />
+    <xi:include href="./exercises.ptx" />
   </article>
 
 </pretext>
