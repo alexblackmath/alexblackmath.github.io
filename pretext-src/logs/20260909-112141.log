@@ -1,0 +1,13 @@
+INFO    : Building target web
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.52.3/core/xsl/utilities/pretext-enhanced-source.xsl
+ERROR   : Error loading /workspaces/alexblackmath.github.io/pretext-src/source/sec-span-independence.ptx: Error reading file '/workspaces/alexblackmath.github.io/pretext-src/source/sec-span-independence.ptx': failed to load "/workspaces/alexblackmath.github.io/pretext-src/source/sec-span-independence.ptx": No such file or directory
+ERROR   : Error assembling source file: Error reading file '/workspaces/alexblackmath.github.io/pretext-src/source/sec-span-independence.ptx': failed to load "/workspaces/alexblackmath.github.io/pretext-src/source/sec-span-independence.ptx": No such file or directory
+FATAL   : XML syntax for source file is invalid
+INFO    : ------------------------
+exit    : Failed to build without errors.  Exiting...
+INFO    : 
+----------------------------------------------------
+INFO    : While running pretext, the following errors occurred:
+
+INFO    : (see log messages above or in the 'logs' folder for more information)
+INFO    : ----------------------------------------------------

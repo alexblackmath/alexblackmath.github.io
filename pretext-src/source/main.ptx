@@ -10,9 +10,12 @@
   </docinfo>
 
   <article xml:id="shorttitlelowercase">
-    <title>Day 2 Solutions</title>
+    <title>Despicable, ME</title>
 
     <xi:include href="./frontmatter.ptx" />
+    <xi:include href="./review.ptx" />
+    <xi:include href="./sec-vector-perkins.ptx" />
+    <xi:include href="./sec-span-independence.ptx" />
     <xi:include href="./exercises.ptx" />
   </article>
 

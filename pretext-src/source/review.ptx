@@ -1,0 +1,43 @@
+<section xml:id="review">
+      <title>Reduced Row Echelon Form Review</title>
+      <exercise xml:id="ex-rref-review">
+        <introduction>
+          <p>
+            For each of the following augmented matrices of linear systems, are they in reduced row echelon form, are the systems consistent, and what is the dimension of the solution space if they are?
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>
+              <md>\begin{pmatrix} 1 &amp; 1 &amp; 0 &amp; 2 &amp; 5 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 1 &amp; 5 &amp; 2\end{pmatrix}</md>
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              <md>\begin{pmatrix}
+1 &amp; 0 &amp; 1 &amp; 0 \\
+0 &amp; 1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 1 &amp; 1
+\end{pmatrix}</md>
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              <md>\begin{pmatrix}
+1 &amp; 0 \\
+0 &amp; 1 \\
+0 &amp; 0 \\
+0 &amp; 0 \\
+0 &amp; 0
+\end{pmatrix}</md>
+            </p>
+          </statement>
+        </task>
+      </exercise>
+    </section>

@@ -1,0 +1,59 @@
+ <section xml:id="sec-span-independence">
+      <title>Span and Independence</title>
+      <p>
+        From the previous section, we have seen that a plane may always be parametrized as linear function with vector coefficients. Namely, it is the set of all vectors of the form
+      </p>
+      <p>
+        <md>\vec{b} + \sum_{i=1}^{k} x_{i}\vec{v}_{i}.</md>
+      </p>
+      <p>
+        Ignoring <m>\vec{b}</m> as it is just a translation term, we define the <term>span</term> of a set of vectors <m>\text{span}(\vec{v}_{1}, \vec{v}_{2},\dots, \vec{v}_{k})</m> to be the set of all linear combinations of those vectors. Then a plane may always be represented by
+      </p>
+      <p>
+        <md>\vec{b} + \text{span}(\vec{v}_{1}, \dots, \vec{v}_{k}).</md>
+      </p>
+      <p>
+        A set of vectors <m>\vec{v}_{1}, \dots, \vec{v}_{k}</m> is called <term>spanning</term> if
+      </p>
+      <p>
+        <md>\text{span}(\vec{v}_{1}, \dots, \vec{v}_{k}) = \mathbb{R}^{n}.</md>
+      </p>
+      <theorem xml:id="thm-spanning-pivots">
+        <statement>
+          <p>
+            A set of vectors <m>\vec{v}_{1}, \dots, \vec{v}_{k}</m> in <alert>
+              <m>\mathbb{R}^{n}</m>
+            </alert> is spanning if and only if the matrix
+          </p>
+          <p>
+            <md>\begin{pmatrix} \vec{v}_{1} &amp; \vec{v}_{2} &amp; \dots &amp; \vec{v}_{k} \end{pmatrix}.</md>
+          </p>
+          <p>
+            has <alert>
+              <m>n</m> pivot columns</alert> in reduced row echelon form. More generally, the dimension of the span of <m>\vec{v}_{1}, \dots, \vec{v}_{k}</m> is the number of pivots of that matrixin reduced row echelon form.
+          </p>
+        </statement>
+      </theorem>
+      <p>
+        Oftentimes a list of vectors is redundant in that you can remove a vector from the list and get the same span. This happens when one of the vectors may be written as a linear combination of the others. In that case, we call the vectors <term>linearly dependent</term> and <term>linearly independent</term> otherwise.
+      </p>
+      <theorem xml:id="thm-linear-independence-equivalences">
+        <statement>
+          <p>The following are equivalent for vectors <m>\vec{v}_{1}, \dots, \vec{v}_{k}</m> in <m>\mathbb{R}^{n}</m>:</p>
+          <p>
+            <ul>
+              <li>
+                <p>
+                  <m>\vec{v}_{1}, \dots, \vec{v}_{k}</m> are linearly independent</p>
+              </li>
+              <li>
+                <p>If <m>\sum_{i=1}^{k} x_{i}\vec{v}_{i}</m>, then <m>x_{i} = 0</m> for all <m>i \in [k]</m>.</p>
+              </li>
+              <li>
+                <p>All columns of the matrix <m>\begin{pmatrix} \vec{v}_{1} &amp; \vec{v}_{2} &amp; \dots &amp; \vec{v}_{k} \end{pmatrix}</m> are pivot columns in reduced row echelon form.</p>
+              </li>
+            </ul>
+          </p>
+        </statement>
+      </theorem>
+    </section>

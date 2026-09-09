@@ -1,293 +1,108 @@
-<section xml:id="exercises">
-  <title>Exercises</title>
-
-  <p>
-    <alert>NOTE:</alert> You are not expected to have solved all of these exercises
-    in class. Their sole purpose is to start having you think about the material
-    while I'm there, so we can talk about it together.
-  </p>
-
-  <exercise>
-    <introduction>
-      <p>
-        Consider the following system of linear equations in variables
-        <m>x_{1}, x_{2}, y_{1}, y_{2}, y_{3}, y_{4}</m>:
-        <md number="no">
-          <mrow>x_{1} + y_{1} \amp = 1</mrow>
-          <mrow>-x_{1} + y_{2} \amp = 0</mrow>
-          <mrow>x_{2} + y_{3} \amp = 1</mrow>
-          <mrow>-x_{2} + y_{4} \amp = 0</mrow>
-        </md>
-      </p>
-    </introduction>
-
-    <task>
-      <statement>
-        <p>Write down the augmented matrix.</p>
-      </statement>
-      <solution>
-        <p>
-          The augmented matrix is
-          <me>
-            \begin{pmatrix}
-              1 \amp 0 \amp 1 \amp 0 \amp 0 \amp 0 \amp 1 \\
-              -1 \amp 0 \amp 0 \amp 1 \amp 0 \amp 0 \amp 0 \\
-              0 \amp 1 \amp 0 \amp 0 \amp 1 \amp 0 \amp 1 \\
-              0 \amp -1 \amp 0 \amp 0 \amp 0 \amp 1 \amp 0
-            \end{pmatrix}
-          </me>
-        </p>
-      </solution>
-    </task>
-
-    <task>
-      <statement>
-        <p>Put the augmented matrix in reduced row echelon form.</p>
-      </statement>
-      <solution>
-        <p>
-          To put it in reduced row echelon form, you first look for the left most
-          column with nonzero entry. That is your first pivot column. Pick a
-          favorite row whose leading entry is in that column. I pick the first
-          row. Then rescale it so the leading entry is <m>1</m>. That is already
-          the case, so I don't do anything. Then for every other row with same
-          leading entry, replace it with the row plus a multiple of the first row
-          that cancels out that entry. Here the only row other than the first with
-          the leading entry in the first column is the second row, so I replace
-          the second row with it plus the first row to get the following:
-          <me>
-            \begin{pmatrix}
-              1 \amp 0 \amp 1 \amp 0 \amp 0 \amp 0 \amp 1 \\
-              0 \amp 0 \amp 1 \amp 1 \amp 0 \amp 0 \amp 1 \\
-              0 \amp 1 \amp 0 \amp 0 \amp 1 \amp 0 \amp 1 \\
-              0 \amp -1 \amp 0 \amp 0 \amp 0 \amp 1 \amp 0
-            \end{pmatrix}
-          </me>
-        </p>
-
-        <p>
-          Now there is a unique row, the first row, with leading entry in the first
-          column, and that entry is equal to <m>1</m>. That is what we want, so now
-          we look at all rows with next leftmost leading entry. Here those are rows
-          <m>3</m> and <m>4</m>. I pick my favorite. Here I choose row <m>3</m>.
-          You rescale it so its leading entry. Here that is already the case, so
-          we're golden. Now we take any other row with leading entry in the same
-          column. The only other row like that is row 4. We want to cancel out the
-          entry in that column. To do that we replace it with it plus the suitable
-          scaling of our favorite row, row 3. Here we replace row 4 with row 4 plus
-          row 3.
-          <me>
-            \begin{pmatrix}
-              1 \amp 0 \amp 1 \amp 0 \amp 0 \amp 0 \amp 1 \\
-              0 \amp 0 \amp 1 \amp 1 \amp 0 \amp 0 \amp 1 \\
-              0 \amp 1 \amp 0 \amp 0 \amp 1 \amp 0 \amp 1 \\
-              0 \amp 0 \amp 0 \amp 0 \amp 1 \amp 1 \amp 1
-            \end{pmatrix}
-          </me>
-        </p>
-
-        <p>
-          Now the second column has a unique nonzero entry equal to <m>1</m>. We
-          move that row up to the top using interchange directly below the row with
-          the previous pivot element. This yields the following matrix:
-          <me>
-            \begin{pmatrix}
-              1 \amp 0 \amp 1 \amp 0 \amp 0 \amp 0 \amp 1 \\
-              0 \amp 1 \amp 0 \amp 0 \amp 1 \amp 0 \amp 1 \\
-              0 \amp 0 \amp 1 \amp 1 \amp 0 \amp 0 \amp 1 \\
-              0 \amp 0 \amp 0 \amp 0 \amp 1 \amp 1 \amp 1
-            \end{pmatrix}
-          </me>
-        </p>
-
-        <p>
-          Now again we look at the next column with earliest leading entry among
-          the remaining rows. That is the third column. We pick our favorite row
-          with leading entry in that column. That is row <m>3</m>. Then we replace
-          any other row with a nonzero entry in that column by adding a scalar
-          multiple of row <m>3</m> to cancel it out. In this case, that row would
-          be row <m>1</m>. And to cancel out the third entry in row <m>1</m>, I
-          subtract row <m>3</m>. This yields the following:
-          <me>
-            \begin{pmatrix}
-              1 \amp 0 \amp 0 \amp -1 \amp 0 \amp 0 \amp 0 \\
-              0 \amp 1 \amp 0 \amp 0 \amp 1 \amp 0 \amp 1 \\
-              0 \amp 0 \amp 1 \amp 1 \amp 0 \amp 0 \amp 1 \\
-              0 \amp 0 \amp 0 \amp 0 \amp 1 \amp 1 \amp 1
-            \end{pmatrix}
-          </me>
-        </p>
-
-        <p>
-          Now there is a unique nonzero entry in the third column. It is equal to
-          <m>1</m>, and it is in the row at the top among the remaining rows to
-          look at. That means we move on to looking at the last row. I look at the
-          leading entry. It is in column <m>5</m>. It is equal to <m>1</m> already,
-          so we don't need to scale it. There is <m>1</m> other row with a nonzero
-          entry in that column, which is row <m>2</m>. We cancel it out with
-          replacement:
-          <me>
-            \begin{pmatrix}
-              1 \amp 0 \amp 0 \amp -1 \amp 0 \amp 0 \amp 0 \\
-              0 \amp 1 \amp 0 \amp 0 \amp 0 \amp -1 \amp 0 \\
-              0 \amp 0 \amp 1 \amp 1 \amp 0 \amp 0 \amp 1 \\
-              0 \amp 0 \amp 0 \amp 0 \amp 1 \amp 1 \amp 1
-            \end{pmatrix}
-          </me>
-        </p>
-
-        <p>
-          After all that labor, the resulting matrix is in reduced row echelon
-          form.
-        </p>
-      </solution>
-    </task>
-
-    <task>
-      <statement>
-        <p>What is the dimension of the solution set?</p>
-      </statement>
-      <solution>
-        <p>
-          There are four pivot columns, columns <m>1, 2, 3,</m> and <m>5</m>
-          corresponding to variables <m>x_{1}, x_{2}, y_{1}, y_{3}</m>. Those are
-          our dependent variables. There are three non-pivot columns. Two
-          correspond to independent variables <m>y_{2}</m> and <m>y_{4}</m>. The
-          final column corresponds to constants. Since there are two independent
-          variables, the solution set is two dimensional. The resulting system of
-          equations is
-          <md number="no">
-            <mrow>x_{1} - y_{2} \amp = 0</mrow>
-            <mrow>x_{2} - y_{4} \amp = 0</mrow>
-            <mrow>y_{1} + y_{2} \amp = 1</mrow>
-            <mrow>y_{3} + y_{4} \amp = 1</mrow>
-          </md>
-        </p>
-      </solution>
-    </task>
-
-    <task>
-      <statement>
-        <p>Give an explicit parametrization of the solution set.</p>
-      </statement>
-      <solution>
-        <p>
-          Since <m>y_{2}</m> and <m>y_{4}</m> are independent variables, to
-          parametrize the solution set, we solve in terms of <m>y_{2}</m> and
-          <m>y_{4}</m>. Then we get
-          <md number="no">
-            <mrow>x_{1} \amp = y_{2}</mrow>
-            <mrow>x_{2} \amp = y_{4}</mrow>
-            <mrow>y_{1} \amp = 1-y_{2}</mrow>
-            <mrow>y_{3} \amp = 1-y_{4}</mrow>
-          </md>
-        </p>
-        <p>
-          Thus, the plane we get if we let <m>s = y_{2}</m> and
-          <m>t = y_{4}</m> is
-          <me>f(s,t) = (s,t,1-s,s,1-t,t).</me>
-        </p>
-      </solution>
-    </task>
-  </exercise>
-
-  <exercise>
-    <introduction>
-      <p>
-        Consider the following matrix:
-        <me>
-          \begin{pmatrix}
-            0 \amp 0 \amp 1 \amp 3 \\
-            0 \amp 0 \amp 0 \amp 0 \\
-            0 \amp 1 \amp 0 \amp 2 \\
-            1 \amp 0 \amp 0 \amp 1
-          \end{pmatrix}
-        </me>
-      </p>
-    </introduction>
-
-    <task>
-      <statement>
-        <p>Put the matrix in reduced row echelon form.</p>
-      </statement>
-      <solution>
-        <p>
-          The matrix is very close. We just need to do some interchanging. Reorder
-          so that the last row comes first, then the third row comes second, the
-          first row comes third, and the second row comes last. This yields the
-          following matrix:
-          <me>
-            \begin{pmatrix}
-              1 \amp 0 \amp 0 \amp 1 \\
-              0 \amp 1 \amp 0 \amp 2 \\
-              0 \amp 0 \amp 1 \amp 3 \\
-              0 \amp 0 \amp 0 \amp 0
-            \end{pmatrix}
-          </me>
-        </p>
-        <p>The resulting matrix is in reduced row echelon form.</p>
-      </solution>
-    </task>
-
-    <task>
-      <statement>
-        <p>
-          Suppose this is the augmented matrix of a linear system. Will that
-          linear system be consistent? Explain why or why not.
-        </p>
-      </statement>
-      <solution>
-        <p>
-          Suppose it is the augmented matrix of a linear system. The last column
-          is not a pivot column, so the linear system would be consistent.
-        </p>
-      </solution>
-    </task>
-  </exercise>
-
-  <exercise>
-    <statement>
-      <p>
-        Consider the following matrix:
-        <me>
-          \begin{pmatrix}
-            0 \amp 0 \amp 1 \amp 3 \\
-            0 \amp 1 \amp 0 \amp 2 \\
-            0 \amp 0 \amp 0 \amp 0
-          \end{pmatrix}
-        </me>
-      </p>
-      <p>
-        Suppose this is the coefficient matrix of a linear system. For which
-        right hand sides is it consistent?
-      </p>
-    </statement>
-
-    <solution>
-      <p>
-        The augmented matrix for the system would look like:
-        <me>
-          \begin{pmatrix}
-            0 \amp 0 \amp 1 \amp 3 \amp a \\
-            0 \amp 1 \amp 0 \amp 2 \amp b \\
-            0 \amp 0 \amp 0 \amp 0 \amp c
-          \end{pmatrix}
-        </me>
-      </p>
-      <p>
-        I could do like last time in put it in reduced row echelon form. Instead
-        if I write out the equations I get,
-        <md number="no">
-          <mrow>x_{3} + 3x_{4} \amp = a</mrow>
-          <mrow>x_{2} + 2x_{4} \amp = b</mrow>
-          <mrow>0 \amp = c</mrow>
-        </md>
-      </p>
-      <p>
-        Then <m>c = 0</m>, but <m>a</m> and <m>b</m> can be any thing. In
-        particular, <m>(0,b,a,0)</m> is always a solution for any choice of
-        <m>a</m> and <m>b</m>, when <m>c = 0</m>.
-      </p>
-    </solution>
-  </exercise>
-</section>
+<section xml:id="sec-exercises">
+      <title>Exercises</title>
+      <exercise xml:id="ex-vector-arithmetic">
+        <introduction>
+          <p>Let <m>\vec{v}_{1} = (1,0,1,0)</m>, <m>\vec{v}_{2} = (0,2,3,4)</m>.</p>
+        </introduction>
+        <task>
+          <statement>
+            <p>Compute <m>\vec{v}_{1} + \vec{v}_{2}</m>.</p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>Compute <m>2(\vec{v}_{1} + \vec{v}_{2})</m>.</p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>Compute <m>2 \vec{v}_{1} + 2 \vec{v}_{2}</m>. How does your answer compare to part (b)?</p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>Compute <m>\vec{v}_{1} - \vec{v}_{2}</m>.</p>
+          </statement>
+        </task>
+      </exercise>
+      <exercise xml:id="ex-system-vector-equation-1">
+        <introduction>
+          <p>Consider the linear system</p>
+          <p>
+            <md>\begin{aligned}
+x+y+z &amp;= 3, \\
+2x+3y+5z &amp;= 10, \\
+4x+9y+25z &amp;= 39
+\end{aligned}</md>
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>Write the augmented matrix of the system.</p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>Write the system as a vector equation.</p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>Which one is your favorite?</p>
+          </statement>
+        </task>
+      </exercise>
+      <exercise xml:id="ex-system-vector-equation-2">
+        <introduction>
+          <p>Consider the linear system</p>
+          <p>
+            <md>\begin{aligned}
+x_{1} + x_{2} + x_{3} + x_{4} + x_{5} + x_{6} &amp;= 10, \\
+x_{1} + x_{3} + x_{5} &amp;= 5, \\
+x_{2} + x_{4} + x_{6} &amp;= 5
+\end{aligned}</md>
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>Write the augmented matrix of the system.</p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>Write the system as a vector equation.</p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>Solve the system of equations and write the linear function with vector coefficients describing the solution set.</p>
+          </statement>
+        </task>
+      </exercise>
+      <exercise xml:id="ex-span-question">
+        <introduction>
+          <p>Consider the following question: <q>Is <m>(1,0,1)</m> in the span of <m>(1,2,3)</m> and <m>(3,2,1)</m>?</q>
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>Rewrite this question as a vector equation.</p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>Rewrite it as a system of linear equations.</p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>Solve the linear system. Is the answer yes?</p>
+          </statement>
+        </task>
+      </exercise>
+      <exercise xml:id="ex-linear-independence">
+        <statement>
+          <p>Are <m>(1,0,1)</m>, <m>(1,2,3)</m>, and <m>(3,2,1)</m> linearly independent? Explain why or why not.</p>
+        </statement>
+      </exercise>
+    </section>

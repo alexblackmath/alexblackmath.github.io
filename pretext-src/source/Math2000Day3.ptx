@@ -1,0 +1,488 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pretext>
+  <article xml:id="math2000-day3">
+    <title>Despicable, ME</title>
+    <frontmatter>
+      <bibinfo>
+        <author>
+          <personname>Alex Black</personname>
+          <affiliation>
+            <department>MAT 2000</department>
+          </affiliation>
+        </author>
+      </bibinfo>
+      <titlepage>
+        <titlepage-items/>
+      </titlepage>
+    </frontmatter>
+    <section xml:id="sec-rref-review">
+      <title>Reduced Row Echelon Form Review</title>
+      <exercise xml:id="ex-rref-review">
+        <introduction>
+          <p>
+            For each of the following augmented matrices of linear systems, are they in reduced row echelon form, are the systems consistent, and what is the dimension of the solution space if they are?
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>
+              <md>\begin{pmatrix} 1 &amp; 1 &amp; 0 &amp; 2 &amp; 5 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 1 &amp; 5 &amp; 2\end{pmatrix}</md>
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              <md>\begin{pmatrix}
+1 &amp; 0 &amp; 1 &amp; 0 \\
+0 &amp; 1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 1 &amp; 1
+\end{pmatrix}</md>
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              <md>\begin{pmatrix}
+1 &amp; 0 \\
+0 &amp; 1 \\
+0 &amp; 0 \\
+0 &amp; 0 \\
+0 &amp; 0
+\end{pmatrix}</md>
+            </p>
+          </statement>
+        </task>
+      </exercise>
+    </section>
+    <section xml:id="sec-vector-perkins">
+      <title>Vector Perkins</title>
+      <figure xml:id="fig-vector">
+        <caption>
+          The main <em>antagonist</em> but not the main <alert>villain</alert> of the first and arguably best <pubtitle>Despicable Me</pubtitle> film.
+        </caption>
+        <image source="images/DespicableMe.png" width="80%"/>
+      </figure>
+      <p>
+        Today our goal is to introduce yet another notation for writing systems of linear equations. A <term>vector</term>, not to be confused with Vector Perkins as seen in <xref ref="fig-vector"/>, is a list of numbers and typically denoted <m>\vec{x} = (x_{1},x_{2},\dots,x_{n})</m>. The set of all vectors of length <m>n</m> is denoted <m>\mathbb{R}^{n}</m>. Examples include:
+      </p>
+      <p>
+        <md>
+          <mrow>(1,0,0,0,0,0,0,0)</mrow>
+          <mrow>(0,1,0,0,0,0,0,0)</mrow>
+          <mrow>(1,2,3,4,5,6)</mrow>
+        </md>
+      </p>
+      <p>
+        A vector of length <m>n</m> is best thought of as a point in <m>n</m>-dimensional space. Given two vectors of the same length we have two core operations we can apply to them:
+      </p>
+      <p>
+        <ul>
+          <li>
+            <p>Addition: <m>\vec{x} + \vec{y} = (x_{1},x_{2},\dots,x_{n}) + (y_{1},y_{2}, \dots, y_{n})</m>
+            </p>
+          </li>
+          <li>
+            <p>Scalar Multiplication <m>\lambda\vec{x} = (\lambda x_{1}, \lambda x_{2}, \dots, \lambda x_{n})</m>
+            </p>
+          </li>
+        </ul>
+      </p>
+      <p>
+        After break we will learn that these are the two telltale signs that you can use the tools of linear algebra. Putting these two operations together, we get what is called a linear combination:
+      </p>
+      <p>
+        <md>x_{1} \vec{v}_{1} + x_{2} \vec{v}_{2} + \dots + x_{k} \vec{v}_{k}</md>
+      </p>
+      <p>
+        An example is <m>2(1,1) + 3(1,0) + 4(0,1) = (5,6)</m>.
+      </p>
+      <p>
+        Given a vector <m>\vec{b}</m>, we are often interested in rewriting as a linear combination of other vectors <m>\vec{v}_{1}, \vec{v}_{2},\dots, \vec{v}_{k}</m>. Finding coefficients to do this corresponds to an expression of the following form:
+      </p>
+      <p>
+        <md>x_{1} \vec{v}_{1} + x_{2} \vec{v}_{2} + \dots + x_{k} \vec{v}_{k} = \vec{b}.</md>
+      </p>
+      <p>
+        We call this a <term>linear equation with vector coefficients</term>. An example of such an equation:
+      </p>
+      <p>
+        <md>x\begin{pmatrix} 1 \\ 0 \\ 0 \end{pmatrix} + y\begin{pmatrix} 0 \\ 1 \\ 0\end{pmatrix} + z \begin{pmatrix} 1 \\ 0\\ 1\end{pmatrix} = \begin{pmatrix} 0 \\ 0 \\ 1 \end{pmatrix}</md>
+      </p>
+      <p>
+        If we expand this out by applying our vector operations, we get the following:
+      </p>
+      <p>
+        <md>\begin{pmatrix} x + z \\ y \\ z\end{pmatrix} = \begin{pmatrix} 0 \\ 0\\ 1 \end{pmatrix}</md>
+      </p>
+      <p>This is just a linear system of equations!</p>
+      <theorem xml:id="thm-vector-equation-system">
+        <statement>
+          <p>
+            Solving a <em>linear equation with vector coefficients</em> is equivalent to solving a <em>system of linear equations</em>.
+          </p>
+        </statement>
+      </theorem>
+      <p>
+        This also has a geometric interpretation. There are two equivalent viewpoints to think of a <m>k</m>-dimensional plane in <m>\mathbb{R}^{n}</m> that we have started to see. There is an equational form such as:
+      </p>
+      <p>
+        <md>x+y+z = 1</md>
+      </p>
+      <p>or in parametric form</p>
+      <p>
+        <md>f(y,z) = (1-z-y,y,z).</md>
+      </p>
+      <p>If we write the parametric form out we get a vector equation</p>
+      <p>
+        <md>f(y,z) = y\begin{pmatrix} -1 \\ 1\\ 0\end{pmatrix} + z \begin{pmatrix} 1 \\ 0 \\ 1 \end{pmatrix} + \begin{pmatrix} 1 \\ 0\\ 0\end{pmatrix}</md>
+      </p>
+      <p>
+        We call such a function a <term>linear function with vector coefficients</term>.
+      </p>
+      <theorem xml:id="thm-solution-sets-images">
+        <statement>
+          <p>Solutions sets to linear systems correspond to images of linear functions with vector coefficients.</p>
+        </statement>
+      </theorem>
+      <p>Let's try this for a more complicated system. Consider a linear system with augmented matrix as follows:</p>
+      <p>
+        <md>\begin{pmatrix}
+1 &amp; 0 &amp; 3 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 6
+\end{pmatrix}</md>
+      </p>
+      <p>
+        We can put in reduced row echelon by applying replacement to subtract <m>3</m> times row <m>2</m> from row <m>1</m>. This yields the matrix:
+      </p>
+      <p>
+        <md>\begin{pmatrix}
+1 &amp; 0 &amp; 0 &amp; 1 &amp; -18 \\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 6
+\end{pmatrix}</md>
+      </p>
+      <p>
+        This is in reduced row echelon form. It has two free variables <m>x_{2}</m> and <m>x_{4}</m>. Solving in terms of <m>x_{2}</m> and <m>x_{4}</m>, we have
+      </p>
+      <p>
+        <md>
+          <mrow>x_{1} &amp;= -18 - x_{4}</mrow>
+          <mrow>x_{3} &amp;= 6</mrow>
+        </md>
+      </p>
+      <p>
+        Letting <m>x = x_{2}</m> and <m>y= x_{4}</m> we get the <m>2</m>-plane in <m>\mathbb{R}^{4}</m> given by
+      </p>
+      <p>
+        <md>f(x,y) = (-18-y, x, 6, y).</md>
+      </p>
+      <p>As a vector function we get</p>
+      <p>
+        <md>f(x,y) = \begin{pmatrix} -18 \\0\\6 \\0\end{pmatrix} + x \begin{pmatrix} 0 \\1\\0\\ 0\end{pmatrix} + y \begin{pmatrix} -1\\0\\0\\1\end{pmatrix}.</md>
+      </p>
+    </section>
+    <section xml:id="sec-span-independence">
+      <title>Span and Independence</title>
+      <p>
+        From the previous section, we have seen that a plane may always be parametrized as linear function with vector coefficients. Namely, it is the set of all vectors of the form
+      </p>
+      <p>
+        <md>\vec{b} + \sum_{i=1}^{k} x_{i}\vec{v}_{i}.</md>
+      </p>
+      <p>
+        Ignoring <m>\vec{b}</m> as it is just a translation term, we define the <term>span</term> of a set of vectors <m>\text{span}(\vec{v}_{1}, \vec{v}_{2},\dots, \vec{v}_{k})</m> to be the set of all linear combinations of those vectors. Then a plane may always be represented by
+      </p>
+      <p>
+        <md>\vec{b} + \text{span}(\vec{v}_{1}, \dots, \vec{v}_{k}).</md>
+      </p>
+      <p>
+        A set of vectors <m>\vec{v}_{1}, \dots, \vec{v}_{k}</m> is called <term>spanning</term> if
+      </p>
+      <p>
+        <md>\text{span}(\vec{v}_{1}, \dots, \vec{v}_{k}) = \mathbb{R}^{n}.</md>
+      </p>
+      <theorem xml:id="thm-spanning-pivots">
+        <statement>
+          <p>
+            A set of vectors <m>\vec{v}_{1}, \dots, \vec{v}_{k}</m> in <alert>
+              <m>\mathbb{R}^{n}</m>
+            </alert> is spanning if and only if the matrix
+          </p>
+          <p>
+            <md>\begin{pmatrix} \vec{v}_{1} &amp; \vec{v}_{2} &amp; \dots &amp; \vec{v}_{k} \end{pmatrix}.</md>
+          </p>
+          <p>
+            has <alert>
+              <m>n</m> pivot columns</alert> in reduced row echelon form. More generally, the dimension of the span of <m>\vec{v}_{1}, \dots, \vec{v}_{k}</m> is the number of pivots of that matrixin reduced row echelon form.
+          </p>
+        </statement>
+      </theorem>
+      <p>
+        Oftentimes a list of vectors is redundant in that you can remove a vector from the list and get the same span. This happens when one of the vectors may be written as a linear combination of the others. In that case, we call the vectors <term>linearly dependent</term> and <term>linearly independent</term> otherwise.
+      </p>
+      <theorem xml:id="thm-linear-independence-equivalences">
+        <statement>
+          <p>The following are equivalent for vectors <m>\vec{v}_{1}, \dots, \vec{v}_{k}</m> in <m>\mathbb{R}^{n}</m>:</p>
+          <p>
+            <ul>
+              <li>
+                <p>
+                  <m>\vec{v}_{1}, \dots, \vec{v}_{k}</m> are linearly independent</p>
+              </li>
+              <li>
+                <p>If <m>\sum_{i=1}^{k} x_{i}\vec{v}_{i}</m>, then <m>x_{i} = 0</m> for all <m>i \in [k]</m>.</p>
+              </li>
+              <li>
+                <p>All columns of the matrix <m>\begin{pmatrix} \vec{v}_{1} &amp; \vec{v}_{2} &amp; \dots &amp; \vec{v}_{k} \end{pmatrix}</m> are pivot columns in reduced row echelon form.</p>
+              </li>
+            </ul>
+          </p>
+        </statement>
+      </theorem>
+    </section>
+    <section xml:id="sec-exercises">
+      <title>Exercises</title>
+      <exercise xml:id="ex-vector-arithmetic">
+        <introduction>
+          <p>Let <m>\vec{v}_{1} = (1,0,1,0)</m>, <m>\vec{v}_{2} = (0,2,3,4)</m>.</p>
+        </introduction>
+        <task>
+          <statement>
+            <p>Compute <m>\vec{v}_{1} + \vec{v}_{2}</m>.</p>
+          </statement>
+          <solution>
+            <p>For (a), you get <m>(1,2,4,4)</m>.</p>
+          </solution>
+        </task>
+        <task>
+          <statement>
+            <p>Compute <m>2(\vec{v}_{1} + \vec{v}_{2})</m>.</p>
+          </statement>
+          <solution>
+            <p>For (b), you get <m>(2,4,8,8)</m>.</p>
+          </solution>
+        </task>
+        <task>
+          <statement>
+            <p>Compute <m>2 \vec{v}_{1} + 2 \vec{v}_{2}</m>. How does your answer compare to part (b)?</p>
+          </statement>
+          <solution>
+            <p>For (c), you get <m>(2,4,8,8)</m> and observe it is the same as part (b). This is because of the distributive property of scalar multiplication.</p>
+          </solution>
+        </task>
+        <task>
+          <statement>
+            <p>Compute <m>\vec{v}_{1} - \vec{v}_{2}</m>.</p>
+          </statement>
+          <solution>
+            <p>For (d), you get <m>(1,-2,-2,-4)</m>.</p>
+          </solution>
+        </task>
+      </exercise>
+      <exercise xml:id="ex-system-vector-equation-1">
+        <introduction>
+          <p>Consider the linear system</p>
+          <p>
+            <md>\begin{aligned}
+x+y+z &amp;= 3, \\
+2x+3y+5z &amp;= 10, \\
+4x+9y+25z &amp;= 39
+\end{aligned}</md>
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>Write the augmented matrix of the system.</p>
+          </statement>
+          <solution>
+            <p>(a) The augmented matrix for the system is</p>
+            <p>
+              <md>\begin{pmatrix} 1 &amp; 1 &amp; 1 &amp; 3 \\ 2 &amp; 3 &amp; 5 &amp; 10 \\ 5 &amp; 9 &amp; 25 &amp; 39 \end{pmatrix}</md>
+            </p>
+          </solution>
+        </task>
+        <task>
+          <statement>
+            <p>Write the system as a vector equation.</p>
+          </statement>
+          <solution>
+            <p>(b) The vector equation is</p>
+            <p>
+              <md>x\begin{pmatrix} 1 \\ 2 \\ 4 \end{pmatrix} + y \begin{pmatrix} 1 \\ 3 \\ 9 \end{pmatrix} + z \begin{pmatrix} 1 \\ 5 \\ 25 \end{pmatrix} = \begin{pmatrix} 3 \\ 10 \\ 39 \end{pmatrix}.</md>
+            </p>
+          </solution>
+        </task>
+        <task>
+          <statement>
+            <p>Which one is your favorite?</p>
+          </statement>
+          <solution>
+            <p>(c) I like the vector equation best because of its geometric interpretation. The augmented matrix form is nicest as a tool for solving the linear system though.</p>
+          </solution>
+        </task>
+      </exercise>
+      <exercise xml:id="ex-system-vector-equation-2">
+        <introduction>
+          <p>Consider the linear system</p>
+          <p>
+            <md>\begin{aligned}
+x_{1} + x_{2} + x_{3} + x_{4} + x_{5} + x_{6} &amp;= 10, \\
+x_{1} + x_{3} + x_{5} &amp;= 5, \\
+x_{2} + x_{4} + x_{6} &amp;= 5
+\end{aligned}</md>
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>Write the augmented matrix of the system.</p>
+          </statement>
+          <solution>
+            <p>(a) The augmented matrix is</p>
+            <p>
+              <md>\begin{pmatrix} 1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 10 \\ 1 &amp; 0 &amp; 1 &amp; 0 &amp; 1 &amp; 0 &amp; 5 \\
+0 &amp; 1 &amp; 0 &amp; 1 &amp; 0 &amp; 1 &amp; 5\end{pmatrix}.</md>
+            </p>
+          </solution>
+        </task>
+        <task>
+          <statement>
+            <p>Write the system as a vector equation.</p>
+          </statement>
+          <solution>
+            <p>(b) As a vector equation, I'd write this as</p>
+            <p>
+              <md>x_{1} \begin{pmatrix} 1 \\ 1\\ 0 \end{pmatrix} + x_{2} \begin{pmatrix} 1 \\ 0\\ 1 \end{pmatrix} + x_{3} \begin{pmatrix} 1 \\ 1\\ 0 \end{pmatrix} + x_{4} \begin{pmatrix} 1 \\ 0\\ 1 \end{pmatrix} + x_{5} \begin{pmatrix} 1 \\ 1\\ 0 \end{pmatrix} +x_{6} \begin{pmatrix} 1 \\ 0\\ 1 \end{pmatrix} = \begin{pmatrix} 10 \\ 5\\ 5\end{pmatrix}</md>
+            </p>
+          </solution>
+        </task>
+        <task>
+          <statement>
+            <p>Solve the system of equations and write the linear function with vector coefficients describing the solution set.</p>
+          </statement>
+          <solution>
+            <p>(c) You could just solve the linear system like always, but here note that the vector equation actually gives more insight. Really what you get is</p>
+            <p>
+              <md>(x_{1} +x_{3} + x_{5}) \begin{pmatrix} 1 \\ 1\\ 0 \end{pmatrix} + (x_{2}+x_{4}+x_{6}) \begin{pmatrix} 1 \\ 0\\ 1 \end{pmatrix} = \begin{pmatrix} 10 \\ 5\\ 5 \end{pmatrix}.</md>
+            </p>
+            <p>Letting <m>y = x_{1} + x_{3} + x_{5}</m> and <m>z = x_{2} + x_{4} + x_{6}</m> yields</p>
+            <p>
+              <md>y\begin{pmatrix} 1 \\ 1\\ 0 \end{pmatrix} + z \begin{pmatrix} 1 \\ 0\\ 1 \end{pmatrix} = \begin{pmatrix} 10 \\ 5\\ 5 \end{pmatrix}</md>
+            </p>
+            <p>Via row reduction, you can observe that this system has a unique solution given by <m>y = 5</m> and <m>z = 5</m>. Then the system of equations is equivalent to</p>
+            <p>
+              <md>\begin{aligned}
+x_{1} + x_{3} + x_{5} &amp;= 5, \\
+x_{2} + x_{4} + x_{6} &amp;= 5
+\end{aligned}</md>
+            </p>
+            <p>This is in reduced row echelon form with free variables <m>x_{3}, x_{4}, x_{5},</m> and <m>x_{6}</m>, so the answer is</p>
+            <p>
+              <md>f(x_{3},x_{4},x_{5},x_{6}) = (5-x_{3}-x_{5}, 5-x_{4} -x_{6}, x_{3},x_{4},x_{5},x_{6}).</md>
+            </p>
+            <p>Finally, we wanted to write this as a linear function with vector coefficients yielding</p>
+            <p>
+              <md>f(x_{3},x_{4},x_{5},x_{6}) = \begin{pmatrix} 5 \\ 5 \\ 0 \\0 \\0\\0
+\end{pmatrix} + x_{3} \begin{pmatrix} -1 \\0\\1\\0\\0\\0 \end{pmatrix} + x_{4}\begin{pmatrix} 0 \\-1\\0\\1\\0\\0 \end{pmatrix} + x_{5}\begin{pmatrix} -1 \\0\\0\\0\\1\\0 \end{pmatrix}+x_6\begin{pmatrix} 0 \\-1\\0\\0\\0\\1 \end{pmatrix}.</md>
+            </p>
+          </solution>
+        </task>
+      </exercise>
+      <exercise xml:id="ex-span-question">
+        <introduction>
+          <p>Consider the following question: <q>Is <m>(1,0,1)</m> in the span of <m>(1,2,3)</m> and <m>(3,2,1)</m>?</q>
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>Rewrite this question as a vector equation.</p>
+          </statement>
+          <solution>
+            <p>For part (a), <m>(1,0,1)</m> being in the span of <m>(1,2,3)</m> and <m>(3,2,1)</m> is equivalent to being a linear combination of <m>(1,2,3)</m> and <m>(3,2,1)</m>. That is the question corresponds to asking if the following system has a solution:</p>
+            <p>
+              <md>x\begin{pmatrix} 1 \\ 2 \\3\end{pmatrix} + y \begin{pmatrix} 3 \\ 2\\ 1 \end{pmatrix} = \begin{pmatrix} 1 \\ 0\\ 1 \end{pmatrix}.</md>
+            </p>
+          </solution>
+        </task>
+        <task>
+          <statement>
+            <p>Rewrite it as a system of linear equations.</p>
+          </statement>
+          <solution>
+            <p>For part (b), we can rewrite this as the system of linear equations</p>
+            <p>
+              <md>\begin{aligned}
+x+3y &amp;= 1, \\
+2x+2y &amp;= 0, \\
+3x+y &amp;= 1
+\end{aligned}</md>
+            </p>
+          </solution>
+        </task>
+        <task>
+          <statement>
+            <p>Solve the linear system. Is the answer yes?</p>
+          </statement>
+          <solution>
+            <p>For part (c), we want to solve the system. I would do this by first finding the augmented matrix and putting it in reduced row echelon form. Here is the augmented matrix</p>
+            <p>
+              <md>\begin{pmatrix}
+1 &amp; 3 &amp; 1 \\
+2 &amp; 2 &amp; 0 \\
+3 &amp; 1 &amp; 1
+\end{pmatrix}</md>
+            </p>
+            <p>To do this, I do replacement on both the second and third row subtracting twice the first and three times the first respectively and get:</p>
+            <p>
+              <md>\begin{pmatrix}
+1 &amp; 3 &amp; 1 \\
+0 &amp; -4 &amp; -2 \\
+0 &amp; -8 &amp; 2
+\end{pmatrix}</md>
+            </p>
+            <p>Then I subtract twice the second from the third</p>
+            <p>
+              <md>\begin{pmatrix}
+1 &amp; 3 &amp; 1 \\
+0 &amp; -4 &amp; -2 \\
+0 &amp; 0 &amp; 6
+\end{pmatrix}</md>
+            </p>
+            <p>Now I could do more row operations, but I already know since its upper triangular with nonzero elements on the diagonal, these will eventually lead to an identity matrix:</p>
+            <p>
+              <md>\begin{pmatrix}
+1 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 1
+\end{pmatrix}</md>
+            </p>
+            <p>The last column is a pivot column, so the system has no solution (i.e., it is inconsistent) meaning that <m>(1,0,1)</m> is not in the span of <m>(1,2,3)</m> and <m>(3,2,1)</m>.</p>
+          </solution>
+        </task>
+      </exercise>
+      <exercise xml:id="ex-linear-independence">
+        <statement>
+          <p>Are <m>(1,0,1)</m>, <m>(1,2,3)</m>, and <m>(3,2,1)</m> linearly independent? Explain why or why not.</p>
+        </statement>
+        <solution>
+          <p>To check this, I can make them the columns of a matrix:</p>
+          <p>
+            <md>\begin{pmatrix} 1 &amp; 1 &amp; 3 \\ 0 &amp; 2 &amp; 2 \\ 1 &amp; 3 &amp; 1\end{pmatrix}</md>
+          </p>
+          <p>If this matrix has exclusively pivot columns in reduced row echelon form, then it is linearly independent. If you do the row reduction, you get</p>
+          <p>
+            <md>\begin{pmatrix}
+1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1
+\end{pmatrix}</md>
+          </p>
+          <p>and so indeed they are linearly independent.</p>
+        </solution>
+      </exercise>
+    </section>
+  </article>
+</pretext>
+
+
+

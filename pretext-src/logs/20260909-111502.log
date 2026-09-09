@@ -1,0 +1,61 @@
+INFO    : Building target web
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.52.3/core/xsl/utilities/pretext-enhanced-source.xsl
+INFO    : successful application of /home/codespace/.ptx/2.52.3/core/xsl/utilities/pretext-enhanced-source.xsl
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : verifying and expanding input directory: /workspaces/alexblackmath.github.io/pretext-src/source/../assets
+INFO    : input directory expanded to absolute path: /workspaces/alexblackmath.github.io/pretext-src/assets
+INFO    : Generating any needed assets.
+INFO    : Finished generating assets.
+
+INFO    : Preparing to build into /workspaces/alexblackmath.github.io/pretext-src/output/web.
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : verifying and expanding input directory: /workspaces/alexblackmath.github.io/pretext-src/source/../assets
+INFO    : input directory expanded to absolute path: /workspaces/alexblackmath.github.io/pretext-src/assets
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.52.3/core/xsl/utilities/report-publisher-variables.xsl
+INFO    : successful application of /home/codespace/.ptx/2.52.3/core/xsl/utilities/report-publisher-variables.xsl
+INFO    : Downloading rs services file from https://runestone.academy/cdn/runestone/latest/webpack_static_imports.xml.
+INFO    : Runestone Services via online CDN query: version 8.2.10
+INFO    : Downloading Runestone Services, version 8.2.10
+INFO    : Extracting Runestone Services from archive file
+INFO    : Building custom css theme: theme-default-modern
+INFO    : converting /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx to HTML in /tmp/ptx-k61r66du
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.52.3/core/xsl/pretext-html.xsl
+INFO    : messages from the log for XSL processing (prefaced with a *):
+INFO    : * PTX:INFO:   checking all deprecated elements.
+WARNING : * PTX:DEPRECATE: (2026-05-11) the "me" and "men" elements have been deprecated.  The replacement is an "md" with no "mrow" children, and numbering is controlled by the "@number" attribute, or a global setting in "docinfo". (11 times)
+INFO    : *              located at: pretext/article/section/exercise/task/solution/p/me
+INFO    : *              located within: "exercises" (xml:id), "Exercises" (title)
+INFO    : *              located at: pretext/article/section/exercise/task/solution/p/me
+INFO    : *              located within: "exercises" (xml:id), "Exercises" (title)
+INFO    : *              located at: pretext/article/section/exercise/task/solution/p/me
+INFO    : *              located within: "exercises" (xml:id), "Exercises" (title)
+INFO    : *              located at: pretext/article/section/exercise/task/solution/p/me
+INFO    : *              located within: "exercises" (xml:id), "Exercises" (title)
+INFO    : *              located at: pretext/article/section/exercise/task/solution/p/me
+INFO    : *              located within: "exercises" (xml:id), "Exercises" (title)
+INFO    : *              located at: pretext/article/section/exercise/task/solution/p/me
+INFO    : *              located within: "exercises" (xml:id), "Exercises" (title)
+INFO    : *              located at: pretext/article/section/exercise/task/solution/p/me
+INFO    : *              located within: "exercises" (xml:id), "Exercises" (title)
+INFO    : *              located at: pretext/article/section/exercise/introduction/p/me
+INFO    : *              located within: "exercises" (xml:id), "Exercises" (title)
+INFO    : * --------------
+ERROR   : * PTX:ERROR:   a cross-reference ("xref") uses references [fig-vector] that do not point to any target, or perhaps point to multiple targets.  Maybe you typed an @xml:id value wrong, maybe the target of the @xml:id is nonexistent, or maybe you temporarily removed the target from your source, or maybe an auxiliary file contains a duplicate.  Your output will contain some placeholder text that you will not want to distribute to your readers.
+INFO    : *              located at: pretext/article/section/p/xref
+INFO    : *              located within: "sec-vector-perkins" (xml:id), "Vector Perkins" (title)
+INFO    : successful application of /home/codespace/.ptx/2.52.3/core/xsl/pretext-html.xsl
+INFO    : Removing temporary directory /tmp/ptx-k61r66du
+INFO    : Removing temporary directory /tmp/ptx-fwqp3fzg
+INFO    : 
+Finished build for target web. Run `pretext view web` to see the results.
+
+FATAL   : There were errors during the build.  See above.
+INFO    : ------------------------
+exit    : Failed to build without errors.  Exiting...
+INFO    : 
+----------------------------------------------------
+INFO    : While running pretext, the following errors occurred:
+
+INFO    : (see log messages above or in the 'logs' folder for more information)
+INFO    : ----------------------------------------------------
