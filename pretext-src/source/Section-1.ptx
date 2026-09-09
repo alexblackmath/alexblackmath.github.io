@@ -29,4 +29,23 @@
         </proof>
       </theorem>
       <p>Given a vector space, we will define the dimension to be the minimal number of vectors in any spanning set. We will need to do some more work to explain why that definition makes sense and will continue with that next time.</p>
+    <theorem xml:id="extension">
+      <statement>
+        <p> Let <m>V</m> be a vector space, and let <m> S \subseteq V</m> be a linearly independent subset of <m>V</m>. 
+        Then for any <m> \vec{x} \in V \setminus \operatorname{span}(S)</m>, <m> S \cup \{x\} </m> is linearly independent. </p>
+      </statement>
+      <proof>
+        <p>Suppose not. Then there exists a linearly independent set <m> S \subseteq V </m> and <m> \vec{x} \in V \setminus \operatorname{span}(S) </m> such that 
+        <m> S \cup \{x\} </m> is linearly dependent. Then in particular, there exist <m> \vec{v}_{1}, \dots, \vec{v}_{k} \in S </m> and
+        <m> a_{1}, \dots, a_{k}, a_{k+1} \in \mathbb{R}</m> not all zero such that </p>
+        <p><md>a_{k+1} \vec{x} + \sum_{i=1}^{k} a_{i} \vec{v}_{i} = \vec{0}.</md></p>
+        <p>Since <m>\vec{v}_{1}, \dots, \vec{v}_{k}</m> are linearly independent, one cannot have <m> a_{k+1} = 0</m>. Thus, by moving everything other than <m>\vec{x} </m> 
+        to one side, we find that</p>
+        <p><md> a_{k+1} \vec{x} = -\sum_{i=1}^{k} a_{i} \vec{v}_{i} </md></p>
+        <p>Since <m>a_{k+1} \neq 0</m>, we may divide by it on both sides to find </p>
+        <p><md> \vec{x} = \sum_{i=1}^{k} \frac{a_{i}}{a_{k+1}} \vec{v}_{i} </md></p> 
+        <p>But then, by definition, <m>\vec{x} \in \operatorname{span}(\vec{v}_{1}, \dots, \vec{v}_{k}) \subseteq \operatorname{span}(S)</m>.</p> 
+      </proof>
+    </theorem> 
+
     </section>
