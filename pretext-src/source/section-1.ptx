@@ -1,0 +1,184 @@
+<section xml:id="section-1">
+  <title>Exercises and Solutions</title>
+  <exercise>
+    <introduction>
+      <p>
+        Consider the following linear system:
+        <md number="no">
+          <mrow>x_{1} + x_{2} + x_{3} + x_{4} \amp = 4</mrow>
+          <mrow>3x_{1} + 6x_{2} + 6x_{3} + 3x_{4} \amp = 123</mrow>
+        </md>
+      </p>
+    </introduction>
+
+    <task>
+      <statement>
+        <p>
+          The first equation says that <m>x_{1} = 4 - x_{2} - x_{3} - x_{4}</m>.
+          Plug <m>4 - x_{2} - x_{3} - x_{4}</m> into the second equation for
+          <m>x_{1}</m> and see what you get.
+        </p>
+      </statement>
+      <solution>
+        <p>You should find the new equation <m>3x_{2} + 3x_{3} = 111</m>.</p>
+      </solution>
+    </task>
+
+    <task>
+      <statement>
+        <p>Subtract <m>3</m> times the first equation from the second equation.</p>
+      </statement>
+      <solution>
+        <p>You should find the new equation <m>3x_{2} + 3x_{3} = 111</m>.</p>
+      </solution>
+    </task>
+
+    <task>
+      <statement>
+        <p>How do your answers for parts (a) and (b) compare?</p>
+      </statement>
+      <solution>
+        <p>They are equal.</p>
+      </solution>
+    </task>
+  </exercise>
+
+  <p>
+    A <term>diagonal matrix</term> is a square matrix such that every entry other
+    than the diagonal is <m>0</m>. If the coefficient matrix is diagonal, the
+    linear system generally is easier to solve.
+  </p>
+
+  <exercise>
+    <introduction>
+      <p>
+        Consider the linear system:
+        <md number="no">
+          <mrow>3x \amp = 0</mrow>
+          <mrow>2y \amp = 8</mrow>
+          <mrow>5z \amp = 10</mrow>
+        </md>
+      </p>
+    </introduction>
+
+    <task>
+      <statement>
+        <p>Write the coefficient matrix of the system.</p>
+      </statement>
+      <solution>
+        <p>
+          The coefficient matrix is
+          <me>
+            \begin{pmatrix}
+              3 \amp 0 \amp 0 \\
+              0 \amp 2 \amp 0 \\
+              0 \amp 0 \amp 5
+            \end{pmatrix}
+          </me>
+        </p>
+      </solution>
+    </task>
+
+    <task>
+      <statement>
+        <p>Write the augmented matrix of the system.</p>
+      </statement>
+      <solution>
+        <p>
+          The augmented matrix is
+          <me>
+            \begin{pmatrix}
+              3 \amp 0 \amp 0 \amp 0 \\
+              0 \amp 2 \amp 0 \amp 8 \\
+              0 \amp 0 \amp 5 \amp 10
+            \end{pmatrix}
+          </me>
+        </p>
+      </solution>
+    </task>
+
+    <task>
+      <statement>
+        <p>
+          Is the system consistent of inconsistent? If the system is consistent,
+          give a solution. Is the solution unique?
+        </p>
+      </statement>
+      <solution>
+        <p>
+          The system is consistent, since it has a solution <m>x = 0</m>,
+          <m>y = 4</m>, and <m>z = 5</m>. The solution is unique.
+        </p>
+      </solution>
+    </task>
+  </exercise>
+
+  <p>
+    An <term>upper triangular matrix</term> is a square matrix such that every
+    entry strictly below the diagonal is <m>0</m>.
+  </p>
+
+  <exercise>
+    <introduction>
+      <p>
+        Consider the linear system:
+        <md number="no">
+          <mrow>x + y + z \amp = 3</mrow>
+          <mrow>y + z \amp = 2</mrow>
+          <mrow>z \amp = 0</mrow>
+        </md>
+      </p>
+    </introduction>
+
+    <task>
+      <statement>
+        <p>Write the coefficient matrix of the system.</p>
+      </statement>
+      <solution>
+        <p>
+          The coefficient matrix is
+          <me>
+            \begin{pmatrix}
+              1 \amp 1 \amp 1 \\
+              0 \amp 1 \amp 1 \\
+              0 \amp 0 \amp 1
+            \end{pmatrix}
+          </me>
+        </p>
+      </solution>
+    </task>
+
+    <task>
+      <statement>
+        <p>Write the augmented matrix of the system.</p>
+      </statement>
+      <solution>
+        <p>
+          The augmented matrix is
+          <me>
+            \begin{pmatrix}
+              1 \amp 1 \amp 1 \amp 3 \\
+              0 \amp 1 \amp 1 \amp 2 \\
+              0 \amp 0 \amp 1 \amp 0
+            \end{pmatrix}
+          </me>
+        </p>
+      </solution>
+    </task>
+
+    <task>
+      <statement>
+        <p>
+          Is the system consistent of inconsistent? If the system is consistent,
+          give a solution. Is the solution unique?
+        </p>
+      </statement>
+      <solution>
+        <p>
+          The system is consistent with a unique solution <m>z = 0</m>,
+          <m>y = 2</m>, and <m>x = 1</m>.
+        </p>
+      </solution>
+    </task>
+  </exercise>
+</section>
