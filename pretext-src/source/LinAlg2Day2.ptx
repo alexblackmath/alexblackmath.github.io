@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pretext>
+  <article xml:id="independence-day">
+    <title>Independence Day</title>
+    <section xml:id="review">
+      <title>Review</title>
+      <p>Throughout these notes, all vector spaces are over <m>\mathbb{R}</m>.</p>
+      <p>
+        <ul>
+          <li>
+            <p>What are the two key operations for a vector space?</p>
+          </li>
+          <li>
+            <p>What is a linear subspace of a vector space?</p>
+          </li>
+          <li>
+            <p>Which vector spaces can be written as a span?</p>
+          </li>
+        </ul>
+      </p>
+      <p><em>Goal:</em> We want to formalize the notion of dimension of a vector space. This will allow us to think of abstract vector spaces geometrically, which is powerful for proving fundamental results about them.</p>
+    </section>
+    <section xml:id="independence">
+      <title>Independence</title>
+      <p>Last time, we showed that for a vector space <m>U</m>, <m>\operatorname{span}(U)=U</m>. We can often find a much smaller subset <m>S\subseteq U</m> such that <m>\operatorname{span}(S)=U</m>. Such a subset is called a <em>spanning subset</em> of <m>U</m>.</p>
+      <p>For example, consider the <m>xy</m>-plane:<md>\{(x,y,0):x,y\in\mathbb{R}\}.</md></p>
+      <p>We can rewrite it as<md>\{x(1,0,0)+y(0,1,0):x,y\in\mathbb{R}\}=\operatorname{span}\{(1,0,0),(0,1,0)\}.</md></p>
+      <p>Thus, even though the <m>xy</m>-plane consists of infinitely many vectors, we need only two vectors to span it.</p>
+      <p>If we remove either of these two vectors, the span changes. In particular, the following three subspaces are distinct:<md>\operatorname{span}\{(1,0,0)\},\qquad\operatorname{span}\{(0,1,0)\},\qquad\operatorname{span}\{(1,0,0),(0,1,0)\}.</md></p>
+      <p>The first is the <m>x</m>-axis, the second is the <m>y</m>-axis, and the third is the <m>xy</m>-plane. Thus, this spanning set is minimal in the sense that its span changes if we remove any vector.</p>
+      <p>We call a set <m>S</m> of vectors <em>linearly independent</em> if <m>\operatorname{span}(T)\neq\operatorname{span}(S)</m> for every proper subset <m>T\subsetneq S</m>. We use the convention<md>\operatorname{span}(\emptyset)=\{\vec{0}\}.</md></p>
+      <p>In particular, the empty set is linearly independent, whereas <m>\{\vec{0}\}</m> is not. A set that is not linearly independent is called <em>linearly dependent</em>. Another example of a linearly dependent set is<md>\{(1,0,0),(0,1,0),(1,1,0)\},</md></p>
+      <p>since<md>\operatorname{span}\{(1,0,0),(0,1,0),(1,1,0)\}=\operatorname{span}\{(1,0,0),(0,1,0)\}.</md></p>
+      <p>Linear independence is often defined using the equivalent criterion in the following theorem.</p>
+      <theorem xml:id="linear-independence-criterion">
+        <statement>
+          <p>Let <m>V</m> be a vector space, and let <m>S=\{\vec{v}_1,\dots,\vec{v}_n\}\subseteq V</m> be a finite set of distinct vectors, where <m>n\geq 1</m>. Then <m>S</m> is linearly independent if and only if the only scalars <m>a_1,\dots,a_n\in\mathbb{R}</m> satisfying<md>\sum_{i=1}^{n}a_i\vec{v}_i=\vec{0}</md></p>
+          <p>are <m>a_1=\cdots=a_n=0</m>.</p>
+        </statement>
+        <proof>
+          <p>We prove both directions.</p>
+          <p><m>(\implies)</m> Suppose that <m>S</m> is linearly independent. Assume, for a contradiction, that<md>\sum_{i=1}^{n}a_i\vec{v}_i=\vec{0}</md></p>
+          <p>for scalars that are not all zero. Choose <m>k</m> such that <m>a_k\neq 0</m>. Rearranging and dividing by <m>a_k</m> gives<md>\vec{v}_k=-\sum_{\substack{1\leq i\leq n\\i\neq k}}\frac{a_i}{a_k}\vec{v}_i.</md></p>
+          <p>Thus <m>\vec{v}_k\in\operatorname{span}(S\setminus\{\vec{v}_k\})</m>, so<md>\operatorname{span}(S)=\operatorname{span}(S\setminus\{\vec{v}_k\}).</md></p>
+          <p>This contradicts linear independence. The argument also covers <m>n=1</m>: in that case, the sum on the right is empty and equals <m>\vec{0}</m>.</p>
+          <p><m>(\impliedby)</m> We prove the contrapositive. Suppose that <m>S</m> is linearly dependent. There is a proper subset <m>T\subsetneq S</m> such that <m>\operatorname{span}(T)=\operatorname{span}(S)</m>. Choose <m>\vec{v}_k\in S\setminus T</m>. Since<md>T\subseteq S\setminus\{\vec{v}_k\}\subseteq S,</md></p>
+          <p>monotonicity of the span gives<md>\operatorname{span}(T)\subseteq\operatorname{span}(S\setminus\{\vec{v}_k\})\subseteq\operatorname{span}(S).</md></p>
+          <p>The first and last spans are equal, so all three are equal. In particular, <m>\vec{v}_k</m> lies in the span of the remaining vectors. Hence there are scalars <m>b_i\in\mathbb{R}</m> for <m>i\neq k</m> such that<md>\vec{v}_k=\sum_{\substack{1\leq i\leq n\\i\neq k}}b_i\vec{v}_i.</md></p>
+          <p>Setting <m>b_k=-1</m> yields<md>\sum_{i=1}^{n}b_i\vec{v}_i=\vec{0}.</md></p>
+          <p>Because <m>b_k=-1\neq 0</m>, the coefficients are not all zero. This proves the contrapositive, including the case <m>T=\emptyset</m>.</p>
+        </proof>
+      </theorem>
+      <p>Given a vector space, we want to understand how many vectors are needed to span it without redundancy. A linearly independent spanning set is called a <em>basis</em>.</p>
+      <p>A vector space with a finite basis is called <em>finite-dimensional</em>, and its <em>dimension</em> is the number of vectors in any basis. We will later prove that all bases of a finite-dimensional vector space have the same number of vectors, so this definition is well-defined. A vector space with no finite basis is called <em>infinite-dimensional</em>.</p>
+      <p>The zero vector space <m>\{\vec{0}\}</m> has the empty set as a basis and therefore has dimension <m>0</m>.</p>
+    </section>
+    <section xml:id="exercises">
+      <title>Exercises</title>
+      <exercise xml:id="exercise-1">
+        <statement>
+          <p>For each of the following sets, determine whether it is linearly independent in the indicated real vector space. Explain why or why not.</p>
+          <p>
+            <ul>
+              <li>
+                <p><m>\{\vec{0}\}</m> in a real vector space <m>V</m>.</p>
+              </li>
+              <li>
+                <p><m>\{(1,0),(0,1)\}</m> in <m>\mathbb{R}^2</m>.</p>
+              </li>
+              <li>
+                <p><m>\{(1,-1,0),(1,0,-1),(0,1,-1)\}</m> in <m>\mathbb{R}^3</m>.</p>
+              </li>
+              <li>
+                <p><m>\{1,x,x^2,(x+1)^3\}</m> in <m>\mathbb{R}[x]</m>, the vector space of real polynomials.</p>
+              </li>
+              <li>
+                <p><m>\{\sin(x),\cos(x)\}</m> in the vector space of all functions from <m>\mathbb{R}</m> to <m>\mathbb{R}</m>.</p>
+              </li>
+            </ul>
+          </p>
+        </statement>
+      </exercise>
+      <exercise xml:id="exercise-2">
+        <statement>
+          <p>Let <m>\vec{u}</m> and <m>\vec{v}</m> be two distinct vectors in a vector space <m>V</m>. Prove that <m>\{\vec{u},\vec{v}\}</m> is linearly independent if and only if neither vector is a scalar multiple of the other.</p>
+        </statement>
+      </exercise>
+      <exercise xml:id="exercise-3">
+        <statement>
+          <p>Give an example of three vectors in <m>\mathbb{R}^3</m> such that no two are scalar multiples of one another, but the three vectors are linearly dependent.</p>
+        </statement>
+      </exercise>
+      <exercise xml:id="exercise-4">
+        <statement>
+          <p>Prove that any nonempty subset of a linearly independent set of vectors is linearly independent.</p>
+        </statement>
+      </exercise>
+    </section>
+  </article>
+</pretext>

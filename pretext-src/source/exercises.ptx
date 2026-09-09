@@ -1,108 +1,42 @@
-<section xml:id="sec-exercises">
+ <section xml:id="exercises">
       <title>Exercises</title>
-      <exercise xml:id="ex-vector-arithmetic">
-        <introduction>
-          <p>Let <m>\vec{v}_{1} = (1,0,1,0)</m>, <m>\vec{v}_{2} = (0,2,3,4)</m>.</p>
-        </introduction>
-        <task>
-          <statement>
-            <p>Compute <m>\vec{v}_{1} + \vec{v}_{2}</m>.</p>
-          </statement>
-        </task>
-        <task>
-          <statement>
-            <p>Compute <m>2(\vec{v}_{1} + \vec{v}_{2})</m>.</p>
-          </statement>
-        </task>
-        <task>
-          <statement>
-            <p>Compute <m>2 \vec{v}_{1} + 2 \vec{v}_{2}</m>. How does your answer compare to part (b)?</p>
-          </statement>
-        </task>
-        <task>
-          <statement>
-            <p>Compute <m>\vec{v}_{1} - \vec{v}_{2}</m>.</p>
-          </statement>
-        </task>
-      </exercise>
-      <exercise xml:id="ex-system-vector-equation-1">
-        <introduction>
-          <p>Consider the linear system</p>
-          <p>
-            <md>\begin{aligned}
-x+y+z &amp;= 3, \\
-2x+3y+5z &amp;= 10, \\
-4x+9y+25z &amp;= 39
-\end{aligned}</md>
-          </p>
-        </introduction>
-        <task>
-          <statement>
-            <p>Write the augmented matrix of the system.</p>
-          </statement>
-        </task>
-        <task>
-          <statement>
-            <p>Write the system as a vector equation.</p>
-          </statement>
-        </task>
-        <task>
-          <statement>
-            <p>Which one is your favorite?</p>
-          </statement>
-        </task>
-      </exercise>
-      <exercise xml:id="ex-system-vector-equation-2">
-        <introduction>
-          <p>Consider the linear system</p>
-          <p>
-            <md>\begin{aligned}
-x_{1} + x_{2} + x_{3} + x_{4} + x_{5} + x_{6} &amp;= 10, \\
-x_{1} + x_{3} + x_{5} &amp;= 5, \\
-x_{2} + x_{4} + x_{6} &amp;= 5
-\end{aligned}</md>
-          </p>
-        </introduction>
-        <task>
-          <statement>
-            <p>Write the augmented matrix of the system.</p>
-          </statement>
-        </task>
-        <task>
-          <statement>
-            <p>Write the system as a vector equation.</p>
-          </statement>
-        </task>
-        <task>
-          <statement>
-            <p>Solve the system of equations and write the linear function with vector coefficients describing the solution set.</p>
-          </statement>
-        </task>
-      </exercise>
-      <exercise xml:id="ex-span-question">
-        <introduction>
-          <p>Consider the following question: <q>Is <m>(1,0,1)</m> in the span of <m>(1,2,3)</m> and <m>(3,2,1)</m>?</q>
-          </p>
-        </introduction>
-        <task>
-          <statement>
-            <p>Rewrite this question as a vector equation.</p>
-          </statement>
-        </task>
-        <task>
-          <statement>
-            <p>Rewrite it as a system of linear equations.</p>
-          </statement>
-        </task>
-        <task>
-          <statement>
-            <p>Solve the linear system. Is the answer yes?</p>
-          </statement>
-        </task>
-      </exercise>
-      <exercise xml:id="ex-linear-independence">
+      <exercise xml:id="exercise-1">
         <statement>
-          <p>Are <m>(1,0,1)</m>, <m>(1,2,3)</m>, and <m>(3,2,1)</m> linearly independent? Explain why or why not.</p>
+          <p>For each of the following sets, determine whether it is linearly independent in the indicated real vector space. Explain why or why not.</p>
+          <p>
+            <ul>
+              <li>
+                <p><m>\{\vec{0}\}</m> in a real vector space <m>V</m>.</p>
+              </li>
+              <li>
+                <p><m>\{(1,0),(0,1)\}</m> in <m>\mathbb{R}^2</m>.</p>
+              </li>
+              <li>
+                <p><m>\{(1,-1,0),(1,0,-1),(0,1,-1)\}</m> in <m>\mathbb{R}^3</m>.</p>
+              </li>
+              <li>
+                <p><m>\{1,x,x^2,(x+1)^3\}</m> in <m>\mathbb{R}[x]</m>, the vector space of real polynomials.</p>
+              </li>
+              <li>
+                <p><m>\{\sin(x),\cos(x)\}</m> in the vector space of all functions from <m>\mathbb{R}</m> to <m>\mathbb{R}</m>.</p>
+              </li>
+            </ul>
+          </p>
+        </statement>
+      </exercise>
+      <exercise xml:id="exercise-2">
+        <statement>
+          <p>Let <m>\vec{u}</m> and <m>\vec{v}</m> be two distinct vectors in a vector space <m>V</m>. Prove that <m>\{\vec{u},\vec{v}\}</m> is linearly independent if and only if neither vector is a scalar multiple of the other.</p>
+        </statement>
+      </exercise>
+      <exercise xml:id="exercise-3">
+        <statement>
+          <p>Give an example of three vectors in <m>\mathbb{R}^3</m> such that no two are scalar multiples of one another, but the three vectors are linearly dependent.</p>
+        </statement>
+      </exercise>
+      <exercise xml:id="exercise-4">
+        <statement>
+          <p>Prove that any nonempty subset of a linearly independent set of vectors is linearly independent.</p>
         </statement>
       </exercise>
     </section>
