@@ -1,16 +1,20 @@
 <section xml:id="review">
 <title>Review</title>
-      <p>
-        <ul>
-          <li>
-            <p>What are the two key operations for a vector space?</p>
-          </li>
-          <li>
-            <p>What is a linear subspace of a vector space?</p>
-          </li>
-          <li>
-            <p>Which vector spaces can be written as a span?</p>
-          </li>
-        </ul>
-      </p>
+       <exercise>
+        <statement>
+          <p>How many different solutions can a system of linear equations have?</p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>What does it mean for a system of linear equations to be consistent?</p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>What are the three operations we learned do not change the solution set to a system of linear equations?</p>
+        </statement>
+      </exercise>
     </section>

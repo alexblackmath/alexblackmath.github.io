@@ -1,59 +1,90 @@
- <section xml:id="sec-span-independence">
-      <title>Span and Independence</title>
-      <p>
-        From the previous section, we have seen that a plane may always be parametrized as linear function with vector coefficients. Namely, it is the set of all vectors of the form
-      </p>
-      <p>
-        <md>\vec{b} + \sum_{i=1}^{k} x_{i}\vec{v}_{i}.</md>
-      </p>
-      <p>
-        Ignoring <m>\vec{b}</m> as it is just a translation term, we define the <term>span</term> of a set of vectors <m>\text{span}(\vec{v}_{1}, \vec{v}_{2},\dots, \vec{v}_{k})</m> to be the set of all linear combinations of those vectors. Then a plane may always be represented by
-      </p>
-      <p>
-        <md>\vec{b} + \text{span}(\vec{v}_{1}, \dots, \vec{v}_{k}).</md>
-      </p>
-      <p>
-        A set of vectors <m>\vec{v}_{1}, \dots, \vec{v}_{k}</m> is called <term>spanning</term> if
-      </p>
-      <p>
-        <md>\text{span}(\vec{v}_{1}, \dots, \vec{v}_{k}) = \mathbb{R}^{n}.</md>
-      </p>
-      <theorem xml:id="thm-spanning-pivots">
+ <section xml:id="Section-2">
+        <title>Gaussian Elimination</title>
+
+      <theorem>
         <statement>
-          <p>
-            A set of vectors <m>\vec{v}_{1}, \dots, \vec{v}_{k}</m> in <alert>
-              <m>\mathbb{R}^{n}</m>
-            </alert> is spanning if and only if the matrix
-          </p>
-          <p>
-            <md>\begin{pmatrix} \vec{v}_{1} &amp; \vec{v}_{2} &amp; \dots &amp; \vec{v}_{k} \end{pmatrix}.</md>
-          </p>
-          <p>
-            has <alert>
-              <m>n</m> pivot columns</alert> in reduced row echelon form. More generally, the dimension of the span of <m>\vec{v}_{1}, \dots, \vec{v}_{k}</m> is the number of pivots of that matrixin reduced row echelon form.
-          </p>
+          <p>By applying row operations, any matrix may be written in reduced row echelon form. Furthermore, the reduced row echelon form of that matrix is unique.</p>
         </statement>
       </theorem>
-      <p>
-        Oftentimes a list of vectors is redundant in that you can remove a vector from the list and get the same span. This happens when one of the vectors may be written as a linear combination of the others. In that case, we call the vectors <term>linearly dependent</term> and <term>linearly independent</term> otherwise.
-      </p>
-      <theorem xml:id="thm-linear-independence-equivalences">
+
+      <p>The <term>Gaussian Elimination</term> algorithm goes as follows:</p>
+      <ul>
+        <li><p>Pick a row <m>A_{i}</m> with leftmost leading entry.</p></li>
+        <li><p>Scale that row so that its leading entry is <m>1</m>.</p></li>
+        <li><p>For each row <m>A_{j}</m> with the same leading column, replace it with <m>A_{j} - \ell A_{i}</m>, where <m>\ell</m> is the leading entry of <m>A_{j}</m>.</p></li>
+        <li><p>Apply interchange to move <m>A_{i}</m> to the top row</p></li>
+        <li><p>Repeat on the submatrix consisting of all rows other than <m>A_{i}</m>.</p></li>
+        <li><p>For each pivot column, apply replacements to make all entry other than the unique row with leading entry in that pivot column equal to <m>0</m>.</p></li>
+      </ul>
+
+      <p>Let's show this on an example. Consider the linear system:</p>
+      <me>\begin{aligned}
+        4x + 2y &amp;= 0,\\
+        2x &amp;= 4,\\
+        y &amp;= 8.
+      \end{aligned}</me>
+
+      <p>Start with the following matrix, which is the augmented matrix of the system:</p>
+      <me>\begin{pmatrix}
+        4 &amp; 2 &amp; 0 \\
+        2 &amp; 0 &amp; 4 \\
+        0 &amp; 1 &amp; 8
+      \end{pmatrix}</me>
+
+      <p>Pick a row with leftmost leading entry such as the second row. Rescale that row so its first entry is <m>1</m>.</p>
+      <me>\begin{pmatrix}
+        4 &amp; 2 &amp; 0 \\
+        1 &amp; 0 &amp; 2 \\
+        0 &amp; 1 &amp; 8
+      \end{pmatrix}</me>
+
+      <p>Then use it to cancel out the leading entry of any other row with the same leading entry by using replacement.</p>
+      <me>\begin{pmatrix}
+        0 &amp; 2 &amp; -8 \\
+        1 &amp; 0 &amp; 2 \\
+        0 &amp; 1 &amp; 8
+      \end{pmatrix}</me>
+
+      <p>Use interchange to place that row as the first row in the matrix.</p>
+      <me>\begin{pmatrix}
+        1 &amp; 0 &amp; 2 \\
+        0 &amp; 2 &amp; -8 \\
+        0 &amp; 1 &amp; 8
+      \end{pmatrix}</me>
+
+      <p>Then follow the same strategy on the remaining rows. The bottom row already has first nonzero entry equal to <m>1</m>, so we can take that one. We replace the second row with it minus twice the third row.</p>
+      <me>\begin{pmatrix}
+        1 &amp; 0 &amp; 2 \\
+        0 &amp; 0 &amp; -24 \\
+        0 &amp; 1 &amp; 8
+      \end{pmatrix}</me>
+
+      <p>Swap until row <m>3</m> is at the top of the rows not already sorted, so we swap it with row <m>2</m>.</p>
+      <me>\begin{pmatrix}
+        1 &amp; 0 &amp; 2 \\
+        0 &amp; 1 &amp; 8\\
+        0 &amp; 0 &amp; -24
+      \end{pmatrix}</me>
+
+      <p>Then we have one more row. We rescale it to be <m>1</m>. Then we cancel out the entries in the columns for that row via replacement. In the end we get the identity matrix.</p>
+      <me>\begin{pmatrix}
+        1 &amp; 0 &amp; 0 \\
+        0 &amp; 1 &amp; 0\\
+        0 &amp; 0 &amp; 1
+      \end{pmatrix}</me>
+
+      <p>Putting this back into equational form we get</p>
+      <me>\begin{aligned}
+        x &amp;= 0 \\
+        y &amp;= 0 \\
+        0 &amp;= 1
+      \end{aligned}</me>
+
+      <p>Thus, the system has no solutions, since <m>0 \neq 1</m>. In fact, the certification of there being no solution is an example of a more general phenomenon:</p>
+
+      <theorem>
         <statement>
-          <p>The following are equivalent for vectors <m>\vec{v}_{1}, \dots, \vec{v}_{k}</m> in <m>\mathbb{R}^{n}</m>:</p>
-          <p>
-            <ul>
-              <li>
-                <p>
-                  <m>\vec{v}_{1}, \dots, \vec{v}_{k}</m> are linearly independent</p>
-              </li>
-              <li>
-                <p>If <m>\sum_{i=1}^{k} x_{i}\vec{v}_{i}</m>, then <m>x_{i} = 0</m> for all <m>i \in [k]</m>.</p>
-              </li>
-              <li>
-                <p>All columns of the matrix <m>\begin{pmatrix} \vec{v}_{1} &amp; \vec{v}_{2} &amp; \dots &amp; \vec{v}_{k} \end{pmatrix}</m> are pivot columns in reduced row echelon form.</p>
-              </li>
-            </ul>
-          </p>
+          <p>A linear system is consistent if and only if the final column of the reduced row echelon form of its augmented matrix is not a pivot column.</p>
         </statement>
       </theorem>
     </section>

@@ -1,137 +1,57 @@
  
-<section xml:id="sec-span-independence">
-  <title> Day 3 Solutions</title> 
-  <exercise>
-      <statement>
-        <p>
-          Let <m>\vec{v}_{1} = (1,0,1,0)</m>, <m>\vec{v}_{2} = (0,2,3,4)</m>.
-          <ol marker="(a)">
-            <li>Compute <m>\vec{v}_{1} + \vec{v}_{2}</m></li>
-            <li>Compute <m>2(\vec{v}_{1} + \vec{v}_{2})</m></li>
-            <li>Compute <m>2 \vec{v}_{1} + 2 \vec{v}_{2}</m>. How does your answer compare to part (b)?</li>
-            <li>Compute <m>\vec{v}_{1} - \vec{v}_{2}</m>.</li>
-          </ol>
-        </p>
-      </statement>
-      <solution>
-        <p>For (a), you get <m>(1,2,4,4)</m>.</p>
-        <p>For (b) and (c), you get <m>(2,4,8,8)</m> and observe they are the same. This is because of the distributive property of scalar multiplication.</p>
-        <p>For (d), you get <m>(1,-2,-2,-4)</m>.</p>
-      </solution>
-    </exercise>
+<section xml:id="exercises">
+  <title>Exercises</title> 
+<exercise>
+        <introduction>
+          <p>Consider the following system of linear equations in variables <m>x_{1}, x_{2}, y_{1}, y_{2}, y_{3}, y_{4}</m>:</p>
+          <me>\begin{aligned}
+            x_{1} + y_{1} &amp;= 1,\\
+            -x_{1} + y_{2} &amp;= 0,\\
+            x_{2} + y_{3} &amp;= 1,\\
+            -x_{2} + y_{4} &amp;= 0
+          \end{aligned}</me>
+        </introduction>
+        <task>
+          <statement><p>Write down the augmented matrix.</p></statement>
+        </task>
+        <task>
+          <statement><p>Put the augmented matrix in reduced row echelon form</p></statement>
+        </task>
+        <task>
+          <statement><p>What is the dimension of the solution set?</p></statement>
+        </task>
+        <task>
+          <statement><p>Give an explicit parametrization of the solution set.</p></statement>
+        </task>
+      </exercise>
 
-    <exercise>
-      <statement>
-        <p>Consider the linear system</p>
-        <me>
-          \begin{aligned}
-          x + y + z &amp;= 3, \\
-          2x + 3y + 5z &amp;= 10, \\
-          4x + 9y + 25z &amp;= 39
-          \end{aligned}
-        </me>
-        <p>
-          <ol marker="(a)">
-            <li>Write the augmented matrix of the system.</li>
-            <li>Write the system as a vector equation.</li>
-            <li>Which one is your favorite?</li>
-          </ol>
-        </p>
-      </statement>
-      <solution>
-        <p>(a) The augmented matrix for the system is</p>
-        <me>\begin{pmatrix} 1 &amp; 1 &amp; 1 &amp; 3 \\ 2 &amp; 3 &amp; 5 &amp; 10 \\ 4 &amp; 9 &amp; 25 &amp; 39 \end{pmatrix}</me>
-        <p>(b) The vector equation is</p>
-        <me>x\begin{pmatrix} 1 \\ 2 \\ 4 \end{pmatrix} + y \begin{pmatrix} 1 \\ 3 \\ 9 \end{pmatrix} + z \begin{pmatrix} 1 \\ 5 \\ 25 \end{pmatrix} = \begin{pmatrix} 3 \\ 10 \\ 39 \end{pmatrix}.</me>
-        <p>(c) I like the vector equation best because of its geometric interpretation. The augmented matrix form is nicest as a tool for solving the linear system though.</p>
-      </solution>
-    </exercise>
+      <exercise>
+        <introduction>
+          <p>Consider the following matrix:</p>
+          <me>\begin{pmatrix}
+            0 &amp; 0 &amp; 1 &amp; 3 \\
+            0 &amp; 0 &amp; 0 &amp; 0 \\
+            0 &amp; 1 &amp; 0 &amp; 2 \\
+            1 &amp; 0 &amp; 0 &amp; 1
+          \end{pmatrix}</me>
+        </introduction>
+        <task>
+          <statement><p>Put the matrix in reduced row echelon form.</p></statement>
+        </task>
+        <task>
+          <statement><p>Suppose this is the augmented matrix of a linear system. Will that linear system be consistent? Explain why or why not.</p></statement>
+        </task>
+      </exercise>
 
-    <exercise>
-      <statement>
-        <p>Consider the linear system</p>
-        <me>
-          \begin{aligned}
-          x_{1} + x_{2} + x_{3} + x_{4} + x_{5} + x_{6} &amp;= 10, \\
-          x_{1} + x_{3} + x_{5} &amp;= 5, \\
-          x_{2} + x_{4} + x_{6} &amp;= 5
-          \end{aligned}
-        </me>
-        <p>
-          <ol marker="(a)">
-            <li>Write the augmented matrix of the system.</li>
-            <li>Write the system as a vector equation.</li>
-            <li>Solve the system of equations and write the linear function with vector coefficients describing the solution set.</li>
-          </ol>
-        </p>
-      </statement>
-      <solution>
-        <p>(a) The augmented matrix is</p>
-        <me>\begin{pmatrix} 1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 10 \\ 1 &amp; 0 &amp; 1 &amp; 0 &amp; 1 &amp; 0 &amp; 5 \\ 0 &amp; 1 &amp; 0 &amp; 1 &amp; 0 &amp; 1 &amp; 5\end{pmatrix}.</me>
-        <p>(b) As a vector equation, I'd write this as</p>
-        <me>x_{1} \begin{pmatrix} 1 \\ 1\\ 0 \end{pmatrix} + x_{2} \begin{pmatrix} 1 \\ 0\\ 1 \end{pmatrix} + x_{3} \begin{pmatrix} 1 \\ 1\\ 0 \end{pmatrix} + x_{4} \begin{pmatrix} 1 \\ 0\\ 1 \end{pmatrix} + x_{5} \begin{pmatrix} 1 \\ 1\\ 0 \end{pmatrix} +x_{6} \begin{pmatrix} 1 \\ 0\\ 1 \end{pmatrix} = \begin{pmatrix} 10 \\ 5\\ 5\end{pmatrix}</me>
-        <p>(c) You could just solve the linear system like always, but here note that the vector equation actually gives more insight. Really what you get is</p>
-        <me>(x_{1} +x_{3} + x_{5}) \begin{pmatrix} 1 \\ 1\\ 0 \end{pmatrix} + (x_{2}+x_{4}+x_{6}) \begin{pmatrix} 1 \\ 0\\ 1 \end{pmatrix} = \begin{pmatrix} 10 \\ 5\\ 5 \end{pmatrix}.</me>
-        <p>Letting <m>y = x_{1} + x_{3} + x_{5}</m> and <m>z = x_{2} + x_{4} + x_{6}</m> yields</p>
-        <me>y\begin{pmatrix} 1 \\ 1\\ 0 \end{pmatrix} + z \begin{pmatrix} 1 \\ 0\\ 1 \end{pmatrix} = \begin{pmatrix} 10 \\ 5\\ 5 \end{pmatrix}</me>
-        <p>Via row reduction, you can observe that this system has a unique solution given by <m>y = 5</m> and <m>z = 5</m>. Then the system of equations is equivalent to</p>
-        <me>
-          \begin{aligned}
-          x_{1} + x_{3} + x_{5} &amp;= 5, \\
-          x_{2} + x_{4} + x_{6} &amp;= 5
-          \end{aligned}
-        </me>
-        <p>This is in reduced row echelon form with free variables <m>x_{3}, x_{4}, x_{5},</m> and <m>x_{6}</m>, so the answer is</p>
-        <me>f(x_{3},x_{4},x_{5},x_{6}) = (5-x_{3}-x_{5}, 5-x_{4} -x_{6}, x_{3},x_{4},x_{5},x_{6}).</me>
-        <p>Finally, we wanted to write this as a linear function with vector coefficients yielding</p>
-        <me>f(x_{3},x_{4},x_{5},x_{6}) = \begin{pmatrix} 5 \\ 5 \\ 0 \\0 \\0\\0 \end{pmatrix} + x_{3} \begin{pmatrix} -1 \\0\\1\\0\\0\\0 \end{pmatrix} + x_{4}\begin{pmatrix} 0 \\-1\\0\\1\\0\\0 \end{pmatrix} + x_{5}\begin{pmatrix} -1 \\0\\0\\0\\1\\0 \end{pmatrix}+x_6\begin{pmatrix} 0 \\-1\\0\\0\\0\\1 \end{pmatrix}.</me>
-      </solution>
-    </exercise>
-
-    <exercise>
-      <statement>
-        <p>
-          Consider the following question: <q>Is <m>(1,0,1)</m> in the span of <m>(1,2,3)</m> and <m>(3,2,1)</m>?</q>
-          <ol marker="(a)">
-            <li>Rewrite this question as a vector equation.</li>
-            <li>Rewrite it as a system of linear equations.</li>
-            <li>Solve the linear system. Is the answer yes?</li>
-          </ol>
-        </p>
-      </statement>
-      <solution>
-        <p>For part (a), <m>(1,0,1)</m> being in the span of <m>(1,2,3)</m> and <m>(3,2,1)</m> is equivalent to being a linear combination of <m>(1,2,3)</m> and <m>(3,2,1)</m>. That is the question corresponds to asking if the following system has a solution:</p>
-        <me>x\begin{pmatrix} 1 \\ 2 \\3\end{pmatrix} + y \begin{pmatrix} 3 \\ 2\\ 1 \end{pmatrix} = \begin{pmatrix} 1 \\ 0\\ 1 \end{pmatrix}.</me>
-        <p>For part (b), we can rewrite this as the system of linear equations</p>
-        <me>
-          \begin{aligned}
-          x+ 3 y &amp;= 1, \\
-          2x + 2y &amp;= 0, \\
-          3x + y &amp;= 1
-          \end{aligned}
-        </me>
-        <p>For part (c), we want to solve the system. I would do this by first finding the augmented matrix and putting it in reduced row echelon form. Here is the augmented matrix</p>
-        <me>\begin{pmatrix} 1 &amp; 3 &amp; 1 \\ 2 &amp; 2 &amp; 0 \\ 3 &amp; 1 &amp; 1 \end{pmatrix}</me>
-        <p>To do this, I do replacement on both the second and third row subtracting twice the first and three times the first respectively and get:</p>
-        <me>\begin{pmatrix} 1 &amp; 3 &amp; 1 \\ 0 &amp; -4 &amp; -2 \\ 0 &amp; -8 &amp; -2 \end{pmatrix}</me>
-        <p>Then I subtract twice the second from the third</p>
-        <me>\begin{pmatrix} 1 &amp; 3 &amp; 1 \\ 0 &amp; -4 &amp; -2 \\ 0 &amp; 0 &amp; 2 \end{pmatrix}</me>
-        <p>Now I could do more row operations, but I already know since its upper triangular with nonzero elements on the diagonal, these will eventually lead to an identity matrix:</p>
-        <me>\begin{pmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}</me>
-        <p>The last column is a pivot column, so the system has no solution (i.e., it is inconsistent) meaning that <m>(1,0,1)</m> is not in the span of <m>(1,2,3)</m> and <m>(3,2,1)</m>.</p>
-      </solution>
-    </exercise>
-
-    <exercise>
-      <statement>
-        <p>Are <m>(1,0,1)</m>, <m>(1,2,3)</m>, and <m>(3,2,1)</m> linearly independent? Explain why or why not.</p>
-      </statement>
-      <solution>
-        <p>To check this, I can make them the columns of a matrix:</p>
-        <me>\begin{pmatrix} 1 &amp; 1 &amp; 3 \\ 0 &amp; 2 &amp; 2 \\ 1 &amp; 3 &amp; 1\end{pmatrix}</me>
-        <p>If this matrix has exclusively pivot columns in reduced row echelon form, then it is linearly independent. If you do the row reduction, you get</p>
-        <me>\begin{pmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}</me>
-        <p>and so indeed they are linearly independent.</p>
-      </solution>
-    </exercise>
+      <exercise>
+        <statement>
+          <p>Consider the following matrix:</p>
+          <me>\begin{pmatrix}
+            0 &amp; 0 &amp; 1 &amp; 3 \\
+            0 &amp; 1 &amp; 0 &amp; 2 \\
+            0 &amp; 0 &amp; 0 &amp; 0
+          \end{pmatrix}</me>
+          <p>Suppose this is the coefficient matrix of a linear system. For which right hand sides is it consistent?</p>
+        </statement>
+      </exercise>
 </section>

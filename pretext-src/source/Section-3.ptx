@@ -1,0 +1,27 @@
+    <section xml:id ="Section-3">
+      <title>Parametrizing the Solution Set</title>
+
+      <p>Let's look back at this example.</p>
+      <me>\begin{aligned}
+        x_{1} + x_{2} + x_{4} + x_{5} &amp;= 0,\\
+        x_{3} - x_{4} - x_{5} &amp;= 12,\\
+        x_{6} &amp;= 1.
+      \end{aligned}</me>
+
+      <p>There are three free variables: <m>x_{2}, x_{4},</m> and <m>x_{5}</m>. We can use those to parametrize our solution. In particular,</p>
+      <me>\begin{aligned}
+        x_{1} &amp;= -x_{2} - x_{4} -x_{5} \\
+        x_{3} &amp;= x_{4} + x_{5} + 12 \\
+        x_{6} &amp;= 1.
+      \end{aligned}</me>
+
+      <p>Let <m>x_{2} = a</m>, <m>x_{4} = b</m>, and <m>x_{5} = c</m>. Then we get a <m>3</m>-D plane in <m>\mathbb{R}^{6}</m> with parametrization:</p>
+      <me>f(a,b,c) = (-a-b-c, a, b+c+12, b, c, 1).</me>
+
+      <p>This is a plane. You can think of it parametrically as being of the form</p>
+      <me>f(a,b,c) = a(-1,1,0,0,0,0) + b(-1,0,1,1,0,0) + c(-1,0,1,0,1,0) + (0,0,12,0,0,1).</me>
+
+      <p>Next time we will talk about this last formulation.</p>
+    </section>
+
+

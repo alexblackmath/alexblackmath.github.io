@@ -6,53 +6,125 @@ var ptx_lunr_docs = [
   "url": "#affine",
   "type": "Article",
   "number": "",
-  "title": "Day 3 Solutions",
-  "body": " Day 3 Solutions          Day 3 Solutions    Let , .  Compute  Compute  Compute . How does your answer compare to part (b)?  Compute .      For (a), you get .  For (b) and (c), you get and observe they are the same. This is because of the distributive property of scalar multiplication.  For (d), you get .      Consider the linear system     Write the augmented matrix of the system.  Write the system as a vector equation.  Which one is your favorite?      (a) The augmented matrix for the system is   (b) The vector equation is   (c) I like the vector equation best because of its geometric interpretation. The augmented matrix form is nicest as a tool for solving the linear system though.      Consider the linear system     Write the augmented matrix of the system.  Write the system as a vector equation.  Solve the system of equations and write the linear function with vector coefficients describing the solution set.      (a) The augmented matrix is   (b) As a vector equation, I'd write this as   (c) You could just solve the linear system like always, but here note that the vector equation actually gives more insight. Really what you get is   Letting and yields   Via row reduction, you can observe that this system has a unique solution given by and . Then the system of equations is equivalent to   This is in reduced row echelon form with free variables and , so the answer is   Finally, we wanted to write this as a linear function with vector coefficients yielding       Consider the following question: Is in the span of and ?   Rewrite this question as a vector equation.  Rewrite it as a system of linear equations.  Solve the linear system. Is the answer yes?      For part (a), being in the span of and is equivalent to being a linear combination of and . That is the question corresponds to asking if the following system has a solution:   For part (b), we can rewrite this as the system of linear equations   For part (c), we want to solve the system. I would do this by first finding the augmented matrix and putting it in reduced row echelon form. Here is the augmented matrix   To do this, I do replacement on both the second and third row subtracting twice the first and three times the first respectively and get:   Then I subtract twice the second from the third   Now I could do more row operations, but I already know since its upper triangular with nonzero elements on the diagonal, these will eventually lead to an identity matrix:   The last column is a pivot column, so the system has no solution (i.e., it is inconsistent) meaning that is not in the span of and .      Are , , and linearly independent? Explain why or why not.    To check this, I can make them the columns of a matrix:   If this matrix has exclusively pivot columns in reduced row echelon form, then it is linearly independent. If you do the row reduction, you get   and so indeed they are linearly independent.     "
+  "title": "RREF Your Engines",
+  "body": " RREF Your Engines        Review    How many different solutions can a system of linear equations have?      What does it mean for a system of linear equations to be consistent?      What are the three operations we learned do not change the solution set to a system of linear equations?      Reduced Row Echelon Form (RREF)  We saw last in Exercise 5 that solving a linear system seems pretty doable when its coefficient matrix is diagonal such as this one:   By rescaling we can force each coefficient on the left handside to be and arrive at the following equation:   The coefficient matrix of this equation has the following form   It is called the identity matrix . It is an ideal coefficient matrix. It turns out by applying row operations we can always arrive at a system with coefficient matrix that looks like the identity matrix. In fact, in general we will usually look at the augmented matrix. The shape is as follows:   An example linear system with such an augmented matrix would be the following:   What you can see is that the solution is no longer unique. Now the variables , , and can take on whatever value we choose, and , , and are determined by those values.  A formal definition is as follows. We call the leftmost nonzero entry in a row of a matrix the leading entry of that row and call the column containing it the leading column of that row. A matrix is in Echelon Form if:   All nonzero rows are above any rows of all zeros  Each leading entry is in a column strictly to the right of the leading entry that comes before it  All entries in a column below a leading entry are zeros   A matrix is in Reduced Row Echelon Form if in addition to the previous properties:   The leading entry in each row is 1.  The leading entry is the only nonzero entry in its column.   The columns containing leading entries are called pivot columns . I usually think of them as being dependent variables. The variables corresponding to the remaining columns are completely free to vary while the pivot columns are determined uniquely by their values. The number of free variables is the dimension of the set of solutions.  Take the system of equations in three variables:   The corresponding coefficient matrix is   It is in reduced row echelon form. There is one free variable , so the solution set is one dimensional. If we solve in terms of , we get , , and of course . If we parametrize the solution set in terms of , we get the line   Geometrically this tells us the intersection of those two planes is that line. The free variable count told us without further computation that the solution set had to be one dimensional, and so it makes sense that it is a line.    Gaussian Elimination    By applying row operations, any matrix may be written in reduced row echelon form. Furthermore, the reduced row echelon form of that matrix is unique.    The Gaussian Elimination algorithm goes as follows:   Pick a row with leftmost leading entry.  Scale that row so that its leading entry is .  For each row with the same leading column, replace it with , where is the leading entry of .  Apply interchange to move to the top row  Repeat on the submatrix consisting of all rows other than .  For each pivot column, apply replacements to make all entry other than the unique row with leading entry in that pivot column equal to .   Let's show this on an example. Consider the linear system:   Start with the following matrix, which is the augmented matrix of the system:   Pick a row with leftmost leading entry such as the second row. Rescale that row so its first entry is .   Then use it to cancel out the leading entry of any other row with the same leading entry by using replacement.   Use interchange to place that row as the first row in the matrix.   Then follow the same strategy on the remaining rows. The bottom row already has first nonzero entry equal to , so we can take that one. We replace the second row with it minus twice the third row.   Swap until row is at the top of the rows not already sorted, so we swap it with row .   Then we have one more row. We rescale it to be . Then we cancel out the entries in the columns for that row via replacement. In the end we get the identity matrix.   Putting this back into equational form we get   Thus, the system has no solutions, since . In fact, the certification of there being no solution is an example of a more general phenomenon:    A linear system is consistent if and only if the final column of the reduced row echelon form of its augmented matrix is not a pivot column.      Parametrizing the Solution Set  Let's look back at this example.   There are three free variables: and . We can use those to parametrize our solution. In particular,   Let , , and . Then we get a -D plane in with parametrization:   This is a plane. You can think of it parametrically as being of the form   Next time we will talk about this last formulation.    Exercises    Consider the following system of linear equations in variables :     Write down the augmented matrix.    Put the augmented matrix in reduced row echelon form    What is the dimension of the solution set?    Give an explicit parametrization of the solution set.      Consider the following matrix:     Put the matrix in reduced row echelon form.    Suppose this is the augmented matrix of a linear system. Will that linear system be consistent? Explain why or why not.      Consider the following matrix:   Suppose this is the coefficient matrix of a linear system. For which right hand sides is it consistent?     "
 },
 {
-  "id": "sec-span-independence-2",
+  "id": "review-2",
   "level": "2",
-  "url": "#sec-span-independence-2",
+  "url": "#review-2",
   "type": "Checkpoint",
   "number": "1.1",
   "title": "",
-  "body": "  Let , .  Compute  Compute  Compute . How does your answer compare to part (b)?  Compute .      For (a), you get .  For (b) and (c), you get and observe they are the same. This is because of the distributive property of scalar multiplication.  For (d), you get .   "
+  "body": "  How many different solutions can a system of linear equations have?   "
 },
 {
-  "id": "sec-span-independence-3",
+  "id": "review-3",
   "level": "2",
-  "url": "#sec-span-independence-3",
+  "url": "#review-3",
   "type": "Checkpoint",
   "number": "1.2",
   "title": "",
-  "body": "  Consider the linear system     Write the augmented matrix of the system.  Write the system as a vector equation.  Which one is your favorite?      (a) The augmented matrix for the system is   (b) The vector equation is   (c) I like the vector equation best because of its geometric interpretation. The augmented matrix form is nicest as a tool for solving the linear system though.   "
+  "body": "  What does it mean for a system of linear equations to be consistent?   "
 },
 {
-  "id": "sec-span-independence-4",
+  "id": "review-4",
   "level": "2",
-  "url": "#sec-span-independence-4",
+  "url": "#review-4",
   "type": "Checkpoint",
   "number": "1.3",
   "title": "",
-  "body": "  Consider the linear system     Write the augmented matrix of the system.  Write the system as a vector equation.  Solve the system of equations and write the linear function with vector coefficients describing the solution set.      (a) The augmented matrix is   (b) As a vector equation, I'd write this as   (c) You could just solve the linear system like always, but here note that the vector equation actually gives more insight. Really what you get is   Letting and yields   Via row reduction, you can observe that this system has a unique solution given by and . Then the system of equations is equivalent to   This is in reduced row echelon form with free variables and , so the answer is   Finally, we wanted to write this as a linear function with vector coefficients yielding    "
+  "body": "  What are the three operations we learned do not change the solution set to a system of linear equations?   "
 },
 {
-  "id": "sec-span-independence-5",
+  "id": "Section-1-8",
   "level": "2",
-  "url": "#sec-span-independence-5",
-  "type": "Checkpoint",
-  "number": "1.4",
+  "url": "#Section-1-8",
+  "type": "Paragraph (with a defined term)",
+  "number": "",
   "title": "",
-  "body": "  Consider the following question: Is in the span of and ?   Rewrite this question as a vector equation.  Rewrite it as a system of linear equations.  Solve the linear system. Is the answer yes?      For part (a), being in the span of and is equivalent to being a linear combination of and . That is the question corresponds to asking if the following system has a solution:   For part (b), we can rewrite this as the system of linear equations   For part (c), we want to solve the system. I would do this by first finding the augmented matrix and putting it in reduced row echelon form. Here is the augmented matrix   To do this, I do replacement on both the second and third row subtracting twice the first and three times the first respectively and get:   Then I subtract twice the second from the third   Now I could do more row operations, but I already know since its upper triangular with nonzero elements on the diagonal, these will eventually lead to an identity matrix:   The last column is a pivot column, so the system has no solution (i.e., it is inconsistent) meaning that is not in the span of and .   "
+  "body": "identity matrix "
 },
 {
-  "id": "sec-span-independence-6",
+  "id": "Section-1-13",
   "level": "2",
-  "url": "#sec-span-independence-6",
-  "type": "Checkpoint",
-  "number": "1.5",
+  "url": "#Section-1-13",
+  "type": "Paragraph (with a defined term)",
+  "number": "",
   "title": "",
-  "body": "  Are , , and linearly independent? Explain why or why not.    To check this, I can make them the columns of a matrix:   If this matrix has exclusively pivot columns in reduced row echelon form, then it is linearly independent. If you do the row reduction, you get   and so indeed they are linearly independent.   "
+  "body": "leading entry leading column Echelon Form "
+},
+{
+  "id": "Section-1-15",
+  "level": "2",
+  "url": "#Section-1-15",
+  "type": "Paragraph (with a defined term)",
+  "number": "",
+  "title": "",
+  "body": "Reduced Row Echelon Form "
+},
+{
+  "id": "Section-1-17",
+  "level": "2",
+  "url": "#Section-1-17",
+  "type": "Paragraph (with a defined term)",
+  "number": "",
+  "title": "",
+  "body": "pivot columns dimension "
+},
+{
+  "id": "Section-2-2",
+  "level": "2",
+  "url": "#Section-2-2",
+  "type": "Theorem",
+  "number": "3.1",
+  "title": "",
+  "body": "  By applying row operations, any matrix may be written in reduced row echelon form. Furthermore, the reduced row echelon form of that matrix is unique.   "
+},
+{
+  "id": "Section-2-3",
+  "level": "2",
+  "url": "#Section-2-3",
+  "type": "Paragraph (with a defined term)",
+  "number": "",
+  "title": "",
+  "body": "Gaussian Elimination "
+},
+{
+  "id": "Section-2-24",
+  "level": "2",
+  "url": "#Section-2-24",
+  "type": "Theorem",
+  "number": "3.2",
+  "title": "",
+  "body": "  A linear system is consistent if and only if the final column of the reduced row echelon form of its augmented matrix is not a pivot column.   "
+},
+{
+  "id": "exercises-2",
+  "level": "2",
+  "url": "#exercises-2",
+  "type": "Checkpoint",
+  "number": "5.1",
+  "title": "",
+  "body": "  Consider the following system of linear equations in variables :     Write down the augmented matrix.    Put the augmented matrix in reduced row echelon form    What is the dimension of the solution set?    Give an explicit parametrization of the solution set.   "
+},
+{
+  "id": "exercises-3",
+  "level": "2",
+  "url": "#exercises-3",
+  "type": "Checkpoint",
+  "number": "5.2",
+  "title": "",
+  "body": "  Consider the following matrix:     Put the matrix in reduced row echelon form.    Suppose this is the augmented matrix of a linear system. Will that linear system be consistent? Explain why or why not.   "
+},
+{
+  "id": "exercises-4",
+  "level": "2",
+  "url": "#exercises-4",
+  "type": "Checkpoint",
+  "number": "5.3",
+  "title": "",
+  "body": "  Consider the following matrix:   Suppose this is the coefficient matrix of a linear system. For which right hand sides is it consistent?   "
 }
 ]
 

@@ -10,13 +10,14 @@
   </docinfo>
 
   <article xml:id="affine">
-    <title>Day 3 Solutions</title>
+    <title>RREF Your Engines</title>
 
     <xi:include href="./frontmatter.ptx" />
     <!-- <xi:include href="homework-1.ptx" /> -->
-    <!-- <xi:include href="./review.ptx" />
-    <xi:include href="./Section-1.ptx" /> -->
-    <!-- <xi:include href="./sec-span-independence.ptx" /> -->
+    <xi:include href="./review.ptx" />
+    <xi:include href="./Section-1.ptx" />
+    <xi:include href="./Section-2.ptx" />
+    <xi:include href="./Section-3.ptx" />
     <xi:include href="./exercises.ptx" />
   </article>
 
