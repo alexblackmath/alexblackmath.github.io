@@ -1,62 +1,60 @@
  
 <section xml:id="exercises">
-  <title>Exercises</title> 
-<exercise>
+  <title>Exercises</title>
+   <exercise xml:id="ex-steinitz-example">
         <statement>
           <p>
-            Consider the following system of linear equations:
-            <md>
-              <mrow>x_{1} + x_{2} + x_{3} + x_{4} \amp= 1,</mrow>
-              <mrow>x_{2} + x_{4} \amp= 1,</mrow>
-              <mrow>x_{3} \amp= 1</mrow>
-            </md>
+            Apply <xref ref="lem-steinitz-exchange"/> to
+            <m>B_1=\{(1,0,0),(0,1,0),(0,0,1)\}</m> and
+            <m>B_2=\{(1,0,0),(1,1,0),(1,1,1)\}</m> with <m>\vec{v}=(1,1,0)</m>.
           </p>
-          <ol marker="(a)">
-            <li><p>Write the coefficient and augmented matrix of the system.</p></li>
-            <li><p>Write the system as a linear equation with vector coefficients.</p></li>
-            <li><p>Write the system in matrix-vector form.</p></li>
-            <li><p>Which is your favorite?</p></li>
-          </ol>
         </statement>
       </exercise>
 
-      <exercise>
+      <exercise xml:id="ex-spanning-contains-basis">
         <statement>
           <p>
-            Consider the matrix
-            <me>A = \begin{pmatrix} 0 \amp 1 \\ 1 \amp 0\end{pmatrix}</me>
-            Consider the vectors
-            <me>\vec{v}_{1} = \begin{pmatrix} -1 \\ -1 \\ \end{pmatrix}, \vec{v}_{2} =\begin{pmatrix} -3 \\ 1 \\\end{pmatrix}</me>
+            Show that a set of vectors is spanning in a finite-dimensional vector space if and only if it contains a basis.
           </p>
-          <ol marker="(a)">
-            <li><p>Compute <m>\vec{v}_{1} \cdot \vec{v}_{2}</m></p></li>
-            <li><p>Compute <m>A \vec{v}_{1}</m>.</p></li>
-            <li><p>Compute <m>A \vec{v}_{2}</m></p></li>
-            <li><p>Compute <m>\vec{v}_{1} - A\vec{v}_{1}</m>.</p></li>
-            <li><p>Describe what multiplying by <m>A</m> does in words. For which vectors <m>\vec{v}</m> does <m>A \vec{v} = \vec{v}</m>?</p></li>
-          </ol>
         </statement>
       </exercise>
 
-      <exercise>
+      <exercise xml:id="ex-independent-contained-basis">
         <statement>
           <p>
-            Consider the following linear system defined by the matrix equation:
-            <me>\begin{pmatrix} 1 \amp 0 \amp1 \amp 1 \\0 \amp 1 \amp 1 \amp 1 \end{pmatrix} \begin{pmatrix} x_{1} \\x_{2} \\x_{3}\\x_{4} \end{pmatrix} = 
-            \begin{pmatrix} 0 \\0 \end{pmatrix}</me>
+            Show that a set of vectors is linearly independent in a finite-dimensional vector space if and only if it is contained in a basis.
           </p>
-          <ol marker="(a)">
-            <li><p>What is the dimension of the solution set of the linear system?</p></li>
-            <li><p>Solve the linear system by giving a parametric solution.</p></li>
-            <li><p>Write the solution set as a span.</p></li>
-            <li><p>Use your solution to give an outer representation for the plane <m>\text{span}((1,0,1,1),(0,1,1,1))</m>.</p></li>
-          </ol>
         </statement>
       </exercise>
 
-      <exercise>
-        <statement>
-          <p>Consider vectors <m>(1,1,0,0)</m> and <m>(0,0,1,1)</m>. Describe their span as the solution set to a system of linear equations.</p>
-        </statement>
+      <p>
+        Some properties of bases break down if we use integer coefficients instead of coefficients from a field such as
+        <m>\mathbb{R}</m>. Let <m>\operatorname{span}_{\mathbb{Z}}(S)</m> denote the set of integer linear combinations
+        of elements of <m>S</m>. We call a set of vectors <term>integer-linearly independent</term> if the only integer
+        linear combination of them that equals <m>0</m> is the trivial combination, in which all coefficients are zero.
+      </p>
+
+      <exercise xml:id="ex-integer-span-counterexample">
+        <introduction>
+          <p>Let <m>\mathbb{Z}</m> denote the integers.</p>
+        </introduction>
+        <task>
+          <p>
+            Explain why <m>\mathbb{Z}\neq\operatorname{span}_{\mathbb{Z}}\{2\}</m> and
+            <m>\mathbb{Z}\neq\operatorname{span}_{\mathbb{Z}}\{3\}</m>.
+          </p>
+        </task>
+        <task>
+          <p>Show that <m>\mathbb{Z}=\operatorname{span}_{\mathbb{Z}}\{2,3\}</m>.</p>
+        </task>
+        <task>
+          <p>Show that a nontrivial integer linear combination of <m>2</m> and <m>3</m> equals <m>0</m>.</p>
+        </task>
+        <conclusion>
+          <p>
+            Conclude that although <m>\{2,3\}</m> spans <m>\mathbb{Z}</m> over <m>\mathbb{Z}</m>, it contains no subset
+            that both spans <m>\mathbb{Z}</m> over <m>\mathbb{Z}</m> and is integer-linearly independent.
+          </p>
+        </conclusion>
       </exercise>
 </section>    

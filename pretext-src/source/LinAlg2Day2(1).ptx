@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pretext>
+  <article xml:id="lin-alg-2-day-2">
+    <title>Basic Math</title>
+
+    <section xml:id="sec-review">
+      <title>Review</title>
+
+      <ul>
+        <li><p>What does it mean for a set of vectors to be <em>linearly independent</em>?</p></li>
+        <li><p>What does it mean for a set of vectors to <em>span</em> a vector space?</p></li>
+      </ul>
+
+      <exercise xml:id="ex-independent-extension">
+        <statement>
+          <p>
+            Let <m>\mathbf{v}_1,\dots,\mathbf{v}_k\in V</m>, and suppose they are linearly independent.
+            Let <m>\mathbf{u}\in V</m>. Then
+            <m>\mathbf{v}_1,\dots,\mathbf{v}_k,\mathbf{u}</m> are linearly independent if and only if
+            <m>\mathbf{u}\notin\operatorname{span}(\mathbf{v}_1,\dots,\mathbf{v}_k)</m>.
+          </p>
+        </statement>
+      </exercise>
+    </section>
+
+    <section xml:id="sec-bases">
+      <title>Bases</title>
+
+      <p>
+        A <term>basis</term> of a vector space <m>V</m> is a subset of <m>V</m> that is both linearly independent and spanning.
+      </p>
+
+      <theorem xml:id="thm-finite-spanning-set-has-basis">
+        <statement>
+          <p>
+            Any vector space <m>V</m> of the form <m>\operatorname{span}(S)</m>, where <m>S</m> is finite, has a basis.
+          </p>
+        </statement>
+        <proof>
+          <p>
+            Choose a linearly independent subset <m>I\subseteq S</m> of maximal cardinality; this is possible because <m>S</m> is finite.
+            If <m>I=S</m>, then <m>I</m> is both spanning and linearly independent, so it is a basis.
+          </p>
+          <p>
+            Otherwise, let <m>\mathbf{s}\in S\setminus I</m>. Maximality of <m>I</m> implies that
+            <m>I\cup\{\mathbf{s}\}</m> is linearly dependent. By <xref ref="ex-independent-extension"/>,
+            <m>\mathbf{s}\in\operatorname{span}(I)</m>. Thus every element of <m>S</m> lies in
+            <m>\operatorname{span}(I)</m>, so
+          </p>
+          <me>
+            V=\operatorname{span}(S)\subseteq\operatorname{span}(I)\subseteq V.
+          </me>
+          <p>
+            Hence <m>\operatorname{span}(I)=V</m>, and <m>I</m> is a basis.
+          </p>
+        </proof>
+      </theorem>
+
+      <exercise xml:id="ex-where-finiteness">
+        <statement>
+          <p>Which step used finiteness?</p>
+        </statement>
+      </exercise>
+
+      <p>
+        A vector space that can be written as the span of finitely many vectors is called <term>finite-dimensional</term>.
+        We call the size of a basis the <term>dimension</term> of a vector space. By the previous result, every finite-dimensional
+        vector space has a finite basis, which is where the term comes from. However, this definition could hypothetically fail
+        to make sense: if a vector space had one basis of size <m>2</m> and another of size <m>3</m>, what would its dimension be?
+        Luckily, we can prove this cannot happen.
+      </p>
+
+      <theorem xml:id="thm-base-size">
+        <statement>
+          <p>Every basis of a finite-dimensional vector space has the same finite size.</p>
+        </statement>
+      </theorem>
+
+      <p>
+        To prove this, we will use a famous lemma that gives a way to swap elements of bases.
+      </p>
+
+      <lemma xml:id="lem-steinitz-exchange">
+        <title>Steinitz Exchange Lemma</title>
+        <statement>
+          <p>
+            Let <m>B_1</m> and <m>B_2</m> be two bases of a finite-dimensional vector space. For any
+            <m>\mathbf{v}\in B_2\setminus B_1</m>, there exists <m>\mathbf{u}\in B_1\setminus B_2</m> such that
+            <m>(B_1\setminus\{\mathbf{u}\})\cup\{\mathbf{v}\}</m> is a basis.
+          </p>
+        </statement>
+        <proof>
+          <p>
+            Let <m>\mathbf{v}\in B_2\setminus B_1</m>. Since <m>B_1</m> is a basis, there are distinct vectors
+            <m>\mathbf{u}_1,\dots,\mathbf{u}_n\in B_1</m> and scalars <m>a_1,\dots,a_n</m>, not all zero, such that
+          </p>
+          <me>
+            \mathbf{v}=\sum_{i=1}^{n}a_i\mathbf{u}_i.
+          </me>
+          <p>
+            Some <m>\mathbf{u}_i</m> with <m>a_i\neq 0</m> must lie in <m>B_1\setminus B_2</m>. Otherwise every
+            <m>\mathbf{u}_i</m> with nonzero coefficient would lie in <m>B_2</m>; because
+            <m>\mathbf{v}\notin B_1</m>, the vector <m>\mathbf{v}</m> is distinct from all of these <m>\mathbf{u}_i</m>,
+            and the displayed equation would give a nontrivial linear dependence among elements of <m>B_2</m>.
+            Relabel if necessary so that <m>a_n\neq 0</m> and <m>\mathbf{u}_n\in B_1\setminus B_2</m>.
+          </p>
+          <p>
+            We claim that <m>(B_1\setminus\{\mathbf{u}_n\})\cup\{\mathbf{v}\}</m> is a basis. First, it is linearly independent.
+            Indeed, <m>\mathbf{v}\notin\operatorname{span}(B_1\setminus\{\mathbf{u}_n\})</m>: if it were, then
+            <m>\mathbf{v}</m> would have an expression in the basis <m>B_1</m> with coefficient <m>0</m> on
+            <m>\mathbf{u}_n</m>, contradicting uniqueness of basis coordinates since the displayed expression has
+            <m>a_n\neq 0</m>. By <xref ref="ex-independent-extension"/>, replacing <m>\mathbf{u}_n</m> by
+            <m>\mathbf{v}</m> therefore preserves linear independence.
+          </p>
+          <p>
+            To show spanning, solve the displayed equation for <m>\mathbf{u}_n</m>:
+          </p>
+          <me>
+            \mathbf{u}_n=\frac{1}{a_n}\left(\mathbf{v}-\sum_{i=1}^{n-1}a_i\mathbf{u}_i\right).
+          </me>
+          <p>
+            Thus <m>\mathbf{u}_n\in\operatorname{span}((B_1\setminus\{\mathbf{u}_n\})\cup\{\mathbf{v}\})</m>.
+            Every other element of <m>B_1</m> is already in the replacement set, so that set spans <m>B_1</m>, and hence spans
+            <m>V</m>. Therefore <m>(B_1\setminus\{\mathbf{u}_n\})\cup\{\mathbf{v}\}</m> is a basis.
+          </p>
+        </proof>
+      </lemma>
+
+      <p>
+        Using the exchange lemma, we can prove <xref ref="thm-base-size"/>.
+      </p>
+
+      <proof>
+        <title>Proof of the basis-size theorem</title>
+        <p>
+          By <xref ref="thm-finite-spanning-set-has-basis"/>, choose a finite basis
+          <m>B=\{\mathbf{b}_1,\dots,\mathbf{b}_n\}</m> of <m>V</m>. Let <m>C</m> be any other basis.
+          We first show that <m>C</m> has at most <m>n</m> elements.
+        </p>
+        <p>
+          Suppose instead that <m>C</m> contains <m>n+1</m> distinct vectors
+          <m>\mathbf{c}_1,\dots,\mathbf{c}_{n+1}</m>. Starting from <m>B</m>, process these vectors one at a time.
+          If <m>\mathbf{c}_j</m> is already in the current basis, make no change. If it is not, apply
+          <xref ref="lem-steinitz-exchange"/> to exchange <m>\mathbf{c}_j</m> into the current basis while removing
+          an element not in <m>C</m>. Consequently, none of the previously inserted vectors
+          <m>\mathbf{c}_1,\dots,\mathbf{c}_{j-1}</m> is removed.
+        </p>
+        <p>
+          After processing all <m>n+1</m> vectors, we would have a basis with exactly <m>n</m> elements that contains the
+          <m>n+1</m> distinct vectors <m>\mathbf{c}_1,\dots,\mathbf{c}_{n+1}</m>, which is impossible. Hence
+          <m>|C|\leq n</m>. In particular, <m>C</m> is finite. Applying the same argument with <m>C</m> as the finite basis
+          and <m>B</m> as the other basis gives <m>n\leq |C|</m>. Therefore <m>|C|=n</m>.
+        </p>
+      </proof>
+    </section>
+
+    <section xml:id="sec-exercises">
+      <title>Exercises</title>
+
+      <exercise xml:id="ex-steinitz-example">
+        <statement>
+          <p>
+            Apply <xref ref="lem-steinitz-exchange"/> to
+            <m>B_1=\{(1,0,0),(0,1,0),(0,0,1)\}</m> and
+            <m>B_2=\{(1,0,0),(1,1,0),(1,1,1)\}</m> with <m>\mathbf{v}=(1,1,0)</m>.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-spanning-contains-basis">
+        <statement>
+          <p>
+            Show that a set of vectors is spanning in a finite-dimensional vector space if and only if it contains a basis.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-independent-contained-basis">
+        <statement>
+          <p>
+            Show that a set of vectors is linearly independent in a finite-dimensional vector space if and only if it is contained in a basis.
+          </p>
+        </statement>
+      </exercise>
+
+      <p>
+        Some properties of bases break down if we use integer coefficients instead of coefficients from a field such as
+        <m>\mathbb{R}</m>. Let <m>\operatorname{span}_{\mathbb{Z}}(S)</m> denote the set of integer linear combinations
+        of elements of <m>S</m>. We call a set of vectors <term>integer-linearly independent</term> if the only integer
+        linear combination of them that equals <m>0</m> is the trivial combination, in which all coefficients are zero.
+      </p>
+
+      <exercise xml:id="ex-integer-span-counterexample">
+        <introduction>
+          <p>Let <m>\mathbb{Z}</m> denote the integers.</p>
+        </introduction>
+        <task>
+          <p>
+            Explain why <m>\mathbb{Z}\neq\operatorname{span}_{\mathbb{Z}}\{2\}</m> and
+            <m>\mathbb{Z}\neq\operatorname{span}_{\mathbb{Z}}\{3\}</m>.
+          </p>
+        </task>
+        <task>
+          <p>Show that <m>\mathbb{Z}=\operatorname{span}_{\mathbb{Z}}\{2,3\}</m>.</p>
+        </task>
+        <task>
+          <p>Show that a nontrivial integer linear combination of <m>2</m> and <m>3</m> equals <m>0</m>.</p>
+        </task>
+        <conclusion>
+          <p>
+            Conclude that although <m>\{2,3\}</m> spans <m>\mathbb{Z}</m> over <m>\mathbb{Z}</m>, it contains no subset
+            that both spans <m>\mathbb{Z}</m> over <m>\mathbb{Z}</m> and is integer-linearly independent.
+          </p>
+        </conclusion>
+      </exercise>
+    </section>
+  </article>
+</pretext>

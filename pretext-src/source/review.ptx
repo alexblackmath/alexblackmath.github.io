@@ -1,18 +1,19 @@
 <section xml:id="review">
-<title>Linear Equations with Vector Coefficients Review</title>
-      <exercise>
+  <title>Review</title>
+
+      <ul>
+        <li><p>What does it mean for a set of vectors to be <em>linearly independent</em>?</p></li>
+        <li><p>What does it mean for a set of vectors to <em>span</em> a vector space?</p></li>
+      </ul>
+
+      <exercise xml:id="ex-independent-extension">
         <statement>
           <p>
-            Consider the following pair of linear equations with vector coefficients:
-            <me>x\begin{pmatrix} 1 \\0 \end{pmatrix} + y \begin{pmatrix} 0\\1\end{pmatrix} + z \begin{pmatrix} 1\\1\end{pmatrix} = \begin{pmatrix} 0\\0\end{pmatrix}</me>
-            and
-            <me>x\begin{pmatrix} 1 \\0 \end{pmatrix} + y \begin{pmatrix} 0\\1\end{pmatrix} + z \begin{pmatrix} 1\\1\end{pmatrix} = \begin{pmatrix} 2\\2\end{pmatrix}.</me>
+            Let <m>\vec{v}_1,\dots,\vec{v}_k\in V</m>, and suppose they are linearly independent.
+            Let <m>\vec{u}\in V</m>. Then
+            <m>\vec{v}_1,\dots,\vec{v}_k,\vec{u}</m> are linearly independent if and only if
+            <m>\vec{u}\notin\operatorname{span}(\vec{v}_1,\dots,\vec{v}_k)</m>.
           </p>
-          <ol marker="(a)">
-            <li><p>What is a solution to the first equation?</p></li>
-            <li><p>What is a solution to the second equation?</p></li>
-            <li><p>What happens when we add the two?</p></li>
-          </ol>
         </statement>
       </exercise>
     </section>
