@@ -1,0 +1,57 @@
+INFO    : Building target web
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.52.3/core/xsl/utilities/pretext-enhanced-source.xsl
+INFO    : successful application of /home/codespace/.ptx/2.52.3/core/xsl/utilities/pretext-enhanced-source.xsl
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : verifying and expanding input directory: /workspaces/alexblackmath.github.io/pretext-src/source/../assets
+INFO    : input directory expanded to absolute path: /workspaces/alexblackmath.github.io/pretext-src/assets
+INFO    : Generating any needed assets.
+INFO    : Finished generating assets.
+
+INFO    : Preparing to build into /workspaces/alexblackmath.github.io/pretext-src/output/web.
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : verifying and expanding input directory: /workspaces/alexblackmath.github.io/pretext-src/source/../assets
+INFO    : input directory expanded to absolute path: /workspaces/alexblackmath.github.io/pretext-src/assets
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.52.3/core/xsl/utilities/report-publisher-variables.xsl
+INFO    : successful application of /home/codespace/.ptx/2.52.3/core/xsl/utilities/report-publisher-variables.xsl
+INFO    : Downloading rs services file from https://runestone.academy/cdn/runestone/latest/webpack_static_imports.xml.
+INFO    : Runestone Services via online CDN query: version 8.2.12
+INFO    : Downloading Runestone Services, version 8.2.12
+INFO    : Extracting Runestone Services from archive file
+INFO    : Building custom css theme: theme-default-modern
+INFO    : converting /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx to HTML in /tmp/ptx-hrirfvxd
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.52.3/core/xsl/pretext-html.xsl
+INFO    : messages from the log for XSL processing (prefaced with a *):
+INFO    : * PTX:INFO:   checking all deprecated elements.
+WARNING : * PTX:DEPRECATE: (2026-05-11) the "me" and "men" elements have been deprecated.  The replacement is an "md" with no "mrow" children, and numbering is controlled by the "@number" attribute, or a global setting in "docinfo". (13 times)
+INFO    : *              located at: pretext/article/section/exercise/statement/p/me
+INFO    : *              located within: "review" (xml:id), "Linear Equations with Vector Coefficients Review" (title)
+INFO    : *              located at: pretext/article/section/exercise/statement/p/me
+INFO    : *              located within: "review" (xml:id), "Linear Equations with Vector Coefficients Review" (title)
+INFO    : *              located at: pretext/article/section/p/me
+INFO    : *              located within: "Section-1" (xml:id), "Reduced Row Echelon Form (RREF)" (title)
+INFO    : *              located at: pretext/article/section/p/me
+INFO    : *              located within: "Section-1" (xml:id), "Reduced Row Echelon Form (RREF)" (title)
+INFO    : *              located at: pretext/article/section/p/me
+INFO    : *              located within: "Section-1" (xml:id), "Reduced Row Echelon Form (RREF)" (title)
+INFO    : *              located at: pretext/article/section/p/me
+INFO    : *              located within: "Section-1" (xml:id), "Reduced Row Echelon Form (RREF)" (title)
+INFO    : *              located at: pretext/article/section/p/me
+INFO    : *              located within: "Section-1" (xml:id), "Reduced Row Echelon Form (RREF)" (title)
+INFO    : *              located at: pretext/article/section/subsection/exercise/introduction/p/me
+INFO    : *              located within: "Vectors, Independence, and Span" (title)
+INFO    : * --------------
+WARNING : * PTX:DEPRECATE: (2026-08-20) an "ol" is no longer a child of an "exercise" "statement"; a list belongs inside a "p".  We will wrap it for you, and lettered exercise parts will letter as before.  Please convert: structure true parts with "task", letter a plain list with marker="(a)", or consider an "exercisegroup" and its cols attribute for a compact multi-column layout (1 time)
+INFO    : *              located at: pretext/article/section/exercise/statement/ol
+INFO    : *              located within: "review" (xml:id), "Linear Equations with Vector Coefficients Review" (title)
+INFO    : * --------------
+INFO    : successful application of /home/codespace/.ptx/2.52.3/core/xsl/pretext-html.xsl
+INFO    : Removing temporary directory /tmp/ptx-hrirfvxd
+INFO    : Removing temporary directory /tmp/ptx-hx7_gxmo
+INFO    : 
+Finished build for target web. Run `pretext view web` to see the results.
+
+INFO    : 
+Success!  Built requested target(s) without errors.
+
+INFO    : 

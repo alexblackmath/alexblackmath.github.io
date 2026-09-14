@@ -1,61 +1,46 @@
 <section xml:id="Section-1">
 <title>Reduced Row Echelon Form (RREF)</title>
 
-      <p>We saw last in Exercise 5 that solving a linear system seems pretty doable when its coefficient matrix is diagonal such as this one:</p>
-      <me>\begin{aligned}
-        3x &amp;= 0,\\
-        2y &amp;= 8,\\
-        5z &amp;= 10
-      \end{aligned}</me>
+       <title>Matrix Representations</title>
 
-      <p>By rescaling we can force each coefficient on the left handside to be <m>1</m> and arrive at the following equation:</p>
-      <me>\begin{aligned}
-        x &amp;= 0,\\
-        y &amp;= 4,\\
-        z &amp;= 2
-      \end{aligned}</me>
+      <p>
+        Another crucial operation for vectors is the dot product
+        <me>\vec{x}\cdot \vec{y} = \sum_{i=1}^{n} x_{i}y_{i}.</me>
+        For example, <m>(1,0,-1) \cdot (1,0,1) = 0</m>.
+      </p>
 
-      <p>The coefficient matrix of this equation has the following form</p>
-      <me>\begin{pmatrix} 1 &amp; 0 &amp; 0\\0 &amp;1 &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}</me>
+      <p>
+        Given a system of linear equations:
+        <md>
+          <mrow>x + y \amp= 7,</mrow>
+          <mrow>y + z \amp= 9,</mrow>
+          <mrow>x+z \amp= 11</mrow>
+        </md>
+        We can rewrite these equations using dot products with vectors,
+        <md>
+          <mrow>(1,1,0) \cdot (x,y,z) \amp= 7</mrow>
+          <mrow>(0,1,1) \cdot (x,y,z) \amp= 9</mrow>
+          <mrow>(1,0,1) \cdot(x,y,z)\amp= 11</mrow>
+        </md>
+        However, to save money and time on parentheses and rewriting <m>(x,y,z)</m>, we just write this using the coefficient matrix as
+        <me>\begin{pmatrix} 1 \amp 1 \amp 0 \\ 0 \amp 1 \amp1 \\ 1 \amp 0  \amp1 \end{pmatrix} \begin{pmatrix} x\\ y\\ z \end{pmatrix} = \begin{pmatrix} 7 \\ 9\\ 11 \end{pmatrix}.</me>
+        If we're being really succinct, I call the coeffient matrix <m>A</m>, the variables <m>\vec{x} =(x,y,z)</m>, and the righthand side <m>\vec{b} = (7,9,11)</m>. Then we finally arrive at the standard way of writing down a system of linear equations
+        <me>A \vec{x} = \vec{b}. </me>
+        In particular, given an <m>m \times n</m> matrix <m>A</m>, I can define its multiplication with a vector in <m>\mathbb{R}^{n}</m> by
+        <me>A \vec{x} = \begin{pmatrix} \vec{a}_{1} \\\vec{a}_{2}  \\ \vdots  \\\vec{a}_{m}  \end{pmatrix} \vec{x} =
+        \begin{pmatrix} \vec{a}_{1} \cdot \vec{x} \\\vec{a}_{2} \cdot \vec{x} \\ \vdots  \\\vec{a}_{m} \cdot \vec{x} \end{pmatrix}.</me>
+        For example,
+        <me>\begin{pmatrix} 0 \amp 1 \amp 0\\ 1 \amp 0  \amp 0 \\ 0 \amp 0 \amp 1 \end{pmatrix}\begin{pmatrix} 1 \\ 2 \\ 3\end{pmatrix} = \begin{pmatrix}
+         0(1) + 1(2) + 0(3) \\ 1(1) +0(2) + 0(3) \\0 (1) + 0(2) + 1(3)
+        \end{pmatrix} = \begin{pmatrix}
+        2 \\ 1\\ 3
+        \end{pmatrix}.</me>
+      </p>
 
-      <p>It is called the <term>identity matrix</term>. It is an ideal coefficient matrix. It turns out by applying row operations we can always arrive at a system with coefficient matrix that looks like the identity matrix. In fact, in general we will usually look at the augmented matrix. The shape is as follows:</p>
-      <me>\begin{pmatrix} 1 &amp; * &amp; 0 &amp; * &amp; *  &amp; 0 &amp; *\\0 &amp; 0&amp;1 &amp;* &amp; * &amp; 0 &amp; * \\ 0&amp; 0 &amp; 0&amp; 0 &amp; 0&amp; 1 &amp; *\end{pmatrix}</me>
+      <theorem>
+        <statement>
+          <p>Solving a system of linear equations corresponds to solving the matrix vector equation <m>A \vec{x} = \vec{b}</m>, where <m>A</m> is the coefficient matrix of the linear system and <m>\vec{b}</m> is the right hand side.</p>
+        </statement>
+      </theorem>
 
-      <p>An example linear system with such an augmented matrix would be the following:</p>
-      <me>\begin{aligned}
-        x_{1} + x_{2} + x_{4} + x_{5} &amp;= 0,\\
-        x_{3} - x_{4} - x_{5} &amp;= 12,\\
-        x_{6} &amp;= 1.
-      \end{aligned}</me>
-
-      <p>What you can see is that the solution is no longer unique. Now the variables <m>x_{2}</m>, <m>x_{4}</m>, and <m>x_{5}</m> can take on whatever value we choose, and <m>x_{1}</m>, <m>x_{3}</m>, and <m>x_{6}</m> are determined by those values.</p>
-
-      <p>A formal definition is as follows. We call the leftmost nonzero entry in a row of a matrix the <term>leading entry</term> of that row and call the column containing it the <term>leading column</term> of that row. A matrix is in <term>Echelon Form</term> if:</p>
-      <ul>
-        <li><p>All nonzero rows are above any rows of all zeros</p></li>
-        <li><p>Each leading entry is in a column strictly to the right of the leading entry that comes before it</p></li>
-        <li><p>All entries in a column below a leading entry are zeros</p></li>
-      </ul>
-
-      <p>A matrix is in <term>Reduced Row Echelon Form</term> if in addition to the previous properties:</p>
-      <ul>
-        <li><p>The leading entry in each row is 1.</p></li>
-        <li><p>The leading entry is the only nonzero entry in its column.</p></li>
-      </ul>
-
-      <p>The columns containing leading entries are called <term>pivot columns</term>. I usually think of them as being dependent variables. The variables corresponding to the remaining columns are completely free to vary while the pivot columns are determined uniquely by their values. The number of free variables is the <term>dimension</term> of the set of solutions.</p>
-
-      <p>Take the system of equations in three variables:</p>
-      <me>\begin{aligned}
-        x + z &amp;= 1,\\
-        y + z &amp;= 1
-      \end{aligned}</me>
-
-      <p>The corresponding coefficient matrix is</p>
-      <me>\begin{pmatrix} 1 &amp; 0 &amp; 1 \\ 0 &amp; 1 &amp; 1 \end{pmatrix}</me>
-
-      <p>It is in reduced row echelon form. There is one free variable <m>z</m>, so the solution set is one dimensional. If we solve in terms of <m>z</m>, we get <m>x = -z +1</m>, <m>y = -z+1</m>, and of course <m>z = z</m>. If we parametrize the solution set in terms of <m>z = t</m>, we get the line</p>
-      <me>f(t) = (-t +1 , -t + 1, t).</me>
-
-      <p>Geometrically this tells us the intersection of those two planes is that line. The free variable count told us without further computation that the solution set had to be one dimensional, and so it makes sense that it is a line.</p>
-    </section>
+      </section>

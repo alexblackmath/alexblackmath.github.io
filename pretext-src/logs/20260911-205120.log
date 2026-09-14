@@ -1,0 +1,49 @@
+WARNING : Could not find a target 'pdf', but found a target 'print' with format='pdf'; using this target.
+INFO    : Building target print
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.52.3/core/xsl/utilities/pretext-enhanced-source.xsl
+INFO    : successful application of /home/codespace/.ptx/2.52.3/core/xsl/utilities/pretext-enhanced-source.xsl
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : verifying and expanding input directory: /workspaces/alexblackmath.github.io/pretext-src/source/../assets
+INFO    : input directory expanded to absolute path: /workspaces/alexblackmath.github.io/pretext-src/assets
+INFO    : Generating any needed assets.
+INFO    : Finished generating assets.
+
+INFO    : Preparing to build into /workspaces/alexblackmath.github.io/pretext-src/output/print.
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : verifying and expanding input directory: /workspaces/alexblackmath.github.io/pretext-src/source/../assets
+INFO    : input directory expanded to absolute path: /workspaces/alexblackmath.github.io/pretext-src/assets
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.52.3/core/xsl/utilities/report-publisher-variables.xsl
+INFO    : successful application of /home/codespace/.ptx/2.52.3/core/xsl/utilities/report-publisher-variables.xsl
+INFO    : converting /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx to LaTeX as /tmp/ptx-j1tlm28g/main.tex
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.52.3/core/xsl/pretext-latex.xsl
+INFO    : messages from the log for XSL processing (prefaced with a *):
+INFO    : * PTX:INFO:   checking all deprecated elements.
+WARNING : * PTX:DEPRECATE: (2026-05-11) the "me" and "men" elements have been deprecated.  The replacement is an "md" with no "mrow" children, and numbering is controlled by the "@number" attribute, or a global setting in "docinfo". (6 times)
+INFO    : *              located at: pretext/article/section/subsection/exercise/introduction/p/me
+INFO    : *              located within: "Vectors, Independence, and Span" (title)
+INFO    : *              located at: pretext/article/section/subsection/exercise/introduction/p/me
+INFO    : *              located within: "Vectors, Independence, and Span" (title)
+INFO    : *              located at: pretext/article/section/subsection/exercise/introduction/p/me
+INFO    : *              located within: "Vectors, Independence, and Span" (title)
+INFO    : *              located at: pretext/article/section/subsection/exercise/introduction/p/me
+INFO    : *              located within: " Matrix Form " (title)
+INFO    : *              located at: pretext/article/section/subsection/exercise/introduction/p/me
+INFO    : *              located within: " Matrix Form " (title)
+INFO    : *              located at: pretext/article/section/subsection/exercise/introduction/p/me
+INFO    : *              located within: " Matrix Form " (title)
+INFO    : * --------------
+INFO    : successful application of /home/codespace/.ptx/2.52.3/core/xsl/pretext-latex.xsl
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.52.3/core/xsl/utilities/report-publisher-variables.xsl
+INFO    : successful application of /home/codespace/.ptx/2.52.3/core/xsl/utilities/report-publisher-variables.xsl
+FATAL   : PTX:ERROR: cannot locate executable with configuration name `PdfMethod.XELATEX` as command `xelatex`
+***  Edit the configuration file  ("pretext.cfg" or "project.ptx") and/or install  ***
+***  the necessary program and/or make sure the executable is on your PATH         ***
+INFO    : ------------------------
+exit    : Failed to build without errors.  Exiting...
+INFO    : 
+----------------------------------------------------
+INFO    : While running pretext, the following errors occurred:
+
+INFO    : (see log messages above or in the 'logs' folder for more information)
+INFO    : ----------------------------------------------------

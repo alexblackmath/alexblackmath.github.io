@@ -1,90 +1,45 @@
  <section xml:id="Section-2">
-        <title>Gaussian Elimination</title>
+      <title>Two Ways to Represent a <m>k</m>-Dimensional Plane</title>
 
-      <theorem>
-        <statement>
-          <p>By applying row operations, any matrix may be written in reduced row echelon form. Furthermore, the reduced row echelon form of that matrix is unique.</p>
-        </statement>
-      </theorem>
+      <p>
+        Consider the plane
+        <me>x+y+z = 0</me>
+        A parametric solution to the system is the following:
+        <me>f(y,z) = (-y-z,y,z) = y(-1,1,0) + z(-1,0,1). </me>
+        In other words, the plane is <m>\text{span}((-1,1,0), (-1,0,1))</m>.
+      </p>
 
-      <p>The <term>Gaussian Elimination</term> algorithm goes as follows:</p>
-      <ul>
-        <li><p>Pick a row <m>A_{i}</m> with leftmost leading entry.</p></li>
-        <li><p>Scale that row so that its leading entry is <m>1</m>.</p></li>
-        <li><p>For each row <m>A_{j}</m> with the same leading column, replace it with <m>A_{j} - \ell A_{i}</m>, where <m>\ell</m> is the leading entry of <m>A_{j}</m>.</p></li>
-        <li><p>Apply interchange to move <m>A_{i}</m> to the top row</p></li>
-        <li><p>Repeat on the submatrix consisting of all rows other than <m>A_{i}</m>.</p></li>
-        <li><p>For each pivot column, apply replacements to make all entry other than the unique row with leading entry in that pivot column equal to <m>0</m>.</p></li>
-      </ul>
+      <p>The first is an equational or <alert>outer</alert> representation. It tells you what the plane is by giving you a way to test by plugging it into the equation, but it does not give you a way to generate any vector in the plane without solving a linear system.</p>
 
-      <p>Let's show this on an example. Consider the linear system:</p>
-      <me>\begin{aligned}
-        4x + 2y &amp;= 0,\\
-        2x &amp;= 4,\\
-        y &amp;= 8.
-      \end{aligned}</me>
+      <p>The second is a parametric or <alert>inner</alert> representation. This gives you an easy way to get vectors in the plane, but testing if a vector is in the plane corresponds to solving a linear system.</p>
 
-      <p>Start with the following matrix, which is the augmented matrix of the system:</p>
-      <me>\begin{pmatrix}
-        4 &amp; 2 &amp; 0 \\
-        2 &amp; 0 &amp; 4 \\
-        0 &amp; 1 &amp; 8
-      \end{pmatrix}</me>
+      <p>We've already covered how to go from an outer representation to an inner. That's what Gaussian elimination does. But how does one go from an inner representation to an outer one?</p>
 
-      <p>Pick a row with leftmost leading entry such as the second row. Rescale that row so its first entry is <m>1</m>.</p>
-      <me>\begin{pmatrix}
-        4 &amp; 2 &amp; 0 \\
-        1 &amp; 0 &amp; 2 \\
-        0 &amp; 1 &amp; 8
-      \end{pmatrix}</me>
+      <p>In concrete terms: Given a collection of vectors, how do we find an equation describing their span?</p>
 
-      <p>Then use it to cancel out the leading entry of any other row with the same leading entry by using replacement.</p>
-      <me>\begin{pmatrix}
-        0 &amp; 2 &amp; -8 \\
-        1 &amp; 0 &amp; 2 \\
-        0 &amp; 1 &amp; 8
-      \end{pmatrix}</me>
+      <p>
+        This is where the dot product interpretation comes to help us. The key observation is: If a vector is in a row of our matrix representation it must dot product with each vector in the span to equal <m>0</m>. In other words, for <m>(-1,1,0)</m> and <m>(-1,0,1)</m> it must be a solution to the equation:
+        <me>\begin{pmatrix} -1 \amp 1 \amp 0 \\-1 \amp 0 \amp1 \end{pmatrix}\begin{pmatrix} x \\y\\z \end{pmatrix} = \begin{pmatrix} 0\\0 \end{pmatrix}.</me>
+        We can solve this. The augmented matrix is
+        <me>\begin{pmatrix} -1 \amp 1 \amp 0 \amp 0 \\ -1 \amp0 \amp 1 \amp0\end{pmatrix}.</me>
+        Replacing row <m>1</m> with row <m>1</m> - row <m>2</m> yields
+        <me>\begin{pmatrix} 0 \amp 1 \amp -1 \amp 0 \\ -1 \amp0 \amp 1 \amp0\end{pmatrix}.</me>
+        Rescaling the second row by <m>-1</m> gives
+        <me>\begin{pmatrix} 0 \amp 1 \amp -1 \amp 0 \\ 1 \amp0 \amp -1 \amp0\end{pmatrix}.</me>
+        Then interchanging yields the reduced row echelon form:
+        <me>\begin{pmatrix} 1 \amp 0 \amp -1 \amp 0 \\ 0 \amp1 \amp -1 \amp0\end{pmatrix}.</me>
+        The first two columns are pivot columns, and the equations are <m>x-z= 0</m> and <m>y-z =0</m>. Thus, the solution is <m>f(z) = (z,z,z) = z(1,1,1)</m>, so the solution set is <m>\text{span}((1,1,1))</m>.
+      </p>
 
-      <p>Use interchange to place that row as the first row in the matrix.</p>
-      <me>\begin{pmatrix}
-        1 &amp; 0 &amp; 2 \\
-        0 &amp; 2 &amp; -8 \\
-        0 &amp; 1 &amp; 8
-      \end{pmatrix}</me>
-
-      <p>Then follow the same strategy on the remaining rows. The bottom row already has first nonzero entry equal to <m>1</m>, so we can take that one. We replace the second row with it minus twice the third row.</p>
-      <me>\begin{pmatrix}
-        1 &amp; 0 &amp; 2 \\
-        0 &amp; 0 &amp; -24 \\
-        0 &amp; 1 &amp; 8
-      \end{pmatrix}</me>
-
-      <p>Swap until row <m>3</m> is at the top of the rows not already sorted, so we swap it with row <m>2</m>.</p>
-      <me>\begin{pmatrix}
-        1 &amp; 0 &amp; 2 \\
-        0 &amp; 1 &amp; 8\\
-        0 &amp; 0 &amp; -24
-      \end{pmatrix}</me>
-
-      <p>Then we have one more row. We rescale it to be <m>1</m>. Then we cancel out the entries in the columns for that row via replacement. In the end we get the identity matrix.</p>
-      <me>\begin{pmatrix}
-        1 &amp; 0 &amp; 0 \\
-        0 &amp; 1 &amp; 0\\
-        0 &amp; 0 &amp; 1
-      \end{pmatrix}</me>
-
-      <p>Putting this back into equational form we get</p>
-      <me>\begin{aligned}
-        x &amp;= 0 \\
-        y &amp;= 0 \\
-        0 &amp;= 1
-      \end{aligned}</me>
-
-      <p>Thus, the system has no solutions, since <m>0 \neq 1</m>. In fact, the certification of there being no solution is an example of a more general phenomenon:</p>
-
-      <theorem>
-        <statement>
-          <p>A linear system is consistent if and only if the final column of the reduced row echelon form of its augmented matrix is not a pivot column.</p>
-        </statement>
-      </theorem>
+      <p>
+        It turns out then that <m>(1,1,1)</m> is the row of the coefficient matrix in the equation defining <m>\text{span}((-1,1,0), (-1,0,1))</m> is defined by the matrix equation:
+        <me>\begin{pmatrix} 1 \amp 1 \amp1 \end{pmatrix}\begin{pmatrix} x\\y\\z \end{pmatrix} = 0.</me>
+        In fact, that is how it always works. If you want to find an outer representation for the span of a set of vectors:
+        <ul>
+          <li><p>Put those vectors as rows of a matrix <m>A</m> in the equation <m>A\vec{x} = \vec{0}</m>.</p></li>
+          <li><p>Solve that equation.</p></li>
+          <li><p>Write that solution as a span of vectors.</p></li>
+          <li><p>Those vectors are the rows of the matrix <m>B</m> in the outer representation <m>B \vec{x} = \vec{0}</m>.</p></li>
+        </ul>
+      </p>
     </section>
