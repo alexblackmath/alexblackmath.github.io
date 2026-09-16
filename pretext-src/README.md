@@ -69,11 +69,12 @@ VS Code should prompt you to rebuild your codespace, which you should do (you do
 
 
 <!-- 
-rm -rf ../Math2301/Math2301Day5
-mkdir ../Math2301/Math2301Day5
-cp -a output/web/. ../Math2301/Math2301Day5
+rm -rf ../Math2301/Math2301HW2
+mkdir ../Math2301/Math2301HW2
+cp -a output/web/. ../Math2301/Math2301HW2
 
 cd ..
 git add .
 git commit -m "Add PreTeXt math notes"
-git push -->
+git push
+ -->
