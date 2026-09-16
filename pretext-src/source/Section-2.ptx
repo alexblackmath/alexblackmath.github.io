@@ -1,45 +1,91 @@
  <section xml:id="Section-2">
-      <title>Two Ways to Represent a <m>k</m>-Dimensional Plane</title>
+      <title>Linear Transformations</title>
 
-      <p>
-        Consider the plane
-        <me>x+y+z = 0</me>
-        A parametric solution to the system is the following:
-        <me>f(y,z) = (-y-z,y,z) = y(-1,1,0) + z(-1,0,1). </me>
-        In other words, the plane is <m>\text{span}((-1,1,0), (-1,0,1))</m>.
-      </p>
+      <p>We have talked about vector spaces and now know that vector spaces have bases. Part of the purpose of bases is they give you a way to identify vector spaces and move between them.</p>
 
-      <p>The first is an equational or <alert>outer</alert> representation. It tells you what the plane is by giving you a way to test by plugging it into the equation, but it does not give you a way to generate any vector in the plane without solving a linear system.</p>
+      <definition>
+        <p>A <term>linear transformation</term> <m>T: V \to W</m>, where <m>V</m> and <m>W</m> are vector spaces, is a function such that for any <m>\vec{u}, \vec{v} \in V</m> and <m>\lambda \in \mathbb{R}</m>, <m>T(\vec{u} + \vec{v}) = T(\vec{u}) + T(\vec{v})</m> and <m>T(\lambda \vec{u}) = \lambda T(\vec{u})</m>.</p>
+      </definition>
 
-      <p>The second is a parametric or <alert>inner</alert> representation. This gives you an easy way to get vectors in the plane, but testing if a vector is in the plane corresponds to solving a linear system.</p>
+      <p>That is, a linear transformation is a function that preserves the only two things we are guaranteed to be able to do in a vector space, scaling and adding.</p>
 
-      <p>We've already covered how to go from an outer representation to an inner. That's what Gaussian elimination does. But how does one go from an inner representation to an outer one?</p>
+      <example>
+        <p>Any map of the form <m>T: \mathbb{R}^{n} \to \mathbb{R}^{m}</m> given by <m>T(\vec{x}) = A \vec{x}</m> for <m>A</m> an <m>m \times n</m> matrix is a linear transformation.</p>
+      </example>
 
-      <p>In concrete terms: Given a collection of vectors, how do we find an equation describing their span?</p>
+      <example>
+        <p>The map <m>\text{ev}_{1}</m> from the set of real valued functions to numbers given by <m>\text{ev}_{1}(f) = f(1)</m> is a linear transformation.</p>
+      </example>
 
-      <p>
-        This is where the dot product interpretation comes to help us. The key observation is: If a vector is in a row of our matrix representation it must dot product with each vector in the span to equal <m>0</m>. In other words, for <m>(-1,1,0)</m> and <m>(-1,0,1)</m> it must be a solution to the equation:
-        <me>\begin{pmatrix} -1 \amp 1 \amp 0 \\-1 \amp 0 \amp1 \end{pmatrix}\begin{pmatrix} x \\y\\z \end{pmatrix} = \begin{pmatrix} 0\\0 \end{pmatrix}.</me>
-        We can solve this. The augmented matrix is
-        <me>\begin{pmatrix} -1 \amp 1 \amp 0 \amp 0 \\ -1 \amp0 \amp 1 \amp0\end{pmatrix}.</me>
-        Replacing row <m>1</m> with row <m>1</m> - row <m>2</m> yields
-        <me>\begin{pmatrix} 0 \amp 1 \amp -1 \amp 0 \\ -1 \amp0 \amp 1 \amp0\end{pmatrix}.</me>
-        Rescaling the second row by <m>-1</m> gives
-        <me>\begin{pmatrix} 0 \amp 1 \amp -1 \amp 0 \\ 1 \amp0 \amp -1 \amp0\end{pmatrix}.</me>
-        Then interchanging yields the reduced row echelon form:
-        <me>\begin{pmatrix} 1 \amp 0 \amp -1 \amp 0 \\ 0 \amp1 \amp -1 \amp0\end{pmatrix}.</me>
-        The first two columns are pivot columns, and the equations are <m>x-z= 0</m> and <m>y-z =0</m>. Thus, the solution is <m>f(z) = (z,z,z) = z(1,1,1)</m>, so the solution set is <m>\text{span}((1,1,1))</m>.
-      </p>
+      <example>
+        <p>The map <m>\frac{d}{dx}</m> from differentiable functions to functions is a linear transformation, since</p>
+        <p><md>\frac{d}{dx}(f(x) + g(x)) = \frac{df}{dx}(x) + \frac{dg}{dx}(x)  \text{ and } \frac{d}{dx}\lambda f(x) = \lambda \frac{d}{dx}f(x).</md></p>
+      </example>
 
-      <p>
-        It turns out then that <m>(1,1,1)</m> is the row of the coefficient matrix in the equation defining <m>\text{span}((-1,1,0), (-1,0,1))</m> is defined by the matrix equation:
-        <me>\begin{pmatrix} 1 \amp 1 \amp1 \end{pmatrix}\begin{pmatrix} x\\y\\z \end{pmatrix} = 0.</me>
-        In fact, that is how it always works. If you want to find an outer representation for the span of a set of vectors:
-        <ul>
-          <li><p>Put those vectors as rows of a matrix <m>A</m> in the equation <m>A\vec{x} = \vec{0}</m>.</p></li>
-          <li><p>Solve that equation.</p></li>
-          <li><p>Write that solution as a span of vectors.</p></li>
-          <li><p>Those vectors are the rows of the matrix <m>B</m> in the outer representation <m>B \vec{x} = \vec{0}</m>.</p></li>
-        </ul>
-      </p>
+      <p>Once you know a function is a linear transformation, you learn some important properties of it for free.</p>
+
+      <theorem>
+        <statement>
+          <p>Let <m>T: V \to W</m> be a linear transformation between two vector spaces <m>V</m> and <m>W</m>. Then <m>T(\vec{0}_{V}) =\vec{0}_{W}</m>.</p>
+        </statement>
+        <proof>
+          <p>Note that <m>T(\vec{0}_{V}) = T(0(\vec{0}_{V})) = 0 T(\vec{0}_{V}) = \vec{0}_{W}.</m></p>
+        </proof>
+      </theorem>
+
+      <p>For example, the derivative of the <m>0</m> function is <m>0</m>, and multiplying a matrix by the zero vector always yields <m>\vec{0}</m>. 
+      This is a uniform proof of both phenomena.</p>
+
+      <p>In fact, a stronger statement is true. For any linear transformation <m>T: V \to W</m>, we define 
+      <m>\ker(T) = \{\vec{x} \in V: T(\vec{x}) =\vec{0}_{W}\}</m>, the pre-image of <m>\vec{0}_{W}</m>. 
+      We just showed that <m>\vec{0}_{V} \in \ker(T)</m>. Recall that is one of the three properties for being a linear subspace.</p>
+
+      <theorem>
+        <statement>
+          <p>For any linear transformation <m>T:V \to W</m>, <m>\ker(T)</m> is a linear subspace of <m>V</m>.</p>
+        </statement>
+        <proof>
+          <p>We just showed <m>\vec{0}_{V} \in \ker(T)</m>. Thus, it suffices to show closure under addition and scalar multiplication. Let <m>\vec{x}, \vec{y} \in \ker(T)</m>. Then</p>
+          <p><md>T(\vec{x} + \vec{y}) = T(\vec{x}) + T(\vec{y}) = \vec{0}_{W} + \vec{0}_{W} = \vec{0}_{W}.</md></p>
+          <p>Let <m>\lambda \in \mathbb{R}</m>. Then</p>
+          <p><md>T(\lambda \vec{x}) = \lambda T(\vec{x}) = \lambda\vec{0}_{W} = \vec{0}_{W}.</md></p>
+          <p>Thus, <m>\vec{x}+\vec{y}, \lambda \vec{x} \in \ker(T)</m>. Therefore, by definition, <m>\ker(T)</m> is a linear subspace.</p>
+        </proof>
+      </theorem>
+
+      <p>This fact gives a very useful way to build various linear subspaces. For example, this shows that functions with derivative <m>0</m> are a linear subspace. These are exactly the constant functions, which indeed are preserved under scaling and addition. It also shows that for any <m>m \times n</m> matrix, the set of <m>\vec{x} \in \mathbb{R}^{n}</m> such that</p>
+      <p><md>A\vec{x} = \vec{0}</md></p>
+      <p>is always a linear subspace. The power of this general statement is we get a proof of both facts simultaneously all as a consequence of this fundamental idea.</p>
+
+      <p>Kernels also tell us about a linear transformation. Recall from 2020 that a function <m>f</m> is <term>one-to-one</term> if each input has a distinct output. That is <m>f(x) = f(y)</m> implies <m>x = y</m>.</p>
+
+      <theorem>
+        <statement>
+          <p>Let <m>T:V \to W</m> be a linear transformation between vector spaces <m>V</m> and <m>W</m>. Then <m>T</m> is one-to-one if and only if <m>\ker(T) = \{\vec{0}_{V}\}</m>.</p>
+        </statement>
+        <proof>
+          <p>(<m>\Longrightarrow</m>) Suppose that <m>T</m> is one-to-one. Note that <m>T(\vec{0}_{V}) = \vec{0}_{W}</m>. Since <m>T</m> is one-to-one, <m>\vec{0}_{V}</m> is the only vector for which that is the case. Therefore, <m>\ker(T) = \{\vec{0}_{V}\}</m>.</p>
+          <p>(<m>\Longleftarrow</m>) Suppose that <m>\ker(T) = \{\vec{0}_{V}\}</m>. Let <m>\vec{u}, \vec{v} \in V</m>, and suppose that <m>T(\vec{u}) =T(\vec{v})</m>. To prove <m>T</m> is one-to-one, we want to then show that <m>\vec{u} = \vec{v}</m>. To argue this, observe that</p>
+          <p><md>T(\vec{u}-\vec{v}) = T(\vec{u}) - T(\vec{v}) = \vec{0}_{W}.</md></p>
+          <p>Thus, <m>\vec{u} - \vec{v} \in \ker(T)</m>. Therefore, since <m>\ker(T) = \{\vec{0}_{V}\}</m>, <m>\vec{u} - \vec{v} = \vec{0}_{V}</m>, so <m>\vec{u} = \vec{v}</m>. Therefore, <m>T</m> is one-to-one.</p>
+        </proof>
+      </theorem>
+
+      <p>Linear transformations give rise to another set called their <term>image</term> denoted</p>
+      <p><md>\text{Im}(T) = \{T(\vec{x}): \vec{x} \in V\}.</md></p>
+
+      <theorem>
+        <statement>
+          <p>Let <m>T: V \to W</m> be a linear transformation from a vector space <m>V</m> to a vector space <m>W</m>. Then <m>\text{Im}(T)</m> is a linear subspace of <m>W</m>.</p>
+        </statement>
+        <proof>
+          <p>Note that <m>\vec{0}_{W} = T(\vec{0}_{V}) \in \text{Im}(T)</m>. Thus, the image contains the zero vector.</p>
+          <p>Let <m>\vec{x}, \vec{y} \in \text{Im}(T)</m>. Then there exist <m>\vec{u}, \vec{v} \in V</m> such that <m>T(\vec{u}) = \vec{x}</m> and <m>T(\vec{v}) = \vec{y}</m>. It follows that</p>
+          <p><md>\vec{x} + \vec{y} = T(\vec{u}) + T(\vec{v}) = T(\vec{u} + \vec{v}) \in \text{Im}(T).</md></p>
+          <p>Therefore, <m>\text{Im}(T)</m> is closed under addition.</p>
+          <p>Let <m>\lambda \in \mathbb{R}</m>. Then</p>
+          <p><md>\lambda \vec{x} = \lambda T(\vec{u}) = T(\lambda \vec{u}) \in \text{Im}(T).</md></p>
+          <p>Therefore, <m>\text{Im}(T)</m> is closed under scalar multiplication and is thus a linear subspace.</p>
+        </proof>
+      </theorem>
     </section>

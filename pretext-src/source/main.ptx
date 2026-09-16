@@ -10,15 +10,16 @@
   </docinfo>
 
   <article xml:id="basic">
-    <title>The Span Inquisition</title>
+    <title>Kernel Mustard</title>
 
     <xi:include href="./frontmatter.ptx" />
     <!-- <xi:include href="homework-1.ptx" /> -->
-    <!-- <xi:include href="./review.ptx" /> -->
-    <!-- <xi:include href="./Section-1.ptx" /> -->
-    <!-- <xi:include href="./Section-2.ptx" /> -->
+    <xi:include href="./review.ptx" /> -->
+    <xi:include href="./Section-1.ptx" />
+    <xi:include href="./Section-2.ptx" />
     <!-- <xi:include href="./Section-3.ptx" />  -->
     <xi:include href="./exercises.ptx" />
+  
   </article>
 
 </pretext>

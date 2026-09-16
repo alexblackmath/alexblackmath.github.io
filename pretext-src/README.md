@@ -68,11 +68,12 @@ Open the file `.devcontainer/devcontainer.json` and edit the line that contains
 VS Code should prompt you to rebuild your codespace, which you should do (you do not need to do a "full rebuild" though).  This docker image contains sagemath and you should be able to add sageplots and generate them successfully now.
 
 
-<!-- rm -rf ../Math2000/Math2000HW2
-mkdir ../Math2000/Math2000HW2
-cp -a output/web/. ../Math2000/Math2000HW2 -->
+<!-- 
+rm -rf ../Math2301/Math2301Day5
+mkdir ../Math2301/Math2301Day5
+cp -a output/web/. ../Math2301/Math2301Day5
 
-<!-- cd ..
+cd ..
 git add .
 git commit -m "Add PreTeXt math notes"
 git push -->

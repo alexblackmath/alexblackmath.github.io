@@ -1,118 +1,27 @@
- 
 <section xml:id="exercises">
-  <title>Exercises</title> 
-<subsection>
-      <title>Vectors, Independence, and Span</title>
+  <title>Exercises</title>
+
+  <p>Recall that a function <m>T: V \to W</m> is called <term>onto</term> if its range is <m>W</m>.</p>
 
       <exercise>
-      <introduction>
-      <p>Consider the following vectors 
-      <me>\vec{a} = (x+y, x+z, y+z)</me> and 
-      <me>\vec{b} = (x, 1+x+y, x+y+z)</me>.
-      Do the following:</p></introduction> 
-      <task> 
-      <p>Rewrite <m>\vec{a}</m> in the form <m>x\vec{v}_{1} + y \vec{v}_{2} + z \vec{v}_{3} + \vec{v}_{4}</m>, where
-      <m>\vec{v}_{1}, \vec{v}_{2}, \vec{v}_{3},</m> and <m>\vec{v}_{4}</m> all have entries in <m>\mathbb{R}</m>.</p>
-      </task>
-      <task>
-      <p>Rewrite <m>\vec{b}</m> in the form <m>x\vec{v}_{1} + y \vec{v}_{2} + z \vec{v}_{3} + \vec{v}_{4}</m>, where
-      <m>\vec{v}_{1}, \vec{v}_{2}, \vec{v}_{3},</m> and <m>\vec{v}_{4}</m> all have entries in <m>\mathbb{R}</m>.</p>
-      </task>
-     <task>
-      <p>Rewrite <m>\vec{a} + \vec{b}</m> in the form <m>x\vec{v}_{1} + y \vec{v}_{2} + z \vec{v}_{3} + \vec{v}_{4}</m>, where
-      <m>\vec{v}_{1}, \vec{v}_{2}, \vec{v}_{3},</m> and <m>\vec{v}_{4}</m> all have entries in <m>\mathbb{R}</m>.</p>
-      </task>
+        <p>Explain why for a linear transformation <m>T: V \to W</m> between vector spaces <m>V</m> and <m>W</m>, <m>\text{Im}(T) = W</m> if and only if <m>T</m> is onto.</p>
       </exercise>
 
-      <p> We say vectors are <b>linearly independent</b> if there is no linear combination
-      of them with nonzero coefficients that equals <m>\vec{0}</m>. For example, <m>(1,0)</m> and <m>(0,1)</m> are linearly independent,
-      since if <m>x(1,0) + y(0,1) = (0,0)</m>, then <m>x = y = 0</m>. However, <m> (1,0) </m>, <m>(0,1)</m>, and 
-      <m>(2,2)</m> are not linear independent, because <m> 2(1,0)+ 2(0,1) - (2,2) = (0,0)</m>. </p>
+      <p>Part of the purpose of the introduction of kernel and images is to give you new ways to build linear subspaces.</p>
+
       <exercise>
-        <introduction>
-          <p>
-            Consider the vector equation:
-            <me>x_{1} \begin{pmatrix} 1 \\ 0 \\ 1\end{pmatrix} + x_{2} \begin{pmatrix} 0 \\ 1\\ 1\end{pmatrix} + x_{3} \begin{pmatrix}1 \\ 1\\ 0 \end{pmatrix}  = \begin{pmatrix} 0 \\ 0 \\ 0\end{pmatrix}.</me>
-          </p>
-        </introduction>
-        <task>
-          <p>Rewrite this is a system of linear equations.</p>
-        </task>
-        <task>
-          <p>Solve the linear system.</p>
-        </task>
-        <task>
-          <p>
-            Based on your solution to part (b), are <m>(1,0,1)</m>, <m>(0,1,1)</m>, and <m>(1,1,0)</m> linearly independent?
-          </p>
-        </task>
+        <p>Let <m>S</m> denote the set of vectors <m>(x,y) \in \mathbb{R}^{2}</m> such that <m>x = y</m>. Is <m>S</m> a linear subspace? If yes, find a linear transformation <m>T: \mathbb{R}^{2} \to \mathbb{R}^{2}</m> for which <m>S = \ker(T)</m>. Otherwise, prove why not.</p>
       </exercise>
 
       <exercise>
-        <p>
-          Is <m>(1,0,1,0)</m> in the span of <m>(1,1,0,0)</m>, <m>(1,0,0,1)</m>, and <m>(0,1,1,0)</m>? Explain why or why not.
-        </p>
-      </exercise>
-
-</subsection>
-<subsection>
-<title> Matrix Form </title>
- <exercise>
-        <introduction>
-          <p>
-            Consider the matrix
-            <me>A = \begin{pmatrix} 1 &amp; 2 &amp; 1 &amp; 2 \\ 3 &amp;3&amp; 4 &amp; 4\end{pmatrix}</me>
-          </p>
-          <p>
-            Consider the vectors
-            <me>\vec{v}_{1} = \begin{pmatrix} -1 \\ -1 \\ 1 \\ 1\end{pmatrix}, \vec{v}_{2} =\begin{pmatrix} -3 \\ 1 \\ 1 \\ -3\end{pmatrix}</me>
-          </p>
-        </introduction>
-        <task>
-          <p>Compute <m>A \vec{v}_{1}</m>.</p>
-        </task>
-        <task>
-          <p>Compute <m>\vec{v}_{1} + \vec{v}_{2}</m>.</p>
-        </task>
-        <task>
-          <p>Compute <m>2 \vec{v}_{1}</m>.</p>
-        </task>
-        <task>
-          <p>Compute <m>2A \vec{v}_{1}</m> and <m>A (2 \vec{v}_{1})</m>.</p>
-        </task>
-        <task>
-          <p>Compute <m>A \vec{v}_{1} +A\vec{v}_{2}</m> and <m>A(\vec{v}_{1} + \vec{v}_{2})</m>.</p>
-        </task>
-      </exercise>
-
-
-      <exercise>
-        <introduction>
-          <p>
-            Consider the matrix equation:
-            <me>\begin{pmatrix}
-    1 &amp; 1 &amp; 0 \\
-    1 &amp; 0 &amp; 1
-\end{pmatrix} \begin{pmatrix} x \\ y\\ z \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}</me>
-          </p>
-        </introduction>
-        <task>
-          <p>Rewrite this as a system of linear equations.</p>
-        </task>
-        <task>
-          <p>Solve the system of linear equations.</p>
-        </task>
-        <task>
-          <p>
-            Use your solution to describe the plane spanned by <m>(1,1,0)</m> and <m>(1,0,1)</m> by a linear equation.
-          </p>
-        </task>
+        <p>Let <m>S</m> denote the set of vectors <m>(x,y) \in \mathbb{R}^{2}</m> such that <m>x = y +1</m>. Is <m>S</m> a linear subspace? If yes, find a linear transformation <m>T: \mathbb{R}^{2} \to \mathbb{R}^{2}</m> for which <m>S = \ker(T)</m>. Otherwise, prove why not.</p>
       </exercise>
 
       <exercise>
-        <p>
-          Consider the <m>2</m>-plane in <m>\mathbb{R}^{4}</m> spanned by <m>(1,0,1,0)</m> and <m>(0,1,0,1)</m>. Write this plane as a solution set to a system of linear equations.
-        </p>
+        <p>Prove that the set of functions that are their own derivative is a linear subspace.</p>
       </exercise>
-  </subsection>
-</section>    
+
+      <exercise>
+        <p>Let <m>T: U \to V</m> and <m>T': V\to W</m> be linear transformations between vector spaces. Show that <m>\text{Im}(T) \subseteq \ker(T')</m> if and only if <m>T' \circ T:U \to W</m> is the <m>0</m>-function.</p>
+      </exercise>
+</section>

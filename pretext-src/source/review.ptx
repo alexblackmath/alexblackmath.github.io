@@ -1,19 +1,7 @@
 <section xml:id="review">
-  <title>Review</title>
-
+      <title>Review</title>
       <ul>
-        <li><p>What does it mean for a set of vectors to be <em>linearly independent</em>?</p></li>
-        <li><p>What does it mean for a set of vectors to <em>span</em> a vector space?</p></li>
+        <li><p>What was the statement of the Steinitz lemma?</p></li>
+        <li><p>What were we trying to use it to prove?</p></li>
       </ul>
-
-      <exercise xml:id="ex-independent-extension">
-        <statement>
-          <p>
-            Let <m>\vec{v}_1,\dots,\vec{v}_k\in V</m>, and suppose they are linearly independent.
-            Let <m>\vec{u}\in V</m>. Then
-            <m>\vec{v}_1,\dots,\vec{v}_k,\vec{u}</m> are linearly independent if and only if
-            <m>\vec{u}\notin\operatorname{span}(\vec{v}_1,\dots,\vec{v}_k)</m>.
-          </p>
-        </statement>
-      </exercise>
     </section>
