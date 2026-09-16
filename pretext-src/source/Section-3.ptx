@@ -1,27 +1,28 @@
     <section xml:id ="Section-3">
-      <title>Parametrizing the Solution Set</title>
+  <title>Rank-Nullity Theorem</title>
 
-      <p>Let's look back at this example.</p>
-      <me>\begin{aligned}
-        x_{1} + x_{2} + x_{4} + x_{5} &amp;= 0,\\
-        x_{3} - x_{4} - x_{5} &amp;= 12,\\
-        x_{6} &amp;= 1.
-      \end{aligned}</me>
+      <p>
+        Arguably the most important result in linear algebra is captured by interpolating between these two cases. We define the <alert>rank</alert> of a matrix <m>A</m> to be the dimension of the span of its columns. For example, the following matrix is of rank <m>2</m>:
+        <me>\begin{pmatrix} 1 \amp 0 \amp1 \\0\amp1\amp 1\\0 \amp 0 \amp0\end{pmatrix}.</me>
+        This is because its columns span exactly the <m>xy</m>-plane.
+      </p>
 
-      <p>There are three free variables: <m>x_{2}, x_{4},</m> and <m>x_{5}</m>. We can use those to parametrize our solution. In particular,</p>
-      <me>\begin{aligned}
-        x_{1} &amp;= -x_{2} - x_{4} -x_{5} \\
-        x_{3} &amp;= x_{4} + x_{5} + 12 \\
-        x_{6} &amp;= 1.
-      \end{aligned}</me>
+      <p>
+        We call the <alert>Nullity</alert> of a matrix the dimension of the solution set to <m>A \vec{x} = \vec{0}</m>. For example, consider the system
+        <me>\begin{pmatrix} 1 \amp 0 \amp1 \\0\amp1\amp 1\\0 \amp 0 \amp0\end{pmatrix} \begin{pmatrix} x\\y\\z \end{pmatrix} = \begin{pmatrix} 0\\0\\0 \end{pmatrix}.</me>
+        The augmented matrix is
+        <me>\begin{pmatrix} 1 \amp 0 \amp1 \amp0\\0 \amp1 \amp1 \amp0\\0\amp 0 \amp0 \amp0 \end{pmatrix},</me>
+        which is in reduced row echelon form. It has one free variable, so the solution is <m>1</m> dimensional.
+      </p>
 
-      <p>Let <m>x_{2} = a</m>, <m>x_{4} = b</m>, and <m>x_{5} = c</m>. Then we get a <m>3</m>-D plane in <m>\mathbb{R}^{6}</m> with parametrization:</p>
-      <me>f(a,b,c) = (-a-b-c, a, b+c+12, b, c, 1).</me>
+      <p>For this matrix, we can notice that the rank plus the nullity is always the number of columns of the matrix. This is true in general.</p>
 
-      <p>This is a plane. You can think of it parametrically as being of the form</p>
-      <me>f(a,b,c) = a(-1,1,0,0,0,0) + b(-1,0,1,1,0,0) + c(-1,0,1,0,1,0) + (0,0,12,0,0,1).</me>
-
-      <p>Next time we will talk about this last formulation.</p>
+      <theorem>
+        <title>Rank-Nullity Theorem</title>
+        <statement>
+          <p>Let <m>A</m> be an <m>m \times n</m> matrix. Then the <m>\text{rank}(A)</m> is its number of pivot columns in reduced row echelon form and <m>\text{Nullity}(A)</m> is its number of non-pivot columns in reduced row echelon form. In particular, <m>\text{rank}(A) + \text{Nullity}(A) = n</m>.</p>
+        </statement>
+      </theorem>
     </section>
 
 

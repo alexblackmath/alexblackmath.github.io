@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pretext>
+  <article xml:id="math2000-day5-with-solns">
+    <title>Cogito Ergo Sum and Scale</title>
+
+    <section xml:id="quick-span-review">
+      <title> Inner to Outer Review</title>
+
+      <p>
+        Consider the linear system:
+        <me>\begin{pmatrix} 1 \amp 0 \amp 0\amp 0 \\ 0 \amp 1 \amp 0\amp 0\end{pmatrix}\begin{pmatrix} x_{1} \\ x_{2} \\ x_{3}\\x_{4} \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}</me>
+      </p>
+
+      <p>
+        <ol marker="(a)">
+          <li>Is the augmented matrix for this system in reduced row echelon form?</li>
+          <li>What is the solution to this system in parametric form?</li>
+          <li>What is an outer description of <m>\text{span}((1,0,0,0), (0,1,0,0))</m>?</li>
+        </ol>
+      </p>
+    </section>
+
+    <section xml:id="spanning-and-existence-of-solutions">
+      <title>Spanning and Existence of Solutions</title>
+
+      <p>
+        One property the vectors
+        <me>\begin{pmatrix} 1\\0 \end{pmatrix} \text{ and } \begin{pmatrix} 0 \\1 \end{pmatrix}</me>
+        have is that any two dimensional vector can be written as a linear combination of them. In notation,
+        <me>\text{span}\left( \begin{pmatrix} 1\\0 \end{pmatrix}, \begin{pmatrix} 0 \\1 \end{pmatrix}\right) = \mathbb{R}^{2}.</me>
+        In other words, the linear equation with vector coefficients
+        <me>x\begin{pmatrix} 1 \\0\end{pmatrix} + y \begin{pmatrix} 0\\1 \end{pmatrix} = \begin{pmatrix} b_{1}\\b_{2} \end{pmatrix}</me>
+        always has a solution. In matrix form
+        <me>\begin{pmatrix}1 \amp 0 \\0 \amp1 \end{pmatrix} \begin{pmatrix} x\\y \end{pmatrix} = \begin{pmatrix} b_{1} \\ b_{2} \end{pmatrix}</me>
+      </p>
+
+      <p>We call such vectors <alert>spanning</alert>. Today, our first goal is to characterize when a set of vectors is spanning. It turns out by making those vectors the columns of a matrix <m>A</m>, this can be entirely determined from the matrix.</p>
+
+      <theorem>
+        <statement>
+          <p>A collection of vectors <m>n</m> vectors in <m>\mathbb{R}^{m}</m> is spanning if in reduced row echelon form of the <m>m \times n</m> matrix with those columns as vectors has <m>n</m> pivot columns.</p>
+        </statement>
+      </theorem>
+
+      <p>
+        For example, <m>\begin{pmatrix} 1 \\0 \\0\end{pmatrix}</m> and <m>\begin{pmatrix} 1\\1\\ 0\end{pmatrix}</m> are not spanning. If you put them as the columns of a matrix, you obtain
+        <me>\begin{pmatrix} 1 \amp 1 \\0 \amp1\\0 \amp0\end{pmatrix}</me>
+        Doing replacement on the first row by subtracting the second yields the reduced row echelon form:
+        <me>\begin{pmatrix} 1 \amp 0 \\0 \amp1\\0 \amp0\end{pmatrix}</me>
+        There are only <m>2</m> pivot columns and the vectors have <m>3</m> entries, so they are not spanning.
+      </p>
+
+      <p>The essential reason for this is the number of pivot columns is the number of rows with nonzero entries in reduced row echelon form. If there are fewer than <m>n</m> pivot columns, then then bottom row has to be a row of all <m>0</m>'s. That means if the righthand side has a <m>1</m> in the last coordinate, you get the equation <m>0 = 1</m>, which has no solution.</p>
+
+      <p>Reinterpreting this in terms of spans, we find.</p>
+
+      <theorem>
+        <statement>
+          <p>If a collection of <m>n</m> vectors spans <m>\mathbb{R}^{m}</m>, then <m>n \geq m</m>.</p>
+        </statement>
+      </theorem>
+
+      <p>Why? This is because the matrix with them has at least <m>m</m> pivot columns, meaning it has to have at least <m>m</m> columns, and <m>n</m> is the number of columns. Therefore, <m>n \geq m</m>.</p>
+    </section>
+
+    <section xml:id="independence-and-uniqueness-of-solutions">
+      <title>Independence and Uniqueness of Solutions</title>
+
+      <p>Given a linear system of equations of the form <m>A \vec{x} = \vec{b}</m>, when is a solution unique?</p>
+
+      <p>We know from what we have shown so far, that this occurs, when the augmented matrix has no non-pivot columns except its last column in reduced row echelon form. In other words, if you just look at the coefficient matrix, you get the following:</p>
+
+      <theorem>
+        <statement>
+          <p>A linear system <m>A \vec{x} = \vec{b}</m> has a unique solution <alert>whenever one exists</alert> if and only if all columns of the reduced row echelon form of <m>A</m> are pivot columns.</p>
+        </statement>
+      </theorem>
+
+      <p>In that case, we say the columns of the matrix <m>A</m> are <alert>linearly independent</alert>. In particular, to relate toe the definition, on the homework this means that <m>A \vec{x} = \vec{0}</m> has a unique solution <m>\vec{x} = \vec{0}</m>. Thus, any linear combination of the columns that equals <m>\vec{0}</m> has all <m>0</m> coefficients.</p>
+    </section>
+
+    <section xml:id="rank-nullity-theorem">
+      <title>Rank-Nullity Theorem</title>
+
+      <p>
+        Arguably the most important result in linear algebra is captured by interpolating between these two cases. We define the <alert>rank</alert> of a matrix <m>A</m> to be the dimension of the span of its columns. For example, the following matrix is of rank <m>2</m>:
+        <me>\begin{pmatrix} 1 \amp 0 \amp1 \\0\amp1\amp 1\\0 \amp 0 \amp0\end{pmatrix}.</me>
+        This is because its columns span exactly the <m>xy</m>-plane.
+      </p>
+
+      <p>
+        We call the <alert>Nullity</alert> of a matrix the dimension of the solution set to <m>A \vec{x} = \vec{0}</m>. For example, consider the system
+        <me>\begin{pmatrix} 1 \amp 0 \amp1 \\0\amp1\amp 1\\0 \amp 0 \amp0\end{pmatrix} \begin{pmatrix} x\\y\\z \end{pmatrix} = \begin{pmatrix} 0\\0\\0 \end{pmatrix}.</me>
+        The augmented matrix is
+        <me>\begin{pmatrix} 1 \amp 0 \amp1 \amp0\\0 \amp1 \amp1 \amp0\\0\amp 0 \amp0 \amp0 \end{pmatrix},</me>
+        which is in reduced row echelon form. It has one free variable, so the solution is <m>1</m> dimensional.
+      </p>
+
+      <p>For this matrix, we can notice that the rank plus the nullity is always the number of columns of the matrix. This is true in general.</p>
+
+      <theorem>
+        <title>Rank-Nullity Theorem</title>
+        <statement>
+          <p>Let <m>A</m> be an <m>m \times n</m> matrix. Then the <m>\text{rank}(A)</m> is its number of pivot columns in reduced row echelon form and <m>\text{Nullity}(A)</m> is its number of non-pivot columns in reduced row echelon form. In particular, <m>\text{rank}(A) + \text{Nullity}(A) = n</m>.</p>
+        </statement>
+      </theorem>
+    </section>
+
+    <section xml:id="exercises">
+      <title>Exercises</title>
+
+      <exercise>
+        <statement>
+          <p>
+            Consider the matrix
+            <me>A = \begin{pmatrix} 0 \amp1 \amp 0 \amp0\\1 \amp1 \amp1 \amp 0\\0 \amp1 \amp1 \amp1\\ 0 \amp 0  \amp1 \amp0\end{pmatrix}.</me>
+          </p>
+          <p>
+            <ol marker="(a)">
+              <li>Find its rank.</li>
+              <li>Find its nullity.</li>
+              <li>Are the columns spanning?</li>
+              <li>Are the columns linearly independent?</li>
+              <li>How could you figure out your answer for parts (c) and (d) from your answers for (a) and (b)?</li>
+            </ol>
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>
+            Consider the matrix
+            <me>A = \begin{pmatrix} 1 \amp -1 \amp0 \\1 \amp 0 \amp-1 \\ 0 \amp1 \amp -1\end{pmatrix}.</me>
+          </p>
+          <p>
+            <ol marker="(a)">
+              <li>Find its rank.</li>
+              <li>Find its nullity.</li>
+              <li>Are the columns spanning?</li>
+              <li>Are the columns linearly independent?</li>
+              <li>How could you figure out your answer for parts (c) and (d) from your answers for (a) and (b)?</li>
+            </ol>
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>
+            For each of the following, give an example or explain why you think no such example can exist:
+            <ol marker="(a)">
+              <li>Two distinct vectors in <m>\mathbb{R}^{2}</m> that don't span <m>\mathbb{R}^{2}</m>.</li>
+              <li>A <m>5 \times 3</m> matrix of rank <m>4</m>.</li>
+              <li>A <m>5 \times 3</m> matrix of rank <m>2</m>.</li>
+              <li>A <m>3 \times 2</m> matrix <m>A</m> and a vector <m>\vec{b}</m> in <m>\mathbb{R}^{3}</m> for which <m>A \vec{x} = \vec{b}</m> has no solution.</li>
+              <li>A <m>3 \times 4</m> matrix <m>A</m> for which <m>A \vec{x} = \vec{b}</m> always has a solution and the solution is unique.</li>
+            </ol>
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>What must the reduced row echelon form of a matrix <m>A</m> for which <m>A \vec{x} = \vec{b}</m> always has a solution and that solution must be unique look like? Explain why you think so.</p>
+        </statement>
+      </exercise>
+    </section>
+  </article>
+</pretext>

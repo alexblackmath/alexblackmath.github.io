@@ -1,69 +1,59 @@
 <section xml:id="exercises">
 
-      <subsection>
-      <title>Subspaces</title>
-
       <exercise>
         <statement>
-          <p>Let <m>T: V \to W</m> and <m>T': V \to W</m> be two linear transformations. Show that <m>\{\vec{x} \in V: T(\vec{x}) = T'(\vec{x})\}</m> is a 
-          linear subspace of <m>V</m>.</p>
+          <p>
+            Consider the matrix
+            <me>A = \begin{pmatrix} 0 \amp1 \amp 0 \amp0\\1 \amp1 \amp1 \amp 0\\0 \amp1 \amp1 \amp1\\ 0 \amp 0  \amp1 \amp0\end{pmatrix}.</me>
+          </p>
+          <p>
+            <ol marker="(a)">
+              <li>Find its rank.</li>
+              <li>Find its nullity.</li>
+              <li>Are the columns spanning?</li>
+              <li>Are the columns linearly independent?</li>
+              <li>How could you figure out your answer for parts (c) and (d) from your answers for (a) and (b)?</li>
+            </ol>
+          </p>
         </statement>
-        <solution/>
       </exercise>
 
       <exercise>
         <statement>
-          <p>Let <m>T: V \to V</m> be a linear transformation. Let <m>T^{k}</m> be the function given by <m>T</m> composed with itself <m>k</m> times.
-           Show that <m>\ker(T^{k}) \subseteq \ker(T^{k+1})</m> for all <m>k \geq 1</m>.</p>
+          <p>
+            Consider the matrix
+            <me>A = \begin{pmatrix} 1 \amp -1 \amp0 \\1 \amp 0 \amp-1 \\ 0 \amp1 \amp -1\end{pmatrix}.</me>
+          </p>
+          <p>
+            <ol marker="(a)">
+              <li>Find its rank.</li>
+              <li>Find its nullity.</li>
+              <li>Are the columns spanning?</li>
+              <li>Are the columns linearly independent?</li>
+              <li>How could you figure out your answer for parts (c) and (d) from your answers for (a) and (b)?</li>
+            </ol>
+          </p>
         </statement>
-        <solution/>
       </exercise>
 
       <exercise>
         <statement>
-          <p>Define <m>T: \mathbb{R}^{3} \to \mathbb{R}^{3}</m> by <m>T(x,y,z) = (0,x,y)</m>.</p>
-          <ol marker="(a)">
-            <li><p>Show that <m>T</m> is a linear transformation.</p></li>
-            <li><p>Find <m>\ker(T)</m>.</p></li>
-            <li><p>Let <m>T^{3}</m> be the function resulting from composing <m>T</m> with itself <m>n</m> times. 
-            Show that <m>T^{3}(\vec{x}) = (0,0,0)</m> for all <m>\vec{x} \in \mathbb{R}^{3}</m>.</p></li>
-          </ol>
+          <p>
+            For each of the following, give an example or explain why you think no such example can exist:
+            <ol marker="(a)">
+              <li>Two distinct vectors in <m>\mathbb{R}^{2}</m> that don't span <m>\mathbb{R}^{2}</m>.</li>
+              <li>A <m>5 \times 3</m> matrix of rank <m>4</m>.</li>
+              <li>A <m>5 \times 3</m> matrix of rank <m>2</m>.</li>
+              <li>A <m>3 \times 2</m> matrix <m>A</m> and a vector <m>\vec{b}</m> in <m>\mathbb{R}^{3}</m> for which <m>A \vec{x} = \vec{b}</m> has no solution.</li>
+              <li>A <m>3 \times 4</m> matrix <m>A</m> for which <m>A \vec{x} = \vec{b}</m> always has a solution and the solution is unique.</li>
+            </ol>
+          </p>
         </statement>
-        <solution/>
-      </exercise>
-    </subsection>
-
-    <subsection>
-      <title>Independence and Bases</title>
-
-      <p>For the following exercise, this does not require a proof. You do still need to explain your answer.</p>
-
-      <exercise>
-        <statement>
-          <p>Consider the matrix:</p>
-          <me>Z=\begin{pmatrix}
-0 &amp;1 &amp; 0 &amp; 0 &amp; 1 &amp;1 &amp; 0&amp;1\\
-0 &amp; 0 &amp;1 &amp; 0 &amp; 1 &amp; 0 &amp;1&amp;1\\
-0 &amp; 0 &amp; 0 &amp;1 &amp; 0 &amp;1 &amp;1 &amp;1
-\end{pmatrix}</me>
-          <p>Which subsets of the columns of <m>Z</m> are bases for <m>\mathbb{R}^{3}</m>?</p>
-        </statement>
-        <solution/>
       </exercise>
 
       <exercise>
         <statement>
-          <p>Construct a <m>2 \times 10</m> matrix <m>A</m> such that any subset of columns of size <m>2</m> is a basis.</p>
+          <p>What must the reduced row echelon form of a matrix <m>A</m> for which <m>A \vec{x} = \vec{b}</m> always has a solution and that solution must be unique look like? Explain why you think so.</p>
         </statement>
-        <solution/>
       </exercise>
-
-      <exercise>
-        <statement>
-          <p>Let <m>I</m> and <m>J</m> be linearly independent sets of vectors in a vector space <m>V</m>, and suppose that <m>|I| &lt; |J|</m>. 
-          Show that there exists <m>\vec{v} \in J \setminus I</m>, such that <m>I \cup \{\vec{v}\}</m> is linearly independent.</p>
-        </statement>
-        <solution/>
-      </exercise>
-    </subsection>
   </section>
