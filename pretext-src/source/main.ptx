@@ -10,14 +10,13 @@
   </docinfo>
 
   <article xml:id="matroid">
-    <title>Cogito Ergo Sum and Scale</title>
-
+    <title>RREFinement</title>
     <xi:include href="./frontmatter.ptx" />
     <!-- <xi:include href="homework-1.ptx" /> -->
-    <xi:include href="./review.ptx" /> 
-    <xi:include href="./Section-1.ptx" />
-    <xi:include href="./Section-2.ptx" />
-    <xi:include href="./Section-3.ptx" /> 
+    <!-- <xi:include href="./review.ptx" />  -->
+    <!-- <xi:include href="./Section-1.ptx" /> -->
+    <!-- <xi:include href="./Section-2.ptx" /> -->
+    <!-- <xi:include href="./Section-3.ptx" />  -->
     <xi:include href="./exercises.ptx" />
   
   </article>

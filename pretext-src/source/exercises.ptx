@@ -1,59 +1,271 @@
 <section xml:id="exercises">
 
-      <exercise>
+  <title>Math 2000 Exam 1 Practice Solutions</title>
+
+    <p>The exam will consist of <em>4 questions</em>. Each question will come from one of these categories, and they will be written in this order. I give three examples of each question type.</p>
+
+    <subsection xml:id="matrix-vector-computations">
+      <title>Matrix-Vector Computations</title>
+      <p>The first question will be about practicing actually doing some calculations. I will give you a matrix and some vectors and ask you to calculate something. I may ask you something conceptual to explain your calculations. This will be in reference to the additivity or respecting scaling properties of linear transformations.</p>
+
+      <exercise xml:id="matrix-vector-exercise-1">
         <statement>
-          <p>
-            Consider the matrix
-            <me>A = \begin{pmatrix} 0 \amp1 \amp 0 \amp0\\1 \amp1 \amp1 \amp 0\\0 \amp1 \amp1 \amp1\\ 0 \amp 0  \amp1 \amp0\end{pmatrix}.</me>
-          </p>
-          <p>
-            <ol marker="(a)">
-              <li>Find its rank.</li>
-              <li>Find its nullity.</li>
-              <li>Are the columns spanning?</li>
-              <li>Are the columns linearly independent?</li>
-              <li>How could you figure out your answer for parts (c) and (d) from your answers for (a) and (b)?</li>
-            </ol>
-          </p>
+          <p>Consider the matrix <m>A = \begin{pmatrix} 1 &amp; 1 &amp; 1 \\ 2 &amp; 3 &amp; 4\end{pmatrix}</m>, vector <m>\vec{v}_{1} = (1,0,1)</m> and <m>\vec{v}_{2} = (1,0,-1)</m>.</p>
+          <ol marker="(a)">
+            <li><p>Compute <m>\vec{v}_{1} + \vec{v}_{2}</m>.</p></li>
+            <li><p>Compute <m>\vec{v}_{1} \cdot \vec{v}_{2}</m>. Interpret the result geometrically.</p></li>
+            <li><p>Compute <m>\vec{v}_{1} - \vec{v}_{2}</m>.</p></li>
+            <li><p>Compute <m>A \vec{v}_{1}</m>.</p></li>
+            <li><p>Compute <m>A(\vec{v}_{1} + \vec{v}_{2}) -A\vec{v}_{1} - A\vec{v}_{2}</m>. Explain how you can know the answer without doing any calculations.</p></li>
+          </ol>
         </statement>
+        <solution>
+          <p>For (a), <m>(1,0,1) + (1,0,-1) = (2,0,0)</m>.</p>
+          <p>For (b), <m>(1,0,1) \cdot (1,0,-1) = 1 + 0 + -1 = 0</m>. They're orthogonal.</p>
+          <p>For (c), <m>(1,0,1) - (1,0,-1) = (0,0,2)</m>.</p>
+          <p>For (d),</p>
+          <me>\begin{pmatrix} 1 &amp; 1 &amp; 1 \\ 2 &amp; 3 &amp; 4 \end{pmatrix} \begin{pmatrix} 1 \\ 0 \\ 1 \end{pmatrix} = 1\begin{pmatrix} 1 \\2\end{pmatrix} + 0 \begin{pmatrix} 1 \\3  \end{pmatrix} + 1 \begin{pmatrix} 1 \\ 4\end{pmatrix} = \begin{pmatrix} 2 \\ 6 \end{pmatrix}</me>
+          <p>You could also use dot products here, but for me this was easier.</p>
+          <p>For (e), this is equal to <m>0</m> by the additivity property of linear transformations.</p>
+        </solution>
       </exercise>
 
-      <exercise>
+      <exercise xml:id="matrix-vector-exercise-2">
         <statement>
-          <p>
-            Consider the matrix
-            <me>A = \begin{pmatrix} 1 \amp -1 \amp0 \\1 \amp 0 \amp-1 \\ 0 \amp1 \amp -1\end{pmatrix}.</me>
-          </p>
-          <p>
-            <ol marker="(a)">
-              <li>Find its rank.</li>
-              <li>Find its nullity.</li>
-              <li>Are the columns spanning?</li>
-              <li>Are the columns linearly independent?</li>
-              <li>How could you figure out your answer for parts (c) and (d) from your answers for (a) and (b)?</li>
-            </ol>
-          </p>
+          <p>Consider the matrix</p>
+          <me>A = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp;1 \\2 &amp; 4\end{pmatrix}</me>
+          <p>Let <m>\vec{v}_{1} = (1,0)</m> and <m>\vec{v}_{2} = (0,1)</m>.</p>
+          <ol marker="(a)">
+            <li><p>Compute <m>A \vec{v}_{1}</m>.</p></li>
+            <li><p>Compute <m>A \vec{v}_{2}</m>.</p></li>
+            <li><p>How do <m>A \vec{v}_{1}</m> and <m>A \vec{v}_{2}</m> relate to the columns of your original matrix? Why does that relation hold?</p></li>
+          </ol>
         </statement>
+        <solution>
+          <p>For (a), we have</p>
+          <me>A \vec{v}_{1} = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp;1 \\2 &amp; 4\end{pmatrix}\begin{pmatrix}1 \\ 0 \end{pmatrix} =1 \begin{pmatrix} 1 \\ 0 \\2\end{pmatrix} + 0 \begin{pmatrix} 0 \\ 1 \\4\end{pmatrix} = \begin{pmatrix} 1 \\ 0 \\2\end{pmatrix}.</me>
+          <p>For (b), we have</p>
+          <me>A \vec{v}_{2} = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp;1 \\2 &amp; 4\end{pmatrix}\begin{pmatrix}0 \\ 1 \end{pmatrix} =0 \begin{pmatrix} 1 \\ 0 \\2\end{pmatrix} + 1 \begin{pmatrix} 0 \\ 1 \\4\end{pmatrix} = \begin{pmatrix} 0 \\ 1 \\4\end{pmatrix}.</me>
+          <p>For (c), they are the first and second columns of the matrix respectively. This is because <m>\vec{v_{1}} = e_{1}</m> and <m>\vec{v}_{2} = e_{2}</m> are the standard basis vectors, and multiplying by the <m>i</m>th standard basis vector always returns the <m>i</m>th column of the matrix.</p>
+        </solution>
       </exercise>
 
-      <exercise>
+      <exercise xml:id="matrix-vector-exercise-3">
         <statement>
-          <p>
-            For each of the following, give an example or explain why you think no such example can exist:
-            <ol marker="(a)">
-              <li>Two distinct vectors in <m>\mathbb{R}^{2}</m> that don't span <m>\mathbb{R}^{2}</m>.</li>
-              <li>A <m>5 \times 3</m> matrix of rank <m>4</m>.</li>
-              <li>A <m>5 \times 3</m> matrix of rank <m>2</m>.</li>
-              <li>A <m>3 \times 2</m> matrix <m>A</m> and a vector <m>\vec{b}</m> in <m>\mathbb{R}^{3}</m> for which <m>A \vec{x} = \vec{b}</m> has no solution.</li>
-              <li>A <m>3 \times 4</m> matrix <m>A</m> for which <m>A \vec{x} = \vec{b}</m> always has a solution and the solution is unique.</li>
-            </ol>
-          </p>
+          <p>Consider the matrix <m>A = \begin{pmatrix} 0 &amp; 1 &amp;0 \\ 0 &amp;0 &amp; 1 \\ 1 &amp; 0 &amp; 0 \end{pmatrix}</m>. Let <m>\vec{v} =(1,2,3)</m>.</p>
+          <ol marker="(a)">
+            <li><p>Compute <m>A \vec{v}</m>.</p></li>
+            <li><p>Compute <m>A(A(\vec{v}))</m>.</p></li>
+            <li><p>Compute <m>A(A(A(\vec{v})))</m>. How does it compare to <m>\vec{v}</m>?</p></li>
+          </ol>
         </statement>
+        <solution>
+          <p>Note that</p>
+          <me>A\begin{pmatrix}x \\y \\z \end{pmatrix} = \begin{pmatrix} 0 &amp; 1 &amp;0 \\ 0 &amp;0 &amp; 1 \\ 1 &amp; 0 &amp; 0 \end{pmatrix}\begin{pmatrix}x \\y \\z \end{pmatrix} = \begin{pmatrix} y \\z \\x \end{pmatrix}.</me>
+          <p>Then for (a), <m>A(1,2,3) = (2,3,1)</m>. For (b), <m>A(A(1,2,3)) = A(2,3,1) = (3,1,2)</m>. Finally, for (c), <m>A(A(A(1,2,3))) = A(3,1,2) = (1,2,3)</m>, which is equal to <m>\vec{v}</m>.</p>
+        </solution>
+      </exercise>
+    </subsection>
+
+    <subsection xml:id="rows-reduced-enough">
+      <title>Are these Rows Reduced Enough for You?</title>
+      <p>The following questions are meant to evaluate your ability to recognize if a matrix is in reduced row echelon form and use that to gain some insight into the solution of linear systems. To make this easier, the matrix will be in reduced row echelon form or one row operation away. If it is not in reduced row echelon form, you will be asked to put it in reduced row echelon form.</p>
+
+      <exercise xml:id="rref-exercise-1">
+        <statement>
+          <p>Consider the following matrix</p>
+          <me>A = \begin{pmatrix}1 &amp; 2 &amp; 0 &amp; 2 &amp; 4 \\ 0&amp; 0 &amp; 1 &amp; 3 &amp;2 \end{pmatrix}</me>
+          <ol marker="(a)">
+            <li><p>Is <m>A</m> in reduced row echelon form? If not, explain why, and say what row operation would put it in reduced row echelon form?</p></li>
+            <li><p>What are the pivot columns of <m>A</m>?</p></li>
+            <li><p>What is the nullity of <m>A</m>? Explain why.</p></li>
+            <li><p>If <m>A</m> is the augmented matrix of a linear system, is the system consistent? Explain why or why not. What is the dimension of the solution set? Explain.</p></li>
+            <li><p>Describe the solution set to the system parametrically.</p></li>
+          </ol>
+        </statement>
+        <solution>
+          <p>For (a), yes it is in reduced row echelon form. For (b), the first and third columns are pivot columns. For (c), the nullity is the number of non-pivot columns, which is <m>3</m>. For (d), the system is consistent, since the last column is not a pivot column. The dimension of the solution set is <m>2</m>, since there are <m>2</m> free variables. For (e), the solution set is parametrized by variables <m>x_{2}</m> and <m>x_{4}</m> in the equations:</p>
+          <me>\begin{aligned} x_{1} + 2x_{2} + 2x_{4} &amp;= 4,\\ x_{3} + 3x_{4} &amp;= 2. \end{aligned}</me>
+          <p>Then we have</p>
+          <me>\begin{aligned} x_{1} &amp;= -2x_{2} - 2x_{4}+4 \\ x_{3} &amp;= 2 - 3x_{4}. \end{aligned}</me>
+          <p>Thus, the solution set is given parametrically by</p>
+          <me>f(x_{2},x_{4}) = ( -2x_{2}-2x_{4}+4, x_{2}, 2-3x_{4},x_{4}).</me>
+        </solution>
       </exercise>
 
-      <exercise>
+      <exercise xml:id="rref-exercise-2">
         <statement>
-          <p>What must the reduced row echelon form of a matrix <m>A</m> for which <m>A \vec{x} = \vec{b}</m> always has a solution and that solution must be unique look like? Explain why you think so.</p>
+          <p>Consider the following matrix:</p>
+          <me>A = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 0\\ 0&amp; 1\\0&amp; 0\end{pmatrix}.</me>
+          <ol marker="(a)">
+            <li><p>Is this matrix in reduced row echelon form? If not, explain why. What row operation would put it in reduced row echelon form?</p></li>
+            <li><p>What are the pivot columns?</p></li>
+            <li><p>Are the columns spanning?</p></li>
+            <li><p>Are the rows spanning?</p></li>
+            <li><p>Are the columns linearly independent?</p></li>
+            <li><p>Suppose this is the coefficient matrix of a linear system with right-hand side all <m>0</m>'s. Describe the solution set to the resulting linear system parametrically.</p></li>
+          </ol>
         </statement>
+        <solution>
+          <p>For (a), it is not in reduced row echelon form, because there is a zero row above a row with some nonzero entry. This can be fixed by swapping row <m>2</m> and <m>3</m>. For (b), both columns are pivot columns. For (c), the rank is the number of columns, which is <m>2</m>. Since the rank is less than the number of rows, the columns are not spanning. For (d), since the rank is the number of columns, the rows are spanning. For (e), the columns are linearly independent, since they are all pivot columns. For (f), since the rank is <m>2</m>, the nullity is <m>0</m>, and so there is a unique solution given by <m>(0,0)</m>.</p>
+        </solution>
       </exercise>
+
+      <exercise xml:id="rref-exercise-3">
+        <statement>
+          <p>Consider the following matrix:</p>
+          <me>A = \begin{pmatrix} 1 &amp; 1 &amp; 0 \\ 0&amp; 1 &amp; 0\\ 0&amp; 0 &amp; 1\end{pmatrix}.</me>
+          <ol marker="(a)">
+            <li><p>Is this matrix in reduced row echelon form? If not, explain why. What row operation would put it in reduced row echelon form?</p></li>
+            <li><p>Which are the pivot columns?</p></li>
+            <li><p>Which are the free variable columns?</p></li>
+            <li><p>What is the rank, and what is the nullity?</p></li>
+            <li><p>Are the rows spanning?</p></li>
+            <li><p>Are the columns spanning?</p></li>
+            <li><p>Suppose that <m>A</m> is the coefficient matrix of a linear system with right hand side before row reduction if any is done <m>(1, 2,3)</m>. What is the solution set?</p></li>
+          </ol>
+        </statement>
+        <solution>
+          <p>For (a), it is not in reduced row echelon form, the second column has to be a pivot column, since the second row has leading term in that column, and there are two nonzero elements. Subtracting the second row from the first fixes it. For (b), all columns are pivot columns, and so for (c), there are no free variable columns. For (d), the rank is <m>3</m> since there are three pivot columns, and so the nullity is <m>0</m>. For (e), the rows are spanning, since the rank is equal to the number of columns. For (f), the columns are spanning, since the rank is equal to the number of rows. For (g), the linear system would be</p>
+          <me>\begin{aligned} x + y &amp;= 1, \\ y &amp;= 2, \\ z &amp;= 3. \end{aligned}</me>
+          <p>Thus, the solution is <m>x = -1, y = 2</m> and <m>z = 3</m>, and it is unique.</p>
+        </solution>
+      </exercise>
+    </subsection>
+
+    <subsection xml:id="switching-representations">
+      <title>Switching Between Representations</title>
+      <p>This problem will be about different ways to represent a system, solving it, and interpreting the solution.</p>
+
+      <exercise xml:id="representations-exercise-1">
+        <statement>
+          <p>Consider the linear equation with vector coefficients</p>
+          <me>x\begin{pmatrix} 1 \\ -1\\ 0\end{pmatrix} + y\begin{pmatrix} 1 \\ 0 \\ -1\end{pmatrix} + z \begin{pmatrix} 0 \\1\\ -1 \end{pmatrix} = \begin{pmatrix} 1\\ 1\\ 1 \end{pmatrix}</me>
+          <ol marker="(a)">
+            <li><p>Convert this to a matrix equation.</p></li>
+            <li><p>Add the column <m>\begin{pmatrix} 1 \\ 1 \\ 1\end{pmatrix}</m> to the coefficient matrix in your matrix equation. What does that correspond to when you convert back to the linear equation with vector coefficients? What is a solution to the equation?</p></li>
+            <li><p>If you take the augmented matrix of the original system and put it in reduced row echelon form, you find:</p>
+              <me>\begin{pmatrix} 1 &amp; 0 &amp; -1 &amp; 0 \\ 0 &amp; 1 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp;0 &amp; 1 \end{pmatrix}.</me>
+              <p>Is the system consistent? If there is a solution, find a parametrization of the solution set.</p>
+            </li>
+          </ol>
+        </statement>
+        <solution>
+          <p>For (a), you get the matrix equation:</p>
+          <me>\begin{pmatrix} 1 &amp; 1 &amp; 0 \\ -1 &amp; 0 &amp; 1 \\ 0 &amp; -1 &amp; -1\end{pmatrix} \begin{pmatrix} x\\ y\\ z \end{pmatrix} = \begin{pmatrix} 1 \\ 1 \\ 1\end{pmatrix}</me>
+          <p>For (b), when you convert back to linear equation with vector coefficients, you get</p>
+          <me>x\begin{pmatrix} 1 \\ -1\\ 0\end{pmatrix} + y\begin{pmatrix} 1 \\ 0 \\ -1\end{pmatrix} + z \begin{pmatrix} 0 \\ 1\\ -1 \end{pmatrix} + w \begin{pmatrix} 1 \\ 1 \\ 1 \end{pmatrix} = \begin{pmatrix} 1\\1 \\1 \end{pmatrix}</me>
+          <p>You get that <m>x = y= z= 0</m> and <m>w = 1</m> is a solution.</p>
+          <p>For (c), the last column is a pivot column, so it is not consistent. That is, there is no solution to parametrize.</p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="representations-exercise-2">
+        <statement>
+          <p>Consider the following coefficient matrix</p>
+          <me>A = \begin{pmatrix} 1 &amp; 1 &amp; 1 \\ 0 &amp; 1 &amp; 1 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}</me>
+          <p>for the equation <m>A \vec{x} = \vec{b}</m>.</p>
+          <ol marker="(a)">
+            <li><p>What would the linear equation with vector coefficients be if we converted?</p></li>
+            <li><p>Suppose that <m>\vec{x} = \begin{pmatrix} 3 \\ 2 \\ 1 \end{pmatrix}</m> is a solution to this equation. What must <m>\vec{b}</m> equal?</p></li>
+            <li><p>In reduced row echelon form, the matrix <m>A</m> is the <m>3 \times 3</m> identity matrix</p>
+              <me>\begin{pmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}</me>
+              <p>Does that mean a solution exists for all choices of <m>\vec{b}</m>? Is a solution always unique when it exists?</p>
+            </li>
+          </ol>
+        </statement>
+        <solution>
+          <p>For (a), then it would be</p>
+          <me>x\begin{pmatrix} 1\\0\\0 \end{pmatrix} + y \begin{pmatrix} 1 \\ 1 \\ 0\end{pmatrix} + z \begin{pmatrix} 1 \\ 1\\ 1 \end{pmatrix} = \vec{b}</me>
+          <p>For (b), we would find</p>
+          <me>\begin{pmatrix} 6 \\ 3 \\ 1 \end{pmatrix} = 3\begin{pmatrix} 1\\0\\0 \end{pmatrix} + 2 \begin{pmatrix} 1 \\ 1 \\ 0\end{pmatrix} + 1 \begin{pmatrix} 1 \\ 1\\ 1 \end{pmatrix} = \vec{b},</me>
+          <p>so the right hand side is <m>\begin{pmatrix} 6 \\ 3 \\ 1 \end{pmatrix}</m>.</p>
+          <p>For (c), since the coefficient matrix has at least number of rows many pivot columns in reduced row echelon form, a solution always exists. Furthermore, since every column is a pivot column the solution is always unique.</p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="representations-exercise-3">
+        <statement>
+          <p>Consider the following system of linear equations</p>
+          <me>\begin{aligned} x_{1} + x_{2} + x_{3} &amp;= 10 \\ x_{2} + x_{3} + x_{4} &amp;= 7 \\ x_{3} + x_{4} + x_{5} &amp;= 9 \end{aligned}</me>
+          <p>in variables <m>x_{1}, x_{2}, x_{3}, x_{4}, x_{5},</m> and <m>x_{6}</m>.</p>
+          <ol marker="(a)">
+            <li><p>Rewrite this as a linear equation with vector coefficients.</p></li>
+            <li><p>Rewrite this as a matrix equation.</p></li>
+            <li><p>Write the augmented matrix of the system.</p></li>
+            <li><p>Explain why if a solution exists, it has to be at least <m>3</m> dimensional.</p></li>
+          </ol>
+        </statement>
+        <solution>
+          <p>For (a), you could take</p>
+          <me>x_{1} \begin{pmatrix} 1 \\ 0 \\ 0\end{pmatrix} + x_{2} \begin{pmatrix} 1 \\ 1 \\ 0\end{pmatrix} + x_{3} \begin{pmatrix} 1 \\ 1 \\ 1\end{pmatrix} + x_{4} \begin{pmatrix} 0 \\ 1 \\ 1\end{pmatrix} + x_{5} \begin{pmatrix} 0 \\ 0 \\ 1\end{pmatrix} + x_{6} \begin{pmatrix} 0 \\ 0 \\ 0\end{pmatrix} = \begin{pmatrix} 10 \\ 7 \\ 9 \end{pmatrix}.</me>
+          <p>For (b), you get</p>
+          <me>\begin{pmatrix} 1 &amp; 1 &amp;1 &amp; 0 &amp; 0 &amp; 0 \\0 &amp;1 &amp; 1 &amp;1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 1 &amp; 1 &amp; 0 \end{pmatrix} \begin{pmatrix}x_{1} \\ x_{2} \\ x_{3} \\ x_{4} \\ x_{5} \\ x_{6} \end{pmatrix} = \begin{pmatrix} 10 \\ 7 \\ 9\end{pmatrix}</me>
+          <p>For (c), the augmented matrix is</p>
+          <me>\begin{pmatrix} 1 &amp; 1 &amp;1 &amp; 0 &amp; 0 &amp; 0 &amp; 10 \\0 &amp;1 &amp; 1 &amp;1 &amp; 0 &amp; 0 &amp; 7 \\ 0 &amp; 0 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 9 \end{pmatrix}</me>
+          <p>For (d), the augmented matrix only has <m>3</m> rows, so it has at most <m>3</m> pivot columns. Thus, there are at least <m>3</m> free variable columns. Therefore, if a solution exists, it has to be at least <m>3</m> dimensional.</p>
+        </solution>
+      </exercise>
+    </subsection>
+
+    <subsection xml:id="modeling-work">
+      <title>Modeling Work</title>
+      <p>The last problem is about modeling and communication. We have discussed several kinds of questions we can answer via the row reduction algorithm, and the previous questions show me you can run it. This question asks whether you know when to apply it and to communicate how to apply it.</p>
+
+      <exercise xml:id="modeling-exercise-1">
+        <statement>
+          <p>Explain in words how you would do the computation to solve the following problems. You <em>do not need to do the computation</em>:</p>
+          <ol marker="(a)">
+            <li><p>Is <m>(1,0,1,0)</m> in <m>\text{span}((1,-1,0,0), (0,1,-1,0), (0,0,1,-1))</m>?</p></li>
+            <li><p>Find an inner description of the collection of x, y, and z satisfying the equation <m>x(1,1,0) + y(1,0,1) + z(0,1,1) = (1,1,1)</m>.</p></li>
+            <li><p>Find the dimension of the <m>\text{span}((1,1), (1,2),(1,3),(1,4))</m>.</p></li>
+          </ol>
+        </statement>
+        <solution>
+          <p>For (a), I'd check if the system</p>
+          <me>\begin{pmatrix} 1 &amp; 0 &amp; 0 \\ -1 &amp;1 &amp; 0 \\ 0 &amp; -1 &amp; 1 \\ 0 &amp;0 &amp;-1\end{pmatrix} \begin{pmatrix}x_{1} \\ x_{2} \\ x_{3} \end{pmatrix} = \begin{pmatrix} 1 \\0\\1\\0 \end{pmatrix}</me>
+          <p>is consistent. To do this, I'd compute the augmented matrix, put it in reduced row echelon form, and check if the last column is a pivot column. If the answer is yes, it is inconsistent. Otherwise, it is consistent.</p>
+          <p>For (b), the inner description is the parametric description of the solution to the system. I'd convert the linear equation with vector coefficients to the augmented matrix form. Then I'd row reduce. From the reduced row echelon form, I'd translate it back a system of equations and solve for each pivot column variable in terms of the non pivot column variables.</p>
+          <p>For (c), I'd make them the columns of a matrix</p>
+          <me>\begin{pmatrix} 1 &amp; 1 &amp; 1 &amp; 1\\ 1 &amp; 2 &amp;3 &amp;4 \end{pmatrix}</me>
+          <p>and row reduce. The number of pivot columns is the dimension of their span.</p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="modeling-exercise-2">
+        <statement>
+          <p>Explain how you would do the computation to solve the following problems. You <em>do not need to do the computation</em>:</p>
+          <ol marker="(a)">
+            <li><p>Write <m>(3,4,5)</m> as a linear combination of <m>(1,1,1), (0,1,1), (0,0,1)</m>.</p></li>
+            <li><p>I give you three vectors in <m>\mathbb{R}^{4}</m>. Check if they are spanning.</p></li>
+            <li><p>Consider <m>(1,0,0,0)</m>, <m>(1,2,3,0)</m>, <m>(2,4,6,0)</m> in <m>\mathbb{R}^{4}</m>. How would you check if they are linearly independent?</p></li>
+          </ol>
+        </statement>
+        <solution>
+          <p>For (a), interpreting the statement literally, this means solving <m>x(1,1,1) + y (0,1,1) + z(0,0,1) = (3,4,5)</m>. I could solve this by constructing the augmented matrix of this system, row reducing, solving the system to get a function of the free variables or a unique solution. Taking any output of that function would yield a solution. Alternatively, I'd also just guess and check and guess <m>3,1,1</m>.</p>
+          <p>For (b), first thing I do for spanning is check the number of vectors. There are only three, which is less than the dimension <m>4</m>, so I know immediately they are not spanning.</p>
+          <p>For (c), I'd make them the columns of the matrix:</p>
+          <me>\begin{pmatrix} 1 &amp; 1 &amp; 2 \\ 0 &amp; 2 &amp; 4 \\ 0 &amp; 3 &amp; 6 \\ 0 &amp; 0 &amp; 0\end{pmatrix}</me>
+          <p>Then I'd row reduce and check if in the end every column is a pivot column. If yes, they are independent.</p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="modeling-exercise-3">
+        <statement>
+          <p>Explain how you would do the computation to solve the following problems. You <em>do not need to do the computation</em>:</p>
+          <ol marker="(a)">
+            <li><p>Find an outer representation of <m>span((1,-1,0,0), (0,1,-1,0), (0,0,1,-1))</m>.</p></li>
+            <li><p>Find the rank of the matrix <m>\begin{pmatrix} 1 &amp; 2 \\-1 &amp; -2 \\2 &amp; 4 \end{pmatrix}</m>.</p></li>
+            <li><p>I give you a matrix equation <m>A \vec{x} = \vec{b}</m>, and I tell you the columns of <m>A</m> are linearly independent and the system is consistent. Determine the dimension of the solution set.</p></li>
+          </ol>
+        </statement>
+        <solution>
+          <p>For (a), I'd make these the rows of the coefficient matrix in the matrix equation</p>
+          <me>\begin{pmatrix} 1 &amp; -1 &amp; 0 &amp;0 \\0 &amp; 1 &amp; -1 &amp; 0\\ 0 &amp; 0 &amp; 1 &amp;-1 \end{pmatrix}\begin{pmatrix} x_{1} \\ x_{2} \\ x_{3} \\ x_{4} \end{pmatrix} = \begin{pmatrix} 0 \\0 \\0\end{pmatrix}.</me>
+          <p>Then I'd form the augmented matrix, solve the system, and get a parametric form as a linear function with vector coefficients. Then the vector coefficients would be the rows defining the matrix equation giving the outer representation.</p>
+          <p>For (b), I'd row reduce it. The number of pivot columns will then tell me the rank.</p>
+          <p>For (c), the system is consistent, so there is a solution. Since the columns are linearly independent in the coefficient matrix, the solution is unique. Thus, the dimension of the solution set is <m>0</m>.</p>
+        </solution>
+      </exercise>
+    </subsection>
   </section>
