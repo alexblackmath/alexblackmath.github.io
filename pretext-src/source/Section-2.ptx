@@ -1,15 +1,61 @@
  <section xml:id="Section-2">
-      <title>Independence and Uniqueness of Solutions</title>
+  <title>Rank-Nullity Theorem</title>
 
-      <p>Given a linear system of equations of the form <m>A \vec{x} = \vec{b}</m>, when is a solution unique?</p>
+      <p>We define <m>\text{rank}(T)</m> to be the dimension of <m>\text{Im}(T)</m>. We define <m>\text{nullity}(T)</m> to be the dimension of the <m>\text{ker}(T)</m>, also called the <alert>null space</alert> of <m>T</m>.</p>
 
-      <p>We know from what we have shown so far, that this occurs, when the augmented matrix has no non-pivot columns except its last column in reduced row echelon form. In other words, if you just look at the coefficient matrix, you get the following:</p>
-
-      <theorem>
+      <theorem xml:id="theorem-rank-nullity">
         <statement>
-          <p>A linear system <m>A \vec{x} = \vec{b}</m> has a unique solution <alert>whenever one exists</alert> if and only if all columns of the reduced row echelon form of <m>A</m> are pivot columns.</p>
+          <p>For any linear transformation <m>T: U \to V</m>, where <m>U</m> is finite dimensional, <m>\text{rank}(T) + \text{nullity}(T) = \text{dim}(U)</m>.</p>
         </statement>
-      </theorem>
 
-      <p>In that case, we say the columns of the matrix <m>A</m> are <alert>linearly independent</alert>. In particular, to relate to the definition, on the homework this means that <m>A \vec{x} = \vec{0}</m> has a unique solution <m>\vec{x} = \vec{0}</m>. Thus, any linear combination of the columns that equals <m>\vec{0}</m> has all <m>0</m> coefficients.</p>
+        <proof>
+          <p>Note that, by the exercise we did earlier, both <m>\text{ker}(T)</m> and <m>\text{Im}(T)</m> are finite dimensional. Take a basis <m>\vec{u}_{1}, \dots, \vec{u}_{m}</m> for <m>\text{ker}(T)</m> 
+          and a basis <m>\vec{v}_{1}, \dots, \vec{v}_{k}</m> for <m>\text{Im}(T)</m>. Then, by definition of the image, there exists <m>\vec{w}_{1}, \dots, \vec{w}_{k} \in U</m>
+           such that <m>T(\vec{w}_{i}) = \vec{v}_{i}</m> for all <m>1 \leq i \leq k</m>.</p>
+
+          <p>I claim that <m>\vec{u}_{1}, \dots, \vec{u}_{m}, \vec{w}_{1},\dots, \vec{w}_{k}</m> is a basis for <m>U</m>. <alert>Explain why</alert>: If we can show this, then we have proved the theorem.</p>
+          <p><fillin characters="72"/></p>
+
+          <p>Let's do spanning first. Let <m>\vec{x} \in U</m>. We want to show that</p>
+          <me>\vec{x} \in \text{span}(\vec{u}_{1}, \dots, \vec{u}_{m}, \vec{w}_{1}, \dots, \vec{w}_{k}).</me>
+          <p>Then <m>T(\vec{x}) \in \text{Im}(T)</m>. Since <m>\vec{v}_{1}, \dots, \vec{v}_{k}</m> is a basis for <m>\text{Im}(T)</m>,</p>
+          <me>T(\vec{x}) = \sum_{i=1}^{k}a_{i} \vec{v}_{i}</me>
+          <p>for some <m>a_{1}, \dots, a_{k} \in \mathbb{R}</m>.</p>
+
+          <p><alert>Explain then why</alert></p>
+          <me>T(\vec{x} - \sum_{i=1}^{k} a_{i}\vec{w}_{i}) = \vec{0}.</me>
+          <p><fillin characters="72"/></p>
+
+          <p>Thus,</p>
+          <me>\vec{x} - \sum_{i=1}^{k} a_{i}\vec{w}_{i} \in \text{ker}(T).</me>
+
+          <p><alert>Explain then why</alert></p>
+          <me>\vec{x} - \sum_{i=1}^{k} a_{i}\vec{w}_{i} \in \text{span}(\vec{u}_{1}, \dots, \vec{u}_{m}).</me>
+          <p><fillin characters="72"/></p>
+
+          <p>Thus,</p>
+          <me>\vec{x} - \sum_{i=1}^{k} a_{i}\vec{w}_{i} = \sum_{j=1}^{m} b_{j} \vec{u}_{j}.</me>
+          <p>Conclude that</p>
+          <me>\vec{x} \in \text{span}(\vec{u}_{1}, \dots, \vec{u}_{m}, \vec{w}_{1}, \dots, \vec{w}_{k}).</me>
+          <p><fillin characters="72"/></p>
+
+          <p>Next we need to show independence. Suppose that</p>
+          <me>\sum_{i=1}^{k} a_{i}\vec{w}_{i} + \sum_{j=1}^{m} b_{j} \vec{u}_{j} = \vec{0}.</me>
+          <p>We want to show that the <m>a_{i}</m> and <m>b_{j}</m> are all then equal to <m>0</m>. The key idea is to rewrite it like this:</p>
+          <me>\sum_{i=1}^{k} a_{i}\vec{w}_{i} = -\sum_{j=1}^{m} b_{j} \vec{u}_{j}.</me>
+
+          <p><alert>Explain why</alert>: <m>\sum_{i=1}^{k} a_{i} \vec{w}_{i} \in \text{ker}(T)</m>.</p>
+          <p><fillin characters="72"/></p>
+
+          <p>Thus,</p>
+          <me>\sum_{i=1}^{k} a_{i} \vec{v}_{i} = \sum_{i=1}^{k} a_{i}T(\vec{w}_{i}) = T\left(\sum_{i=1}^{k} a_{i} \vec{w}_{i} \right) = \vec{0}.</me>
+          <p><alert>Explain why</alert> this means that <m>a_{1} = a_{2} = \dots = a_{k} = 0</m>.</p>
+          <p><fillin characters="72"/></p>
+
+          <p>Thus,</p>
+          <me>-\sum_{j=1}^{m} b_{j} \vec{u}_{j} = \vec{0}.</me>
+          <p><alert>Explain why</alert> this means that <m>b_{1} = \dots = b_{m} = 0</m>. Therefore, they are linearly independent.</p>
+          <p><fillin characters="72"/></p>
+        </proof>
+      </theorem>
     </section>

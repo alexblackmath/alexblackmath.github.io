@@ -1,16 +1,9 @@
 <section xml:id="review">
-       <title> Inner to Outer Review</title>
+       <title>Review</title>
 
-      <p>
-        Consider the linear system:
-        <me>\begin{pmatrix} 1 \amp 0 \amp 0\amp 0 \\ 0 \amp 1 \amp 0\amp 0\end{pmatrix}\begin{pmatrix} x_{1} \\ x_{2} \\ x_{3}\\x_{4} \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}</me>
-      </p>
-
-      <p>
-        <ol marker="(a)">
-          <li>Is the augmented matrix for this system in reduced row echelon form?</li>
-          <li>What is the solution to this system in parametric form?</li>
-          <li>What is an outer description of <m>\text{span}((1,0,0,0), (0,1,0,0))</m>?</li>
-        </ol>
-      </p>
+  <ul>
+        <li><p>What is the dimension of a vector space?</p></li>
+        <li><p>What is a linear transformation?</p></li>
+        <li><p>What is the kernel of a linear transformation?</p></li>
+      </ul>
     </section>
