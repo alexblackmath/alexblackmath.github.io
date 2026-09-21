@@ -6,16 +6,17 @@
     <document-id>authorslastnamelowercase-ShortTitleCamelCase</document-id>
 
     <macros>\newcommand{\foo}{b^{ar}}</macros>
-    <latex-image-preamble>\usepackage{tikz}</latex-image-preamble>
+    <latex-image-preamble>\usepackage{tikz}
+  \usepackage{tikz-cd}</latex-image-preamble>
   </docinfo>
 
-  <article xml:id="matroid">
-    <title>Rank and File</title>
+  <article xml:id="review">
+    <title>Scaling Things Down and Summing Things Up</title>
     <xi:include href="./frontmatter.ptx" />
     <!-- <xi:include href="homework-1.ptx" /> -->
-    <xi:include href="./review.ptx" /> 
-    <xi:include href="./Section-1.ptx" />
-    <xi:include href="./Section-2.ptx" />
+    <!-- <xi:include href="./review.ptx" />  -->
+    <!-- <xi:include href="./Section-1.ptx" /> -->
+    <!-- <xi:include href="./Section-2.ptx" /> -->
     <!-- <xi:include href="./Section-3.ptx" />  -->
     <xi:include href="./exercises.ptx" />
   

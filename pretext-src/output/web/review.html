@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<!--********************************************-->
+<!--*       Generated from PreTeXt source      *-->
+<!--*                                          *-->
+<!--*         https://pretextbook.org          *-->
+<!--*                                          *-->
+<!--********************************************-->
+<html lang="en-US" dir="ltr">
+<!--******************************************-->
+<!--*  Authored with PreTeXt                 *-->
+<!--*  pretextbook.org                       *-->
+<!--*  Theme: default-modern                 *-->
+<!--*  Palette:                              *-->
+<!--******************************************-->
+<head xmlns:og="http://ogp.me/ns#" xmlns:book="https://ogp.me/ns/book#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Scaling Things Down and Summing Things Up</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+<link href="_static/pretext/css/theme.css" rel="stylesheet" type="text/css">
+<style>
+@counter-style ptx-marker-1 { system: extends lower-alpha; prefix: '('; suffix: ') '; }
+</style>
+<script type="module">import { startMathJax } from './_static/pretext/js/dist/mathjax_startup.js';
+startMathJax({
+hasWebworkReps: false,
+hasSage: false,
+isReact: false,
+htmlPresentation: false,
+lang: "en-US",
+});
+</script><script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script><meta name="Keywords" content="Authored in PreTeXt">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:type" content="article">
+<meta name="twitter:title" content="Scaling Things Down and Summing Things Up">
+<meta property="og:title" content="Scaling Things Down and Summing Things Up">
+<meta name="twitter:card" content="summary">
+<script src="_static/pretext/js/jquery.min.js"></script><script src="_static/pretext/js/dist/pretext-core.js?v=2.53"></script><script src="_static/pretext/js/dist/pretext-read-aloud.js?v=2.53"></script><!--** eBookCongig is necessary to configure interactive       **-->
+<!--** Runestone components to run locally in reader's browser **-->
+<!--** No external communication:                              **-->
+<!--**     log level is 0, Runestone Services are disabled     **-->
+<script type="text/javascript">
+eBookConfig = {};
+eBookConfig.useRunestoneServices = false;
+eBookConfig.host = 'http://127.0.0.1:8000';
+eBookConfig.course = 'PTX_Course_Title_Here';
+eBookConfig.basecourse = 'PTX_Base_Course';
+eBookConfig.isLoggedIn = false;
+eBookConfig.email = '';
+eBookConfig.isInstructor = false;
+eBookConfig.logLevel = 0;
+eBookConfig.username = '';
+eBookConfig.readings = null;
+eBookConfig.activities = null;
+eBookConfig.downloadsEnabled = false;
+eBookConfig.allow_pairs = false;
+eBookConfig.enableScratchAC = false;
+eBookConfig.build_info = "";
+eBookConfig.python3 = null;
+eBookConfig.runestone_version = '8.3.0';
+eBookConfig.jobehost = '';
+eBookConfig.proxyuri_runs = '';
+eBookConfig.proxyuri_files = '';
+eBookConfig.enable_chatcodes =  false;
+</script>
+<!--*** Runestone Services ***-->
+<script src="_static/prefix-runtime.c838822d59bc26bc.bundle.js"></script><script src="_static/prefix-926.5c7038c8ef173faf.bundle.js"></script><script src="_static/prefix-runestone.b9fedab97dee3c2a.bundle.js"></script><link rel="stylesheet" type="text/css" href="_static/prefix-926.229729d09512acc9.css">
+<link rel="stylesheet" type="text/css" href="_static/prefix-runestone.347e2ecdeacfed99.css">
+<script src="_static/pretext/js/dist/lti_iframe_resizer.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js" integrity="sha512-4xUl/d6D6THrAnXAwGajXkoWaeMNwEKK4iNfq5DotEbLPAfk6FSxSP3ydNxqDgCw1c/0Z1Jg6L8h2j+++9BZmg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><script src="lunr-pretext-search-index.js" async=""></script><script src="_static/pretext/js/dist/pretext_search.js"></script><!--knowl.js code controls Sage Cells within knowls--><script>sagecellEvalName='Evaluate (Sage)';
+</script>
+</head>
+<body id="authorslastnamelowercase-ShortTitleCamelCase" class="pretext article ignore-math">
+<a class="assistive" href="#ptx-content">Skip to main content</a><header id="ptx-masthead" class="ptx-masthead" role="banner"><div class="ptx-banner"><div class="title-container">
+<h1 class="heading ptx-banner-heading"><a href="review.html"><span class="title">Scaling Things Down and Summing Things Up</span></a></h1>
+<p class="byline"></p>
+</div></div></header><nav id="ptx-navbar" class="ptx-navbar navbar"><div class="ptx-navbar-contents">
+<button id="ptx-toc-toggle" type="button" aria-controls="ptx-sidebar" class="toc-toggle button hidden" title="Contents"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5d2;</span><span class="name">Contents</span></button><div class="ptx-search-box">
+<div class="ptx-search-widget"><button id="ptx-search-button" type="button" class="ptx-search-button button" title="Search Book"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe8b6;</span><span class="name">Search Book</span></button></div>
+<dialog id="ptx-search-dialog" class="ptx-dialog ptx-search-dialog"><div class="ptx-search-dialog-controls">
+<input aria-label="Search term" id="ptx-search-terms" class="ptx-search-terms" type="text" name="terms" placeholder="Search terms"><button aria-label="Close" id="ptx-search-close" class="ptx-search-close"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cd;</span></button>
+</div>
+<div id="ptx-search-status" class="ptx-search-status" aria-live="polite" aria-atomic="true"></div>
+<h2 class="heading ptx-search-results-heading">Search Results: </h2>
+<div id="ptx-search-empty" class="ptx-search-empty"><span>No results.</span></div>
+<ol id="ptx-search-results" class="ptx-search-results"></ol></dialog>
+</div>
+<span class="nav-other-controls"><button id="ptx-read-aloud-button" class="ptx-read-aloud-button button" title="Read aloud" aria-expanded="false"><span class="icon material-symbols-outlined" aria-hidden="true">&#xf1bc;</span><span class="name">Read aloud</span></button><div id="ptx-read-aloud-player" class="ptx-read-aloud-player" hidden="hidden" role="group" aria-label="Read aloud">
+<button id="ptx-read-aloud-prev" class="button" title="Previous sentence"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe045;</span></button><button id="ptx-read-aloud-toggle" class="ptx-read-aloud-toggle button" title="Play"><span class="ptx-read-aloud-icon-play"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe037;</span></span><span class="ptx-read-aloud-icon-pause"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe034;</span></span></button><button id="ptx-read-aloud-next" class="button" title="Next sentence"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe044;</span></button><a id="ptx-read-aloud-continue" class="ptx-read-aloud-continue button" hidden="hidden">Continue<span class="icon material-symbols-outlined" aria-hidden="true">&#xe037;</span></a><button id="ptx-read-aloud-settings-button" class="ptx-read-aloud-settings-button button" title="Reading settings"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe429;</span></button>
+</div>
+<dialog class="ptx-dialog ptx-read-aloud-settings-popup" id="ptx-read-aloud-settings-popup"><div class="ptx-readability-options-popup-controls">
+<h2 class="heading">Read aloud settings</h2>
+<button class="ptx-read-aloud-settings-close-button button" id="ptx-read-aloud-settings-close-button" title="Close"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cd;</span></button>
+</div>
+<div class="ptx-readability-options-group">
+<label for="ptx-read-aloud-voice"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe91f;</span><span>Voice</span></label><select id="ptx-read-aloud-voice"></select><label class="ptx-readability-slider-label" for="ptx-read-aloud-rate"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe9e4;</span><span>Reading speed</span><output id="ptx-read-aloud-rate-value" for="ptx-read-aloud-rate">1×</output></label><input type="range" id="ptx-read-aloud-rate" min="0.5" max="2" step="0.1" value="1"><label for="ptx-read-aloud-asides"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5d7;</span><span>Collapsed content</span></label><select id="ptx-read-aloud-asides"><option value="skip">Announce, do not read</option>
+<option value="read">Read automatically</option></select><label for="ptx-read-aloud-autoscroll"><input type="checkbox" id="ptx-read-aloud-autoscroll" checked><span>Follow along (auto-scroll)</span></label><label for="ptx-read-aloud-autocontinue"><input type="checkbox" id="ptx-read-aloud-autocontinue"><span>Continue to the next page automatically</span></label>
+</div></dialog><button id="ptx-readability-options-button" class="ptx-readability-options-button button" title="Readability settings"><span class="icon material-symbols-outlined" aria-hidden="true">&#xf6f1;</span><span class="name">Readability settings</span></button><dialog class="ptx-dialog ptx-readability-options-popup" id="ptx-readability-options-popup"><div class="ptx-readability-options-popup-controls">
+<h2 class="heading">Readability settings</h2>
+<button class="ptx-readability-options-close-button button" id="ptx-readability-options-close-button" title="Close"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cd;</span></button>
+</div>
+<div class="ptx-readability-options-group">
+<label class="ptx-readability-slider-label" for="ptx-readability-line-height"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe240;</span><span>Line height</span><output id="ptx-readability-line-height-value" for="ptx-readability-line-height">1.35</output></label><input type="range" id="ptx-readability-line-height" min="1.10" max="3" step="0.05" value="1.35">
+</div>
+<div class="ptx-readability-options-group">
+<label class="ptx-readability-slider-label" for="ptx-readability-font-size"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe245;</span><span>Content font size</span><output id="ptx-readability-font-size-value" for="ptx-readability-font-size">100%</output></label><input type="range" id="ptx-readability-font-size" min="0.8" max="1.5" step="0.05" value="1">
+</div>
+<fieldset class="ptx-readability-options-group ptx-readability-options-group-theme">
+<legend>Theme</legend>
+<label for="ptx-readability-theme-system"><input type="radio" name="ptx-readability-theme" id="ptx-readability-theme-system" value="system"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe1ab;</span><span>System</span></label><label for="ptx-readability-theme-light"><input type="radio" name="ptx-readability-theme" id="ptx-readability-theme-light" value="light"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe518;</span><span>Light</span></label><label for="ptx-readability-theme-dark"><input type="radio" name="ptx-readability-theme" id="ptx-readability-theme-dark" value="dark"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe51c;</span><span>Dark</span></label>
+</fieldset>
+<fieldset class="ptx-readability-options-group">
+<legend>Assistive technologies</legend>
+<label for="ptx-readability-accessible-permalinks"><input type="checkbox" id="ptx-readability-accessible-permalinks"><span>🔗</span><span>Expose permalinks</span></label>
+</fieldset>
+<div class="ptx-readability-options-group"><button type="button" class="ptx-readability-reset-button button" id="ptx-readability-reset-button"><span class="icon material-symbols-outlined" aria-hidden="true">&#xf053;</span><span class="name">Reset All</span></button></div></dialog></span><span class="treebuttons"><span class="previous-button button disabled"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cb;</span><span class="name">Prev</span></span><span class="up-button button disabled"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5ce;</span><span class="name">Up</span></span><span class="next-button button disabled"><span class="name">Next</span><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cc;</span></span></span>
+</div></nav><div id="latex-macros" class="hidden-content process-math" style="display:none"><span class="process-math">\(\newcommand{\foo}{b^{ar}}
+\newcommand{\lt}{&lt;}
+\newcommand{\gt}{&gt;}
+\newcommand{\amp}{&amp;}
+\definecolor{fillinmathshade}{gray}{0.9}
+\newcommand{\fillinmath}[1]{\mathchoice{\colorbox{fillinmathshade}{$\displaystyle     \phantom{\,#1\,}$}}{\colorbox{fillinmathshade}{$\textstyle        \phantom{\,#1\,}$}}{\colorbox{fillinmathshade}{$\scriptstyle      \phantom{\,#1\,}$}}{\colorbox{fillinmathshade}{$\scriptscriptstyle\phantom{\,#1\,}$}}}
+\)</span></div>
+<div class="ptx-page">
+<div id="ptx-sidebar" role="complementary" class="ptx-sidebar hidden"><nav id="ptx-toc" tabindex="-1" aria-label="Contents" class="ptx-toc depth0 focused" data-preexpanded-levels="0" data-max-levels="0"><ul class="structural toc-item-list contains-active">
+<li class="toc-item toc-frontmatter"><div class="toc-title-box"><a href="#review-2" class="internal"><span class="title">Front Matter</span></a></div></li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="#exercises" class="internal"><span class="codenumber">1</span> <span class="title">Exercises</span></a></div>
+<ul id="ptx-toc-group-exercises" class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#exercises-2" class="internal"><span class="codenumber">1.1</span> <span class="title">Matrix and Vector Operations Review</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#exercises-3" class="internal"><span class="codenumber">1.2</span> <span class="title">Solving Linear Systems</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#exercises-4" class="internal"><span class="codenumber">1.3</span> <span class="title">Independence, Span, and Rank</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#exercises-5" class="internal"><span class="codenumber">1.4</span> <span class="title">Inner and Outer Representation</span></a></div></li>
+</ul>
+</li>
+</ul></nav></div>
+<main class="ptx-main"><div id="ptx-content" class="ptx-content">
+<section class="article" id="review">
+<section class="frontmatter" id="review-2"><h1 class="heading"><span class="title">Scaling Things Down and Summing Things Up</span></h1>
+<div class="autopermalink" aria-hidden="true" data-description="Front Matter"><a tabindex="-1" href="#review-2" title="Copy heading and permalink for Front Matter" aria-label="Copy heading and permalink for Front Matter">🔗</a></div>
+</section>
+<section class="section" id="exercises">
+<h2 class="heading hide-type">
+<span class="type">Section</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Exercises</span>
+</h2>
+<section class="subsection" id="exercises-2">
+<h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.1</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Matrix and Vector Operations Review</span>
+</h3>
+<div class="para logical" id="exercises-2-2">
+<div class="para">Recall the notation  that <span class="process-math">\(e_{i}\)</span> in <span class="process-math">\(\mathbb{R}^{n}\)</span> denotes the vector with <span class="process-math">\(1\)</span> in the <span class="process-math">\(i\)</span>th coordinate and all <span class="process-math">\(0\)</span>’s otherwise. For example, in <span class="process-math">\(\mathbb{R}^{6}\text{,}\)</span>
+</div>
+<div class="displaymath process-math" id="exercises-2-2-7">
+\begin{equation*}
+e_{3} = \begin{pmatrix} 0\\0\\1 \\0\\0\\0\end{pmatrix}.
+\end{equation*}
+</div>
+<div class="para">Let’s practice this:</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="exercises-2-3" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.1</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para logical" id="exercises-2-3-1-1">
+<div class="para">Using the notation, we have introduced, answer the following:</div>
+<ol class="lower-alpha" style="list-style: ptx-marker-1;" id="exercises-2-3-1-1-1">
+<li id="exercises-2-3-1-1-1-1">
+<div class="para" id="exercises-2-3-1-1-1-1-1">Write <span class="process-math">\(e_{5}\)</span> in <span class="process-math">\(\mathbb{R}^{6}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-3-1-1-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.1.a"><a tabindex="-1" href="#exercises-2-3-1-1-1-1" title="Copy heading and permalink for Item 1.1.a" aria-label="Copy heading and permalink for Item 1.1.a">🔗</a></div>
+</li>
+<li id="exercises-2-3-1-1-1-2">
+<div class="para" id="exercises-2-3-1-1-1-2-1">Write <span class="process-math">\(e_{3}\)</span> in <span class="process-math">\(\mathbb{R}^{3}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-3-1-1-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.1.b"><a tabindex="-1" href="#exercises-2-3-1-1-1-2" title="Copy heading and permalink for Item 1.1.b" aria-label="Copy heading and permalink for Item 1.1.b">🔗</a></div>
+</li>
+<li id="exercises-2-3-1-1-1-3">
+<div class="para" id="exercises-2-3-1-1-1-3-1">Why can’t you write <span class="process-math">\(e_{4}\)</span> in <span class="process-math">\(\mathbb{R}^{2}\text{?}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-3-1-1-1-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.1.c"><a tabindex="-1" href="#exercises-2-3-1-1-1-3" title="Copy heading and permalink for Item 1.1.c" aria-label="Copy heading and permalink for Item 1.1.c">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-3-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="exercises-2-3-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.1.1"><a tabindex="-1" href="#exercises-2-3-2" title="Copy heading and permalink for Solution 1.1.1" aria-label="Copy heading and permalink for Solution 1.1.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.1"><a tabindex="-1" href="#exercises-2-3" title="Copy heading and permalink for Checkpoint 1.1" aria-label="Copy heading and permalink for Checkpoint 1.1">🔗</a></div>
+</article></details>
+<div class="para logical" id="exercises-2-4">
+<div class="para">The standard basis vectors are useful for understanding matrix vector multiplication. Instead of using dot products, for a matrix</div>
+<div class="displaymath process-math" id="exercises-2-4-1">
+\begin{equation*}
+A = \begin{pmatrix}\vec{a}_{1} &amp; \vec{a}_{2} &amp; \dots &amp; \vec{a}_{n} \end{pmatrix}
+\end{equation*}
+</div>
+<div class="para">and a vector</div>
+<div class="displaymath process-math" id="exercises-2-4-2">
+\begin{equation*}
+\vec{x} = \begin{pmatrix} x_{1} \\ x_{2} \\ \vdots \\ x_{n}\end{pmatrix},
+\end{equation*}
+</div>
+<div class="para">we can write</div>
+<div class="displaymath process-math" id="exercises-2-4-3">
+\begin{equation*}
+A \vec{x} = x_{1}\vec{a}_{1} + x_{2} \vec{a}_{2} + \dots + x_{n}\vec{a}_{n}.
+\end{equation*}
+</div>
+<div class="para">For example,</div>
+<div class="displaymath process-math" id="exercises-2-4-4">
+\begin{equation*}
+\begin{pmatrix} 1&amp; 1 &amp; 1 &amp; 1 \\ 1&amp;2&amp;3&amp;4 \end{pmatrix} \begin{pmatrix} 1 \\2\\0\\ 0\end{pmatrix} = \begin{pmatrix}1 \\1 \end{pmatrix} + 2\begin{pmatrix}1\\2\end{pmatrix} + 0 \begin{pmatrix}1\\3 \end{pmatrix} + 0\begin{pmatrix} 1\\4 \end{pmatrix} = \begin{pmatrix} 3\\5 \end{pmatrix}.
+\end{equation*}
+</div>
+<div class="para">This is where the equivalence between matrix equations and linear equations with vector coefficients comes from.</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="exercises-2-5">This is especially helpful for multiplying by standard basis vectors. Try this in the following two exercises:<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="exercises-2-6" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.2</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para logical" id="exercises-2-6-1-1">
+<div class="para">Consider the matrix:</div>
+<div class="displaymath process-math" id="exercises-2-6-1-1-1">
+\begin{equation*}
+A = \begin{pmatrix} 1&amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp;1\\ 1&amp;2&amp;3&amp;4&amp;5&amp;6 \end{pmatrix}
+\end{equation*}
+</div>
+<ol class="lower-alpha" style="list-style: ptx-marker-1;" id="exercises-2-6-1-1-2">
+<li id="exercises-2-6-1-1-2-1">
+<div class="para" id="exercises-2-6-1-1-2-1-1">Compute <span class="process-math">\(Ae_{1}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-6-1-1-2-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.2.a"><a tabindex="-1" href="#exercises-2-6-1-1-2-1" title="Copy heading and permalink for Item 1.2.a" aria-label="Copy heading and permalink for Item 1.2.a">🔗</a></div>
+</li>
+<li id="exercises-2-6-1-1-2-2">
+<div class="para" id="exercises-2-6-1-1-2-2-1">Compute <span class="process-math">\(Ae_{2}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-6-1-1-2-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.2.b"><a tabindex="-1" href="#exercises-2-6-1-1-2-2" title="Copy heading and permalink for Item 1.2.b" aria-label="Copy heading and permalink for Item 1.2.b">🔗</a></div>
+</li>
+<li id="exercises-2-6-1-1-2-3">
+<div class="para" id="exercises-2-6-1-1-2-3-1">From what you found in exercises <span class="process-math">\((a)\)</span> and <span class="process-math">\((b)\text{,}\)</span> explain what <span class="process-math">\(A e_{i}\)</span> means in words?<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-6-1-1-2-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.2.c"><a tabindex="-1" href="#exercises-2-6-1-1-2-3" title="Copy heading and permalink for Item 1.2.c" aria-label="Copy heading and permalink for Item 1.2.c">🔗</a></div>
+</li>
+<li id="exercises-2-6-1-1-2-4">
+<div class="para" id="exercises-2-6-1-1-2-4-1">How would you describe <span class="process-math">\(A(5e_{i})\text{?}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-6-1-1-2-4-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.2.d"><a tabindex="-1" href="#exercises-2-6-1-1-2-4" title="Copy heading and permalink for Item 1.2.d" aria-label="Copy heading and permalink for Item 1.2.d">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-6-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="exercises-2-6-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.2.1"><a tabindex="-1" href="#exercises-2-6-2" title="Copy heading and permalink for Solution 1.2.1" aria-label="Copy heading and permalink for Solution 1.2.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.2"><a tabindex="-1" href="#exercises-2-6" title="Copy heading and permalink for Checkpoint 1.2" aria-label="Copy heading and permalink for Checkpoint 1.2">🔗</a></div>
+</article></details>
+<details id="exercises-2-7" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.3</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para logical" id="exercises-2-7-1-1">
+<div class="para">Consider the matrix</div>
+<div class="displaymath process-math" id="exercises-2-7-1-1-1">
+\begin{equation*}
+A= \begin{pmatrix} 1 &amp; 1 &amp;0 &amp;1 &amp; 1 &amp; 0 \\0&amp; 0 &amp;1 &amp;2 &amp;2 &amp;0\\0 &amp;0 &amp;0 &amp; 0 &amp;0 &amp;1 \end{pmatrix}
+\end{equation*}
+</div>
+<ol class="lower-alpha" style="list-style: ptx-marker-1;" id="exercises-2-7-1-1-2">
+<li id="exercises-2-7-1-1-2-1">
+<div class="para" id="exercises-2-7-1-1-2-1-1">Compute <span class="process-math">\(A e_{1}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-7-1-1-2-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.3.a"><a tabindex="-1" href="#exercises-2-7-1-1-2-1" title="Copy heading and permalink for Item 1.3.a" aria-label="Copy heading and permalink for Item 1.3.a">🔗</a></div>
+</li>
+<li id="exercises-2-7-1-1-2-2">
+<div class="para" id="exercises-2-7-1-1-2-2-1">Compute <span class="process-math">\(Ae_{3}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-7-1-1-2-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.3.b"><a tabindex="-1" href="#exercises-2-7-1-1-2-2" title="Copy heading and permalink for Item 1.3.b" aria-label="Copy heading and permalink for Item 1.3.b">🔗</a></div>
+</li>
+<li id="exercises-2-7-1-1-2-3">
+<div class="para" id="exercises-2-7-1-1-2-3-1">Compute <span class="process-math">\(Ae_{6}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-7-1-1-2-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.3.c"><a tabindex="-1" href="#exercises-2-7-1-1-2-3" title="Copy heading and permalink for Item 1.3.c" aria-label="Copy heading and permalink for Item 1.3.c">🔗</a></div>
+</li>
+<li id="exercises-2-7-1-1-2-4">
+<div class="para logical" id="exercises-2-7-1-1-2-4-1">
+<div class="para">Compute</div>
+<div class="displaymath process-math" id="exercises-2-7-1-1-2-4-1-1">
+\begin{equation*}
+Ae_{1} + 2Ae_{3} + 3 A e_{6} = A(e_{1} +2e_{3} +3e_{6}).
+\end{equation*}
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-7-1-1-2-4-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.3.d"><a tabindex="-1" href="#exercises-2-7-1-1-2-4" title="Copy heading and permalink for Item 1.3.d" aria-label="Copy heading and permalink for Item 1.3.d">🔗</a></div>
+</li>
+<li id="exercises-2-7-1-1-2-5">
+<div class="para logical" id="exercises-2-7-1-1-2-5-1">
+<div class="para">Compute</div>
+<div class="displaymath process-math" id="exercises-2-7-1-1-2-5-1-1">
+\begin{equation*}
+A(b_{1}e_{1} +b_{2} e_{3} + b_{3}e_{6}).
+\end{equation*}
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-7-1-1-2-5-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.3.e"><a tabindex="-1" href="#exercises-2-7-1-1-2-5" title="Copy heading and permalink for Item 1.3.e" aria-label="Copy heading and permalink for Item 1.3.e">🔗</a></div>
+</li>
+<li id="exercises-2-7-1-1-2-6">
+<div class="para logical" id="exercises-2-7-1-1-2-6-1">
+<div class="para">For <span class="process-math">\(\vec{b} = \begin{pmatrix}b_{1} \\ b_{2} \\b_{3} \end{pmatrix}\text{,}\)</span> give a solution to</div>
+<div class="displaymath process-math" id="exercises-2-7-1-1-2-6-1-2">
+\begin{equation*}
+A \vec{x} = \vec{b}.
+\end{equation*}
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-7-1-1-2-6-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.3.f"><a tabindex="-1" href="#exercises-2-7-1-1-2-6" title="Copy heading and permalink for Item 1.3.f" aria-label="Copy heading and permalink for Item 1.3.f">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-7-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.3"><a tabindex="-1" href="#exercises-2-7" title="Copy heading and permalink for Checkpoint 1.3" aria-label="Copy heading and permalink for Checkpoint 1.3">🔗</a></div>
+</article></details>
+<div class="para logical" id="exercises-2-8">
+<div class="para">This last exercise illustrates an important fact. The set of vectors of the form</div>
+<div class="displaymath process-math" id="exercises-2-8-1">
+\begin{equation*}
+A\vec{x}
+\end{equation*}
+</div>
+<div class="para">are precisely the linear combinations of the columns of <span class="process-math">\(A\text{.}\)</span> Thus, <span class="process-math">\(A \vec{x} = \vec{b}\)</span> has a solution if and only if it may be written as a linear combination of the columns of <span class="process-math">\(A\text{.}\)</span> In fact, this is what conversion is doing between linear equations with vector coefficients and matrix equations.</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-8" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="exercises-2-9" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.4</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para logical" id="exercises-2-9-1-1">
+<div class="para">Consider the following linear system:</div>
+<div class="displaymath process-math" id="exercises-2-9-1-1-1">
+\begin{equation*}
+\begin{aligned}
+x_{2} &amp;= 1 \\
+x_{1} + x_{2} + x_{3} &amp;= 1\\
+x_{2}+x_{3} +x_{4} &amp;= 1\\
+x_{3} &amp;=0
+\end{aligned}
+\end{equation*}
+</div>
+<ol class="lower-alpha" style="list-style: ptx-marker-1;" id="exercises-2-9-1-1-2">
+<li id="exercises-2-9-1-1-2-1">
+<div class="para" id="exercises-2-9-1-1-2-1-1">Write the coefficient and augmented matrices of the system.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-9-1-1-2-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.4.a"><a tabindex="-1" href="#exercises-2-9-1-1-2-1" title="Copy heading and permalink for Item 1.4.a" aria-label="Copy heading and permalink for Item 1.4.a">🔗</a></div>
+</li>
+<li id="exercises-2-9-1-1-2-2">
+<div class="para" id="exercises-2-9-1-1-2-2-1">Rewrite this as a matrix equation.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-9-1-1-2-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.4.b"><a tabindex="-1" href="#exercises-2-9-1-1-2-2" title="Copy heading and permalink for Item 1.4.b" aria-label="Copy heading and permalink for Item 1.4.b">🔗</a></div>
+</li>
+<li id="exercises-2-9-1-1-2-3">
+<div class="para" id="exercises-2-9-1-1-2-3-1">Rewrite this as a linear equation with vector coefficients.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-9-1-1-2-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.4.c"><a tabindex="-1" href="#exercises-2-9-1-1-2-3" title="Copy heading and permalink for Item 1.4.c" aria-label="Copy heading and permalink for Item 1.4.c">🔗</a></div>
+</li>
+<li id="exercises-2-9-1-1-2-4">
+<div class="para" id="exercises-2-9-1-1-2-4-1">Without doing any row reduction, explain why you can see that <span class="process-math">\(x_{1} = x_{3} = x_{4} = 0\)</span> and <span class="process-math">\(x_{2} = 1\)</span> has to be a solution. Which form makes this clearest to see?<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-9-1-1-2-4-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.4.d"><a tabindex="-1" href="#exercises-2-9-1-1-2-4" title="Copy heading and permalink for Item 1.4.d" aria-label="Copy heading and permalink for Item 1.4.d">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-9-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.4"><a tabindex="-1" href="#exercises-2-9" title="Copy heading and permalink for Checkpoint 1.4" aria-label="Copy heading and permalink for Checkpoint 1.4">🔗</a></div>
+</article></details>
+<div class="para" id="exercises-2-10">You can use this insight to solve a related problem, which is the kind of question you’d ask in cryptography.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-10" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="exercises-2-11" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.5</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para logical" id="exercises-2-11-1-1">
+<div class="para">Suppose I give you a secret <span class="process-math">\(3 \times 3\)</span> matrix <span class="process-math">\(A\text{,}\)</span> and</div>
+<div class="displaymath process-math" id="exercises-2-11-1-1-3">
+\begin{equation*}
+A e_{1} = \begin{pmatrix} 1\\1\\1 \end{pmatrix}, A e_{2} = \begin{pmatrix} 1\\1\\0 \end{pmatrix}, \text{ and } A e_{3} = \begin{pmatrix} 1\\0\\0 \end{pmatrix} .
+\end{equation*}
+</div>
+<div class="para">Then what is the matrix <span class="process-math">\(A\text{?}\)</span>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-11-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.5"><a tabindex="-1" href="#exercises-2-11" title="Copy heading and permalink for Checkpoint 1.5" aria-label="Copy heading and permalink for Checkpoint 1.5">🔗</a></div>
+</article></details>
+<div class="para" id="exercises-2-12">In fact, this is why matrices aren’t used in that way for cryptographic systems. It’s too easy to break the code!<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-2-12" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Subsection 1.1: Matrix and Vector Operations Review"><a tabindex="-1" href="#exercises-2" title="Copy heading and permalink for Subsection 1.1: Matrix and Vector Operations Review" aria-label="Copy heading and permalink for Subsection 1.1: Matrix and Vector Operations Review">🔗</a></div>
+</section>
+<section class="subsection" id="exercises-3">
+<h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.2</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Solving Linear Systems</span>
+</h3>
+<div class="para" id="exercises-3-2">Linear systems appear everywhere. Stoichiometry in chemistry is a particularly good illustration.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-3-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="exercises-3-3" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.6</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Balancing a chemical equation.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="exercises-3-3-2-1">In a chemical reaction, atoms are neither created nor destroyed. Thus, for each chemical element, the number of atoms appearing on the left side of the reaction must equal the number appearing on the right side.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-3-3-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> 
+<div class="para logical" id="exercises-3-3-2-2">
+<div class="para">Consider the combustion reaction</div>
+<div class="displaymath process-math" id="exercises-3-3-2-2-1">
+\begin{equation*}
+\mathrm{C_2H_6}+\mathrm{O_2}
+\longrightarrow
+\mathrm{CO_2}+\mathrm{H_2O}.
+\end{equation*}
+</div>
+<div class="para">Introduce unknown coefficients:</div>
+<div class="displaymath process-math" id="exercises-3-3-2-2-2">
+\begin{equation*}
+x_1\mathrm{C_2H_6}+x_2\mathrm{O_2}
+\longrightarrow
+x_3\mathrm{CO_2}+x_4\mathrm{H_2O}.
+\end{equation*}
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-3-3-2-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> 
+<div class="para logical" id="exercises-3-3-2-3">
+<div class="para">Counting the atoms of carbon, hydrogen, and oxygen gives the system</div>
+<div class="displaymath process-math" id="exercises-3-3-2-3-1">
+\begin{equation*}
+\begin{aligned}
+2x_1-x_3 &amp;= 0,\\
+6x_1-2x_4 &amp;= 0,\\
+2x_2-2x_3-x_4 &amp;= 0.
+\end{aligned}
+\end{equation*}
+</div>
+<ol class="decimal" id="exercises-3-3-2-3-2">
+<li id="exercises-3-3-2-3-2-1">
+<div class="para logical" id="exercises-3-3-2-3-2-1-1">
+<div class="para">Write this system in the matrix form</div>
+<div class="displaymath process-math" id="exercises-3-3-2-3-2-1-1-1">
+\begin{equation*}
+A\mathbf{x}=\mathbf{0}.
+\end{equation*}
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-3-3-2-3-2-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.6.1"><a tabindex="-1" href="#exercises-3-3-2-3-2-1" title="Copy heading and permalink for Item 1.6.1" aria-label="Copy heading and permalink for Item 1.6.1">🔗</a></div>
+</li>
+<li id="exercises-3-3-2-3-2-2">
+<div class="para" id="exercises-3-3-2-3-2-2-1">Use row reduction to find all solutions of the system.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-3-3-2-3-2-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.6.2"><a tabindex="-1" href="#exercises-3-3-2-3-2-2" title="Copy heading and permalink for Item 1.6.2" aria-label="Copy heading and permalink for Item 1.6.2">🔗</a></div>
+</li>
+<li id="exercises-3-3-2-3-2-3">
+<div class="para" id="exercises-3-3-2-3-2-3-1">Find a solution in which all four variables are positive integers and have no common factor greater than <span class="process-math">\(1\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-3-3-2-3-2-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.6.3"><a tabindex="-1" href="#exercises-3-3-2-3-2-3" title="Copy heading and permalink for Item 1.6.3" aria-label="Copy heading and permalink for Item 1.6.3">🔗</a></div>
+</li>
+<li id="exercises-3-3-2-3-2-4">
+<div class="para logical" id="exercises-3-3-2-3-2-4-1">
+<div class="para">Use your answer to complete the balanced equation</div>
+<div class="displaymath process-math" id="exercises-3-3-2-3-2-4-1-1">
+\begin{equation*}
+\underline{\hspace{1cm}}\mathrm{C_2H_6}
++
+\underline{\hspace{1cm}}\mathrm{O_2}
+\longrightarrow
+\underline{\hspace{1cm}}\mathrm{CO_2}
++
+\underline{\hspace{1cm}}\mathrm{H_2O}.
+\end{equation*}
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-3-3-2-3-2-4-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.6.4"><a tabindex="-1" href="#exercises-3-3-2-3-2-4" title="Copy heading and permalink for Item 1.6.4" aria-label="Copy heading and permalink for Item 1.6.4">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-3-3-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="exercises-3-3-3" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.6.1"><a tabindex="-1" href="#exercises-3-3-3" title="Copy heading and permalink for Solution 1.6.1" aria-label="Copy heading and permalink for Solution 1.6.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.6: Balancing a chemical equation"><a tabindex="-1" href="#exercises-3-3" title="Copy heading and permalink for Checkpoint 1.6: Balancing a chemical equation" aria-label="Copy heading and permalink for Checkpoint 1.6: Balancing a chemical equation">🔗</a></div>
+</article></details><div class="autopermalink" aria-hidden="true" data-description="Subsection 1.2: Solving Linear Systems"><a tabindex="-1" href="#exercises-3" title="Copy heading and permalink for Subsection 1.2: Solving Linear Systems" aria-label="Copy heading and permalink for Subsection 1.2: Solving Linear Systems">🔗</a></div>
+</section>
+<section class="subsection" id="exercises-4">
+<h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.3</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Independence, Span, and Rank</span>
+</h3>
+<div class="para" id="exercises-4-2">A key application of rank appears in data analysis. Rank is used to try to isolate how much of the data you actually need. Consider the following example regarding movie ratings:<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-4-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="exercises-4-3" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.7</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Movie ratings and rank.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="exercises-4-3-2-1">Five viewers rate four movies:<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-4-3-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> <div class="tabular-box natural-width"><table class="tabular">
+<tr class="header-horizontal">
+<th scope="col" class="c m b2 r0 l0 t0 lines">Movie</th>
+<th scope="col" class="c m b2 r0 l0 t0 lines">Era score</th>
+<th scope="col" class="c m b2 r0 l0 t0 lines">Genre score</th>
+</tr>
+<tr>
+<td class="c m b0 r0 l0 t0 lines"><em class="emphasis">Singin’ in the Rain</em></td>
+<td class="c m b0 r0 l0 t0 lines"><span class="process-math">\(1\)</span></td>
+<td class="c m b0 r0 l0 t0 lines"><span class="process-math">\(1\)</span></td>
+</tr>
+<tr>
+<td class="c m b0 r0 l0 t0 lines"><em class="emphasis">Superman</em></td>
+<td class="c m b0 r0 l0 t0 lines"><span class="process-math">\(1\)</span></td>
+<td class="c m b0 r0 l0 t0 lines"><span class="process-math">\(2\)</span></td>
+</tr>
+<tr>
+<td class="c m b0 r0 l0 t0 lines"><em class="emphasis">Wicked</em></td>
+<td class="c m b0 r0 l0 t0 lines"><span class="process-math">\(2\)</span></td>
+<td class="c m b0 r0 l0 t0 lines"><span class="process-math">\(1\)</span></td>
+</tr>
+<tr>
+<td class="c m b0 r0 l0 t0 lines"><em class="emphasis">Spider-Man: Across the Spider-Verse</em></td>
+<td class="c m b0 r0 l0 t0 lines"><span class="process-math">\(2\)</span></td>
+<td class="c m b0 r0 l0 t0 lines"><span class="process-math">\(2\)</span></td>
+</tr>
+</table></div> 
+<div class="para" id="exercises-4-3-2-3">Here <span class="process-math">\(1\)</span> and <span class="process-math">\(2\)</span> represent old/new and musical/comic-book, respectively.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-4-3-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> 
+<div class="para logical" id="exercises-4-3-2-4">
+<div class="para">Each viewer has two taste parameters <span class="process-math">\(a\)</span> and <span class="process-math">\(b\text{,}\)</span> and rates a movie by</div>
+<div class="displaymath process-math" id="exercises-4-3-2-4-3">
+\begin{equation*}
+\text{rating}
+=
+a(\text{era score})+b(\text{genre score}).
+\end{equation*}
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-4-3-2-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> 
+<div class="para" id="exercises-4-3-2-5">The viewers’ parameters are<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-4-3-2-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> <div class="tabular-box natural-width"><table class="tabular">
+<tr class="header-horizontal">
+<td class="c m b2 r0 l0 t0 lines"></td>
+<th scope="col" class="c m b2 r0 l0 t0 lines"><span class="process-math">\(a\)</span></th>
+<th scope="col" class="c m b2 r0 l0 t0 lines"><span class="process-math">\(b\)</span></th>
+</tr>
+<tr>
+<td class="c m b0 r0 l0 t0 lines">Stacy</td>
+<td class="c m b0 r0 l0 t0 lines"><span class="process-math">\(2\)</span></td>
+<td class="c m b0 r0 l0 t0 lines"><span class="process-math">\(2\)</span></td>
+</tr>
+<tr>
+<td class="c m b0 r0 l0 t0 lines">Tracy</td>
+<td class="c m b0 r0 l0 t0 lines"><span class="process-math">\(3\)</span></td>
+<td class="c m b0 r0 l0 t0 lines"><span class="process-math">\(1\)</span></td>
+</tr>
+<tr>
+<td class="c m b0 r0 l0 t0 lines">Lacy</td>
+<td class="c m b0 r0 l0 t0 lines"><span class="process-math">\(1\)</span></td>
+<td class="c m b0 r0 l0 t0 lines"><span class="process-math">\(2\)</span></td>
+</tr>
+<tr>
+<td class="c m b0 r0 l0 t0 lines">Macy</td>
+<td class="c m b0 r0 l0 t0 lines"><span class="process-math">\(2\)</span></td>
+<td class="c m b0 r0 l0 t0 lines"><span class="process-math">\(3\)</span></td>
+</tr>
+<tr>
+<td class="c m b0 r0 l0 t0 lines">Usher Terry Raymond IV</td>
+<td class="c m b0 r0 l0 t0 lines"><span class="process-math">\(3\)</span></td>
+<td class="c m b0 r0 l0 t0 lines"><span class="process-math">\(2\)</span></td>
+</tr>
+</table></div> 
+<div class="para" id="exercises-4-3-2-7">Then, for example, Usher would rate Singin’ in the Rain as <span class="process-math">\(3(1) + 2(1) = 5\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-4-3-2-7" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> 
+<div class="para logical" id="exercises-4-3-2-8">
+<ol class="decimal" id="exercises-4-3-2-8-1">
+<li id="exercises-4-3-2-8-1-1">
+<div class="para" id="exercises-4-3-2-8-1-1-1">Compute the <span class="process-math">\(5\times 4\)</span> matrix <span class="process-math">\(R\)</span> of movie ratings.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-4-3-2-8-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.7.1"><a tabindex="-1" href="#exercises-4-3-2-8-1-1" title="Copy heading and permalink for Item 1.7.1" aria-label="Copy heading and permalink for Item 1.7.1">🔗</a></div>
+</li>
+<li id="exercises-4-3-2-8-1-2">
+<div class="para" id="exercises-4-3-2-8-1-2-1">Row reduce <span class="process-math">\(R\)</span> and find its rank.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-4-3-2-8-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.7.2"><a tabindex="-1" href="#exercises-4-3-2-8-1-2" title="Copy heading and permalink for Item 1.7.2" aria-label="Copy heading and permalink for Item 1.7.2">🔗</a></div>
+</li>
+<li id="exercises-4-3-2-8-1-3">
+<div class="para" id="exercises-4-3-2-8-1-3-1">The movie ratings depend only on two parameters, the era score and genre score. How does that relate to the rank?<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-4-3-2-8-1-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.7.3"><a tabindex="-1" href="#exercises-4-3-2-8-1-3" title="Copy heading and permalink for Item 1.7.3" aria-label="Copy heading and permalink for Item 1.7.3">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-4-3-2-8" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="exercises-4-3-3" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.7.1"><a tabindex="-1" href="#exercises-4-3-3" title="Copy heading and permalink for Solution 1.7.1" aria-label="Copy heading and permalink for Solution 1.7.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.7: Movie ratings and rank"><a tabindex="-1" href="#exercises-4-3" title="Copy heading and permalink for Checkpoint 1.7: Movie ratings and rank" aria-label="Copy heading and permalink for Checkpoint 1.7: Movie ratings and rank">🔗</a></div>
+</article></details>
+<div class="para" id="exercises-4-4">In practice, matrices tend to be well approximated by low rank matrices. One often only needs a very coarse idea of the data in order to make conclusions.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-4-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="exercises-4-5">Independence is at the exact opposite end of the spectrum.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-4-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="exercises-4-6" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.8</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="exercises-4-6-1-1">Using the definition of rank, explain why if the columns of a matrix are independent, the rank of the matrix is the number of columns.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-4-6-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="exercises-4-6-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.8.1"><a tabindex="-1" href="#exercises-4-6-2" title="Copy heading and permalink for Solution 1.8.1" aria-label="Copy heading and permalink for Solution 1.8.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.8"><a tabindex="-1" href="#exercises-4-6" title="Copy heading and permalink for Checkpoint 1.8" aria-label="Copy heading and permalink for Checkpoint 1.8">🔗</a></div>
+</article></details>
+<div class="para" id="exercises-4-7">Independence is relevant for engineering problems. There you can imagine you have thrusters on a rocket moving in given directions. For efficiency, you don’t want redundant thrusters.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-4-7" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="exercises-4-8">Spanning is also relevant. You want to ensure you can move in any direction with the rocket. Here is a toy example:<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-4-8" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="exercises-4-9" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.9</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para logical" id="exercises-4-9-1-1">
+<div class="para">You are building a rocket and have been given a design with thrusters that move in the following directions:</div>
+<div class="displaymath process-math" id="exercises-4-9-1-1-1">
+\begin{equation*}
+\begin{pmatrix}
+1\\-1\\0
+\end{pmatrix}, \begin{pmatrix} 1\\0\\-1 \end{pmatrix}, \begin{pmatrix}0 \\1\\-1 \end{pmatrix}.
+\end{equation*}
+</div>
+<ol class="lower-alpha" style="list-style: ptx-marker-1;" id="exercises-4-9-1-1-2">
+<li id="exercises-4-9-1-1-2-1">
+<div class="para" id="exercises-4-9-1-1-2-1-1">Are the columns independent?<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-4-9-1-1-2-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.9.a"><a tabindex="-1" href="#exercises-4-9-1-1-2-1" title="Copy heading and permalink for Item 1.9.a" aria-label="Copy heading and permalink for Item 1.9.a">🔗</a></div>
+</li>
+<li id="exercises-4-9-1-1-2-2">
+<div class="para" id="exercises-4-9-1-1-2-2-1">Based on your answer to the previous part, do you think any of the rockets are redundant?<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-4-9-1-1-2-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.9.b"><a tabindex="-1" href="#exercises-4-9-1-1-2-2" title="Copy heading and permalink for Item 1.9.b" aria-label="Copy heading and permalink for Item 1.9.b">🔗</a></div>
+</li>
+<li id="exercises-4-9-1-1-2-3">
+<div class="para" id="exercises-4-9-1-1-2-3-1">Do the vectors span all of <span class="process-math">\(\mathbb{R}^{3}\text{?}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-4-9-1-1-2-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.9.c"><a tabindex="-1" href="#exercises-4-9-1-1-2-3" title="Copy heading and permalink for Item 1.9.c" aria-label="Copy heading and permalink for Item 1.9.c">🔗</a></div>
+</li>
+<li id="exercises-4-9-1-1-2-4">
+<div class="para" id="exercises-4-9-1-1-2-4-1">Could the rocket move in an arbitrary direction by scaling the output of the thrusters?<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-4-9-1-1-2-4-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.9.d"><a tabindex="-1" href="#exercises-4-9-1-1-2-4" title="Copy heading and permalink for Item 1.9.d" aria-label="Copy heading and permalink for Item 1.9.d">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-4-9-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.9"><a tabindex="-1" href="#exercises-4-9" title="Copy heading and permalink for Checkpoint 1.9" aria-label="Copy heading and permalink for Checkpoint 1.9">🔗</a></div>
+</article></details><div class="autopermalink" aria-hidden="true" data-description="Subsection 1.3: Independence, Span, and Rank"><a tabindex="-1" href="#exercises-4" title="Copy heading and permalink for Subsection 1.3: Independence, Span, and Rank" aria-label="Copy heading and permalink for Subsection 1.3: Independence, Span, and Rank">🔗</a></div>
+</section>
+<section class="subsection" id="exercises-5">
+<h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.4</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Inner and Outer Representation</span>
+</h3>
+<div class="para" id="exercises-5-2">Here is a jeopardy style problem. I’ll give you the solution and you give what you think the question is trying to answer:<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-5-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="exercises-5-3" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.10</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="exercises-5-3-1-1">Explain what the following schematic diagram is describing how to do:<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-5-3-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> <div class="image-box" style="width: 100%; margin-left: 0%; margin-right: 0%;"><img src="generated/latex-image/exercises-5-3-1-2.svg" role="img" class="contained"></div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.10"><a tabindex="-1" href="#exercises-5-3" title="Copy heading and permalink for Checkpoint 1.10" aria-label="Copy heading and permalink for Checkpoint 1.10">🔗</a></div>
+</article></details>
+<div class="para" id="exercises-5-4">We have worked through transitioning between inner and outer representations. I find working through the following example helpful.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-5-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="exercises-5-5" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.11</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para logical" id="exercises-5-5-1-1">
+<div class="para">Take the system</div>
+<div class="displaymath process-math" id="exercises-5-5-1-1-1">
+\begin{equation*}
+\begin{pmatrix} 1 &amp; 0 &amp; -1 &amp;0 \\0&amp; 1 &amp;0 &amp;-1 \end{pmatrix} \begin{pmatrix} x_{1} \\x_{2}\\x_{3}\\x_{4} \end{pmatrix} = \begin{pmatrix} 0\\0 \end{pmatrix}.
+\end{equation*}
+</div>
+<ol class="lower-alpha" style="list-style: ptx-marker-1;" id="exercises-5-5-1-1-2">
+<li id="exercises-5-5-1-1-2-1">
+<div class="para" id="exercises-5-5-1-1-2-1-1">Solve this system and write the solution in the form <span class="process-math">\(f(x_{3}, x_{4}) = x_{3}\vec{v}_{1} + x_{4}\vec{v}_{2}\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-5-5-1-1-2-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.11.a"><a tabindex="-1" href="#exercises-5-5-1-1-2-1" title="Copy heading and permalink for Item 1.11.a" aria-label="Copy heading and permalink for Item 1.11.a">🔗</a></div>
+</li>
+<li id="exercises-5-5-1-1-2-2">
+<div class="para logical" id="exercises-5-5-1-1-2-2-1">
+<div class="para">Create the system</div>
+<div class="displaymath process-math" id="exercises-5-5-1-1-2-2-1-1">
+\begin{equation*}
+\begin{pmatrix} \vec{v}_{1} \\ \vec{v}_{2} \end{pmatrix} \begin{pmatrix}x_{1} \\x_{2}\\x_{3}\\x_{4} \end{pmatrix} = \begin{pmatrix} 0\\0 \end{pmatrix}.
+\end{equation*}
+</div>
+<div class="para">Solve it.</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-5-5-1-1-2-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.11.b"><a tabindex="-1" href="#exercises-5-5-1-1-2-2" title="Copy heading and permalink for Item 1.11.b" aria-label="Copy heading and permalink for Item 1.11.b">🔗</a></div>
+</li>
+<li id="exercises-5-5-1-1-2-3">
+<div class="para" id="exercises-5-5-1-1-2-3-1">Compare your answer in part (b) to the matrix we started with. What makes you expect your answer?<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-5-5-1-1-2-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.11.c"><a tabindex="-1" href="#exercises-5-5-1-1-2-3" title="Copy heading and permalink for Item 1.11.c" aria-label="Copy heading and permalink for Item 1.11.c">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-5-5-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="exercises-5-5-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.11.1"><a tabindex="-1" href="#exercises-5-5-2" title="Copy heading and permalink for Solution 1.11.1" aria-label="Copy heading and permalink for Solution 1.11.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.11"><a tabindex="-1" href="#exercises-5-5" title="Copy heading and permalink for Checkpoint 1.11" aria-label="Copy heading and permalink for Checkpoint 1.11">🔗</a></div>
+</article></details><div class="autopermalink" aria-hidden="true" data-description="Subsection 1.4: Inner and Outer Representation"><a tabindex="-1" href="#exercises-5" title="Copy heading and permalink for Subsection 1.4: Inner and Outer Representation" aria-label="Copy heading and permalink for Subsection 1.4: Inner and Outer Representation">🔗</a></div>
+</section><div class="autopermalink" aria-hidden="true" data-description="Section 1: Exercises"><a tabindex="-1" href="#exercises" title="Copy heading and permalink for Section 1: Exercises" aria-label="Copy heading and permalink for Section 1: Exercises">🔗</a></div>
+</section><div class="autopermalink" aria-hidden="true" data-description="Article: Scaling Things Down and Summing Things Up"><a tabindex="-1" href="#review" title="Copy heading and permalink for Article: Scaling Things Down and Summing Things Up" aria-label="Copy heading and permalink for Article: Scaling Things Down and Summing Things Up">🔗</a></div>
+</section>
+</div>
+<div id="ptx-content-footer" class="ptx-content-footer">
+<span class="previous-button button disabled"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cb;</span><span class="name">Prev</span></span><a class="top-button button" href="#" title="Top"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5ce;</span><span class="name">Top</span></a><span class="next-button button disabled"><span class="name">Next</span><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cc;</span></span>
+</div></main>
+</div>
+<div id="ptx-page-footer" class="ptx-page-footer">
+<a class="pretext-link" href="https://pretextbook.org" title="PreTeXt"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="338 3000 8772 6866" role="img"><title>PreTeXt logo</title><g style="stroke-width:.025in; stroke:currentColor; fill:none"><polyline points="472,3590 472,9732 " style="stroke-width:174; stroke-linejoin:miter; stroke-linecap:round; "></polyline><path style="stroke-width:126;stroke-linecap:butt;" d="M 4724,9448 A 4660 4660  0  0  1  8598  9259"></path><path style="stroke-width:174;stroke-linecap:butt;" d="M 4488,9685 A 4228 4228  0  0  0   472  9732"></path><path style="stroke-width:126;stroke-linecap:butt;" d="M 4724,3590 A 4241 4241  0  0  1  8598  3496"></path><path style="stroke-width:126;stroke-linecap:round;" d="M 850,3496  A 4241 4241  0  0  1  4724  3590"></path><path style="stroke-width:126;stroke-linecap:round;" d="M 850,9259  A 4507 4507  0  0  1  4724  9448"></path><polyline points="5385,4299 4062,8125" style="stroke-width:300; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="8598,3496 8598,9259" style="stroke-width:126; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="850,3496 850,9259" style="stroke-width:126; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="4960,9685 4488,9685" style="stroke-width:174; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="3070,4582 1889,6141 3070,7700" style="stroke-width:300; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="6418,4582 7600,6141 6418,7700" style="stroke-width:300; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="8976,3590 8976,9732" style="stroke-width:174; stroke-linejoin:miter; stroke-linecap:round;"></polyline><path style="stroke-width:174;stroke-linecap:butt;" d="M 4960,9685 A 4228 4228  0  0  1  8976  9732"></path></g></svg></div></a><a class="runestone-link" href="https://runestone.academy" title="Runestone Academy"><img class="logo" src="https://runestone.academy/runestone/static/images/RAIcon_cropped.png" alt="Runstone Academy logo"></a><a class="mathjax-link" href="https://www.mathjax.org" title="MathJax"><img class="logo" src="https://www.mathjax.org/badge/badge-square-2.png" alt="MathJax logo"></a>
+</div>
+</body>
+</html>

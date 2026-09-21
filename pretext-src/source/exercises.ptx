@@ -2,84 +2,339 @@
 
  <title>Exercises</title>
 
-      <p>Consider a linear transformation <m>T: \mathbb{R}^{n} \to \mathbb{R}^{m}</m>. We can define <m>\vec{a}_{i} = T(e_{i})</m>, where <m>e_{1}, \dots, e_{n}</m> is the standard basis of <m>\mathbb{R}^{n}</m>. Then the <alert>matrix</alert> of <m>T</m> is</p>
-      <me>A =\begin{pmatrix} \vec{a}_{1} &amp; \vec{a}_{2} &amp; \dots &amp; \vec{a}_{n}\end{pmatrix}.</me>
+ <subsection>
+      <title>Matrix and Vector Operations Review</title>
 
-      <exercise xml:id="exercise-matrix-action">
-        <p>Let <m>T : \mathbb{R}^{n} \to \mathbb{R}^{m}</m> be a linear transformation, and let <m>A</m> be its matrix. Show that</p>
-        <me>T(\vec{x}) = A \vec{x}.</me>
-      </exercise>
-
-      <proof>
-        <p><fillin characters="72"/></p>
-        <p><fillin characters="72"/></p>
-        <p><fillin characters="72"/></p>
-        <p><fillin characters="72"/></p>
-      </proof>
-
-      <p>What this illustrates is that a linear transformation is determined entirely by its behavior on a basis. In general, we have:</p>
-
-      <exercise xml:id="exercise-equal-on-basis">
-        <p>Let <m>T_{1}, T_{2}: U \to V</m> be linear transformations. Let <m>B</m> be a basis for <m>U</m>. Suppose that <m>T_{1}(\vec{x}) = T_{2}(\vec{x})</m> for all <m>\vec{x} \in B</m>. Then <m>T_{1} = T_{2}</m>.</p>
-      </exercise>
-
-      <proof>
-        <p><fillin characters="72"/></p>
-        <p><fillin characters="72"/></p>
-        <p><fillin characters="72"/></p>
-        <p><fillin characters="72"/></p>
-      </proof>
-
-      <p>There is a reverse direction to this. You can define an arbitrary function <m>f: B \to V</m>. Then there is always a unique linear transformation that agrees with that function.</p>
-
-      <exercise xml:id="exercise-linear-extension">
-        <introduction>
-          <p>Let <m>U</m> and <m>V</m> be vector spaces, and let <m>B \subseteq U</m> be a basis. Let <m>f:B \to V</m>. Then define <m>T: U \to V</m> by</p>
-          <me>T(\vec{x}) = \sum_{i=1}^{n} a_{i} f(\vec{v}_{i}),</me>
-          <p>whenever <m>\vec{x} = \sum_{i=1}^{n}a_{i} \vec{v}_{i}</m> for <m>\vec{v}_{1}, \dots, \vec{v}_{n} \in B</m>.</p>
-        </introduction>
-        <task>
-          <p>Prove that for any <m>\vec{u} \in B</m>, <m>T(\vec{u}) = f(\vec{u})</m>.</p>
-        </task>
-        <task>
-          <p>Prove that <m>T</m> is well-defined. That is each input has a unique output.</p>
-        </task>
-        <task>
-          <p>Prove that <m>T</m> respects scalar multiplication.</p>
-        </task>
-        <task>
-          <p>Prove that <m>T</m> respects addition.</p>
-        </task>
-      </exercise>
-
-      <proof>
-        <p><fillin characters="72"/></p>
-        <p><fillin characters="72"/></p>
-        <p><fillin characters="72"/></p>
-        <p><fillin characters="72"/></p>
-        <p><fillin characters="72"/></p>
-      </proof>
-
-      <!--
-      Inactive material from the original TeX source, converted to PreTeXt-style
-      markup and left commented out. Text and mathematical content are preserved
-      without correction.
-
-      <p>A <alert>linear isomorphism</alert> is a linear transformation that is one-to-one and onto. We say two vector spaces <m>U</m> and <m>V</m> are <alert>isomorphic</alert> if there is a linear isomorphism <m>T: U \to V</m>.</p>
+      <p>Recall the notation  that <m>e_{i}</m> in <m>\mathbb{R}^{n}</m> denotes the vector with <m>1</m> in the <m>i</m>th coordinate and all <m>0</m>'s otherwise. For example, in <m>\mathbb{R}^{6}</m>,
+        <md><![CDATA[e_{3} = \begin{pmatrix} 0\\0\\1 \\0\\0\\0\end{pmatrix}.]]></md>
+      Let's practice this:</p>
 
       <exercise>
-        <p>Show that two finite dimensional vector spaces <m>U</m> and <m>V</m> are isomorphic if they have the same dimension.</p>
+        <statement>
+          <p>Using the notation, we have introduced, answer the following:
+            <ol marker="(a)">
+              <li><p>Write <m>e_{5}</m> in <m>\mathbb{R}^{6}</m></p></li>
+              <li><p>Write <m>e_{3}</m> in <m>\mathbb{R}^{3}</m></p></li>
+              <li><p>Why can't you write <m>e_{4}</m> in <m>\mathbb{R}^{2}</m>?</p></li>
+            </ol>
+          </p>
+        </statement>
+        <solution/>
       </exercise>
 
-      <proof>
-        <p>Let <m>\vec{u}_{1}, \dots, \vec{u}_{n}</m> be a basis for <m>U</m> and let <m>\vec{v}_{1}, \dots, \vec{v}_{n}</m> be a basis for <m>V</m>. Then define <m>T: U \to V</m> by</p>
-        <me>T(\vec{x}) = \sum_{i=1}^{n}a_{i} \vec{v}_{i},</me>
-        <p>when <m>\vec{x} = \sum_{i=1}^{n} a_{i} \vec{u}_{i}</m>.</p>
+      <p>The standard basis vectors are useful for understanding matrix vector multiplication. Instead of using dot products, for a matrix
+        <md><![CDATA[A = \begin{pmatrix}\vec{a}_{1} & \vec{a}_{2} & \dots & \vec{a}_{n} \end{pmatrix}]]></md>
+      and a vector
+        <md><![CDATA[\vec{x} = \begin{pmatrix} x_{1} \\ x_{2} \\ \vdots \\ x_{n}\end{pmatrix},]]></md>
+      we can write
+        <md><![CDATA[A \vec{x} = x_{1}\vec{a}_{1} + x_{2} \vec{a}_{2} + \dots + x_{n}\vec{a}_{n}.]]></md>
+      For example,
+        <md><![CDATA[\begin{pmatrix} 1& 1 & 1 & 1 \\ 1&2&3&4 \end{pmatrix} \begin{pmatrix} 1 \\2\\0\\ 0\end{pmatrix} = \begin{pmatrix}1 \\1 \end{pmatrix} + 2\begin{pmatrix}1\\2\end{pmatrix} + 0 \begin{pmatrix}1\\3 \end{pmatrix} + 0\begin{pmatrix} 1\\4 \end{pmatrix} = \begin{pmatrix} 3\\5 \end{pmatrix}.]]></md>
+      This is where the equivalence between matrix equations and linear equations with vector coefficients comes from.</p>
 
-        <p>Prove the following claims:</p>
-        <ul>
-          <li><p><m>T</m> is well</p></li>
-        </ul>
-      </proof>
-      -->
+      <p>This is especially helpful for multiplying by standard basis vectors. Try this in the following two exercises:</p>
+
+      <exercise>
+        <statement>
+          <p>Consider the matrix:
+            <md><![CDATA[A = \begin{pmatrix} 1& 1 & 1 & 1 & 1 &1\\ 1&2&3&4&5&6 \end{pmatrix}]]></md>
+            <ol marker="(a)">
+              <li><p>Compute <m>Ae_{1}</m></p></li>
+              <li><p>Compute <m>Ae_{2}</m></p></li>
+              <li><p>From what you found in exercises <m>(a)</m> and <m>(b)</m>, explain what <m>A e_{i}</m> means in words?</p></li>
+              <li><p>How would you describe <m>A(5e_{i})</m>?</p></li>
+            </ol>
+          </p>
+        </statement>
+        <solution/>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>Consider the matrix
+            <md><![CDATA[A= \begin{pmatrix} 1 & 1 &0 &1 & 1 & 0 \\0& 0 &1 &2 &2 &0\\0 &0 &0 & 0 &0 &1 \end{pmatrix}]]></md>
+            <ol marker="(a)">
+              <li><p>Compute <m>A e_{1}</m></p></li>
+              <li><p>Compute <m>Ae_{3}</m></p></li>
+              <li><p>Compute <m>Ae_{6}</m></p></li>
+              <li><p>Compute
+                <md><![CDATA[Ae_{1} + 2Ae_{3} + 3 A e_{6} = A(e_{1} +2e_{3} +3e_{6}).]]></md>
+              </p></li>
+              <li><p>Compute
+                <md><![CDATA[A(b_{1}e_{1} +b_{2} e_{3} + b_{3}e_{6}).]]></md>
+              </p></li>
+              <li><p>For <m>\vec{b} = \begin{pmatrix}b_{1} \\ b_{2} \\b_{3} \end{pmatrix}</m>, give a solution to
+                <md><![CDATA[A \vec{x} = \vec{b}.]]></md>
+              </p></li>
+            </ol>
+          </p>
+        </statement>
+      </exercise>
+
+      <p>This last exercise illustrates an important fact. The set of vectors of the form
+        <md><![CDATA[A\vec{x}]]></md>
+      are precisely the linear combinations of the columns of <m>A</m>. Thus, <m>A \vec{x} = \vec{b}</m> has a solution if and only if it may be written as a linear combination of the columns of <m>A</m>. In fact, this is what conversion is doing between linear equations with vector coefficients and matrix equations.</p>
+
+      <exercise>
+        <statement>
+          <p>Consider the following linear system:
+            <md><![CDATA[\begin{aligned}
+    x_{2} &= 1 \\
+    x_{1} + x_{2} + x_{3} &= 1\\
+    x_{2}+x_{3} +x_{4} &= 1\\
+    x_{3} &=0
+\end{aligned}]]></md>
+            <ol marker="(a)">
+              <li><p>Write the coefficient and augmented matrices of the system.</p></li>
+              <li><p>Rewrite this as a matrix equation.</p></li>
+              <li><p>Rewrite this as a linear equation with vector coefficients.</p></li>
+              <li><p>Without doing any row reduction, explain why you can see that <m>x_{1} = x_{3} = x_{4} = 0</m> and <m>x_{2} = 1</m> has to be a solution. Which form makes this clearest to see?</p></li>
+            </ol>
+          </p>
+        </statement>
+      </exercise>
+
+      <p>You can use this insight to solve a related problem, which is the kind of question you'd ask in cryptography.</p>
+
+      <exercise>
+        <statement>
+          <p>Suppose I give you a secret <m>3 \times 3</m> matrix <m>A</m>, and
+            <md><![CDATA[A e_{1} = \begin{pmatrix} 1\\1\\1 \end{pmatrix}, A e_{2} = \begin{pmatrix} 1\\1\\0 \end{pmatrix}, \text{ and } A e_{3} = \begin{pmatrix} 1\\0\\0 \end{pmatrix} .]]></md>
+          Then what is the matrix <m>A</m>?</p>
+        </statement>
+      </exercise>
+
+      <p>In fact, this is why matrices aren't used in that way for cryptographic systems. It's too easy to break the code!</p>
+    </subsection>
+
+    <subsection>
+      <title>Solving Linear Systems</title>
+
+      <p>Linear systems appear everywhere. Stoichiometry in chemistry is a particularly good illustration.</p>
+
+      <exercise>
+        <title>Balancing a chemical equation</title>
+        <statement>
+          <p>In a chemical reaction, atoms are neither created nor destroyed. Thus, for each chemical element, the number of atoms appearing on the left side of the reaction must equal the number appearing on the right side.</p>
+
+          <p>Consider the combustion reaction
+            <md><![CDATA[\mathrm{C_2H_6}+\mathrm{O_2}
+\longrightarrow
+\mathrm{CO_2}+\mathrm{H_2O}.]]></md>
+          Introduce unknown coefficients:
+            <md><![CDATA[x_1\mathrm{C_2H_6}+x_2\mathrm{O_2}
+\longrightarrow
+x_3\mathrm{CO_2}+x_4\mathrm{H_2O}.]]></md>
+          </p>
+
+          <p>Counting the atoms of carbon, hydrogen, and oxygen gives the system
+            <md><![CDATA[\begin{aligned}
+2x_1-x_3 &= 0,\\
+6x_1-2x_4 &= 0,\\
+2x_2-2x_3-x_4 &= 0.
+\end{aligned}]]></md>
+            <ol>
+              <li><p>Write this system in the matrix form
+                <md><![CDATA[A\mathbf{x}=\mathbf{0}.]]></md>
+              </p></li>
+              <li><p>Use row reduction to find all solutions of the system.</p></li>
+              <li><p>Find a solution in which all four variables are positive integers and have no common factor greater than <m>1</m>.</p></li>
+              <li><p>Use your answer to complete the balanced equation
+                <md><![CDATA[\underline{\hspace{1cm}}\mathrm{C_2H_6}
++
+\underline{\hspace{1cm}}\mathrm{O_2}
+\longrightarrow
+\underline{\hspace{1cm}}\mathrm{CO_2}
++
+\underline{\hspace{1cm}}\mathrm{H_2O}.]]></md>
+              </p></li>
+            </ol>
+          </p>
+        </statement>
+        <solution/>
+      </exercise>
+    </subsection>
+
+    <subsection>
+      <title>Independence, Span, and Rank</title>
+
+      <p>A key application of rank appears in data analysis. Rank is used to try to isolate how much of the data you actually need. Consider the following example regarding movie ratings:</p>
+
+      <exercise>
+        <title>Movie ratings and rank</title>
+        <statement>
+          <p>Five viewers rate four movies:</p>
+
+          <tabular halign="center">
+            <row header="yes" bottom="medium">
+              <cell>Movie</cell>
+              <cell>Era score</cell>
+              <cell>Genre score</cell>
+            </row>
+            <row>
+              <cell><em>Singin' in the Rain</em></cell>
+              <cell><m>1</m></cell>
+              <cell><m>1</m></cell>
+            </row>
+            <row>
+              <cell><em>Superman</em></cell>
+              <cell><m>1</m></cell>
+              <cell><m>2</m></cell>
+            </row>
+            <row>
+              <cell><em>Wicked</em></cell>
+              <cell><m>2</m></cell>
+              <cell><m>1</m></cell>
+            </row>
+            <row>
+              <cell><em>Spider-Man: Across the Spider-Verse</em></cell>
+              <cell><m>2</m></cell>
+              <cell><m>2</m></cell>
+            </row>
+          </tabular>
+
+          <p>Here <m>1</m> and <m>2</m> represent old/new and musical/comic-book, respectively.</p>
+
+          <p>Each viewer has two taste parameters <m>a</m> and <m>b</m>, and rates a movie by
+            <md><![CDATA[\text{rating}
+=
+a(\text{era score})+b(\text{genre score}).]]></md>
+          </p>
+
+          <p>The viewers' parameters are</p>
+
+          <tabular halign="center">
+            <row header="yes" bottom="medium">
+              <cell/>
+              <cell><m>a</m></cell>
+              <cell><m>b</m></cell>
+            </row>
+            <row>
+              <cell>Stacy</cell>
+              <cell><m>2</m></cell>
+              <cell><m>2</m></cell>
+            </row>
+            <row>
+              <cell>Tracy</cell>
+              <cell><m>3</m></cell>
+              <cell><m>1</m></cell>
+            </row>
+            <row>
+              <cell>Lacy</cell>
+              <cell><m>1</m></cell>
+              <cell><m>2</m></cell>
+            </row>
+            <row>
+              <cell>Macy</cell>
+              <cell><m>2</m></cell>
+              <cell><m>3</m></cell>
+            </row>
+            <row>
+              <cell>Usher Terry Raymond IV</cell>
+              <cell><m>3</m></cell>
+              <cell><m>2</m></cell>
+            </row>
+          </tabular>
+
+          <p>Then, for example, Usher would rate Singin' in the Rain as <m>3(1) + 2(1) = 5</m>.</p>
+
+          <p>
+            <ol>
+              <li><p>Compute the <m>5\times 4</m> matrix <m>R</m> of movie ratings.</p></li>
+              <li><p>Row reduce <m>R</m> and find its rank.</p></li>
+              <li><p>The movie ratings depend only on two parameters, the era score and genre score. How does that relate to the rank?</p></li>
+            </ol>
+          </p>
+        </statement>
+        <solution/>
+      </exercise>
+
+      <p>In practice, matrices tend to be well approximated by low rank matrices. One often only needs a very coarse idea of the data in order to make conclusions.</p>
+
+      <p>Independence is at the exact opposite end of the spectrum.</p>
+
+      <exercise>
+        <statement>
+          <p>Using the definition of rank, explain why if the columns of a matrix are independent, the rank of the matrix is the number of columns.</p>
+        </statement>
+        <solution/>
+      </exercise>
+
+      <p>Independence is relevant for engineering problems. There you can imagine you have thrusters on a rocket moving in given directions. For efficiency, you don't want redundant thrusters.</p>
+
+      <p>Spanning is also relevant. You want to ensure you can move in any direction with the rocket. Here is a toy example:</p>
+
+      <exercise>
+        <statement>
+          <p>You are building a rocket and have been given a design with thrusters that move in the following directions:
+            <md><![CDATA[\begin{pmatrix}
+    1\\-1\\0
+\end{pmatrix}, \begin{pmatrix} 1\\0\\-1 \end{pmatrix}, \begin{pmatrix}0 \\1\\-1 \end{pmatrix}.]]></md>
+            <ol marker="(a)">
+              <li><p>Are the columns independent?</p></li>
+              <li><p>Based on your answer to the previous part, do you think any of the rockets are redundant?</p></li>
+              <li><p>Do the vectors span all of <m>\mathbb{R}^{3}</m>?</p></li>
+              <li><p>Could the rocket move in an arbitrary direction by scaling the output of the thrusters?</p></li>
+            </ol>
+          </p>
+        </statement>
+      </exercise>
+    </subsection>
+
+    <subsection>
+      <title>Inner and Outer Representation</title>
+
+      <p>Here is a jeopardy style problem. I'll give you the solution and you give what you think the question is trying to answer:</p>
+
+      <exercise>
+        <statement>
+          <p>Explain what the following schematic diagram is describing how to do:</p>
+
+          <image>
+  <latex-image><![CDATA[
+\begin{tikzcd}[ampersand replacement=\amp]
+{\text{span}((1,0,0,0) ,(0,1,0,0),(0,0,1,0))}
+  \arrow[d,"\text{orthogonal}"]
+\amp
+\begin{pmatrix} 0 & 0 & 0 & 1 \end{pmatrix}
+\begin{pmatrix} x_{1}\\x_{2}\\x_{3}\\x_{4} \end{pmatrix}
+=
+\begin{pmatrix} 0 \end{pmatrix}
+\\
+\begin{pmatrix}
+1 & 0 & 0 & 0\\
+0 & 1 & 0 & 0\\
+0 & 0 & 1 & 0
+\end{pmatrix}
+\begin{pmatrix} x_{1}\\x_{2}\\x_{3}\\x_{4} \end{pmatrix}
+=
+\begin{pmatrix} 0\\0\\0 \end{pmatrix}
+\arrow[r,"\text{solve}"]
+\amp
+\text{span}((0,0,0,1))
+\arrow[u,"\text{orthogonal}"]
+\end{tikzcd}
+  ]]></latex-image>
+</image>
+        </statement>
+      </exercise>
+
+      <p>We have worked through transitioning between inner and outer representations. I find working through the following example helpful.</p>
+
+      <exercise>
+        <statement>
+          <p>Take the system
+            <md><![CDATA[\begin{pmatrix} 1 & 0 & -1 &0 \\0& 1 &0 &-1 \end{pmatrix} \begin{pmatrix} x_{1} \\x_{2}\\x_{3}\\x_{4} \end{pmatrix} = \begin{pmatrix} 0\\0 \end{pmatrix}.]]></md>
+            <ol marker="(a)">
+              <li><p>Solve this system and write the solution in the form <m>f(x_{3}, x_{4}) = x_{3}\vec{v}_{1} + x_{4}\vec{v}_{2}</m>.</p></li>
+              <li><p>Create the system
+                <md><![CDATA[\begin{pmatrix} \vec{v}_{1} \\ \vec{v}_{2} \end{pmatrix} \begin{pmatrix}x_{1} \\x_{2}\\x_{3}\\x_{4} \end{pmatrix} = \begin{pmatrix} 0\\0 \end{pmatrix}.]]></md>
+              Solve it.</p></li>
+              <li><p>Compare your answer in part (b) to the matrix we started with. What makes you expect your answer?</p></li>
+            </ol>
+          </p>
+        </statement>
+        <solution/>
+      </exercise>
+    </subsection>
     </section>
