@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#070b16" />
+  <title>Coin Flip First-Hit Simulator</title>
+  <meta name="description" content="Interactive Monte Carlo simulations for waiting times in fair coin flips." />
+  <style>
+    :root {
+      --bg: #070b16;
+      --panel: rgba(16, 24, 45, 0.72);
+      --panel-strong: rgba(20, 30, 56, 0.92);
+      --text: #eef4ff;
+      --muted: #9fb0ce;
+      --grid: rgba(178, 199, 238, 0.12);
+      --line: rgba(188, 207, 241, 0.18);
+      --cyan: #55e6ff;
+      --purple: #a879ff;
+      --gold: #ffd56a;
+      --pink: #ff7cc8;
+      --green: #74f2b2;
+      --danger: #ff7b8b;
+      --radius: 22px;
+      --shadow: 0 24px 70px rgba(0,0,0,.34);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 14% 10%, rgba(85,230,255,.16), transparent 28rem),
+        radial-gradient(circle at 84% 5%, rgba(168,121,255,.18), transparent 30rem),
+        radial-gradient(circle at 50% 78%, rgba(255,124,200,.08), transparent 36rem),
+        linear-gradient(180deg, #050812 0%, #091020 56%, #070b16 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .20;
+      background-image:
+        radial-gradient(circle at 20% 30%, #fff 0 1px, transparent 1.3px),
+        radial-gradient(circle at 70% 80%, #fff 0 1px, transparent 1.3px),
+        radial-gradient(circle at 40% 70%, #fff 0 1px, transparent 1.3px);
+      background-size: 160px 160px, 210px 210px, 260px 260px;
+      mask-image: linear-gradient(to bottom, black, transparent 78%);
+    }
+
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+
+    .shell { width: min(1200px, calc(100% - 32px)); margin: 0 auto; padding-bottom: 72px; }
+
+    .hero {
+      min-height: 78vh;
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 42px;
+      align-items: center;
+      padding: 72px 0 44px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid rgba(85,230,255,.25);
+      background: rgba(85,230,255,.08);
+      color: #bdf5ff;
+      border-radius: 999px;
+      font-size: 13px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-weight: 750;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 18px var(--cyan);
+    }
+
+    h1 {
+      font-size: clamp(48px, 8vw, 92px);
+      line-height: .94;
+      letter-spacing: -.065em;
+      margin: 20px 0 22px;
+      max-width: 850px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #f8fbff 0%, #91edff 42%, #c5a7ff 74%, #ffb2dc 100%);
+      color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .hero p { color: var(--muted); font-size: clamp(17px, 2.2vw, 21px); line-height: 1.65; max-width: 760px; margin: 0; }
+
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+
+    .btn {
+      border: 0;
+      border-radius: 14px;
+      padding: 13px 18px;
+      color: var(--text);
+      font-weight: 760;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn:active { transform: translateY(0); }
+    .btn-primary {
+      background: linear-gradient(135deg, #3bc8f4, #7f6df3 62%, #d96cb6);
+      box-shadow: 0 12px 32px rgba(91,119,255,.30);
+    }
+    .btn-secondary {
+      border: 1px solid rgba(191,210,245,.2);
+      background: rgba(255,255,255,.055);
+      backdrop-filter: blur(12px);
+    }
+
+    .coin-stage {
+      position: relative;
+      min-height: 430px;
+      display: grid;
+      place-items: center;
+      isolation: isolate;
+    }
+    .orb {
+      position: absolute;
+      width: 360px; height: 360px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(85,230,255,.16), rgba(168,121,255,.07) 45%, transparent 68%);
+      filter: blur(3px);
+      animation: pulse 4.5s ease-in-out infinite;
+    }
+    .orbit {
+      position: absolute;
+      width: 350px; height: 350px;
+      border: 1px solid rgba(134,201,255,.14);
+      border-radius: 50%;
+      transform: rotateX(66deg) rotateZ(-13deg);
+      box-shadow: 0 0 35px rgba(85,230,255,.05) inset;
+    }
+    .orbit::after {
+      content:"";
+      position:absolute; left: 48%; top:-6px; width:12px; height:12px; border-radius:50%;
+      background:var(--pink); box-shadow:0 0 24px var(--pink);
+    }
+    .hero-coin {
+      position: relative;
+      width: 208px; height: 208px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 74px;
+      font-weight: 900;
+      color: #51390c;
+      background:
+        radial-gradient(circle at 38% 30%, #fff5b8 0 4%, #ffe074 22%, #dca633 60%, #8f5d0d 100%);
+      border: 9px solid rgba(255,236,153,.65);
+      box-shadow:
+        inset 0 0 0 3px rgba(109,69,4,.55),
+        inset -18px -18px 36px rgba(78,45,0,.32),
+        0 32px 72px rgba(0,0,0,.42),
+        0 0 52px rgba(255,213,106,.18);
+      animation: float 5s ease-in-out infinite;
+    }
+    .hero-coin::before {
+      content: "";
+      position: absolute; inset: 18px;
+      border: 2px dashed rgba(104,67,7,.38); border-radius: 50%;
+    }
+    .hero-coin::after { content: "H"; text-shadow: 0 2px 0 rgba(255,255,255,.22); }
+
+    .mini-chip {
+      position: absolute;
+      padding: 10px 13px;
+      background: rgba(10,17,33,.75);
+      border: 1px solid rgba(210,225,255,.18);
+      backdrop-filter: blur(12px);
+      border-radius: 14px;
+      color: #dfe9ff;
+      font-size: 13px;
+      box-shadow: var(--shadow);
+    }
+    .mini-chip strong { color: white; }
+    .chip-a { left: 0; top: 20%; animation: drift 6s ease-in-out infinite; }
+    .chip-b { right: 0; top: 55%; animation: drift 7s ease-in-out infinite reverse; }
+    .chip-c { left: 12%; bottom: 7%; animation: drift 5s ease-in-out infinite .7s; }
+
+    @keyframes pulse { 50% { transform: scale(1.08); opacity:.72; } }
+    @keyframes float { 50% { transform: translateY(-16px) rotate(3deg); } }
+    @keyframes drift { 50% { transform: translateY(-10px) translateX(5px); } }
+
+    .panel {
+      position: relative;
+      background: linear-gradient(180deg, rgba(18,27,52,.78), rgba(11,17,33,.74));
+      border: 1px solid rgba(185,205,244,.14);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .section { margin-top: 28px; }
+    .section-head { display:flex; gap:18px; align-items:end; justify-content:space-between; margin: 0 2px 18px; }
+    .section-head h2 { margin:0; font-size: clamp(28px,4vw,44px); letter-spacing:-.035em; }
+    .section-head p { margin:0; color:var(--muted); max-width:700px; line-height:1.55; }
+
+    .controls {
+      padding: 18px;
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) 170px auto auto;
+      gap: 12px;
+      align-items: end;
+    }
+    .control label { display:block; font-size:12px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:#afbfdb; margin:0 0 8px 2px; }
+    .control input, .control select {
+      width:100%; min-height:46px; border-radius:12px; border:1px solid rgba(190,211,247,.17);
+      background:rgba(2,7,18,.55); color:var(--text); padding:0 13px; outline:none;
+    }
+    .control input:focus, .control select:focus { border-color: rgba(85,230,255,.5); box-shadow: 0 0 0 3px rgba(85,230,255,.08); }
+
+    .status-row { display:flex; gap:12px; align-items:center; padding:0 4px; color:var(--muted); font-size:13px; margin:10px 0 0; }
+    .progress { flex:1; height:7px; background:rgba(255,255,255,.06); border-radius:99px; overflow:hidden; }
+    .progress > span { display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink)); transition:width .16s ease; }
+
+    .metric-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:16px; }
+    .metric-card { padding:18px; overflow:hidden; }
+    .metric-card::before {
+      content:""; position:absolute; width:120px; height:120px; border-radius:50%; right:-32px; top:-42px;
+      background:var(--accent); filter:blur(45px); opacity:.12;
+    }
+    .metric-label { font-size:13px; color:#b4c2dc; font-weight:720; }
+    .metric-value { font-size:34px; font-weight:870; letter-spacing:-.04em; margin:7px 0 4px; }
+    .metric-sub { color:var(--muted); font-size:12px; }
+    .metric-sub b { color:#dce6fa; font-weight:730; }
+
+    .charts-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+    .chart-card { padding:18px; min-height:350px; }
+    .chart-top { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; margin-bottom:12px; }
+    .chart-top h3 { margin:0 0 4px; font-size:18px; }
+    .chart-top p { margin:0; color:var(--muted); font-size:12px; line-height:1.45; }
+    .legend-dot { width:10px; height:10px; border-radius:3px; background:var(--accent); box-shadow:0 0 16px var(--accent); margin-top:4px; flex:none; }
+    canvas { width:100%; display:block; }
+    .hist { height:270px; }
+
+    .running-card { padding:18px; margin-top:16px; }
+    #runningCanvas { height:360px; }
+    .legend { display:flex; flex-wrap:wrap; gap:10px 16px; margin-top:8px; }
+    .legend-item { display:flex; align-items:center; gap:7px; color:#b9c7df; font-size:12px; }
+    .legend-swatch { width:18px; height:4px; border-radius:3px; }
+
+    .sample-layout { display:grid; grid-template-columns: .78fr 1.22fr; gap:16px; }
+    .live-card { padding:22px; min-height:355px; display:flex; flex-direction:column; justify-content:space-between; overflow:hidden; }
+    .live-card::after { content:""; position:absolute; width:220px;height:220px;border-radius:50%; right:-90px; bottom:-110px; background:radial-gradient(circle,rgba(85,230,255,.15),transparent 70%); }
+    .live-head { display:flex; justify-content:space-between; gap:12px; align-items:center; position:relative; z-index:1; }
+    .live-head h3 { margin:0; font-size:20px; }
+    .flip-stage { min-height:180px; display:grid; place-items:center; position:relative; z-index:1; }
+    .flip-coin {
+      width:112px;height:112px;border-radius:50%;display:grid;place-items:center;font-size:42px;font-weight:900;
+      background:linear-gradient(145deg,#fff0a3,#d79d26); color:#503606; border:5px solid rgba(255,245,190,.7);
+      box-shadow:inset -12px -14px 24px rgba(72,44,0,.25),0 24px 55px rgba(0,0,0,.35);
+      transform-style:preserve-3d;
+    }
+    .flip-coin.flipping { animation: coinFlip .38s cubic-bezier(.2,.7,.2,1); }
+    @keyframes coinFlip { 50% { transform:translateY(-18px) rotateY(540deg) scale(1.06); } 100% { transform:translateY(0) rotateY(1080deg); } }
+    .live-sequence { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; min-height:34px; max-height:74px; overflow:auto; position:relative; z-index:1; }
+    .flip-pill { width:29px;height:29px;border-radius:8px;display:grid;place-items:center;font-size:12px;font-weight:850;border:1px solid rgba(255,255,255,.12); }
+    .flip-pill.h { background:rgba(85,230,255,.11); color:#bdf7ff; }
+    .flip-pill.t { background:rgba(255,124,200,.11); color:#ffc6e7; }
+
+    .sample-card { padding:18px; }
+    .samples { display:grid; gap:10px; max-height:355px; overflow:auto; padding-right:4px; }
+    .sample-row {
+      display:grid; grid-template-columns:48px minmax(0,1fr) auto; gap:10px; align-items:center;
+      padding:10px 12px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.055); border-radius:12px;
+    }
+    .sample-id { color:#8fa1c1; font-size:12px; font-weight:800; }
+    .sequence { display:flex; gap:4px; align-items:center; overflow:hidden; white-space:nowrap; mask-image:linear-gradient(to right, black 0%, black 88%, transparent 100%); }
+    .tiny-coin { flex:none; width:23px;height:23px;border-radius:7px;display:grid;place-items:center;font-size:10px;font-weight:850; }
+    .tiny-coin.h { background:rgba(85,230,255,.11); color:#c3f7ff; border:1px solid rgba(85,230,255,.18); }
+    .tiny-coin.t { background:rgba(255,124,200,.10); color:#ffd1ea; border:1px solid rgba(255,124,200,.16); }
+    .sample-stops { display:flex; gap:5px; flex-wrap:wrap; justify-content:flex-end; }
+    .stop-badge { font-size:10px; padding:4px 6px; border-radius:7px; background:rgba(255,255,255,.05); color:#c7d2e8; }
+
+    .explain-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+    .explain-card { padding:18px; }
+    .explain-card .symbol { font-size:27px; margin-bottom:10px; }
+    .explain-card h3 { margin:0 0 8px; font-size:16px; }
+    .explain-card p { margin:0; color:var(--muted); line-height:1.55; font-size:13px; }
+    .formula { display:inline-block; margin-top:10px; padding:5px 8px; border-radius:8px; background:rgba(255,255,255,.045); color:#dfe9fb; font: 600 12px ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+    footer { color:#7789a9; text-align:center; margin-top:32px; font-size:12px; }
+
+    @media (max-width: 960px) {
+      .hero { grid-template-columns:1fr; min-height:auto; padding-top:56px; }
+      .coin-stage { min-height:350px; }
+      .metric-grid, .explain-grid { grid-template-columns:repeat(2,1fr); }
+      .controls { grid-template-columns: 1fr 1fr; }
+      .sample-layout { grid-template-columns:1fr; }
+    }
+    @media (max-width: 700px) {
+      .shell { width:min(100% - 20px,1200px); }
+      .hero { padding-top:34px; }
+      .coin-stage { min-height:310px; }
+      .hero-coin { width:165px;height:165px;font-size:58px; }
+      .orbit { width:285px;height:285px; }
+      .orb { width:300px;height:300px; }
+      .chip-a { left:1%; top:11%; }
+      .chip-b { right:1%; top:62%; }
+      .chip-c { left:3%; bottom:2%; }
+      .charts-grid, .metric-grid, .explain-grid, .controls { grid-template-columns:1fr; }
+      .section-head { display:block; }
+      .section-head p { margin-top:8px; }
+      .sample-row { grid-template-columns:38px minmax(0,1fr); }
+      .sample-stops { grid-column:2; justify-content:flex-start; }
+      #runningCanvas { height:300px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior:auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <span class="eyebrow">Monte Carlo Playground</span>
+        <h1><span class="gradient-text">How long until</span><br>a coin does that?</h1>
+        <p>
+          Flip a fair coin thousands of times and watch four “first-hit” waiting times emerge:
+          the first heads, first tails, first <strong>HH</strong>, and the first switch between heads and tails.
+        </p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" id="heroRun">Run 5,000 trials</button>
+          <button class="btn btn-secondary" id="heroSample">Animate one trial</button>
+        </div>
+      </div>
+      <div class="coin-stage" aria-hidden="true">
+        <div class="orb"></div>
+        <div class="orbit"></div>
+        <div class="hero-coin"></div>
+        <div class="mini-chip chip-a"><strong>E[first H]</strong> = 2 flips</div>
+        <div class="mini-chip chip-b"><strong>E[first HH]</strong> = 6 flips</div>
+        <div class="mini-chip chip-c"><strong>E[first switch]</strong> = 3 flips</div>
+      </div>
+    </section>
+
+    <section class="section" id="simulator">
+      <div class="section-head">
+        <div><h2>Simulation lab</h2></div>
+        <p>Every trial uses an independent fair coin. Change the number of trials, run the experiment, and compare the simulated means with their exact theoretical values.</p>
+      </div>
+
+      <div class="panel controls">
+        <div class="control">
+          <label for="trialCount">Trials</label>
+          <input id="trialCount" type="number" min="10" max="200000" step="10" value="5000" />
+        </div>
+        <div class="control">
+          <label for="runMode">Animation</label>
+          <select id="runMode">
+            <option value="fast">Fast</option>
+            <option value="visible">Visible progress</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" id="runBtn">Run simulation</button>
+        <button class="btn btn-secondary" id="resetBtn">Reset</button>
+      </div>
+      <div class="status-row">
+        <span id="statusText">Ready</span>
+        <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+        <span id="trialStatus">0 / 0</span>
+      </div>
+
+      <div class="metric-grid">
+        <article class="panel metric-card" style="--accent:var(--cyan)">
+          <div class="metric-label">First heads</div>
+          <div class="metric-value" id="meanHeads">—</div>
+          <div class="metric-sub">theory <b>2.000</b> · error <span id="errHeads">—</span></div>
+        </article>
+        <article class="panel metric-card" style="--accent:var(--pink)">
+          <div class="metric-label">First tails</div>
+          <div class="metric-value" id="meanTails">—</div>
+          <div class="metric-sub">theory <b>2.000</b> · error <span id="errTails">—</span></div>
+        </article>
+        <article class="panel metric-card" style="--accent:var(--gold)">
+          <div class="metric-label">First consecutive heads (HH)</div>
+          <div class="metric-value" id="meanHH">—</div>
+          <div class="metric-sub">theory <b>6.000</b> · error <span id="errHH">—</span></div>
+        </article>
+        <article class="panel metric-card" style="--accent:var(--purple)">
+          <div class="metric-label">First H↔T switch</div>
+          <div class="metric-value" id="meanSwitch">—</div>
+          <div class="metric-sub">theory <b>3.000</b> · error <span id="errSwitch">—</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div><h2>Waiting-time distributions</h2></div>
+        <p>Each bar shows how many trials stopped on that flip number. Long tails are grouped into the final overflow bin so the main shape stays readable.</p>
+      </div>
+      <div class="charts-grid">
+        <article class="panel chart-card" style="--accent:var(--cyan)">
+          <div class="chart-top"><div><h3>First heads</h3><p>T…TH — stop when the first H appears.</p></div><span class="legend-dot"></span></div>
+          <canvas class="hist" id="histHeads" aria-label="Histogram of flips until first heads"></canvas>
+        </article>
+        <article class="panel chart-card" style="--accent:var(--pink)">
+          <div class="chart-top"><div><h3>First tails</h3><p>H…HT — stop when the first T appears.</p></div><span class="legend-dot"></span></div>
+          <canvas class="hist" id="histTails" aria-label="Histogram of flips until first tails"></canvas>
+        </article>
+        <article class="panel chart-card" style="--accent:var(--gold)">
+          <div class="chart-top"><div><h3>First consecutive heads</h3><p>Stop at the first appearance of HH.</p></div><span class="legend-dot"></span></div>
+          <canvas class="hist" id="histHH" aria-label="Histogram of flips until first consecutive heads"></canvas>
+        </article>
+        <article class="panel chart-card" style="--accent:var(--purple)">
+          <div class="chart-top"><div><h3>First heads/tails switch</h3><p>Stop at the first HT or TH transition.</p></div><span class="legend-dot"></span></div>
+          <canvas class="hist" id="histSwitch" aria-label="Histogram of flips until first heads tails switch"></canvas>
+        </article>
+      </div>
+
+      <article class="panel running-card">
+        <div class="chart-top">
+          <div><h3>Running average</h3><p>The mean after each growing batch of trials. Dashed guide marks show the exact expectations.</p></div>
+        </div>
+        <canvas id="runningCanvas" aria-label="Running average lines for all four stopping rules"></canvas>
+        <div class="legend" id="runningLegend"></div>
+      </article>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div><h2>See individual trials</h2></div>
+        <p>Animate a single experiment or inspect sample sequences from the most recent simulation. A trial keeps flipping until all four milestones have occurred.</p>
+      </div>
+      <div class="sample-layout">
+        <article class="panel live-card">
+          <div class="live-head">
+            <h3>Live flip</h3>
+            <button class="btn btn-secondary" id="animateBtn">Animate trial</button>
+          </div>
+          <div class="flip-stage"><div class="flip-coin" id="flipCoin">?</div></div>
+          <div class="live-sequence" id="liveSequence"><span style="color:var(--muted);font-size:13px">Press “Animate trial”</span></div>
+        </article>
+
+        <article class="panel sample-card">
+          <div class="chart-top"><div><h3>Sample iterations</h3><p>Stops: H = first heads, T = first tails, HH = first consecutive heads, ↔ = first switch.</p></div></div>
+          <div class="samples" id="sampleRows"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head"><div><h2>What should the averages approach?</h2></div><p>For a fair coin, these exact expectations give the simulation a target. Random runs will wobble around them and settle closer as the trial count grows.</p></div>
+      <div class="explain-grid">
+        <article class="panel explain-card"><div class="symbol">H</div><h3>First heads</h3><p>Each flip has a 1/2 chance of ending the wait, so this is geometric with success probability 1/2.</p><span class="formula">E[N] = 1/p = 2</span></article>
+        <article class="panel explain-card"><div class="symbol">T</div><h3>First tails</h3><p>By symmetry, waiting for the first tails has exactly the same distribution as waiting for the first heads.</p><span class="formula">E[N] = 2</span></article>
+        <article class="panel explain-card"><div class="symbol">HH</div><h3>First consecutive heads</h3><p>A lone H puts you partway there, but a T resets the streak. The overlap structure makes the mean longer than 4 flips.</p><span class="formula">E[N] = 6</span></article>
+        <article class="panel explain-card"><div class="symbol">H↔T</div><h3>First switch</h3><p>The first flip establishes a side. After that, each new flip has a 1/2 chance to differ from the previous one.</p><span class="formula">E[N] = 1 + 2 = 3</span></article>
+      </div>
+    </section>
+
+    <footer>Built with plain HTML, CSS, Canvas, and JavaScript — no libraries or build step required for GitHub Pages.</footer>
+  </main>
+
+  <script>
+    const COLORS = {
+      heads: '#55e6ff', tails: '#ff7cc8', hh: '#ffd56a', switch: '#a879ff',
+      grid: 'rgba(183, 204, 239, .12)', text: '#9fb0ce', bg: 'rgba(255,255,255,.025)'
+    };
+    const THEORY = { heads: 2, tails: 2, hh: 6, switch: 3 };
+    const LABELS = { heads: 'First H', tails: 'First T', hh: 'First HH', switch: 'First switch' };
+    const state = { results: [], running: [], isRunning: false, animationTimer: null };
+
+    const $ = (id) => document.getElementById(id);
+    const els = {
+      trialCount: $('trialCount'), runMode: $('runMode'), runBtn: $('runBtn'), resetBtn: $('resetBtn'),
+      progress: $('progressBar'), status: $('statusText'), trialStatus: $('trialStatus'),
+      meanHeads: $('meanHeads'), meanTails: $('meanTails'), meanHH: $('meanHH'), meanSwitch: $('meanSwitch'),
+      errHeads: $('errHeads'), errTails: $('errTails'), errHH: $('errHH'), errSwitch: $('errSwitch'),
+      sampleRows: $('sampleRows'), liveSequence: $('liveSequence'), flipCoin: $('flipCoin'),
+      animateBtn: $('animateBtn'), heroRun: $('heroRun'), heroSample: $('heroSample')
+    };
+
+    function fairFlip() { return Math.random() < 0.5 ? 'H' : 'T'; }
+
+    function simulateTrial(keepSequence = false) {
+      let heads = null, tails = null, hh = null, sw = null;
+      let prev = null, n = 0;
+      const sequence = [];
+      while (heads === null || tails === null || hh === null || sw === null) {
+        const f = fairFlip();
+        n++;
+        if (keepSequence) sequence.push(f);
+        if (f === 'H' && heads === null) heads = n;
+        if (f === 'T' && tails === null) tails = n;
+        if (prev === 'H' && f === 'H' && hh === null) hh = n;
+        if (prev !== null && f !== prev && sw === null) sw = n;
+        prev = f;
+        if (n > 10000) break;
+      }
+      return { heads, tails, hh, switch: sw, sequence };
+    }
+
+    function formatMean(v) { return Number.isFinite(v) ? v.toFixed(3) : '—'; }
+    function formatError(v, target) {
+      if (!Number.isFinite(v)) return '—';
+      const e = ((v - target) / target) * 100;
+      return `${e >= 0 ? '+' : ''}${e.toFixed(2)}%`;
+    }
+
+    function summarize(results) {
+      if (!results.length) return null;
+      const sums = { heads:0, tails:0, hh:0, switch:0 };
+      for (const r of results) for (const k of Object.keys(sums)) sums[k] += r[k];
+      const n = results.length;
+      return Object.fromEntries(Object.entries(sums).map(([k,v]) => [k, v/n]));
+    }
+
+    function buildRunning(results) {
+      if (!results.length) return [];
+      const maxPoints = 420;
+      const stride = Math.max(1, Math.floor(results.length / maxPoints));
+      const sums = { heads:0, tails:0, hh:0, switch:0 };
+      const points = [];
+      results.forEach((r, i) => {
+        for (const k of Object.keys(sums)) sums[k] += r[k];
+        const n = i + 1;
+        if (i === 0 || n % stride === 0 || n === results.length) {
+          points.push({ n, ...Object.fromEntries(Object.entries(sums).map(([k,v]) => [k, v/n])) });
+        }
+      });
+      return points;
+    }
+
+    function updateSummary() {
+      const s = summarize(state.results);
+      const pairs = [
+        ['heads', els.meanHeads, els.errHeads], ['tails', els.meanTails, els.errTails],
+        ['hh', els.meanHH, els.errHH], ['switch', els.meanSwitch, els.errSwitch]
+      ];
+      for (const [k, meanEl, errEl] of pairs) {
+        meanEl.textContent = s ? formatMean(s[k]) : '—';
+        errEl.textContent = s ? formatError(s[k], THEORY[k]) : '—';
+      }
+    }
+
+    function prepareCanvas(canvas) {
+      const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      const rect = canvas.getBoundingClientRect();
+      const w = Math.max(1, Math.round(rect.width));
+      const h = Math.max(1, Math.round(rect.height));
+      if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
+        canvas.width = w * dpr; canvas.height = h * dpr;
+      }
+      const ctx = canvas.getContext('2d');
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+      return { ctx, w, h };
+    }
+
+    function roundedRect(ctx, x, y, w, h, r) {
+      const rr = Math.min(r, w/2, h/2);
+      ctx.beginPath();
+      ctx.moveTo(x+rr,y); ctx.arcTo(x+w,y,x+w,y+h,rr); ctx.arcTo(x+w,y+h,x,y+h,rr);
+      ctx.arcTo(x,y+h,x,y,rr); ctx.arcTo(x,y,x+w,y,rr); ctx.closePath();
+    }
+
+    function quantile(sorted, q) {
+      if (!sorted.length) return 0;
+      const pos = (sorted.length - 1) * q, base = Math.floor(pos), rest = pos - base;
+      return sorted[base + 1] !== undefined ? sorted[base] + rest * (sorted[base + 1] - sorted[base]) : sorted[base];
+    }
+
+    function drawHistogram(canvas, key, color) {
+      const {ctx,w,h} = prepareCanvas(canvas);
+      const data = state.results.map(r => r[key]);
+      const pad = { l:42, r:12, t:10, b:34 };
+      const iw = w-pad.l-pad.r, ih = h-pad.t-pad.b;
+
+      ctx.fillStyle = COLORS.bg; roundedRect(ctx,0,0,w,h,14); ctx.fill();
+      if (!data.length) {
+        ctx.fillStyle = COLORS.text; ctx.font='13px system-ui'; ctx.textAlign='center';
+        ctx.fillText('Run a simulation to populate this chart', w/2, h/2); return;
+      }
+      const sorted = [...data].sort((a,b)=>a-b);
+      let cap = Math.ceil(quantile(sorted, .985));
+      const minCap = key === 'hh' ? 12 : 7;
+      cap = Math.max(minCap, Math.min(cap, key === 'hh' ? 34 : 22));
+      const start = (key === 'switch' || key === 'hh') ? 2 : 1;
+      const bins = [];
+      for (let n=start; n<cap; n++) bins.push({label:String(n), count:0});
+      bins.push({label:`${cap}+`, count:0});
+      for (const v of data) {
+        const idx = v >= cap ? bins.length-1 : v-start;
+        if (idx >= 0 && idx < bins.length) bins[idx].count++;
+      }
+      const maxY = Math.max(...bins.map(b=>b.count),1);
+
+      ctx.strokeStyle = COLORS.grid; ctx.lineWidth=1;
+      ctx.fillStyle = COLORS.text; ctx.font='11px system-ui'; ctx.textAlign='right'; ctx.textBaseline='middle';
+      for (let i=0;i<=4;i++) {
+        const y=pad.t+ih*(i/4); const val=Math.round(maxY*(1-i/4));
+        ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(w-pad.r,y); ctx.stroke();
+        ctx.fillText(String(val),pad.l-8,y);
+      }
+      const gap=Math.max(1.5, iw/bins.length*.18); const bw=iw/bins.length-gap;
+      bins.forEach((b,i)=>{
+        const bh=(b.count/maxY)*ih; const x=pad.l+i*(iw/bins.length)+gap/2; const y=pad.t+ih-bh;
+        const grad=ctx.createLinearGradient(0,y,0,pad.t+ih); grad.addColorStop(0,color); grad.addColorStop(1,color+'55');
+        ctx.fillStyle=grad; roundedRect(ctx,x,y,Math.max(2,bw),bh,4); ctx.fill();
+      });
+      ctx.fillStyle = COLORS.text; ctx.font='10px system-ui'; ctx.textAlign='center'; ctx.textBaseline='top';
+      const tickEvery = Math.max(1, Math.ceil(bins.length/9));
+      bins.forEach((b,i)=>{ if(i%tickEvery===0 || i===bins.length-1) ctx.fillText(b.label,pad.l+(i+.5)*(iw/bins.length),h-pad.b+9); });
+    }
+
+    function drawRunning() {
+      const canvas = $('runningCanvas');
+      const {ctx,w,h} = prepareCanvas(canvas);
+      const points = state.running;
+      const pad = {l:46,r:18,t:16,b:38}; const iw=w-pad.l-pad.r, ih=h-pad.t-pad.b;
+      ctx.fillStyle=COLORS.bg; roundedRect(ctx,0,0,w,h,14); ctx.fill();
+      if (!points.length) {
+        ctx.fillStyle=COLORS.text;ctx.font='13px system-ui';ctx.textAlign='center';ctx.fillText('Running averages will appear here',w/2,h/2);return;
+      }
+      const keys=['heads','tails','hh','switch'];
+      const all = points.flatMap(p=>keys.map(k=>p[k]));
+      let maxY=Math.max(...all, 6.5); let minY=Math.min(...all, 0.8);
+      maxY=Math.ceil(maxY*1.08); minY=Math.max(0,Math.floor(minY*.9));
+      ctx.strokeStyle=COLORS.grid;ctx.lineWidth=1;ctx.fillStyle=COLORS.text;ctx.font='11px system-ui';ctx.textAlign='right';ctx.textBaseline='middle';
+      for(let i=0;i<=5;i++){ const y=pad.t+ih*(i/5); const val=maxY-(maxY-minY)*(i/5); ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(w-pad.r,y);ctx.stroke();ctx.fillText(val.toFixed(val<10?1:0),pad.l-8,y); }
+      const xFor = n => pad.l + (Math.log10(Math.max(1,n))/Math.log10(Math.max(10,points[points.length-1].n)))*iw;
+      const yFor = v => pad.t + (maxY-v)/(maxY-minY)*ih;
+
+      ctx.setLineDash([5,6]); ctx.lineWidth=1;
+      for(const k of keys){ctx.strokeStyle=COLORS[k]+'55'; const y=yFor(THEORY[k]); ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(w-pad.r,y);ctx.stroke();}
+      ctx.setLineDash([]);
+      for(const k of keys){
+        ctx.strokeStyle=COLORS[k];ctx.lineWidth=2.2;ctx.lineJoin='round';ctx.lineCap='round';ctx.beginPath();
+        points.forEach((p,i)=>{const x=xFor(p.n), y=yFor(p[k]); if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);});ctx.stroke();
+      }
+      ctx.fillStyle=COLORS.text;ctx.font='10px system-ui';ctx.textAlign='center';ctx.textBaseline='top';
+      const maxN=points[points.length-1].n;
+      const ticks=[1,10,100,1000,10000,100000].filter(n=>n<=maxN);
+      if (!ticks.includes(maxN)) ticks.push(maxN);
+      ticks.forEach(n=>ctx.fillText(n>=1000?`${(n/1000).toFixed(n%1000?1:0)}k`:String(n),xFor(n),h-pad.b+10));
+      ctx.fillStyle=COLORS.text;ctx.textAlign='right';ctx.fillText('Trials (log scale)',w-pad.r,h-12);
+    }
+
+    function drawAllCharts() {
+      drawHistogram($('histHeads'),'heads',COLORS.heads);
+      drawHistogram($('histTails'),'tails',COLORS.tails);
+      drawHistogram($('histHH'),'hh',COLORS.hh);
+      drawHistogram($('histSwitch'),'switch',COLORS.switch);
+      drawRunning();
+    }
+
+    function buildLegend() {
+      $('runningLegend').innerHTML = ['heads','tails','hh','switch'].map(k=>`<span class="legend-item"><span class="legend-swatch" style="background:${COLORS[k]}"></span>${LABELS[k]} · theory ${THEORY[k]}</span>`).join('');
+    }
+
+    function renderSamples() {
+      const samples = state.results.slice(0, 12);
+      if (!samples.length) {
+        els.sampleRows.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:12px 4px">Run a simulation to generate sample iterations.</div>';
+        return;
+      }
+      els.sampleRows.innerHTML = samples.map((r,i)=>{
+        const seq=(r.sequence||[]).slice(0,32).map(f=>`<span class="tiny-coin ${f.toLowerCase()}">${f}</span>`).join('');
+        const more=(r.sequence||[]).length>32?'<span style="color:#7f91b0;font-size:11px">…</span>':'';
+        return `<div class="sample-row"><span class="sample-id">#${i+1}</span><div class="sequence">${seq}${more}</div><div class="sample-stops"><span class="stop-badge">H ${r.heads}</span><span class="stop-badge">T ${r.tails}</span><span class="stop-badge">HH ${r.hh}</span><span class="stop-badge">↔ ${r.switch}</span></div></div>`;
+      }).join('');
+    }
+
+    function setRunningUI(running) {
+      state.isRunning = running;
+      els.runBtn.disabled = running; els.resetBtn.disabled = running; els.animateBtn.disabled = running;
+      els.runBtn.style.opacity = running ? .6 : 1;
+    }
+
+    async function runSimulation(forcedCount) {
+      if (state.isRunning) return;
+      const raw = forcedCount ?? Number(els.trialCount.value);
+      const total = Math.max(10, Math.min(200000, Math.floor(raw || 5000)));
+      els.trialCount.value = total;
+      const mode = els.runMode.value;
+      state.results = []; state.running = [];
+      setRunningUI(true); updateSummary(); renderSamples(); drawAllCharts();
+      els.status.textContent='Simulating…'; els.trialStatus.textContent=`0 / ${total}`; els.progress.style.width='0%';
+
+      const chunk = mode === 'visible' ? Math.max(20, Math.floor(total/120)) : Math.max(300, Math.floor(total/18));
+      let done=0;
+      await new Promise(resolve=>{
+        function work(){
+          const stop=Math.min(total,done+chunk);
+          for(;done<stop;done++) state.results.push(simulateTrial(done<12));
+          const pct=(done/total)*100; els.progress.style.width=`${pct}%`; els.trialStatus.textContent=`${done.toLocaleString()} / ${total.toLocaleString()}`;
+          if(mode==='visible' || done===total){ state.running=buildRunning(state.results); updateSummary(); drawAllCharts(); if(done===total)renderSamples(); }
+          if(done<total) requestAnimationFrame(work); else resolve();
+        }
+        requestAnimationFrame(work);
+      });
+      state.running=buildRunning(state.results); updateSummary(); renderSamples(); drawAllCharts();
+      els.status.textContent='Complete'; els.progress.style.width='100%'; setRunningUI(false);
+    }
+
+    function reset() {
+      if (state.isRunning) return;
+      state.results=[];state.running=[]; updateSummary();renderSamples();drawAllCharts();
+      els.status.textContent='Ready';els.trialStatus.textContent='0 / 0';els.progress.style.width='0%';
+    }
+
+    function trialForAnimation() { return simulateTrial(true); }
+    function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
+    async function animateTrial() {
+      if (state.isRunning) return;
+      clearTimeout(state.animationTimer);
+      const trial=trialForAnimation();
+      els.liveSequence.innerHTML=''; els.flipCoin.textContent='?'; els.animateBtn.disabled=true;
+      for(let i=0;i<trial.sequence.length;i++){
+        const f=trial.sequence[i];
+        els.flipCoin.classList.remove('flipping'); void els.flipCoin.offsetWidth; els.flipCoin.classList.add('flipping');
+        await sleep(170); els.flipCoin.textContent=f;
+        const pill=document.createElement('span');pill.className=`flip-pill ${f.toLowerCase()}`;pill.textContent=f;els.liveSequence.appendChild(pill);
+        await sleep(135);
+      }
+      const summary=document.createElement('div'); summary.style.cssText='width:100%;text-align:center;color:#c8d4ea;font-size:12px;margin-top:4px';
+      summary.textContent=`H ${trial.heads} · T ${trial.tails} · HH ${trial.hh} · switch ${trial.switch}`; els.liveSequence.appendChild(summary);
+      els.animateBtn.disabled=false;
+    }
+
+    let resizeTimer;
+    window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(drawAllCharts,100);});
+    els.runBtn.addEventListener('click',()=>runSimulation()); els.resetBtn.addEventListener('click',reset); els.animateBtn.addEventListener('click',animateTrial);
+    els.heroRun.addEventListener('click',()=>{document.querySelector('#simulator').scrollIntoView({behavior:'smooth'});runSimulation(5000);});
+    els.heroSample.addEventListener('click',()=>{document.querySelector('.sample-layout').scrollIntoView({behavior:'smooth',block:'center'});setTimeout(animateTrial,380);});
+
+    buildLegend(); renderSamples(); drawAllCharts();
+    setTimeout(()=>runSimulation(5000), 250);
+  </script>
+</body>
+</html>
