@@ -1,15 +1,25 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#070b16"><title>First H · Coin Flip Lab</title><meta name="description" content="Guided simulation lesson for until the first heads."><link rel="stylesheet" href="coin-flip-lab.css"></head>
-<body data-rule="heads"><main class="site-shell">
-<header class="topbar"><a class="brand" href="index.html"><span class="brand-mark">H</span><span>Coin Flip Lab</span></a><nav class="lesson-tabs" aria-label="Lessons"><a href="first-heads.html" aria-current="page">First H</a><a href="first-tails.html">First T</a><a href="first-hh.html">First HH</a><a href="first-th.html">First TH</a></nav></header>
-<section class="lesson-hero"><span class="kicker">Lesson 1 of 4 · H</span><h1><span class="gradient">Until the first heads</span></h1><p>How many flips will it take, on average, to see the first heads? You will make a prediction before the simulation shows you any large-sample evidence.</p></section>
-<div class="lesson-progress" aria-label="Lesson progress"><div class="progress-step active"><strong>1 · Predict</strong><span>Commit to a guess</span></div><div class="progress-step"><strong>2 · Explore</strong><span>Watch single trials</span></div><div class="progress-step"><strong>3 · Simulate</strong><span>Look for a long-run pattern</span></div></div>
+COIN FLIP SIMULATION — DROP-IN FOR AN EXISTING GITHUB PAGES SITE
 
-<section class="panel stage" id="predictStage"><div class="stage-head"><div class="stage-number">1</div><div class="stage-title"><h2>Make a prediction</h2><p>Do this before collecting data. There is no penalty for being far off—the point is to compare your intuition with evidence.</p></div></div><div class="question">How many flips will it take, on average, to see the first heads?</div><div class="predict-row"><div class="field"><label for="prediction">Your predicted average</label><input id="prediction" type="number" min="0.1" step="0.1" inputmode="decimal" placeholder="e.g. 3.5"></div><button class="btn btn-primary" id="lockPrediction">Lock in my guess</button></div><div class="microcopy">Enter the number of flips you think the long-run average will approach.</div><div class="prediction-saved" id="predictionSaved" aria-live="polite"></div></section>
+1. Upload this entire folder named "coin-flip-simulation" to the root of your existing GitHub Pages repository.
 
-<section class="panel stage locked" id="exploreStage"><div class="stage-head"><div class="stage-number">2</div><div class="stage-title"><h2>Explore one trial at a time</h2><p>Flip until the first H appears. Notice how a few long waits can pull the average upward. <strong>Stop as soon as H appears.</strong></p></div></div><div class="explore-grid"><div class="coin-lab"><div class="coin-lab-top"><h3>Current trial</h3><span class="trial-counter" id="trialCounter">0 individual trials</span></div><div class="coin-stage"><div class="coin" id="coin">?</div></div><div class="trial-seq" id="trialSeq" aria-live="polite"></div><div class="trial-result" id="trialResult"></div></div><div class="history-panel"><div class="history-top"><h3>Your small sample</h3><div class="sample-mean"><b id="sampleMean">—</b><span>sample mean</span></div></div><div class="trial-list" id="trialList"></div></div></div><div class="explore-actions"><button class="btn btn-primary" id="runOne">Animate one trial</button><button class="btn btn-secondary" id="fastOne">Add one quickly</button><button class="btn btn-ghost" id="unlockMany" disabled>Continue to many runs →</button><span class="unlock-note" id="unlockNote"></span></div></section>
+2. Do NOT replace your existing site's index.html. This folder has its own index.html and is isolated from the rest of your site.
 
-<section class="panel stage locked" id="manyStage"><div class="stage-head"><div class="stage-number">3</div><div class="stage-title"><h2>Scale up the experiment</h2><p>Now run the same experiment hundreds or thousands of times. Watch the distribution form and the running average settle down.</p></div></div><div class="sim-controls" aria-label="Number of simulation runs"><button class="btn btn-secondary choice" data-many="100">100 runs</button><button class="btn btn-secondary choice selected" data-many="1000">1,000 runs</button><button class="btn btn-secondary choice" data-many="10000">10,000 runs</button><button class="btn btn-secondary choice" data-many="50000">50,000 runs</button><button class="btn btn-primary" id="runMany">Run simulation</button></div><div class="sim-status"><span id="simText">Ready</span><div class="bar"><span id="simProgress"></span></div><span id="simCount">0 / 0</span></div><div class="summary-grid"><div class="summary"><span>Simulated average</span><b id="manyMean">—</b><small>flips per trial</small></div><div class="summary"><span>Theoretical average</span><b class="theory-hidden" id="theoryValue">—</b><button class="btn btn-ghost reveal-btn" id="revealTheory" type="button">Reveal</button></div><div class="summary"><span>Simulation − theory</span><b id="errorValue">—</b><small>closer to 0 means closer agreement</small></div></div><div class="chart-grid"><div class="chart-card"><h3>Waiting-time distribution</h3><p>Each bar counts how many trials ended on that flip number. Very long waits are grouped at the far right.</p><canvas id="histCanvas" aria-label="Histogram of waiting times"></canvas></div><div class="chart-card"><h3>Running average</h3><p>The average after 1, 2, 3, … trials. The theory guide appears only after you reveal the theoretical average.</p><canvas id="runningCanvas" aria-label="Running average of waiting time"></canvas></div></div><div class="reflection"><strong>Reflect:</strong> Compare your original prediction, your small-sample mean, and the large-sample mean. Which one would you trust most to describe the long-run behavior, and why?</div></section>
+3. Commit/publish the files as usual.
 
-<nav class="lesson-nav" aria-label="Previous and next lesson"><a class="btn btn-secondary" href="index.html">← Lesson home</a><a class="btn btn-primary" href="first-tails.html">Next: First T →</a></nav><div class="footer">Coin Flip Waiting-Time Lab · static files for GitHub Pages</div>
-</main><script src="coin-flip-lab.js"></script></body></html>
+4. Open the simulation at:
+   https://YOUR-SITE/coin-flip-simulation/
+
+   Examples:
+   User/organization site:
+   https://username.github.io/coin-flip-simulation/
+
+   Project site:
+   https://username.github.io/repository-name/coin-flip-simulation/
+
+5. To link to it from an existing page, use a relative link such as:
+   <a href="coin-flip-simulation/">Coin Flip Simulation</a>
+
+   If the page containing the link is in a subfolder, adjust the relative path as you normally would.
+
+No build process, package manager, CDN, or external library is required.
+All navigation, CSS, and JavaScript paths inside the simulation are relative.
