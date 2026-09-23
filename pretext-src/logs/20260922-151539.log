@@ -1,0 +1,17 @@
+WARNING : Using CLI version 2.53.0 but project's `requirements.txt`
+WARNING : is configured to use 2.52.3. Consider either installing
+WARNING : CLI version 2.52.3 or running `pretext update-project`
+WARNING : to update `requirements.txt` and other managed files to match 2.53.0.
+INFO    : Building target web
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.53.0/core/xsl/utilities/pretext-enhanced-source.xsl
+ERROR   : Error loading /workspaces/alexblackmath.github.io/pretext-src/source/Section-1.ptx: StartTag: invalid element name, line 27, column 20 (Section-1.ptx, line 27)
+ERROR   : Error assembling source file: StartTag: invalid element name, line 27, column 20 (Section-1.ptx, line 27)
+FATAL   : XML syntax for source file is invalid
+INFO    : ------------------------
+exit    : Failed to build without errors.  Exiting...
+INFO    : 
+----------------------------------------------------
+INFO    : While running pretext, the following errors occurred:
+
+INFO    : (see log messages above or in the 'logs' folder for more information)
+INFO    : ----------------------------------------------------

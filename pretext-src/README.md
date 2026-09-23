@@ -69,9 +69,9 @@ VS Code should prompt you to rebuild your codespace, which you should do (you do
 
 
 <!-- 
-rm -rf ../Math2000/Math2000Day6WithSolns
-mkdir ../Math2000/Math2000Day6WithSolns
-cp -a output/web/. ../Math2000/Math2000Day6WithSolns
+rm -rf ../Math2301/Math2301Day7
+mkdir ../Math2301/Math2301Day7
+cp -a output/web/. ../Math2301/Math2301Day7
 
 cd ..
 git add .

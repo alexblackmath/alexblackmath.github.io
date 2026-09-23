@@ -1,60 +1,42 @@
  <section xml:id="Section-2">
-  <title>Rank-Nullity Theorem</title>
+      <title>Flipping Coins</title>
 
-      <p>We define <m>\text{rank}(T)</m> to be the dimension of <m>\text{Im}(T)</m>. We define <m>\text{nullity}(T)</m> to be the dimension of the <m>\text{ker}(T)</m>, also called the <alert>null space</alert> of <m>T</m>.</p>
+      <p>Here is a common quant interview style question. Suppose you flip a coin until you get heads. How many flips do you expect this to take?</p>
 
-      <theorem xml:id="theorem-rank-nullity">
+      <p>Here the random variable is <m>X</m>, where <m>X(s)</m> is the
+       number of flips it takes to get heads. The probability space is
+        infinite. Here we want essentially,</p>
+      <me>\sum_{i=1}^{\infty} i P(\text{First Heads after }i\text{ flips}).</me>
+      
+      <p> To be clear, the after <m>i</m> flips means that the first <m>i-1</m> 
+      flips were tails and the <m>i</m>-th flip was heads.
+      You could compute this directly, or we could use linearity 
+      of expectation. You can compute this directly as an infinite series.</p>
+
+      <exercise xml:id="exercise-first-heads-probability">
+        <p>Explain why the probability of the first heads appearing after <m>i</m> flips is <m>1/2^{i}</m>.</p>
+        <p><fillin characters="72"/></p>
+      </exercise>
+
+      <p>Using the result of the exercise, you get the expectation</p>
+      <me>\sum_{i=1}^{\infty} i (1/2)^{i},</me>
+      <p>and then you could use calculus tricks to compute it. But maybe you're looking at that and don't remember what a so-called “calculus” is. Instead you think there must be some better way. Indeed there is.</p>
+
+      <theorem xml:id="theorem-first-heads-expectation">
         <statement>
-          <p>For any linear transformation <m>T: U \to V</m>, where <m>U</m> is finite dimensional, <m>\text{rank}(T) + \text{nullity}(T) = \text{dim}(U)</m>.</p>
+          <p>The expected number of flips until reaching a first heads is <m>2</m>.</p>
         </statement>
-
         <proof>
-          <p>Note that, by the exercise we did earlier, both <m>\text{ker}(T)</m> and <m>\text{Im}(T)</m> are finite dimensional. Take a basis <m>\vec{u}_{1}, \dots, \vec{u}_{m}</m> for <m>\text{ker}(T)</m> 
-          and a basis <m>\vec{v}_{1}, \dots, \vec{v}_{k}</m> for <m>\text{Im}(T)</m>. Then, by definition of the image, there exists <m>\vec{w}_{1}, \dots, \vec{w}_{k} \in U</m>
-           such that <m>T(\vec{w}_{i}) = \vec{v}_{i}</m> for all <m>1 \leq i \leq k</m>.</p>
+          <p>You can split <m>X</m> into two random variables. Let <m>Y</m> be a variable that is
+           <m>1</m> if you flip heads first and <m>0</m> otherwise. Let <m>Z</m> be a random variable that is <m>0</m> if you flip heads first and the number of flips until you reached your first heads otherwise.</p>
 
-          <p>I claim that <m>\vec{u}_{1}, \dots, \vec{u}_{m}, \vec{w}_{1},\dots, \vec{w}_{k}</m> is a basis for <m>U</m>. <alert>Explain why</alert>: If we can show this, then we have proved the theorem.</p>
+          <p><alert>Claim 1</alert>: <m>X = Y + Z</m>.</p>
           <p><fillin characters="72"/></p>
 
-          <p>Let's do spanning first. Let <m>\vec{x} \in U</m>. We want to show that</p>
-          <me>\vec{x} \in \text{span}(\vec{u}_{1}, \dots, \vec{u}_{m}, \vec{w}_{1}, \dots, \vec{w}_{k}).</me>
-          <p>Then <m>T(\vec{x}) \in \text{Im}(T)</m>. Since <m>\vec{v}_{1}, \dots, \vec{v}_{k}</m> is a basis for <m>\text{Im}(T)</m>,</p>
-          <me>T(\vec{x}) = \sum_{i=1}^{k}a_{i} \vec{v}_{i}</me>
-          <p>for some <m>a_{1}, \dots, a_{k} \in \mathbb{R}</m>.</p>
-
-          <p><alert>Explain then why</alert></p>
-          <me>T(\vec{x} - \sum_{i=1}^{k} a_{i}\vec{w}_{i}) = \vec{0}.</me>
+          <p><alert>Claim 2:</alert> <m>\mathbb{E}[Y] = 1/2</m></p>
           <p><fillin characters="72"/></p>
 
-          <p>Thus,</p>
-          <me>\vec{x} - \sum_{i=1}^{k} a_{i}\vec{w}_{i} \in \text{ker}(T).</me>
-
-          <p><alert>Explain then why</alert></p>
-          <me>\vec{x} - \sum_{i=1}^{k} a_{i}\vec{w}_{i} \in \text{span}(\vec{u}_{1}, \dots, \vec{u}_{m}).</me>
-          <p><fillin characters="72"/></p>
-
-          <p>Thus,</p>
-          <me>\vec{x} - \sum_{i=1}^{k} a_{i}\vec{w}_{i} = \sum_{j=1}^{m} b_{j} \vec{u}_{j}.</me>
-          <p>Conclude that</p>
-          <me>\vec{x} \in \text{span}(\vec{u}_{1}, \dots, \vec{u}_{m}, \vec{w}_{1}, \dots, \vec{w}_{k}).</me>
-          <p><fillin characters="72"/></p>
-
-          <p>Next we need to show independence. Suppose that</p>
-          <me>\sum_{i=1}^{k} a_{i}\vec{w}_{i} + \sum_{j=1}^{m} b_{j} \vec{u}_{j} = \vec{0}.</me>
-          <p>We want to show that the <m>a_{i}</m> and <m>b_{j}</m> are all then equal to <m>0</m>. The key idea is to rewrite it like this:</p>
-          <me>\sum_{i=1}^{k} a_{i}\vec{w}_{i} = -\sum_{j=1}^{m} b_{j} \vec{u}_{j}.</me>
-
-          <p><alert>Explain why</alert>: <m>\sum_{i=1}^{k} a_{i} \vec{w}_{i} \in \text{ker}(T)</m>.</p>
-          <p><fillin characters="72"/></p>
-
-          <p>Thus,</p>
-          <me>\sum_{i=1}^{k} a_{i} \vec{v}_{i} = \sum_{i=1}^{k} a_{i}T(\vec{w}_{i}) = T\left(\sum_{i=1}^{k} a_{i} \vec{w}_{i} \right) = \vec{0}.</me>
-          <p><alert>Explain why</alert> this means that <m>a_{1} = a_{2} = \dots = a_{k} = 0</m>.</p>
-          <p><fillin characters="72"/></p>
-
-          <p>Thus,</p>
-          <me>-\sum_{j=1}^{m} b_{j} \vec{u}_{j} = \vec{0}.</me>
-          <p><alert>Explain why</alert> this means that <m>b_{1} = \dots = b_{m} = 0</m>. Therefore, they are linearly independent.</p>
+          <p><alert>Claim 3:</alert> <m>\mathbb{E}[Z] = 1/2(\mathbb{E}[X]+1)</m>.</p>
           <p><fillin characters="72"/></p>
         </proof>
       </theorem>

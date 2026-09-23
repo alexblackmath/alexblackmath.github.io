@@ -1,0 +1,57 @@
+WARNING : Using CLI version 2.53.0 but project's `requirements.txt`
+WARNING : is configured to use 2.52.3. Consider either installing
+WARNING : CLI version 2.52.3 or running `pretext update-project`
+WARNING : to update `requirements.txt` and other managed files to match 2.53.0.
+INFO    : Building target web
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.53.0/core/xsl/utilities/pretext-enhanced-source.xsl
+INFO    : successful application of /home/codespace/.ptx/2.53.0/core/xsl/utilities/pretext-enhanced-source.xsl
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : verifying and expanding input directory: /workspaces/alexblackmath.github.io/pretext-src/source/../assets
+INFO    : input directory expanded to absolute path: /workspaces/alexblackmath.github.io/pretext-src/assets
+INFO    : Generating any needed assets.
+INFO    : Finished generating assets.
+
+INFO    : Preparing to build into /workspaces/alexblackmath.github.io/pretext-src/output/web.
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : verifying and expanding input directory: /workspaces/alexblackmath.github.io/pretext-src/source/../assets
+INFO    : input directory expanded to absolute path: /workspaces/alexblackmath.github.io/pretext-src/assets
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.53.0/core/xsl/utilities/report-publisher-variables.xsl
+INFO    : successful application of /home/codespace/.ptx/2.53.0/core/xsl/utilities/report-publisher-variables.xsl
+INFO    : Downloading rs services file from https://runestone.academy/cdn/runestone/latest/webpack_static_imports.xml.
+INFO    : Runestone Services via online CDN query: version 8.3.0
+INFO    : Downloading Runestone Services, version 8.3.0
+INFO    : Extracting Runestone Services from archive file
+INFO    : Building custom css theme: theme-default-modern
+INFO    : converting /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx to HTML in /tmp/ptx-m6cdh5un
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.53.0/core/xsl/pretext-html.xsl
+INFO    : messages from the log for XSL processing (prefaced with a *):
+INFO    : * PTX:INFO:   checking all deprecated elements.
+WARNING : * PTX:DEPRECATE: (2026-05-11) the "me" and "men" elements have been deprecated.  The replacement is an "md" with no "mrow" children, and numbering is controlled by the "@number" attribute, or a global setting in "docinfo". (14 times)
+INFO    : *              located at: pretext/article/section/theorem/proof/me
+INFO    : *              located within: "theorem-rank-nullity" (xml:id)
+INFO    : *              located at: pretext/article/section/theorem/proof/me
+INFO    : *              located within: "theorem-rank-nullity" (xml:id)
+INFO    : *              located at: pretext/article/section/theorem/proof/me
+INFO    : *              located within: "theorem-rank-nullity" (xml:id)
+INFO    : *              located at: pretext/article/section/theorem/proof/me
+INFO    : *              located within: "theorem-rank-nullity" (xml:id)
+INFO    : *              located at: pretext/article/section/theorem/proof/me
+INFO    : *              located within: "theorem-rank-nullity" (xml:id)
+INFO    : *              located at: pretext/article/section/theorem/proof/me
+INFO    : *              located within: "theorem-rank-nullity" (xml:id)
+INFO    : *              located at: pretext/article/section/theorem/proof/me
+INFO    : *              located within: "theorem-rank-nullity" (xml:id)
+INFO    : *              located at: pretext/article/section/theorem/proof/me
+INFO    : *              located within: "theorem-rank-nullity" (xml:id)
+INFO    : * --------------
+INFO    : successful application of /home/codespace/.ptx/2.53.0/core/xsl/pretext-html.xsl
+INFO    : Removing temporary directory /tmp/ptx-m6cdh5un
+INFO    : Removing temporary directory /tmp/ptx-dnrlh4b1
+INFO    : 
+Finished build for target web. Run `pretext view web` to see the results.
+
+INFO    : 
+Success!  Built requested target(s) without errors.
+
+INFO    : 

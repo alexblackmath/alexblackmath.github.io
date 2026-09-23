@@ -1,50 +1,52 @@
 <section xml:id="Section-1">
-<title>Subspaces and Dimension</title>
+  <title>Great Expectations</title>
 
-      <p>Let <m>T: U \to V</m> be a linear transformation. Then the image <m>\text{Im}(T)</m> is the range of <m>T</m>. That is, <m>\text{Im}(T) = \{T(\vec{x}): \vec{x} \in U\}</m>.</p>
+      <p>Fix a probability space <m>S</m> and <m>P: S \to [0,1]</m> a density function. 
+      Then the set of random variables is just <m>\mathbb{R}^{S}</m>, is 
+      the set of labelings of <m>S</m> by real-values. In particular, 
+      the set of random variables is a vector space. There is a very 
+      important map called the <alert>Expectation</alert>, which is</p>
+      <me>\mathbb{E}[X] = \sum_{s \in S} X(s) P(s).</me>
 
-      <exercise xml:id="exercise-image-subspace">
-        <p>Show that <m>\text{Im}(T)</m> is a linear subspace.</p>
-      </exercise>
+      <lemma xml:id="lemma-linearity-expectation">
+        <title>Linearity of Expectation</title>
+        <statement>
+          <p>The function <m>\mathbb{E}: \mathbb{R}^{S} \to \mathbb{R}</m> is a linear transformation.</p>
+        </statement>
+        <proof>
+          <p>Let <m>X</m> and <m>Y</m> be random variables, and let <m>\lambda \in \mathbb{R}</m>. Then</p>
+          <me>\mathbb{E}[\lambda X] = \dots =\lambda \mathbb{E}[X],</me>
+          <p><fillin characters="72"/></p>
+          <p>and</p>
+          <me>\mathbb{E}[X + Y] = \dots =\mathbb{E}[X]+\mathbb{E}[Y].</me>
+          <p><fillin characters="72"/></p>
+        </proof>
+      </lemma>
 
-      <proof>
-        <p><em>Step <m>1</m>.</em> I claim it contains <m>\vec{0}</m>. Argue this. What does a linear transformation always send to <m>\vec{0}</m>?</p>
-        <p><fillin characters="72"/></p>
+      <p>In fact, this extends more generally to infinite case using the same arguments but with infinite sums or more generally integrals. Expectation is one of the most useful linear transformations, and using linearity already buys you a lot.</p>
 
-        <p><em>Step <m>2</m>.</em> I claim it is closed under addition. Let <m>\vec{x}, \vec{y} \in \text{Im}(T)</m>. Then <m>\vec{x} = T(\vec{u})</m> and <m>\vec{y} 
-        = T(\vec{v})</m>. What do you apply <m>T</m> to in order to get <m>\vec{x} + \vec{y}</m>?</p>
-        <p><fillin characters="72"/></p>
+      <!--
+      Inactive material from the original TeX source, converted to PreTeXt-style
+      markup and left commented out. Text and mathematical content are preserved
+      without correction.
 
-        <p><em>Step <m>3</m>.</em> I claim it is closed under scalar multiplication. Let <m>\lambda \in \mathbb{R}</m>. Again <m>\vec{x} = T(\vec{u})</m>. 
-        What do I apply <m>T</m> to in order to get <m>\lambda \vec{x}</m>?</p>
-        <p><fillin characters="72"/></p>
-      </proof>
+      <section xml:id="random-graphs">
+        <title>Random Graphs</title>
 
-      <p>Images and kernels of linear transformations from finite dimensional vector spaces are always finite dimensional.</p>
+        <p>One natural probability space is on graphs. Namely, we'll think of undirected graphs as just pairs of elements of a set of vertices <m>V</m>. Then the typical model you take is for each possible pair of vertices, you add an edge between them with probability <m>1/2</m>. Then you could ask, what's the expected number of edges?</p>
 
-      <exercise xml:id="exercise-subspaces-finite-dimensional">
-        <introduction>
-          <p>Let <m>U</m> be a finite dimensional vector space, let <m>T: U \to V</m> be a linear transformation, and let <m>W</m> be a linear subspace of <m>U</m>.</p>
-        </introduction>
-        <task>
-          <p>Then <m>W</m> is finite dimensional with dimension at most dimension of <m>U</m>.</p>
-        </task>
-        <task>
-          <p>Then <m>\text{ker}(T)</m> is finite dimensional with dimension at most dimension of <m>U</m>.</p>
-        </task>
-        <task>
-          <p>Then <m>\text{Im}(T)</m> is finite dimensional.</p>
-        </task>
-      </exercise>
+        <p>The random variable here is <m>X: \{Graphs\} \to \mathbb{Z}</m> with <m>X(G)</m> equal to the number of edges of <m>G</m>. The probability space at first seems tricky to work with, but linearity of expectation helps us.</p>
 
-      <proof>
-        <p>For (a), note that a basis of <m>W</m> must also be linearly independent in <m>U</m>. Why does that mean it must have size at most the size of a basis of <m>U</m>?</p>
-        <p><fillin characters="72"/></p>
+        <p>Let <m>X_{i,j}(G) = 1</m> if <m>i,j</m> is an edge and <m>0</m> otherwise. Then we can represent <m>X(G)</m> in the span of <m>X_{i,j}</m>. In particular,</p>
+        <me>X(G) = \sum_{1 \leq i &lt; j \leq n} X_{i,j}(G).</me>
+        <p>That is the total number of edges is the sum of <m>1</m> for each edge that is used.</p>
 
-        <p>For (b), explain how this follows from part (a).</p>
-        <p><fillin characters="72"/></p>
+        <p>Now linearity of expectation helps us. Note that <m>\mathbb{E}[X_{i,j}(G)] = 1/2</m>, since an edge appears with probability <m>1/2</m>. We have</p>
+        <me>\mathbb{E}[X(G)] = \sum_{1 \leq i &lt; j \leq n} \mathbb{E}[X_{i,j}(G)] = \binom{n}{2}\frac{1}{2} = \frac{n(n-1)}{4}.</me>
+        <p>If each edge appears with probability <m>1/2</m>, you expect to get about half of the possible edges, which is a lot of edges. More generally, if it is with probability <m>p</m>, you expect about a <m>p</m> proportion of the edges.</p>
 
-        <p>For (c), take a basis <m>\vec{v}_{1}, \dots, \vec{v}_{n}</m> of <m>U</m>. Show that <m>T(\vec{v}_{1}), \dots, T(\vec{v}_{n})</m> spans <m>\text{Im}(U)</m>.</p>
-        <p><fillin characters="72"/></p>
-      </proof>
+        <p>This is a key combination of two linear algebra tools that is used all over the place when dealing with the probability. If you have a complicated random variable, you can decompose it into simpler random variables you know how to deal with. In our case, they are basis elements.</p>
+      </section>
+      -->
     </section>
+

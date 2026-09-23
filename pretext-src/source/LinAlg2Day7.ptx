@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pretext>
+  <article>
+    <title>Great Expectations</title>
+
+    <section xml:id="random-variables">
+      <title>Random Variables</title>
+
+      <p>A vector space of functions we care about are <alert>random variables</alert>, which are as Prof. Maresca likes to say, neither random nor variables. They are actually just functions <m>X: S \to \mathbb{R}</m> from some set <m>S</m> that has some probability space associated to it.</p>
+
+      <p>For example, the random variable could be the value on a <m>6</m>-sided die of a roll. Then <m>X(i) = i</m>.</p>
+
+      <p>The magic is that there is also a probability function <m>P: S \to \mathbb{R}</m> associated to the random variable telling you the probability of an outcome of the input to the random variable happening. For a die, we like to hope the probability function is just the constant function <m>P(i) = 1/6</m>. Probability functions satisfy the additional constraints that <m>\sum_{s \in S} P(s) = 1</m> and <m>P(s) \geq 0</m> for all <m>s \in S</m>.</p>
+    </section>
+
+    <section xml:id="great-expectations">
+      <title>Great Expectations</title>
+
+      <p>Fix a probability space <m>S</m> and <m>P: S \to [0,1]</m> a density function. 
+      Then the set of random variables is just <m>\mathbb{R}^{S}</m>, is 
+      the set of labelings of <m>S</m> by real-values. In particular, 
+      the set of random variables is a vector space. There is a very 
+      important map called the <alert>Expectation</alert>, which is</p>
+      <me>\mathbb{E}[X] = \sum_{s \in S} X(s) P(s).</me>
+
+      <lemma xml:id="lemma-linearity-expectation">
+        <title>Linearity of Expectation</title>
+        <statement>
+          <p>The function <m>\mathbb{E}: \mathbb{R}^{S} \to \mathbb{R}</m> is a linear transformation.</p>
+        </statement>
+        <proof>
+          <p>Let <m>X</m> and <m>Y</m> be random variables, and let <m>\lambda \in \mathbb{R}</m>. Then</p>
+          <me>\mathbb{E}[\lambda X] = \dots =\lambda \mathbb{E}[X],</me>
+          <p><fillin characters="72"/></p>
+          <p>and</p>
+          <me>\mathbb{E}[X + Y] = \dots =\mathbb{E}[X]+\mathbb{E}[Y].</me>
+          <p><fillin characters="72"/></p>
+        </proof>
+      </lemma>
+
+      <p>In fact, this extends more generally to infinite case using the same arguments but with infinite sums or more generally integrals. Expectation is one of the most useful linear transformations, and using linearity already buys you a lot.</p>
+
+      <!--
+      Inactive material from the original TeX source, converted to PreTeXt-style
+      markup and left commented out. Text and mathematical content are preserved
+      without correction.
+
+      <section xml:id="random-graphs">
+        <title>Random Graphs</title>
+
+        <p>One natural probability space is on graphs. Namely, we'll think of undirected graphs as just pairs of elements of a set of vertices <m>V</m>. Then the typical model you take is for each possible pair of vertices, you add an edge between them with probability <m>1/2</m>. Then you could ask, what's the expected number of edges?</p>
+
+        <p>The random variable here is <m>X: \{Graphs\} \to \mathbb{Z}</m> with <m>X(G)</m> equal to the number of edges of <m>G</m>. The probability space at first seems tricky to work with, but linearity of expectation helps us.</p>
+
+        <p>Let <m>X_{i,j}(G) = 1</m> if <m>i,j</m> is an edge and <m>0</m> otherwise. Then we can represent <m>X(G)</m> in the span of <m>X_{i,j}</m>. In particular,</p>
+        <me>X(G) = \sum_{1 \leq i &lt; j \leq n} X_{i,j}(G).</me>
+        <p>That is the total number of edges is the sum of <m>1</m> for each edge that is used.</p>
+
+        <p>Now linearity of expectation helps us. Note that <m>\mathbb{E}[X_{i,j}(G)] = 1/2</m>, since an edge appears with probability <m>1/2</m>. We have</p>
+        <me>\mathbb{E}[X(G)] = \sum_{1 \leq i &lt; j \leq n} \mathbb{E}[X_{i,j}(G)] = \binom{n}{2}\frac{1}{2} = \frac{n(n-1)}{4}.</me>
+        <p>If each edge appears with probability <m>1/2</m>, you expect to get about half of the possible edges, which is a lot of edges. More generally, if it is with probability <m>p</m>, you expect about a <m>p</m> proportion of the edges.</p>
+
+        <p>This is a key combination of two linear algebra tools that is used all over the place when dealing with the probability. If you have a complicated random variable, you can decompose it into simpler random variables you know how to deal with. In our case, they are basis elements.</p>
+      </section>
+      -->
+    </section>
+
+    <section xml:id="shuffling-cards">
+      <title>Shuffling Cards</title>
+
+      <p>Another example of a similar type comes from shuffling cards. 
+      Given a <m>52</m> card deck and a completely random shuffle,
+       what are the expected number of cards that end up in the 
+       same place they started. Let <m>X</m> be the random variable
+      that is the total number of cards that ended up where they 
+      started.</p>
+
+      <theorem xml:id="theorem-fixed-cards">
+        <statement>
+          <p>The expected number of cards that end up in the same spot they started is <m>1</m>.</p>
+        </statement>
+        <proof>
+          <p>Define <m>X_{i}</m> to be the random variable that is <m>1</m> if card <m>i</m> is in its same place in the order and <m>0</m> otherwise.</p>
+
+          <p>What is the probability that <m>X_{i} = 1</m>?</p>
+          <p><fillin characters="72"/></p>
+
+          <p>What is <m>\mathbb{E}[X_{i}]</m>?</p>
+          <p><fillin characters="72"/></p>
+
+          <p>Explain why</p>
+          <me>X = \sum_{i=1}^{52} X_{i}.</me>
+          <p><fillin characters="72"/></p>
+
+          <p>Use linearity of expectation to show that</p>
+          <me>\mathbb{E}[X] = 1.</me>
+          <p><fillin characters="72"/></p>
+        </proof>
+      </theorem>
+    </section>
+    
+    <section xml:id="flipping-coins">
+      <title>Flipping Coins</title>
+
+      <p>Here is a common quant interview style question. Suppose you flip a coin until you get heads. How many flips do you expect this to take?</p>
+
+      <p>Here the random variable is <m>X</m>, where <m>X(s)</m> is the
+       number of flips it takes to get heads. The probability space is
+        infinite. Here we want essentially,</p>
+      <me>\sum_{i=1}^{\infty} i P(\text{First Heads after }i\text{ flips}).</me>
+      
+      <p> To be clear, the after <m>i</m> flips means that the first <m>i-1</m> 
+      flips were tails and the <m>i</m>-th flip was heads.
+      You could compute this directly, or we could use linearity 
+      of expectation. You can compute this directly as an infinite series.</p>
+
+      <exercise xml:id="exercise-first-heads-probability">
+        <p>Explain why the probability of the first heads appearing after <m>i</m> flips is <m>1/2^{i}</m>.</p>
+        <p><fillin characters="72"/></p>
+      </exercise>
+
+      <p>Using the result of the exercise, you get the expectation</p>
+      <me>\sum_{i=1}^{\infty} i (1/2)^{i},</me>
+      <p>and then you could use calculus tricks to compute it. But maybe you're looking at that and don't remember what a so-called “calculus” is. Instead you think there must be some better way. Indeed there is.</p>
+
+      <theorem xml:id="theorem-first-heads-expectation">
+        <statement>
+          <p>The expected number of flips until reaching a first heads is <m>2</m>.</p>
+        </statement>
+        <proof>
+          <p>You can split <m>X</m> into two random variables. Let <m>Y</m> be a variable that is
+           <m>1</m> if you flip heads first and <m>0</m> otherwise. Let <m>Z</m> be a random variable that is <m>0</m> if you flip heads first and the number of flips until you reached your first heads otherwise.</p>
+
+          <p><alert>Claim 1</alert>: <m>X = Y + Z</m>.</p>
+          <p><fillin characters="72"/></p>
+
+          <p><alert>Claim 2:</alert> <m>\mathbb{E}[Y] = 1/2</m></p>
+          <p><fillin characters="72"/></p>
+
+          <p><alert>Claim 3:</alert> <m>\mathbb{E}[Z] = 1/2(\mathbb{E}[X]+1)</m>.</p>
+          <p><fillin characters="72"/></p>
+        </proof>
+      </theorem>
+    </section>
+
+    <section xml:id="exercises">
+      <title>Exercises</title>
+
+      <exercise xml:id="exercise-first-tails">
+        <p>Find the expected number of coin flips until reaching the first tails.</p>
+        <p><fillin characters="72"/></p>
+        <p><fillin characters="72"/></p>
+      </exercise>
+
+      <exercise xml:id="exercise-consecutive-heads">
+        <p>Find the expected number of coin flips until reaching the first consecutive pair of heads.</p>
+        <p><fillin characters="72"/></p>
+        <p><fillin characters="72"/></p>
+        <p><fillin characters="72"/></p>
+      </exercise>
+
+      <exercise xml:id="exercise-heads-then-tails">
+        <p>Find the expected number of coin flips until you have a consecutive heads and then tails.</p>
+        <p><fillin characters="72"/></p>
+        <p><fillin characters="72"/></p>
+        <p><fillin characters="72"/></p>
+      </exercise>
+    </section>
+  </article>
+</pretext>
