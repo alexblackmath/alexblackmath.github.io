@@ -1,11 +1,7 @@
 <section xml:id="Section-1">
   <title>Great Expectations</title>
 
-      <p>Fix a probability space <m>S</m> and <m>P: S \to [0,1]</m> a density function. 
-      Then the set of random variables is just <m>\mathbb{R}^{S}</m>, is 
-      the set of labelings of <m>S</m> by real-values. In particular, 
-      the set of random variables is a vector space. There is a very 
-      important map called the <alert>Expectation</alert>, which is</p>
+      <p>Fix a probability space <m>S</m> and <m>P: S \to [0,1]</m> a density function. Then the set of random variables is just <m>\mathbb{R}^{S}</m>, the set of labelings of <m>S</m> be real-values. In particular, the set of random variables is a vector space. There is a very important map called the <alert>Expectation</alert>, which is</p>
       <me>\mathbb{E}[X] = \sum_{s \in S} X(s) P(s).</me>
 
       <lemma xml:id="lemma-linearity-expectation">
@@ -14,39 +10,17 @@
           <p>The function <m>\mathbb{E}: \mathbb{R}^{S} \to \mathbb{R}</m> is a linear transformation.</p>
         </statement>
         <proof>
-          <p>Let <m>X</m> and <m>Y</m> be random variables, and let <m>\lambda \in \mathbb{R}</m>. Then</p>
-          <me>\mathbb{E}[\lambda X] = \dots =\lambda \mathbb{E}[X],</me>
-          <p><fillin characters="72"/></p>
+          <p>Let <m>X</m> and <m>Y</m> be random variables, and let <m>a \in \mathbb{R}</m>. Then</p>
+          <me>\mathbb{E}[\lambda X] = \sum_{s\in S} \lambda X(s)P(s) = \lambda \sum_{s\in S}X(s)P(s)  =\lambda \mathbb{E}[X],</me>
           <p>and</p>
-          <me>\mathbb{E}[X + Y] = \dots =\mathbb{E}[X]+\mathbb{E}[Y].</me>
-          <p><fillin characters="72"/></p>
+          <md>
+            <mrow>\mathbb{E}[X + Y] &amp;= \sum_{s \in S} (X(s)+Y(s)) P(s)</mrow>
+            <mrow>&amp;= \sum_{s \in S} X(s)P(s) + \sum_{s \in S} Y(s) P(s)</mrow>
+            <mrow>&amp;=\mathbb{E}[X]+\mathbb{E}[Y].</mrow>
+          </md>
         </proof>
       </lemma>
 
-      <p>In fact, this extends more generally to infinite case using the same arguments but with infinite sums or more generally integrals. Expectation is one of the most useful linear transformations, and using linearity already buys you a lot.</p>
-
-      <!--
-      Inactive material from the original TeX source, converted to PreTeXt-style
-      markup and left commented out. Text and mathematical content are preserved
-      without correction.
-
-      <section xml:id="random-graphs">
-        <title>Random Graphs</title>
-
-        <p>One natural probability space is on graphs. Namely, we'll think of undirected graphs as just pairs of elements of a set of vertices <m>V</m>. Then the typical model you take is for each possible pair of vertices, you add an edge between them with probability <m>1/2</m>. Then you could ask, what's the expected number of edges?</p>
-
-        <p>The random variable here is <m>X: \{Graphs\} \to \mathbb{Z}</m> with <m>X(G)</m> equal to the number of edges of <m>G</m>. The probability space at first seems tricky to work with, but linearity of expectation helps us.</p>
-
-        <p>Let <m>X_{i,j}(G) = 1</m> if <m>i,j</m> is an edge and <m>0</m> otherwise. Then we can represent <m>X(G)</m> in the span of <m>X_{i,j}</m>. In particular,</p>
-        <me>X(G) = \sum_{1 \leq i &lt; j \leq n} X_{i,j}(G).</me>
-        <p>That is the total number of edges is the sum of <m>1</m> for each edge that is used.</p>
-
-        <p>Now linearity of expectation helps us. Note that <m>\mathbb{E}[X_{i,j}(G)] = 1/2</m>, since an edge appears with probability <m>1/2</m>. We have</p>
-        <me>\mathbb{E}[X(G)] = \sum_{1 \leq i &lt; j \leq n} \mathbb{E}[X_{i,j}(G)] = \binom{n}{2}\frac{1}{2} = \frac{n(n-1)}{4}.</me>
-        <p>If each edge appears with probability <m>1/2</m>, you expect to get about half of the possible edges, which is a lot of edges. More generally, if it is with probability <m>p</m>, you expect about a <m>p</m> proportion of the edges.</p>
-
-        <p>This is a key combination of two linear algebra tools that is used all over the place when dealing with the probability. If you have a complicated random variable, you can decompose it into simpler random variables you know how to deal with. In our case, they are basis elements.</p>
-      </section>
-      -->
+      <p>In fact, this extends more generally to infinite case using the same arguments but with infinite sums or more generally integrals.  Expectation is one of the most useful linear transformations, and using linearity already buys you a lot.</p>
     </section>
 

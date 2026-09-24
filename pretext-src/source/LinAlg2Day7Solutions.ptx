@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pretext>
+  <docinfo>
+    <macros>
+      \newcommand{\E}{\mathbb{E}}
+    </macros>
+  </docinfo>
+  <article>
+    <title>Great Expectations</title>
+
+    <section xml:id="random-variables">
+      <title>Random Variables</title>
+
+      <p>A vector space of functions we care about are <alert>random variables</alert>, which are as Prof. Maresca likes to say, neither random nor variables. They are actually just functions <m>X: S \to \mathbb{R}</m> from some set <m>S</m> that has some probability space associated to it.</p>
+
+      <p>For example, the random variable could be the value on a <m>6</m>-sided die of a roll. Then <m>X(i) = i</m>.</p>
+
+      <p>The magic is that there is also a probability function <m>P: S \to \mathbb{R}</m> associated to the random variable telling you the probability of an outcome of the input to the random variable happening. For a die, we like to hope the probability function is just the constant function <m>P(i) = 1/6</m>. Probability functions satisfy the additional constraints that <m>\sum_{s \in S} P(s) = 1</m> and <m>P(s) \geq 0</m> for all <m>s \in S</m>.</p>
+    </section>
+
+    <section xml:id="great-expectations">
+      <title>Great Expectations</title>
+
+      <p>Fix a probability space <m>S</m> and <m>P: S \to [0,1]</m> a density function. Then the set of random variables is just <m>\mathbb{R}^{S}</m>, the set of labelings of <m>S</m> be real-values. In particular, the set of random variables is a vector space. There is a very important map called the <alert>Expectation</alert>, which is</p>
+      <me>\mathbb{E}[X] = \sum_{s \in S} X(s) P(s).</me>
+
+      <lemma xml:id="lemma-linearity-expectation">
+        <title>Linearity of Expectation</title>
+        <statement>
+          <p>The function <m>\mathbb{E}: \mathbb{R}^{S} \to \mathbb{R}</m> is a linear transformation.</p>
+        </statement>
+        <proof>
+          <p>Let <m>X</m> and <m>Y</m> be random variables, and let <m>a \in \mathbb{R}</m>. Then</p>
+          <me>\E[\lambda X] = \sum_{s\in S} \lambda X(s)P(s) = \lambda \sum_{s\in S}X(s)P(s)  =\lambda \E[X],</me>
+          <p>and</p>
+          <md>
+            <mrow>\E[X + Y] &amp;= \sum_{s \in S} (X(s)+Y(s)) P(s)</mrow>
+            <mrow>&amp;= \sum_{s \in S} X(s)P(s) + \sum_{s \in S} Y(s) P(s)</mrow>
+            <mrow>&amp;=\E[X]+\E[Y].</mrow>
+          </md>
+        </proof>
+      </lemma>
+
+      <p>In fact, this extends more generally to infinite case using the same arguments but with infinite sums or more generally integrals.  Expectation is one of the most useful linear transformations, and using linearity already buys you a lot.</p>
+    </section>
+
+    <section xml:id="flipping-coins">
+      <title>Flipping Coins</title>
+
+      <p>Here is a common quant interview style question. Suppose you flip a coin until you get heads. How many flips do you expect this to take?</p>
+
+      <p>Here the random variable is <m>X(s)</m> is the number of flips it takes to get heads. The probability space is infinite. Here we want essentially,</p>
+      <me>\sum_{i=1}^{\infty} i P(\text{First Heads after }i\text{ flips}).</me>
+      <p>You could compute this directly, or we could use linearity of expectation. You can compute this directly as an infinite series.</p>
+
+      <exercise xml:id="exercise-first-heads-probability">
+        <statement>
+          <p>Explain why the probability of the first heads appearing after <m>i</m> flips is <m>1/2^{i}</m>.</p>
+        </statement>
+      </exercise>
+
+      <p>Using the result of the exercise, you get the expectation</p>
+      <me>\sum_{i=1}^{\infty} i (1/2)^{i},</me>
+      <p>and then you could use calculus tricks to compute it. But maybe you're looking at that and don't remember what a so-called “calculus” is. Instead you think there must be some better way. Indeed there is.</p>
+
+      <theorem xml:id="theorem-first-heads-expectation">
+        <statement>
+          <p>The expected number of flips until reaching a first heads is <m>2</m>.</p>
+        </statement>
+        <proof>
+          <p>You can split <m>X</m> into two random variables. Let <m>Y</m> be a variable that is <m>1</m> is you flip heads first and <m>0</m> otherwise. Let <m>Z</m> be a random variable that is <m>0</m> if you flip heads first and the number of flips until you reached your first heads otherwise.</p>
+
+          <p><alert>Claim 1</alert>: <m>X = Y + Z</m>. The informal way to explain this is that <m>X</m> is the amount of time you wait until your first heads. If your first flip is a heads, <m>X = 1</m>, <m>Y = 1</m>, and <m>Z = 0</m> by definition. Hence, <m>X = Y + Z</m>. Otherwise, <m>X</m> is still the number of flips until the first heads, <m>Y = 0</m>, and <m>Z</m> is the number of flips until the first heads. Thus, <m>X = Y + Z</m> in both cases. Please feel free to use this kind of informal reasoning on the exercises.</p>
+
+          <p><alert>Claim 2:</alert> <m>\mathbb{E}[Y] = 1/2</m>. This is direct, <m>Y = 1</m> if the first flip is tails, which happens with probability <m>1/2</m>. It is <m>0</m> otherwise, so the expected value is <m>1(1/2) + 0 = 1/2</m>.</p>
+
+          <p><alert>Claim 3:</alert> <m>\mathbb{E}[Z] = 1/2(\mathbb{E}[X]+1)</m>. Note that <m>Z</m> is only nonzero with probability <m>1/2</m>. If <m>Z</m> is nonzero, the first flip is tails, and <m>Z</m> is the amount of time until reaching heads. The first flip being tails gives no information other than a flip has already occur. Thus, the expected amount of time after making the first flip until reaching heads is <m>\E[X]</m>. The expected overall number of flips is <m>\mathbb{E}[X]+1</m>. Since this case only arises with probability <m>1/2</m>, we obtain</p>
+          <me>\mathbb{E}[Z] = 1/2(\mathbb{E}[X]+1).</me>
+
+          <p>Finally, then putting this together,</p>
+          <md>
+            <mrow>\E[X] &amp;= \E[Y + Z]</mrow>
+            <mrow>&amp;= \E[Y] + \E[Z]</mrow>
+            <mrow>&amp;= 1/2 + 1/2(\E[X] +1).</mrow>
+          </md>
+          <p>By subtract <m>1/2\E[X]</m> on both sides, this yields</p>
+          <me>\E[X]/2 = 1/2 + 1/2 = 1,</me>
+          <p>so <m>\E[X] = 2</m>.</p>
+        </proof>
+      </theorem>
+
+      <p>While it requires some thought, it is much easier to calculate and a better proof strategy to use this approach.</p>
+    </section>
+
+    <section xml:id="exercises">
+      <title>Exercises</title>
+
+      <exercise xml:id="exercise-first-tails">
+        <statement>
+          <p>Find the expected number of coin flips until reaching the first tails.</p>
+        </statement>
+        <solution>
+          <p>This is the same as for heads.</p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="exercise-consecutive-heads">
+        <statement>
+          <p>Find the expected number of coin flips until reaching the first consecutive pair of heads.</p>
+        </statement>
+        <solution>
+          <p>The result is <m>6</m>. We define four random variables. We let <m>W</m> be the number of flips until having the first consecutive pair of heads.</p>
+
+          <p>We let <m>X</m> be the random variable that is the number of flips until reaching the first consecutive pair of heads if the first flip is tails and <m>0</m> otherwise.</p>
+
+          <p>We let <m>Y</m> be the random variable that is <m>2</m> if the first two flips are heads and <m>0</m> otherwise.</p>
+
+          <p>We let <m>Z</m> be the random variable that is the number of flips until reaching the first two consecutive heads assuming the first two flips are HT.</p>
+
+          <p>Then, by construction, <m>W = X+ Y+Z</m>, because <m>X</m>, <m>Y</m>, and <m>Z</m> are only nonzero at disjoint times covering all of the cases. If the first flip is tails, by definition, only <m>X</m> is nonzero and gives the amount of time until the first two flips occurs which is <m>W</m>. Otherwise, the first flip is heads and there are two cases. If the second flip, is also heads, <m>W = Y</m> and the other variables are <m>0</m>. Otherwise, the second flip is tails, and we are in the <m>Z</m> case.</p>
+
+          <p>Therefore, <m>W = X+Y+Z</m>. Thus, we want to compute the expectations of each of these.</p>
+
+          <p>For <m>X</m>, this case occurs with probability <m>1/2</m>, since we know the start is tails. Then a flip has already occurred, but no other information is known. Thus, we get</p>
+          <me>\E[X] = 1/2(\E[W] + 1).</me>
+
+          <p>For <m>Y</m>, this case occurs with probability <m>1/4</m>, and we know for sure the out come is <m>2</m> flips, since the first two flips are heads. Thus,</p>
+          <me>\E[Y] = 1/4(2) = 1/2.</me>
+
+          <p>For <m>Z</m>, this case occurs with probability <m>1/4</m>. There are two initial flips, and otherwise, no information is gained. Thus, the resulting relation is</p>
+          <me>\E[Z] = 1/4(\E[W] + 2).</me>
+          <p>Then finally,</p>
+          <md>
+            <mrow>\E[W] &amp;= \E[X+Y+Z]</mrow>
+            <mrow>&amp;= \E[X] + \E[Y] + \E[Z]</mrow>
+            <mrow>&amp;= 1/2(\E[W] +1) + 1/2 + 1/4(\E[W] + 2)</mrow>
+            <mrow>&amp;= 3/4\E[W] + 1/2 + 1/2 + 1/2</mrow>
+            <mrow>&amp;= 3/4\E[W] + 3/2</mrow>
+          </md>
+          <p>Therefore, by subtracting <m>3/4 \E[W]</m> on both sides we get</p>
+          <me>\E[W]/4 = 3/2,</me>
+          <p>so <m>\E[W] = 6</m>. This coincides with what we saw in the simulations.</p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="exercise-heads-then-tails">
+        <statement>
+          <p>Find the expected number of coin flips until you have a consecutive heads and then tails.</p>
+        </statement>
+      </exercise>
+
+      <p>I'm purposefully not giving a solution to this one.</p>
+    </section>
+  </article>
+</pretext>

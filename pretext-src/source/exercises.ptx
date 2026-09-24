@@ -1,110 +1,60 @@
 <section xml:id="exercises">
 
-<subsection>
-      <title>Isomorphism</title>
+     <title>Exercises</title>
 
-      <p>This is an important fact that we have used implicitly in class that I want you to work through explicitly as an exercise:</p>
-
-      <exercise>
+      <exercise xml:id="exercise-first-tails">
         <statement>
-          <p>Let <m>S \subseteq V</m> be a linearly independent subset of a vector space. Then <m>S</m> is a basis for <m>\text{span}(S)</m>.</p>
+          <p>Find the expected number of coin flips until reaching the first tails.</p>
+        </statement>
+        <solution>
+          <p>This is the same as for heads.</p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="exercise-consecutive-heads">
+        <statement>
+          <p>Find the expected number of coin flips until reaching the first consecutive pair of heads.</p>
+        </statement>
+        <solution>
+          <p>The result is <m>6</m>. We define four random variables. We let <m>W</m> be the number of flips until having the first consecutive pair of heads.</p>
+
+          <p>We let <m>X</m> be the random variable that is the number of flips until reaching the first consecutive pair of heads if the first flip is tails and <m>0</m> otherwise.</p>
+
+          <p>We let <m>Y</m> be the random variable that is <m>2</m> if the first two flips are heads and <m>0</m> otherwise.</p>
+
+          <p>We let <m>Z</m> be the random variable that is the number of flips until reaching the first two consecutive heads assuming the first two flips are HT.</p>
+
+          <p>Then, by construction, <m>W = X+ Y+Z</m>, because <m>X</m>, <m>Y</m>, and <m>Z</m> are only nonzero at disjoint times covering all of the cases. If the first flip is tails, by definition, only <m>X</m> is nonzero and gives the amount of time until the first two flips occurs which is <m>W</m>. Otherwise, the first flip is heads and there are two cases. If the second flip, is also heads, <m>W = Y</m> and the other variables are <m>0</m>. Otherwise, the second flip is tails, and we are in the <m>Z</m> case.</p>
+
+          <p>Therefore, <m>W = X+Y+Z</m>. Thus, we want to compute the expectations of each of these.</p>
+
+          <p>For <m>X</m>, this case occurs with probability <m>1/2</m>, since we know the start is tails. Then a flip has already occurred, but no other information is known. Thus, we get</p>
+          <me>\mathbb{E}[X] = 1/2(\mathbb{E}[W] + 1).</me>
+
+          <p>For <m>Y</m>, this case occurs with probability <m>1/4</m>, and we know for sure the out come is <m>2</m> flips, since the first two flips are heads. Thus,</p>
+          <me>\mathbb{E}[Y] = 1/4(2) = 1/2.</me>
+
+          <p>For <m>Z</m>, this case occurs with probability <m>1/4</m>. There are two initial flips, and otherwise, no information is gained. Thus, the resulting relation is</p>
+          <me>\mathbb{E}[Z] = 1/4(\mathbb{E}[W] + 2).</me>
+          <p>Then finally,</p>
+          <md>
+            <mrow>\mathbb{E}[W] &amp;= \mathbb{E}[X+Y+Z]</mrow>
+            <mrow>&amp;= \mathbb{E}[X] + \mathbb{E}[Y] + \mathbb{E}[Z]</mrow>
+            <mrow>&amp;= 1/2(\mathbb{E}[W] +1) + 1/2 + 1/4(\mathbb{E}[W] + 2)</mrow>
+            <mrow>&amp;= 3/4\mathbb{E}[W] + 1/2 + 1/2 + 1/2</mrow>
+            <mrow>&amp;= 3/4\mathbb{E}[W] + 3/2</mrow>
+          </md>
+          <p>Therefore, by subtracting <m>3/4 \mathbb{E}[W]</m> on both sides we get</p>
+          <me>\mathbb{E}[W]/4 = 3/2,</me>
+          <p>so <m>\mathbb{E}[W] = 6</m>. This coincides with what we saw in the simulations.</p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="exercise-heads-then-tails">
+        <statement>
+          <p>Find the expected number of coin flips until you have a consecutive heads and then tails.</p>
         </statement>
       </exercise>
 
-      <proof>
-        <p><!-- Intentionally empty in the LaTeX source. --></p>
-      </proof>
-
-      <exercise>
-        <statement>
-          <p>Let <m>T: U \to V</m> be a linear transformation. Let <m>B</m> be a basis for <m>U</m>. Suppose that <m>\ker(T) = \{\vec{0}\}</m>. 
-          Show that <m>T(B) = \{T(\vec{v}): \vec{v} \in B\}</m> is a basis for <m>\text{Im}(T)</m>.</p>
-        </statement>
-      </exercise>
-
-      <proof>
-        <p><!-- Intentionally empty in the LaTeX source. --></p>
-      </proof>
-
-      <p>We call a linear transformation an <term>isomorphism</term> if it is also a bijection. That is, if it is both one-to-one and onto.</p>
-
-      <exercise>
-        <statement>
-          <p>Let <m>U</m> and <m>V</m> be finite dimensional vector spaces of the same dimension. Then let <m>T: U \to V</m>. 
-          Show that if <m>\text{rank}(T) = \text{dim}(U)</m>, then <m>T</m> is a linear isomorphism.</p>
-        </statement>
-      </exercise>
-
-      <proof>
-        <p><!-- Intentionally empty in the LaTeX source. --></p>
-      </proof>
-    </subsection>
-
-    <subsection>
-      <title>Unexpected Values</title>
-
-      <!--
-      Commented out in the LaTeX source:
-      An investors puts money into three stocks with expected returns on the first of a hundred dollars, the second of two hundred dollars, and the third of a loss of one hundred and fifty dollars. How much should they expect their overall on return on investment to be?
-      -->
-
-      <exercise>
-        <statement>
-          <p>What is the expected number of rolls of a six-sided die until you roll your first <m>6</m>?</p>
-        </statement>
-      </exercise>
-
-      <proof>
-        <p><!-- Intentionally empty in the LaTeX source. --></p>
-      </proof>
-
-      <exercise>
-        <title>Expected profit from repeated investor pitches</title>
-        <introduction>
-          <p>An entrepreneur repeatedly pitches a business idea to potential investors. Each pitch is successful with probability 
-          <m>1/5</m> independently of all previous pitches. The entrepreneur stops pitching as soon as the first successful pitch occurs.
-           Each pitch costs $200 to prepare and deliver. If a pitch is successful, the entrepreneur receives $8,000 in funding. 
-           Let <m>N</m> be the random variable denoting the total number of pitches made, including the successful pitch.</p>
-        </introduction>
-        <task>
-          <statement>
-            <p>Find <m>\mathbb{E}[N]</m>.</p>
-          </statement>
-        </task>
-        <task>
-          <statement>
-            <p>Let <m>Y</m> be the random variable denoting the entrepreneur's net profit after the first successful pitch. Express <m>Y</m> in terms of <m>N</m>.</p>
-          </statement>
-        </task>
-        <task>
-          <statement>
-            <p>Compute <m>\mathbb{E}[Y]</m>.</p>
-          </statement>
-        </task>
-        <task>
-          <statement>
-            <p>Suppose instead that each pitch costs $1,000. Compute the entrepreneur's expected net profit.</p>
-          </statement>
-        </task>
-        <task>
-          <statement>
-            <p>More generally, suppose each pitch costs $<m>c</m>. Find the value of <m>c</m> for which the entrepreneur's expected net profit is exactly zero.</p>
-          </statement>
-        </task>
-      </exercise>
-
-      <proof>
-        <p><!-- Intentionally empty in the LaTeX source. --></p>
-      </proof>
-
-      <exercise>
-        <statement>
-          <p>Subdivide a circle of radius <m>R</m> centered at <m>(0,0)</m> into cells. Suppose that the expected length of the intersection of any line through <m>(0,0)</m> with any given cell is at least <m>L</m>. Show that the expected total number of cells intersected by a ray emanating from <m>(0,0)</m> is at most <m>2R/L</m>.</p>
-        </statement>
-      </exercise>
-
-      <proof>
-        <p><!-- Intentionally empty in the LaTeX source. --></p>
-      </proof>
-    </subsection>
-</section>
+      <p>I'm purposefully not giving a solution to this one.</p>
+    </section>

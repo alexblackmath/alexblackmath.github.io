@@ -1,21 +1,16 @@
  <section xml:id="Section-2">
-      <title>Flipping Coins</title>
+<title>Flipping Coins</title>
 
       <p>Here is a common quant interview style question. Suppose you flip a coin until you get heads. How many flips do you expect this to take?</p>
 
-      <p>Here the random variable is <m>X</m>, where <m>X(s)</m> is the
-       number of flips it takes to get heads. The probability space is
-        infinite. Here we want essentially,</p>
+      <p>Here the random variable is <m>X(s)</m> is the number of flips it takes to get heads. The probability space is infinite. Here we want essentially,</p>
       <me>\sum_{i=1}^{\infty} i P(\text{First Heads after }i\text{ flips}).</me>
-      
-      <p> To be clear, the after <m>i</m> flips means that the first <m>i-1</m> 
-      flips were tails and the <m>i</m>-th flip was heads.
-      You could compute this directly, or we could use linearity 
-      of expectation. You can compute this directly as an infinite series.</p>
+      <p>You could compute this directly, or we could use linearity of expectation. You can compute this directly as an infinite series.</p>
 
       <exercise xml:id="exercise-first-heads-probability">
-        <p>Explain why the probability of the first heads appearing after <m>i</m> flips is <m>1/2^{i}</m>.</p>
-        <p><fillin characters="72"/></p>
+        <statement>
+          <p>Explain why the probability of the first heads appearing after <m>i</m> flips is <m>1/2^{i}</m>.</p>
+        </statement>
       </exercise>
 
       <p>Using the result of the exercise, you get the expectation</p>
@@ -27,17 +22,26 @@
           <p>The expected number of flips until reaching a first heads is <m>2</m>.</p>
         </statement>
         <proof>
-          <p>You can split <m>X</m> into two random variables. Let <m>Y</m> be a variable that is
-           <m>1</m> if you flip heads first and <m>0</m> otherwise. Let <m>Z</m> be a random variable that is <m>0</m> if you flip heads first and the number of flips until you reached your first heads otherwise.</p>
+          <p>You can split <m>X</m> into two random variables. Let <m>Y</m> be a variable that is <m>1</m> is you flip heads first and <m>0</m> otherwise. Let <m>Z</m> be a random variable that is <m>0</m> if you flip heads first and the number of flips until you reached your first heads otherwise.</p>
 
-          <p><alert>Claim 1</alert>: <m>X = Y + Z</m>.</p>
-          <p><fillin characters="72"/></p>
+          <p><alert>Claim 1</alert>: <m>X = Y + Z</m>. The informal way to explain this is that <m>X</m> is the amount of time you wait until your first heads. If your first flip is a heads, <m>X = 1</m>, <m>Y = 1</m>, and <m>Z = 0</m> by definition. Hence, <m>X = Y + Z</m>. Otherwise, <m>X</m> is still the number of flips until the first heads, <m>Y = 0</m>, and <m>Z</m> is the number of flips until the first heads. Thus, <m>X = Y + Z</m> in both cases. Please feel free to use this kind of informal reasoning on the exercises.</p>
 
-          <p><alert>Claim 2:</alert> <m>\mathbb{E}[Y] = 1/2</m></p>
-          <p><fillin characters="72"/></p>
+          <p><alert>Claim 2:</alert> <m>\mathbb{E}[Y] = 1/2</m>. This is direct, <m>Y = 1</m> if the first flip is heads, which happens with probability <m>1/2</m>. It is <m>0</m> otherwise, so the expected value is <m>1(1/2) + 0 = 1/2</m>.</p>
 
-          <p><alert>Claim 3:</alert> <m>\mathbb{E}[Z] = 1/2(\mathbb{E}[X]+1)</m>.</p>
-          <p><fillin characters="72"/></p>
+          <p><alert>Claim 3:</alert> <m>\mathbb{E}[Z] = 1/2(\mathbb{E}[X]+1)</m>. Note that <m>Z</m> is only nonzero with probability <m>1/2</m>. If <m>Z</m> is nonzero, the first flip is tails, and <m>Z</m> is the amount of time until reaching heads. The first flip being tails gives no information other than a flip has already occur. Thus, the expected amount of time after making the first flip until reaching heads is <m>\mathbb{E}[X]</m>. The expected overall number of flips is <m>\mathbb{E}[X]+1</m>. Since this case only arises with probability <m>1/2</m>, we obtain</p>
+          <me>\mathbb{E}[Z] = 1/2(\mathbb{E}[X]+1).</me>
+
+          <p>Finally, then putting this together,</p>
+          <md>
+            <mrow>\mathbb{E}[X] &amp;= \mathbb{E}[Y + Z]</mrow>
+            <mrow>&amp;= \mathbb{E}[Y] + \mathbb{E}[Z]</mrow>
+            <mrow>&amp;= 1/2 + 1/2(\mathbb{E}[X] +1).</mrow>
+          </md>
+          <p>By subtract <m>1/2\mathbb{E}[X]</m> on both sides, this yields</p>
+          <me>\mathbb{E}[X]/2 = 1/2 + 1/2 = 1,</me>
+          <p>so <m>\mathbb{E}[X] = 2</m>.</p>
         </proof>
       </theorem>
+
+      <p>While it requires some thought, it is much easier to calculate and a better proof strategy to use this approach.</p>
     </section>
