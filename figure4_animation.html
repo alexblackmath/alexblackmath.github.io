@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Figure 4 — From one ray to every direction</title>
+<meta name="description" content="An original code-driven SVG animation of Figure 4 in Black and Xue: one ray, a cone of rays, three linear transformations, nesting, and a red/blue regular triangulation.">
+<style>
+:root{color-scheme:dark;--bg:#080e1a;--line:#263449;--ink:#edf2fa;--muted:#96a7bf;--gold:#f0ca78;--blue:#5dacff}
+*{box-sizing:border-box}body{margin:0;background:#050a13;color:var(--ink);font:14px/1.5 Inter,Arial,sans-serif;min-height:100vh}
+#player{width:min(100%,calc((100dvh - 136px)*16/9));min-width:300px;margin:18px auto 0;transition:width .2s}
+#screen{width:100%;aspect-ratio:16/9;background:var(--bg);overflow:hidden;box-shadow:0 12px 72px #0006;border:1px solid #1b2739;border-radius:6px}
+#screen>svg{display:block;width:100%;height:auto}
+.controls{padding:14px 4px 0;display:flex;gap:11px;align-items:center;flex-wrap:wrap}
+button,select{font:inherit;color:var(--ink);background:#111c2e;border:1px solid var(--line);border-radius:6px;padding:7px 12px;min-height:36px;cursor:pointer}
+button:hover,select:hover{border-color:#59708f;background:#17243a}button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+#play{min-width:72px;background:#27271f;border-color:#5d5237;color:var(--gold)}#seek{flex:1;min-width:160px;accent-color:var(--gold);cursor:pointer}#clock{font:12px/1.5 ui-monospace,monospace;color:var(--muted);min-width:99px;font-variant-numeric:tabular-nums}
+.loop{color:var(--muted);font-size:12px;display:flex;gap:5px;align-items:center}.loop input{accent-color:var(--gold)}
+.hint{padding:9px 4px 0;color:#667b97;font-size:11px;letter-spacing:.3px;display:flex;justify-content:space-between;gap:16px}
+details{margin:20px auto 30px;max-width:980px;padding:0 22px;color:var(--muted);font-size:13px}summary{cursor:pointer;color:#899db9}details h2{font-size:18px;color:var(--ink);font-weight:500}details p{max-width:900px}code{color:#c3d2e9}strong{color:#c2cee0;font-weight:500}
+#player:fullscreen{width:100%;height:100%;margin:0;padding:12px;background:#050a13;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#player:fullscreen #screen{width:min(100%,calc((100vh - 105px)*16/9))}#player:fullscreen .controls,#player:fullscreen .hint{width:min(100%,calc((100vh - 105px)*16/9))}
+@media(max-width:1050px){#player{width:100%;margin:0}.controls{padding:12px}#screen{border-radius:0}.hint{padding:0 12px}.minor{display:none}#seek{order:10;flex-basis:100%}details{margin-top:16px}}
+</style></head><body>
+<section id="player" aria-label="Vector animation player">
+<div id="screen"></div>
+<div class="controls" role="group" aria-label="Playback controls">
+<button id="play">Pause</button><button id="replay" title="Restart from the beginning">Replay</button>
+<span id="clock">00:00 / 01:36</span><input id="seek" type="range" min="0" max="96" step="0.01" value="0" aria-label="Animation timeline">
+<select id="speed" aria-label="Playback speed"><option value=".5">0.5× speed</option><option value=".75">0.75× speed</option><option value="1" selected>1× speed</option><option value="1.5">1.5× speed</option><option value="2">2× speed</option></select>
+<select id="chapter" aria-label="Jump to a chapter"><option selected disabled>Jump to…</option><option value="0">One ray</option><option value="5">Open the cone</option><option value="16">First transformation</option><option value="24">Second transformation</option><option value="32">Third transformation</option><option value="40">All directions</option><option value="45">Shrink and insert</option><option value="58">Innermost copy</option><option value="64">Triangulate + zoom out</option><option value="80">Outer annulus</option><option value="92">Final construction</option></select>
+<button id="export" title="Save this moment as a fully editable static SVG">Save SVG frame</button>
+<button id="fullscreen" class="minor">Fullscreen</button><label class="loop minor"><input id="loop" type="checkbox">Loop</label>
+</div>
+<div class="hint"><span>Space: play / pause · ← →: move 5 seconds · Home / End: first / last frame</span><span class="minor">96 seconds · live SVG · no external assets</span></div>
+</section>
+<details><summary>About the geometry and the source</summary>
+<h2>Figure 4, animated</h2>
+<p>Based on <em>Any Proof of Polynomial Hirsch Must Be Completely Incoherent</em>, Alexander E. Black and Lei Xue, Figure 4 on page 17. The opening follows the three triangular cells in the figure; the extension to three nested copies follows the construction in Lemmas 3.10–3.13 and Theorem 3.14.</p>
+<p>The paper’s figure is schematic. The coordinates and the particular triangulation here are chosen for this animation; this is not a numerical reconstruction of the high-dimensional example. Every drawing is a horizontal slice <strong>H = {z = 1}</strong> of a normal-fan picture, and the marked point represents <strong>e₃</strong>.</p>
+<p>A narrow 42° cone is mapped to each of three 120° sectors. <strong>The union of the three cones covers the plane</strong>; no single proper cone is transformed into all of space. Each deformation uses continuous rotation and positive anisotropic scaling, so its matrix is invertible throughout. The entire fan and its rays are transformed together.</p>
+<p>The copies are nested by a strict homothety of approximately 0.068666 at each level. The blue connections are computed from a compatible <strong>regular triangulation</strong> (a lower convex hull of explicitly lifted vertices), not drawn arbitrarily. It has <strong>15 vertices, 21 original red edges, 16 new blue edges, and 23 triangles</strong>. The construction preserves every original edge, introduces no new vertices, has no crossings, and fills the outer support exactly. Its regular lifting and geometric checks are included in the source package.</p>
+<p>The animation is calculated continuously by JavaScript and drawn entirely as SVG paths, circles, gradients and text. It contains no generated images or baked frame sequence. The camera’s closing zoom is continuous in logarithmic scale. The final two magnified views show the smaller copies without altering their relative sizes in the main construction.</p>
+<p>Use <strong>Save SVG frame</strong> to save an editable vector snapshot at any time. This standalone player runs offline, without a server, web fonts, tracking, or third-party scripts.</p>
+</details>
+<script>const GEOMETRY={"seed":[[-0.5,-0.5],[0.5,-0.5],[1.5,-0.5],[0.0,0.5],[1.0,0.5]],"seedFaces":[[0,1,3],[1,4,3],[1,2,4]],"seedEdges":[[0,1],[1,2],[2,4],[4,3],[3,0],[3,1],[4,1]],"boundary":[0,1,2,4,3],"mu":4.0,"halfAngle":21.0,"sx":0.5355724968185146,"sy":2.416581630369729,"phis":[-90.0,150.0,30.0],"matrices":[[[-0.1685722130494215,2.4106949589751165],[-0.5342678691340442,-0.0373596488123962]],[[-0.37840344057115155,-1.2377018844355583],[0.41312175343998375,-2.069043250841338]],[[0.5469756536205731,-1.1729930745395576],[0.12114611569406034,2.1064028996537343]]],"copies":[[[-1.1210613729628476,0.2858137589732202],[-1.289633586012269,-0.24845411016082403],[-1.4582057990616906,-0.7827219792948683],[1.2053474794875583,-0.0186798244061981],[1.0367752664381369,-0.5529476935402423]],[[0.808052662503355,0.8279607487006772],[0.42964922193220334,1.2410825021406608],[0.051245781361051845,1.6542042555806447],[-0.6188509422177791,-1.034521625420669],[-0.9972543827889306,-0.6213998719806852]],[[0.31300871045949225,-1.1137745076738974],[0.8599843640800653,-0.992628391979837],[1.4069600177006385,-0.8714822762857766],[-0.5864965372697788,1.0532014498268671],[-0.039520883649205696,1.1743475655209274]]],"nestRatio":0.06866588773051097,"scales":[1.0,0.06866588773051097,0.004715004137819136],"vertices":[[-1.1210613729628476,0.2858137589732202],[-1.289633586012269,-0.24845411016082403],[-1.4582057990616906,-0.7827219792948683],[1.2053474794875583,-0.0186798244061981],[1.0367752664381369,-0.5529476935402423],[0.05548565340379584,0.0568526598155505],[0.029502245236698064,0.08522003175629225],[0.0035188370696002977,0.11358740369703402],[-0.04249394932024695,-0.07103634578592138],[-0.06847735748734472,-0.04266897384517962],[0.001475837364989938,-0.005251451412279898],[0.004054829835097267,-0.004680246975501687],[0.006633822305204596,-0.004109042538723477],[-0.0027653336000436025,0.004965849193890792],[-0.00018634112993627352,0.005537053630669002]],"heights":[0.0,0.0,2.0,0.0,1.0,-0.028945155601048156,-0.028945155601048156,-0.02882283986379429,-0.028945155601048156,-0.028883997732421222,-0.02894692582507179,-0.02894692582507179,-0.02894692528794429,-0.02894692582507179,-0.02894692555650804],"faces":[[9,0,1],[7,3,0],[9,7,0],[4,1,2],[4,3,1],[8,1,3],[9,1,8],[6,5,3],[5,8,3],[6,3,7],[14,5,6],[12,8,5],[14,12,5],[6,7,9],[6,9,8],[6,8,13],[14,6,13],[11,10,8],[13,8,10],[11,8,12],[11,13,10],[14,11,12],[14,13,11]],"oldEdges":[[0,1],[1,2],[2,4],[3,4],[0,3],[1,3],[1,4],[5,6],[6,7],[7,9],[8,9],[5,8],[6,8],[6,9],[10,11],[11,12],[12,14],[13,14],[10,13],[11,13],[11,14]],"newEdges":[[0,7],[0,9],[1,8],[1,9],[3,5],[3,6],[3,7],[3,8],[5,12],[5,14],[6,13],[6,14],[8,10],[8,11],[8,12],[8,13]],"ringEdges":[[[0,9],[1,9],[1,8],[3,8],[3,5],[3,6],[0,7],[3,7]],[[8,10],[8,11],[5,12],[8,12],[5,14],[6,14],[6,13],[8,13]]],"ringFaces":[[[9,0,1],[7,3,0],[9,7,0],[8,1,3],[9,1,8],[6,5,3],[5,8,3],[6,3,7]],[[14,5,6],[12,8,5],[14,12,5],[6,8,13],[14,6,13],[11,10,8],[13,8,10],[11,8,12]]],"audit":{"vertices":15,"oldEdges":21,"newEdges":16,"triangles":23,"minimumSampledRayCrossings":7,"testedDirections":3600,"areaError":0.0,"strictNesting":true,"originalEdgesPreserved":true,"edgeCrossings":0,"regularLowerHull":true},"refinementSteps":[{"copy":2,"depth":0.028945155601048156,"curvature":6.115786862693291e-05},{"copy":3,"depth":1.7702240236355803e-06,"curvature":2.68563751741908e-10}],"source":"Black and Xue, Any Proof of Polynomial Hirsch Must Be Completely Incoherent, Figure 4, page 17; Lemmas 3.10\u20133.13; Theorem 3.14.","note":"A 2D schematic with chosen coordinates and a compatible regular triangulation; not an explicit high-dimensional counterexample."};</script>
+<script>/* Figure 4: a continuous, resolution-independent SVG film.
+ * No image assets, frame sequences, external libraries, or font files.
+ * Every frame is evaluated analytically at time t (seconds).
+ * Works in a browser and in Node.js. See build_geometry.py for the geometry.
+ */
+(function (root) {
+  'use strict';
+  function createFilm(G) {
+    const W=1920,H=1080,DURATION=96;
+    const C={bg:'#080E1A',panel:'#0D1626',red:'#FF6075',blue:'#5DACFF',gold:'#F0CA78',white:'#F1F4FA',muted:'#A7B4C8',dim:'#607189',grid:'#9BB2D0'};
+    const FONT='Inter, Arial, sans-serif';
+    const MATH='Georgia, DejaVu Serif, serif';
+    const subs=['₁','₂','₃'];
+    const q=G.nestRatio, finalScale=410, innerScale=210/(q*q);
+    const bounds=[[62,650],[667,1253],[1270,1858]];
+    const pivots=[[345,555],[960,555],[1565,555]];
+    const stages=[
+      {at:0,title:'One ray. Three crossings.',sub:'Start with a ray from e₃ through three cells of the normal-fan slice.'},
+      {at:5,title:'Open a cone of rays.',sub:'A whole neighborhood of directions keeps the same three intersections.'},
+      {at:12,title:'Make three copies.',sub:'Keep the incidence pattern. Change the directions by invertible linear maps.'},
+      {at:16,title:'Transform the first copy.',sub:'Rotate and stretch the ray cone to a 120° sector. Transform the entire fan with it.'},
+      {at:24,title:'Transform the second copy.',sub:'A second invertible map moves the same crossing pattern into the next sector.'},
+      {at:32,title:'Transform the third copy.',sub:'The last 120° sector completes the cover of direction space.'},
+      {at:40,title:'Three cones cover the plane.',sub:'C₁ ∪ C₂ ∪ C₃ = ℝ². Together—not individually—the cones cover every direction.'},
+      {at:45,title:'Shrink. Insert. Repeat.',sub:'Place each smaller support strictly inside the previous copy’s cell containing e₃.'},
+      {at:53,title:'Travel to the common center.',sub:'All three copies share e₃. Move in close before revealing the nested refinement.'},
+      {at:58,title:'Start at the innermost copy.',sub:'The original geometry remains red. New connecting edges will appear in blue.'},
+      {at:64,title:'Triangulate the inner annulus.',sub:'Join Q₃ to the surrounding cell of Q₂, without crossing or replacing old edges.'},
+      {at:76,title:'Reveal the next scale.',sub:'The camera pulls back continuously. The same three-cell pattern reappears in Q₂.'},
+      {at:80,title:'Triangulate the outer annulus.',sub:'Join the nested construction to Q₁. No new vertices are needed.'},
+      {at:90,title:'Every direction. One refinement.',sub:'Three nested copies, joined into one compatible regular triangulation.'}
+    ];
+    const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+    const mix=(a,b,p)=>a+(b-a)*p;
+    const lin=(t,a,b)=>clamp((t-a)/(b-a));
+    const ease=p=>{p=clamp(p);return p*p*p*(p*(p*6-15)+10);};
+    const tween=(t,a,b)=>ease(lin(t,a,b));
+    const sine=p=>.5-.5*Math.cos(Math.PI*clamp(p));
+    const logmix=(a,b,p)=>Math.exp(mix(Math.log(a),Math.log(b),p));
+    const rad=d=>d*Math.PI/180;
+    const fmt=n=>(Math.abs(n)<.0005?0:n).toFixed(3);
+    const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+    const xy=p=>`${fmt(p[0])},${fmt(p[1])}`;
+    const add=(a,b)=>[a[0]+b[0],a[1]+b[1]];
+    const mul=(a,s)=>[a[0]*s,a[1]*s];
+    const length=a=>Math.hypot(a[0],a[1]);
+    const rot=(a,p)=>{let c=Math.cos(a),s=Math.sin(a);return[c*p[0]-s*p[1],s*p[0]+c*p[1]];};
+    const unit=a=>[Math.cos(a),Math.sin(a)];
+    const project=(p,o,s)=>[o[0]+p[0]*s,o[1]-p[1]*s];
+    const poly=(p,attrs='')=>`<path d="M${p.map(xy).join('L')}Z" ${attrs}/>`;
+    const segment=(a,b,attrs='')=>`<path d="M${xy(a)}L${xy(b)}" fill="none" ${attrs}/>`;
+    const text=(x,y,s,size=18,color=C.white,extra='')=>`<text x="${fmt(x)}" y="${fmt(y)}" fill="${color}" font-family="${FONT}" font-size="${size}" ${extra}>${esc(s)}</text>`;
+    const circle=(p,r,attrs='')=>`<circle cx="${fmt(p[0])}" cy="${fmt(p[1])}" r="${fmt(r)}" ${attrs}/>`;
+    const op=x=>`opacity="${fmt(clamp(x))}"`;
+    function arrow(a,b,color=C.gold,width=1.7,size=9,opacity=1){
+      const dx=b[0]-a[0],dy=b[1]-a[1],d=Math.hypot(dx,dy)||1;
+      const ux=dx/d,uy=dy/d, p=[b[0]-size*ux,b[1]-size*uy];
+      return `<path d="M${xy([p[0]+size*.43*uy,p[1]-size*.43*ux])}L${xy(b)}L${xy([p[0]-size*.43*uy,p[1]+size*.43*ux])}" fill="none" stroke="${color}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round" ${op(opacity)}/>`;
+    }
+    function arc(o,r,a,b,attrs=''){
+      const p=project(unit(a),o,r),end=project(unit(b),o,r);
+      return `<path d="M${xy(p)}A${r},${r} 0 ${b-a>Math.PI?1:0} 0 ${xy(end)}" fill="none" ${attrs}/>`;
+    }
+    function sector(o,r,a,b,attrs=''){
+      if(b-a<1e-7)return '';
+      const p=project(unit(a),o,r),end=project(unit(b),o,r);
+      return `<path d="M${xy(o)}L${xy(p)}A${r},${r} 0 ${b-a>Math.PI?1:0} 0 ${xy(end)}Z" ${attrs}/>`;
+    }
+    // Polar interpolation: rotation + positive diagonal scaling. It cannot
+    // pass through a singular matrix, unlike a naive (1-t)I+tS interpolation.
+    function transform(p,j,u){
+      const aligned=rot(rad(-G.mu),p);
+      const scaled=[aligned[0]*Math.pow(G.sx,u),aligned[1]*Math.pow(G.sy,u)];
+      // Rotation angles follow a continuous chosen path, including Q₂'s turn.
+      return rot(rad(G.mu+(G.phis[j]-G.mu)*u),scaled);
+    }
+    const mapProgress=(t,j)=>tween(t,16+8*j,24+8*j);
+    function worldPoints(t,j){return G.seed.map(p=>transform(p,j,mapProgress(t,j)));}
+    function getAngles(t,j,spread=1){
+      const u=mapProgress(t,j);
+      const p=transform(unit(rad((G.mu-G.halfAngle)*spread)),j,u);
+      const r=transform(unit(rad((G.mu+G.halfAngle)*spread)),j,u);
+      let a=Math.atan2(p[1],p[0]),b=Math.atan2(r[1],r[0]);
+      while(b<a)b+=2*Math.PI;
+      return[a,b];
+    }
+    function origin(o,r=4,label=true,opacity=1){
+      let s=`<g ${op(opacity)}>`;
+      s+=circle(o,r*5,`fill="${C.gold}" opacity=".035"`);
+      s+=circle(o,r*2.6,`fill="${C.gold}" opacity=".10"`);
+      s+=circle(o,r,`fill="${C.white}" stroke="${C.bg}" stroke-width="${Math.min(1.7,r*.5)}"`);
+      if(label){s+=text(o[0]-17,o[1]-17,'e₃',22,C.white,`font-style="italic" text-anchor="end" paint-order="stroke" stroke="${C.bg}" stroke-width="6" stroke-linejoin="round"`);}
+      return s+'</g>';
+    }
+    function seedDrawing(points,o,s,{labels=true,opacity=1,drawProgress=1,originLabel=true}={}){
+      const p=points.map(v=>project(v,o,s));
+      let out=`<g ${op(opacity)}>`;
+      for(let k=0;k<3;k++){
+        out+=poly(G.seedFaces[k].map(i=>p[i]),`fill="${C.red}" opacity="${[.045,.075,.115][k]}"`);
+      }
+      const edgeWidth=clamp(s/130,1.5,2.8);
+      for(let k=0;k<G.seedEdges.length;k++){
+        const [a,b]=G.seedEdges[k];
+        let pr=clamp(drawProgress*1.8-k*.075);
+        const end=add(p[a],mul([p[b][0]-p[a][0],p[b][1]-p[a][1]],pr));
+        out+=segment(p[a],end,`stroke="${C.red}" stroke-width="${edgeWidth+5}" opacity=".045"`);
+        out+=segment(p[a],end,`stroke="${C.red}" stroke-width="${edgeWidth}" stroke-linejoin="round" stroke-linecap="round"`);
+      }
+      for(const a of p)out+=circle(a,2.4,`fill="${C.red}"`);
+      if(labels){
+        for(let k=0;k<3;k++){
+          let c=[0,0];for(let i of G.seedFaces[k])c=add(c,mul(p[i],1/3));
+          if(k===0){const d=[c[0]-o[0],c[1]-o[1]],mag=length(d)||1;c=add(c,mul(d,18/mag));}
+          out+=text(c[0],c[1]+5,'N'+subs[k],19,C.white,`text-anchor="middle" opacity=".78" paint-order="stroke" stroke="${C.bg}" stroke-width="5" stroke-linejoin="round"`);
+        }
+      }
+      out+=origin(o,4,originLabel);
+      return out+'</g>';
+    }
+    function rayCone(t,j,o,s,points,spread,alpha=1,tag='r'){
+      let out=`<g ${op(alpha)}>`;
+      const transformed=mapProgress(t,j);
+      const extent=Math.max(...points.map(length))*s;
+      const R=Math.max(240,extent+Math.max(45,extent*.18));
+      const [a,b]=getAngles(t,j,spread);
+      const gid='wash'+tag;
+      out+=`<defs><radialGradient id="${gid}" gradientUnits="userSpaceOnUse" cx="${o[0]}" cy="${o[1]}" r="${R}"><stop offset="0" stop-color="${C.gold}" stop-opacity=".11"/><stop offset=".75" stop-color="${C.gold}" stop-opacity=".045"/><stop offset="1" stop-color="${C.gold}" stop-opacity="0"/></radialGradient></defs>`;
+      out+=sector(o,R,a,b,`fill="url(#${gid})"`);
+      const n=27;
+      for(let k=0;k<n;k++){
+        const target=(G.mu-G.halfAngle)+2*G.halfAngle*k/(n-1);
+        let d=transform(unit(rad(target*spread)),j,transformed);d=mul(d,1/length(d));
+        const end=project(d,o,R);
+        const boundary=k===0||k===n-1;
+        const intensity=boundary?.72:.12;
+        out+=segment(o,end,`stroke="${C.gold}" stroke-width="${boundary?1.5:.9}" opacity="${fmt(spread*intensity)}" ${boundary?`stroke-dasharray="7 7" stroke-dashoffset="${fmt(-t*10)}"`:''}`);
+        if(boundary&&spread>.02)out+=arrow(o,end,C.gold,1.35,8,.8*spread);
+      }
+      // The original horizontal ray survives as one member of the opened cone.
+      let d=transform([1,0],j,transformed);d=mul(d,1/length(d));
+      const end=project(d,o,R*.97);
+      out+=segment(o,end,`stroke="${C.gold}" stroke-width="2.2" opacity=".96"`);
+      out+=arrow(o,end,C.gold,2,10);
+      if(t<12){
+        const f=((t*.23+.02)%1);
+        const dot=project(d,o,R*.94*f);
+        out+=circle(dot,10,`fill="${C.gold}" opacity=".065"`);
+        out+=circle(dot,4.0,`fill="${C.gold}" opacity=".98"`);
+        if(t<5.8){
+          out+=text(end[0]-9,end[1]-18,'r(c)',22,C.gold,`font-style="italic" text-anchor="end"`);
+          [0.12,.5,1.0].forEach((x,k)=>{
+            const p=project([x,0],o,s);
+            const pulse=.5+.5*Math.cos(2*Math.PI*(t*.38-k*.17));
+            out+=circle(p,5+4*pulse,`fill="${C.gold}" opacity="${.04+.03*pulse}"`);
+            out+=circle(p,2.2,`fill="${C.gold}" opacity=".8"`);
+          });
+        }
+      }
+      out+=origin(o,4,true);
+      return out+'</g>';
+    }
+    function directionWheel(t){
+      const o=[1718,117],r=48;
+      let angles=[];
+      const spread=tween(t,5,12);
+      for(let j=0;j<(t<12?1:3);j++)angles.push(getAngles(t,j,spread));
+      let intervals=[];
+      for(let [a,b] of angles){
+        let width=b-a;a=((a%(2*Math.PI))+2*Math.PI)%(2*Math.PI);b=a+width;
+        if(b>2*Math.PI)intervals.push([a,2*Math.PI],[0,b-2*Math.PI]);else intervals.push([a,b]);
+      }
+      intervals.sort((a,b)=>a[0]-b[0]);
+      let merged=[];
+      for(let ab of intervals){if(!merged.length||ab[0]>merged[merged.length-1][1]+1e-8)merged.push(ab.slice());else merged[merged.length-1][1]=Math.max(merged[merged.length-1][1],ab[1]);}
+      let cov=merged.reduce((a,v)=>a+v[1]-v[0],0)/(2*Math.PI);
+      let out='<g>';
+      out+=text(1483,87,'DIRECTION SPACE',12,C.dim,'letter-spacing="2"');
+      out+=text(1480,132,`${Math.round(cov*100)}%`,36,C.gold,'font-weight="500"');
+      out+=text(1483,158,t>=40?'C₁ ∪ C₂ ∪ C₃':'admissible directions',14,C.muted);
+      out+=circle(o,r+12,`fill="none" stroke="${C.grid}" stroke-width=".7" opacity=".10"`);
+      out+=circle(o,r,`fill="${C.gold}" fill-opacity=".025" stroke="${C.grid}" stroke-width="1" stroke-opacity=".25"`);
+      for(let k=0;k<12;k++){
+        const a=k*Math.PI/6;
+        out+=segment(project(unit(a),o,r+5),project(unit(a),o,r+9),`stroke="${C.grid}" stroke-width="1" opacity=".3"`);
+      }
+      for(let j=0;j<angles.length;j++){
+        const [a,b]=angles[j];
+        out+=sector(o,r,a,b,`fill="${C.gold}" fill-opacity=".16" stroke="${C.gold}" stroke-opacity=".55" stroke-width=".8"`);
+        const m=(a+b)/2,ep=project(unit(m),o,r*.83);
+        out+=segment(o,ep,`stroke="${C.gold}" stroke-width="1" opacity=".55"`);
+      }
+      out+=circle(o,2.4,`fill="${C.gold}"`);
+      out+=text(1718,201,t>=40?'C₁ ∪ C₂ ∪ C₃ = ℝ²':'cone of directions',16,C.muted,'text-anchor="middle"');
+      return out+'</g>';
+    }
+    function seedScenes(t){
+      let out='';
+      const spread=tween(t,5,12);
+      if(t<12){
+        const s=logmix(690,320,tween(t,0,5.8));
+        const o=[mix(874,762,tween(t,0,5.8)),535];
+        out+=seedDrawing(G.seed,o,s,{labels:true});
+        out+=rayCone(t,0,o,s,G.seed,spread,1,'one');
+        if(t>3.7){
+          const a=tween(t,3.7,5);
+          out+=`<g ${op(a)}>`;
+          out+=text(98,720,'THE SEED',13,C.dim,'letter-spacing="3"');
+          out+=text(98,756,'r(c) crosses',23,C.muted);
+          out+=text(98,789,'N₁ → N₂ → N₃',25,C.white);
+          out+=segment([98,811],[282,811],`stroke="${C.red}" stroke-width="1.2" opacity=".4"`);
+          out+='</g>';
+        }
+      }else{
+        const dup=tween(t,12,16);
+        for(let j=0;j<3;j++){
+          const o=[mix(762,pivots[j][0],dup),mix(535,pivots[j][1],dup)];
+          const s=logmix(320,174,dup);
+          const p=worldPoints(t,j);
+          const active=t>=16+8*j&&t<24+8*j;
+          const completed=t>=24+8*j;
+          let alpha=j===0?1:dup;
+          if(t>=16&&t<40)alpha*=active?1:(completed?.8:.43);
+          if(t>=40)alpha=1;
+          if(dup>.99)out+=`<g clip-path="url(#panel${j})">`;
+          out+=rayCone(t,j,o,s,p,1,alpha,'copy'+j);
+          out+=seedDrawing(p,o,s,{opacity:alpha,labels:true});
+          if(dup>.99)out+='</g>';
+          if(dup>.05){
+            const px=pivots[j][0];
+            out+=`<g ${op(dup)}>`;
+            out+=text(px,824,'Q'+subs[j],28,active?C.white:C.muted,'text-anchor="middle" font-weight="500"');
+            const status=completed?`C${subs[j]} · 120° sector`:active?`S${subs[j]}(t) · rotate + stretch`:'the original seed';
+            out+=text(px,858,status,17,active?C.gold:C.dim,'text-anchor="middle"');
+            if(active||completed){
+              out+=segment([px-132,884],[px+132,884],`stroke="${C.grid}" stroke-width="1" opacity=".13"`);
+              out+=segment([px-132,884],[px-132+264*mapProgress(t,j),884],`stroke="${C.gold}" stroke-width="1.7" opacity=".6"`);
+            }
+            out+='</g>';
+          }
+        }
+        if(dup>.98){
+          out+=segment([652,287],[652,795],`stroke="${C.grid}" stroke-width=".7" opacity=".11"`);
+          out+=segment([1267,287],[1267,795],`stroke="${C.grid}" stroke-width=".7" opacity=".11"`);
+        }
+      }
+      return out;
+    }
+    function assemblyScene(t){
+      let out='';
+      const p=tween(t,45,53);
+      const pivot=[966,489],S=310;
+      const fadeRays=1-tween(t,45,48);
+      for(let j=0;j<3;j++){
+        // Stagger the two contractions. All maps fix the marked local origin.
+        const travel=tween(t,45+(j===2?1.5:0),52+(j===2?1:0));
+        const contract=tween(t,45+j*.65,52+j*.3);
+        const o=[mix(pivots[j][0],pivot[0],travel),mix(pivots[j][1],pivot[1],travel)];
+        const s=logmix(174,S*G.scales[j],contract);
+        const points=G.copies[j];
+        if(fadeRays>.002)out+=rayCone(t,j,o,s,points,1,fadeRays,'nest'+j);
+        out+=seedDrawing(points,o,s,{labels:s>65,originLabel:j===2});
+        const c=project(points.reduce((a,b)=>add(a,mul(b,.2)),[0,0]),o,s);
+        const a=1-tween(t,50,53);
+        out+=text(c[0],Math.max(275,Math.min(834,c[1]-80)),`Q${subs[j]}  × ${s/174<.1?(s/174).toFixed(3):(s/174).toFixed(2)}`,17,C.muted,`${op(a)} text-anchor="middle" paint-order="stroke" stroke="${C.bg}" stroke-width="5"`);
+      }
+      if(t>49){
+        const a=tween(t,49,51.5)*(1-tween(t,52,53));
+        out+=text(964,845,'|N(Q₃)| ⊂ int N₁(Q₂)  ·  |N(Q₂)| ⊂ int N₁(Q₁)',19,C.muted,`${op(a)} text-anchor="middle"`);
+      }
+      return out;
+    }
+    function refinementProgress(t,ring,k){
+      const start=ring===1?64:80;
+      const local=(t-start-k*.48)/3.4;
+      return ease(local);
+    }
+    function mesh(o,s,t,options={}){
+      const {lens=false,opacity=1}=options;
+      const p=G.vertices.map(v=>project(v,o,s));
+      let out=`<g ${op(opacity)}>`;
+      // Filling only the actual final cells avoids painting across nested holes.
+      for(let index=0;index<G.faces.length;index++){
+        const f=G.faces[index],levels=f.map(v=>Math.floor(v/5));
+        const lo=Math.min(...levels),hi=Math.max(...levels);
+        let col=C.red,alpha=.065;
+        if(lo!==hi){
+          col=C.blue;const r=lo===0?0:1;
+          const pp=tween(t,r===1?64:80,r===1?72:88);
+          alpha=.015+.037*pp;
+        }else alpha=[.055,.080,.10][index%3];
+        out+=poly(f.map(i=>p[i]),`fill="${col}" opacity="${alpha}"`);
+      }
+      for(const [a,b] of G.oldEdges){
+        const level=Math.floor(a/5);
+        const w=lens?1.35:clamp(s*G.scales[level]/125,.65,2.5);
+        out+=segment(p[a],p[b],`stroke="${C.red}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"`);
+      }
+      // Start each new edge at the smaller copy; grow toward the enclosing cell.
+      for(let ring=1;ring>=0;ring--){
+        G.ringEdges[ring].forEach((edge,k)=>{
+          const progress=refinementProgress(t,ring,k);
+          if(progress<=0)return;
+          const ai=Math.max(...edge),bi=Math.min(...edge),a=p[ai],b=p[bi];
+          const v=[mix(a[0],b[0],progress),mix(a[1],b[1],progress)];
+          const width=lens?1.25:clamp(s*G.scales[ring]/145,.7,1.9);
+          out+=segment(a,v,`stroke="${C.blue}" stroke-width="${width+4}" opacity=".055"`);
+          out+=segment(a,v,`stroke="${C.blue}" stroke-width="${width}" stroke-linecap="round"`);
+          if(progress<.999&&!lens){
+            out+=circle(v,4.8,`fill="${C.blue}" opacity=".12"`);
+            out+=circle(v,1.9,`fill="${C.white}" opacity=".8"`);
+          }
+        });
+      }
+      // Avoid a screen-sized dot hiding the smallest fan at the widest view.
+      for(let j=0;j<3;j++){
+        const radius=lens?1.6:clamp(s*G.scales[j]/95,.5,2.4);
+        for(let k=0;k<5;k++)out+=circle(p[5*j+k],radius,`fill="${C.red}"`);
+      }
+      const r=lens?2.4:clamp(s*q*q*.020,.55,4);
+      out+=origin(o,r,!lens&&s*q*q>40);
+      return out+'</g>';
+    }
+    function lens(t,j,x,y,width,height,alpha){
+      const box=`lens${j}`;
+      const points=G.vertices.slice(5*j,5*j+5);
+      const min=[Math.min(...points.map(p=>p[0])),Math.min(...points.map(p=>p[1]))];
+      const max=[Math.max(...points.map(p=>p[0])),Math.max(...points.map(p=>p[1]))];
+      const s=Math.min((width-62)/(max[0]-min[0]),(height-72)/(max[1]-min[1]));
+      const o=[x+width/2-s*(min[0]+max[0])/2,y+height/2+23+s*(min[1]+max[1])/2];
+      let out=`<g ${op(alpha)}>`;
+      out+=`<rect x="${x}" y="${y}" width="${width}" height="${height}" rx="10" fill="${C.panel}" stroke="${C.grid}" stroke-opacity=".2" stroke-width="1"/>`;
+      out+=text(x+20,y+31,'Q'+subs[j]+'  /  '+(j===1?'MIDDLE COPY':'INNERMOST COPY'),13,C.muted,'letter-spacing="1.4"');
+      out+=`<clipPath id="${box}"><rect x="${x+1}" y="${y+46}" width="${width-2}" height="${height-47}" rx="9"/></clipPath>`;
+      out+=`<g clip-path="url(#${box})">${mesh(o,s,t,{lens:true})}</g>`;
+      return out+'</g>';
+    }
+    function nestedScene(t){
+      let s,o;
+      if(t<58){
+        s=logmix(310,innerScale,tween(t,53,58));
+        o=[mix(966,946,tween(t,53,58)),mix(489,545,tween(t,53,58))];
+      }else{
+        s=logmix(innerScale,finalScale,sine(lin(t,64,90)));
+        const reveal=tween(t,86,92);
+        o=[mix(946,814,reveal),mix(545,490,reveal)];
+      }
+      let out='';
+      // Guide circles are camera overlays, never triangulation edges.
+      if(t<90){
+        const aa=tween(t,57,59)*(1-tween(t,87,90));
+        out+=circle(o,61,`fill="none" stroke="${C.grid}" stroke-width=".6" opacity="${.07*aa}"`);
+        out+=circle(o,121,`fill="none" stroke="${C.grid}" stroke-width=".6" opacity="${.045*aa}"`);
+      }
+      out+=mesh(o,s,t);
+      if(t>=90){
+        const alpha=tween(t,90,92)*.80;
+        const angle=rad(-90+360*lin(t,90,96));
+        const ep=project(unit(angle),o,640);
+        out+=segment(o,ep,`stroke="${C.gold}" stroke-width="1.4" stroke-dasharray="6 7" opacity="${.6*alpha}"`);
+        out+=arrow(o,ep,C.gold,1.4,8,.65*alpha);
+      }
+      const phase=t<75?2:t<85?1:0;
+      const labelOpacity=tween(t,57.5,59)*(1-tween(t,88,91));
+      out+=`<g ${op(labelOpacity)}>`;
+      out+=text(110,298,'AT THIS SCALE',12,C.dim,'letter-spacing="2.8"');
+      out+=text(107,345,'Q'+subs[phase],34,C.white,'font-weight="500"');
+      out+=text(110,375,phase===2?'innermost copy':phase===1?'middle copy':'outermost copy',17,C.muted);
+      out+=text(1790,855,`camera ×${(s/finalScale).toFixed(s/finalScale>10?0:1)}`,15,C.dim,'text-anchor="end"');
+      out+='</g>';
+      if(t>=88){
+        const a=tween(t,88,92);
+        out+=`<g ${op(a)}>`;
+        out+=text(1442,277,'TWO MAGNIFIED VIEWS',12,C.dim,'letter-spacing="2.2"');
+        out+=text(126,286,'Q₁  /  OUTERMOST COPY',13,C.muted,'letter-spacing="1.5"');
+        out+=text(126,313,'The full nested triangulation',17,C.dim);
+        out+='</g>';
+        out+=lens(t,1,1440,302,386,249,a);
+        out+=lens(t,2,1440,587,386,249,a);
+        // Subtle connectors identify the common microscopic region in both lenses.
+        if(a>.1){
+          out+=`<g ${op(a*.28)}>`;
+          out+=segment(add(o,[16,-10]),[1398,428],`stroke="${C.muted}" stroke-width=".8" stroke-dasharray="3 6"`);
+          out+=segment([1398,428],[1434,428],`stroke="${C.muted}" stroke-width=".8"`);
+          out+=segment(add(o,[12,10]),[1398,711],`stroke="${C.muted}" stroke-width=".8" stroke-dasharray="3 6"`);
+          out+=segment([1398,711],[1434,711],`stroke="${C.muted}" stroke-width=".8"`);
+          out+='</g>';
+        }
+      }
+      return out;
+    }
+    function headers(t){
+      let idx=0;for(let i=0;i<stages.length;i++)if(t>=stages[i].at)idx=i;
+      const cur=stages[idx],transition=idx===0?1:tween(t,cur.at,cur.at+.65);
+      let out=text(84,64,'FROM ONE RAY TO EVERY DIRECTION',14,C.muted,'letter-spacing="3.5" font-weight="500"');
+      out+=text(1836,47,'FIGURE 4   ·   H = {z = 1}',13,C.dim,'text-anchor="end" letter-spacing="1.2"');
+      // Cross-fade two entire text blocks; no per-character or frame-baked text.
+      function block(st,alpha,dy){return `<g ${op(alpha)} transform="translate(0 ${dy})">${text(82,134,st.title,49,C.white,'font-weight="600" letter-spacing="-1.3"')}${text(86,181,st.sub,20,C.muted)}</g>`;}
+      if(transition<1&&idx>0)out+=block(stages[idx-1],1-transition,-8*transition);
+      out+=block(cur,transition,8*(1-transition));
+      out+=directionWheel(t);
+      out+=segment([84,228],[1836,228],`stroke="${C.grid}" stroke-width=".8" opacity=".16"`);
+      return out;
+    }
+    const timeLabel=t=>`${Math.floor(t/60).toString().padStart(2,'0')}:${Math.floor(t%60).toString().padStart(2,'0')}`;
+    function footer(t){
+      let out='';
+      out+=segment([84,934],[1836,934],`stroke="${C.grid}" stroke-width=".8" opacity=".16"`);
+      const legends=[{x:86,col:C.red,text:'OLD EDGES',opacity:1},{x:304,col:C.blue,text:'NEW TRIANGULATION',opacity:t<58?.30:1},{x:656,col:C.gold,text:'RAYS / DIRECTION CONES',opacity:1}];
+      for(let l of legends){out+=`<g ${op(l.opacity)}>${segment([l.x,908],[l.x+32,908],`stroke="${l.col}" stroke-width="2.8"`)}${text(l.x+46,913,l.text,12,C.muted,'letter-spacing="1.6"')}</g>`;}
+      out+=text(1836,913,t>=88?'15 VERTICES   ·   21 OLD + 16 NEW EDGES   ·   23 TRIANGLES':'2D SCHEMATIC   ·   NORMAL-FAN SLICE',12,C.dim,'text-anchor="end" letter-spacing="1"');
+      const chapters=[['ONE RAY',0,5],['OPEN THE CONE',5,12],['THREE MAPS',12,45],['NEST',45,58],['TRIANGULATE',58,80],['ZOOM OUT',80,96]];
+      const xs=[86,332,678,1020,1270,1598];
+      for(let k=0;k<chapters.length;k++){
+        const [name,a,b]=chapters[k],current=t>=a&&t<b,done=t>=b;
+        out+=text(xs[k],977,`0${k+1}`,14,current?C.gold:done?C.muted:C.dim,'font-weight="500"');
+        out+=text(xs[k]+35,977,name,13,current?C.white:C.dim,'letter-spacing="1.5"');
+        if(current)out+=segment([xs[k],949],[xs[k]+40+name.length*8,949],`stroke="${C.gold}" stroke-width="2" opacity=".8"`);
+      }
+      out+=text(85,1040,'BLACK & XUE  /  FIGURE 4  ·  LEMMAS 3.10–3.13  ·  THEOREM 3.14',11,C.dim,'letter-spacing="1.4"');
+      out+=text(1836,1040,`${timeLabel(t)}  /  01:36`,12,C.muted,'text-anchor="end" letter-spacing="2"');
+      out+=`<rect x="84" y="1005" width="1752" height="2" fill="${C.grid}" opacity=".10"/>`;
+      out+=`<rect x="84" y="1005" width="${fmt(1752*t/DURATION)}" height="2" fill="${C.gold}" opacity=".70"/>`;
+      return out;
+    }
+    function render(t,options={}){
+      if(!Number.isFinite(t))throw new TypeError('Time must be finite.');
+      t=clamp(t,0,DURATION);
+      const noText=Boolean(options.clean);
+      let defs=`<defs><radialGradient id="ambience" cx="51%" cy="44%" r="72%"><stop offset="0" stop-color="#142238"/><stop offset=".63" stop-color="#0B1423"/><stop offset="1" stop-color="${C.bg}"/></radialGradient><pattern id="dots" width="48" height="48" patternUnits="userSpaceOnUse"><circle cx="0" cy="0" r=".8" fill="${C.grid}" opacity=".12"/></pattern><clipPath id="stage"><rect x="64" y="240" width="1792" height="650"/></clipPath>`;
+      for(let j=0;j<3;j++)defs+=`<clipPath id="panel${j}"><rect x="${bounds[j][0]}" y="244" width="${bounds[j][1]-bounds[j][0]}" height="564"/></clipPath>`;
+      defs+='</defs>';
+      let out=`<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-label="Figure 4 animated: one ray, three direction cones, three nested fans and their triangulation" shape-rendering="geometricPrecision" text-rendering="geometricPrecision">`;
+      out+=`<title>From one ray to every direction — Figure 4</title><desc>Code-driven vector animation of the normal-fan construction in Black and Xue. Old edges are red; new triangulation edges are blue. The three transformed direction cones collectively cover the plane.</desc>`;
+      out+=defs;
+      out+=`<rect width="1920" height="1080" fill="${C.bg}"/><rect x="0" y="218" width="1920" height="716" fill="url(#ambience)"/><rect x="64" y="242" width="1792" height="648" fill="url(#dots)"/>`;
+      if(!noText)out+=headers(t);
+      out+='<g clip-path="url(#stage)">';
+      out+=t<45?seedScenes(t):t<53?assemblyScene(t):nestedScene(t);
+      out+='</g>';
+      if(!noText)out+=footer(t);
+      out+='</svg>';
+      return out;
+    }
+    return {render,DURATION,W,H,chapters:stages,geometry:G,transform,refinementProgress};
+  }
+  if(typeof module==='object'&&module.exports)module.exports={createFilm};
+  else root.createConeFilm=createFilm;
+})(typeof window!=='undefined'?window:globalThis);
+</script>
+<script>
+const film=createConeFilm(GEOMETRY);
+window.film=film;
+const screen=document.getElementById('screen'),slider=document.getElementById('seek');
+const playButton=document.getElementById('play'),clock=document.getElementById('clock');
+const params=new URLSearchParams(location.search);
+let now=Math.max(0,Math.min(film.DURATION,Number(params.get('t')||0)));
+let playing=!params.has('pause')&&!matchMedia('(prefers-reduced-motion: reduce)').matches;
+let rate=1,last=performance.now(),looping=false;
+const fmt=t=>`${Math.floor(t/60).toString().padStart(2,'0')}:${Math.floor(t%60).toString().padStart(2,'0')}`;
+function paint(){screen.innerHTML=film.render(now);slider.value=now;clock.textContent=`${fmt(now)} / ${fmt(film.DURATION)}`;playButton.textContent=playing?'Pause':'Play';playButton.setAttribute('aria-label',playing?'Pause animation':'Play animation');}
+window.seek=function(t){now=Math.max(0,Math.min(film.DURATION,Number(t)));last=performance.now();paint();};
+window.setPlaying=function(value){playing=Boolean(value);last=performance.now();paint();};
+function toggle(){if(now>=film.DURATION)now=0;playing=!playing;last=performance.now();paint();}
+playButton.addEventListener('click',toggle);
+document.getElementById('replay').addEventListener('click',()=>{now=0;playing=true;last=performance.now();paint();});
+slider.max=film.DURATION;slider.addEventListener('input',()=>{now=Number(slider.value);last=performance.now();paint();});
+document.getElementById('speed').addEventListener('change',e=>{rate=Number(e.target.value);});
+document.getElementById('chapter').addEventListener('change',e=>{window.seek(Number(e.target.value));e.target.selectedIndex=0;});
+document.getElementById('loop').addEventListener('change',e=>{looping=e.target.checked;});
+document.getElementById('export').addEventListener('click',()=>{
+ const blob=new Blob([film.render(now)],{type:'image/svg+xml;charset=utf-8'});
+ const url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download=`figure4_${now.toFixed(2).replace('.','_')}s.svg`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+document.getElementById('fullscreen').addEventListener('click',async()=>{
+ try{if(document.fullscreenElement)await document.exitFullscreen();else await document.getElementById('player').requestFullscreen();}catch(e){console.warn('Fullscreen unavailable',e);}
+});
+document.addEventListener('keydown',e=>{
+ if(['INPUT','SELECT','TEXTAREA','BUTTON'].includes(document.activeElement.tagName))return;
+ if(e.code==='Space'){e.preventDefault();toggle();}
+ if(e.code==='ArrowRight'){e.preventDefault();window.seek(now+5);}
+ if(e.code==='ArrowLeft'){e.preventDefault();window.seek(now-5);}
+ if(e.code==='Home'){e.preventDefault();window.seek(0);}
+ if(e.code==='End'){e.preventDefault();window.seek(film.DURATION);}
+});
+document.addEventListener('visibilitychange',()=>{last=performance.now();});
+function tick(stamp){
+ const delta=Math.min(.1,Math.max(0,(stamp-last)/1000));last=stamp;
+ if(playing&&!document.hidden){now+=delta*rate;if(now>=film.DURATION){now=looping?0:film.DURATION;if(!looping)playing=false;}paint();}
+ requestAnimationFrame(tick);
+}
+paint();requestAnimationFrame(tick);
+</script>
+</body></html>
