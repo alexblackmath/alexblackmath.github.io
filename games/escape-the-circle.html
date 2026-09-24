@@ -1,0 +1,918 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="An interactive geometry puzzle: escape a tiled circle with a straight ray, then find a better path through neighboring cells. Eight worlds. Convex cells. Two ways out.">
+<meta name="theme-color" content="#080d18">
+<title>Escape the Circle · A Geometry Arcade</title>
+<style>
+:root{color-scheme:dark;--bg:#080d18;--panel:#0d1524;--panel2:#121e31;--ink:#eef4ff;--muted:#9cacc4;--line:#25324a;--cyan:#67e6f6;--violet:#b39aff;--green:#a6f0b4;--amber:#ffd38a;--accent:var(--cyan);--accent-rgb:103,230,246;--r:20px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 10% 0,rgba(33,70,108,.28),transparent 40%),radial-gradient(ellipse at 95% 30%,rgba(86,47,126,.14),transparent 46%),var(--bg);color:var(--ink);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}body.free-mode{--accent:var(--green);--accent-rgb:166,240,180}button,input,select{font:inherit}button{cursor:pointer}button,a,input,summary{ -webkit-tap-highlight-color:transparent}button:disabled{cursor:not-allowed;opacity:.42}button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible,canvas:focus-visible{outline:2px solid var(--accent);outline-offset:4px}button{transition:background .15s,border-color .15s,transform .15s}button:not(:disabled):active{transform:translateY(1px)}button:not(:disabled):hover{border-color:#8290aa}a{color:var(--cyan)}[hidden]{display:none!important}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.shell{max-width:1280px;margin:auto;padding:24px 32px 38px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:26px}.brand{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:750;letter-spacing:.17em;text-transform:uppercase;color:#c6d5eb}.brand svg{width:31px;height:31px;color:var(--cyan)}.top-actions{display:flex;align-items:center;gap:10px}.pill{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:12px;border:1px solid var(--line);border-radius:30px;padding:6px 11px;background:#0d1525}.pill svg{width:14px;height:14px;color:var(--amber)}.quiet{background:transparent;border:1px solid var(--line);color:#d8e5f7;border-radius:10px;min-height:40px;padding:8px 12px;font-size:12px;font-weight:650}.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:28px;margin-bottom:26px}.eyebrow{font-size:10px;letter-spacing:.18em;font-weight:800;text-transform:uppercase;color:var(--accent)}h1{font-size:clamp(35px,4.9vw,65px);line-height:1.05;letter-spacing:-.056em;margin:0;font-weight:800}h1 span{color:var(--cyan)}.intro{margin:0 0 4px;max-width:315px;color:var(--muted);font-size:14px;line-height:1.7}.intro strong{font-weight:600;color:#e1ebfb}.campaign{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px;margin-bottom:22px}.level-button{position:relative;text-align:left;min-height:70px;padding:10px 12px;background:rgba(15,24,40,.65);border:1px solid var(--line);border-radius:12px;color:var(--muted);min-width:0;overflow:hidden}.level-button.active{border-color:#548caa;background:linear-gradient(125deg,rgba(63,117,145,.23),rgba(23,36,59,.8));box-shadow:inset 0 2px 0 rgba(103,230,246,.65)}.level-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}.level-no{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:11px;font-weight:600;color:#8094b4}.active .level-no{color:var(--cyan)}.level-name{font-size:11px;font-weight:650;display:block;color:#b7c8df;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}.active .level-name{color:white}.pips{display:flex;gap:4px}.pip{width:5px;height:5px;border-radius:50%;background:#32415a}.pip.done{background:var(--cyan)}.pip.master{background:var(--amber);box-shadow:0 0 6px #ffd38a44}.workspace{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}.board-card{border:1px solid var(--line);background:#0a1220;border-radius:var(--r);overflow:hidden;box-shadow:0 20px 80px #02040a40}.board-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid #233049;padding:16px 20px}.board-heading h2{margin:1px 0 0;font-size:18px;letter-spacing:-.025em}.board-heading .eyebrow{font-size:9px;color:var(--muted)}.tile-count{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted);border:1px solid #28374e;padding:5px 9px;border-radius:7px;white-space:nowrap}.tile-count svg{width:13px;height:13px;color:var(--violet)}.stage{position:relative;aspect-ratio:1/1;isolation:isolate;background:#0b1423}.stage canvas{width:100%;height:100%;display:block;touch-action:none;cursor:crosshair}.free-mode .stage canvas{cursor:pointer}.stage-badge{position:absolute;left:18px;top:16px;display:flex;align-items:center;gap:7px;color:var(--accent);font-size:10px;letter-spacing:.08em;text-transform:uppercase;pointer-events:none}.status-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}.stage-micro{position:absolute;right:18px;top:16px;color:#8a9dbd;font:10px ui-monospace,SFMono-Regular,Consolas,monospace;pointer-events:none}.stage-bottom{position:absolute;bottom:12px;left:12px;right:12px;display:flex;justify-content:center;pointer-events:none}.stage-hint{border:1px solid #35445d88;background:#0a1223db;backdrop-filter:blur(8px);border-radius:30px;padding:6px 11px;font-size:11px;letter-spacing:.01em;color:#c6d4e8;max-width:95%;text-align:center}.board-footer{padding:13px 19px;border-top:1px solid var(--line);display:flex;gap:16px;justify-content:space-between;flex-wrap:wrap;font-size:11px;color:var(--muted)}.legend{display:flex;align-items:center;gap:6px;white-space:nowrap}.legend-dot{width:7px;height:7px;border:1.5px solid white;border-radius:50%;background:#fff}.legend-dot.next{background:transparent;border-color:var(--accent);border-style:dashed;border-radius:2px}.legend-dot.rim{border-color:var(--amber);background:transparent;border-radius:0;transform:rotate(45deg);width:6px;height:6px}.side{display:flex;flex-direction:column;gap:14px}.control-card,.insight{border:1px solid var(--line);border-radius:var(--r);background:linear-gradient(145deg,#101b2d,#0d1524);padding:19px}.mode-tabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;background:#080f1d;padding:4px;border-radius:11px;border:1px solid #1c2a41;margin-bottom:22px}.mode-tab{min-height:40px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--muted);font-size:12px;font-weight:650;display:flex;align-items:center;justify-content:center;gap:9px}.mode-tab svg{width:17px;height:17px}.mode-tab.active{background:#1b3043;color:var(--cyan);border-color:#395c71}.free-mode .mode-tab.active{background:#1e332d;color:var(--green);border-color:#46644f}.mode-kicker{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}.part-label{font-size:10px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}.control-card h2{margin:0 0 8px;font-size:24px;letter-spacing:-.04em;font-weight:750}.description{font-size:13px;line-height:1.65;color:var(--muted);margin:0;min-height:44px}.metrics{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:8px;margin:20px 0;border-bottom:1px solid #24324b;padding-bottom:17px}.metric{border-right:1px solid #24324b;padding-left:9px}.metric:first-child{padding-left:0}.metric:last-child{border:0}.metric-label{font-size:9px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:700}.metric-value{font-size:32px;font-weight:750;letter-spacing:-.06em;line-height:1.18;margin:6px 0 1px;font-variant-numeric:tabular-nums}.metric:first-child .metric-value{color:var(--accent)}.metric-unit{font-size:10px;color:#7f91ad}.mode-controls{margin-bottom:17px}.angle-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;font-size:11px;color:var(--muted)}.angle-readout{font:12px ui-monospace,SFMono-Regular,Consolas,monospace;color:#d2eaff;display:flex;align-items:center;gap:3px}.angle-number{width:72px;color:inherit;background:#101d30;border:1px solid #30425c;border-radius:6px;padding:3px 5px;text-align:right;font:inherit}.angle-number::-webkit-inner-spin-button{opacity:.5}input[type=range]{width:100%;height:21px;accent-color:var(--accent);cursor:pointer;margin:0}input[type=checkbox]{accent-color:var(--accent)}.tick-row{display:flex;justify-content:space-between;font-size:9px;color:#7285a3;font-family:ui-monospace,monospace;margin:1px 0 11px}.option-row{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11px;color:var(--muted)}.check{display:flex;gap:6px;align-items:center;cursor:pointer}.check input{margin:0}.snap-indicator{font-size:9px;letter-spacing:.05em;color:var(--amber);font-weight:600}.primary{width:100%;min-height:47px;border-radius:11px;border:1px solid #8af3ff88;color:#061521;background:linear-gradient(112deg,#78eaf4,#9bb3ff);font-size:13px;font-weight:800;letter-spacing:.01em;box-shadow:0 4px 24px #65e4ff12;display:flex;align-items:center;justify-content:center;gap:9px}.primary svg{width:17px;height:17px}.free-mode .primary{background:linear-gradient(112deg,#b7f3b8,#8edbb9);border-color:#bdffc288;color:#0e251a}.secondary-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}.secondary-actions .quiet{font-size:11px;min-height:37px;padding:8px}.route-label{display:flex;justify-content:space-between;margin:16px 0 8px;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.07em}.route-strip{display:flex;gap:5px;align-items:center;overflow-x:auto;min-height:29px;padding-bottom:5px;scrollbar-width:thin}.route-token{flex:none;min-width:25px;height:25px;display:flex;align-items:center;justify-content:center;border-radius:6px;background:#192c40;border:1px solid #375266;color:#d2e8f5;font:10px ui-monospace,monospace}.route-token:first-child{color:var(--accent);border-color:var(--accent)}.route-arrow{color:#546681;font-size:10px}.route-token.out{color:var(--amber);background:#2b2830;border-color:#5a4a3b;font-size:9px;min-width:31px}.status{font-size:11px;color:var(--muted);margin:8px 0 0;line-height:1.55;min-height:18px}.status.warning{color:var(--amber)}.neighbors-label{font-size:11px;color:var(--muted);margin-bottom:9px}.neighbor-list{display:flex;flex-wrap:wrap;gap:6px;max-height:108px;overflow-y:auto;scrollbar-width:thin}.neighbor{min-height:34px;padding:6px 9px;display:flex;align-items:center;gap:5px;background:#182d2b;border:1px solid #426253;color:#d4f2df;border-radius:8px;font-size:11px;white-space:nowrap}.neighbor.selected{border-color:#e6ffe9;box-shadow:0 0 0 1px #b0eeb7}.neighbor .rim-tag{color:var(--amber);font-size:9px}.result{background:linear-gradient(140deg,rgba(var(--accent-rgb),.085),#111d2d);border:1px solid rgba(var(--accent-rgb),.3);padding:15px;border-radius:13px;margin:16px 0 0}.result-eyebrow{font-size:9px;letter-spacing:.13em;color:var(--accent);font-weight:800;text-transform:uppercase}.result h3{font-size:18px;letter-spacing:-.025em;margin:4px 0 6px}.result p{font-size:11px;color:var(--muted);line-height:1.65;margin:0 0 11px}.result .primary{min-height:39px;font-size:11px;box-shadow:none}.insight{padding:17px 19px;background:linear-gradient(130deg,#151c31,#111729)}.insight-head{display:flex;align-items:center;gap:7px;color:var(--violet);font-size:9px;letter-spacing:.12em;font-weight:750;text-transform:uppercase;margin-bottom:9px}.insight-head svg{width:15px;height:15px}.insight p{margin:0;color:#aebad1;font-size:12px;line-height:1.7}.compare{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:13px}.compare-item{padding:10px 12px;background:#0c1525;border:1px solid #29324b;border-radius:9px}.compare-item label{font-size:9px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;display:block}.compare-item strong{font-size:23px;letter-spacing:-.04em;font-weight:750;color:var(--cyan)}.compare-item.free strong{color:var(--green)}.comparison-note{margin-top:10px!important;font-size:11px!important}.theory{margin-top:23px;border:1px solid var(--line);border-radius:14px;background:#0d1522;padding:0 20px}.theory summary{padding:16px 0;cursor:pointer;font-size:12px;color:#bfcee3;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:15px}.theory summary::-webkit-details-marker{display:none}.theory summary::after{content:'+';color:var(--violet);font-size:17px;font-weight:400;line-height:1}.theory[open] summary::after{content:'−'}.theory-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;padding:0 0 20px}.theory h3{font-size:12px;margin:3px 0 7px;color:var(--ink)}.theory p{margin:0;color:var(--muted);font-size:12px;line-height:1.75}.footer{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:19px;color:#778ba9;font-size:10px}.footer-right{display:flex;align-items:center;gap:16px}.text-button{background:none;border:0;padding:4px 0;color:#9dacc4;text-decoration:underline;text-underline-offset:3px;font-size:10px}.footer-key{font-family:ui-monospace,monospace;background:#111d2e;border:1px solid #28384f;padding:1px 4px;border-radius:4px;color:#a6b8d3}.dialog{color:var(--ink);background:linear-gradient(145deg,#142137,#0c1525);border:1px solid #425675;border-radius:22px;max-width:570px;width:calc(100% - 32px);padding:28px;box-shadow:0 28px 120px #000b}.dialog::backdrop{background:#050914cf;backdrop-filter:blur(8px)}.dialog-top{display:flex;justify-content:space-between;align-items:center;gap:10px}.dialog h2{font-size:27px;letter-spacing:-.04em;margin:0 0 16px}.dialog p{font-size:13px;color:#acbbd2;line-height:1.75}.dialog h3{font-size:14px;color:var(--cyan);margin:19px 0 5px}.dialog .free-heading{color:var(--green)}.dialog .close{width:35px;min-height:35px;padding:4px;font-size:20px}.dialog .rule-note{background:#0b1423;border:1px solid #2b3c55;padding:12px 14px;border-radius:10px;font-size:12px}.dialog .primary{margin-top:21px}.no-js{padding:16px;background:#40232c;color:white;text-align:center}.fatal{padding:24px;color:#ffd38a;background:#281c23;border:1px solid #6a4348;border-radius:14px;margin-top:18px}
+.mobile-dock{display:none}
+@media(min-width:1500px){.shell{padding-top:32px}.hero{margin-bottom:30px}.campaign{margin-bottom:26px}}
+@media(max-width:1080px){.shell{padding:20px 24px 30px}.workspace{grid-template-columns:minmax(0,1fr) 310px;gap:15px}.level-button{padding:9px}.level-name{font-size:10px}.control-card{padding:16px}.intro{max-width:275px;font-size:12px}.board-footer{gap:8px;font-size:10px}.hero{gap:18px}h1{font-size:49px}.side{gap:12px}}
+@media(max-width:860px){.shell{padding-bottom:110px}.mobile-dock{position:fixed;display:flex;align-items:center;gap:10px;left:50%;bottom:max(12px,env(safe-area-inset-bottom));transform:translateX(-50%);width:calc(100% - 28px);max-width:620px;padding:9px;border-radius:14px;background:#0b1629f5;border:1px solid #50657c;box-shadow:0 7px 35px #0009;backdrop-filter:blur(15px);z-index:20}.quick-mode{font-size:11px;color:var(--accent);background:#1a2c40;border:1px solid #39536a;border-radius:8px;min-height:39px;padding:7px 10px;font-weight:750;white-space:nowrap}.quick-metric{color:var(--muted);font-size:10px;line-height:1.3;white-space:nowrap;flex:1}.quick-metric strong{color:var(--accent);font-size:22px;letter-spacing:-.04em;margin-right:3px}.quick-metric small{display:block;font-size:9px}.quick-undo{min-width:36px;min-height:39px;border:1px solid #34485e;background:#101f31;color:#bacce3;border-radius:8px;padding:6px;font-size:19px}.quick-action{font-size:11px;min-height:39px;padding:9px 14px;border:1px solid #a1edff88;border-radius:8px;background:linear-gradient(112deg,#78eaf4,#9bb3ff);color:#061521;font-weight:800;white-space:nowrap}.free-mode .quick-action{background:linear-gradient(112deg,#b7f3b8,#8edbb9)}.workspace{grid-template-columns:minmax(0,1fr)}.side{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);align-items:start}.campaign{gap:6px}.level-name{font-size:9px}.board-card{max-width:680px;width:100%;margin:auto}.hero{align-items:flex-start}.intro{max-width:235px}.stage{aspect-ratio:1}.theory-grid{grid-template-columns:1fr;gap:15px}.mode-tabs{margin-bottom:17px}.description{min-height:0}}
+@media(max-width:580px){.shell{padding:17px 14px 105px}.topbar{margin-bottom:22px}.brand{font-size:9px;letter-spacing:.12em;gap:8px}.brand svg{width:26px;height:26px}.top-actions{gap:7px}.pill{padding:5px 8px;font-size:10px}.top-actions .quiet{font-size:10px;min-height:33px;padding:6px 9px}.hero{display:block;margin-bottom:21px}h1{font-size:43px;line-height:1.02;max-width:100%;letter-spacing:-.058em}.intro{margin:13px 0 0;font-size:12px;max-width:335px;line-height:1.7}.intro br{display:none}.campaign{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:16px;gap:6px}.level-button{padding:8px 10px;min-height:54px;border-radius:9px}.level-top{margin-bottom:2px}.level-name{font-size:10px}.level-no{font-size:10px}.workspace{gap:14px}.board-heading{padding:12px 15px}.board-heading h2{font-size:16px}.tile-count{font-size:10px;padding:4px 7px}.stage-badge{font-size:8px;top:12px;left:13px}.stage-micro{font-size:8px;right:13px;top:12px}.stage-hint{font-size:9px;padding:5px 10px}.stage-bottom{bottom:9px}.board-footer{padding:11px 13px;gap:7px;font-size:9px;justify-content:space-between}.side{display:flex}.control-card,.insight{padding:17px}.metrics{margin:15px 0}.metric-value{font-size:29px}.mode-tabs{margin-bottom:16px}.control-card h2{font-size:24px}.theory{margin-top:16px;padding:0 15px}.theory summary{font-size:11px}.footer{align-items:flex-start;line-height:1.8}.footer-right{gap:9px}.keyboard-note{display:none}.dialog{padding:21px}.dialog h2{font-size:24px}.dialog p{font-size:12px}.result h3{font-size:18px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<noscript><p class="no-js">This game needs JavaScript to draw the board and check your route. Everything runs locally in your browser.</p></noscript>
+<main class="shell" id="app">
+<header class="topbar">
+  <div class="brand"><svg viewBox="0 0 34 34" fill="none" aria-hidden="true"><circle cx="16" cy="18" r="11" stroke="currentColor" stroke-width="1.3"/><path d="M16 18 29 5M23 5h6v6" stroke="currentColor" stroke-width="1.6"/><circle cx="16" cy="18" r="2" fill="currentColor"/></svg>A geometry arcade</div>
+  <div class="top-actions"><span class="pill" title="Parts completed at the best possible score"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m10 2 2.4 5 5.5.8-4 3.9.9 5.4-4.8-2.5-4.8 2.5.9-5.4-4-3.9L7.6 7Z" stroke="currentColor" stroke-width="1.3"/></svg><span id="mastery">0 / 16</span></span><button class="quiet" id="helpBtn" type="button">How to play <span aria-hidden="true">↗</span></button></div>
+</header>
+<section class="hero" aria-label="Introduction">
+  <h1>Escape the <span>circle.</span></h1>
+  <p class="intro"><strong>One circle. Two ways out.</strong><br> Find the best straight shot. Then break free of the line. How few tiles can you visit?</p>
+</section>
+<nav class="campaign" id="campaign" aria-label="Choose a level"></nav>
+<section class="workspace" aria-label="Game">
+  <div class="board-card">
+    <div class="board-heading"><div><div class="eyebrow" id="levelFamily">01 / Offset square grid</div><h2 id="levelTitle">First light</h2></div><span class="tile-count"><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 3h12v12H3zM3 9h12M9 3v12" stroke="currentColor"/></svg><span id="tileCount">— tiles</span></span></div>
+    <div class="stage" id="stage"><canvas id="board" tabindex="0" aria-label="Interactive tiled circle. In Ray mode use the angle slider or aim on the board. In Free mode use the neighboring-tile buttons."></canvas><div class="stage-badge"><span class="status-dot"></span><span id="stageMode">Straight shot</span></div><span class="stage-micro" id="stageMicro">ORIGIN → RIM</span><div class="stage-bottom"><span class="stage-hint" id="stageHint">Aim anywhere on the circle. Then launch your ray.</span></div></div>
+    <div class="board-footer"><span class="legend"><span class="legend-dot"></span> Origin / you</span><span class="legend"><span class="legend-dot next"></span><span id="legendNext">Ray hits</span></span><span class="legend"><span class="legend-dot rim"></span> Rim tile</span></div>
+  </div>
+  <aside class="side" aria-label="Game controls and feedback">
+    <section class="control-card" style="min-width:0;max-width:100%">
+      <div class="mode-tabs" role="group" aria-label="Choose a challenge part"><button class="mode-tab active" id="rayTab" aria-pressed="true" type="button"><svg viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M4 18 18 4M10 4h8v8" stroke="currentColor" stroke-width="1.5"/><circle cx="4" cy="18" r="1.8" fill="currentColor"/></svg>A · Ray</button><button class="mode-tab" id="freeTab" aria-pressed="false" type="button"><svg viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M3 18h7v-8h8V3M14 7l4-4 3 4" stroke="currentColor" stroke-width="1.5"/><circle cx="3" cy="18" r="1.8" fill="currentColor"/></svg>B · Free</button></div>
+      <div class="mode-kicker"><span class="eyebrow" id="challengeLabel">Part A / Find a direction</span><span class="part-label" id="partProgress">1 of 2</span></div>
+      <h2 id="modeTitle">Make a straight shot.</h2>
+      <p class="description" id="modeDescription">Choose a ray from the origin. Avoid vertices and cross as few tiles as you can.</p>
+      <div class="metrics"><div class="metric"><div class="metric-label" id="scoreLabel">This ray</div><div class="metric-value" id="score">—</div><div class="metric-unit">tiles</div></div><div class="metric" title="Ray: one legal direction between each consecutive pair of vertex directions; vertex rays are forbidden. Free: breadth-first search of the tile graph."><div class="metric-label">Best possible</div><div class="metric-value" id="par">—</div><div class="metric-unit">tiles</div></div><div class="metric"><div class="metric-label">Your best</div><div class="metric-value" id="best">—</div><div class="metric-unit" id="bestUnit">not played</div></div></div>
+      <div class="mode-controls" id="rayControls"><div class="angle-heading"><label for="angleSlider">Aim your ray</label><span class="angle-readout"><input class="angle-number" id="angleNumber" type="number" min="0" max="360" step="0.1" aria-label="Ray angle in degrees">°</span></div><input id="angleSlider" type="range" min="0" max="360" step="0.1" value="38" aria-label="Ray angle"><div class="tick-row"><span>0° E</span><span>90° N</span><span>180° W</span><span>270° S</span><span>360°</span></div><div class="option-row"><label class="check"><input id="avoidVertices" type="checkbox" checked title="Nudge forbidden aims off vertices. Vertex-crossing rays are blocked even when this assistance is off."> Avoid vertices</label><span class="snap-indicator" id="snapState">CLEAR PATH</span></div></div>
+      <div class="mode-controls" id="freeControls" hidden><div class="neighbors-label" id="neighborsLabel">Choose a neighboring tile:</div><div class="neighbor-list" id="neighbors"></div></div>
+      <button class="primary" id="actionBtn" type="button"><span id="actionLabel">Launch ray</span><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.6"/></svg></button>
+      <div class="secondary-actions"><button class="quiet" id="undoBtn" type="button">↺ Reset aim</button><button class="quiet" id="hintBtn" type="button">Reveal a hint</button></div>
+      <div class="route-label"><span id="routeTitle">Tiles along this ray</span><span id="routeMeta">Start counts as 1</span></div><div class="route-strip" id="routeStrip" aria-label="Your route"></div>
+      <p class="status" id="status" role="status" aria-live="polite">Find an angle, then launch. There is no timer.</p>
+      <section class="result" id="result" hidden aria-label="Attempt result"><div class="result-eyebrow" id="resultEyebrow">Escaped</div><h3 id="resultTitle">A way out.</h3><p id="resultText"></p><button class="primary" type="button" id="nextBtn">Try Part B · Free movement →</button></section>
+    </section>
+    <section class="insight"><div class="insight-head"><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M6 12c0-2-2-2.3-2-5a5 5 0 0 1 10 0c0 2.7-2 3-2 5M6 12h6M6.8 15h4.4M9 12V7" stroke="currentColor" stroke-width="1.2"/></svg><span id="insightLabel">The idea behind the game</span></div><p id="lesson">A shorter distance is not the objective. Count tile interiors, starting with the tile at the origin.</p><div id="comparison" hidden><div class="compare"><div class="compare-item"><label>Optimal ray</label><strong id="compareRay">—</strong></div><div class="compare-item free"><label>Optimal free route</label><strong id="compareFree">—</strong></div></div><p class="comparison-note" id="comparisonNote"></p><button class="text-button" id="overlayBtn" type="button">Overlay both optimal routes</button></div></section>
+  </aside>
+</section>
+<details class="theory" id="mathDetails"><summary>Why the two escape problems are different <span style="color:#8499b9;font-weight:400">The mathematics</span></summary><div class="theory-grid"><div><h3>One score, carefully defined.</h3><p>The starting tile counts as one. A ray scores the number of <em>distinct tiles whose interiors it crosses for positive length</em>. A free route scores tile visits; each neighbor move adds one, including revisits. The final step outside adds no tile.</p></div><div><h3>Turning can only help.</h3><p>Rays through tile vertices, including where edges meet the rim, are forbidden. Following a tile edge is forbidden too. Every legal ray traces shared-edge neighbors. Every cell is convex, so a ray cannot leave a tile and re-enter it. Its ordered tile sequence is itself a legal free route with the same score. So the shortest free route is always at most the score of any legal ray.</p></div><div><h3>How “best possible” is found.</h3><p>Free routes use breadth-first search on the tile-adjacency graph. Ray counts are checked once in each open angular interval between consecutive vertex directions, including circle-edge intersections. Vertex directions themselves are excluded. A tiny numerical guard around them prevents floating-point corner shortcuts.</p></div></div></details>
+<div class="mobile-dock" role="group" aria-label="Quick game controls"><button id="quickMode" class="quick-mode" type="button" aria-label="Switch challenge part">A · Ray</button><span class="quick-metric"><strong id="quickScore">4</strong> tiles<small>Best possible: <span id="quickPar">3</span></small></span><button id="quickUndo" class="quick-undo" type="button" aria-label="Undo or reset aim">↶</button><button id="quickAction" class="quick-action" type="button">Launch →</button></div>
+<footer class="footer"><span id="saveNote">Eight worlds · Sixteen challenges · Progress stays in this browser.</span><div class="footer-right"><span class="keyboard-note"><span class="footer-key">←</span> <span class="footer-key">→</span> aim &nbsp; <span class="footer-key">Enter</span> launch</span><button class="text-button" id="clearBtn" type="button">Reset progress</button></div></footer>
+<div id="fatal" class="fatal" hidden role="alert"></div>
+</main>
+<dialog class="dialog" id="helpDialog" aria-labelledby="helpTitle"><div class="dialog-top"><span class="eyebrow">The rules</span><button class="quiet close" type="button" data-close="helpDialog" aria-label="Close instructions">×</button></div><h2 id="helpTitle">Two ways out. One origin.</h2><p>Every level gives you the <strong>same convex-cell subdivision for two challenges</strong>. You always begin at the white origin, strictly inside a tile. Your score is measured in tiles, not physical distance.</p><h3>A · Ray: choose a direction</h3><p>Move your pointer, tap the circle, or use the angle slider. The lit tiles are your preview. Press <strong>Launch ray</strong> to submit. A tile counts only when the ray crosses its interior for positive length; merely touching it does not count. Every tile is convex, so a ray cannot leave a tile and re-enter it. Rays through any tile vertex, including a vertex on the rim, or along a tile edge are forbidden. “Avoid vertices” nudges a forbidden aim to a nearby legal direction; turning that assistance off never makes vertex rays legal.</p><h3 class="free-heading">B · Free: choose your neighbors</h3><p>Click a highlighted neighboring tile, or use the labeled buttons. A move must cross a shared edge, not just a corner. When your tile reaches a nonzero arc of the rim, press <strong>Escape the circle</strong>. Each tile visit costs one; moving inside a tile is free. Undo lets you revise your route.</p><p class="rule-note"><strong>The starting tile counts as 1.</strong> Your last step into the exterior adds 0. Match “Best possible” to earn a mastery star. Hints are marked on saved results. You can replay freely, switch parts, and jump to any level.</p><p><strong>Keyboard (with the board focused):</strong> In Ray mode, ← / → turn by 1°; hold Shift for 0.1°. ↑ / ↓ select the next / previous safe direction between vertices. Enter launches. In Free mode, ← / → cycle neighboring tiles, and Enter moves or escapes. U undoes; R restarts the current part; H gives a hint. Native inputs keep their normal keyboard behavior.</p><button class="primary" type="button" data-close="helpDialog">Let’s escape →</button></dialog>
+<dialog class="dialog" id="resetDialog" aria-labelledby="resetTitle"><h2 id="resetTitle">Start a fresh journey?</h2><p>This clears only this game’s saved scores in this browser. Your website and other browser data are not affected.</p><div class="secondary-actions"><button class="quiet" type="button" data-close="resetDialog">Keep my scores</button><button class="quiet" id="confirmReset" type="button">Clear game progress</button></div></dialog>
+<script>
+/* ESCAPE THE CIRCLE — geometry engine. No dependencies.
+   The mathematical domain is the exact unit disk, not a polygonal circle.
+   Every tile is convex (intersected with the exact disk). Convex groups may
+   retain hidden construction seams; non-convex groups are triangulated. Numerical tolerances are in unit-radius units. */
+const Geometry = (() => {
+  'use strict';
+  const TAU = 2 * Math.PI, EPS = 1e-9;
+  // Exclude near-vertex directions as well as exact ones: +/- 0.00000573 degrees.
+  // This is far smaller than the aiming controls, but larger than clipping noise.
+  const VERTEX_EPS = 1e-7;
+  const cross = (a,b) => a[0]*b[1]-a[1]*b[0];
+  const sub = (a,b) => [a[0]-b[0],a[1]-b[1]];
+  const dot = (a,b) => a[0]*b[0]+a[1]*b[1];
+  const norm = a => Math.hypot(a[0],a[1]);
+  const mix = (a,b,t) => [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];
+  const angle = a => (a % TAU + TAU) % TAU;
+  const signedArea = p => p.reduce((s,a,i)=>s+cross(a,p[(i+1)%p.length]),0)/2;
+  function rng(seed) { return () => { let t = seed += 0x6D2B79F5; t=Math.imul(t^t>>>15,t|1); t^=t+Math.imul(t^t>>>7,t|61); return ((t^t>>>14)>>>0)/4294967296; }; }
+  function clean(p) {
+    p=p.filter((v,i)=>norm(sub(v,p[(i+p.length-1)%p.length]))>1e-10);
+    if(signedArea(p)<0)p.reverse();
+    return p;
+  }
+  function halfplane(poly,n,b) {
+    const out=[];
+    for(let i=0;i<poly.length;i++) {
+      const a=poly[i],c=poly[(i+1)%poly.length],va=dot(a,n)-b,vc=dot(c,n)-b;
+      const ia=va<=1e-12,ic=vc<=1e-12;
+      if(ia)out.push(a);
+      if(ia!==ic)out.push(mix(a,c,va/(va-vc)));
+    }
+    return clean(out);
+  }
+  function contains(poly,p,eps=EPS) {
+    for(let i=0;i<poly.length;i++)if(cross(sub(poly[(i+1)%poly.length],poly[i]),sub(p,poly[i])) < -eps)return false;
+    return true;
+  }
+  function distanceSegment(p,a,b) {
+    const d=sub(b,a),q=sub(p,a),dd=dot(d,d),t=dd?Math.max(0,Math.min(1,dot(q,d)/dd)):0;
+    return norm(sub(p,mix(a,b,t)));
+  }
+  function meetsDisk(p) {
+    if(contains(p,[0,0]))return true;
+    return p.some((v,i)=>distanceSegment([0,0],v,p[(i+1)%p.length])<1-1e-10);
+  }
+  function clipSegmentDisk(a,b) {
+    const d=sub(b,a),A=dot(d,d),B=2*dot(a,d),C=dot(a,a)-1,disc=B*B-4*A*C;
+    if(A<1e-24||disc<=0)return null;
+    const q=Math.sqrt(disc),lo=Math.max(0,(-B-q)/(2*A)),hi=Math.min(1,(-B+q)/(2*A));
+    if(hi-lo<1e-10)return null;
+    return [mix(a,b,lo),mix(a,b,hi)];
+  }
+  // Only label placement uses this display approximation; scoring and exits do not.
+  function displayClip(poly) {
+    let p=poly;
+    for(let i=0;i<96&&p.length;i++) {
+      const a=(i+.5)*TAU/96;
+      p=halfplane(p,[Math.cos(a),Math.sin(a)],Math.cos(Math.PI/96));
+    }
+    return p;
+  }
+  function centroid(p) {
+    let x=0,y=0,a=0;
+    for(let i=0;i<p.length;i++) {const u=p[i],v=p[(i+1)%p.length],w=cross(u,v);a+=w;x+=(u[0]+v[0])*w;y+=(u[1]+v[1])*w;}
+    if(Math.abs(a)<1e-15)return p[0]||[0,0];
+    return [x/(3*a),y/(3*a)];
+  }
+  const square = () => [[-1.55,-1.55],[1.55,-1.55],[1.55,1.55],[-1.55,1.55]];
+  const keyPoint = p => p.map(v=>Math.round(v*1e7)).join(',');
+  function keyEdge(a,b) {const x=keyPoint(a),y=keyPoint(b);return x<y?x+'|'+y:y+'|'+x;}
+  function makeRaw(polys,groups=null) {
+    return polys.map((poly,i)=>({poly:clean(poly),group:groups?groups[i]:i})).filter(p=>p.poly.length>=3&&signedArea(p.poly)>1e-12&&meetsDisk(p.poly));
+  }
+  function rectGrid(n,shift=[.047,.079],warp=0) {
+    const step=2/n,lim=Math.ceil(n*.77),pts=new Map(),polys=[],coords=[];
+    const get=(i,j)=>{
+      const key=i+','+j;if(pts.has(key))return pts.get(key);
+      const x=(i+.5)*step+shift[0],y=(j+.5)*step+shift[1];
+      const p=[x+warp*step*Math.sin(3.3*y+.6),y+warp*step*Math.sin(3.1*x-.7)];pts.set(key,p);return p;
+    };
+    for(let i=-lim;i<lim;i++)for(let j=-lim;j<lim;j++) {
+      polys.push([get(i,j),get(i+1,j),get(i+1,j+1),get(i,j+1)]);coords.push([i,j]);
+    }
+    return makeRaw(polys).map(p=>({...p,coord:coords[p.group]}));
+  }
+  function voronoi(sites) {
+    return makeRaw(sites.map((a,i)=>{
+      let p=square();
+      for(let j=0;j<sites.length&&p.length;j++)if(i!==j){const b=sites[j];p=halfplane(p,sub(b,a),(dot(b,b)-dot(a,a))/2);}
+      return p;
+    }));
+  }
+  function hexagons() {
+    const sites=[],s=.325,t=.12;
+    for(let j=-6;j<=6;j++)for(let i=-6;i<=6;i++) {
+      const x=s*(i+j*.5),y=s*Math.sqrt(3)*j/2;
+      if(Math.hypot(x,y)<1.55)sites.push([x*Math.cos(t)-y*Math.sin(t),x*Math.sin(t)+y*Math.cos(t)]);
+    }
+    return voronoi(sites);
+  }
+  function crystals(n,seed) {
+    const random=rng(seed),sites=[[.017,-.013]];
+    let attempts=0,minsep=.9/Math.sqrt(n);
+    while(sites.length<n) {
+      const r=1.17*Math.sqrt(random()),t=TAU*random(),p=[r*Math.cos(t),r*Math.sin(t)];
+      if(sites.every(q=>norm(sub(p,q))>minsep)||attempts++>5000)sites.push(p);
+    }
+    return voronoi(sites);
+  }
+  function triangles(n,seed,warp=0) {
+    const raw=rectGrid(n,[.031,.059],warp),random=rng(seed),out=[];
+    for(const r of raw) {
+      const p=r.poly;
+      if(random()<.5)out.push([p[0],p[1],p[2]],[p[0],p[2],p[3]]);
+      else out.push([p[0],p[1],p[3]],[p[1],p[2],p[3]]);
+    }
+    return makeRaw(out);
+  }
+  function rawLinks(raw) {
+    const edges=new Map(),links=raw.map(()=>[]);
+    raw.forEach((p,i)=>p.poly.forEach((a,k)=>{
+      const b=p.poly[(k+1)%p.poly.length];if(!clipSegmentDisk(a,b))return;
+      const key=keyEdge(a,b),old=edges.get(key);
+      if(old!==undefined){links[i].push(old);links[old].push(i);}else edges.set(key,i);
+    }));
+    return links;
+  }
+  function merged(raw,seed,minSize,maxSize) {
+    const random=rng(seed),links=rawLinks(raw),unassigned=new Set(raw.map((_,i)=>i));
+    let group=0;
+    while(unassigned.size) {
+      const choices=[...unassigned],start=choices[Math.floor(random()*choices.length)],target=minSize+Math.floor(random()*(maxSize-minSize+1));
+      let front=[start],members=[];
+      while(front.length&&members.length<target) {
+        const idx=Math.floor(random()*front.length),id=front.splice(idx,1)[0];if(!unassigned.has(id))continue;
+        members.push(id);unassigned.delete(id);
+        for(const j of links[id])if(unassigned.has(j)&&!front.includes(j))front.push(j);
+      }
+      for(const id of members)raw[id].group=group;
+      group++;
+    }
+    // Absorb isolated little fragments through a real shared edge.
+    const sizes=new Map();for(const p of raw)sizes.set(p.group,(sizes.get(p.group)||0)+1);
+    for(let i=0;i<raw.length;i++)if(sizes.get(raw[i].group)===1&&links[i].length) {
+      const near=links[i].reduce((a,b)=>sizes.get(raw[a].group)>sizes.get(raw[b].group)?a:b);
+      if(raw[near].group!==raw[i].group) {sizes.set(raw[near].group,sizes.get(raw[near].group)+1);sizes.set(raw[i].group,0);raw[i].group=raw[near].group;}
+    }
+    return raw;
+  }
+  function spiral(n,layers,twist,blocks) {
+    const rings=[];
+    for(let r=0;r<=layers;r++) {
+      const radius=.145+(1.23-.145)*r/layers,a=.07+twist*r;
+      rings.push(Array.from({length:n},(_,k)=>[radius*Math.cos(a+k*TAU/n),radius*Math.sin(a+k*TAU/n)]));
+    }
+    const polys=[rings[0]],groups=[0];
+    for(let r=0;r<layers;r++)for(let k=0;k<n;k++) {
+      const j=(k+1)%n,q=[rings[r][k],rings[r+1][k],rings[r+1][j],rings[r][j]];
+      const group=1+k+n*Math.min(blocks-1,Math.floor(r*blocks/layers));
+      if(signedArea([q[0],q[1],q[2]])>0&&signedArea([q[0],q[2],q[3]])>0){polys.push([q[0],q[1],q[2]],[q[0],q[2],q[3]]);}
+      else {polys.push([q[0],q[1],q[3]],[q[1],q[2],q[3]]);}
+      groups.push(group,group);
+    }
+    return makeRaw(polys,groups);
+  }
+  // Certify a connected union of the non-overlapping convex source pieces.
+  // Every exposed directed edge must support the whole union on its left.
+  // No sampled circle or bounding-box approximation is used in this test.
+  function isConvexGroup(pieces) {
+    const boundary=new Map();
+    for(const {poly} of pieces)for(let i=0;i<poly.length;i++) {
+      const a=poly[i],b=poly[(i+1)%poly.length],key=keyEdge(a,b);
+      if(boundary.has(key))boundary.delete(key);else boundary.set(key,{a,b});
+    }
+    const points=pieces.flatMap(p=>p.poly);
+    return boundary.size>=3&&[...boundary.values()].every(({a,b})=> {
+      const d=sub(b,a),tolerance=1e-10*norm(d);
+      return points.every(p=>cross(d,sub(p,a))>=-tolerance);
+    });
+  }
+  // Test the actual circularly clipped cell, so a bend lying entirely
+  // outside the circle does not cause an unnecessary split. A linear extremum
+  // on polygon intersect disk occurs at a polygon vertex, an edge-circle
+  // intersection, or the supporting point on a circular arc. Test all three.
+  function isConvexCell(pieces) {
+    const boundary=new Map(),points=[];
+    for(const {poly} of pieces) {
+      for(const p of poly)if(norm(p)<=1+1e-12)points.push(p);
+      for(let i=0;i<poly.length;i++) {
+        const a=poly[i],b=poly[(i+1)%poly.length],key=keyEdge(a,b),seg=clipSegmentDisk(a,b);
+        if(seg)points.push(...seg);
+        if(boundary.has(key))boundary.delete(key);else boundary.set(key,{a,b,seg});
+      }
+    }
+    for(const {a,b,seg} of boundary.values())if(seg) {
+      const d=sub(b,a),length=norm(d),tolerance=1e-10*length;
+      if(points.some(p=>cross(d,sub(p,a)) < -tolerance))return false;
+      const support=[d[1]/length,-d[0]/length];
+      if(cross(d,sub(support,a)) < -tolerance&&pieces.some(p=>contains(p.poly,support,1e-12)))return false;
+    }
+    return pieces.length>0;
+  }
+  // Preserve each already-convex cell. For a non-convex cell, expose its
+  // existing triangular pieces (and fan-triangulate any convex polygon pieces).
+  // This is a conforming refinement: original boundaries never move or vanish.
+  // New triangles intersected with the exact disk are convex, including rim tiles.
+  function convexRefinement(raw) {
+    const groups=new Map();
+    for(const r of raw){if(!groups.has(r.group))groups.set(r.group,[]);groups.get(r.group).push(r);}
+    const keep=new Set([...groups].filter(([,pieces])=>isConvexCell(pieces)).map(([id])=>id));
+    const result=[];
+    for(let i=0;i<raw.length;i++) {
+      const r=raw[i];
+      if(keep.has(r.group)){result.push(r);continue;}
+      if(!isConvexGroup([r]))throw new Error('A source piece must be convex before triangulation.');
+      // Select a fan that does not put a new diagonal through the origin.
+      let poly=null;
+      for(let shift=0;shift<r.poly.length&&!poly;shift++) {
+        const candidate=r.poly.slice(shift).concat(r.poly.slice(0,shift));
+        if(candidate.slice(2,-1).every(v=>distanceSegment([0,0],candidate[0],v)>1e-8))poly=candidate;
+      }
+      if(!poly)throw new Error('No triangulation keeps the origin strictly inside a tile.');
+      for(let k=1;k<poly.length-1;k++) {
+        const triangle=clean([poly[0],poly[k],poly[k+1]]);
+        if(signedArea(triangle)>1e-12&&meetsDisk(triangle))result.push({poly:triangle,group:'triangle:'+i+':'+k});
+      }
+    }
+    result.refinement={originalCells:groups.size,retainedCells:keep.size,splitCells:groups.size-keep.size};
+    return result;
+  }
+  // EDIT HERE to change or extend the campaign. Keep seeds stable for saved scores.
+  const LEVELS=[
+    {name:'First light',family:'Offset square grid',tag:'Find your bearings',build:()=>rectGrid(5),lesson:'A shorter distance is not the objective. Count tile interiors, starting with the tile at the origin.'},
+    {name:'Honeycomb',family:'Hexagonal tessellation',tag:'Six ways to go',build:hexagons,lesson:'A tile is one graph vertex. A shared edge is one legal move. Point contacts do not create a move.'},
+    {name:'Glassworks',family:'Triangular mosaic',tag:'Mind the corners',build:()=>triangles(7,29),lesson:'Rays cannot pass through vertices. Every legal ray follows shared-edge neighbors, so a shortest free route can never use more tiles.'},
+    {name:'Crystal drift',family:'Irregular Voronoi cells',tag:'Unequal shapes, equal cost',build:()=>crystals(76,410),lesson:'Large and small tiles both cost one. A long crossing through a large cell can be better than many short crossings.'},
+    {name:'Fault lines',family:'Triangulated fault mosaic',tag:'Convex pieces, new choices',build:()=>merged(triangles(12,39,.33),991,3,7),lesson:'Non-convex tiles have been split into triangles. In a convex tile, a ray enters at most once: one visit, one connected intersection.'},
+    {name:'Switchbacks',family:'Triangulated polyomino mosaic',tag:'Trade distance for fewer tiles',build:()=>merged(rectGrid(17,[.024,.038]),227,3,8),lesson:'Free movement is a shortest-path problem on the adjacency graph, not a shortest-distance problem in the picture.'},
+    {name:'Undertow',family:'Triangulated twisted bands',tag:'Follow the current',build:()=>spiral(18,8,.115,3),lesson:'Bending inside a tile costs nothing. Only entering a new neighboring tile adds to your route score.'},
+    {name:'Spiral vault',family:'Triangulated spiral mosaic',tag:'The final escape',build:()=>spiral(24,12,.16,3),lesson:'The spiral is now a mosaic of convex pieces. Every legal ray is a valid free route, but turning can still save tile visits.'}
+  ];
+  function prepare(index) {
+    const raw=convexRefinement(LEVELS[index].build()),groups=new Map(),parts=[],cells=[];
+    raw.forEach((r,i)=>{
+      if(!groups.has(r.group)){groups.set(r.group,cells.length);cells.push({id:cells.length,parts:[],neighbors:new Set(),exits:[],area:0});}
+      const id=groups.get(r.group),poly=r.poly,p={id:i,cell:id,poly,edges:[],neighbors:[],center:[0,0],area:0};
+      const dp=displayClip(poly);
+      p.center=centroid(dp.length?dp:poly);p.area=Math.abs(signedArea(dp));
+      parts.push(p);cells[id].parts.push(i);cells[id].area+=p.area;
+    });
+    const edgeMap=new Map(),edges=[];
+    for(const p of parts)for(let k=0;k<p.poly.length;k++) {
+      const a=p.poly[k],b=p.poly[(k+1)%p.poly.length],d=sub(b,a),n=[d[1],-d[0]],h=dot(a,n),key=keyEdge(a,b);
+      const record={a,b,n,h,part:p.id,other:-1};p.edges.push(record);
+      if(edgeMap.has(key)) {
+        const prev=edgeMap.get(key);record.other=prev.part;prev.other=p.id;
+        const seg=clipSegmentDisk(a,b);
+        if(seg) {
+          const mid=mix(seg[0],seg[1],.5);
+          p.neighbors.push({id:prev.part,mid});parts[prev.part].neighbors.push({id:p.id,mid});
+          if(p.cell!==parts[prev.part].cell){cells[p.cell].neighbors.add(parts[prev.part].cell);cells[parts[prev.part].cell].neighbors.add(p.cell);edges.push({a:seg[0],b:seg[1],left:p.cell,right:parts[prev.part].cell});}
+        }
+      }else edgeMap.set(key,record);
+    }
+    const orphan=[...edgeMap.values()].filter(e=>e.other===-1&&clipSegmentDisk(e.a,e.b));
+    if(orphan.length)throw new Error('The subdivision has an unmatched interior edge ('+orphan.length+').');
+    // The runtime guard also protects future campaign edits from concave cells.
+    for(const c of cells)if(!isConvexCell(c.parts.map(i=>parts[i])))throw new Error('Every playable cell must be convex.');
+    const board={index,parts,cells,edges,orphanCount:orphan.length,allConvex:true,refinement:raw.refinement};
+    const at=(p)=>parts.find(q=>contains(q.poly,p))?.id ?? -1;
+    board.partAt=at;board.cellAt=p=>{const i=at(p);return i<0?-1:parts[i].cell;};
+    for(const c of cells) {
+      const wanted=c.parts.reduce((s,i)=>[s[0]+parts[i].center[0]*parts[i].area,s[1]+parts[i].center[1]*parts[i].area],[0,0]).map(v=>v/(c.area||1));
+      c.anchorPart=c.parts.reduce((a,b)=>{
+        const score=i=>parts[i].area/(.07+norm(sub(parts[i].center,wanted)));
+        return score(a)>score(b)?a:b;
+      });
+      c.anchor=parts[c.anchorPart].center;
+    }
+    board.start=board.cellAt([0,0]);board.startPart=at([0,0]);
+    if(board.start<0)throw new Error('Missing origin cell.');
+    if(edges.some(e=>distanceSegment([0,0],e.a,e.b)<1e-8))throw new Error('The origin must lie strictly inside a tile.');
+    const boundaryAngles=[0];
+    for(const e of edges)for(const p of [e.a,e.b])if(Math.abs(norm(p)-1)<1e-7)boundaryAngles.push(angle(Math.atan2(p[1],p[0])));
+    boundaryAngles.sort((a,b)=>a-b);
+    const ba=boundaryAngles.filter((v,i)=>i===0||v-boundaryAngles[i-1]>1e-9);ba.push(TAU);
+    for(let i=0;i<ba.length-1;i++) {
+      const a=ba[i],b=ba[i+1];if(b-a<1e-9)continue;
+      const t=(a+b)/2,p=[Math.cos(t),Math.sin(t)],pid=at(p);
+      if(pid<0)throw new Error('Uncovered boundary arc.');
+      cells[parts[pid].cell].exits.push({a,b,part:pid,point:p});
+    }
+    const queue=[];
+    for(const c of cells){c.dist=c.exits.length?1:Infinity;c.next=-1;if(c.exits.length)queue.push(c.id);}
+    for(let head=0;head<queue.length;head++) {
+      const i=queue[head];
+      for(const j of cells[i].neighbors)if(cells[j].dist===Infinity){cells[j].dist=cells[i].dist+1;cells[j].next=i;queue.push(j);}
+    }
+    if(cells.some(c=>!Number.isFinite(c.dist)))throw new Error('Disconnected tile graph.');
+    board.freePar=cells[board.start].dist;
+    board.freeSolution=[board.start];
+    while(cells[board.freeSolution.at(-1)].next>=0)board.freeSolution.push(cells[board.freeSolution.at(-1)].next);
+    const critical=[];
+    for(const e of edges)for(const p of [e.a,e.b])critical.push({theta:angle(Math.atan2(p[1],p[0])),point:p});
+    critical.sort((a,b)=>a.theta-b.theta);
+    board.critical=critical.filter((a,i)=>i===0||a.theta-critical[i-1].theta>1e-9);
+    board.rayPar=Infinity;board.bestAngle=0;board.spans=[];board.bestWidth=-1;
+    // Only open angular intervals are legal. Counts are constant inside each one.
+    // Their midpoints also give robust hints, rather than unplayable corner shots.
+    const directions=board.critical.length?board.critical:[{theta:0}];
+    for(let i=0;i<directions.length;i++) {
+      const a=directions[i].theta,b=i===directions.length-1?directions[0].theta+TAU:directions[i+1].theta;
+      if(b-a<=2*VERTEX_EPS)continue;
+      const t=angle((a+b)/2),hit=cast(board,t);
+      if(!hit.valid)continue;
+      board.spans.push({a,b,count:hit.count});
+      if(hit.count<board.rayPar||(hit.count===board.rayPar&&b-a>board.bestWidth)){board.rayPar=hit.count;board.bestAngle=t;board.bestWidth=b-a;}
+    }
+    board.genericPar=board.rayPar; // Retained for compatibility with classroom demos.
+    if(!Number.isFinite(board.rayPar))throw new Error('No numerically safe ray direction.');
+    if(board.rayPar<board.freePar)throw new Error('A legal ray must not beat the shortest free route.');
+    return board;
+  }
+  function rayDirectionStatus(board,theta) {
+    if(!Number.isFinite(theta))return {valid:false,reason:'angle',vertex:null};
+    theta=angle(theta);
+    for(const c of board.critical) {
+      const d=Math.abs(Math.atan2(Math.sin(theta-c.theta),Math.cos(theta-c.theta)));
+      if(d<=VERTEX_EPS)return {valid:false,reason:'vertex',vertex:c.point};
+    }
+    return {valid:true,reason:null,vertex:null};
+  }
+  // Optional aiming assistance changes the direction, never the validity rule.
+  function safeAngle(board,theta) {
+    theta=angle(theta);
+    if(cast(board,theta).valid)return theta;
+    const candidates=[];
+    for(const span of board.spans) {
+      const margin=Math.min((span.b-span.a)/4,Math.max(16*VERTEX_EPS,.0001));
+      for(const turn of [-TAU,0,TAU]) {
+        const t=angle(Math.max(span.a+margin,Math.min(span.b-margin,theta+turn)));
+        const d=Math.abs(Math.atan2(Math.sin(t-theta),Math.cos(t-theta)));
+        candidates.push({t,d});
+      }
+    }
+    candidates.sort((a,b)=>a.d-b.d);
+    for(const c of candidates)if(cast(board,c.t).valid)return c.t;
+    return board.bestAngle;
+  }
+  function cast(board,theta) {
+    if(!Number.isFinite(theta))return {theta:null,u:[0,0],count:null,previewCount:0,hits:[],segments:[],walk:[],interiorLength:0,valid:false,reason:'angle',blockedVertex:null};
+    theta=angle(theta);
+    const direction=rayDirectionStatus(board,theta),u=[Math.cos(theta),Math.sin(theta)],byCell=new Map();
+    for(const p of board.parts) {
+      let lo=0,hi=1,valid=true;
+      for(const e of p.edges) {
+        const a=dot(e.n,u),b=e.h;
+        if(Math.abs(a)<1e-12) {
+          if(b < -1e-11){valid=false;break;}
+          // A ray on a TRUE tile edge is not in either tile's interior.
+          // An artificial seam inside a merged tile, however, IS interior.
+          if(Math.abs(b)<1e-11&&(e.other<0||board.parts[e.other].cell!==p.cell)){valid=false;break;}
+        } else {
+          const t=b/a;if(a>0)hi=Math.min(hi,t);else lo=Math.max(lo,t);
+          if(hi-lo<=1e-9){valid=false;break;}
+        }
+      }
+      if(valid&&hi-lo>1e-9){if(!byCell.has(p.cell))byCell.set(p.cell,[]);byCell.get(p.cell).push([lo,hi]);}
+    }
+    const hits=[],segments=[];
+    for(const [id,ivs] of byCell) {
+      ivs.sort((a,b)=>a[0]-b[0]);const merged=[];
+      for(const iv of ivs){const last=merged.at(-1);if(last&&iv[0]<=last[1]+1e-9)last[1]=Math.max(last[1],iv[1]);else merged.push(iv.slice());}
+      hits.push({id,first:merged[0][0],length:merged.reduce((s,v)=>s+v[1]-v[0],0),intervals:merged});
+      for(const [a,b] of merged)segments.push({id,a,b});
+    }
+    hits.sort((a,b)=>a.first-b.first);segments.sort((a,b)=>a.a-b.a);
+    const interiorLength=hits.reduce((s,h)=>s+h.length,0),walk=[];
+    for(const segment of segments)if(walk.at(-1)!==segment.id)walk.push(segment.id);
+    // A legal ray must give a covered, shared-edge walk from the origin to a rim
+    // tile. Refuse numerically ambiguous traces instead of awarding a shortcut.
+    const covered=segments.length>0&&segments[0].a<=EPS&&segments.at(-1).b>=1-EPS&&
+      Math.abs(interiorLength-1)<=1e-7&&segments.every((s,i)=>!i||Math.abs(s.a-segments[i-1].b)<=1e-7);
+    const connected=walk[0]===board.start&&board.cells[walk.at(-1)]?.exits.length>0&&
+      walk.every((id,i)=>!i||board.cells[walk[i-1]].neighbors.has(id));
+    const valid=direction.valid&&covered&&connected;
+    return {theta,u,count:valid?hits.length:null,previewCount:hits.length,hits,segments,walk,interiorLength,
+      valid,reason:direction.reason||(valid?null:'numerical'),blockedVertex:direction.vertex};
+  }
+  // Route drawings travel through a convex tile's retained construction pieces
+  // and actual shared-edge midpoints, never through another tile as a shortcut.
+  function insidePath(board,start,end,cell) {
+    if(start===end)return [start];
+    const prev=new Map([[start,-1]]),q=[start];
+    for(let h=0;h<q.length&&!prev.has(end);h++)for(const e of board.parts[q[h]].neighbors) {
+      if(board.parts[e.id].cell===cell&&!prev.has(e.id)){prev.set(e.id,q[h]);q.push(e.id);}
+    }
+    if(!prev.has(end))throw new Error('A merged tile is not connected within the disk.');
+    const p=[end];while(p.at(-1)!==start)p.push(prev.get(p.at(-1)));return p.reverse();
+  }
+  function routePoints(board,route,escape=false) {
+    let cur=board.startPart;const points=[[0,0]];
+    function walkTo(target,cell) {
+      const path=insidePath(board,cur,target,cell);
+      for(let k=1;k<path.length;k++) {
+        const portal=board.parts[path[k-1]].neighbors.find(e=>e.id===path[k]);points.push(portal.mid,board.parts[path[k]].center);
+      }
+      cur=target;
+    }
+    for(let i=1;i<route.length;i++) {
+      const from=route[i-1],to=route[i],options=[];
+      for(const p of board.cells[from].parts)for(const e of board.parts[p].neighbors)if(board.parts[e.id].cell===to)options.push({p,e});
+      const here=points.at(-1);options.sort((a,b)=>norm(sub(a.e.mid,here))-norm(sub(b.e.mid,here)));
+      const portal=options[0];if(!portal)throw new Error('Illegal cell transition.');
+      walkTo(portal.p,from);points.push(portal.e.mid,board.parts[portal.e.id].center);cur=portal.e.id;
+      walkTo(board.cells[to].anchorPart,to);
+    }
+    if(escape) {
+      const cell=board.cells[route.at(-1)],arc=cell.exits.slice().sort((a,b)=>(b.b-b.a)-(a.b-a.a))[0];
+      if(arc){walkTo(arc.part,cell.id);points.push(arc.point,arc.point.map(v=>v*1.085));}
+    }
+    return points;
+  }
+  return {TAU,EPS,VERTEX_EPS,LEVELS,isConvexGroup,isConvexCell,convexRefinement,prepare,cast,rayDirectionStatus,safeAngle,routePoints,angle,norm,sub,mix,contains,insidePath,distanceSegment};
+})();
+if(typeof module!=='undefined')module.exports=Geometry;
+
+/* ESCAPE THE CIRCLE — interface, canvas rendering, and local-only progress.
+   Integration: this file is embedded in escape-the-circle.html. No imports,
+   network requests, server endpoints, or external fonts are needed. */
+(() => {
+  'use strict';
+  const G=Geometry, $=id=>document.getElementById(id), canvas=$('board'),ctx=canvas.getContext('2d');
+  const STORE='geometry-arcade.escape-circle.v1', cache=new Map();
+  const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+  let storageOK=true,progressNeedsSave=false,retiredRayScores=0,refinedScoresReset=0,progress={version:3,levels:{},last:{level:0,mode:'ray'}};
+  try {
+    const saved=JSON.parse(localStorage.getItem(STORE)||'null');
+    if(saved&&(saved.version===1||saved.version===2||saved.version===3)&&saved.levels&&typeof saved.levels==='object') {
+      progressNeedsSave=saved.version!==3;
+      for(let i=0;i<G.LEVELS.length;i++) {
+        const r=saved.levels[i];if(!r||typeof r!=='object')continue;
+        // Refinement changes cell identities and costs in worlds 5–8. Do not
+        // interpret old paths or scores as attempts on a different subdivision.
+        if(saved.version<3&&i>=4){if(r.ray||r.free)refinedScoresReset++;continue;}
+        const clean={};
+        for(const mode of ['ray','free'])if(r[mode]&&Number.isInteger(r[mode].score)&&r[mode].score>0&&r[mode].score<10000){clean[mode]=r[mode];}
+        progress.levels[i]=clean;
+      }
+      if(saved.last&&Number.isInteger(saved.last.level)&&saved.last.level>=0&&saved.last.level<G.LEVELS.length)progress.last={level:saved.last.level,mode:saved.last.mode==='free'?'free':'ray'};
+    }
+  }catch(_){storageOK=false;}
+  let board,S={},W=600,H=600,DPR=1,scale=250,cx=300,cy=300,token=0;
+  const A={ray:'#67e6f6',free:'#a6f0b4'},COLOR=['#285766','#334a73','#494473','#5e4476','#714765','#73504f','#706044','#376655','#36556c'];
+  function persist(){try{localStorage.setItem(STORE,JSON.stringify(progress));}catch(_){storageOK=false;}updateSaveNote();}
+  function updateSaveNote(){$('saveNote').textContent=storageOK?'Eight worlds · Sixteen challenges · Progress stays in this browser.':'Eight worlds · Sixteen challenges · Storage unavailable; scores last for this session.';}
+  function getBoard(index) {
+    if(!cache.has(index)) {
+      const b=G.prepare(index),assigned=new Map();
+      for(const c of b.cells.slice().sort((a,b)=>b.neighbors.size-a.neighbors.size)) {
+        const used=new Set([...c.neighbors].map(id=>assigned.get(id)));
+        let k=(c.id*5+index*3)%COLOR.length;
+        while(used.has(k))k=(k+1)%COLOR.length;
+        assigned.set(c.id,k);c.color=COLOR[k];
+      }
+      for(const c of b.cells){c.path=new Path2D();for(const id of c.parts){const p=b.parts[id].poly;c.path.moveTo(...p[0]);for(let j=1;j<p.length;j++)c.path.lineTo(...p[j]);c.path.closePath();}}
+      cache.set(index,b);
+    }
+    return cache.get(index);
+  }
+  // Keep the existing storage key. Only unchanged boards inherit pre-refinement
+  // scores; current saves and retained records are validated against the geometry.
+  function revalidateProgress() {
+    const before=JSON.stringify(progress.levels);
+    for(const [key,r] of Object.entries(progress.levels)) {
+      if(!r.ray&&!r.free)continue;
+      const b=getBoard(Number(key));
+      if(r.ray) {
+        const hit=G.cast(b,r.ray.theta);
+        if(!hit.valid){delete r.ray;retiredRayScores++;}
+        else r.ray={score:hit.count,theta:hit.theta,aided:!!r.ray.aided,optimal:hit.count===b.rayPar};
+      }
+      if(r.free) {
+        const p=r.free.path;
+        const valid=Array.isArray(p)&&p.length===r.free.score&&p[0]===b.start&&
+          p.every((id,i)=>Number.isInteger(id)&&!!b.cells[id]&&(!i||b.cells[p[i-1]].neighbors.has(id)))&&
+          b.cells[p.at(-1)].exits.length>0;
+        if(valid)r.free={score:p.length,path:p.slice(),aided:!!r.free.aided,optimal:p.length===b.freePar};
+        else delete r.free;
+      }
+    }
+    if(progressNeedsSave||before!==JSON.stringify(progress.levels))persist();
+  }
+  function rayWarning() {
+    return S.ray.reason==='vertex'?'Ray blocked: it passes through or too close to a tile vertex. Adjust your aim.':'Ray blocked: this direction is numerically ambiguous. Adjust your aim slightly.';
+  }
+  function say(text,warning=false){$('status').textContent=text;$('status').classList.toggle('warning',warning);}
+  function record(){return progress.levels[S.level]||{};}
+  function currentPar(){return S.mode==='ray'?board.rayPar:board.freePar;}
+  function currentScore(){return S.mode==='ray'?S.ray.count:S.route.length;}
+  function saveResult() {
+    if(S.mode==='ray'&&!S.ray.valid)return;
+    if(!progress.levels[S.level])progress.levels[S.level]={};
+    const r=record(),score=currentScore(),old=r[S.mode],aided=S.aided[S.mode];
+    if(!old||score<old.score||(score===old.score&&old.aided&&!aided))r[S.mode]={score,aided,optimal:score===currentPar(),...(S.mode==='ray'?{theta:S.angle}:{path:S.route.slice()})};
+    progress.last={level:S.level,mode:S.mode};persist();
+  }
+  function updateCampaign() {
+    for(let i=0;i<G.LEVELS.length;i++) {
+      const btn=$('campaign').children[i],r=progress.levels[i]||{};
+      btn.classList.toggle('active',i===S.level);btn.setAttribute('aria-current',i===S.level?'step':'false');
+      const pips=btn.querySelectorAll('.pip');
+      ['ray','free'].forEach((m,k)=>{pips[k].className='pip'+(r[m]?(r[m].optimal?' master':' done'):'');});
+      btn.setAttribute('aria-label',`Level ${i+1}: ${G.LEVELS[i].name}. Ray ${r.ray?'completed':'not completed'}, free ${r.free?'completed':'not completed'}.`);
+    }
+    let stars=0;for(const r of Object.values(progress.levels))for(const mode of ['ray','free'])if(r[mode]?.optimal)stars++;
+    $('mastery').textContent=stars+' / 16';
+  }
+  function updateHash(){try{history.replaceState(null,'','#level='+(S.level+1)+'&part='+(S.mode==='ray'?'a':'b'));}catch(_){}}
+  function loadLevel(index,mode='ray',remember=true) {
+    if(!Number.isInteger(index)||index<0||index>=G.LEVELS.length)return;
+    token++;board=getBoard(index);
+    const r=progress.levels[index],savedAngle=r?.ray?.theta;
+    S={level:index,mode:mode==='free'?'free':'ray',angle:Number.isFinite(savedAngle)?savedAngle:38*Math.PI/180,route:[board.start],points:[[0,0]],hover:-1,selectedNeighbor:0,done:{ray:false,free:false},aided:{ray:false,free:false},hint:{ray:false,free:false},hintCell:-1,overlay:false,animating:false,animProgress:1,burst:0,snapPoint:null,avoidedVertex:false};
+    S.ray=G.cast(board,S.angle);updateSnapPoint();
+    if(remember){progress.last={level:index,mode:S.mode};persist();}
+    updateHash();updateUI();resize();
+    say(S.mode==='ray'?'Find an angle, then launch. There is no timer.':'Start counts as 1. Only shared edges allow a move.');
+  }
+  function changeMode(mode) {
+    if(mode===S.mode)return;
+    token++;S.animating=false;S.burst=0;S.points=G.routePoints(board,S.route,S.done.free);S.mode=mode;S.hover=-1;
+    progress.last={level:S.level,mode};persist();updateHash();updateUI();draw();
+    say(mode==='ray'?'Same subdivision. Pick a ray from the origin.':'Same subdivision. You may now turn inside each tile.');
+  }
+  function updateSnapPoint() {
+    S.snapPoint=S.ray.blockedVertex;
+  }
+  function setAngle(theta,assist=false) {
+    if(S.animating||!Number.isFinite(theta))return;
+    const wasInvalid=S.ray&&!S.ray.valid;
+    theta=G.angle(theta);let ray=G.cast(board,theta),avoided=false;
+    if(assist&&$('avoidVertices').checked&&!ray.valid){theta=G.safeAngle(board,theta);ray=G.cast(board,theta);avoided=ray.valid;}
+    S.angle=theta;S.ray=ray;S.avoidedVertex=avoided;S.done.ray=false;S.burst=0;updateSnapPoint();
+    updateUI();draw();
+    if(!ray.valid)say(rayWarning(),true);
+    else if(avoided)say('Aim moved slightly off a vertex. Only rays avoiding every vertex can launch.');
+    else if(wasInvalid)say('Clear of vertices. This ray is legal to launch.');
+  }
+  function resetPart() {
+    token++;S.animating=false;S.overlay=false;S.burst=0;S.done[S.mode]=false;S.aided[S.mode]=false;S.hint[S.mode]=false;S.hintCell=-1;S.avoidedVertex=false;
+    if(S.mode==='ray'){S.angle=38*Math.PI/180;S.ray=G.cast(board,S.angle);updateSnapPoint();}
+    else {S.route=[board.start];S.points=[[0,0]];S.selectedNeighbor=0;S.hover=-1;}
+    updateUI();draw();say('Fresh attempt. Aim for '+currentPar()+' tiles.');
+  }
+  function neighbors() {
+    const cur=board.cells[S.route.at(-1)];
+    return [...cur.neighbors].sort((a,b)=>{
+      const p=G.sub(board.cells[a].anchor,cur.anchor),q=G.sub(board.cells[b].anchor,cur.anchor);
+      return G.angle(Math.atan2(p[1],p[0]))-G.angle(Math.atan2(q[1],q[0]));
+    });
+  }
+  function moveCell(id) {
+    if(S.mode!=='free'||S.animating||S.done.free)return false;
+    const from=S.route.at(-1);
+    if(!board.cells[from].neighbors.has(id)) {
+      if(id===from)say('You are already in this tile. Movement inside it is free.');
+      else say('That tile is not a neighbor. Choose a tile sharing an edge, not only a corner.',true);
+      return false;
+    }
+    if(S.route.length>=200){say('This route has 200 visits. Undo or restart to try a shorter route.',true);return false;}
+    S.route.push(id);S.points=G.routePoints(board,S.route);S.selectedNeighbor=0;S.hintCell=-1;S.hover=-1;
+    updateUI();draw();
+    if(board.cells[id].exits.length)say('You reached a rim tile. Press “Escape the circle” to finish.');
+    else say(`Tile ${id+1}. ${S.route.length} visits so far. Choose your next neighbor.`);
+    return true;
+  }
+  function undo() {
+    if(S.animating)return;
+    if(S.mode==='ray'){resetPart();return;}
+    if(S.done.free){S.done.free=false;S.burst=0;S.points=G.routePoints(board,S.route);}
+    else if(S.route.length>1){S.route.pop();S.points=G.routePoints(board,S.route);}
+    S.hintCell=-1;S.selectedNeighbor=0;updateUI();draw();say('Route revised. Undo does not add a tile visit.');
+  }
+  function hint() {
+    if(S.animating||S.done[S.mode])return;
+    S.aided[S.mode]=true;
+    if(S.mode==='ray') {
+      if(S.hint.ray){setAngle(board.bestAngle);say('An optimal direction is set. Launch to submit; this attempt is marked assisted.');}
+      else {S.hint.ray=true;say('The gold ray is an optimal direction. Press “Use hinted direction” to aim exactly.');}
+    }else {
+      S.hint.free=true;
+      const cur=board.cells[S.route.at(-1)];S.hintCell=cur.next;
+      if(S.hintCell<0)say('You are already at the rim. Escape now. This attempt is marked assisted.');
+      else say(`A shortest remaining route goes through tile ${S.hintCell+1}, highlighted in gold. This attempt is marked assisted.`);
+    }
+    updateUI();draw();
+  }
+  function launch() {
+    if(S.animating)return;
+    if(S.done[S.mode]){resetPart();return;}
+    if(S.mode==='ray'){S.ray=G.cast(board,S.angle);if(!S.ray.valid){updateSnapPoint();updateUI();draw();say(rayWarning(),true);return;}}
+    if(S.mode==='free'&&!board.cells[S.route.at(-1)].exits.length){say('First reach a tile touching a nonzero arc of the circle.',true);return;}
+    S.animating=true;S.animProgress=0;S.burst=0;const thisToken=++token,t0=performance.now(),duration=reducedMotion.matches?0:(S.mode==='ray'?650:360);
+    if(S.mode==='free')S.points=G.routePoints(board,S.route,true);
+    updateUI();
+    const frame=now=>{
+      if(thisToken!==token)return;
+      S.animProgress=duration?Math.min(1,(now-t0)/duration):1;
+      draw();
+      if(S.animProgress<1)requestAnimationFrame(frame);
+      else {S.animating=false;S.done[S.mode]=true;S.burst=1;saveResult();updateUI();draw();say(`Escaped through ${currentScore()} tiles. Best possible: ${currentPar()}. ${currentScore()===currentPar()?'Optimal escape!':'Try again to reduce your score.'}`);
+        if(!reducedMotion.matches){const end=performance.now();const fade=t=>{if(thisToken!==token)return;S.burst=Math.max(0,1-(t-end)/700);draw();if(S.burst>0)requestAnimationFrame(fade);};requestAnimationFrame(fade);}
+      }
+    };
+    requestAnimationFrame(frame);
+  }
+  function updateResult() {
+    const done=S.done[S.mode];$('result').hidden=!done;
+    if(!done)return;
+    const score=currentScore(),par=currentPar(),perfect=score===par;
+    $('resultEyebrow').textContent=perfect?'✦ Optimal escape'+(S.aided[S.mode]?' · assisted':''):'Escape complete'+(S.aided[S.mode]?' · assisted':'');
+    $('resultTitle').textContent=perfect?'No tile wasted.':`${score} tiles. A way out.`;
+    $('resultText').textContent=(perfect?'You matched the best possible score. ':`There is a ${par}-tile escape. You can retry or keep exploring. `)+(S.mode==='ray'?'Now try the same board with permission to turn.':G.LEVELS[S.level].lesson);
+    const allDone=Object.values(progress.levels).reduce((n,r)=>n+(r.ray?1:0)+(r.free?1:0),0)===16;
+    $('nextBtn').textContent=S.mode==='ray'?'Try Part B · Free movement →':S.level<G.LEVELS.length-1?'Next world · '+G.LEVELS[S.level+1].name+' →':allDone?'Journey complete · Replay from the start ↺':'Back to the first world ↺';
+  }
+  function updateComparison() {
+    const r=record(),show=!!(r.ray&&r.free);$('comparison').hidden=!show;
+    $('insightLabel').textContent=show?'Two ways out, compared':S.level<2?'The idea behind the game':'A geometric observation';
+    $('lesson').textContent=G.LEVELS[S.level].lesson;
+    if(!show)return;
+    $('compareRay').textContent=board.rayPar+' tiles';$('compareFree').textContent=board.freePar+' tiles';
+    let text;
+    if(board.rayPar>board.freePar)text=`Turning saves ${board.rayPar-board.freePar} tile${board.rayPar-board.freePar===1?'':'s'} at the optimum. Every legal ray uses at least as many tiles as the shortest free route.`;
+    else text=`Both optima are ${board.rayPar} tiles. Every legal ray gives a shared-edge escape, so the shortest free route can never use more tiles.`;
+    $('comparisonNote').textContent=text;$('overlayBtn').textContent=S.overlay?'Hide optimal-route overlay':'Overlay both optimal routes';
+  }
+  function updateRoute() {
+    const ids=S.mode==='ray'?S.ray.hits.map(h=>h.id):S.route;
+    const strip=$('routeStrip');strip.replaceChildren();
+    const show=ids.length>35?ids.slice(-35):ids;
+    if(show.length<ids.length){const more=document.createElement('span');more.textContent='…';more.className='route-arrow';strip.append(more);}
+    show.forEach((id,k)=>{if(k){const arrow=document.createElement('span');arrow.className='route-arrow';arrow.textContent='›';strip.append(arrow);}const chip=document.createElement('span');chip.className='route-token';chip.textContent=(k===0&&ids.length===show.length)?'S':id+1;chip.title=`${k===0?'Start: ':''}tile ${id+1}`;strip.append(chip);});
+    if((S.mode==='ray'&&S.ray.valid)||S.done.free){const a=document.createElement('span');a.className='route-arrow';a.textContent='›';const out=document.createElement('span');out.className='route-token out';out.textContent='OUT';strip.append(a,out);}
+    if(S.mode==='free')strip.scrollLeft=strip.scrollWidth;
+    $('routeTitle').textContent=S.mode==='ray'?(S.ray.valid?'Distinct tiles along ray':'Invalid ray · preview only'):'Your tile visits';
+    $('routeMeta').textContent=S.mode==='ray'&&!S.ray.valid?'Adjust your angle':S.mode==='ray'&&S.ray.segments.length>S.ray.count?'One crossing per convex tile':'Start counts as 1';
+  }
+  function updateNeighbors() {
+    if(S.mode!=='free')return;
+    const list=$('neighbors');list.replaceChildren();const ids=neighbors(),cur=board.cells[S.route.at(-1)];
+    if(S.selectedNeighbor>=ids.length)S.selectedNeighbor=0;
+    $('neighborsLabel').textContent=S.done.free?'Route complete. Replay to try another path.':cur.exits.length?'You can escape now, or keep exploring:':'Choose a tile sharing an edge:';
+    ids.forEach((id,k)=>{
+      const b=document.createElement('button');b.type='button';b.className='neighbor'+(k===S.selectedNeighbor?' selected':'');b.dataset.cell=id;b.disabled=S.animating||S.done.free;
+      const arrow=document.createElement('span'),v=G.sub(board.cells[id].anchor,cur.anchor),dir=Math.round(G.angle(Math.atan2(v[1],v[0]))/(Math.PI/4))%8;
+      arrow.textContent=['→','↗','↑','↖','←','↙','↓','↘'][dir];arrow.setAttribute('aria-hidden','true');b.append(arrow,document.createTextNode('Tile '+(id+1)));
+      if(board.cells[id].exits.length){const rim=document.createElement('span');rim.className='rim-tag';rim.textContent='◇ rim';b.append(rim);}
+      b.setAttribute('aria-label',`Move to tile ${id+1}${board.cells[id].exits.length?', a rim tile':''}`);list.append(b);
+    });
+  }
+  function updateUI() {
+    const isRay=S.mode==='ray',done=S.done[S.mode],r=record(),best=r[S.mode];
+    document.body.classList.toggle('free-mode',!isRay);
+    $('levelFamily').textContent=String(S.level+1).padStart(2,'0')+' / '+G.LEVELS[S.level].family;$('levelTitle').textContent=G.LEVELS[S.level].name;$('tileCount').textContent=board.cells.length+' tiles';
+    $('rayTab').classList.toggle('active',isRay);$('freeTab').classList.toggle('active',!isRay);$('rayTab').setAttribute('aria-pressed',String(isRay));$('freeTab').setAttribute('aria-pressed',String(!isRay));
+    $('challengeLabel').textContent=isRay?'Part A / Find a direction':'Part B / Find a route';$('partProgress').textContent=isRay?'1 of 2':'2 of 2';
+    $('modeTitle').textContent=isRay?'Make a straight shot.':'Find your own way.';$('modeDescription').textContent=isRay?'Choose a ray from the origin. Avoid vertices and cross as few tiles as you can.':'Move through neighboring tiles. You can turn, but you cannot jump through corners.';
+    $('scoreLabel').textContent=isRay?'This ray':'This route';$('score').textContent=currentScore()??'—';$('par').textContent=currentPar();$('best').textContent=best?best.score:'—';$('bestUnit').textContent=best?(best.aided?'tiles · assisted':'tiles · unassisted'):'not played';
+    $('rayControls').hidden=!isRay;$('freeControls').hidden=isRay;
+    if(document.activeElement!==$('angleSlider'))$('angleSlider').value=(S.angle*180/Math.PI).toFixed(5);
+    if(document.activeElement!==$('angleNumber'))$('angleNumber').value=(S.angle*180/Math.PI).toFixed(3);
+    $('angleSlider').disabled=$('angleNumber').disabled=S.animating;
+    $('snapState').textContent=!S.ray.valid?(S.snapPoint?'VERTEX BLOCKED':'AIM BLOCKED'):S.avoidedVertex?'VERTEX AVOIDED':'CLEAR PATH';$('snapState').style.color=!S.ray.valid||S.avoidedVertex?'var(--amber)':'#8498b6';
+    $('actionBtn').disabled=S.animating||(isRay&&!done&&!S.ray.valid)||(!isRay&&!done&&!board.cells[S.route.at(-1)].exits.length);
+    $('actionLabel').textContent=S.animating?'Escaping…':done?'Try again':isRay?(S.ray.valid?'Launch ray':'Adjust your aim'):board.cells[S.route.at(-1)].exits.length?'Escape the circle':'Reach a rim tile to escape';
+    $('undoBtn').textContent=isRay?'↺ Reset aim':'↶ Undo last move';$('undoBtn').disabled=S.animating||(!isRay&&S.route.length<=1&&!done);
+    $('hintBtn').textContent=isRay&&S.hint.ray?'Use hinted direction':'Reveal a hint';$('hintBtn').disabled=S.animating||done;
+    $('stageMode').textContent=S.overlay?'Two optimal escapes':isRay?'Straight shot':'Free movement';$('stageMicro').textContent=isRay?(S.angle*180/Math.PI).toFixed(1)+'° / RAY':'TILE '+(S.route.at(-1)+1)+' / YOU';
+    $('legendNext').textContent=isRay?'Ray hits':'Legal neighbors';
+    $('stageHint').textContent=S.overlay?'Gold: optimal ray · Green: optimal free route':S.animating?'Leaving the circle…':done?'Escaped. Replay or continue your journey.':isRay?(!S.ray.valid?'Blocked: avoid vertices. Adjust your aim.':'Aim on the circle. Avoid vertices, then launch.'):(board.cells[S.route.at(-1)].exits.length?'At the rim. Press Escape the circle.':'Click a highlighted neighbor. Corners are not doors.');
+    canvas.setAttribute('aria-label',`${G.LEVELS[S.level].name}, ${board.cells.length} tiles. ${isRay?'Ray at '+(S.angle*180/Math.PI).toFixed(2)+' degrees. '+(S.ray.valid?'Hits '+S.ray.count+' distinct tiles.':'Invalid direction; launch is blocked.')+' Use the angle slider or arrow keys.':'Free route with '+S.route.length+' visits, currently in tile '+(S.route.at(-1)+1)+'. Use neighboring-tile buttons or arrow keys and Enter.'} Best possible: ${currentPar()}.`);
+    $('quickMode').textContent=isRay?'A · Ray':'B · Free';$('quickMode').setAttribute('aria-label',isRay?'Switch to Part B: Free movement':'Switch to Part A: Ray');
+    $('quickScore').textContent=currentScore()??'—';$('quickPar').textContent=currentPar();$('quickUndo').disabled=$('undoBtn').disabled;
+    $('quickUndo').setAttribute('aria-label',isRay?'Reset ray aim':'Undo last move');
+    $('quickAction').disabled=$('actionBtn').disabled;
+    $('quickAction').textContent=S.animating?'Escaping…':done?(isRay?'Part B →':'Next →'):isRay?(S.ray.valid?'Launch →':'Blocked'):board.cells[S.route.at(-1)].exits.length?'Escape →':'Find the rim';
+    updateNeighbors();updateRoute();updateResult();updateComparison();updateCampaign();
+  }
+  function resize() {
+    const rect=canvas.getBoundingClientRect();if(!rect.width)return;
+    W=rect.width;H=rect.height;DPR=Math.min(window.devicePixelRatio||1,2);canvas.width=Math.round(W*DPR);canvas.height=Math.round(H*DPR);cx=W/2;cy=H/2;scale=Math.min(W,H)*.409;
+    draw();
+  }
+  const xy=p=>[cx+p[0]*scale,cy-p[1]*scale];
+  function world(){ctx.translate(cx,cy);ctx.scale(scale,-scale);}
+  function strokeWorld(points,color,width=2,dash=[]) {
+    if(!points.length)return;ctx.save();world();ctx.beginPath();ctx.moveTo(...points[0]);for(let i=1;i<points.length;i++)ctx.lineTo(...points[i]);ctx.strokeStyle=color;ctx.lineWidth=width/scale;ctx.lineCap='round';ctx.lineJoin='round';ctx.setLineDash(dash.map(v=>v/scale));ctx.stroke();ctx.restore();
+  }
+  function rayLine(theta,color,progress=1,ghost=false) {
+    const u=[Math.cos(theta),Math.sin(theta)],end=u.map(v=>v*1.055*progress);
+    if(!ghost)strokeWorld([[0,0],end],color+'22',13);
+    strokeWorld([[0,0],end],color,ghost?2:2.5,ghost?[7,6]:[]);
+    if(progress>=1){const p=xy(end),v=[u[0],-u[1]],n=[-v[1],v[0]];ctx.beginPath();ctx.moveTo(p[0]+v[0]*4,p[1]+v[1]*4);ctx.lineTo(p[0]-v[0]*5+n[0]*3.5,p[1]-v[1]*5+n[1]*3.5);ctx.lineTo(p[0]-v[0]*5-n[0]*3.5,p[1]-v[1]*5-n[1]*3.5);ctx.closePath();ctx.fillStyle=color;ctx.fill();}
+  }
+  function dotAt(p,color,r,ring=false) {
+    const [x,y]=xy(p);ctx.beginPath();ctx.arc(x,y,r,0,G.TAU);if(ring){ctx.strokeStyle=color;ctx.lineWidth=1.4;ctx.stroke();}else{ctx.fillStyle=color;ctx.fill();}
+  }
+  function label(p,text,color='#e3eeff',background='#101c2a',size=10) {
+    const [x,y]=xy(p);ctx.save();ctx.font=`600 ${size}px ui-monospace,SFMono-Regular,Consolas,monospace`;ctx.textAlign='center';ctx.textBaseline='middle';const w=ctx.measureText(text).width+11;
+    ctx.fillStyle=background;ctx.beginPath();ctx.roundRect(x-w/2,y-10,w,20,5);ctx.fill();ctx.strokeStyle=color+'66';ctx.lineWidth=.7;ctx.stroke();ctx.fillStyle=color;ctx.fillText(text,x,y+.5);ctx.restore();
+  }
+  function draw() {
+    if(!board||!ctx)return;
+    ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);
+    const bg=ctx.createRadialGradient(cx,cy*.85,10,cx,cy,W*.64);bg.addColorStop(0,'#122238');bg.addColorStop(1,'#080f1d');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#7a98c318';for(let x=14;x<W;x+=22)for(let y=14;y<H;y+=22){ctx.beginPath();ctx.arc(x,y,.6,0,G.TAU);ctx.fill();}
+    const accent=A[S.mode],rayIDs=new Set(S.ray.hits.filter(h=>!S.animating||S.mode!=='ray'||h.first<=S.animProgress).map(h=>h.id)),routeSet=new Set(S.route),cur=S.route.at(-1),next=new Set(board.cells[cur].neighbors),isRay=S.mode==='ray';
+    // A subtle instrument ring gives orientation without leaking the solution.
+    ctx.save();world();ctx.beginPath();ctx.arc(0,0,1.069,0,G.TAU);ctx.strokeStyle='#536b921f';ctx.lineWidth=1/scale;ctx.stroke();
+    for(let i=0;i<72;i++){const t=i*G.TAU/72,c=Math.cos(t),s=Math.sin(t);ctx.beginPath();ctx.moveTo(1.056*c,1.056*s);ctx.lineTo((i%6===0?1.078:1.069)*c,(i%6===0?1.078:1.069)*s);ctx.lineWidth=1/scale;ctx.strokeStyle=i%6===0?'#7794bd77':'#526d963a';ctx.stroke();}
+    ctx.restore();
+    ctx.save();world();ctx.beginPath();ctx.arc(0,0,1,0,G.TAU);ctx.clip();
+    for(const c of board.cells) {
+      ctx.fillStyle=c.color;ctx.globalAlpha=.87;ctx.fill(c.path);ctx.globalAlpha=1;
+      const selected=isRay?rayIDs.has(c.id):routeSet.has(c.id);
+      if(selected){ctx.fillStyle=isRay?'#67e6f630':'#a6f0b439';ctx.fill(c.path);}
+      if(!isRay&&next.has(c.id)&&!S.done.free){ctx.fillStyle='#a6f0b418';ctx.fill(c.path);}
+      if(!isRay&&S.hover===c.id&&next.has(c.id)&&!S.done.free){ctx.fillStyle='#d1ffe833';ctx.fill(c.path);}
+      if(!isRay&&S.hintCell===c.id){ctx.fillStyle='#ffd38a45';ctx.fill(c.path);}
+      if(!isRay&&cur===c.id){ctx.fillStyle='#c5ffce28';ctx.fill(c.path);}
+    }
+    ctx.beginPath();for(const e of board.edges){ctx.moveTo(...e.a);ctx.lineTo(...e.b);}ctx.strokeStyle='#aac5ec55';ctx.lineWidth=1/scale;ctx.stroke();
+    if(!isRay&&!S.done.free){ctx.beginPath();for(const e of board.edges)if(next.has(e.left)||next.has(e.right)){ctx.moveTo(...e.a);ctx.lineTo(...e.b);}ctx.strokeStyle='#bdf1d477';ctx.lineWidth=1.4/scale;ctx.setLineDash([3.5/scale,4/scale]);ctx.stroke();ctx.setLineDash([]);}
+    ctx.beginPath();for(const e of board.edges)if(isRay?(rayIDs.has(e.left)!==rayIDs.has(e.right)):(e.left===cur||e.right===cur)){ctx.moveTo(...e.a);ctx.lineTo(...e.b);}ctx.strokeStyle=isRay?'#8aebf5c0':'#e5ffeda0';ctx.lineWidth=1.6/scale;ctx.stroke();
+    ctx.restore();
+    // Actual circular rim; all intersection tests use radius 1 as well.
+    ctx.save();world();ctx.beginPath();ctx.arc(0,0,1,0,G.TAU);ctx.strokeStyle='#b0cfe789';ctx.lineWidth=1.5/scale;ctx.stroke();
+    if(!isRay)for(const arc of board.cells[cur].exits){ctx.beginPath();ctx.arc(0,0,1,arc.a,arc.b);ctx.strokeStyle='#d2faba';ctx.lineWidth=4/scale;ctx.stroke();}
+    ctx.restore();
+    if(S.overlay) {
+      const pts=G.routePoints(board,board.freeSolution,true);strokeWorld(pts,'#a6f0b425',11);strokeWorld(pts,'#a6f0b4',2.6);rayLine(board.bestAngle,'#ffd38a',1,true);
+    }else {
+      if(isRay){if(S.hint.ray)rayLine(board.bestAngle,'#ffd38a',1,true);rayLine(S.angle,S.ray.valid?accent:'#ffd38a',S.animating?S.animProgress:1);}
+      else {strokeWorld(S.points,'#a6f0b41a',11);strokeWorld(S.points,accent,2.5);}
+    }
+    // The refined late boards have small triangles: keep the same labels, but
+    // omit a label when it would obscure another. All tile IDs remain available
+    // in the route strip and the neighbor buttons. Early boards render unchanged.
+    const denseLabels=board.cells.length>120,labelBoxes=[];
+    if(denseLabels)labelBoxes.push({x:cx-21,y:cy-16,w:42,h:46});
+    // Rim markers and legible identifiers on relevant tiles only.
+    for(const c of board.cells) {
+      const active=isRay?rayIDs.has(c.id):(next.has(c.id)||routeSet.has(c.id));
+      if(c.id===board.start&&S.route.length===1)continue;
+      if(active&&(!S.animating||S.mode!=='ray'||rayIDs.has(c.id))) {
+        const color=!isRay&&c.id===S.hintCell?'#ffd38a':isRay?'#d9fbff':routeSet.has(c.id)?'#e1ffe8':'#b4e7c3';
+        const size=W<450?9:10,text=String(c.id+1);
+        if(denseLabels) {
+          const [x,y]=xy(c.anchor);ctx.save();ctx.font=`600 ${size}px ui-monospace,SFMono-Regular,Consolas,monospace`;
+          const width=ctx.measureText(text).width+15;ctx.restore();
+          const box={x:x-width/2,y:y-12,w:width,h:24};
+          if(labelBoxes.some(r=>box.x<r.x+r.w&&box.x+box.w>r.x&&box.y<r.y+r.h&&box.y+box.h>r.y))continue;
+          labelBoxes.push(box);
+        }
+        label(c.anchor,text,color,'#0d1b28df',size);
+      }else if(c.exits.length&&c.area>.002) {
+        const [x,y]=xy(c.anchor);ctx.save();ctx.translate(x,y);ctx.rotate(Math.PI/4);ctx.strokeStyle='#e7c58988';ctx.lineWidth=.8;ctx.strokeRect(-2,-2,4,4);ctx.restore();
+      }
+    }
+    // Keep the origin visible after every overlay and tile label.
+    dotAt([0,0],'#67e6f625',13);dotAt([0,0],'#b7edfa88',9,true);dotAt([0,0],'#f1fcff',3.7);
+    if(isRay||S.route.length===1){const [x,y]=xy([0,0]);ctx.font='600 8px ui-monospace,monospace';ctx.textAlign='center';ctx.fillStyle='#eef9ff';ctx.shadowColor='#050b16';ctx.shadowBlur=4;ctx.fillText('ORIGIN',x,y+23);ctx.shadowBlur=0;}
+    if(!isRay&&S.route.length>1){const p=S.points.at(-1);dotAt(p,'#a6f0b422',13);dotAt(p,'#d3ffdf',5);dotAt(p,'#a6f0b499',9,true);}
+    if(isRay&&S.snapPoint&&!S.overlay)dotAt(S.snapPoint,'#ffd38acb',6,true);
+    if(!isRay&&S.hintCell>=0)dotAt(board.cells[S.hintCell].anchor,'#ffd38a',15,true);
+    const cardinals=[[0,'E · 0°'],[Math.PI/2,'N · 90°'],[Math.PI,'W · 180°'],[3*Math.PI/2,'S · 270°']];
+    ctx.font=`${W<430?8:9}px ui-monospace,SFMono-Regular,Consolas,monospace`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#8298b8';
+    for(const [a,text] of cardinals){const [x,y]=xy([1.145*Math.cos(a),1.145*Math.sin(a)]);ctx.save();ctx.translate(x,y);if(a===0)ctx.rotate(-Math.PI/2);if(a===Math.PI)ctx.rotate(Math.PI/2);ctx.fillText(text,0,0);ctx.restore();}
+    if(S.burst>0){const p=isRay?[Math.cos(S.angle),Math.sin(S.angle)]:S.points.at(-1),[x,y]=xy(p),life=1-S.burst;
+      for(let i=0;i<16;i++){const a=i*G.TAU/16,d=6+life*40;ctx.globalAlpha=S.burst;ctx.strokeStyle=i%3?'#bff9ec':'#ffd38a';ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(x+Math.cos(a)*d,y+Math.sin(a)*d);ctx.lineTo(x+Math.cos(a)*(d+3+S.burst*4),y+Math.sin(a)*(d+3+S.burst*4));ctx.stroke();}ctx.globalAlpha=1;
+    }
+  }
+  // Pointer input: mouse hover previews rays; touch is explicit tap/drag.
+  let pointerDown=false;
+  function pointerPoint(e){const r=canvas.getBoundingClientRect();return [(e.clientX-r.left-cx)/scale,-(e.clientY-r.top-cy)/scale];}
+  function pointerAim(e){const p=pointerPoint(e);if(G.norm(p)>.055)setAngle(Math.atan2(p[1],p[0]),true);}
+  canvas.addEventListener('pointerdown',e=>{if(e.button!==0||S.animating)return;pointerDown=true;canvas.focus({preventScroll:true});if(S.mode==='ray'){canvas.setPointerCapture(e.pointerId);pointerAim(e);}});
+  canvas.addEventListener('pointermove',e=>{
+    if(S.animating)return;
+    if(S.mode==='ray'){if(pointerDown||(e.pointerType==='mouse'&&!S.done.ray))pointerAim(e);}
+    else {const p=pointerPoint(e),id=G.norm(p)<1?board.cellAt(p):-1;if(id!==S.hover){S.hover=id;draw();}}
+  });
+  canvas.addEventListener('pointerup',e=>{if(S.mode==='free'&&pointerDown){const p=pointerPoint(e);if(G.norm(p)<1)moveCell(board.cellAt(p));else if(board.cells[S.route.at(-1)].exits.length&&!S.done.free)launch();}pointerDown=false;});
+  canvas.addEventListener('pointercancel',()=>{pointerDown=false;});
+  canvas.addEventListener('pointerleave',()=>{S.hover=-1;if(!pointerDown)draw();});
+  $('angleSlider').addEventListener('input',e=>setAngle(Number(e.target.value)*Math.PI/180,true));
+  $('angleNumber').addEventListener('change',e=>{const v=Number(e.target.value);if(Number.isFinite(v))setAngle(v*Math.PI/180,true);else updateUI();});
+  $('angleNumber').addEventListener('blur',()=>updateUI());
+  $('avoidVertices').addEventListener('change',()=>{if($('avoidVertices').checked&&!S.ray.valid){setAngle(S.angle,true);return;}say($('avoidVertices').checked?'Aim assistance is on. Forbidden aims are nudged off vertices.':'Aim assistance is off. Vertex-crossing rays remain blocked.');});
+  $('quickMode').addEventListener('click',()=>changeMode(S.mode==='ray'?'free':'ray'));$('quickUndo').addEventListener('click',undo);$('quickAction').addEventListener('click',()=>S.done[S.mode]?$('nextBtn').click():launch());
+  $('actionBtn').addEventListener('click',launch);$('undoBtn').addEventListener('click',undo);$('hintBtn').addEventListener('click',hint);
+  $('rayTab').addEventListener('click',()=>changeMode('ray'));$('freeTab').addEventListener('click',()=>changeMode('free'));
+  $('neighbors').addEventListener('click',e=>{const b=e.target.closest('[data-cell]');if(b)moveCell(Number(b.dataset.cell));});
+  $('campaign').addEventListener('click',e=>{const b=e.target.closest('[data-level]');if(b)loadLevel(Number(b.dataset.level));});
+  $('nextBtn').addEventListener('click',()=>{
+    if(S.mode==='ray')changeMode('free');else loadLevel((S.level+1)%G.LEVELS.length);
+    if(window.innerWidth<861)$('levelTitle').scrollIntoView({behavior:reducedMotion.matches?'instant':'smooth',block:'start'});
+  });
+  $('overlayBtn').addEventListener('click',()=>{S.overlay=!S.overlay;if(S.overlay){if(!S.done.ray)S.aided.ray=true;if(!S.done.free)S.aided.free=true;say('Gold is an optimal ray; green is an optimal free route. Viewing this overlay does not change scores already saved. Active attempts are marked assisted.');}updateUI();draw();});
+  $('helpBtn').addEventListener('click',()=>$('helpDialog').showModal());
+  $('clearBtn').addEventListener('click',()=>$('resetDialog').showModal());
+  document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>$(b.dataset.close).close()));
+  document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}}));
+  $('confirmReset').addEventListener('click',()=>{progress={version:3,levels:{},last:{level:0,mode:'ray'}};persist();$('resetDialog').close();loadLevel(0);say('Your game progress has been cleared. Welcome back to the origin.');});
+  document.addEventListener('keydown',e=>{
+    if(e.ctrlKey||e.metaKey||e.altKey||document.querySelector('dialog[open]'))return;
+    if(['INPUT','TEXTAREA','SELECT','BUTTON','SUMMARY'].includes(e.target.tagName))return;
+    if(S.animating)return;
+    if(e.key==='r'||e.key==='R'){e.preventDefault();resetPart();return;}
+    if(e.key==='u'||e.key==='U'||e.key==='Backspace'){e.preventDefault();undo();return;}
+    if(e.key==='h'||e.key==='H'){e.preventDefault();hint();return;}
+    if(S.mode==='ray') {
+      if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();setAngle(S.angle+(e.key==='ArrowLeft'?-1:1)*(e.shiftKey ? 0.1 : 1)*Math.PI/180,true);}
+      else if(e.key==='ArrowUp'||e.key==='ArrowDown') {
+        e.preventDefault();const forward=e.key==='ArrowUp',candidates=board.spans.map(s=>({theta:G.angle((s.a+s.b)/2)})).map(c=>({c,d:G.angle(forward?c.theta-S.angle:S.angle-c.theta)})).filter(o=>o.d>1e-8).sort((a,b)=>a.d-b.d);if(candidates.length)setAngle(candidates[0].c.theta);
+      }else if(e.key==='Enter'||e.key===' '){e.preventDefault();launch();}
+    }else {
+      const n=neighbors();
+      if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();S.selectedNeighbor=(S.selectedNeighbor+(e.key==='ArrowLeft'?-1:1)+n.length)%n.length;S.hover=n[S.selectedNeighbor];updateNeighbors();draw();say('Selected tile '+(S.hover+1)+'. Press Enter to move.');}
+      else if(e.key==='Enter'||e.key===' '){e.preventDefault();if(S.done.free)resetPart();else if(board.cells[S.route.at(-1)].exits.length)launch();else moveCell(n[S.selectedNeighbor]);}
+    }
+  });
+  const fragment=()=>{const p=new URLSearchParams(location.hash.slice(1));const id=Number(p.get('level'));return {level:Number.isInteger(id)&&id>=1&&id<=G.LEVELS.length?id-1:progress.last.level,mode:p.has('part')?(p.get('part')==='b'?'free':'ray'):progress.last.mode};};
+  window.addEventListener('hashchange',()=>{const f=fragment();if(f.level!==S.level)loadLevel(f.level,f.mode);else if(f.mode!==S.mode)changeMode(f.mode);});
+  window.addEventListener('resize',resize);
+  if(typeof ResizeObserver!=='undefined')new ResizeObserver(resize).observe($('stage'));
+  for(let i=0;i<G.LEVELS.length;i++) {
+    const b=document.createElement('button');b.type='button';b.dataset.level=i;b.className='level-button';
+    b.innerHTML=`<span class="level-top"><span class="level-no">${String(i+1).padStart(2,'0')}</span><span class="pips" aria-hidden="true"><span class="pip"></span><span class="pip"></span></span></span><span class="level-name">${G.LEVELS[i].name}</span>`;
+    b.title=G.LEVELS[i].tag;$('campaign').append(b);
+  }
+  try{if(!ctx)throw new Error('Your browser could not create a 2D canvas.');revalidateProgress();const f=fragment();loadLevel(f.level,f.mode,false);updateSaveNote();if(refinedScoresReset)say('Convex-cell update: reset saved scores for '+refinedScoresReset+' refined world'+(refinedScoresReset===1?'':'s')+'. Valid progress in worlds 1–4 is preserved.');else if(retiredRayScores)say('Updated rules: removed '+retiredRayScores+' old invalid ray result'+(retiredRayScores===1?'':'s')+'. Valid progress is preserved.');}
+  catch(e){console.error(e);$('fatal').hidden=false;$('fatal').textContent='The board could not be initialized. Please open this page in a current browser with JavaScript enabled. Details: '+e.message;}
+  // Small, documented inspection API for classroom demos and automated tests.
+  window.EscapeCircle=Object.freeze({version:'1.2.0',levels:G.LEVELS.map(l=>({name:l.name,family:l.family})),getBoard,loadLevel,changeMode,aim:theta=>setAngle(theta),move:moveCell,restart:resetPart,
+    inspect:()=>({level:S.level,mode:S.mode,angle:S.angle,rayCount:S.ray?.count,rayValid:!!S.ray?.valid,rayReason:S.ray?.reason,route:S.route?.slice(),done:{...S.done},aided:{...S.aided},animating:S.animating,progress:JSON.parse(JSON.stringify(progress))}),
+    geometry:G
+  });
+})();
+
+</script>
+</body>
+</html>
