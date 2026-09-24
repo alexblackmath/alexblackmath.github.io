@@ -41,7 +41,7 @@
       <div class="mode-kicker"><span class="eyebrow" id="challengeLabel">Part A / Find a direction</span><span class="part-label" id="partProgress">1 of 2</span></div>
       <h2 id="modeTitle">Make a straight shot.</h2>
       <p class="description" id="modeDescription">Choose a ray from the origin. Avoid vertices and cross as few tiles as you can.</p>
-      <div class="metrics"><div class="metric"><div class="metric-label" id="scoreLabel">This ray</div><div class="metric-value" id="score">—</div><div class="metric-unit">tiles</div></div><div class="metric" title="Ray: one legal direction between each consecutive pair of vertex directions; vertex rays are forbidden. Free: breadth-first search of the tile graph."><div class="metric-label">Best possible</div><div class="metric-value" id="par">—</div><div class="metric-unit">tiles</div></div><div class="metric"><div class="metric-label">Your best</div><div class="metric-value" id="best">—</div><div class="metric-unit" id="bestUnit">not played</div></div></div>
+      <div class="metrics"><div class="metric"><div class="metric-label" id="scoreLabel">This ray</div><div class="metric-value" id="score">—</div><div class="metric-unit">tiles</div></div><div class="metric" title="Ray: one legal direction between each consecutive pair of vertex directions; vertex rays are forbidden. Free: breadth-first search of the tile graph."><div class="metric-label">Best possible</div><div class="metric-value" id="par">—</div><div class="metric-unit" id="parUnit">guess first</div></div><div class="metric"><div class="metric-label">Your best</div><div class="metric-value" id="best">—</div><div class="metric-unit" id="bestUnit">not played</div></div></div>
       <div class="mode-controls" id="rayControls"><div class="angle-heading"><label for="angleSlider">Aim your ray</label><span class="angle-readout"><input class="angle-number" id="angleNumber" type="number" min="0" max="360" step="0.1" aria-label="Ray angle in degrees">°</span></div><input id="angleSlider" type="range" min="0" max="360" step="0.1" value="38" aria-label="Ray angle"><div class="tick-row"><span>0° E</span><span>90° N</span><span>180° W</span><span>270° S</span><span>360°</span></div><div class="option-row"><label class="check"><input id="avoidVertices" type="checkbox" checked title="Nudge forbidden aims off vertices. Vertex-crossing rays are blocked even when this assistance is off."> Avoid vertices</label><span class="snap-indicator" id="snapState">CLEAR PATH</span></div></div>
       <div class="mode-controls" id="freeControls" hidden><div class="neighbors-label" id="neighborsLabel">Choose a neighboring tile:</div><div class="neighbor-list" id="neighbors"></div></div>
       <button class="primary" id="actionBtn" type="button"><span id="actionLabel">Launch ray</span><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.6"/></svg></button>
@@ -54,11 +54,11 @@
   </aside>
 </section>
 <details class="theory" id="mathDetails"><summary>Why the two escape problems are different <span style="color:#8499b9;font-weight:400">The mathematics</span></summary><div class="theory-grid"><div><h3>One score, carefully defined.</h3><p>The starting tile counts as one. A ray scores the number of <em>distinct tiles whose interiors it crosses for positive length</em>. A free route scores tile visits; each neighbor move adds one, including revisits. The final step outside adds no tile.</p></div><div><h3>Turning can only help.</h3><p>Rays through tile vertices, including where edges meet the rim, are forbidden. Following a tile edge is forbidden too. Every legal ray traces shared-edge neighbors. Every cell is convex, so a ray cannot leave a tile and re-enter it. Its ordered tile sequence is itself a legal free route with the same score. So the shortest free route is always at most the score of any legal ray.</p></div><div><h3>How “best possible” is found.</h3><p>Free routes use breadth-first search on the tile-adjacency graph. Ray counts are checked once in each open angular interval between consecutive vertex directions, including circle-edge intersections. Vertex directions themselves are excluded. A tiny numerical guard around them prevents floating-point corner shortcuts.</p></div></div></details>
-<div class="mobile-dock" role="group" aria-label="Quick game controls"><button id="quickMode" class="quick-mode" type="button" aria-label="Switch challenge part">A · Ray</button><span class="quick-metric"><strong id="quickScore">4</strong> tiles<small>Best possible: <span id="quickPar">3</span></small></span><button id="quickUndo" class="quick-undo" type="button" aria-label="Undo or reset aim">↶</button><button id="quickAction" class="quick-action" type="button">Launch →</button></div>
+<div class="mobile-dock" role="group" aria-label="Quick game controls"><button id="quickMode" class="quick-mode" type="button" aria-label="Switch challenge part">A · Ray</button><span class="quick-metric"><strong id="quickScore">—</strong> tiles<small>Best possible: <span id="quickPar">—</span></small></span><button id="quickUndo" class="quick-undo" type="button" aria-label="Undo or reset aim">↶</button><button id="quickAction" class="quick-action" type="button">Launch →</button></div>
 <footer class="footer"><span id="saveNote">Eight worlds · Sixteen challenges · Progress stays in this browser.</span><div class="footer-right"><span class="keyboard-note"><span class="footer-key">←</span> <span class="footer-key">→</span> aim &nbsp; <span class="footer-key">Enter</span> launch</span><button class="text-button" id="clearBtn" type="button">Reset progress</button></div></footer>
 <div id="fatal" class="fatal" hidden role="alert"></div>
 </main>
-<dialog class="dialog" id="helpDialog" aria-labelledby="helpTitle"><div class="dialog-top"><span class="eyebrow">The rules</span><button class="quiet close" type="button" data-close="helpDialog" aria-label="Close instructions">×</button></div><h2 id="helpTitle">Two ways out. One origin.</h2><p>Every level gives you the <strong>same convex-cell subdivision for two challenges</strong>. You always begin at the white origin, strictly inside a tile. Your score is measured in tiles, not physical distance.</p><h3>A · Ray: choose a direction</h3><p>Move your pointer, tap the circle, or use the angle slider. The lit tiles are your preview. Press <strong>Launch ray</strong> to submit. A tile counts only when the ray crosses its interior for positive length; merely touching it does not count. Every tile is convex, so a ray cannot leave a tile and re-enter it. Rays through any tile vertex, including a vertex on the rim, or along a tile edge are forbidden. “Avoid vertices” nudges a forbidden aim to a nearby legal direction; turning that assistance off never makes vertex rays legal.</p><h3 class="free-heading">B · Free: choose your neighbors</h3><p>Click a highlighted neighboring tile, or use the labeled buttons. A move must cross a shared edge, not just a corner. When your tile reaches a nonzero arc of the rim, press <strong>Escape the circle</strong>. Each tile visit costs one; moving inside a tile is free. Undo lets you revise your route.</p><p class="rule-note"><strong>The starting tile counts as 1.</strong> Your last step into the exterior adds 0. Match “Best possible” to earn a mastery star. Hints are marked on saved results. You can replay freely, switch parts, and jump to any level.</p><p><strong>Keyboard (with the board focused):</strong> In Ray mode, ← / → turn by 1°; hold Shift for 0.1°. ↑ / ↓ select the next / previous safe direction between vertices. Enter launches. In Free mode, ← / → cycle neighboring tiles, and Enter moves or escapes. U undoes; R restarts the current part; H gives a hint. Native inputs keep their normal keyboard behavior.</p><button class="primary" type="button" data-close="helpDialog">Let’s escape →</button></dialog>
+<dialog class="dialog" id="helpDialog" aria-labelledby="helpTitle"><div class="dialog-top"><span class="eyebrow">The rules</span><button class="quiet close" type="button" data-close="helpDialog" aria-label="Close instructions">×</button></div><h2 id="helpTitle">Two ways out. One origin.</h2><p>Every level gives you the <strong>same convex-cell subdivision for two challenges</strong>. You always begin at the white origin, strictly inside a tile. Your score is measured in tiles, not physical distance.</p><h3>A · Ray: choose a direction</h3><p>Move your pointer, tap the circle, or use the angle slider. The lit tiles are your preview. Press <strong>Launch ray</strong> to submit. A tile counts only when the ray crosses its interior for positive length; merely touching it does not count. Every tile is convex, so a ray cannot leave a tile and re-enter it. Rays through any tile vertex, including a vertex on the rim, or along a tile edge are forbidden. “Avoid vertices” nudges a forbidden aim to a nearby legal direction; turning that assistance off never makes vertex rays legal.</p><h3 class="free-heading">B · Free: choose your neighbors</h3><p>Click a highlighted neighboring tile, or use the labeled buttons. A move must cross a shared edge, not just a corner. When your tile reaches a nonzero arc of the rim, press <strong>Escape the circle</strong>. Each tile visit costs one; moving inside a tile is free. Undo lets you revise your route.</p><p class="rule-note"><strong>The starting tile counts as 1.</strong> Your last step into the exterior adds 0. “Best possible” is revealed after your first completed escape in each part. Match it to earn a mastery star. Before your first guess, hints offer strategy without revealing a solution. Hints are marked on saved results. You can replay freely, switch parts, and jump to any level.</p><p><strong>Keyboard (with the board focused):</strong> In Ray mode, ← / → turn by 1°; hold Shift for 0.1°. ↑ / ↓ select the next / previous safe direction between vertices. Enter launches. In Free mode, ← / → cycle neighboring tiles, and Enter moves or escapes. U undoes; R restarts the current part; H gives a hint. Native inputs keep their normal keyboard behavior.</p><button class="primary" type="button" data-close="helpDialog">Let’s escape →</button></dialog>
 <dialog class="dialog" id="resetDialog" aria-labelledby="resetTitle"><h2 id="resetTitle">Start a fresh journey?</h2><p>This clears only this game’s saved scores in this browser. Your website and other browser data are not affected.</p><div class="secondary-actions"><button class="quiet" type="button" data-close="resetDialog">Keep my scores</button><button class="quiet" id="confirmReset" type="button">Clear game progress</button></div></dialog>
 <script>
 /* ESCAPE THE CIRCLE — geometry engine. No dependencies.
@@ -559,6 +559,10 @@ if(typeof module!=='undefined')module.exports=Geometry;
   }
   function say(text,warning=false){$('status').textContent=text;$('status').classList.toggle('warning',warning);}
   function record(){return progress.levels[S.level]||{};}
+  // A saved result means a valid escape was submitted in this exact world/part.
+  // Previews, blocked launches, hints, and unfinished routes never reveal its optimum.
+  // Use existing validated records so returning players keep their scores and reveals.
+  function hasGuessed(mode=S.mode){return !!record()[mode];}
   function currentPar(){return S.mode==='ray'?board.rayPar:board.freePar;}
   function currentScore(){return S.mode==='ray'?S.ray.count:S.route.length;}
   function saveResult() {
@@ -614,7 +618,7 @@ if(typeof module!=='undefined')module.exports=Geometry;
     token++;S.animating=false;S.overlay=false;S.burst=0;S.done[S.mode]=false;S.aided[S.mode]=false;S.hint[S.mode]=false;S.hintCell=-1;S.avoidedVertex=false;
     if(S.mode==='ray'){S.angle=38*Math.PI/180;S.ray=G.cast(board,S.angle);updateSnapPoint();}
     else {S.route=[board.start];S.points=[[0,0]];S.selectedNeighbor=0;S.hover=-1;}
-    updateUI();draw();say('Fresh attempt. Aim for '+currentPar()+' tiles.');
+    updateUI();draw();say(hasGuessed()?'Fresh attempt. Aim for '+currentPar()+' tiles.':'Fresh attempt. Try an escape to reveal the best possible score.');
   }
   function neighbors() {
     const cur=board.cells[S.route.at(-1)];
@@ -648,6 +652,12 @@ if(typeof module!=='undefined')module.exports=Geometry;
   function hint() {
     if(S.animating||S.done[S.mode])return;
     S.aided[S.mode]=true;
+    if(!hasGuessed()) {
+      // An exact solution hint plus the live tile count would reveal the answer.
+      // Keep the hint control, but offer only strategy until this part is submitted.
+      say(S.mode==='ray'?'Try different directions and compare how many tiles light up. Crossing larger tiles can help. Submit a legal ray to reveal the optimum and unlock exact hints. This attempt is marked assisted.':'Look for shared-edge routes through larger tiles, and use Undo to compare alternatives. Complete an escape to reveal the optimum and unlock exact hints. This attempt is marked assisted.');
+      return;
+    }
     if(S.mode==='ray') {
       if(S.hint.ray){setAngle(board.bestAngle);say('An optimal direction is set. Launch to submit; this attempt is marked assisted.');}
       else {S.hint.ray=true;say('The gold ray is an optimal direction. Press “Use hinted direction” to aim exactly.');}
@@ -692,7 +702,7 @@ if(typeof module!=='undefined')module.exports=Geometry;
     const r=record(),show=!!(r.ray&&r.free);$('comparison').hidden=!show;
     $('insightLabel').textContent=show?'Two ways out, compared':S.level<2?'The idea behind the game':'A geometric observation';
     $('lesson').textContent=G.LEVELS[S.level].lesson;
-    if(!show)return;
+    if(!show){$('compareRay').textContent=$('compareFree').textContent='—';$('comparisonNote').textContent='';return;}
     $('compareRay').textContent=board.rayPar+' tiles';$('compareFree').textContent=board.freePar+' tiles';
     let text;
     if(board.rayPar>board.freePar)text=`Turning saves ${board.rayPar-board.freePar} tile${board.rayPar-board.freePar===1?'':'s'} at the optimum. Every legal ray uses at least as many tiles as the shortest free route.`;
@@ -724,13 +734,15 @@ if(typeof module!=='undefined')module.exports=Geometry;
     });
   }
   function updateUI() {
-    const isRay=S.mode==='ray',done=S.done[S.mode],r=record(),best=r[S.mode];
+    const isRay=S.mode==='ray',done=S.done[S.mode],r=record(),best=r[S.mode],revealed=hasGuessed();
+    const parText=revealed?String(currentPar()):'—';
+    const parDescription=revealed?'Best possible: '+currentPar()+'.':'Best possible is revealed after your first completed escape in this part.';
     document.body.classList.toggle('free-mode',!isRay);
     $('levelFamily').textContent=String(S.level+1).padStart(2,'0')+' / '+G.LEVELS[S.level].family;$('levelTitle').textContent=G.LEVELS[S.level].name;$('tileCount').textContent=board.cells.length+' tiles';
     $('rayTab').classList.toggle('active',isRay);$('freeTab').classList.toggle('active',!isRay);$('rayTab').setAttribute('aria-pressed',String(isRay));$('freeTab').setAttribute('aria-pressed',String(!isRay));
     $('challengeLabel').textContent=isRay?'Part A / Find a direction':'Part B / Find a route';$('partProgress').textContent=isRay?'1 of 2':'2 of 2';
     $('modeTitle').textContent=isRay?'Make a straight shot.':'Find your own way.';$('modeDescription').textContent=isRay?'Choose a ray from the origin. Avoid vertices and cross as few tiles as you can.':'Move through neighboring tiles. You can turn, but you cannot jump through corners.';
-    $('scoreLabel').textContent=isRay?'This ray':'This route';$('score').textContent=currentScore()??'—';$('par').textContent=currentPar();$('best').textContent=best?best.score:'—';$('bestUnit').textContent=best?(best.aided?'tiles · assisted':'tiles · unassisted'):'not played';
+    $('scoreLabel').textContent=isRay?'This ray':'This route';$('score').textContent=currentScore()??'—';$('par').textContent=parText;$('parUnit').textContent=revealed?'tiles':'guess first';$('par').setAttribute('aria-label',parDescription);$('par').title=parDescription;$('best').textContent=best?best.score:'—';$('bestUnit').textContent=best?(best.aided?'tiles · assisted':'tiles · unassisted'):'not played';
     $('rayControls').hidden=!isRay;$('freeControls').hidden=isRay;
     if(document.activeElement!==$('angleSlider'))$('angleSlider').value=(S.angle*180/Math.PI).toFixed(5);
     if(document.activeElement!==$('angleNumber'))$('angleNumber').value=(S.angle*180/Math.PI).toFixed(3);
@@ -740,12 +752,13 @@ if(typeof module!=='undefined')module.exports=Geometry;
     $('actionLabel').textContent=S.animating?'Escaping…':done?'Try again':isRay?(S.ray.valid?'Launch ray':'Adjust your aim'):board.cells[S.route.at(-1)].exits.length?'Escape the circle':'Reach a rim tile to escape';
     $('undoBtn').textContent=isRay?'↺ Reset aim':'↶ Undo last move';$('undoBtn').disabled=S.animating||(!isRay&&S.route.length<=1&&!done);
     $('hintBtn').textContent=isRay&&S.hint.ray?'Use hinted direction':'Reveal a hint';$('hintBtn').disabled=S.animating||done;
+    $('hintBtn').title=revealed?'Reveal an exact route hint. This marks the attempt assisted.':'Get a strategy hint. Exact route hints unlock after your first completed escape in this part.';
     $('stageMode').textContent=S.overlay?'Two optimal escapes':isRay?'Straight shot':'Free movement';$('stageMicro').textContent=isRay?(S.angle*180/Math.PI).toFixed(1)+'° / RAY':'TILE '+(S.route.at(-1)+1)+' / YOU';
     $('legendNext').textContent=isRay?'Ray hits':'Legal neighbors';
     $('stageHint').textContent=S.overlay?'Gold: optimal ray · Green: optimal free route':S.animating?'Leaving the circle…':done?'Escaped. Replay or continue your journey.':isRay?(!S.ray.valid?'Blocked: avoid vertices. Adjust your aim.':'Aim on the circle. Avoid vertices, then launch.'):(board.cells[S.route.at(-1)].exits.length?'At the rim. Press Escape the circle.':'Click a highlighted neighbor. Corners are not doors.');
-    canvas.setAttribute('aria-label',`${G.LEVELS[S.level].name}, ${board.cells.length} tiles. ${isRay?'Ray at '+(S.angle*180/Math.PI).toFixed(2)+' degrees. '+(S.ray.valid?'Hits '+S.ray.count+' distinct tiles.':'Invalid direction; launch is blocked.')+' Use the angle slider or arrow keys.':'Free route with '+S.route.length+' visits, currently in tile '+(S.route.at(-1)+1)+'. Use neighboring-tile buttons or arrow keys and Enter.'} Best possible: ${currentPar()}.`);
+    canvas.setAttribute('aria-label',`${G.LEVELS[S.level].name}, ${board.cells.length} tiles. ${isRay?'Ray at '+(S.angle*180/Math.PI).toFixed(2)+' degrees. '+(S.ray.valid?'Hits '+S.ray.count+' distinct tiles.':'Invalid direction; launch is blocked.')+' Use the angle slider or arrow keys.':'Free route with '+S.route.length+' visits, currently in tile '+(S.route.at(-1)+1)+'. Use neighboring-tile buttons or arrow keys and Enter.'} ${parDescription}`);
     $('quickMode').textContent=isRay?'A · Ray':'B · Free';$('quickMode').setAttribute('aria-label',isRay?'Switch to Part B: Free movement':'Switch to Part A: Ray');
-    $('quickScore').textContent=currentScore()??'—';$('quickPar').textContent=currentPar();$('quickUndo').disabled=$('undoBtn').disabled;
+    $('quickScore').textContent=currentScore()??'—';$('quickPar').textContent=parText;$('quickPar').setAttribute('aria-label',parDescription);$('quickPar').title=parDescription;$('quickUndo').disabled=$('undoBtn').disabled;
     $('quickUndo').setAttribute('aria-label',isRay?'Reset ray aim':'Undo last move');
     $('quickAction').disabled=$('actionBtn').disabled;
     $('quickAction').textContent=S.animating?'Escaping…':done?(isRay?'Part B →':'Next →'):isRay?(S.ray.valid?'Launch →':'Blocked'):board.cells[S.route.at(-1)].exits.length?'Escape →':'Find the rim';
@@ -871,7 +884,7 @@ if(typeof module!=='undefined')module.exports=Geometry;
     if(S.mode==='ray')changeMode('free');else loadLevel((S.level+1)%G.LEVELS.length);
     if(window.innerWidth<861)$('levelTitle').scrollIntoView({behavior:reducedMotion.matches?'instant':'smooth',block:'start'});
   });
-  $('overlayBtn').addEventListener('click',()=>{S.overlay=!S.overlay;if(S.overlay){if(!S.done.ray)S.aided.ray=true;if(!S.done.free)S.aided.free=true;say('Gold is an optimal ray; green is an optimal free route. Viewing this overlay does not change scores already saved. Active attempts are marked assisted.');}updateUI();draw();});
+  $('overlayBtn').addEventListener('click',()=>{if(!hasGuessed('ray')||!hasGuessed('free'))return;S.overlay=!S.overlay;if(S.overlay){if(!S.done.ray)S.aided.ray=true;if(!S.done.free)S.aided.free=true;say('Gold is an optimal ray; green is an optimal free route. Viewing this overlay does not change scores already saved. Active attempts are marked assisted.');}updateUI();draw();});
   $('helpBtn').addEventListener('click',()=>$('helpDialog').showModal());
   $('clearBtn').addEventListener('click',()=>$('resetDialog').showModal());
   document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>$(b.dataset.close).close()));
@@ -907,7 +920,7 @@ if(typeof module!=='undefined')module.exports=Geometry;
   try{if(!ctx)throw new Error('Your browser could not create a 2D canvas.');revalidateProgress();const f=fragment();loadLevel(f.level,f.mode,false);updateSaveNote();if(refinedScoresReset)say('Convex-cell update: reset saved scores for '+refinedScoresReset+' refined world'+(refinedScoresReset===1?'':'s')+'. Valid progress in worlds 1–4 is preserved.');else if(retiredRayScores)say('Updated rules: removed '+retiredRayScores+' old invalid ray result'+(retiredRayScores===1?'':'s')+'. Valid progress is preserved.');}
   catch(e){console.error(e);$('fatal').hidden=false;$('fatal').textContent='The board could not be initialized. Please open this page in a current browser with JavaScript enabled. Details: '+e.message;}
   // Small, documented inspection API for classroom demos and automated tests.
-  window.EscapeCircle=Object.freeze({version:'1.2.0',levels:G.LEVELS.map(l=>({name:l.name,family:l.family})),getBoard,loadLevel,changeMode,aim:theta=>setAngle(theta),move:moveCell,restart:resetPart,
+  window.EscapeCircle=Object.freeze({version:'1.2.1',levels:G.LEVELS.map(l=>({name:l.name,family:l.family})),getBoard,loadLevel,changeMode,aim:theta=>setAngle(theta),move:moveCell,restart:resetPart,
     inspect:()=>({level:S.level,mode:S.mode,angle:S.angle,rayCount:S.ray?.count,rayValid:!!S.ray?.valid,rayReason:S.ray?.reason,route:S.route?.slice(),done:{...S.done},aided:{...S.aided},animating:S.animating,progress:JSON.parse(JSON.stringify(progress))}),
     geometry:G
   });
