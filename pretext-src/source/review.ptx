@@ -1,9 +1,8 @@
 <section xml:id="review">
-       <title>Random Variables Review</title>
-
-      <p>A vector space of functions we care about are <alert>random variables</alert>, which are as Prof. Maresca likes to say, neither random nor variables. They are actually just functions <m>X: S \to \mathbb{R}</m> from some set <m>S</m> that has some probability space associated to it.</p>
-
-      <p>For example, the random variable could be the value on a <m>6</m>-sided die of a roll. Then <m>X(i) = i</m>.</p>
-
-      <p>The magic is that there is also a probability function <m>P: S \to \mathbb{R}</m> associated to the random variable telling you the probability of an outcome of the input to the random variable happening. For a die, we like to hope the probability function is just the constant function <m>P(i) = 1/6</m>. Probability functions satisfy the additional constraints that <m>\sum_{s \in S} P(s) = 1</m> and <m>P(s) \geq 0</m> for all <m>s \in S</m>.</p>
+  <title>Review</title>
+      <ul>
+        <li><p>What is the dimension of a vector space?</p></li>
+        <li><p>What is a linear transformation?</p></li>
+        <li><p>What is the kernel of a linear transformation?</p></li>
+      </ul>
     </section>

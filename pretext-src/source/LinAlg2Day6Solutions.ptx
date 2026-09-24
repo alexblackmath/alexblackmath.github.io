@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pretext>
+  <article>
+    <title>Rank and File</title>
+
+    <section xml:id="review">
+      <title>Review</title>
+      <ul>
+        <li><p>What is the dimension of a vector space?</p></li>
+        <li><p>What is a linear transformation?</p></li>
+        <li><p>What is the kernel of a linear transformation?</p></li>
+      </ul>
+    </section>
+
+    <section xml:id="subspaces-and-dimension">
+      <title>Subspaces and Dimension</title>
+
+      <p>Let <m>T: U \to V</m> be a linear transformation. Then the image <m>\text{Im}(T)</m> is the range of <m>T</m>. That is, <m>\text{Im}(T) = \{T(\vec{x}): \vec{x} \in U\}</m>.</p>
+
+      <exercise xml:id="exercise-image-subspace">
+        <statement>
+          <p>Show that <m>\text{Im}(T)</m> is a linear subspace.</p>
+        </statement>
+        <solution>
+          <p>Note that <m>T(\vec{0}) = \vec{0}</m>, so <m>\vec{0} \in \text{Im}(T)</m>. Let <m>\vec{x}, \vec{y} \in \text{Im}(T)</m>. Then, by definition, there exist <m>\vec{u}, \vec{v} \in U</m> such that <m>T(\vec{u}) = \vec{x}</m> and <m>T(\vec{v}) = \vec{y}</m>. Then</p>
+          <me>\vec{x} + \vec{y} = T(\vec{u}) + T(\vec{v}) = T(\vec{u}+\vec{v}) \in \text{Im}(T).</me>
+          <p>Similarly, let <m>\lambda \in \mathbb{R}</m>. Then</p>
+          <me>\lambda \vec{x} = \lambda T(\vec{u}) = T(\lambda \vec{u})  \in \text{Im}(T).</me>
+          <p>Hence, <m>\text{Im}(T)</m> is closed under scaling.</p>
+        </solution>
+      </exercise>
+
+      <p>Images and kernels of linear transformations from finite dimensional vector spaces are always finite dimensional.</p>
+
+      <exercise xml:id="exercise-subspaces-finite-dimensional">
+        <statement>
+          <p>Let <m>U</m> be a finite dimensional vector space, let <m>T: U \to V</m> be a linear transformation, and let <m>W</m> be a linear subspace of <m>U</m>.</p>
+          <p>(a) Then <m>W</m> is finite dimensional with dimension at most dimension of <m>U</m>.</p>
+          <p>(b) Then <m>\text{ker}(T)</m> is finite dimensional with dimension at most dimension of <m>U</m>.</p>
+          <p>(c) Then <m>\text{Im}(T)</m> is finite dimensional.</p>
+        </statement>
+        <solution>
+          <p>For (a), note that a basis of <m>W</m> must also be linearly independent in <m>U</m>. Why does that mean it must have size at most the size of a basis of <m>U</m>?</p>
+
+          <p>There were some assumptions I made here that I realized actually were not as clear as I had hoped. Let <m>B</m> be a basis of <m>W</m>. Then, if <m>B</m> is a basis of <m>U</m>, they must have the same size and then we are done. Suppose otherwise then. Since <m>B</m> is linearly independent in <m>W</m>, it is linearly independent in <m>U</m>. Fix a basis <m>C</m> of <m>U</m>. Since <m>B</m> does not span <m>U</m> <m>\text{span}(B) \subsetneq \text{span}(C)</m>. Therefore, there exists <m>\vec{w} \in C</m> such that <m>w \notin \text{span}(B)</m>, so <m>B \cup \{w\}</m> is still independent. If <m>B \cup \{w\}</m> is not a basis, we can apply the same argument iteratively, and show that <m>B \cup S</m> is a basis for some subset. To make this formal, there exists a subset <m>D \subseteq C</m> of maximal size such that <m>B \cup D</m> is independent. Suppose for the sake of contradiction that <m>B \cup D</m> does not span <m>U</m>, there must be an some <m>\vec{x} \in C \setminus \text{span}(B \cup D)</m>. Then <m>D \cup \{\vec{x}\}</m> is bigger than <m>D</m> with the same property, contradicting the maximality of <m>D</m>. Thus, <m>B \cup D</m> must be spanning and independent and therefore a basis of <m>U</m>. Hence, <m>B</m> is contained in a basis of <m>U</m> and is therefore smaller.</p>
+
+          <p>For (b), explain how this follows from part (a).</p>
+
+          <p>Note that <m>\text{ker}(T)</m> is a subspace of <m>U</m>, so it follows by (a).</p>
+
+          <p>For (c), take a basis <m>\vec{v}_{1}, \dots, \vec{v}_{n}</m> of <m>U</m>. Show that <m>T(\vec{v}_{1}), \dots, T(\vec{v}_{n})</m> spans <m>\text{Im}(U)</m>.</p>
+
+          <p>Let <m>\vec{x} \in \text{Im}(U)</m>. Then <m>\vec{x} = T(\vec{y})</m> for some <m>\vec{y} \in U</m>. Therefore, since <m>\vec{v}_{1}, \dots, \vec{v}_{n}</m> are a basis,</p>
+          <me>\vec{y} = \sum_{i=1}^{n} a_{i} \vec{v}_{i}.</me>
+          <p>Then</p>
+          <me>\vec{x} = T(\vec{y}) = T\left(\sum_{i=1}^{n} a_{i}\vec{v}_{i} \right) = \sum_{i=1}^{n} a_{i} T(\vec{v}_{i}) \in  \text{span}(\{T(\vec{v}_{i}):1 \leq i \leq n\}).</me>
+          <p>Therefore,</p>
+          <me>\text{Im}(T) \subseteq \text{span}(T(\vec{v}_{1}), \dots, T(\vec{v}_{n})).</me>
+
+          <p>Since <m>T(\vec{v}_{1}), \dots, T(\vec{v}_{n}) \in \text{Im}(T)</m> and it is a subspace by the previous exercise,</p>
+          <me>\text{span}(T(\vec{v}_{1}), \dots, T(\vec{v}_{n})) \subseteq \text{Im}(T).</me>
+          <p>Therefore,</p>
+          <me>\text{span}(T(\vec{v}_{1}), \dots, T(\vec{v}_{n})) = \text{Im}(T).</me>
+          <p>It follows that <m>T(\vec{v}_{1}), \dots, T(\vec{v}_{n})</m> span <m>\text{Im}(T)</m>, which means they contain a basis and thus a basis has size at most <m>n</m> as desired.</p>
+        </solution>
+      </exercise>
+    </section>
+
+    <section xml:id="rank-nullity-theorem">
+      <title>Rank-Nullity Theorem</title>
+
+      <p>We define <m>\text{rank}(T)</m> to be the dimension of <m>\text{Im}(T)</m>. We define <m>\text{nullity}(T)</m> to be the dimension of the <m>\text{ker}(T)</m>, also called the <alert>null space</alert> of <m>T</m>.</p>
+
+      <theorem xml:id="theorem-rank-nullity">
+        <statement>
+          <p>For any linear transformation <m>T: U \to V</m>, where <m>U</m> is finite dimensional, <m>\text{rank}(T) + \text{nullity}(T) = \text{dim}(U)</m>.</p>
+        </statement>
+        <proof>
+          <p>Note that, by the previous lemma, both <m>\text{ker}(U)</m> and <m>\text{Im}(T)</m> are finite dimensional. Take a basis <m>\vec{u}_{1}, \dots, \vec{u}_{m}</m> for <m>\text{ker}(T)</m> and a basis <m>\text{v}_{1}, \dots, \text{v}_{k}</m> for <m>\text{Im}(T)</m>. Then, by definition of the image, there exists <m>\vec{w}_{1}, \dots, \vec{w}_{k} \in U</m> such that <m>T(\vec{w}_{i}) = \vec{v}_{i}</m> for all <m>1 \leq i \leq k</m>.</p>
+
+          <p>I claim that <m>\vec{u}_{1}, \dots, \vec{u}_{m}, \vec{w}_{1},\dots, \vec{w}_{k}</m> is a basis for <m>U</m>.</p>
+
+          <p>Note that, by construction, <m>m</m> is dimension of the kernel which is equal to the nullity by definition. Similarly, <m>k</m> is the dimension of the image, which is equal to the rank by definition. If this is a basis, then <m>U</m> has a basis of size <m>k + m</m>, which is exactly the rank plus nullity meaning that <m>\text{dim}(U) = \text{rank}(T) + \text{nullity}(T)</m>.</p>
+
+          <p>Thus, in what remains, all we need to do is prove this is a basis.</p>
+
+          <p>Let's do spanning first. Let <m>\vec{x} \in U</m>. We want to show that</p>
+          <me>\vec{x} \in \text{span}(\vec{u}_{1}, \dots, \vec{u}_{m}, \vec{w}_{1}, \dots, \vec{w}_{k}).</me>
+          <p>Then <m>T(\vec{x}) \in \text{Im}(T)</m>. Since <m>\vec{v}_{1}, \dots, \vec{v}_{k}</m> is a basis for <m>\text{Im}(T)</m>,</p>
+          <me>T(\vec{x}) = \sum_{i=1}^{k}a_{i} \vec{v}_{i}</me>
+          <p>for some <m>a_{1}, \dots, a_{k} \in \mathbb{R}</m>.</p>
+
+          <p>Note that</p>
+          <me>T\left(\sum_{i=1}^{k} a_{i} \vec{w}_{i} \right) = \sum_{i=1}^{k} a_{i}T(\vec{w}_{i}) = \sum_{i=1}^{k} a_{i} \vec{v}_{i} = T(\vec{x}).</me>
+
+          <p>It follows that</p>
+          <me>T(\vec{x}) - T\left(\sum_{i=1}^{k} a_{i} \vec{w}_{i}\right) = T(\vec{x} - \sum_{i=1}^{k} a_{i}\vec{w}_{i}) = \vec{0}.</me>
+
+          <p>Thus, by definition,</p>
+          <me>\vec{x} - \sum_{i=1}^{k} a_{i}\vec{w}_{i} \in \text{ker}(T).</me>
+
+          <p>Then, since <m>\vec{u}_{1}, \dots, \vec{u}_{m}</m> are a basis for the kernel,</p>
+          <me>\vec{x} - \sum_{i=1}^{k} a_{i}\vec{w}_{i} \in \text{span}(\vec{u}_{1}, \dots, \vec{u}_{m}).</me>
+
+          <p>It follows that there exist <m>b_{1}, \dots, b_{m} \in \mathbb{R}</m> such that</p>
+          <me>\vec{x} - \sum_{i=1}^{k} a_{i}\vec{w}_{i} = \sum_{j=1}^{m} b_{j} \vec{u}_{j}.</me>
+          <p>By isolating <m>\vec{x}</m>, we find</p>
+          <me>\vec{x} = \sum_{i=1}^{k} a_{i}\vec{w}_{i} +\sum_{j=1}^{m} b_{j} \vec{u}_{j}\in \text{span}(\vec{u}_{1}, \dots, \vec{u}_{m}, \vec{w}_{1}, \dots, \vec{w}_{k}).</me>
+          <p>Hence, it is spanning.</p>
+
+          <p>Next we need to show independence. Suppose that</p>
+          <me>\sum_{i=1}^{k} a_{i}\vec{w}_{i} + \sum_{j=1}^{m} b_{j} \vec{u}_{j} = \vec{0}.</me>
+          <p>We want to show that the <m>a_{i}</m> and <m>b_{j}</m> are all then equal to <m>0</m>. The key idea is to rewrite it like this:</p>
+          <me>\sum_{i=1}^{k} a_{i}\vec{w}_{i} = -\sum_{j=1}^{m} b_{j} \vec{u}_{j}.</me>
+
+          <p>Since <m>\vec{u}_{1}, \dots, \vec{u}_{m} \in \ker(T)</m> and <m>\ker(T)</m> is a subspace,</p>
+          <me>\sum_{i=1}^{k} a_{i}\vec{w}_{i} = -\sum_{j=1}^{m} b_{j} \vec{u}_{j} \in \ker(T).</me>
+
+          <p>Thus,</p>
+          <me>\sum_{i=1}^{k} a_{i} \vec{v}_{i} = \sum_{i=1}^{k} a_{i}T(\vec{w}_{i}) = T\left(\sum_{i=1}^{k} a_{i} \vec{v}_{i} \right) = \vec{0}.</me>
+          <p>Then, since <m>\vec{v}_{1},\dots, \vec{v}_{k}</m> are a basis, they are in particular independent meaning that all of the <m>a_{i}</m> must be equal to <m>0</m>.</p>
+
+          <p>Thus,</p>
+          <me>-\sum_{j=1}^{m} b_{j} \vec{u}_{j} = \vec{0}.</me>
+          <p>Since <m>\vec{u}_{1},\dots, \vec{u}_{m}</m> are a basis for <m>\text{ker}(T)</m> they are independent meaning that all <m>b_{j}</m> must also equal <m>0</m>. Hence, by definition <m>\vec{u}_{1}, \dots, \vec{u}_{m}, \vec{w}_{1}, \dots, \vec{w}_{k}</m> are linearly independent. They are also spanning and thus a basis, which completes the proof.</p>
+        </proof>
+      </theorem>
+    </section>
+
+    <section xml:id="exercises">
+      <title>Exercises</title>
+
+      <p>Give a linear transformation <m>T: \mathbb{R}^{n} \to \mathbb{R}^{m}</m>. We can define <m>\vec{a}_{i} = T(e_{i})</m>, where <m>e_{1}, \dots, e_{n}</m> is the standard basis of <m>\mathbb{R}^{n}</m>. Then the <alert>matrix</alert> of <m>T</m> is</p>
+      <me>A =\begin{pmatrix} \vec{a}_{1} &amp; \vec{a}_{2} &amp; \dots &amp; \vec{a}_{n}\end{pmatrix}.</me>
+
+      <exercise xml:id="exercise-matrix-action">
+        <statement>
+          <p>Let <m>T : \mathbb{R}^{n} \to \mathbb{R}^{m}</m> be a linear transformation, and let <m>A</m> be its matrix. Show that</p>
+          <me>T(\vec{x}) = A \vec{x}.</me>
+        </statement>
+        <!-- The proof environment in the original source is empty. -->
+      </exercise>
+
+      <p>What this illustrates is that a linear transformation is determined entirely by its behavior on a basis. In general, we have:</p>
+
+      <exercise xml:id="exercise-equal-on-basis">
+        <statement>
+          <p>Let <m>T_{1}, T_{2}: U \to V</m> be linear transformations. Let <m>B</m> be a basis for <m>U</m>. Suppose that <m>T_{1}(\vec{x}) = T_{2}(\vec{x})</m> for all <m>\vec{x} \in B</m>. Then <m>T_{1} = T_{2}</m>.</p>
+        </statement>
+        <!-- The proof environment in the original source is empty. -->
+      </exercise>
+
+      <p>There is a reverse direction to this. You can define an arbitrary function <m>f: B \to V</m>. Then there is always a unique linear transformation that agrees with that function.</p>
+
+      <exercise xml:id="exercise-linear-extension">
+        <statement>
+          <p>Let <m>U</m> and <m>V</m> be vector spaces, and let <m>B \subseteq U</m> be a basis. Let <m>f:B \to V</m>. Then define <m>T: U \to V</m> by</p>
+          <me>T(\vec{x}) = \sum_{i=1}^{n} a_{i} f(\vec{v}_{i}),</me>
+          <p>whenever <m>\vec{x} = \sum_{i=1}^{n}a_{i} \vec{v}_{i}</m> for <m>\vec{v}_{1}, \dots, \vec{v}_{n} \in B</m>.</p>
+          <p>(a) Prove that for any <m>\vec{u} \in B</m>, <m>T(\vec{u}) = f(\vec{u})</m>.</p>
+          <p>(b) Prove that <m>T</m> is well-defined. That is each input has a unique output.</p>
+          <p>(c) Prove that <m>T</m> respects scalar multiplication.</p>
+          <p>(d) Prove that <m>T</m> respects addition.</p>
+        </statement>
+        <!-- The proof environment in the original source is empty. -->
+      </exercise>
+    </section>
+  </article>
+</pretext>
