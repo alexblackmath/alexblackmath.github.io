@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080d1c">
+<meta name="description" content="A linear transformations game.">
+<title>Linear Lab</title>
+<style>
+:root{color-scheme:dark;--bg:#080d1c;--surface:#101729;--surface2:#141d32;--line:#25304a;--ink:#f3f6ff;--muted:#95a2bd;--cyan:#56dfff;--violet:#b39aff;--magenta:#f181db;--lime:#c6f879;--amber:#ffd08b;--radius:22px;--shadow:0 24px 80px #00000038;--mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;--sans:Inter,"Segoe UI",Arial,sans-serif}
+*{box-sizing:border-box}html{background:var(--bg);scroll-behavior:smooth}body{margin:0;font-family:var(--sans);font-size:15px;color:var(--ink);background:radial-gradient(ellipse at 80% 0,#2322493b,transparent 47%),var(--bg);min-height:100vh}button,input,a{-webkit-tap-highlight-color:transparent}button,input{font:inherit}button,a{touch-action:manipulation}button{cursor:pointer}button:disabled{cursor:default}button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--cyan);outline-offset:5px}button{color:inherit}a{color:inherit;text-decoration:none}svg{display:block}button svg{pointer-events:none}::selection{background:#b39aff40;color:#fff}[hidden]{display:none!important}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.app-header{height:89px;border-bottom:1px solid #ffffff0d;display:flex;align-items:center;justify-content:space-between;padding:0 48px;max-width:1600px;margin:auto;gap:20px}.brand{display:flex;align-items:center;gap:12px;background:none;border:0;padding:6px 0}.brand-name{font-size:19px;font-weight:750;letter-spacing:-.5px}.brand-name span{color:var(--cyan);font-weight:400}.brand-mark{height:35px;width:35px}.header-right{display:flex;align-items:center;gap:28px}.topnav{display:flex;gap:28px}.topnav a{font-size:13px;color:var(--muted);padding:10px 0;transition:color .2s}.topnav a:hover,.topnav a.active{color:var(--ink)}.live-badge{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;color:#91a4b4;display:flex;align-items:center;gap:8px}.status-dot{width:5px;height:5px;border-radius:100%;background:var(--lime);box-shadow:0 0 10px #c6f86b66}.shell{max-width:1440px;margin:0 auto;padding:0 48px}.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--cyan);line-height:1.6}.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid #56dfff29;border-radius:100px;background:#56dfff08;font-family:var(--mono);font-size:10px;color:var(--cyan);letter-spacing:1px}.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:36px;align-items:center;padding:60px 0 45px;min-height:463px}.hero h1{font-size:clamp(42px,4.5vw,67px);font-weight:650;letter-spacing:-3.2px;line-height:1.075;margin:23px 0 22px}.hero h1 em{font-style:normal;color:var(--cyan)}.hero-copy{font-size:15px;line-height:1.85;color:var(--muted);max-width:450px}.hero-actions{display:flex;gap:12px;margin-top:28px;align-items:center;flex-wrap:wrap}.btn{min-height:44px;border-radius:10px;padding:11px 17px;border:1px solid var(--line);background:var(--surface2);font-size:13px;font-weight:600;display:inline-flex;gap:12px;align-items:center;justify-content:center;transition:background .2s,border-color .2s,transform .2s}.btn:hover:not(:disabled){background:#1d2942;border-color:#465370;transform:translateY(-1px)}.btn-primary{background:var(--lime);border-color:var(--lime);color:#152017;box-shadow:0 3px 24px #c6f87909}.btn-primary:hover:not(:disabled){background:#d6ff9b;border-color:#d6ff9b}.btn-primary:disabled{opacity:.4}.btn-quiet{background:transparent;color:var(--muted)}.btn-quiet:hover:not(:disabled){color:var(--ink)}.btn-small{min-height:34px;padding:7px 11px;font-size:11px;border-radius:8px}.arrow{font-size:18px;font-weight:400;line-height:1}.hero-art{position:relative;border:1px solid #36415d80;background:radial-gradient(ellipse at 52% 45%,#26314555,transparent 60%),#0c1324;border-radius:26px;box-shadow:var(--shadow);overflow:hidden;isolation:isolate}.hero-art::after{content:"";pointer-events:none;position:absolute;inset:0;border-radius:26px;box-shadow:inset 0 0 80px #080d1c50}.hero-art svg{width:100%;height:auto}.art-head{position:absolute;top:22px;left:24px;right:24px;z-index:1;display:flex;justify-content:flex-end;align-items:center}.art-tag{font-size:10px;font-family:var(--mono);letter-spacing:1px;color:var(--muted)}.art-tag b{color:var(--ink);font-weight:400}.art-foot{position:absolute;bottom:20px;left:24px;right:24px;display:flex;justify-content:space-between;z-index:1;font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:#778ba7}.art-foot span:last-child{color:var(--lime)}.art-matrix{display:flex;align-items:center;gap:10px;font-family:var(--mono);color:#c4cde2;font-size:11px}.art-matrix .mini-matrix{display:grid;grid-template-columns:19px 19px;gap:5px;padding:1px 7px;border-left:1px solid var(--violet);border-right:1px solid var(--violet);text-align:center}.path-heading{display:flex;align-items:end;justify-content:space-between;margin:12px 0 21px;gap:16px}.path-heading h2{font-size:20px;letter-spacing:-.5px;font-weight:550;margin:0}.path-heading p{font-size:11px;color:var(--muted);margin:0}.level-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:17px}.level-card{text-align:left;position:relative;border:1px solid var(--line);border-radius:18px;padding:21px 21px 19px;background:linear-gradient(150deg,#18203588,#11182a88);overflow:hidden;transition:border-color .2s,transform .2s,background .2s;min-width:0}.level-card:hover{transform:translateY(-4px);border-color:var(--card-accent);background:#172035}.card-top{display:flex;align-items:center;justify-content:space-between}.card-index{font:10px var(--mono);letter-spacing:1.5px;color:var(--card-accent)}.card-arrow{color:#6d7a93;font-size:19px}.card-art{height:96px;width:100%;margin:6px 0 3px}.level-card h3{font-size:16px;letter-spacing:-.3px;font-weight:550;margin:0 0 9px}.level-card p{font-size:12px;color:var(--muted);margin:0;line-height:1.5;min-height:36px}.progress-row{display:flex;align-items:center;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:22px}.progress-row b{font-family:var(--mono);font-size:10px;font-weight:400;color:#c1cbe0}.progress-track{height:3px;background:#ffffff0a;border-radius:3px;margin-top:10px;overflow:hidden}.progress-track i{display:block;height:100%;background:var(--card-accent,var(--lime));box-shadow:0 0 12px var(--card-accent,var(--lime));transition:width .5s}.mastered-badge{color:var(--lime)!important}.home-footer{padding:26px 0 35px;display:flex;justify-content:space-between;align-items:center;gap:20px;font-size:10px;line-height:1.8;color:#75829d}.text-button{background:none;border:0;color:#94a3bf;padding:5px 0;font-size:11px;text-decoration:underline;text-underline-offset:4px}.text-button:hover{color:var(--ink)}
+/* Workspace */
+.work-head{display:flex;align-items:flex-start;justify-content:space-between;padding:31px 0 25px;gap:20px}.back-link{display:inline-flex;gap:8px;align-items:center;font:10px var(--mono);letter-spacing:1px;color:var(--muted);margin-bottom:15px}.back-link:hover{color:var(--cyan)}.work-head h1{margin:0;font-size:29px;font-weight:550;letter-spacing:-.9px;line-height:1.2}.work-head .subtitle{font-size:12px;color:var(--muted);margin:10px 0 0;line-height:1.65}.work-status{padding-top:26px;text-align:right;min-width:190px}.work-status .count{font:12px var(--mono);color:var(--lime)}.mastery-dots{display:flex;gap:5px;justify-content:flex-end;margin-top:12px}.mastery-dots i{width:13px;height:4px;border-radius:2px;background:#273147;transition:background .5s}.mastery-dots i.done{background:var(--lime);box-shadow:0 0 8px #c6f87920}.workspace{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:23px;align-items:start}.plot-card{border:1px solid #2b3852;border-radius:var(--radius);background:#0c1426;overflow:hidden;box-shadow:var(--shadow);position:relative}.plot-header{padding:19px 22px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #ffffff09}.plot-title{font:10px var(--mono);letter-spacing:1.4px;color:var(--muted)}.plot-round{display:flex;align-items:center;gap:7px;font:10px var(--mono);color:var(--muted)}.plot-round b{font-weight:400;color:var(--ink)}.legend{display:flex;align-items:center;gap:17px;font-size:10px;letter-spacing:.2px;color:#aebad0}.legend span{display:flex;align-items:center;gap:6px;white-space:nowrap}.legend i{display:block;width:15px;height:2px;flex-shrink:0}.legend i.source{background:var(--cyan)}.legend i.target{height:0;border-top:2px dashed var(--violet)}.legend i.image{background:var(--lime)}.plot-svg{width:100%;height:clamp(320px,46vh,520px);overflow:hidden;background:radial-gradient(ellipse at 50% 48%,#15243966,transparent 72%)}.plot-svg text{font-family:var(--mono)}.plot-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 21px;border-top:1px solid #ffffff09;background:#0e1626;min-height:57px}.plot-controls{display:flex;gap:15px;align-items:center}.toggle-label{display:flex;align-items:center;gap:7px;font-size:10px;color:var(--muted);cursor:pointer;white-space:nowrap}.toggle-label input{accent-color:var(--lime);width:13px;height:13px;margin:0}.small-replay{background:transparent;border:0;padding:5px 0;font-size:10px;color:var(--muted);display:flex;align-items:center;gap:6px}.small-replay:hover{color:var(--ink)}.plot-caption{font:9px var(--mono);color:#72829d;letter-spacing:.3px}.mapping-card{margin-top:16px;padding:18px 21px;border:1px solid var(--line);border-radius:15px;background:#11192a8c}.mapping-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px}.mapping-header h2{font-size:10px;font-weight:500;letter-spacing:1px;color:var(--muted);margin:0}.mapping-header span{font:9px var(--mono);color:#697a96}.mapping-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 20px}.mapping-item{display:flex;align-items:center;gap:9px;font:12px var(--mono);white-space:nowrap}.mapping-item .label{width:19px;color:var(--cyan)}.mapping-item .source-coord{color:#bfd4e9}.mapping-item .mapping-arrow{color:#596e8e;margin:0 2px}.mapping-item .target-coord{color:var(--violet)}.mapping-item.origin .label,.mapping-item.origin .source-coord{color:#8ea0b9}.mapping-note{margin:12px 0 0;font-size:11px;line-height:1.65;color:var(--muted)}
+/* Matrix console */
+.console-column{position:sticky;top:18px}
+.console{background:linear-gradient(150deg,#18203599,#101728);border:1px solid var(--line);border-radius:var(--radius);padding:24px 23px}.console-top{display:flex;align-items:center;justify-content:space-between;gap:12px}.console-top h2{font-size:13px;font-weight:550;margin:0}.auto-pill{font:8px var(--mono);letter-spacing:.8px;color:var(--lime);display:flex;align-items:center;gap:5px}.auto-pill .status-dot{width:4px;height:4px}.equation{font:11px var(--mono);color:var(--muted);margin-top:13px}.equation b{font-weight:400;color:var(--ink)}.matrix-editor{display:flex;align-items:center;justify-content:center;gap:15px;margin:24px 0 19px}.matrix-letter{font-family:Georgia,serif;font-style:italic;font-size:28px;color:#dfe6f6}.matrix-brackets{position:relative;padding:9px 11px}.matrix-brackets::before,.matrix-brackets::after{content:"";position:absolute;width:7px;top:0;bottom:0;border-top:1px solid #71809c;border-bottom:1px solid #71809c}.matrix-brackets::before{left:0;border-left:1px solid #71809c}.matrix-brackets::after{right:0;border-right:1px solid #71809c}.matrix-inputs{display:grid;grid-template-columns:repeat(2,76px);gap:9px}.matrix-input{width:76px;height:55px;text-align:center;background:#0b1325;border:1px solid #2c3b56;border-radius:7px;color:var(--ink);font:23px var(--mono);outline:none;transition:border-color .2s,box-shadow .2s,background .2s;padding:0 4px}.matrix-input:nth-child(2n+1){border-bottom-color:#56dfff66}.matrix-input:nth-child(2n){border-bottom-color:#b39aff66}.matrix-input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #56dfff12;background:#0f1c31}.matrix-input[aria-invalid=true]{border-color:var(--amber);box-shadow:0 0 0 2px #ffd08b14}.column-legend{display:flex;gap:16px;justify-content:center;font:9px var(--mono);color:var(--muted);margin-bottom:19px}.column-legend span:first-child{color:#83cfe7}.column-legend span:last-child{color:var(--violet)}.matrix-formula{background:#0a12225e;border:1px solid #ffffff06;border-radius:9px;padding:11px 13px;font:10px var(--mono);line-height:1.9;color:#96a8c7;display:grid;grid-template-columns:1fr auto;gap:3px 10px}.matrix-formula .formula-coordinate{color:#cbd6eb}.det-value{font-size:11px;color:var(--ink)}.det-label{color:#7d8da8;font-size:9px;text-align:right}.editor-help{font-size:10px;color:#7688a5;line-height:1.7;margin:12px 0 18px;min-height:17px}.editor-help.invalid{color:var(--amber)}.action-stack{display:grid;gap:9px}.action-stack .btn{width:100%;min-height:43px}.no-solution{font-size:11px;color:#b1bdd1;background:transparent}.console-tools{display:flex;justify-content:space-between;margin-top:17px;gap:14px}.console-tools button{font-size:10px;color:var(--muted);border:0;background:transparent;padding:3px 0}.console-tools button:hover{color:var(--cyan)}.hint-box{background:#b39aff0a;border:1px solid #b39aff26;border-radius:10px;padding:13px;margin-top:17px;font-size:11px;line-height:1.75;color:#c5b9e7}.hint-box b{color:#e1d6ff;font-weight:550}.feedback{margin-top:17px;border:1px solid #ffffff10;background:#0b1424;border-radius:12px;padding:14px 15px;font-size:11px;line-height:1.75}.feedback[data-kind=success]{background:#c6f87909;border-color:#c6f8793b}.feedback[data-kind=error]{background:#ffd08b08;border-color:#ffd08b2d}.feedback strong{font-size:13px;font-weight:550;display:block;margin-bottom:4px;color:var(--ink)}.feedback[data-kind=success] strong{color:var(--lime)}.feedback[data-kind=error] strong{color:var(--amber)}.feedback p{margin:0;color:#adbdd3}.feedback .next-actions{display:grid;gap:8px;margin-top:13px}.next-actions .btn{font-size:11px}.insight{margin-top:15px;padding:17px 18px;border-radius:14px;border:1px solid #ffffff08;background:#0f172780}.insight .eyebrow{font-size:9px;color:#8699b7;letter-spacing:1.2px}.insight p{font-size:11px;line-height:1.8;color:var(--muted);margin:7px 0 0}.insight em{font-family:var(--mono);font-size:10px;color:#bbc8df;font-style:normal}.work-footer{display:flex;justify-content:space-between;align-items:center;padding:25px 0 32px;font-size:10px;color:#687994;gap:15px}.level-nav{display:flex;gap:7px}.level-nav a{width:29px;height:26px;border:1px solid #24324a;border-radius:5px;display:flex;align-items:center;justify-content:center;font:10px var(--mono);color:#8ca0bf}.level-nav a.active{color:var(--lime);border-color:#c6f8794d;background:#c6f87908}.level-nav a:hover{border-color:var(--cyan)}
+/* Tutorial */
+.tutorial-steps{display:flex;gap:5px;padding-top:27px}.tutorial-steps i{width:29px;height:4px;border-radius:3px;background:#263249}.tutorial-steps i.current{background:var(--cyan)}.tutorial-steps i.done{background:var(--lime)}.tutorial-lesson{margin-bottom:18px;border-bottom:1px solid var(--line);padding-bottom:20px}.lesson-index{font:9px var(--mono);color:var(--cyan);letter-spacing:1.6px;margin-bottom:11px}.tutorial-lesson h2{font-size:20px;line-height:1.3;letter-spacing:-.5px;margin:0 0 11px;font-weight:550}.tutorial-lesson p{font-size:12px;line-height:1.8;color:var(--muted);margin:0}.tutorial-lesson code{font:11px var(--mono);color:#c0d7ec}.presets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:0 0 16px}.preset{min-height:34px;border:1px solid var(--line);background:#0c1424;border-radius:7px;color:#aebcd5;font-size:10px;padding:7px 8px;transition:border-color .2s,color .2s}.preset:hover{color:var(--cyan);border-color:#56dfff66}.preset.selected{background:#56dfff0a;color:var(--cyan);border-color:#56dfff66}.tutorial-task{font-size:11px;color:var(--muted);line-height:1.7;border-left:2px solid var(--cyan);padding:4px 0 4px 11px;margin:16px 0}.tutorial-task.complete{color:var(--lime);border-left-color:var(--lime)}.tutorial-nav{display:flex;gap:9px}.tutorial-nav .btn-primary{flex:1}.tutorial-nav .btn-quiet{padding:10px 13px}.mastery-celebration{position:absolute;top:70px;left:50%;transform:translateX(-50%);max-width:calc(100% - 30px);padding:11px 20px;border:1px solid #c6f87966;border-radius:100px;background:#132525ed;box-shadow:0 0 50px #c6f87915;color:var(--lime);font:11px var(--mono);letter-spacing:1px;text-align:center;z-index:5;pointer-events:none;animation:arrive .4s ease-out}.storage-warning{margin:12px 0 0;color:var(--amber);font-size:10px}.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:50;background:#1b2840;border:1px solid #4f617c;border-radius:12px;padding:12px 18px;font-size:12px;box-shadow:var(--shadow);max-width:calc(100vw - 30px);text-align:center}.route-enter{animation:arrive .32s ease-out}@keyframes arrive{from{opacity:0;translate:0 6px}to{opacity:1;translate:0 0}}.hero-orbit{transform-origin:288px 224px;animation:orbit-pulse 8s ease-in-out infinite}.hero-spark{animation:spark-pulse 3.5s ease-in-out infinite}@keyframes orbit-pulse{0%,100%{opacity:.5}50%{opacity:1}}@keyframes spark-pulse{0%,100%{opacity:.4}50%{opacity:.95}}
+@media(min-width:1550px){.shell{padding:0 24px}.hero{padding-top:72px;padding-bottom:55px}.hero h1{font-size:72px}.card-art{height:110px}.hero-art{max-width:630px}}
+@media(max-width:1100px){.app-header{padding:0 28px;height:77px}.shell{padding:0 28px}.hero{gap:24px;padding:42px 0 34px}.hero h1{font-size:49px;letter-spacing:-2px}.hero-copy{font-size:13px}.hero-actions .btn{font-size:12px;padding:11px 13px}.workspace{grid-template-columns:minmax(0,1fr) 310px;gap:17px}.console{padding:21px 18px}.level-card{padding:18px 16px}.legend{gap:10px;font-size:9px}.plot-header{padding:16px}.plot-footer{padding:12px 16px}.plot-caption{display:none}.mapping-item{font-size:11px;gap:5px}.mapping-card{padding:16px}.work-head h1{font-size:26px}}
+@media(max-width:800px){.app-header{padding:0 21px}.shell{padding:0 21px}.live-badge{display:none}.hero{grid-template-columns:1fr 1fr;gap:18px;min-height:340px}.hero h1{font-size:39px;letter-spacing:-1.5px}.hero .pill{font-size:8px;letter-spacing:.7px}.hero-copy{font-size:12px}.hero-actions{gap:9px;margin-top:20px}.hero-actions .btn{font-size:11px;padding:10px 11px;min-height:39px}.art-head{left:16px;right:16px;top:17px}.art-foot{left:16px;right:16px;font-size:7px;bottom:15px}.art-tag{font-size:8px}.art-matrix{font-size:9px;gap:5px}.level-grid{grid-template-columns:repeat(2,1fr);gap:14px}.card-art{height:91px}.level-card p{min-height:unset}.progress-row{margin-top:19px}.workspace{grid-template-columns:minmax(0,1fr) 280px;gap:14px}.console{padding:20px 15px}.matrix-inputs{grid-template-columns:repeat(2,67px);gap:8px}.matrix-input{width:67px;height:50px;font-size:21px}.matrix-editor{gap:13px}.legend{gap:9px}.plot-title{display:none}.mapping-grid{grid-template-columns:1fr}.mapping-header span{display:none}.plot-controls{gap:9px}.toggle-label,.small-replay{font-size:9px}.work-head .subtitle{max-width:440px}.work-status{min-width:120px}.work-status .count{font-size:10px}.mastery-dots{gap:4px}.mastery-dots i{width:9px}.home-footer{font-size:9px}.tutorial-lesson h2{font-size:18px}.tutorial-lesson p{font-size:11px}}
+@media(max-width:650px){.app-header{height:70px;padding:0 18px}.brand-name{font-size:17px}.brand-mark{height:30px;width:30px}.topnav{gap:19px}.topnav a{font-size:11px}.shell{padding:0 18px}.hero{grid-template-columns:1fr;gap:29px;padding:33px 0 30px}.hero h1{font-size:47px;letter-spacing:-2.4px;margin-top:18px}.hero-copy{font-size:13px;max-width:360px}.hero-art{max-width:500px;width:100%;margin:0 auto}.hero-art svg{max-height:320px}.hero .pill{font-size:9px}.hero-actions .btn{font-size:12px;padding:12px 15px}.art-head{top:20px;left:20px;right:20px}.art-tag{font-size:9px}.art-foot{font-size:8px}.path-heading{align-items:flex-start;gap:8px;margin:3px 0 17px;flex-direction:column}.path-heading h2{font-size:19px}.path-heading p{font-size:10px}.level-grid{gap:11px}.level-card{padding:16px 13px}.level-card h3{font-size:14px}.level-card p{font-size:10px;line-height:1.6;min-height:32px}.card-art{height:78px}.card-index{font-size:9px}.progress-row{font-size:9px}.progress-row b{font-size:9px}.home-footer{align-items:flex-start;padding:22px 0 28px;font-size:9px;gap:20px}.home-footer .text-button{font-size:9px;white-space:nowrap}.workspace{display:flex;flex-direction:column;gap:16px}.plot-column{display:contents}.console-column{width:100%;display:flex;flex-direction:column;position:static;order:1}.plot-card{order:0;position:sticky;top:8px;z-index:5}.mapping-card{order:2;width:100%}.console{padding:22px}.plot-svg{height:clamp(205px,31svh,290px);max-height:none}.plot-header{padding:15px 16px}.legend{gap:14px;font-size:10px}.plot-title{display:none}.plot-header .legend{width:100%;justify-content:space-between}.plot-round{font-size:9px}.plot-controls{gap:16px}.toggle-label,.small-replay{font-size:10px}.mapping-card{margin-top:12px}.mapping-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 12px}.mapping-item{font-size:10px;gap:5px}.mapping-item .label{width:12px}.work-head{padding:24px 0 20px;gap:12px}.work-head h1{font-size:24px;letter-spacing:-.7px}.back-link{font-size:9px;margin-bottom:12px}.work-head .subtitle{font-size:11px}.work-status{padding-top:24px;min-width:95px}.work-status .count{font-size:9px}.mastery-dots{gap:3px}.mastery-dots i{width:7px}.matrix-inputs{grid-template-columns:repeat(2,94px);gap:11px}.matrix-input{width:94px;height:59px;font-size:25px}.matrix-editor{gap:22px;margin:23px 0 16px}.column-legend{gap:25px;font-size:10px}.equation{font-size:12px}.matrix-formula{font-size:11px}.editor-help{font-size:11px}.console-tools button{font-size:11px;padding:7px 0}.feedback{font-size:12px}.insight{margin-top:12px}.insight p{font-size:12px}.work-footer{font-size:9px;padding:22px 0}.work-footer>span{max-width:220px;line-height:1.7}.tutorial-lesson p{font-size:12px}.tutorial-lesson h2{font-size:21px}.tutorial-steps{padding-top:30px;gap:4px}.tutorial-steps i{width:14px}.tutorial-task{font-size:12px}.tutorial-nav .btn{min-height:46px}.preset{font-size:11px;min-height:37px}.mastery-celebration{font-size:9px;top:62px}}
+@media(max-width:650px) and (max-height:600px){.plot-card{position:static}.plot-svg{height:225px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
+/* Compact spacing after removing decorative copy. */
+.hero h1{font-size:clamp(34px,4.5vw,67px);margin-top:0;letter-spacing:-2px}
+.hero-actions{margin-top:24px}
+.home-footer .text-button{margin-left:auto}
+.work-footer .level-nav{margin-left:auto}
+.feedback strong:last-child{margin-bottom:0}
+@media(max-width:1100px) and (min-width:651px){.hero h1{font-size:clamp(30px,4.3vw,49px);letter-spacing:-1.7px}}
+@media(max-width:650px){.hero h1{font-size:clamp(30px,10.4vw,47px);letter-spacing:-1.6px}}
+</style>
+</head>
+<body>
+<header class="app-header">
+<a class="brand" href="#home" aria-label="Linear Lab home">
+<svg class="brand-mark" viewBox="0 0 36 36" aria-hidden="true"><path d="M9 3H3v30h6M27 3h6v30h-6" stroke="#7087a6" fill="none" stroke-width="1.2"/><path d="M10 25V12h14M10 25L25 10m-7 0h7v7" stroke="#56dfff" fill="none" stroke-width="1.4"/><circle cx="10" cy="25" r="2.3" fill="#c6f879"/></svg>
+<span class="brand-name">linear<span>lab</span></span>
+</a>
+<div class="header-right"><nav class="topnav" aria-label="Main navigation"><a href="#home" id="nav-home">Home</a><a href="#tutorial" id="nav-tutorial">Tutorial</a></nav></div>
+</header>
+<main id="app" class="shell"></main>
+<div id="toast" class="toast" role="status" hidden></div>
+<noscript><div style="padding:40px;text-align:center;color:#c6f879">Enable JavaScript to play.</div></noscript>
+<script>
+'use strict';
+/* Linear Lab — zero dependencies, no network requests. All geometry is real SVG.
+   A is row-major [a,b,c,d]: (x,y) -> (a*x+b*y,c*x+d*y).
+   Labels specify vertex correspondence. Mastery counts completed challenges,
+   not attempts; every feasible generated challenge has a small integer witness. */
+const $ = (selector, root=document) => root.querySelector(selector);
+const $$ = (selector, root=document) => Array.from(root.querySelectorAll(selector));
+const SVG_COLORS = {source:'#56dfff',target:'#b39aff',image:'#c6f879',axis:'#526888',grid:'#21314b'};
+const STORAGE_KEY = 'linear-lab-progress-v1';
+const IDENTITY = [1,0,0,1];
+const MAX_ENTRY = 10000;
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+let storageAvailable = true;
+function readProgress(){
+  try{
+    const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    return {solves:[1,2,3,4].map((_,i)=>Number.isSafeInteger(raw.solves?.[i])&&raw.solves[i]>=0 ? raw.solves[i]:0),tutorial:raw.tutorial===true};
+  }catch(_){storageAvailable=false;return {solves:[0,0,0,0],tutorial:false};}
+}
+let progress = readProgress();
+function saveProgress(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(progress));}catch(_){storageAvailable=false;}}
+let state = {screen:'home',level:1,puzzle:null,matrix:IDENTITY.slice(),displayMatrix:IDENTITY.slice(),solved:false,round:1,step:0,taskDone:false,showGrid:false,showTrails:true,scale:44,anim:0,debounce:0,routeToken:0,lastValid:true};
+let toastTimer;
+function toast(text){const node=$('#toast');node.textContent=text;node.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>node.hidden=true,3800);}
+const randInt = (lo,hi) => Math.floor(Math.random()*(hi-lo+1))+lo;
+const pick = items => items[randInt(0,items.length-1)];
+const add = (u,v) => [u[0]+v[0],u[1]+v[1]];
+const mul = (k,v) => [k*v[0],k*v[1]];
+const det2 = (u,v) => u[0]*v[1]-u[1]*v[0];
+const dotMap = (A,p) => [A[0]*p[0]+A[1]*p[1],A[2]*p[0]+A[3]*p[1]];
+const determinant = A => A[0]*A[3]-A[1]*A[2];
+const isZero = p => p[0]===0&&p[1]===0;
+const samePoint = (p,q,tol=1e-8) => Math.abs(p[0]-q[0])<=tol&&Math.abs(p[1]-q[1])<=tol;
+function fmt(n,places=3){if(Math.abs(n)<1e-9)return '0';if(Math.abs(n)>=100000)return n.toExponential(1).replace('e+','e');return (Number.isInteger(n)?String(n):String(Number(n.toFixed(places)))).replace('-', '−');}
+const coord = p => `(${fmt(p[0])}, ${fmt(p[1])})`;
+const rawCoord = p => `(${p.map(x=>fmt(x)).join(', ')})`;
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function randomVector(max=3){let p;do{p=[randInt(-max,max),randInt(-max,max)];}while(isZero(p));return p;}
+function simpleMatrix(invertible=false){
+  let A;do{A=Array.from({length:4},()=>randInt(-2,2));}while((invertible&&determinant(A)===0)||A.every((n,i)=>n===IDENTITY[i])||A.every(n=>n===0));return A;
+}
+function independentPair(){
+  const bank=[[[1,0],[0,1]],[[2,0],[0,1]],[[1,0],[0,2]],[[1,1],[0,1]],[[1,0],[1,1]],[[1,1],[-1,1]],[[2,1],[1,1]],[[1,-1],[1,0]],[[1,2],[0,1]],[[2,1],[1,-1]],[[1,2],[2,1]]];
+  let [u,v]=pick(bank).map(p=>p.slice());
+  const sx=pick([-1,1]),sy=pick([-1,1]);
+  u=[u[0]*sx,u[1]*sy];v=[v[0]*sx,v[1]*sy];
+  if(Math.random()<.5)[u,v]=[v,u];
+  return [u,v];
+}
+/* Find one real-valued map, or null if the constraints are inconsistent.
+   This is independent of the generator's witness and checks ALL vertices. */
+function findMap(source,target){
+  if(source.length!==target.length||!source.length)return null;
+  let i=source.findIndex(p=>!isZero(p));
+  if(i<0)return target.every(isZero)?[0,0,0,0]:null;
+  let j=source.findIndex(p=>Math.abs(det2(source[i],p))>1e-10);
+  let A;
+  if(j>=0){
+    const u=source[i],v=source[j],r=target[i],s=target[j],D=det2(u,v);
+    A=[(r[0]*v[1]-s[0]*u[1])/D,(s[0]*u[0]-r[0]*v[0])/D,(r[1]*v[1]-s[1]*u[1])/D,(s[1]*u[0]-r[1]*v[0])/D];
+  }else{
+    const u=source[i],r=target[i];
+    A=u[0]!==0?[r[0]/u[0],0,r[1]/u[0],0]:[0,r[0]/u[1],0,r[1]/u[1]];
+  }
+  return source.every((p,k)=>samePoint(dotMap(A,p),target[k],1e-7))?A:null;
+}
+function accepts(A,puzzle){
+  if(!Array.isArray(A)||A.length!==4||!A.every(Number.isFinite))return false;
+  return puzzle.source.every((p,i)=>samePoint(dotMap(A,p),puzzle.target[i],1e-7));
+}
+function generatePuzzle(level){
+  const impossible = level!==4 && Math.random()<.22;
+  let source,target,A=null,reason='',hint='',relation=null;
+  if(level===1){
+    if(impossible){
+      source=[[0,0]];target=[randomVector(4)];reason='A(0, 0) = (0, 0) for every matrix.';
+      hint='What is A(0, 0)?';
+    }else{
+      source=[Math.random()<.07?[0,0]:randomVector(3)];A=simpleMatrix();
+      if(Math.random()<.12)A=[0,0,0,0];
+      target=source.map(p=>dotMap(A,p));
+      if(!isZero(source[0])&&samePoint(source[0],target[0])){A=mulMatrixScalar(-1,A);target=source.map(p=>dotMap(A,p));}
+      hint=isZero(source[0])?'Every matrix fixes the origin.':pointHint(source[0],target[0]);
+    }
+  }else if(level===2){
+    if(impossible){
+      if(Math.random()<.45){
+        source=[[0,0],randomVector(3)];target=[randomVector(3),randomVector(4)];
+        if(samePoint(target[0],target[1]))target[1]=add(target[1],[1,0]);
+        reason='P = O, but P′ ≠ O. Linear maps fix O.';
+        hint='Can A move P = (0, 0)?';
+      }else{
+        const u=randomVector(2),k=pick([-2,-1,2]);relation=k;source=[u,mul(k,u)];
+        const r=randomVector(3);let s=add(mul(k,r),pick([[1,0],[0,1],[-1,1]]));
+        if(samePoint(r,s))s=add(s,[1,1]);
+        target=[r,s];
+        reason=`Q = ${fmt(k)}P, but Q′ ≠ ${fmt(k)}P′.`;
+        hint=`Q = ${fmt(k)}P requires Q′ = ${fmt(k)}P′.`;
+      }
+    }else{
+      const mode=Math.random();
+      if(mode<.23)source=[[0,0],randomVector(3)];
+      else if(mode<.49){const u=randomVector(2),k=pick([-2,-1,2]);source=[u,mul(k,u)];relation=k;}
+      else source=independentPair();
+      A=simpleMatrix();target=source.map(p=>dotMap(A,p));
+      hint=relation!==null?`Q = ${fmt(relation)}P. Solve P → P′; Q follows.`:source.some(isZero)?'O is fixed. Solve for the other endpoint.':'Use target x-coordinates for the first row, and y-coordinates for the second.';
+    }
+  }else if(level===3){
+    let u,v;
+    if(impossible){
+      u=randomVector(2);relation=pick([-2,-1,2]);v=mul(relation,u);
+      const r=randomVector(3),s=add(mul(relation,r),pick([[1,0],[0,1],[-1,1]]));
+      source=[[0,0],u,v];target=[[0,0],r,s];
+      reason=`V = ${fmt(relation)}U, but V′ ≠ ${fmt(relation)}U′.`;
+      hint=`V = ${fmt(relation)}U requires V′ = ${fmt(relation)}U′.`;
+    }else{
+      if(Math.random()<.23){u=randomVector(2);relation=pick([-2,-1,2]);v=mul(relation,u);}else [u,v]=independentPair();
+      source=[[0,0],u,v];A=simpleMatrix();target=source.map(p=>dotMap(A,p));
+      hint=relation!==null?`V = ${fmt(relation)}U. Solve U → U′.`:basisHint(u,v);
+    }
+  }else{
+    const [u,v]=independentPair();source=[[0,0],u,add(u,v),v];A=simpleMatrix(true);target=source.map(p=>dotMap(A,p));
+    hint='Solve U → U′ and V → V′. Since W = U + V, W follows.';
+  }
+  const labels=level===1?['P']:level===2?['P','Q']:level===3?['O','U','V']:['O','U','W','V'];
+  const problem={level,source,target,labels,solution:A,possible:!impossible,reason,hint,relation};
+  // Guard against accidental generator regressions or inconsistent examples.
+  const found=findMap(source,target);
+  if((found!==null)!==problem.possible || (A&&!accepts(A,problem)))throw new Error('Invalid puzzle generated');
+  return problem;
+}
+function mulMatrixScalar(k,A){return A.map(x=>k*x);}
+function pointHint(p,q){return `Solve ${fmt(p[0])}a + ${fmt(p[1])}b = ${fmt(q[0])} and ${fmt(p[0])}c + ${fmt(p[1])}d = ${fmt(q[1])}.`;}
+function basisHint(u,v){
+  if(samePoint(u,[1,0])&&samePoint(v,[0,1]))return 'U′ and V′ are the columns of A.';
+  return 'The first row gives target x-coordinates; the second gives y-coordinates.';
+}
+function parseScalar(text){
+  const value=text.trim().replaceAll('−','-');
+  const numberPattern='[+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)';
+  if(!new RegExp(`^${numberPattern}(?:\\s*\\/\\s*${numberPattern})?$`).test(value))return null;
+  const parts=value.split('/').map(Number);
+  const out=parts.length===2?parts[0]/parts[1]:parts[0];
+  return Number.isFinite(out)&&Math.abs(out)<=MAX_ENTRY?out:null;
+}
+const LEVELS=[
+  {name:'Point',instruction:'Map P to P′.',accent:'var(--cyan)'},
+  {name:'Segment',instruction:'Map P to P′ and Q to Q′.',accent:'var(--violet)'},
+  {name:'Two segments',instruction:'Map U to U′ and V to V′.',accent:'var(--magenta)'},
+  {name:'Parallelogram',instruction:'Map U to U′, V to V′, and W to W′.',accent:'var(--lime)'}
+];
+function cardDiagram(level){
+  const grid='<path d="M24 44H216M118 8V85" stroke="#34415a" stroke-width=".7"/><circle cx="118" cy="44" r="1.8" fill="#596d8d"/>';
+  const diagrams=[
+    '<path d="M79 62Q109 0 171 25" stroke="#536984" stroke-dasharray="3 5" fill="none"/><circle cx="79" cy="62" r="4" stroke="#56dfff" fill="#123044"/><circle cx="171" cy="25" r="6" stroke="#b39aff" stroke-dasharray="2 2" fill="#b39aff12"/><circle cx="136" cy="29" r="3.5" fill="#c6f879"/><text x="67" y="80" fill="#56dfff">P</text><text x="181" y="27" fill="#b39aff">P′</text>',
+    '<path d="M63 70L150 55" stroke="#56dfff" stroke-width="1.5"/><path d="M141 76L177 14" stroke="#b39aff" stroke-width="1.5" stroke-dasharray="4 3"/><path d="M94 75L170 38" stroke="#c6f879" stroke-width="1.5"/><g fill="#56dfff"><circle cx="63" cy="70" r="3"/><circle cx="150" cy="55" r="3"/></g><g fill="#b39aff"><circle cx="141" cy="76" r="3"/><circle cx="177" cy="14" r="3"/></g><g fill="#c6f879"><circle cx="94" cy="75" r="2.5"/><circle cx="170" cy="38" r="2.5"/></g>',
+    '<path d="M118 68L180 68M118 68L147 22" stroke="#56dfff" fill="none" stroke-width="1.4"/><path d="M118 68L88 22M118 68L173 12" stroke="#b39aff" stroke-dasharray="4 3" fill="none" stroke-width="1.4"/><path d="M118 68L160 43M118 68L156 16" stroke="#c6f879" fill="none" stroke-width="1.4"/><g fill="#56dfff"><circle cx="180" cy="68" r="3"/><circle cx="147" cy="22" r="3"/></g><g fill="#b39aff"><circle cx="88" cy="22" r="3"/><circle cx="173" cy="12" r="3"/></g><circle cx="118" cy="68" r="3" fill="#c6f879"/>',
+    '<path d="M102 71L166 71L188 33L124 33Z" stroke="#56dfff" fill="#56dfff08" stroke-width="1.2"/><path d="M102 71L155 37L135 9L82 43Z" stroke="#b39aff" fill="#b39aff0a" stroke-width="1.2" stroke-dasharray="4 3"/><path d="M102 71L164 52L166 16L104 35Z" stroke="#c6f879" fill="#c6f87910" stroke-width="1.3"/><circle cx="102" cy="71" r="3" fill="#c6f879"/>'
+  ];
+  return `<svg class="card-art" viewBox="0 0 240 90" aria-hidden="true" style="font:10px var(--mono)">${grid}${diagrams[level-1]}</svg>`;
+}
+function heroDiagram(){
+  let grid='';for(let x=15;x<=580;x+=35)grid+=`<path d="M${x} 50V405"/>`;for(let y=49;y<=405;y+=35)grid+=`<path d="M15 ${y}H575"/>`;
+  return `<div class="hero-art" aria-label="Animated parallelogram demonstrating the matrix with rows 1, minus 1 and 1, 1">
+  <div class="art-head"><div class="art-matrix">A = <span class="mini-matrix"><span>1</span><span>−1</span><span>1</span><span>1</span></span></div></div>
+  <svg viewBox="0 0 580 420" role="img" aria-label="A cyan parallelogram transforms into a rotated violet target, with a lime animated image">
+  <defs><filter id="hero-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter><radialGradient id="hero-light"><stop stop-color="#56dfff" stop-opacity=".07"/><stop offset="1" stop-color="#56dfff" stop-opacity="0"/></radialGradient></defs>
+  <circle cx="286" cy="222" r="190" fill="url(#hero-light)"/>
+  <g stroke="#263650" stroke-width=".7" opacity=".6">${grid}</g>
+  <path d="M15 294H565M260 395V58" stroke="#596c8c" stroke-width=".9"/>
+  <path d="M560 291L565 294L560 297M257 64L260 58L263 64" stroke="#596c8c" fill="none"/>
+  <g font-family="var(--mono)" font-size="10" fill="#7184a0"><text x="549" y="314">x</text><text x="245" y="64">y</text><text x="243" y="313">O</text><text x="293" y="311">1</text><text x="243" y="263">1</text></g>
+  <path d="M400 224L330 84M365 294L365 189M295 224L225 189" stroke="#66809e" stroke-width="1" stroke-dasharray="2 7" opacity=".55"/>
+  <path d="M260 294L365 294L400 224L295 224Z" stroke="#56dfff" stroke-width="1.4" fill="#56dfff08"/>
+  <path d="M260 294L365 189L330 84L225 189Z" stroke="#b39aff" stroke-width="1.7" stroke-dasharray="6 5" fill="#b39aff0a"/>
+  <g fill="#0c1426" stroke="#56dfff" stroke-width="1.5"><circle cx="365" cy="294" r="3.5"/><circle cx="400" cy="224" r="3.5"/><circle cx="295" cy="224" r="3.5"/></g>
+  <g fill="#0c1426" stroke="#b39aff" stroke-width="1.5"><circle cx="365" cy="189" r="4"/><circle cx="330" cy="84" r="4"/><circle cx="225" cy="189" r="4"/></g>
+  <g id="hero-live" filter="url(#hero-glow)"></g>
+  <circle cx="260" cy="294" r="4" fill="#ecf6ff"/>
+  <g font-family="var(--mono)" font-size="11"><text x="409" y="225" fill="#56dfff">x</text><text x="343" y="83" fill="#b39aff">Ax</text></g>
+  <g class="hero-orbit" stroke="#8092b3" fill="none" stroke-width=".7"><path d="M154 252A115 115 0 0 1 178 190" stroke-dasharray="3 6"/><path d="M425 159A132 132 0 0 1 444 207" stroke-dasharray="3 6"/></g>
+  </svg></div>`;
+}
+let heroAnim=0;
+function animateHero(){
+  cancelAnimationFrame(heroAnim);let start=null;
+  function frame(time){
+    if(state.screen!=='home')return;
+    if(start===null)start=time;
+    const phase=((time-start)%7500)/7500;
+    let t=phase<.15?0:phase<.55?(phase-.15)/.4:phase<.78?1:1-(phase-.78)/.22;
+    t=reducedMotion.matches?1:t*t*(3-2*t);
+    const A=[1,-t,t,1],points=[[0,0],[3,0],[4,2],[1,2]].map(p=>dotMap(A,p)).map(p=>[260+p[0]*35,294-p[1]*35]);
+    const el=$('#hero-live');if(!el)return;
+    el.innerHTML=`<path d="${points.map((p,i)=>`${i?'L':'M'}${p[0].toFixed(2)} ${p[1].toFixed(2)}`).join('')}Z" stroke="#c6f879" stroke-width="1.8" fill="#c6f8790e"/>${points.slice(1).map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="2.7" fill="#c6f879"/>`).join('')}`;
+    if(!reducedMotion.matches)heroAnim=requestAnimationFrame(frame);
+  }
+  heroAnim=requestAnimationFrame(frame);
+}
+function renderHome(){
+  $('#app').innerHTML=`<section class="hero route-enter"><div><h1>Linear<br><em>transformations</em></h1><div class="hero-actions"><a class="btn btn-primary" href="#tutorial">Tutorial <span class="arrow">→</span></a></div></div>${heroDiagram()}</section>
+  <section aria-labelledby="path-title"><div class="path-heading"><h2 id="path-title">Levels</h2></div><div class="level-grid">${LEVELS.map((level,i)=>`<a class="level-card" href="#level-${i+1}" style="--card-accent:${level.accent}" aria-label="Level ${i+1}: ${level.name}. ${Math.min(progress.solves[i],10)} of 10 toward mastery."><div class="card-top"><span class="card-index">0${i+1}</span><span class="card-arrow">↗</span></div>${cardDiagram(i+1)}<h3>${level.name}</h3><div class="progress-row"><span class="${progress.solves[i]>=10?'mastered-badge':''}">${progress.solves[i]>=10?'Mastered':'Mastery'}</span><b>${Math.min(progress.solves[i],10)} / 10</b></div><div class="progress-track"><i style="width:${Math.min(progress.solves[i],10)*10}%"></i></div></a>`).join('')}</div></section>
+  <footer class="home-footer">${!storageAvailable?'<p class="storage-warning">Progress is saved for this session only.</p>':''}<button class="text-button" id="reset-progress">Reset progress</button></footer>`;
+  $('#reset-progress').addEventListener('click',()=>{if(confirm('Reset all progress?')){progress={solves:[0,0,0,0],tutorial:false};saveProgress();renderHome();toast('Progress reset.');}});
+  animateHero();
+}
+const LESSONS=[
+  {name:'Point',text:'Cyan is <code>P</code>; lime is <code>AP</code>. Each edit transforms the original <code>P</code>.',task:'Change a matrix entry.',done:'Updated.'},
+  {name:'Columns',text:'The columns are the images of <code>e₁ = (1, 0)</code> and <code>e₂ = (0, 1)</code>. Here, <code>AP = 2Ae₁ + Ae₂</code>.',task:'Change a column.',done:'Updated.'},
+  {name:'Transformations',text:'Linear maps keep the origin fixed.',task:'Choose a preset.',done:'Done.'},
+  {name:'Match the target',text:'Send <code>P = (2, 1)</code> to <code>P′ = (3, 2)</code>.',task:'Enter a matrix, then check.',done:'Matched.'}
+];
+function matrixMarkup(){return `<div class="console-top"><h2>Matrix</h2></div><div class="equation"><b>T(x) = Ax</b></div><div class="matrix-editor"><span class="matrix-letter" aria-hidden="true">A =</span><div class="matrix-brackets"><div class="matrix-inputs" role="group" aria-label="Transformation matrix A, row by row">${['a','b','c','d'].map((key,i)=>`<input class="matrix-input" id="matrix-${key}" aria-label="${key}: row ${Math.floor(i/2)+1}, column ${i%2+1}" aria-describedby="editor-help" value="${state.matrix[i]}" type="text" inputmode="text" spellcheck="false" autocomplete="off" autocapitalize="off" maxlength="28" data-index="${i}">`).join('')}</div></div></div><div class="matrix-formula"><span id="formula-x">x′ = ax + by</span><span class="det-label">det A</span><span id="formula-y">y′ = cx + dy</span><span class="det-value" id="det-value">1</span></div><p class="editor-help" id="editor-help">Numbers or fractions (1/2).</p>`;}
+function plotMarkup(tutorial=false){return `<div class="plot-column"><section class="plot-card" aria-label="Transformation visualization"><div class="plot-header"><div class="legend" aria-label="Diagram legend"><span><i class="source"></i>Original</span><span id="target-legend" ${tutorial&&state.step<3?'hidden':''}><i class="target"></i>Target</span><span><i class="image"></i>Image</span></div></div><svg id="plot" class="plot-svg" viewBox="0 0 800 590" role="img" aria-labelledby="plot-svg-title plot-svg-desc"><title id="plot-svg-title">A linear transformation in the coordinate plane</title><desc id="plot-svg-desc">Cyan marks the original configuration. Dashed violet marks the target. Lime marks the image under your matrix. Exact vertex coordinates are listed below.</desc><defs><filter id="geometry-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><clipPath id="plot-clip"><rect x="17" y="17" width="766" height="556" rx="5"/></clipPath><marker id="arrow-cyan" markerWidth="7" markerHeight="7" refX="5.4" refY="3.5" orient="auto"><path d="M1 1L6 3.5L1 6" fill="none" stroke="#56dfff" stroke-width="1"/></marker><marker id="arrow-violet" markerWidth="7" markerHeight="7" refX="5.4" refY="3.5" orient="auto"><path d="M1 1L6 3.5L1 6" fill="none" stroke="#b39aff" stroke-width="1"/></marker></defs><g id="grid-layer"></g><g id="warped-grid-layer" clip-path="url(#plot-clip)"></g><g id="trail-layer" clip-path="url(#plot-clip)"></g><g id="static-shape-layer" clip-path="url(#plot-clip)"></g><g id="live-shape-layer" clip-path="url(#plot-clip)" filter="url(#geometry-glow)"></g><g id="basis-layer" clip-path="url(#plot-clip)"></g><g id="label-layer"></g></svg><div class="plot-footer"><div class="plot-controls"><label class="toggle-label"><input type="checkbox" id="grid-toggle" ${state.showGrid?'checked':''}>Mapped grid</label><label class="toggle-label"><input type="checkbox" id="trail-toggle" ${state.showTrails?'checked':''}>Trails</label></div><button class="small-replay" id="replay" aria-label="Replay the transformation from the original configuration">↻ Replay</button></div></section><section class="mapping-card" aria-label="Exact vertex coordinates"><div class="mapping-header"><h2>${tutorial&&state.step<3?'Original → Image':'Original → Target'}</h2></div><div id="mapping-grid" class="mapping-grid"></div></section></div>`;}
+function renderWorkspace(){
+  const tutorial=state.screen==='tutorial',level=LEVELS[state.level-1];
+  $('#app').innerHTML=`<div class="route-enter"><div class="work-head"><div><a class="back-link" href="#home">← Levels</a><h1>${tutorial?'Tutorial':`<span style="color:${level.accent};font-family:var(--mono);font-size:20px;margin-right:10px">0${state.level}</span>${level.name}`}</h1>${tutorial?'':`<p class="subtitle">${level.instruction}</p>`}</div>${tutorial?`<div class="tutorial-steps" aria-label="Tutorial step ${state.step+1} of 4">${LESSONS.map((_,i)=>`<i class="${i<state.step?'done':i===state.step?'current':''}"></i>`).join('')}</div>`:`<div class="work-status" id="work-status">${masteryMarkup()}</div>`}</div><div class="workspace">${plotMarkup(tutorial)}<aside class="console-column"><section class="console" aria-label="Matrix control panel">${tutorial?lessonMarkup():''}${matrixMarkup()}${tutorial?tutorialActions():gameActions()}<div class="feedback" id="feedback" role="status" aria-live="polite" hidden></div></section></aside></div><footer class="work-footer">${tutorial?'<a class="text-button" href="#level-1">Skip tutorial →</a>':`<nav class="level-nav" aria-label="Switch level">${LEVELS.map((l,i)=>`<a href="#level-${i+1}" class="${state.level===i+1?'active':''}" aria-label="Level ${i+1}: ${l.name}">0${i+1}</a>`).join('')}</nav>`}</footer></div>`;
+  bindWorkspace();observePlot();updateMatrixDetails();updateMapping();renderPlot();
+}
+function masteryMarkup(){const count=progress.solves[state.level-1];return `<span class="count">${count>=10?'Mastered':`Mastery · ${count} / 10`}</span><div class="mastery-dots" aria-label="${Math.min(count,10)} of 10 mastery solves">${Array.from({length:10},(_,i)=>`<i class="${i<count?'done':''}"></i>`).join('')}</div>${count>=10?`<div style="font:9px var(--mono);color:#6c7e9a;margin-top:10px">${count} solved</div>`:''}`;}
+function gameActions(){return `<div class="action-stack"><button class="btn btn-primary" id="check-matrix" title="Check matrix (Enter)">Check <span class="arrow">→</span></button><button class="btn no-solution" id="no-solution">No matrix exists</button></div><div class="console-tools"><button id="hint-toggle" aria-expanded="false">Hint</button><button id="new-challenge" title="Skip without adding progress">Skip ↻</button></div><div id="hint-box" class="hint-box" hidden>${escapeHTML(state.puzzle.hint)}</div>`;}
+function lessonMarkup(){const lesson=LESSONS[state.step];return `<div class="tutorial-lesson"><div class="lesson-index">${state.step+1} / 4</div><h2>${lesson.name}</h2><p>${lesson.text}</p></div>`;}
+function tutorialActions(){return `${state.step<3?`<div class="presets">${[['rotate','Rotate 90° ↶'],['stretch','Stretch ×2'],['shear','Shear →'],['reflect','Reflect ↔']].map(([key,label])=>`<button class="preset" data-preset="${key}">${label}</button>`).join('')}</div>`:''}<div class="tutorial-task" id="tutorial-task" role="status">${LESSONS[state.step].task}</div>${state.step===3?'<div class="action-stack"><button class="btn btn-primary" id="check-landing">Check →</button></div><div class="console-tools"><button id="hint-toggle" aria-expanded="false">Hint</button><button id="reset-matrix" title="Reset to identity (Escape)">Reset ↻</button></div><div class="hint-box" id="hint-box" hidden>Solve 2a + b = 3 and 2c + d = 2. Try A = [1, 1; 0, 2].</div>':`<div class="tutorial-nav">${state.step>0?'<button class="btn btn-quiet" id="tutorial-back" aria-label="Previous tutorial step">←</button>':''}<button class="btn btn-primary" id="tutorial-next" disabled>Next <span class="arrow">→</span></button></div><div class="console-tools"><span></span><button id="reset-matrix" title="Reset to identity (Escape)">Reset ↻</button></div>`}`;}
+function updateMapping(){
+  const p=state.puzzle, tutorial=state.screen==='tutorial',freeplay=tutorial&&state.step<3;
+  const target=freeplay?p.source.map(v=>dotMap(state.matrix,v)):p.target;
+  const root=$('#mapping-grid');if(!root)return;
+  root.innerHTML=p.source.map((v,i)=>`<div class="mapping-item ${p.labels[i]==='O'?'origin':''}"><span class="label">${p.labels[i]}</span><span class="source-coord">${coord(v)}</span><span class="mapping-arrow">→</span><span class="target-coord" style="${freeplay?'color:var(--lime)':''}">${coord(target[i])}</span></div>`).join('');
+}
+/* SVG renderer: uniform Cartesian scale, exact data coordinates, screen-space
+   strokes and label collision avoidance. There is no raster canvas. */
+const PLOT={w:800,h:590,cx:400,cy:295};
+let plotObserver=null;
+function fitPlotViewport(){
+  const svg=$('#plot');if(!svg)return;
+  const rect=svg.getBoundingClientRect();
+  if(rect.width<1||rect.height<1)return;
+  PLOT.w=rect.width;PLOT.h=rect.height;PLOT.cx=rect.width/2;PLOT.cy=rect.height/2;
+  // Compose the camera around the mission while keeping O fixed throughout
+  // every preview. Positive-only geometry need not waste half the canvas.
+  if(state.screen==='game'){
+    const points=[...state.puzzle.source,...state.puzzle.target,[0,0]];
+    const xs=points.map(p=>p[0]),ys=points.map(p=>p[1]);
+    const left=Math.min(...xs),right=Math.max(...xs),bottom=Math.min(...ys),top=Math.max(...ys);
+    if(right>left)PLOT.cx=PLOT.w*Math.max(.3,Math.min(.7,-left/(right-left)));
+    if(top>bottom)PLOT.cy=PLOT.h*Math.max(.28,Math.min(.75,top/(top-bottom)));
+  }
+  svg.setAttribute('viewBox',`0 0 ${PLOT.w} ${PLOT.h}`);
+  const clip=$('#plot-clip rect');clip.setAttribute('width',PLOT.w-34);clip.setAttribute('height',PLOT.h-34);
+  state.scale=desiredScale(state.displayMatrix);
+}
+function observePlot(){
+  if(plotObserver)plotObserver.disconnect();
+  fitPlotViewport();
+  if(typeof ResizeObserver==='undefined')return;
+  plotObserver=new ResizeObserver(entries=>{
+    const rect=entries[0].contentRect;
+    if(Math.abs(rect.width-PLOT.w)<.5&&Math.abs(rect.height-PLOT.h)<.5)return;
+    cancelAnimationFrame(state.anim);state.displayMatrix=state.matrix.slice();
+    fitPlotViewport();renderPlot();
+  });
+  plotObserver.observe($('#plot'));
+}
+function showTarget(){return state.screen!=='tutorial'||state.step===3;}
+function desiredScale(A){
+  const p=state.puzzle,points=[...p.source,...p.source.map(v=>dotMap(A,v))];
+  if(showTarget())points.push(...p.target);
+  if(state.screen==='tutorial')points.push([1,0],[0,1],dotMap(A,[1,0]),dotMap(A,[0,1]));
+  let scale=58;
+  for(const [x,y] of points){
+    if(x>0)scale=Math.min(scale,(PLOT.w-PLOT.cx-44)/x);
+    if(x<0)scale=Math.min(scale,(PLOT.cx-44)/(-x));
+    if(y>0)scale=Math.min(scale,(PLOT.cy-40)/y);
+    if(y<0)scale=Math.min(scale,(PLOT.h-PLOT.cy-40)/(-y));
+  }
+  return Math.max(.00001,scale);
+}
+function xy(p){return [PLOT.cx+p[0]*state.scale,PLOT.cy-p[1]*state.scale];}
+function pointString(p){const q=xy(p);return `${q[0].toFixed(3)} ${q[1].toFixed(3)}`;}
+function linePath(a,b){return `M${pointString(a)}L${pointString(b)}`;}
+function niceTick(scale){
+  const raw=38/scale,power=10**Math.floor(Math.log10(raw));
+  for(const n of [1,2,5,10])if(n*power>=raw)return n*power;
+  return 10*power;
+}
+function renderGrid(){
+  const scale=state.scale,step=niceTick(scale),sx=PLOT.cx,sy=PLOT.cy;
+  const right=PLOT.w-19,bottom=PLOT.h-19;
+  const leftLimit=(sx-19)/scale,rightLimit=(PLOT.w-sx-19)/scale;
+  const bottomLimit=(PLOT.h-sy-19)/scale,topLimit=(sy-19)/scale;
+  let grid='',ticks='';
+  for(let n=-Math.floor(leftLimit/step);n<=Math.floor(rightLimit/step);n++){
+    const value=n*step;if(!n)continue;const x=sx+value*scale;
+    grid+=`<path d="M${x} 19V${bottom}"/>`;
+    ticks+=`<path d="M${x} ${sy-3}v6" stroke="#536783"/><text x="${x}" y="${sy+20}" text-anchor="middle">${fmt(value,2)}</text>`;
+  }
+  for(let n=-Math.floor(bottomLimit/step);n<=Math.floor(topLimit/step);n++){
+    const value=n*step;if(!n)continue;const y=sy-value*scale;
+    grid+=`<path d="M19 ${y}H${right}"/>`;
+    ticks+=`<path d="M${sx-3} ${y}h6" stroke="#536783"/><text x="${sx-12}" y="${y+3.5}" text-anchor="end">${fmt(value,2)}</text>`;
+  }
+  $('#grid-layer').innerHTML=`<g fill="none" stroke="${SVG_COLORS.grid}" stroke-width=".8" opacity=".58">${grid}</g><g stroke="${SVG_COLORS.axis}" stroke-width="1"><path d="M19 ${sy}H${right}M${sx} ${bottom}V20"/><path d="M${right-6} ${sy-3}L${right} ${sy}L${right-6} ${sy+3}M${sx-3} 26L${sx} 20L${sx+3} 26" fill="none"/></g><g font-size="10" fill="#7486a2">${ticks}<text x="${sx-12}" y="${sy+19}" text-anchor="end">O</text><text x="${right-13}" y="${sy-12}" font-size="12" fill="#a7b7cf">x</text><text x="${sx+13}" y="33" font-size="12" fill="#a7b7cf">y</text></g><circle cx="${sx}" cy="${sy}" r="2.5" fill="#9eb2ce"/>`;
+}
+function renderWarpedGrid(A){
+  const el=$('#warped-grid-layer');if(!state.showGrid){el.innerHTML='';return;}
+  // The finite source lattice is transformed by A, rather than drawn as a
+  // cosmetic skew; a singular map correctly collapses it to a line or point.
+  const max=Math.min(12,Math.max(6,Math.ceil(300/state.scale))),step=Math.max(1,Math.floor(max/9));
+  let paths='';
+  for(let n=-max;n<=max;n+=step){
+    paths+=`<path d="${linePath(dotMap(A,[n,-max]),dotMap(A,[n,max]))}"/><path d="${linePath(dotMap(A,[-max,n]),dotMap(A,[max,n]))}"/>`;
+  }
+  el.innerHTML=`<g fill="none" stroke="#c6f879" stroke-width=".7" opacity=".13">${paths}</g>`;
+}
+function shapeMarkup(points,kind,level){
+  const color=SVG_COLORS[kind],isTarget=kind==='target',isLive=kind==='image';
+  const stroke=isTarget?1.8:isLive?1.8:1.3,opacity=kind==='source'?.75:1;
+  let path='';
+  if(level===2)path=linePath(points[0],points[1]);
+  else if(level===3)path=linePath(points[0],points[1])+linePath(points[0],points[2]);
+  else if(level===4)path=points.map((p,i)=>`${i?'L':'M'}${pointString(p)}`).join('')+'Z';
+  let out=path?`<path d="${path}" fill="${level===4?color+(isLive?'14':isTarget?'0c':'05'):'none'}" stroke="${color}" stroke-width="${stroke}" ${isTarget?'stroke-dasharray="6 5"':''} stroke-linejoin="round" opacity="${opacity}"/>`:'';
+  if(level===4&&kind==='image')out+=`<path d="${linePath(points[0],points[2])}" stroke="${color}" stroke-width=".8" stroke-dasharray="3 6" opacity=".27"/>`;
+  const used=[];
+  points.forEach((p,i)=>{
+    if(state.puzzle.labels[i]==='O'||used.some(v=>samePoint(p,v)))return;
+    used.push(p);const [x,y]=xy(p);
+    if(isLive)out+=`<circle cx="${x}" cy="${y}" r="8" fill="${color}" opacity=".07"/><circle cx="${x}" cy="${y}" r="3.5" fill="${color}" stroke="#e0ffb3" stroke-width=".7"/>`;
+    else if(isTarget)out+=`<circle cx="${x}" cy="${y}" r="7" fill="#11192c" fill-opacity=".5" stroke="${color}" stroke-width="1.6" stroke-dasharray="2.5 2"/><circle cx="${x}" cy="${y}" r="1.5" fill="${color}"/>`;
+    else out+=`<circle cx="${x}" cy="${y}" r="5" fill="#0c1426" stroke="${color}" stroke-width="1.5"/>`;
+  });
+  return out;
+}
+function renderTrails(){
+  const p=state.puzzle;let paths='';
+  if(state.showTrails)p.source.forEach(v=>{const q=dotMap(state.matrix,v);if(samePoint(v,q))return;paths+=`<path d="${linePath(v,q)}"/>`;});
+  $('#trail-layer').innerHTML=`<g stroke="#c6f879" stroke-width=".8" stroke-dasharray="2 7" opacity=".24" fill="none">${paths}</g>`;
+}
+function renderBasis(A){
+  const el=$('#basis-layer');if(state.screen!=='tutorial'||state.step===0||state.step===3){el.innerHTML='';return [];}
+  const e1=dotMap(A,[1,0]),e2=dotMap(A,[0,1]);
+  el.innerHTML=`<path d="${linePath([0,0],e1)}" fill="none" stroke="#56dfff" stroke-width="2" marker-end="url(#arrow-cyan)"/><path d="${linePath([0,0],e2)}" fill="none" stroke="#b39aff" stroke-width="2" marker-end="url(#arrow-violet)"/>`;
+  return [{p:e1,text:'Ae₁',kind:'source'},{p:e2,text:'Ae₂',kind:'target'}];
+}
+function renderLabels(live,basisLabels=[]){
+  const p=state.puzzle,labels=[];
+  function collect(points,kind){
+    points.forEach((v,i)=>{
+      if(p.labels[i]==='O')return;
+      if(kind==='image'&&(samePoint(p.source[i],v,.0001)||(showTarget()&&samePoint(p.target[i],v,.0001))))return;
+      const name=kind==='target'?p.labels[i]+'′':kind==='image'?'A'+p.labels[i]:p.labels[i];
+      const existing=labels.find(d=>d.kind===kind&&samePoint(d.p,v,1e-7));
+      if(existing)existing.text+=' / '+name;else labels.push({p:v,text:name,kind});
+    });
+  }
+  collect(p.source,'source');if(showTarget())collect(p.target,'target');collect(live,'image');labels.push(...basisLabels);
+  const occupied=[],pointBoxes=[...p.source,...(showTarget()?p.target:[]),...live].map(v=>{const [x,y]=xy(v);return {x:x-8,y:y-8,w:16,h:16};});
+  const intersects=(a,b)=>a.x<b.x+b.w+4&&a.x+a.w+4>b.x&&a.y<b.y+b.h+3&&a.y+a.h+3>b.y;
+  let html='';
+  labels.forEach(label=>{
+    const [x,y]=xy(label.p),w=label.text.length*7.4+4,h=15;
+    const candidates=label.kind==='source'?[[-w-10,-22],[-w-10,7],[11,-22],[11,8],[-w/2,-34],[-w/2,22],[-w-20,-5],[23,-5]]:label.kind==='target'?[[12,-22],[12,8],[-w-11,-22],[-w-11,8],[-w/2,-34],[-w/2,22],[23,-5],[-w-20,-5]]:[[12,10],[-w-11,10],[12,-22],[-w-11,-22],[-w/2,25],[-w/2,-34],[23,-5],[-w-20,-5]];
+    let best=null,bestScore=Infinity;
+    for(const [dx,dy] of candidates){
+      const box={x:Math.max(22,Math.min(PLOT.w-22-w,x+dx)),y:Math.max(20,Math.min(PLOT.h-20-h,y+dy)),w,h};
+      const score=occupied.filter(b=>intersects(box,b)).length*10+pointBoxes.filter(b=>intersects(box,b)).length;
+      if(score<bestScore){best=box;bestScore=score;}if(score===0)break;
+    }
+    occupied.push(best);
+    html+=`<text x="${best.x+2}" y="${best.y+11.5}" font-size="11.5" fill="${SVG_COLORS[label.kind]}" stroke="#0c1426" stroke-width="4" stroke-linejoin="round" paint-order="stroke">${escapeHTML(label.text)}</text>`;
+  });
+  $('#label-layer').innerHTML=html;
+}
+function renderPlot(){
+  if(!$('#plot')||!state.puzzle)return;
+  const A=state.displayMatrix,p=state.puzzle,live=p.source.map(v=>dotMap(A,v));
+  renderGrid();renderWarpedGrid(A);renderTrails();
+  $('#static-shape-layer').innerHTML=shapeMarkup(p.source,'source',p.level)+(showTarget()?shapeMarkup(p.target,'target',p.level):'');
+  $('#live-shape-layer').innerHTML=shapeMarkup(live,'image',p.level);
+  const basis=renderBasis(A);renderLabels(live,basis||[]);
+}
+function updateMatrixDetails(){
+  const A=state.matrix,el=$('#det-value');if(!el)return;
+  const d=determinant(A);el.textContent=fmt(d);el.style.color=d===0?'var(--amber)':'var(--ink)';
+  el.title=d===0?'Singular: the plane collapses.':`Area scale: ${fmt(Math.abs(d))}. ${d<0?'Orientation reverses.':'Orientation preserved.'}`;
+  if(state.screen==='tutorial'){
+    const q=dotMap(A,[2,1]);$('#formula-x').innerHTML=`x′ = 2a + b = <span class="formula-coordinate">${fmt(q[0])}</span>`;$('#formula-y').innerHTML=`y′ = 2c + d = <span class="formula-coordinate">${fmt(q[1])}</span>`;
+  }
+}
+function animateMatrix(next,{replay=false,instant=false}={}){
+  cancelAnimationFrame(state.anim);
+  const from=replay?IDENTITY.slice():state.displayMatrix.slice(),fromScale=replay?desiredScale(IDENTITY):state.scale,toScale=desiredScale(next);
+  state.matrix=next.slice();updateMatrixDetails();updateMapping();
+  const duration=instant||reducedMotion.matches?0:720,routeToken=state.routeToken;
+  let start=null;
+  function frame(time){
+    if(routeToken!==state.routeToken||!$('#plot'))return;
+    if(start===null)start=time;
+    const progress=duration===0?1:Math.min(1,(time-start)/duration),t=1-Math.pow(1-progress,3);
+    state.displayMatrix=from.map((v,i)=>v+(next[i]-v)*t);
+    // Fit as the point moves. The origin stays in exactly the same place.
+    state.scale=Math.min(fromScale+(toScale-fromScale)*t,desiredScale(state.displayMatrix));
+    renderPlot();
+    if(progress<1)state.anim=requestAnimationFrame(frame);else{state.displayMatrix=next.slice();state.scale=toScale;state.anim=0;}
+  }
+  state.anim=requestAnimationFrame(frame);
+}
+function readMatrixInputs({report=true}={}){
+  const inputs=$$('.matrix-input'),values=inputs.map(el=>parseScalar(el.value));
+  if(inputs.length!==4)return null;
+  const valid=values.every(v=>v!==null);state.lastValid=valid;
+  inputs.forEach((el,i)=>el.setAttribute('aria-invalid',String(values[i]===null)));
+  const help=$('#editor-help');
+  if(report){help.classList.toggle('invalid',!valid);help.textContent=valid?'Numbers or fractions (1/2).':'Use numbers from −10,000 to 10,000. Fraction denominators cannot be zero.';}
+  const check=$('#check-matrix')||$('#check-landing');if(check)check.disabled=!valid||state.solved;
+  return valid?values:null;
+}
+function applyInput(){
+  clearTimeout(state.debounce);const A=readMatrixInputs();if(!A)return;
+  if(!state.solved)hideFeedback();
+  $$('.preset').forEach(el=>el.classList.remove('selected'));
+  animateMatrix(A);
+  if(state.screen==='tutorial'&&state.step<2&&!A.every((v,i)=>v===IDENTITY[i]))completeTutorialTask();
+}
+function setMatrix(A,{preset=false,replay=false}={}){
+  A.forEach((n,i)=>{$$('.matrix-input')[i].value=String(n);});
+  const valid=readMatrixInputs();if(!valid)return;
+  if(!state.solved)hideFeedback();
+  animateMatrix(valid,{replay});
+  if(state.screen==='tutorial'&&state.step<3&&preset)completeTutorialTask();
+}
+function hideFeedback(){const el=$('#feedback');if(el){el.hidden=true;el.innerHTML='';}}
+function feedback(kind,title,message,actions=''){
+  const el=$('#feedback');el.dataset.kind=kind;el.innerHTML=`<strong>${escapeHTML(title)}</strong>${message?`<p>${escapeHTML(message)}</p>`:''}${actions?`<div class="next-actions">${actions}</div>`:''}`;el.hidden=false;
+}
+function checkMatrix(){
+  if(state.solved)return;
+  clearTimeout(state.debounce);const A=readMatrixInputs();if(!A)return;
+  animateMatrix(A);
+  if(accepts(A,state.puzzle))solveRound(false);
+  else{
+    const i=state.puzzle.source.findIndex((p,i)=>!samePoint(dotMap(A,p),state.puzzle.target[i],1e-7)),name=state.puzzle.labels[i],image=dotMap(A,state.puzzle.source[i]);
+    feedback('error','Not matched',`A${name} = ${coord(image)}; ${name}′ = ${coord(state.puzzle.target[i])}.`);
+  }
+}
+function checkNoSolution(){
+  if(state.solved)return;
+  clearTimeout(state.debounce);
+  // This decision is about real linear maps, not just the integer generator.
+  if(findMap(state.puzzle.source,state.puzzle.target)===null)solveRound(true);
+  else{
+    let message;
+    if(state.level===4)message='Independent U and V determine a unique matrix.';
+    else if(state.puzzle.source.every(isZero))message='Every matrix maps (0, 0) to (0, 0).';
+    else message='Solve for each row of A.';
+    feedback('error','A matrix exists',message);
+  }
+}
+function solveRound(impossible){
+  if(state.solved)return;state.solved=true;
+  const before=progress.solves[state.level-1];progress.solves[state.level-1]++;saveProgress();
+  const mastered=before===9;
+  $('#work-status').innerHTML=masteryMarkup();$('#check-matrix').disabled=true;$('#no-solution').disabled=true;
+  $('#new-challenge').hidden=true;
+  const title=mastered?'Mastered':impossible?'Correct — no matrix exists':'Correct';
+  const body=impossible?state.puzzle.reason:'';
+  const nextLabel='Next →';
+  const actions=`${mastered&&state.level<4?`<a class="btn btn-primary" href="#level-${state.level+1}">Level ${state.level+1} →</a>`:''}<button id="next-challenge" class="btn ${mastered&&state.level<4?'btn-quiet':'btn-primary'}">${nextLabel}</button>`;
+  feedback('success',title,body,actions);$('#next-challenge').addEventListener('click',()=>startRound(false));
+}
+function completeTutorialTask(){
+  if(state.taskDone)return;state.taskDone=true;
+  const task=$('#tutorial-task');task.textContent='✓ '+LESSONS[state.step].done;task.classList.add('complete');
+  const next=$('#tutorial-next');if(next)next.disabled=false;
+}
+function checkLanding(){
+  if(state.solved)return;clearTimeout(state.debounce);const A=readMatrixInputs();if(!A)return;animateMatrix(A);
+  if(accepts(A,state.puzzle)){
+    state.solved=true;completeTutorialTask();progress.tutorial=true;saveProgress();$('#check-landing').disabled=true;
+    feedback('success','Correct','',`<a class="btn btn-primary" href="#level-1">Level 1 →</a><button class="btn btn-quiet" id="keep-exploring">Presets</button>`);
+    $('#keep-exploring').addEventListener('click',()=>{state.step=2;startTutorialStep();});
+  }else feedback('error','Not matched',`AP = ${coord(dotMap(A,[2,1]))}; P′ = (3, 2).`);
+}
+function bindWorkspace(){
+  $$('.matrix-input').forEach(el=>{
+    el.addEventListener('focus',()=>el.select());
+    el.addEventListener('input',()=>{clearTimeout(state.debounce);readMatrixInputs();state.debounce=setTimeout(applyInput,150);});
+    el.addEventListener('keydown',event=>{
+      if(event.key==='Enter'){event.preventDefault();state.screen==='tutorial'?(state.step===3?checkLanding():applyInput()):checkMatrix();}
+      if(event.key==='Escape'){event.preventDefault();setMatrix(IDENTITY);}
+    });
+  });
+  $('#grid-toggle').addEventListener('change',event=>{state.showGrid=event.target.checked;renderPlot();});
+  $('#trail-toggle').addEventListener('change',event=>{state.showTrails=event.target.checked;renderPlot();});
+  $('#replay').addEventListener('click',()=>{clearTimeout(state.debounce);const A=readMatrixInputs();if(A)animateMatrix(A,{replay:true});});
+  $('#hint-toggle')?.addEventListener('click',()=>{const hint=$('#hint-box'),button=$('#hint-toggle');hint.hidden=!hint.hidden;button.setAttribute('aria-expanded',String(!hint.hidden));button.textContent=hint.hidden?'Hint':'Hide hint';});
+  if(state.screen==='game'){
+    $('#check-matrix').addEventListener('click',checkMatrix);$('#no-solution').addEventListener('click',checkNoSolution);$('#new-challenge').addEventListener('click',()=>startRound(false));
+  }else{
+    $('#reset-matrix')?.addEventListener('click',()=>{setMatrix(IDENTITY);$$('.preset').forEach(el=>el.classList.remove('selected'));});
+    $('#tutorial-next')?.addEventListener('click',()=>{if(state.taskDone){state.step++;startTutorialStep();}});
+    $('#tutorial-back')?.addEventListener('click',()=>{state.step--;startTutorialStep();});
+    $('#check-landing')?.addEventListener('click',checkLanding);
+    const presets={rotate:[0,-1,1,0],stretch:[2,0,0,1],shear:[1,1,0,1],reflect:[-1,0,0,1]};
+    $$('.preset').forEach(el=>el.addEventListener('click',()=>{setMatrix(presets[el.dataset.preset],{preset:true});$$('.preset').forEach(button=>button.classList.toggle('selected',button===el));}));
+  }
+}
+function startRound(resetNumber=false){
+  cancelAnimationFrame(state.anim);clearTimeout(state.debounce);state.routeToken++;
+  state.puzzle=generatePuzzle(state.level);state.matrix=IDENTITY.slice();state.displayMatrix=IDENTITY.slice();state.solved=false;state.lastValid=true;
+  state.round=resetNumber?1:state.round+1;state.scale=desiredScale(IDENTITY);
+  renderWorkspace();
+}
+function startTutorialStep(){
+  cancelAnimationFrame(state.anim);clearTimeout(state.debounce);state.routeToken++;
+  state.puzzle={level:1,source:[[2,1]],target:[[3,2]],labels:['P'],solution:[1,1,0,2],possible:true};
+  state.solved=false;state.taskDone=false;state.matrix=IDENTITY.slice();state.displayMatrix=IDENTITY.slice();state.lastValid=true;
+  state.showGrid=state.step===1||state.step===2;state.scale=desiredScale(IDENTITY);renderWorkspace();
+}
+function route(){
+  cancelAnimationFrame(heroAnim);cancelAnimationFrame(state.anim);clearTimeout(state.debounce);state.routeToken++;
+  const hash=location.hash.replace('#','');const levelMatch=hash.match(/^level-([1-4])$/);
+  if(hash==='tutorial'){state.screen='tutorial';state.step=0;startTutorialStep();}
+  else if(levelMatch){state.screen='game';state.level=Number(levelMatch[1]);state.showGrid=false;startRound(true);}
+  else{state.screen='home';if(plotObserver)plotObserver.disconnect();renderHome();}
+  $('#nav-home').classList.toggle('active',state.screen==='home');$('#nav-tutorial').classList.toggle('active',state.screen==='tutorial');
+  $('#nav-home').setAttribute('aria-current',state.screen==='home'?'page':'false');$('#nav-tutorial').setAttribute('aria-current',state.screen==='tutorial'?'page':'false');
+  document.title=state.screen==='home'?'Linear Lab':state.screen==='tutorial'?'Tutorial — Linear Lab':`${LEVELS[state.level-1].name} — Linear Lab`;
+  window.scrollTo({top:0,behavior:'instant'});
+}
+window.addEventListener('hashchange',route);
+window.addEventListener('pagehide',()=>{cancelAnimationFrame(heroAnim);cancelAnimationFrame(state.anim);saveProgress();});
+window.addEventListener('pageshow',event=>{if(event.persisted)route();});
+route();
+</script>
+</body>
+</html>
