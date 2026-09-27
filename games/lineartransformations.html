@@ -31,6 +31,20 @@
 .feedback strong:last-child{margin-bottom:0}
 @media(max-width:1100px) and (min-width:651px){.hero h1{font-size:clamp(30px,4.3vw,49px);letter-spacing:-1.7px}}
 @media(max-width:650px){.hero h1{font-size:clamp(30px,10.4vw,47px);letter-spacing:-1.6px}}
+/* Two-stage navigation and progress. */
+.card-link{display:block;border-radius:5px}
+.card-stages{display:grid;gap:14px;margin-top:20px}
+.card-stage{display:block;border-radius:5px;padding:4px 0}
+.card-stage .progress-row{margin-top:0}
+.card-stage .progress-track{margin-top:8px}
+.card-stage:hover .progress-row span{color:var(--ink)}
+.card-stage:hover .progress-track{background:#ffffff15}
+.stage-switcher{display:flex;gap:4px;width:max-content;max-width:100%;padding:4px;margin-top:17px;border:1px solid var(--line);border-radius:10px;background:#0c1424}
+.stage-switcher a{padding:8px 10px;border-radius:6px;font-size:11px;line-height:1.3;white-space:nowrap;color:var(--muted);transition:background .2s,color .2s}
+.stage-switcher a:hover{color:var(--ink);background:#1c2840}
+.stage-switcher a.active{background:#25324a;color:var(--cyan)}
+@media(max-width:650px){.stage-switcher{margin-top:14px;padding:3px;gap:2px}.stage-switcher a{font-size:10px;padding:8px}.card-stages{margin-top:17px;gap:12px}}
+@media(max-width:380px){.work-head h1{font-size:20px}.work-head h1>span{font-size:16px!important;margin-right:7px!important}.work-head .subtitle{max-width:174px}.work-status{min-width:88px}.stage-switcher a{padding:8px 7px}}
 </style>
 </head>
 <body>
@@ -53,20 +67,35 @@
 const $ = (selector, root=document) => root.querySelector(selector);
 const $$ = (selector, root=document) => Array.from(root.querySelectorAll(selector));
 const SVG_COLORS = {source:'#56dfff',target:'#b39aff',image:'#c6f879',axis:'#526888',grid:'#21314b'};
-const STORAGE_KEY = 'linear-lab-progress-v1';
+const STORAGE_KEY = 'linear-lab-progress-v2';
+const LEGACY_STORAGE_KEY = 'linear-lab-progress-v1';
+const MASTERY_GOAL = 10;
 const IDENTITY = [1,0,0,1];
 const MAX_ENTRY = 10000;
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 let storageAvailable = true;
+function emptyProgress(){return {solves:Array.from({length:4},()=>[0,0]),tutorial:false};}
+function validCount(n){return Number.isSafeInteger(n)&&n>=0?n:0;}
 function readProgress(){
+  let current,legacy;
   try{
-    const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    return {solves:[1,2,3,4].map((_,i)=>Number.isSafeInteger(raw.solves?.[i])&&raw.solves[i]>=0 ? raw.solves[i]:0),tutorial:raw.tutorial===true};
-  }catch(_){storageAvailable=false;return {solves:[0,0,0,0],tutorial:false};}
+    current=localStorage.getItem(STORAGE_KEY);
+    if(current===null)legacy=localStorage.getItem(LEGACY_STORAGE_KEY);
+  }catch(_){storageAvailable=false;return emptyProgress();}
+  try{
+    const raw=JSON.parse(current??legacy??'{}')||{};
+    // Earlier versions had only random starts: keep that credit in stage 2.
+    return {
+      solves:Array.from({length:4},(_,i)=>current===null
+        ?[0,validCount(raw.solves?.[i])]
+        :[validCount(raw.solves?.[i]?.[0]),validCount(raw.solves?.[i]?.[1])]),
+      tutorial:raw.tutorial===true
+    };
+  }catch(_){return emptyProgress();}
 }
 let progress = readProgress();
 function saveProgress(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(progress));}catch(_){storageAvailable=false;}}
-let state = {screen:'home',level:1,puzzle:null,matrix:IDENTITY.slice(),displayMatrix:IDENTITY.slice(),solved:false,round:1,step:0,taskDone:false,showGrid:false,showTrails:true,scale:44,anim:0,debounce:0,routeToken:0,lastValid:true};
+let state = {screen:'home',level:1,stage:1,puzzle:null,matrix:IDENTITY.slice(),displayMatrix:IDENTITY.slice(),solved:false,round:1,step:0,taskDone:false,showGrid:false,showTrails:true,scale:44,anim:0,debounce:0,routeToken:0,lastValid:true};
 let toastTimer;
 function toast(text){const node=$('#toast');node.textContent=text;node.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>node.hidden=true,3800);}
 const randInt = (lo,hi) => Math.floor(Math.random()*(hi-lo+1))+lo;
@@ -115,10 +144,31 @@ function accepts(A,puzzle){
   if(!Array.isArray(A)||A.length!==4||!A.every(Number.isFinite))return false;
   return puzzle.source.every((p,i)=>samePoint(dotMap(A,p),puzzle.target[i],1e-7));
 }
-function generatePuzzle(level){
-  const impossible = level!==4 && Math.random()<.22;
+// Each stage can be replayed indefinitely. Only stage 2 randomizes the source.
+const FIXED_SOURCES=[
+  [[1,0]],
+  [[0,1],[1,0]],
+  [[0,0],[1,0],[0,1]],
+  [[0,0],[1,0],[1,1],[0,1]]
+];
+function generatePuzzle(level,stage=1){
+  if(!Number.isInteger(level)||level<1||level>4||(stage!==1&&stage!==2))throw new Error('Invalid level or stage');
+  const impossible = stage===2 && level!==4 && Math.random()<.22;
   let source,target,A=null,reason='',hint='',relation=null;
-  if(level===1){
+  if(stage===1){
+    source=FIXED_SOURCES[level-1].map(p=>p.slice());
+    // Avoid a target that is already matched by the initial identity matrix.
+    do{
+      A=level===1&&Math.random()<.12?[0,0,0,0]:simpleMatrix(level===4);
+      target=source.map(p=>dotMap(A,p));
+    }while(source.every((p,i)=>samePoint(p,target[i])));
+    hint=[
+      'P′ is the first column of A.',
+      'P′ is column 2; Q′ is column 1.',
+      'U′ and V′ are the columns of A.',
+      'Use U′ and V′ as columns. W′ = U′ + V′.'
+    ][level-1];
+  }else if(level===1){
     if(impossible){
       source=[[0,0]];target=[randomVector(4)];reason='A(0, 0) = (0, 0) for every matrix.';
       hint='What is A(0, 0)?';
@@ -170,7 +220,7 @@ function generatePuzzle(level){
     hint='Solve U → U′ and V → V′. Since W = U + V, W follows.';
   }
   const labels=level===1?['P']:level===2?['P','Q']:level===3?['O','U','V']:['O','U','W','V'];
-  const problem={level,source,target,labels,solution:A,possible:!impossible,reason,hint,relation};
+  const problem={level,stage,source,target,labels,solution:A,possible:!impossible,reason,hint,relation};
   // Guard against accidental generator regressions or inconsistent examples.
   const found=findMap(source,target);
   if((found!==null)!==problem.possible || (A&&!accepts(A,problem)))throw new Error('Invalid puzzle generated');
@@ -196,6 +246,14 @@ const LEVELS=[
   {name:'Two segments',instruction:'Map U to U′ and V to V′.',accent:'var(--magenta)'},
   {name:'Parallelogram',instruction:'Map U to U′, V to V′, and W to W′.',accent:'var(--lime)'}
 ];
+const STAGES=['Fixed','Random'];
+function stageCount(level,stage){return progress.solves[level-1][stage-1];}
+function levelMastered(level){return progress.solves[level-1].every(n=>n>=MASTERY_GOAL);}
+function recommendedStage(level){return stageCount(level,1)<MASTERY_GOAL?1:2;}
+function levelHref(level,stage=recommendedStage(level)){return `#level-${level}-stage-${stage}`;}
+function stageLabel(level,stage){
+  return `Stage ${stage}: ${STAGES[stage-1]}. ${Math.min(stageCount(level,stage),MASTERY_GOAL)} of ${MASTERY_GOAL} correct rounds.`;
+}
 function cardDiagram(level){
   const grid='<path d="M24 44H216M118 8V85" stroke="#34415a" stroke-width=".7"/><circle cx="118" cy="44" r="1.8" fill="#596d8d"/>';
   const diagrams=[
@@ -246,9 +304,9 @@ function animateHero(){
 }
 function renderHome(){
   $('#app').innerHTML=`<section class="hero route-enter"><div><h1>Linear<br><em>transformations</em></h1><div class="hero-actions"><a class="btn btn-primary" href="#tutorial">Tutorial <span class="arrow">→</span></a></div></div>${heroDiagram()}</section>
-  <section aria-labelledby="path-title"><div class="path-heading"><h2 id="path-title">Levels</h2></div><div class="level-grid">${LEVELS.map((level,i)=>`<a class="level-card" href="#level-${i+1}" style="--card-accent:${level.accent}" aria-label="Level ${i+1}: ${level.name}. ${Math.min(progress.solves[i],10)} of 10 toward mastery."><div class="card-top"><span class="card-index">0${i+1}</span><span class="card-arrow">↗</span></div>${cardDiagram(i+1)}<h3>${level.name}</h3><div class="progress-row"><span class="${progress.solves[i]>=10?'mastered-badge':''}">${progress.solves[i]>=10?'Mastered':'Mastery'}</span><b>${Math.min(progress.solves[i],10)} / 10</b></div><div class="progress-track"><i style="width:${Math.min(progress.solves[i],10)*10}%"></i></div></a>`).join('')}</div></section>
+  <section aria-labelledby="path-title"><div class="path-heading"><h2 id="path-title">Levels</h2></div><div class="level-grid">${LEVELS.map((level,i)=>`<article class="level-card" style="--card-accent:${level.accent}"><a class="card-link" href="${levelHref(i+1)}" aria-label="Level ${i+1}: ${level.name}"><div class="card-top"><span class="card-index">0${i+1}</span><span class="card-arrow">↗</span></div>${cardDiagram(i+1)}<h3>${level.name}</h3></a><div class="card-stages">${STAGES.map((name,j)=>{const count=Math.min(stageCount(i+1,j+1),MASTERY_GOAL);return `<a class="card-stage" href="${levelHref(i+1,j+1)}" aria-label="Level ${i+1}, ${stageLabel(i+1,j+1)}"><div class="progress-row"><span>${j+1} · ${name}</span><b class="${count>=MASTERY_GOAL?'mastered-badge':''}">${count} / ${MASTERY_GOAL}</b></div><div class="progress-track"><i style="width:${count/MASTERY_GOAL*100}%"></i></div></a>`;}).join('')}</div></article>`).join('')}</div></section>
   <footer class="home-footer">${!storageAvailable?'<p class="storage-warning">Progress is saved for this session only.</p>':''}<button class="text-button" id="reset-progress">Reset progress</button></footer>`;
-  $('#reset-progress').addEventListener('click',()=>{if(confirm('Reset all progress?')){progress={solves:[0,0,0,0],tutorial:false};saveProgress();renderHome();toast('Progress reset.');}});
+  $('#reset-progress').addEventListener('click',()=>{if(confirm('Reset all progress?')){progress=emptyProgress();saveProgress();renderHome();toast('Progress reset.');}});
   animateHero();
 }
 const LESSONS=[
@@ -261,10 +319,16 @@ function matrixMarkup(){return `<div class="console-top"><h2>Matrix</h2></div><d
 function plotMarkup(tutorial=false){return `<div class="plot-column"><section class="plot-card" aria-label="Transformation visualization"><div class="plot-header"><div class="legend" aria-label="Diagram legend"><span><i class="source"></i>Original</span><span id="target-legend" ${tutorial&&state.step<3?'hidden':''}><i class="target"></i>Target</span><span><i class="image"></i>Image</span></div></div><svg id="plot" class="plot-svg" viewBox="0 0 800 590" role="img" aria-labelledby="plot-svg-title plot-svg-desc"><title id="plot-svg-title">A linear transformation in the coordinate plane</title><desc id="plot-svg-desc">Cyan marks the original configuration. Dashed violet marks the target. Lime marks the image under your matrix. Exact vertex coordinates are listed below.</desc><defs><filter id="geometry-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><clipPath id="plot-clip"><rect x="17" y="17" width="766" height="556" rx="5"/></clipPath><marker id="arrow-cyan" markerWidth="7" markerHeight="7" refX="5.4" refY="3.5" orient="auto"><path d="M1 1L6 3.5L1 6" fill="none" stroke="#56dfff" stroke-width="1"/></marker><marker id="arrow-violet" markerWidth="7" markerHeight="7" refX="5.4" refY="3.5" orient="auto"><path d="M1 1L6 3.5L1 6" fill="none" stroke="#b39aff" stroke-width="1"/></marker></defs><g id="grid-layer"></g><g id="warped-grid-layer" clip-path="url(#plot-clip)"></g><g id="trail-layer" clip-path="url(#plot-clip)"></g><g id="static-shape-layer" clip-path="url(#plot-clip)"></g><g id="live-shape-layer" clip-path="url(#plot-clip)" filter="url(#geometry-glow)"></g><g id="basis-layer" clip-path="url(#plot-clip)"></g><g id="label-layer"></g></svg><div class="plot-footer"><div class="plot-controls"><label class="toggle-label"><input type="checkbox" id="grid-toggle" ${state.showGrid?'checked':''}>Mapped grid</label><label class="toggle-label"><input type="checkbox" id="trail-toggle" ${state.showTrails?'checked':''}>Trails</label></div><button class="small-replay" id="replay" aria-label="Replay the transformation from the original configuration">↻ Replay</button></div></section><section class="mapping-card" aria-label="Exact vertex coordinates"><div class="mapping-header"><h2>${tutorial&&state.step<3?'Original → Image':'Original → Target'}</h2></div><div id="mapping-grid" class="mapping-grid"></div></section></div>`;}
 function renderWorkspace(){
   const tutorial=state.screen==='tutorial',level=LEVELS[state.level-1];
-  $('#app').innerHTML=`<div class="route-enter"><div class="work-head"><div><a class="back-link" href="#home">← Levels</a><h1>${tutorial?'Tutorial':`<span style="color:${level.accent};font-family:var(--mono);font-size:20px;margin-right:10px">0${state.level}</span>${level.name}`}</h1>${tutorial?'':`<p class="subtitle">${level.instruction}</p>`}</div>${tutorial?`<div class="tutorial-steps" aria-label="Tutorial step ${state.step+1} of 4">${LESSONS.map((_,i)=>`<i class="${i<state.step?'done':i===state.step?'current':''}"></i>`).join('')}</div>`:`<div class="work-status" id="work-status">${masteryMarkup()}</div>`}</div><div class="workspace">${plotMarkup(tutorial)}<aside class="console-column"><section class="console" aria-label="Matrix control panel">${tutorial?lessonMarkup():''}${matrixMarkup()}${tutorial?tutorialActions():gameActions()}<div class="feedback" id="feedback" role="status" aria-live="polite" hidden></div></section></aside></div><footer class="work-footer">${tutorial?'<a class="text-button" href="#level-1">Skip tutorial →</a>':`<nav class="level-nav" aria-label="Switch level">${LEVELS.map((l,i)=>`<a href="#level-${i+1}" class="${state.level===i+1?'active':''}" aria-label="Level ${i+1}: ${l.name}">0${i+1}</a>`).join('')}</nav>`}</footer></div>`;
+  $('#app').innerHTML=`<div class="route-enter"><div class="work-head"><div><a class="back-link" href="#home">← Levels</a><h1>${tutorial?'Tutorial':`<span style="color:${level.accent};font-family:var(--mono);font-size:20px;margin-right:10px">0${state.level}</span>${level.name}`}</h1>${tutorial?'':`<p class="subtitle">${level.instruction}</p>${stageMarkup()}`}</div>${tutorial?`<div class="tutorial-steps" aria-label="Tutorial step ${state.step+1} of 4">${LESSONS.map((_,i)=>`<i class="${i<state.step?'done':i===state.step?'current':''}"></i>`).join('')}</div>`:`<div class="work-status" id="work-status">${masteryMarkup()}</div>`}</div><div class="workspace">${plotMarkup(tutorial)}<aside class="console-column"><section class="console" aria-label="Matrix control panel">${tutorial?lessonMarkup():''}${matrixMarkup()}${tutorial?tutorialActions():gameActions()}<div class="feedback" id="feedback" role="status" aria-live="polite" hidden></div></section></aside></div><footer class="work-footer">${tutorial?'<a class="text-button" href="#level-1-stage-1">Skip tutorial →</a>':`<nav class="level-nav" aria-label="Switch level">${LEVELS.map((l,i)=>`<a href="${levelHref(i+1,state.level===i+1?state.stage:recommendedStage(i+1))}" class="${state.level===i+1?'active':''}" aria-label="Level ${i+1}: ${l.name}">0${i+1}</a>`).join('')}</nav>`}</footer></div>`;
   bindWorkspace();observePlot();updateMatrixDetails();updateMapping();renderPlot();
 }
-function masteryMarkup(){const count=progress.solves[state.level-1];return `<span class="count">${count>=10?'Mastered':`Mastery · ${count} / 10`}</span><div class="mastery-dots" aria-label="${Math.min(count,10)} of 10 mastery solves">${Array.from({length:10},(_,i)=>`<i class="${i<count?'done':''}"></i>`).join('')}</div>${count>=10?`<div style="font:9px var(--mono);color:#6c7e9a;margin-top:10px">${count} solved</div>`:''}`;}
+function stageMarkup(){
+  return `<nav class="stage-switcher" aria-label="Stages">${STAGES.map((name,i)=>`<a href="${levelHref(state.level,i+1)}" class="${state.stage===i+1?'active':''}" ${state.stage===i+1?'aria-current="step"':''} aria-label="${stageLabel(state.level,i+1)}">${i+1} · ${name}</a>`).join('')}</nav>`;
+}
+function masteryMarkup(){
+  const count=stageCount(state.level,state.stage),complete=count>=MASTERY_GOAL;
+  return `<span class="count">${complete?(levelMastered(state.level)?'Mastered':'Stage complete'):`${count} / ${MASTERY_GOAL}`}</span><div class="mastery-dots" aria-label="Stage ${state.stage}: ${Math.min(count,MASTERY_GOAL)} of ${MASTERY_GOAL} correct rounds">${Array.from({length:MASTERY_GOAL},(_,i)=>`<i class="${i<count?'done':''}"></i>`).join('')}</div>${complete?`<div style="font:9px var(--mono);color:#6c7e9a;margin-top:10px">${count} solved</div>`:''}`;
+}
 function gameActions(){return `<div class="action-stack"><button class="btn btn-primary" id="check-matrix" title="Check matrix (Enter)">Check <span class="arrow">→</span></button><button class="btn no-solution" id="no-solution">No matrix exists</button></div><div class="console-tools"><button id="hint-toggle" aria-expanded="false">Hint</button><button id="new-challenge" title="Skip without adding progress">Skip ↻</button></div><div id="hint-box" class="hint-box" hidden>${escapeHTML(state.puzzle.hint)}</div>`;}
 function lessonMarkup(){const lesson=LESSONS[state.step];return `<div class="tutorial-lesson"><div class="lesson-index">${state.step+1} / 4</div><h2>${lesson.name}</h2><p>${lesson.text}</p></div>`;}
 function tutorialActions(){return `${state.step<3?`<div class="presets">${[['rotate','Rotate 90° ↶'],['stretch','Stretch ×2'],['shear','Shear →'],['reflect','Reflect ↔']].map(([key,label])=>`<button class="preset" data-preset="${key}">${label}</button>`).join('')}</div>`:''}<div class="tutorial-task" id="tutorial-task" role="status">${LESSONS[state.step].task}</div>${state.step===3?'<div class="action-stack"><button class="btn btn-primary" id="check-landing">Check →</button></div><div class="console-tools"><button id="hint-toggle" aria-expanded="false">Hint</button><button id="reset-matrix" title="Reset to identity (Escape)">Reset ↻</button></div><div class="hint-box" id="hint-box" hidden>Solve 2a + b = 3 and 2c + d = 2. Try A = [1, 1; 0, 2].</div>':`<div class="tutorial-nav">${state.step>0?'<button class="btn btn-quiet" id="tutorial-back" aria-label="Previous tutorial step">←</button>':''}<button class="btn btn-primary" id="tutorial-next" disabled>Next <span class="arrow">→</span></button></div><div class="console-tools"><span></span><button id="reset-matrix" title="Reset to identity (Escape)">Reset ↻</button></div>`}`;}
@@ -313,7 +377,8 @@ function desiredScale(A){
   const p=state.puzzle,points=[...p.source,...p.source.map(v=>dotMap(A,v))];
   if(showTarget())points.push(...p.target);
   if(state.screen==='tutorial')points.push([1,0],[0,1],dotMap(A,[1,0]),dotMap(A,[0,1]));
-  let scale=58;
+  // Unit configurations need a closer view than the larger random sources.
+  let scale=state.screen==='game'&&state.stage===1?140:58;
   for(const [x,y] of points){
     if(x>0)scale=Math.min(scale,(PLOT.w-PLOT.cx-44)/x);
     if(x<0)scale=Math.min(scale,(PLOT.cx-44)/(-x));
@@ -497,7 +562,8 @@ function checkNoSolution(){
   if(findMap(state.puzzle.source,state.puzzle.target)===null)solveRound(true);
   else{
     let message;
-    if(state.level===4)message='Independent U and V determine a unique matrix.';
+    if(state.stage===1)message=state.puzzle.hint;
+    else if(state.level===4)message='Independent U and V determine a unique matrix.';
     else if(state.puzzle.source.every(isZero))message='Every matrix maps (0, 0) to (0, 0).';
     else message='Solve for each row of A.';
     feedback('error','A matrix exists',message);
@@ -505,14 +571,25 @@ function checkNoSolution(){
 }
 function solveRound(impossible){
   if(state.solved)return;state.solved=true;
-  const before=progress.solves[state.level-1];progress.solves[state.level-1]++;saveProgress();
-  const mastered=before===9;
+  const before=stageCount(state.level,state.stage);
+  progress.solves[state.level-1][state.stage-1]++;saveProgress();
+  const stageCompleted=before===MASTERY_GOAL-1;
+  const mastered=stageCompleted&&levelMastered(state.level);
   $('#work-status').innerHTML=masteryMarkup();$('#check-matrix').disabled=true;$('#no-solution').disabled=true;
+  $$('.stage-switcher a').forEach((el,i)=>el.setAttribute('aria-label',stageLabel(state.level,i+1)));
   $('#new-challenge').hidden=true;
-  const title=mastered?'Mastered':impossible?'Correct — no matrix exists':'Correct';
+  const title=mastered?'Mastered':stageCompleted?'Stage complete':impossible?'Correct — no matrix exists':'Correct';
   const body=impossible?state.puzzle.reason:'';
-  const nextLabel='Next →';
-  const actions=`${mastered&&state.level<4?`<a class="btn btn-primary" href="#level-${state.level+1}">Level ${state.level+1} →</a>`:''}<button id="next-challenge" class="btn ${mastered&&state.level<4?'btn-quiet':'btn-primary'}">${nextLabel}</button>`;
+  let advance='';
+  if(stageCompleted){
+    if(!levelMastered(state.level)){
+      const otherStage=state.stage===1?2:1;
+      advance=`<a class="btn btn-primary" href="${levelHref(state.level,otherStage)}">Stage ${otherStage} →</a>`;
+    }else if(state.level<4){
+      advance=`<a class="btn btn-primary" href="${levelHref(state.level+1)}">Level ${state.level+1} →</a>`;
+    }
+  }
+  const actions=`${advance}<button id="next-challenge" class="btn ${advance?'btn-quiet':'btn-primary'}">${stageCompleted?'Keep practicing':'Next →'}</button>`;
   feedback('success',title,body,actions);$('#next-challenge').addEventListener('click',()=>startRound(false));
 }
 function completeTutorialTask(){
@@ -524,7 +601,7 @@ function checkLanding(){
   if(state.solved)return;clearTimeout(state.debounce);const A=readMatrixInputs();if(!A)return;animateMatrix(A);
   if(accepts(A,state.puzzle)){
     state.solved=true;completeTutorialTask();progress.tutorial=true;saveProgress();$('#check-landing').disabled=true;
-    feedback('success','Correct','',`<a class="btn btn-primary" href="#level-1">Level 1 →</a><button class="btn btn-quiet" id="keep-exploring">Presets</button>`);
+    feedback('success','Correct','',`<a class="btn btn-primary" href="#level-1-stage-1">Level 1 →</a><button class="btn btn-quiet" id="keep-exploring">Presets</button>`);
     $('#keep-exploring').addEventListener('click',()=>{state.step=2;startTutorialStep();});
   }else feedback('error','Not matched',`AP = ${coord(dotMap(A,[2,1]))}; P′ = (3, 2).`);
 }
@@ -554,7 +631,7 @@ function bindWorkspace(){
 }
 function startRound(resetNumber=false){
   cancelAnimationFrame(state.anim);clearTimeout(state.debounce);state.routeToken++;
-  state.puzzle=generatePuzzle(state.level);state.matrix=IDENTITY.slice();state.displayMatrix=IDENTITY.slice();state.solved=false;state.lastValid=true;
+  state.puzzle=generatePuzzle(state.level,state.stage);state.matrix=IDENTITY.slice();state.displayMatrix=IDENTITY.slice();state.solved=false;state.lastValid=true;
   state.round=resetNumber?1:state.round+1;state.scale=desiredScale(IDENTITY);
   renderWorkspace();
 }
@@ -566,13 +643,13 @@ function startTutorialStep(){
 }
 function route(){
   cancelAnimationFrame(heroAnim);cancelAnimationFrame(state.anim);clearTimeout(state.debounce);state.routeToken++;
-  const hash=location.hash.replace('#','');const levelMatch=hash.match(/^level-([1-4])$/);
+  const hash=location.hash.replace('#','');const levelMatch=hash.match(/^level-([1-4])(?:-stage-([12]))?$/);
   if(hash==='tutorial'){state.screen='tutorial';state.step=0;startTutorialStep();}
-  else if(levelMatch){state.screen='game';state.level=Number(levelMatch[1]);state.showGrid=false;startRound(true);}
+  else if(levelMatch){state.screen='game';state.level=Number(levelMatch[1]);state.stage=levelMatch[2]?Number(levelMatch[2]):recommendedStage(state.level);state.showGrid=false;startRound(true);}
   else{state.screen='home';if(plotObserver)plotObserver.disconnect();renderHome();}
   $('#nav-home').classList.toggle('active',state.screen==='home');$('#nav-tutorial').classList.toggle('active',state.screen==='tutorial');
   $('#nav-home').setAttribute('aria-current',state.screen==='home'?'page':'false');$('#nav-tutorial').setAttribute('aria-current',state.screen==='tutorial'?'page':'false');
-  document.title=state.screen==='home'?'Linear Lab':state.screen==='tutorial'?'Tutorial — Linear Lab':`${LEVELS[state.level-1].name} — Linear Lab`;
+  document.title=state.screen==='home'?'Linear Lab':state.screen==='tutorial'?'Tutorial — Linear Lab':`${LEVELS[state.level-1].name} · Stage ${state.stage} — Linear Lab`;
   window.scrollTo({top:0,behavior:'instant'});
 }
 window.addEventListener('hashchange',route);
