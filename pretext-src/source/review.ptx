@@ -1,13 +1,21 @@
 <section xml:id="review">
 <title>Review</title>
-<exercise>
-        <statement>
-          <p>
-            Let <m>T_{1}: U \to V</m> and <m>T_{2}: U \to V</m> be linear transformations.
-            Define <m>T: U \to V^{2}</m> by
-            <m>T(\vec{u}) = (T_{1}(\vec{u}), T_{2}(\vec{u}))</m>.
-            Then <m>T</m> is a linear transformation.
-          </p>
-        </statement>
-      </exercise>
+
+      <p>Play the following game: <url href="https://alexblackmath.github.io/games/lineartransformations.html" visual="alexblackmath.github.io/games/lineartransformations.html">Linear Transformations Game</url>.</p>
+
+      <!--
+      Original LaTeX commented material preserved unchanged:
+
+      % Consider the linear system: 
+      % \[\begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0\end{pmatrix}\begin{pmatrix} x \\ y \\ z \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}\]
+
+      % \begin{itemize}
+      %     \item What is the rank of the matrix?
+      %     \item What is the nullity of the matrix? 
+      %     \item What is the rank plus the nullity? 
+      %     \item Are the rows of this matrix spanning?
+      %     \item Are the columns of this matrix spanning?
+      %     \item What is the solution set to the system?
+      % \end{itemize} 
+      -->
     </section>

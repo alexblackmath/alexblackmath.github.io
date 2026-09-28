@@ -1,0 +1,14 @@
+WARNING : Using CLI version 2.53.0 but project's `requirements.txt`
+WARNING : is configured to use 2.52.3. Consider either installing
+WARNING : CLI version 2.52.3 or running `pretext update-project`
+WARNING : to update `requirements.txt` and other managed files to match 2.53.0.
+WARNING : Assertion error in getting target.
+FATAL   : There is not a target named "eb" for this project.ptx manifest.
+INFO    : The available targets to build are named: ['web', 'print'].  Try to build on of those instead or edit your project.ptx manifest.
+exit    : Exiting without completing build.
+INFO    : 
+----------------------------------------------------
+INFO    : While running pretext, the following errors occurred:
+
+INFO    : (see log messages above or in the 'logs' folder for more information)
+INFO    : ----------------------------------------------------

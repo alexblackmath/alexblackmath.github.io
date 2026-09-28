@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pretext>
+  <article>
+    <title>(Linear) Transformers: Matrices in Disguise</title>
+
+    <section>
+      <title>Quick Span Review</title>
+
+      <p>Play the following game: <url href="https://alexblackmath.github.io/games/lineartransformations.html" visual="alexblackmath.github.io/games/lineartransformations.html">Linear Transformations Game</url>.</p>
+
+      <!--
+      Original LaTeX commented material preserved unchanged:
+
+      % Consider the linear system: 
+      % \[\begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0\end{pmatrix}\begin{pmatrix} x \\ y \\ z \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}\]
+
+      % \begin{itemize}
+      %     \item What is the rank of the matrix?
+      %     \item What is the nullity of the matrix? 
+      %     \item What is the rank plus the nullity? 
+      %     \item Are the rows of this matrix spanning?
+      %     \item Are the columns of this matrix spanning?
+      %     \item What is the solution set to the system?
+      % \end{itemize} 
+      -->
+    </section>
+
+    <section>
+      <title>Functions</title>
+
+      <p>Today will be about functions, but to do this, I need to review some of the essential properties and notation surrounding sets and functions.</p>
+
+      <p>First if I have a function from a set <m>R</m> to a set <m>S</m>, I write it as <m>f: R \to S</m>. Then <m>R</m> is called the <term>domain</term> of the function, and <m>S</m> is called the <term>co-domain</term> of the function. This is in contrast with the <term>range</term>, which is the set of values the function can take.</p>
+
+      <p>So for example, given two vectors <m>(1,0,1,0)</m> and <m>(0,1,0,1)</m>, we can define a function <m>T: \mathbb{R}^{2} \to \mathbb{R}^{4}</m> by</p>
+      <md>T(x,y) = x(1,0,1,0) + y(0,1,0,1) = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \\ 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix} \begin{pmatrix} x \\ y\end{pmatrix}.</md>
+      <p>The domain of <m>T</m> is <m>\mathbb{R}^{2}</m>, the co-domain of <m>T</m> is <m>\mathbb{R}^{4}</m>, and the range of <m>T</m> is the span of <m>(1,0,1,0)</m> and <m>(0,1,0,1)</m>, which is a <m>2</m>-D plane in <m>\mathbb{R}^{4}</m>.</p>
+
+      <p>Given a point in the co-domain, we can ask for the <term>pre-image</term> of that point. For a function <m>f: R \to S</m>, the pre-image of a point <m>b</m> in <m>S</m> is non-empty if and only if <m>b</m> is in the range.</p>
+
+      <p>For example, asking for the pre-image of <m>(1,2,3,4)</m> under <m>T</m> is asking for solutions to the linear system</p>
+      <md>x(1,0,1,0) + y(0,1,0,1) = T(x,y) = (1,2,3,4).</md>
+      <p>A solution to this linear system exists if and only if <m>(1,2,3,4)</m> is in the range of <m>T</m>. The set of all solutions to the system is the pre-image of <m>(1,2,3,4)</m> with respect to <m>T</m>.</p>
+    </section>
+
+    <section>
+      <title>Transforming</title>
+
+      <p>The core question of the day is: Which functions <m>T: \mathbb{R}^{n} \to \mathbb{R}^{m}</m> may be written as <m>T(\vec{x}) = A \vec{x}</m>?</p>
+
+      <p>What properties does this function have?</p>
+
+      <p>It is <term>additive</term>:</p>
+      <md>T(\vec{x} + \vec{y}) = A(\vec{x}+\vec{y}) = A\vec{x} + A\vec{y} = T(\vec{x}) + T(\vec{y}).</md>
+
+      <p>It respects <term>scaling</term>:</p>
+      <md>T(\lambda \vec{x}) = A(\lambda \vec{x}) = \lambda A\vec{x} = \lambda T(\vec{x}).</md>
+
+      <definition>
+        <statement>
+          <p>We call a function <m>f: \mathbb{R}^{n} \to \mathbb{R}^{m}</m> a <term>linear transformation</term> if <m>f</m> is additive and respects scaling.</p>
+        </statement>
+      </definition>
+
+      <theorem>
+        <statement>
+          <p>A function <m>T: \mathbb{R}^{n} \to \mathbb{R}^{m}</m> is a linear transformation if and only if <m>T(x) = Ax</m> for some <m>m \times n</m> matrix <m>A</m>.</p>
+        </statement>
+      </theorem>
+
+      <p>Let's start in one dimension. Then <m>T: \mathbb{R} \to \mathbb{R}</m>. A matrix in this setting corresponds to just multiplying by a number, so we want to show that <m>T(x) = mx</m> for some <m>m \in \mathbb{R}</m>.</p>
+
+      <p>Define <m>m = T(1)</m>. Then for all <m>x \in \mathbb{R}</m>,</p>
+      <md>T(x) = xT(1) = mx.</md>
+
+      <p>For higher dimensions, a similar argument works. Let <m>T: \mathbb{R}^{2} \to \mathbb{R}</m>. We would want to write this as</p>
+      <md>T(x,y) = \begin{pmatrix} m_{1} &amp; m_{2} \end{pmatrix}\begin{pmatrix} x \\ y \end{pmatrix} = m_{1} x + m_{2}y.</md>
+      <p>Define <m>m_{1} = T(1,0)</m> and <m>m_{2} = T(0,1)</m>. Then</p>
+      <md>T(x,y) = T(x(1,0) + y(0,1)) = xT(1,0) + y T(0,1) = m_{1} x+ m_{2}y.</md>
+
+      <p>It turns out this same argument works in general. We will just use some notation to make it work. Let <m>\vec{e_{i}}</m> be the vector <m>1</m> in the <m>i</m>th coordinate and zeroes otherwise.</p>
+
+      <p>Define <m>T: \mathbb{R}^{n} \to \mathbb{R}^{m}</m>, and suppose that <m>T</m> is a linear transformation. Then</p>
+      <md>\begin{aligned}
+        T(x_{1},x_{2},\dots,x_{n}) &amp;= T(\sum_{i=1}^{n} x_{i} e_{i}) \\
+        &amp;= \sum_{i=1}^{n} x_{i}T(e_{i}) \\
+        &amp;= \begin{pmatrix} T(e_{1}) &amp; T(e_{2}) &amp; \dots &amp; T(e_{n}) \end{pmatrix} \begin{pmatrix} x_{1} \\ x_{2} \\ \vdots \\ x_{n} \end{pmatrix}.
+      \end{aligned}</md>
+
+      <!--
+      Original LaTeX commented material preserved unchanged:
+
+      % \section{Reinterpreting What We Know}
+
+      % If $T(\vec{x}) = A\vec{x}$, then the equation $Ax = b$ becomes the functional expression $T(x) = b$. Then the plane corresponding to the set of $x$ such that $T(x) = b$. This is called the \textbf{pre-image} of $b$ with respect to $T$. 
+
+      % In contrast, if the columns of $A$ are $\vec{a}_{1}, \vec{a}_{2}, \dots, \vec{a}_{k}$. Then  
+      % \[T(\vec{x}) = A \vec{x} = \sum_{i=1}^{k} x_{i} \vec{a}_{i}.\] 
+      % That is 
+      % \[\text{range}(T) = \text{span}(\vec{a}_{1}, \dots, \vec{a}_{k}). \]
+
+      % We have shown at this point that we may represent planes in two equivalent ways:
+      % \begin{itemize}
+      %     \item Solution set to a system of linear equations $A \vec{x} = \vec{b}$. This is the \textbf{pre-image} of a linear transformation.
+      %     \item Parametrically as the range of a function. This is the \textbf{range} of a linear transformation. 
+      % \end{itemize}
+
+      % A linear transformation $T: \mathbb{R}^{n} \to \mathbb{R}^{m}$ is \textbf{onto}, that is its range is $\mathbb{R}^{m}$, if the span of its columns is $\mathbb{R}^{m}$. That is, it is onto if and only if its columns are spanning. 
+
+      % A linear transformation $T: \mathbb{R}^{n} \to \mathbb{R}^{m}$ is \textbf{one-to-one} if $T(\vec{x}) \neq T(\vec{y})$ for any $\vec{x}, \vec{y}$ in $\mathbb{R}^{n}$ such that $\vec{x} \neq \vec{y}$. 
+
+      % \begin{theorem}
+      % A linear transformation $T: \mathbb{R}^{n} \to \mathbb{R}^{m}$ is one-to-one if and only if the nullity of the matrix $A$ such that $T(\vec{x}) = A\vec{x}$ is $0$.
+      % \end{theorem}
+
+      % \begin{proof}
+      % Suppose that $T$ is not one-to-one. Then there exists $\vec{x} \neq \vec{y}$ such that $T(\vec{x}) = T(\vec{y})$. Then $\vec{0} =T(\vec{x}) - T(\vec{y}) = T(\vec{x}-\vec{y}).$ Since $\vec{x} \neq \vec{y}$, $\vec{x} - \vec{y} \neq \vec{0}$, and $T(\vec{x} -\vec{y}) = \vec{0}$. Hence, the expression $A \vec{x} =T(\vec{x}) = \vec{0}$ has a nonzero solution meaning that the nullity does not equal $0$. 
+
+      % Suppose that $T$ is one-to-one. Then $A\vec{x} =T(\vec{x}) = \vec{0}$ if and only if $\vec{x} = \vec{0}$ meaning that there is a unique solution to $A \vec{x} = \vec{0}$.
+      % \end{proof}
+      -->
+    </section>
+
+    <section>
+      <title>Exercises</title>
+
+      <exercise>
+        <p>Let <m>T: \mathbb{R}^{3} \to \mathbb{R}^{2}</m> be a linear transformation such that <m>T(1,0,0) = (1,0)</m>, <m>T(0,1,0) = (0,1)</m>, and <m>T(0,0,1) = (1,1)</m>. Write <m>T</m> in matrix form as <m>T(\vec{x}) = A\vec{x}</m>.</p>
+      </exercise>
+
+      <exercise>
+        <p>Write the linear transformation <m>T: \mathbb{R}^{3} \to \mathbb{R}^{3}</m> defined by <m>T(x_{1}, x_{2}, x_{3}) = (x_{2},x_{3}, x_{1})</m> as a matrix.</p>
+      </exercise>
+
+      <exercise>
+        <p>Explain why <m>T: \mathbb{R}^{n} \to \mathbb{R}^{n-1}</m> defined by <m>T(x_{1},x_{2},\dots,x_{n}) = (x_{1},x_{2},\dots,x_{n-1})</m> is a linear transformation. What is the matrix representation?</p>
+      </exercise>
+
+      <exercise>
+        <p>Explain why <m>f(x,y) = xy</m> is not a linear transformation.</p>
+      </exercise>
+
+      <exercise>
+        <p>Is <m>f(x,y) = (-y,x)</m> a linear transformation? If so, describe the matrix. If not, explain why not.</p>
+      </exercise>
+
+      <exercise>
+        <p>Is <m>f(x,y) = \max(x,y)</m> a linear transformation? If so, describe the matrix. If not, explain why not.</p>
+      </exercise>
+    </section>
+  </article>
+</pretext>

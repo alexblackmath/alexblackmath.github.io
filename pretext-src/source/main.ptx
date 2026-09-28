@@ -6,12 +6,12 @@
     <document-id>authorslastnamelowercase-ShortTitleCamelCase</document-id>
 
     <macros>\newcommand{\foo}{b^{ar}}</macros>
-    <latex-image-preamble>
+    <!-- <latex-image-preamble> -->
   \usepackage{amsmath}
   \usepackage{tikz}
   \usepackage{tikz-cd}
   \usetikzlibrary{arrows.meta}
-  &#92;tikzset{
+  <!-- &#92;tikzset{
     flow vertex/.style={
       circle, draw=black, fill=white, semithick,
       minimum size=6.5mm, inner sep=0pt, font=\small\normalfont
@@ -27,12 +27,12 @@
     },
     inactive edge/.style={flow edge, draw=gray, opacity=0.35},
     inactive weight/.style={flow weight, text=gray, text opacity=0.65}
-  }
-    </latex-image-preamble>
+  } -->
+    <!-- </latex-image-preamble> -->
   </docinfo>
 
-  <article xml:id="flow">
-    <title>Flow Rida</title>
+  <article xml:id="MichaelBay">
+    <title>Linear Transformers: Matrices in Disguise</title>
     <xi:include href="./frontmatter.ptx" />
     <!-- <xi:include href="homework-1.ptx" /> -->
     <xi:include href="./review.ptx" /> 
