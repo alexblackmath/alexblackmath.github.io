@@ -6,17 +6,38 @@
     <document-id>authorslastnamelowercase-ShortTitleCamelCase</document-id>
 
     <macros>\newcommand{\foo}{b^{ar}}</macros>
-    <latex-image-preamble>\usepackage{tikz}
-  \usepackage{tikz-cd}</latex-image-preamble>
+    <latex-image-preamble>
+  \usepackage{amsmath}
+  \usepackage{tikz}
+  \usepackage{tikz-cd}
+  \usetikzlibrary{arrows.meta}
+  &#92;tikzset{
+    flow vertex/.style={
+      circle, draw=black, fill=white, semithick,
+      minimum size=6.5mm, inner sep=0pt, font=\small\normalfont
+    },
+    flow edge/.style={
+      -{Stealth[length=2mm,width=1.4mm]}, semithick, draw=black
+    },
+    flow weight/.style={
+      fill=white, inner sep=1.3pt, font=\small\normalfont
+    },
+    inactive vertex/.style={
+      flow vertex, draw=gray!65, text=gray!65
+    },
+    inactive edge/.style={flow edge, draw=gray, opacity=0.35},
+    inactive weight/.style={flow weight, text=gray, text opacity=0.65}
+  }
+    </latex-image-preamble>
   </docinfo>
 
-  <article xml:id="Reality">
-    <title>Rank and File</title>
+  <article xml:id="flow">
+    <title>Flow Rida</title>
     <xi:include href="./frontmatter.ptx" />
     <!-- <xi:include href="homework-1.ptx" /> -->
     <xi:include href="./review.ptx" /> 
     <xi:include href="./Section-1.ptx" />
-    <xi:include href="./Section-2.ptx" />
+    <!-- <xi:include href="./Section-2.ptx" /> -->
     <!-- <xi:include href="./Section-3.ptx" />  -->
     <xi:include href="./exercises.ptx" />
   

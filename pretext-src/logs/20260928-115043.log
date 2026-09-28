@@ -1,0 +1,110 @@
+WARNING : Using CLI version 2.53.0 but project's `requirements.txt`
+WARNING : is configured to use 2.52.3. Consider either installing
+WARNING : CLI version 2.52.3 or running `pretext update-project`
+WARNING : to update `requirements.txt` and other managed files to match 2.53.0.
+DEBUG   : Generating assets in for the target "web".
+INFO    : Generating any needed assets.
+DEBUG   : Parsing source element for target web
+DEBUG   : converting /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx to enhanced (pre-processed) PreTeXt source for internal use
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.53.0/core/xsl/utilities/pretext-enhanced-source.xsl
+DEBUG   : XSL conversion via /home/codespace/.ptx/2.53.0/core/xsl/utilities/pretext-enhanced-source.xsl of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx to None and/or into directory None with parameters {'publisher': '/workspaces/alexblackmath.github.io/pretext-src/publication/publication.ptx', 'assembly.version-only': 'yes'}
+INFO    : successful application of /home/codespace/.ptx/2.53.0/core/xsl/utilities/pretext-enhanced-source.xsl
+DEBUG   : Validating PreTeXt source against schema /home/codespace/.ptx/2.53.0/core/schema/pretext.rng
+DEBUG   : locating "jing" in [executables] section of configuration file
+DEBUG   : Could not use a configured jing command: PTX:ERROR: cannot locate executable with configuration name `jing` as command `jing`
+***  Edit the configuration file  ("pretext.cfg" or "project.ptx") and/or install  ***
+***  the necessary program and/or make sure the executable is on your PATH         ***
+DEBUG   : No jing executable available, so the source was not checked against the schema. Install jing (or set it in executables.ptx) to have builds report schema errors.
+DEBUG   : Using cached assets in /workspaces/alexblackmath.github.io/pretext-src/.cache where possible.
+DEBUG   : Ensuring webwork representations file is present.
+DEBUG   : Using cached source_element for target web
+DEBUG   : Source does not contain webwork problems
+DEBUG   : Ensuring MyOpenMath XML files are present.
+DEBUG   : Using cached source_element for target web
+DEBUG   : Source does not contain myopenmath problems
+DEBUG   : Assets generation requested for: ('latex-image',).
+DEBUG   : Based on format Format.HTML, assets to be generated are: ['latex-image'].
+DEBUG   : Using cached source_element for target web
+DEBUG   : Using cached source_element for target web
+DEBUG   : Using cached source_element for target web
+DEBUG   : Using cached source_element for target web
+DEBUG   : Using cached source_element for target web
+DEBUG   : Using cached source_element for target web
+DEBUG   : Using cached source_element for target web
+DEBUG   : Using cached source_element for target web
+DEBUG   : Using cached source_element for target web
+DEBUG   : Using cached source_element for target web
+DEBUG   : Using cached source_element for target web
+DEBUG   : Using cached source_element for target web
+DEBUG   : Using cached source_element for target web
+DEBUG   : Using cached source_element for target web
+DEBUG   : Using cached source_element for target web
+DEBUG   : Using cached source_element for target web
+DEBUG   : Based on what is in your source, the assets that will be considered are ['latex-image'].
+DEBUG   : Assets to be generated: ['latex-image']
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : verifying and expanding input directory: /workspaces/alexblackmath.github.io/pretext-src/source/../assets
+INFO    : input directory expanded to absolute path: /workspaces/alexblackmath.github.io/pretext-src/assets
+WARNING : Now generating latex images
+INFO    : converting latex-image pictures from /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx to svg graphics for placement in /workspaces/alexblackmath.github.io/pretext-src/generated-assets/latex-image
+DEBUG   : temporary directory for latex-image conversion: /tmp/ptx-od2m2asj
+INFO    : extracting latex-image pictures from /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx
+INFO    : string parameters passed to extraction stylesheet: {'publisher': '/workspaces/alexblackmath.github.io/pretext-src/publication/publication.ptx', 'subtree': 'directed-path'}
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : verifying and expanding input directory: /workspaces/alexblackmath.github.io/pretext-src/source/../assets
+INFO    : input directory expanded to absolute path: /workspaces/alexblackmath.github.io/pretext-src/assets
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.53.0/core/xsl/extract-latex-image.xsl
+DEBUG   : XSL conversion via /home/codespace/.ptx/2.53.0/core/xsl/extract-latex-image.xsl of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx to None and/or into directory /tmp/ptx-od2m2asj with parameters {'publisher': '/workspaces/alexblackmath.github.io/pretext-src/publication/publication.ptx', 'subtree': 'directed-path'}
+INFO    : messages from the log for XSL processing (prefaced with a *):
+FATAL   : * PTX:FATAL:   xml:id provided ("directed-path") for restriction to a subtree does not exist.  Quitting...
+ERROR   : processing with /home/codespace/.ptx/2.53.0/core/xsl/extract-latex-image.xsl has failed
+
+ERROR   : Unable to generate some latex-image assets:
+ PTX:FATAL:   xml:id provided ("directed-path") for restriction to a subtree does not exist.  Quitting...
+DEBUG   : PTX:FATAL:   xml:id provided ("directed-path") for restriction to a subtree does not exist.  Quitting...
+Traceback (most recent call last):
+  File "/usr/local/python/3.14.2/lib/python3.14/site-packages/pretext/project/__init__.py", line 1421, in generate_assets
+    core.latex_image_conversion(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        xml_source=self.source_abspath(),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<11 lines>...
+        # Note: partial(...) is from functools and allows us to pass the extra arguments cache_dir and skip_cache and still pass the resulting function object to core's conversion function.
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/local/python/3.14.2/lib/python3.14/site-packages/pretext/core/pretext.py", line 691, in latex_image_conversion
+    common.xsltproc(extraction_xslt, xml_source, None, tmp_dir, stringparams)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.14.2/lib/python3.14/site-packages/pretext/core/common.py", line 342, in xsltproc
+    raise (e)
+  File "/usr/local/python/3.14.2/lib/python3.14/site-packages/pretext/core/common.py", line 338, in xsltproc
+    raise (texc)
+  File "/usr/local/python/3.14.2/lib/python3.14/site-packages/pretext/core/common.py", line 310, in transform
+    result_tree = xslt(src_tree, **stringparams)
+  File "src/lxml/xslt.pxi", line 603, in lxml.etree.XSLT.__call__
+lxml.etree.XSLTApplyError: PTX:FATAL:   xml:id provided ("directed-path") for restriction to a subtree does not exist.  Quitting...
+INFO    : Removing temporary directory /tmp/ptx-od2m2asj
+DEBUG   : Removed temporary directory /tmp/ptx-od2m2asj
+DEBUG   : Updated these assets successfully: []
+DEBUG   : These assets were unsuccessful: ['latex-image']
+INFO    : Finished generating assets.
+
+FATAL   : There were errors during the generate process.  See above.
+DEBUG   : Exception info:
+------------------------
+Traceback (most recent call last):
+  File "/usr/local/python/3.14.2/lib/python3.14/site-packages/pretext/cli.py", line 940, in generate
+    raise Exception(
+        "There were errors during the generate process.  See above."
+    )
+Exception: There were errors during the generate process.  See above.
+INFO    : ------------------------
+exit    : Generating assets as failed.  Exiting...
+INFO    : 
+----------------------------------------------------
+INFO    : While running pretext, the following errors occurred:
+
+INFO    : (see log messages above or in the 'logs' folder for more information)
+INFO    : ----------------------------------------------------

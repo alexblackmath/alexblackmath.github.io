@@ -1,37 +1,138 @@
 <section xml:id="exercises">
-  <title> Exercises </title>
-    <p>Given a linear transformation <m>T: \mathbb{R}^{n} \to \mathbb{R}^{m}</m>. We can define <m>\vec{a}_{i} = T(e_{i})</m>, where <m>e_{1}, \dots, e_{n}</m> is the standard basis of <m>\mathbb{R}^{n}</m>. Then the <alert>matrix</alert> of <m>T</m> is</p>
-      <me>A =\begin{pmatrix} \vec{a}_{1} &amp; \vec{a}_{2} &amp; \dots &amp; \vec{a}_{n}\end{pmatrix}.</me>
+    <title>Exercises</title>
 
-      <exercise xml:id="exercise-matrix-action">
+      <exercise xml:id="ex-circulations">
         <statement>
-          <p>Let <m>T : \mathbb{R}^{n} \to \mathbb{R}^{m}</m> be a linear transformation, and let <m>A</m> be its matrix. Show that</p>
-          <me>T(\vec{x}) = A \vec{x}.</me>
+          <p>Consider the following weighted directed graphs. Which weightings are non-negative circulations?</p>
+
+          <figure xml:id="fig-exercise-circulations">
+            <caption/>
+            <sbsgroup widths="48% 48%">
+              <sidebyside>
+                <figure>
+                  <caption/>
+                  <image>
+                    <shortdescription>Graph a: a four-vertex directed graph with edge weights 4, 4, 2, 2, and 6.</shortdescription>
+                    <latex-image label="exercise-circulation-a">
+\begin{tikzpicture}
+    \path[use as bounding box] (-0.4,-1.75) rectangle (3.8,1.75);
+    \node[flow vertex] (a) at (0,0) {$a$};
+    \node[flow vertex] (b) at (1.7,1.35) {$b$};
+    \node[flow vertex] (c) at (3.4,0) {$c$};
+    \node[flow vertex] (d) at (1.7,-1.35) {$d$};
+    \draw[flow edge] (a) -- node[flow weight,above left] {$4$} (b);
+    \draw[flow edge] (b) -- node[flow weight,above right] {$4$} (c);
+    \draw[flow edge] (a) -- node[flow weight,below left] {$2$} (d);
+    \draw[flow edge] (d) -- node[flow weight,below right] {$2$} (c);
+    \draw[flow edge] (c) -- node[flow weight,above] {$6$} (a);
+\end{tikzpicture}
+                    </latex-image>
+                  </image>
+                </figure>
+                <figure>
+                  <caption/>
+                  <image>
+                    <shortdescription>Graph b: a four-vertex directed graph with edge weights 4, 4, 2, 2, and 5.</shortdescription>
+                    <latex-image label="exercise-circulation-b">
+\begin{tikzpicture}
+    \path[use as bounding box] (-0.4,-1.75) rectangle (3.8,1.75);
+    \node[flow vertex] (a) at (0,0) {$a$};
+    \node[flow vertex] (b) at (1.7,1.35) {$b$};
+    \node[flow vertex] (c) at (3.4,0) {$c$};
+    \node[flow vertex] (d) at (1.7,-1.35) {$d$};
+    \draw[flow edge] (a) -- node[flow weight,above left] {$4$} (b);
+    \draw[flow edge] (b) -- node[flow weight,above right] {$4$} (c);
+    \draw[flow edge] (a) -- node[flow weight,below left] {$2$} (d);
+    \draw[flow edge] (d) -- node[flow weight,below right] {$2$} (c);
+    \draw[flow edge] (c) -- node[flow weight,above] {$5$} (a);
+\end{tikzpicture}
+                    </latex-image>
+                  </image>
+                </figure>
+              </sidebyside>
+              <sidebyside>
+                <figure>
+                  <caption/>
+                  <image>
+                    <shortdescription>Graph c: a four-vertex directed acyclic graph in which every edge has weight 0.</shortdescription>
+                    <latex-image label="exercise-circulation-c">
+\begin{tikzpicture}
+    \path[use as bounding box] (-0.4,-1.75) rectangle (3.8,1.75);
+    \node[flow vertex] (a) at (0,0) {$a$};
+    \node[flow vertex] (b) at (1.7,1.35) {$b$};
+    \node[flow vertex] (c) at (3.4,0) {$c$};
+    \node[flow vertex] (d) at (1.7,-1.35) {$d$};
+    \draw[flow edge] (a) -- node[flow weight,above left] {$0$} (b);
+    \draw[flow edge] (b) -- node[flow weight,above right] {$0$} (c);
+    \draw[flow edge] (a) -- node[flow weight,below left] {$0$} (d);
+    \draw[flow edge] (d) -- node[flow weight,below right] {$0$} (c);
+    \draw[flow edge] (a) -- node[flow weight,above] {$0$} (c);
+\end{tikzpicture}
+                    </latex-image>
+                  </image>
+                </figure>
+                <figure>
+                  <caption/>
+                  <image>
+                    <shortdescription>Graph d: a directed triangle with edge weights 2, 2, and negative 2.</shortdescription>
+                    <latex-image label="exercise-circulation-d">
+\begin{tikzpicture}
+    \path[use as bounding box] (-0.4,-1.75) rectangle (3.8,1.75);
+    \node[flow vertex] (a) at (0,-0.7) {$a$};
+    \node[flow vertex] (b) at (1.7,1.1) {$b$};
+    \node[flow vertex] (c) at (3.4,-0.7) {$c$};
+    \draw[flow edge] (a) -- node[flow weight,above left] {$2$} (b);
+    \draw[flow edge] (b) -- node[flow weight,above right] {$2$} (c);
+    \draw[flow edge] (a) -- node[flow weight,below] {$-2$} (c);
+\end{tikzpicture}
+                    </latex-image>
+                  </image>
+                </figure>
+              </sidebyside>
+            </sbsgroup>
+          </figure>
         </statement>
-        <!-- The proof environment in the original source is empty. -->
       </exercise>
 
-      <p>What this illustrates is that a linear transformation is determined entirely by its behavior on a basis. In general, we have:</p>
+      <p>
+        Let <m>W \subseteq \mathbb{R}^{n}</m> be a linear subspace, and consider
+        <m>W_{\geq 0} = W \cap \mathbb{R}^{n}_{\geq 0}</m>. An <term>elementary vector</term>
+        <m>\vec{w} \in W_{\geq 0}\setminus\{\vec{0}\}</m> is a nonzero vector that is support
+        minimal in the sense that there does not exist a nonzero vector
+        <m>\vec{u} \in W_{\geq 0}</m> such that
+        <m>\operatorname{supp}(\vec{u}) \subsetneq \operatorname{supp}(\vec{w})</m>.
+      </p>
 
-      <exercise xml:id="exercise-equal-on-basis">
+      <exercise xml:id="ex-elementary-vectors">
         <statement>
-          <p>Let <m>T_{1}, T_{2}: U \to V</m> be linear transformations. Let <m>B</m> be a basis for <m>U</m>. Suppose that <m>T_{1}(\vec{x}) = T_{2}(\vec{x})</m> for all <m>\vec{x} \in B</m>. Then <m>T_{1} = T_{2}</m>.</p>
+          <p>
+            Let <m>W \subseteq \mathbb{R}^{n}</m> be a linear subspace and
+            <m>W_{\geq 0} = W \cap \mathbb{R}_{\geq 0}^{n}</m>.
+          </p>
+          <ol marker="(a)">
+            <li>
+              <p>
+                Show that the support of any nonzero vector in <m>W_{\geq 0}</m> contains the
+                support of some elementary vector.
+              </p>
+            </li>
+            <li>
+              <p>
+                Show that, for any nonzero vector <m>\vec{v} \in W_{\geq 0}</m>, there exists an
+                elementary vector <m>\vec{u} \in W_{\geq 0}</m> such that
+                <m>\vec{v} - \vec{u} \in W_{\geq 0}</m> and
+                <m>\operatorname{supp}(\vec{v} - \vec{u}) \subsetneq
+                \operatorname{supp}(\vec{v})</m>.
+              </p>
+            </li>
+            <li>
+              <p>
+                Show that <m>W_{\geq 0}</m> is the set of non-negative linear combinations of its
+                elementary vectors.
+              </p>
+            </li>
+          </ol>
         </statement>
-        <!-- The proof environment in the original source is empty. -->
-      </exercise>
-
-      <p>There is a reverse direction to this. You can define an arbitrary function <m>f: B \to V</m>. Then there is always a unique linear transformation that agrees with that function.</p>
-
-      <exercise xml:id="exercise-linear-extension">
-        <statement>
-          <p>Let <m>U</m> and <m>V</m> be vector spaces, and let <m>B \subseteq U</m> be a basis. Let <m>f:B \to V</m>. Then define <m>T: U \to V</m> by</p>
-          <me>T(\vec{x}) = \sum_{i=1}^{n} a_{i} f(\vec{v}_{i}),</me>
-          <p>whenever <m>\vec{x} = \sum_{i=1}^{n}a_{i} \vec{v}_{i}</m> for <m>\vec{v}_{1}, \dots, \vec{v}_{n} \in B</m>.</p>
-          <p>(a) Prove that for any <m>\vec{u} \in B</m>, <m>T(\vec{u}) = f(\vec{u})</m>.</p>
-          <p>(b) Prove that <m>T</m> is well-defined. That is each input has a unique output.</p>
-          <p>(c) Prove that <m>T</m> respects scalar multiplication.</p>
-          <p>(d) Prove that <m>T</m> respects addition.</p>
-        </statement>
-        <!-- The proof environment in the original source is empty. -->
       </exercise>
     </section>
+

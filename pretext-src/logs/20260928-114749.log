@@ -1,0 +1,146 @@
+WARNING : Using CLI version 2.53.0 but project's `requirements.txt`
+WARNING : is configured to use 2.52.3. Consider either installing
+WARNING : CLI version 2.52.3 or running `pretext update-project`
+WARNING : to update `requirements.txt` and other managed files to match 2.53.0.
+INFO    : Building target web
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.53.0/core/xsl/utilities/pretext-enhanced-source.xsl
+INFO    : successful application of /home/codespace/.ptx/2.53.0/core/xsl/utilities/pretext-enhanced-source.xsl
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : verifying and expanding input directory: /workspaces/alexblackmath.github.io/pretext-src/source/../assets
+INFO    : input directory expanded to absolute path: /workspaces/alexblackmath.github.io/pretext-src/assets
+INFO    : Generating any needed assets.
+WARNING : Now generating latex images
+INFO    : converting latex-image pictures from /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx to svg graphics for placement in /workspaces/alexblackmath.github.io/pretext-src/generated-assets/latex-image
+INFO    : extracting latex-image pictures from /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx
+INFO    : string parameters passed to extraction stylesheet: {'cli.version': '2.53', 'publisher': '/workspaces/alexblackmath.github.io/pretext-src/publication/publication.ptx'}
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : verifying and expanding input directory: /workspaces/alexblackmath.github.io/pretext-src/source/../assets
+INFO    : input directory expanded to absolute path: /workspaces/alexblackmath.github.io/pretext-src/assets
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.53.0/core/xsl/extract-latex-image.xsl
+INFO    : successful application of /home/codespace/.ptx/2.53.0/core/xsl/extract-latex-image.xsl
+INFO    : converting cycle-indicator.tex to cycle-indicator.pdf
+ERROR   : LaTeX compilation of cycle-indicator.tex failed.
+Re-run, requesting "source" as the format, to analyze the image.
+Likely creating the entire document as PDF will fail similarly.
+The transcript of the LaTeX run follows.
+WARNING : LaTeX compilation of cycle-indicator.tex failed
+INFO    : converting weighted-positive.tex to weighted-positive.pdf
+ERROR   : LaTeX compilation of weighted-positive.tex failed.
+Re-run, requesting "source" as the format, to analyze the image.
+Likely creating the entire document as PDF will fail similarly.
+The transcript of the LaTeX run follows.
+WARNING : LaTeX compilation of weighted-positive.tex failed
+INFO    : converting weighted-real.tex to weighted-real.pdf
+ERROR   : LaTeX compilation of weighted-real.tex failed.
+Re-run, requesting "source" as the format, to analyze the image.
+Likely creating the entire document as PDF will fail similarly.
+The transcript of the LaTeX run follows.
+WARNING : LaTeX compilation of weighted-real.tex failed
+INFO    : converting exercise-circulation-b.tex to exercise-circulation-b.pdf
+ERROR   : LaTeX compilation of exercise-circulation-b.tex failed.
+Re-run, requesting "source" as the format, to analyze the image.
+Likely creating the entire document as PDF will fail similarly.
+The transcript of the LaTeX run follows.
+WARNING : LaTeX compilation of exercise-circulation-b.tex failed
+INFO    : converting exercise-circulation-c.tex to exercise-circulation-c.pdf
+ERROR   : LaTeX compilation of exercise-circulation-c.tex failed.
+Re-run, requesting "source" as the format, to analyze the image.
+Likely creating the entire document as PDF will fail similarly.
+The transcript of the LaTeX run follows.
+WARNING : LaTeX compilation of exercise-circulation-c.tex failed
+INFO    : converting exercise-circulation-d.tex to exercise-circulation-d.pdf
+ERROR   : LaTeX compilation of exercise-circulation-d.tex failed.
+Re-run, requesting "source" as the format, to analyze the image.
+Likely creating the entire document as PDF will fail similarly.
+The transcript of the LaTeX run follows.
+WARNING : LaTeX compilation of exercise-circulation-d.tex failed
+INFO    : converting circulation-nonexample.tex to circulation-nonexample.pdf
+ERROR   : LaTeX compilation of circulation-nonexample.tex failed.
+Re-run, requesting "source" as the format, to analyze the image.
+Likely creating the entire document as PDF will fail similarly.
+The transcript of the LaTeX run follows.
+WARNING : LaTeX compilation of circulation-nonexample.tex failed
+INFO    : converting exercise-circulation-a.tex to exercise-circulation-a.pdf
+ERROR   : LaTeX compilation of exercise-circulation-a.tex failed.
+Re-run, requesting "source" as the format, to analyze the image.
+Likely creating the entire document as PDF will fail similarly.
+The transcript of the LaTeX run follows.
+WARNING : LaTeX compilation of exercise-circulation-a.tex failed
+INFO    : converting directed-path.tex to directed-path.pdf
+ERROR   : LaTeX compilation of directed-path.tex failed.
+Re-run, requesting "source" as the format, to analyze the image.
+Likely creating the entire document as PDF will fail similarly.
+The transcript of the LaTeX run follows.
+WARNING : LaTeX compilation of directed-path.tex failed
+INFO    : converting directed-cycle.tex to directed-cycle.pdf
+ERROR   : LaTeX compilation of directed-cycle.tex failed.
+Re-run, requesting "source" as the format, to analyze the image.
+Likely creating the entire document as PDF will fail similarly.
+The transcript of the LaTeX run follows.
+WARNING : LaTeX compilation of directed-cycle.tex failed
+INFO    : converting circulation-example.tex to circulation-example.pdf
+ERROR   : LaTeX compilation of circulation-example.tex failed.
+Re-run, requesting "source" as the format, to analyze the image.
+Likely creating the entire document as PDF will fail similarly.
+The transcript of the LaTeX run follows.
+WARNING : LaTeX compilation of circulation-example.tex failed
+ERROR   : Unable to generate some latex-image assets:
+ LaTeX compilation failed for 11 "latex-image"(s).
+Review the log for error messages, and LaTeX transcripts.
+Images are:
+  cycle-indicator.tex
+  weighted-positive.tex
+  weighted-real.tex
+  exercise-circulation-b.tex
+  exercise-circulation-c.tex
+  exercise-circulation-d.tex
+  circulation-nonexample.tex
+  exercise-circulation-a.tex
+  directed-path.tex
+  directed-cycle.tex
+  circulation-example.tex
+INFO    : Removing temporary directory /tmp/ptx-jtg5xekw
+INFO    : Finished generating assets.
+
+INFO    : Preparing to build into /workspaces/alexblackmath.github.io/pretext-src/output/web.
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : verifying and expanding input directory: /workspaces/alexblackmath.github.io/pretext-src/source/../assets
+INFO    : input directory expanded to absolute path: /workspaces/alexblackmath.github.io/pretext-src/assets
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.53.0/core/xsl/utilities/report-publisher-variables.xsl
+INFO    : successful application of /home/codespace/.ptx/2.53.0/core/xsl/utilities/report-publisher-variables.xsl
+INFO    : Downloading rs services file from https://runestone.academy/cdn/runestone/latest/webpack_static_imports.xml.
+INFO    : Runestone Services via online CDN query: version 8.3.2
+INFO    : Downloading Runestone Services, version 8.3.2
+INFO    : Extracting Runestone Services from archive file
+INFO    : Building custom css theme: theme-default-modern
+INFO    : converting /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx to HTML in /tmp/ptx-ovesaayy
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.53.0/core/xsl/pretext-html.xsl
+INFO    : messages from the log for XSL processing (prefaced with a *):
+INFO    : * PTX:INFO:   checking all deprecated elements.
+WARNING : * PTX:DEPRECATE: (2026-05-11) the "me" and "men" elements have been deprecated.  The replacement is an "md" with no "mrow" children, and numbering is controlled by the "@number" attribute, or a global setting in "docinfo". (2 times)
+INFO    : *              located at: pretext/article/section/theorem/proof/me
+INFO    : *              located within: "thm-cycle-decomposition" (xml:id)
+INFO    : *              located at: pretext/article/section/theorem/proof/me
+INFO    : *              located within: "thm-cycle-decomposition" (xml:id)
+INFO    : * --------------
+WARNING : * PTX:DEPRECATE: (2026-08-20) an "ol" is no longer a child of an "exercise" "statement"; a list belongs inside a "p".  We will wrap it for you, and lettered exercise parts will letter as before.  Please convert: structure true parts with "task", letter a plain list with marker="(a)", or consider an "exercisegroup" and its cols attribute for a compact multi-column layout (1 time)
+INFO    : *              located at: pretext/article/section/exercise/statement/ol
+INFO    : *              located within: "ex-elementary-vectors" (xml:id)
+INFO    : * --------------
+INFO    : successful application of /home/codespace/.ptx/2.53.0/core/xsl/pretext-html.xsl
+INFO    : Removing temporary directory /tmp/ptx-ovesaayy
+INFO    : Removing temporary directory /tmp/ptx-ztviuqnw
+INFO    : 
+Finished build for target web. Run `pretext view web` to see the results.
+
+FATAL   : There were errors during the build.  See above.
+INFO    : ------------------------
+exit    : Failed to build without errors.  Exiting...
+INFO    : 
+----------------------------------------------------
+INFO    : While running pretext, the following errors occurred:
+
+INFO    : (see log messages above or in the 'logs' folder for more information)
+INFO    : ----------------------------------------------------

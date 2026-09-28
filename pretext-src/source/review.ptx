@@ -1,8 +1,12 @@
 <section xml:id="review">
-  <title>Review</title>
-      <ul>
-        <li><p>What is the dimension of a vector space?</p></li>
-        <li><p>What is a linear transformation?</p></li>
-        <li><p>What is the kernel of a linear transformation?</p></li>
-      </ul>
+<exercise>
+        <statement>
+          <p>
+            Let <m>T_{1}: U \to V</m> and <m>T_{2}: U \to V</m> be linear transformations.
+            Define <m>T: U \to V^{2}</m> by
+            <m>T(\vec{u}) = (T_{1}(\vec{u}), T_{2}(\vec{u}))</m>.
+            Then <m>T</m> is a linear transformation.
+          </p>
+        </statement>
+      </exercise>
     </section>
