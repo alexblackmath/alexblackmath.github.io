@@ -31,12 +31,12 @@
     <!-- </latex-image-preamble> -->
   </docinfo>
 
-  <article xml:id="MichaelBay">
-    <title>Linear Transformers: Matrices in Disguise</title>
+  <article xml:id="animorphs">
+    <title>Animorphs</title>
     <xi:include href="./frontmatter.ptx" />
     <!-- <xi:include href="homework-1.ptx" /> -->
-    <xi:include href="./review.ptx" /> 
-    <xi:include href="./Section-1.ptx" />
+    <!-- <xi:include href="./review.ptx" />  -->
+    <!-- <xi:include href="./Section-1.ptx" /> -->
     <!-- <xi:include href="./Section-2.ptx" /> -->
     <!-- <xi:include href="./Section-3.ptx" />  -->
     <xi:include href="./exercises.ptx" />

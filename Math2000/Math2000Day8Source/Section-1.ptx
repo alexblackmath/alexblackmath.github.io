@@ -1,0 +1,77 @@
+<section xml:id="Section-1">
+      <title>Transforming</title>
+
+      <p>The core question of the day is: Which functions <m>T: \mathbb{R}^{n} \to \mathbb{R}^{m}</m> may be written as <m>T(\vec{x}) = A \vec{x}</m> for some <m>m \times n</m> matrix <m>A</m>? </p>
+
+      <p>What properties does this function have?</p>
+
+      <p>It is <term>additive</term>:</p>
+      <md>T(\vec{x} + \vec{y}) = A(\vec{x}+\vec{y}) = A\vec{x} + A\vec{y} = T(\vec{x}) + T(\vec{y}).</md>
+
+      <p>It respects <term>scaling</term>:</p>
+      <md>T(\lambda \vec{x}) = A(\lambda \vec{x}) = \lambda A\vec{x} = \lambda T(\vec{x}).</md>
+
+      <definition>
+        <statement>
+          <p>We call a function <m>T: \mathbb{R}^{n} \to \mathbb{R}^{m}</m> a <term>linear transformation</term> if <m>T</m> is additive and respects scaling.</p>
+        </statement>
+      </definition>
+
+      <theorem>
+        <statement>
+          <p>A function <m>T: \mathbb{R}^{n} \to \mathbb{R}^{m}</m> is a linear transformation if and only if <m>T(x) = Ax</m> for some <m>m \times n</m> matrix <m>A</m>.</p>
+        </statement>
+      </theorem>
+
+      <p>Let's start in one dimension. Then <m>T: \mathbb{R} \to \mathbb{R}</m>. A matrix in this setting corresponds to just multiplying by a number, so we want to show that <m>T(x) = mx</m> for some <m>m \in \mathbb{R}</m>.</p>
+
+      <p>Define <m>m = T(1)</m>. Then for all <m>x \in \mathbb{R}</m>,</p>
+      <md>T(x) = xT(1) = mx.</md>
+
+      <p>For higher dimensions, a similar argument works. Let <m>T: \mathbb{R}^{2} \to \mathbb{R}</m>. We would want to write this as</p>
+      <md>T(x,y) = \begin{pmatrix} m_{1} &amp; m_{2} \end{pmatrix}\begin{pmatrix} x \\ y \end{pmatrix} = m_{1} x + m_{2}y.</md>
+      <p>Define <m>m_{1} = T(1,0)</m> and <m>m_{2} = T(0,1)</m>. Then</p>
+      <md>T(x,y) = T(x(1,0) + y(0,1)) = xT(1,0) + y T(0,1) = m_{1} x+ m_{2}y.</md>
+
+      <p>It turns out this same argument works in general. We will just use some notation to make it work. Let <m>\vec{e_{i}}</m> be the vector <m>1</m> in the <m>i</m>th coordinate and zeroes otherwise.</p>
+
+      <p>Define <m>T: \mathbb{R}^{n} \to \mathbb{R}^{m}</m>, and suppose that <m>T</m> is a linear transformation. Then</p>
+      <md>\begin{aligned}
+        T(x_{1},x_{2},\dots,x_{n}) &amp;= T(\sum_{i=1}^{n} x_{i} e_{i}) \\
+        &amp;= \sum_{i=1}^{n} x_{i}T(e_{i}) \\
+        &amp;= \begin{pmatrix} T(e_{1}) &amp; T(e_{2}) &amp; \dots &amp; T(e_{n}) \end{pmatrix} \begin{pmatrix} x_{1} \\ x_{2} \\ \vdots \\ x_{n} \end{pmatrix}.
+      \end{aligned}</md>
+
+      <!--
+      Original LaTeX commented material preserved unchanged:
+
+      % \section{Reinterpreting What We Know}
+
+      % If $T(\vec{x}) = A\vec{x}$, then the equation $Ax = b$ becomes the functional expression $T(x) = b$. Then the plane corresponding to the set of $x$ such that $T(x) = b$. This is called the \textbf{pre-image} of $b$ with respect to $T$. 
+
+      % In contrast, if the columns of $A$ are $\vec{a}_{1}, \vec{a}_{2}, \dots, \vec{a}_{k}$. Then  
+      % \[T(\vec{x}) = A \vec{x} = \sum_{i=1}^{k} x_{i} \vec{a}_{i}.\] 
+      % That is 
+      % \[\text{range}(T) = \text{span}(\vec{a}_{1}, \dots, \vec{a}_{k}). \]
+
+      % We have shown at this point that we may represent planes in two equivalent ways:
+      % \begin{itemize}
+      %     \item Solution set to a system of linear equations $A \vec{x} = \vec{b}$. This is the \textbf{pre-image} of a linear transformation.
+      %     \item Parametrically as the range of a function. This is the \textbf{range} of a linear transformation. 
+      % \end{itemize}
+
+      % A linear transformation $T: \mathbb{R}^{n} \to \mathbb{R}^{m}$ is \textbf{onto}, that is its range is $\mathbb{R}^{m}$, if the span of its columns is $\mathbb{R}^{m}$. That is, it is onto if and only if its columns are spanning. 
+
+      % A linear transformation $T: \mathbb{R}^{n} \to \mathbb{R}^{m}$ is \textbf{one-to-one} if $T(\vec{x}) \neq T(\vec{y})$ for any $\vec{x}, \vec{y}$ in $\mathbb{R}^{n}$ such that $\vec{x} \neq \vec{y}$. 
+
+      % \begin{theorem}
+      % A linear transformation $T: \mathbb{R}^{n} \to \mathbb{R}^{m}$ is one-to-one if and only if the nullity of the matrix $A$ such that $T(\vec{x}) = A\vec{x}$ is $0$.
+      % \end{theorem}
+
+      % \begin{proof}
+      % Suppose that $T$ is not one-to-one. Then there exists $\vec{x} \neq \vec{y}$ such that $T(\vec{x}) = T(\vec{y})$. Then $\vec{0} =T(\vec{x}) - T(\vec{y}) = T(\vec{x}-\vec{y}).$ Since $\vec{x} \neq \vec{y}$, $\vec{x} - \vec{y} \neq \vec{0}$, and $T(\vec{x} -\vec{y}) = \vec{0}$. Hence, the expression $A \vec{x} =T(\vec{x}) = \vec{0}$ has a nonzero solution meaning that the nullity does not equal $0$. 
+
+      % Suppose that $T$ is one-to-one. Then $A\vec{x} =T(\vec{x}) = \vec{0}$ if and only if $\vec{x} = \vec{0}$ meaning that there is a unique solution to $A \vec{x} = \vec{0}$.
+      % \end{proof}
+      -->
+    </section>
