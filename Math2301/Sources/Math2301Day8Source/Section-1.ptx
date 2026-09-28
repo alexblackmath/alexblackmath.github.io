@@ -1,0 +1,310 @@
+<section xml:id="Section-1">
+     <title>Graphs</title>
+
+      <p>
+        A <term>directed graph</term> is a finite collection of nodes <m>N</m> and arrows
+        between nodes <m>E \subseteq N \times N</m>.
+      </p>
+
+      <figure xml:id="fig-directed-graphs">
+        <caption/>
+        <sidebyside widths="48% 48%">
+          <figure>
+            <caption>A directed path.</caption>
+            <image>
+              <shortdescription>Three vertices a, b, and c arranged in a row, with directed edges from a to b and from b to c.</shortdescription>
+              <latex-image label="directed-path">
+\begin{tikzpicture}
+    \path[use as bounding box] (-0.4,-0.45) rectangle (3.4,2.2);
+    \node[flow vertex] (a) at (0,0.9) {$a$};
+    \node[flow vertex] (b) at (1.5,0.9) {$b$};
+    \node[flow vertex] (c) at (3,0.9) {$c$};
+    \draw[flow edge] (a) -- (b);
+    \draw[flow edge] (b) -- (c);
+\end{tikzpicture}
+              </latex-image>
+            </image>
+          </figure>
+          <figure>
+            <caption>A directed cycle.</caption>
+            <image>
+              <shortdescription>Three vertices a, b, and c forming a triangle, with directed edges a to b, b to c, and c to a.</shortdescription>
+              <latex-image label="directed-cycle">
+\begin{tikzpicture}
+    \path[use as bounding box] (-0.4,-0.45) rectangle (3.4,2.2);
+    \node[flow vertex] (a) at (0,0) {$a$};
+    \node[flow vertex] (b) at (3,0) {$b$};
+    \node[flow vertex] (c) at (1.5,1.8) {$c$};
+    \draw[flow edge] (a) -- (b);
+    \draw[flow edge] (b) -- (c);
+    \draw[flow edge] (c) -- (a);
+\end{tikzpicture}
+              </latex-image>
+            </image>
+          </figure>
+        </sidebyside>
+      </figure>
+
+      <p>
+        We are interested in <term>weighted</term> directed graphs, which additionally have a
+        function <m>w: E \to \mathbb{R}</m> giving a weight to each edge.
+      </p>
+
+      <figure xml:id="fig-weighted-directed-graphs">
+        <caption/>
+        <sidebyside widths="48% 48%">
+          <figure>
+            <caption>Positive edge weights.</caption>
+            <image>
+              <shortdescription>A directed triangle with edge weights 2, 3, and 1.</shortdescription>
+              <latex-image label="weighted-positive">
+\begin{tikzpicture}
+    \path[use as bounding box] (-0.4,-0.45) rectangle (3.4,2.2);
+    \node[flow vertex] (a) at (0,0) {$a$};
+    \node[flow vertex] (b) at (3,0) {$b$};
+    \node[flow vertex] (c) at (1.5,1.8) {$c$};
+    \draw[flow edge] (a) -- node[flow weight,below] {$2$} (b);
+    \draw[flow edge] (b) -- node[flow weight,above right] {$3$} (c);
+    \draw[flow edge] (c) -- node[flow weight,above left] {$1$} (a);
+\end{tikzpicture}
+              </latex-image>
+            </image>
+          </figure>
+          <figure>
+            <caption>General real edge weights.</caption>
+            <image>
+              <shortdescription>A directed triangle with edge weights negative 1, three halves, and 0.</shortdescription>
+              <latex-image label="weighted-real">
+\begin{tikzpicture}
+    \path[use as bounding box] (-0.4,-0.45) rectangle (3.4,2.2);
+    \node[flow vertex] (a) at (0,0) {$a$};
+    \node[flow vertex] (b) at (3,0) {$b$};
+    \node[flow vertex] (c) at (1.5,1.8) {$c$};
+    \draw[flow edge] (a) -- node[flow weight,below] {$-1$} (b);
+    \draw[flow edge] (a) -- node[flow weight,above left] {$\tfrac{3}{2}$} (c);
+    \draw[flow edge] (c) -- node[flow weight,above right] {$0$} (b);
+\end{tikzpicture}
+              </latex-image>
+            </image>
+          </figure>
+        </sidebyside>
+      </figure>
+
+      <p>
+        Today we are going to model having water or electricity or Amazon packages flow through a
+        graph. There is a key property such a flow has. At any node of the network the total weight
+        of what comes in must equal the total weight of what comes out.
+      </p>
+
+      <p>
+        The in-flow at a node <m>n</m> of a graph is the sum of weights of all edges going into
+        <m>n</m>, and we denote it <m>\text{in-flow}(n)</m>. The
+        <m>\text{out-flow}(n)</m> is the sum of weights of edges going out. A weighting of a directed
+        graph is called a <term>circulation</term> if in-flow is equal to out-flow at all vertices
+        of the graph.
+      </p>
+
+      <figure xml:id="fig-circulation-examples">
+        <caption/>
+        <sidebyside widths="48% 48%">
+          <figure>
+            <caption>A circulation. At <m>a</m>, <m>5=2+3</m>; flow is conserved at every vertex.</caption>
+            <image>
+              <shortdescription>A four-vertex directed graph with weights 2, 2, 3, 3, and 5 that satisfies flow conservation at every vertex.</shortdescription>
+              <latex-image label="circulation-example">
+\begin{tikzpicture}
+    \path[use as bounding box] (-0.4,-1.75) rectangle (3.8,1.75);
+    \node[flow vertex] (a) at (0,0) {$a$};
+    \node[flow vertex] (b) at (1.7,1.35) {$b$};
+    \node[flow vertex] (c) at (3.4,0) {$c$};
+    \node[flow vertex] (d) at (1.7,-1.35) {$d$};
+    \draw[flow edge] (a) -- node[flow weight,above left] {$2$} (b);
+    \draw[flow edge] (b) -- node[flow weight,above right] {$2$} (c);
+    \draw[flow edge] (a) -- node[flow weight,below left] {$3$} (d);
+    \draw[flow edge] (d) -- node[flow weight,below right] {$3$} (c);
+    \draw[flow edge] (c) -- node[flow weight,above] {$5$} (a);
+\end{tikzpicture}
+              </latex-image>
+            </image>
+          </figure>
+          <figure>
+            <caption>Not a circulation. At <m>a</m>, the in-flow is <m>4</m>, but the out-flow is <m>5</m>.</caption>
+            <image>
+              <shortdescription>A four-vertex directed graph with weights 2, 2, 3, 3, and 4 that fails flow conservation at vertex a.</shortdescription>
+              <latex-image label="circulation-nonexample">
+\begin{tikzpicture}
+    \path[use as bounding box] (-0.4,-1.75) rectangle (3.8,1.75);
+    \node[flow vertex] (a) at (0,0) {$a$};
+    \node[flow vertex] (b) at (1.7,1.35) {$b$};
+    \node[flow vertex] (c) at (3.4,0) {$c$};
+    \node[flow vertex] (d) at (1.7,-1.35) {$d$};
+    \draw[flow edge] (a) -- node[flow weight,above left] {$2$} (b);
+    \draw[flow edge] (b) -- node[flow weight,above right] {$2$} (c);
+    \draw[flow edge] (a) -- node[flow weight,below left] {$3$} (d);
+    \draw[flow edge] (d) -- node[flow weight,below right] {$3$} (c);
+    \draw[flow edge] (c) -- node[flow weight,above] {$4$} (a);
+\end{tikzpicture}
+              </latex-image>
+            </image>
+          </figure>
+        </sidebyside>
+      </figure>
+
+      <p>
+        For a graph <m>G = (N,E)</m>, we let <m>\mathbb{R}^{E}</m> denote the set of weightings of
+        the edges of <m>G</m>.
+      </p>
+
+      <theorem xml:id="thm-circulations-subspace">
+        <statement>
+          <p>
+            Let <m>G = (N,E)</m> be a directed graph. The set of
+            <m>\vec{w} \in \mathbb{R}^{E}</m> for which <m>\vec{w}</m> is a circulation is a linear
+            subspace of <m>\mathbb{R}^{E}</m>.
+          </p>
+        </statement>
+        <proof>
+          <p>
+            For each node <m>v \in N</m>, define a linear transformation
+            <m>T_v:\mathbb{R}^{E}\to\mathbb{R}</m> by
+            <m>T_v(\vec{w})=\text{in-flow}(v)-\text{out-flow}(v)</m>.
+            Define <m>T:\mathbb{R}^{E}\to\mathbb{R}^{N}</m> by
+            <m>T(\vec{w})=(T_v(\vec{w}))_{v\in N}</m>.
+            By definition, a weighting of the edges <m>\vec{w} \in \mathbb{R}^{E}</m> is a
+            circulation if and only if <m>T_v(\vec{w}) = 0</m> for all <m>v \in N</m>.
+            Thus, the circulations are exactly <m>\ker(T)</m>.
+          </p>
+        </proof>
+      </theorem>
+
+      <p>
+        Unlike my freestyle rapping, when we talk about graphs, one cannot have negative flow.
+        Thus, we will only concern ourselves with edge weights that are all non-negative. Thus, the
+        set of non-negative circulations is
+        <m>\ker(T) \cap \mathbb{R}^{E}_{\geq 0}</m>.
+      </p>
+
+      <p>
+        The <term>indicator vector</term> of a subset <m>S</m> of edges of a graph is
+        <m>\chi_{S}</m>, defined by <m>\chi_{S}(e) = 1</m> if <m>e \in S</m> and <m>0</m>
+        otherwise. A <term>cycle</term> in a graph is a path that starts and ends at the same point
+        and does not repeat any vertex other than its start.
+      </p>
+
+      <figure xml:id="fig-cycle-indicator">
+        <caption>
+          The black cycle is <m>C=(a,b,c,d,a)</m>. Its indicator weighting is <m>1</m> on the cycle
+          and <m>0</m> elsewhere.
+        </caption>
+        <image width="70%">
+          <shortdescription>A larger directed graph containing the cycle a to b to c to d to a. Cycle edges are black with weight 1; all other edges are gray and translucent with weight 0.</shortdescription>
+          <latex-image label="cycle-indicator">
+\begin{tikzpicture}
+    \node[flow vertex] (a) at (0,0) {$a$};
+    \node[flow vertex] (b) at (2,1.55) {$b$};
+    \node[flow vertex] (c) at (4,0) {$c$};
+    \node[flow vertex] (d) at (2,-1.55) {$d$};
+    \node[inactive vertex] (e) at (-1.5,1.55) {$e$};
+    \node[inactive vertex] (f) at (5.5,1.55) {$f$};
+    \draw[inactive edge] (e) -- node[inactive weight,above left] {$0$} (a);
+    \draw[inactive edge] (e) -- node[inactive weight,above] {$0$} (b);
+    \draw[inactive edge] (b) -- node[inactive weight,above] {$0$} (f);
+    \draw[inactive edge] (f) -- node[inactive weight,above right] {$0$} (c);
+    \draw[inactive edge] (a) -- node[inactive weight,above] {$0$} (c);
+    \draw[flow edge] (a) -- node[flow weight,above left] {$1$} (b);
+    \draw[flow edge] (b) -- node[flow weight,above right] {$1$} (c);
+    \draw[flow edge] (c) -- node[flow weight,below right] {$1$} (d);
+    \draw[flow edge] (d) -- node[flow weight,below left] {$1$} (a);
+\end{tikzpicture}
+          </latex-image>
+        </image>
+      </figure>
+
+      <lemma xml:id="lem-cyclecirculation">
+        <statement>
+          <p>The indicator vector of any cycle is a circulation.</p>
+        </statement>
+        <proof>
+          <p>
+            Consider a vertex of a cycle. Then it has one incoming edge of the cycle and one outgoing
+            edge of the cycle. Thus, the net flow is <m>0</m> at each vertex, so it is a circulation.
+          </p>
+        </proof>
+      </lemma>
+
+      <p>
+        We call the <term>support</term> of a weighting <m>\vec{w}</m>
+        <m>\operatorname{supp}(\vec{w}) = \{e \in E: \vec{w}_{e} \neq 0\}</m>, the set of edges
+        with nonzero weight. It turns out that the support of any non-negative circulation must
+        contain a cycle.
+      </p>
+
+      <lemma xml:id="lem-cyclecontainment">
+        <statement>
+          <p>
+            Let <m>G = (N,E)</m> be a directed graph. Let
+            <m>\vec{w} \in \mathbb{R}^{E}</m> be a non-negative circulation. Then if
+            <m>\operatorname{supp}(\vec{w}) \neq \emptyset</m>, it contains a cycle.
+          </p>
+        </statement>
+        <proof>
+          <p>
+            Let <m>S \subseteq N</m> be the set of vertices of <m>N</m> with an incoming edge of
+            positive weight. Since <m>\operatorname{supp}(\vec{w}) \neq \emptyset</m>, there exists
+            at least one vertex with an incoming edge of positive weight, meaning that
+            <m>S \neq \emptyset</m>.
+          </p>
+          <p>
+            Let <m>v \in S</m>. Then the in-flow of <m>v</m> is positive, so by flow conservation,
+            the out-flow must also be positive. Therefore, it must have an outgoing edge of positive
+            weight. Furthermore, the vertex reached by moving along that edge must also be in
+            <m>S</m>, as it has an incoming edge of positive weight.
+          </p>
+          <p>
+            Then one can generate a path in the graph starting at a vertex in <m>S</m> and always
+            choosing an outgoing edge of positive weight. Since the graph is finite, this path will
+            eventually reach a vertex that has already been seen and thus contain a cycle.
+          </p>
+        </proof>
+      </lemma>
+
+      <p>
+        In fact, a stronger property holds: the indicator vectors of cycles play an analogous role
+        to a basis for non-negative circulations.
+      </p>
+
+      <theorem xml:id="thm-cycle-decomposition">
+        <statement>
+          <p>
+            Let <m>G = (N,E)</m> be a directed graph. Let
+            <m>\vec{w} \in \mathbb{R}^{E}</m>. Then <m>\vec{w}</m> is a non-negative circulation if
+            and only if it is a non-negative linear combination of indicator vectors of cycles.
+          </p>
+        </statement>
+        <proof>
+          <p>
+            By <xref ref="lem-cyclecirculation"/>, any indicator vector of a cycle is a circulation.
+            Furthermore, the set of circulations is a linear subspace, so any linear combination is
+            a circulation. Any non-negative linear combination of non-negative circulations will
+            similarly be a non-negative circulation. Therefore, any non-negative linear combination
+            of indicator vectors of cycles is a non-negative circulation.
+          </p>
+          <p>
+            For the other direction, let <m>\vec{w} \in \mathbb{R}^{E}</m> be a non-negative
+            circulation. Then by <xref ref="lem-cyclecontainment"/>, its support contains a cycle
+            <m>C</m>. Take <m>\vec{w} - t\chi_{C}</m>, where <m>t</m> is the minimum weight of any
+            edge on that cycle. Then <m>\vec{w} - t\chi_{C}</m> is still a non-negative circulation
+            but has at least one fewer nonzero-weight edge. Repeating this at most <m>|E|</m> times
+            yields
+          </p>
+          <me>\vec{w} - \sum_{i=1}^{k} t_{i} \chi_{C_{i}} = \vec{0}</me>
+          <p>
+            for some <m>t_{i} &gt; 0</m> and cycles <m>C_{1},\dots,C_{k}</m>. Thus,
+          </p>
+          <me>\vec{w} = \sum_{i=1}^{k} t_{i} \chi_{C_{i}}</me>
+          <p>
+            and is therefore a non-negative linear combination of indicator vectors of cycles.
+          </p>
+        </proof>
+      </theorem>
+    </section>
