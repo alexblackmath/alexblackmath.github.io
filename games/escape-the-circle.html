@@ -1173,20 +1173,16 @@ const GlobalGeometry = (() => {
 (()=>{'use strict';
 const G=Geometry,$=id=>document.getElementById(id),NS='http://www.w3.org/2000/svg';
 const levels=JSON.parse($('campaign-data').textContent),surface=$('board');
-const STORE='escape-circle.essential.trilogy.v3',reduced=matchMedia('(prefers-reduced-motion: reduce)');
+const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 const PALETTE=['#74e7f9','#889ef1','#b199fc','#df97d8','#add8bc'];
-let progress={version:3,cursor:0,planes:{},skipped:[]},storageOK=true;
+// Progress is intentionally session-only. Reloading or reopening always starts fresh.
+let progress={version:4,cursor:0,planes:{},skipped:[]},storageOK=false;
 const validPlane=(l,p)=>Array.isArray(p)&&p.length===2&&p.every(v=>Number.isFinite(v)&&v>=0&&v<=360)&&(l.dimension===4||p[1]===0);
-try{const p=JSON.parse(localStorage.getItem(STORE)||'null');if(p?.version===3&&Number.isInteger(p.cursor)&&p.cursor>=0&&p.cursor<=levels.length){
- progress.cursor=p.cursor;
- if(p.planes&&typeof p.planes==='object')for(const [key,pair] of Object.entries(p.planes)){const l=levels[Number(key)];if(l&&validPlane(l,pair))progress.planes[key]=pair.slice();}
- if(Array.isArray(p.skipped))progress.skipped=[...new Set(p.skipped.filter(i=>Number.isInteger(i)&&i>=0&&i<levels.length))];
-}}catch(_){storageOK=false;}
 const cache=new Map(),ambientCache=new WeakMap();let screen='home',index=0,plane=[0,0],board=null,ray=null,angle=.68,phase='aim',demonstrating=false,shot=1,burst=0,result='',token=0,frame=0,timer=0,planeFrame=0,pressed=null,W=600,C=300,R=270,nodes={},homeRAF=0,homeTime=0,homeLast=0,homeScene=null;
 const f=n=>Number(n.toFixed(5)),xy=p=>[C+R*p[0],C-R*p[1]];
 const path=(p,closed=false,project=xy)=>p.length?p.map((v,i)=>{const q=project(v);return(i?'L':'M')+f(q[0])+','+f(q[1]);}).join('')+(closed?'Z':''):'';
 function attr(n,k,v){v=String(v);if(n.getAttribute(k)!==v)n.setAttribute(k,v);}
-function persist(){try{localStorage.setItem(STORE,JSON.stringify(progress));storageOK=true;}catch(_){storageOK=false;}}
+function persist(){/* Session-only by design: never write progress to browser storage. */}
 function announce(message){$('announcement').textContent=message;}
 const sizeName=l=>l.size[0].toUpperCase()+l.size.slice(1);
 function colorBoard(out,i){
@@ -1230,7 +1226,7 @@ function updateHome(){
  document.title='Escape the Circle';
 }
 function home(){cancelActivity();screen='home';phase='aim';$('game').hidden=true;$('home').hidden=false;document.body.classList.remove('playing');updateHome();animateHome();}
-function begin(){if(progress.cursor===levels.length){progress={version:2,cursor:0,planes:{},skipped:[]};persist();}loadLevel(progress.cursor);surface.focus({preventScroll:true});}
+function begin(){if(progress.cursor===levels.length){progress={version:4,cursor:0,planes:{},skipped:[]};persist();}loadLevel(progress.cursor);surface.focus({preventScroll:true});}
 function loadLevel(i){
  if(!Number.isInteger(i)||i<0||i>=levels.length)return false;
  cancelActivity();stopHome();index=i;const l=levels[i];plane=(progress.planes[i]||l.start).slice();
