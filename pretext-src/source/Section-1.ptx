@@ -1,77 +1,93 @@
 <section xml:id="Section-1">
-      <title>Transforming</title>
+     <title>Shortest Paths</title>
 
-      <p>The core question of the day is: Which functions <m>T: \mathbb{R}^{n} \to \mathbb{R}^{m}</m> may be written as <m>T(\vec{x}) = A \vec{x}</m> for some <m>m \times n</m> matrix <m>A</m>? </p>
+      <p>
+        Given a graph <m>G = (N,E)</m>, the <term>shortest paths problem</term> asks to find the shortest path
+        between two nodes <m>s</m> and <m>t</m> of the graph, where the length of the path is the sum of the weights on the edges.
+      </p>
 
-      <p>What properties does this function have?</p>
+      <p>
+        Our goal today is to model this problem using linear algebra.
+      </p>
 
-      <p>It is <term>additive</term>:</p>
-      <md>T(\vec{x} + \vec{y}) = A(\vec{x}+\vec{y}) = A\vec{x} + A\vec{y} = T(\vec{x}) + T(\vec{y}).</md>
-
-      <p>It respects <term>scaling</term>:</p>
-      <md>T(\lambda \vec{x}) = A(\lambda \vec{x}) = \lambda A\vec{x} = \lambda T(\vec{x}).</md>
-
-      <definition>
+      <lemma>
         <statement>
-          <p>We call a function <m>T: \mathbb{R}^{n} \to \mathbb{R}^{m}</m> a <term>linear transformation</term> if <m>T</m> is additive and respects scaling.</p>
+          <p>
+            Let <m>G = (N,E)</m> be a directed graph with two distinguished nodes <m>s, t \in N</m> such that
+            <m>(t,s) \in E</m>. The support of any non-negative circulation <m>\vec{w}</m> on <m>G</m> for which
+            <m>\vec{w}_{(t,s)} &gt; 0</m> contains a path from <m>s</m> to <m>t</m>. As a consequence, the support of any minimal support
+            circulation with <m>\vec{w}_{(t,s)} &gt; 0</m> is a cycle containing <m>(t,s)</m>.
+          </p>
         </statement>
-      </definition>
+        <proof>
+          <p>
+            Any non-negative circulation is a non-negative combination of cycles. Thus, in particular, each edge in the
+            support must be contained in such a cycle. Thus, <m>(t,s)</m> is contained in a cycle meaning there is a path
+            from <m>s</m> to <m>t</m> in the support. In particular, then a minimal support circulation must contain such a
+            cycle and therefore the support must just be the cycle.
+          </p>
+        </proof>
+      </lemma>
+
+      <p>
+        We can define the <term>cost</term> of a non-negative circulation as
+        <me>c(\vec{w}) = \sum_{(u,v) \in E} \vec{w}_{(u,v)}</me>.
+        The minimum cost circulation problem is to find a circulation of minimum cost subject to some constraints.
+      </p>
 
       <theorem>
         <statement>
-          <p>A function <m>T: \mathbb{R}^{n} \to \mathbb{R}^{m}</m> is a linear transformation if and only if <m>T(x) = Ax</m> for some <m>m \times n</m> matrix <m>A</m>.</p>
+          <p>
+            Let <m>G = (N,E)</m> be a directed graph with two distinguished nodes <m>s, t \in N</m> such that
+            <m>(t,s) \in E</m>. The minimum cost of a non-negative circulation such that the weight on edge
+            <m>(t,s)</m> is <m>1</m> is <m>1</m> plus the minimal number of edges in a shortest path from <m>s</m> to <m>t</m>.
+          </p>
         </statement>
+        <proof>
+          <p>
+            Let <m>\vec{w}</m> be a non-negative circulation such that <m>\vec{w}_{(t,s)} = 1</m>, and suppose that
+            <m>\vec{w}</m> is of minimal cost. Let <m>C</m> be any cycle containing <m>(t,s)</m>. Then <m>\chi_{C}</m> is a
+            non-negative circulation by last time, and <m>\chi_{C}(t,s) = 1</m>. Thus, <m>\chi_{C}</m> is a non-negative
+            circulation with weight on edge <m>(t,s)</m> equal to <m>1</m>. It follows that <m>c(\chi_{C}) = |C|</m>.
+            Therefore, by minimality of <m>\vec{w}</m>, <m>c(\vec{w}) \leq |C|</m> meaning that <m>c(\vec{w})</m> is at most
+            the minimum length of a cycle containing <m>(t,s)</m>. It remains to show that it is exactly that.
+          </p>
+
+          <p>
+            Since <m>\vec{w}</m> is a non-negative circulation, by the main theorem of last class, it is a non-negative
+            combination of indicator vectors of cycles. That is
+            <me>\vec{w} = \sum_{i=1}^{n} t_{i}\chi_{C_{i}}</me>,
+            for some <m>t_{i} &gt; 0</m> and cycles <m>C_{i}</m>.
+          </p>
+
+          <p>
+            Note that the cost of a non-negative circulation is the sum of its weights. This is a linear transformation, so
+            <me>c(\vec{w}) = \sum_{i=1}^{n} t_{i} c(\chi_{C_{i}}) = \sum_{i=1}^{n} t_{i} |C_{i}|</me>.
+            From this expression, we can see that removing a cycle will only reduce the cost. Furthermore, removing any cycle
+            preserves being a non-negative combination of cycles and thus being a non-negative circulation. The only property
+            this could break would be that <m>\vec{w}_{(t,s)} = 1</m>.
+          </p>
+
+          <p>
+            If a cycle does not contain <m>(t,s)</m>, then removing it preserves that <m>\vec{w}_{(t,s)} = 1</m>. Thus, by
+            minimality of <m>\vec{w}</m>, we must have each <m>C_{i}</m> contains <m>(t,s)</m>. Thus,
+            <m>\chi_{C_{i}}(t,s) = 1</m> for all <m>1 \leq i \leq n</m>, so
+            <me>1 = \vec{w}_{(t,s)} = \sum_{i=1}^{n} t_{i} \chi_{C_{i}}(t,s) = \sum_{i=1}^{n} t_{i}</me>.
+            Let <m>M</m> be the minimal length of a cycle in the decomposition. Then
+            <me>c(\vec{w}) = \sum_{i=1}^{n} t_{i} |C_{i}| \geq \sum_{i=1}^{n} t_{i}M = M\sum_{i=1}^{n}t_{i} = M</me>.
+            Thus, <m>c(\vec{w})</m> is at least the minimum length of a cycle containing <m>(t,s)</m>.
+          </p>
+
+          <p>
+            Therefore, it is exactly the weight of a minimal cycle containing <m>(t,s)</m>, which is the length of a shortest
+            path plus <m>1</m>.
+          </p>
+        </proof>
       </theorem>
 
-      <p>Let's start in one dimension. Then <m>T: \mathbb{R} \to \mathbb{R}</m>. A matrix in this setting corresponds to just multiplying by a number, so we want to show that <m>T(x) = mx</m> for some <m>m \in \mathbb{R}</m>.</p>
-
-      <p>Define <m>m = T(1)</m>. Then for all <m>x \in \mathbb{R}</m>,</p>
-      <md>T(x) = xT(1) = mx.</md>
-
-      <p>For higher dimensions, a similar argument works. Let <m>T: \mathbb{R}^{2} \to \mathbb{R}</m>. We would want to write this as</p>
-      <md>T(x,y) = \begin{pmatrix} m_{1} &amp; m_{2} \end{pmatrix}\begin{pmatrix} x \\ y \end{pmatrix} = m_{1} x + m_{2}y.</md>
-      <p>Define <m>m_{1} = T(1,0)</m> and <m>m_{2} = T(0,1)</m>. Then</p>
-      <md>T(x,y) = T(x(1,0) + y(0,1)) = xT(1,0) + y T(0,1) = m_{1} x+ m_{2}y.</md>
-
-      <p>It turns out this same argument works in general. We will just use some notation to make it work. Let <m>\vec{e_{i}}</m> be the vector <m>1</m> in the <m>i</m>th coordinate and zeroes otherwise.</p>
-
-      <p>Define <m>T: \mathbb{R}^{n} \to \mathbb{R}^{m}</m>, and suppose that <m>T</m> is a linear transformation. Then</p>
-      <md>\begin{aligned}
-        T(x_{1},x_{2},\dots,x_{n}) &amp;= T(\sum_{i=1}^{n} x_{i} e_{i}) \\
-        &amp;= \sum_{i=1}^{n} x_{i}T(e_{i}) \\
-        &amp;= \begin{pmatrix} T(e_{1}) &amp; T(e_{2}) &amp; \dots &amp; T(e_{n}) \end{pmatrix} \begin{pmatrix} x_{1} \\ x_{2} \\ \vdots \\ x_{n} \end{pmatrix}.
-      \end{aligned}</md>
-
-      <!--
-      Original LaTeX commented material preserved unchanged:
-
-      % \section{Reinterpreting What We Know}
-
-      % If $T(\vec{x}) = A\vec{x}$, then the equation $Ax = b$ becomes the functional expression $T(x) = b$. Then the plane corresponding to the set of $x$ such that $T(x) = b$. This is called the \textbf{pre-image} of $b$ with respect to $T$. 
-
-      % In contrast, if the columns of $A$ are $\vec{a}_{1}, \vec{a}_{2}, \dots, \vec{a}_{k}$. Then  
-      % \[T(\vec{x}) = A \vec{x} = \sum_{i=1}^{k} x_{i} \vec{a}_{i}.\] 
-      % That is 
-      % \[\text{range}(T) = \text{span}(\vec{a}_{1}, \dots, \vec{a}_{k}). \]
-
-      % We have shown at this point that we may represent planes in two equivalent ways:
-      % \begin{itemize}
-      %     \item Solution set to a system of linear equations $A \vec{x} = \vec{b}$. This is the \textbf{pre-image} of a linear transformation.
-      %     \item Parametrically as the range of a function. This is the \textbf{range} of a linear transformation. 
-      % \end{itemize}
-
-      % A linear transformation $T: \mathbb{R}^{n} \to \mathbb{R}^{m}$ is \textbf{onto}, that is its range is $\mathbb{R}^{m}$, if the span of its columns is $\mathbb{R}^{m}$. That is, it is onto if and only if its columns are spanning. 
-
-      % A linear transformation $T: \mathbb{R}^{n} \to \mathbb{R}^{m}$ is \textbf{one-to-one} if $T(\vec{x}) \neq T(\vec{y})$ for any $\vec{x}, \vec{y}$ in $\mathbb{R}^{n}$ such that $\vec{x} \neq \vec{y}$. 
-
-      % \begin{theorem}
-      % A linear transformation $T: \mathbb{R}^{n} \to \mathbb{R}^{m}$ is one-to-one if and only if the nullity of the matrix $A$ such that $T(\vec{x}) = A\vec{x}$ is $0$.
-      % \end{theorem}
-
-      % \begin{proof}
-      % Suppose that $T$ is not one-to-one. Then there exists $\vec{x} \neq \vec{y}$ such that $T(\vec{x}) = T(\vec{y})$. Then $\vec{0} =T(\vec{x}) - T(\vec{y}) = T(\vec{x}-\vec{y}).$ Since $\vec{x} \neq \vec{y}$, $\vec{x} - \vec{y} \neq \vec{0}$, and $T(\vec{x} -\vec{y}) = \vec{0}$. Hence, the expression $A \vec{x} =T(\vec{x}) = \vec{0}$ has a nonzero solution meaning that the nullity does not equal $0$. 
-
-      % Suppose that $T$ is one-to-one. Then $A\vec{x} =T(\vec{x}) = \vec{0}$ if and only if $\vec{x} = \vec{0}$ meaning that there is a unique solution to $A \vec{x} = \vec{0}$.
-      % \end{proof}
-      -->
+      <p>
+        This formulation of the shortest path problem endows it with geometry and allows us to use algorithms from linear algebra
+        for solving it. This is particularly relevant right now with the proliferation of GPUs as problems represented in terms of
+        linear algebra benefit from GPU based acceleration. For more details, you'll have to take Math 3009 Combinatorial Optimization.
+      </p>
     </section>

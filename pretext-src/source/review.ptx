@@ -1,21 +1,43 @@
 <section xml:id="review">
-<title>Review</title>
+      <title>Review</title>
 
-      <p>Play the following game: <url href="https://alexblackmath.github.io/games/lineartransformations.html" visual="alexblackmath.github.io/games/lineartransformations.html">Linear Transformations Game</url>.</p>
+      <p>
+        Let <m>W \subseteq \mathbb{R}^{n}</m> be a linear subspace, and consider
+        <m>W_{\geq 0} = W \cap \mathbb{R}^{n}_{\geq 0}</m>. An <term>elementary vector</term>
+        <m>\vec{w} \in W</m> is a nonzero vector that is support minimal in the sense that there does not
+        exist another nonzero vector <m>\vec{u} \in W_{\geq 0}</m> such that
+        <m>\text{supp}(\vec{u}) \subsetneq \text{supp}(\vec{w})</m>.
+      </p>
 
-      <!--
-      Original LaTeX commented material preserved unchanged:
-
-      % Consider the linear system: 
-      % \[\begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0\end{pmatrix}\begin{pmatrix} x \\ y \\ z \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}\]
-
-      % \begin{itemize}
-      %     \item What is the rank of the matrix?
-      %     \item What is the nullity of the matrix? 
-      %     \item What is the rank plus the nullity? 
-      %     \item Are the rows of this matrix spanning?
-      %     \item Are the columns of this matrix spanning?
-      %     \item What is the solution set to the system?
-      % \end{itemize} 
-      -->
+      <exercise>
+        <introduction>
+          <p>
+            Let <m>W \subseteq \mathbb{R}^{n}</m> be a linear subspace and
+            <m>W_{\geq 0} = W \cap \mathbb{R}_{\geq 0}^{n}</m>.
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>
+              Show that the support of any nonzero vector in <m>W_{\geq 0}</m> contains the support of some elementary vector.
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Show that, for any nonzero vector <m>\vec{v} \in W_{\geq 0}</m>, there exists an elementary vector
+              <m>\vec{u} \in W_{\geq 0}</m> such that <m>\vec{v} - \vec{u} \in W_{\geq 0}</m> and
+              <m>\text{supp}(\vec{v} - \vec{u}) \subsetneq \text{supp}(\vec{v})</m>.
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Show that <m>W_{\geq 0}</m> is the set of non-negative linear combinations of its elementary vectors.
+            </p>
+          </statement>
+        </task>
+      </exercise>
     </section>
