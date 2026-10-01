@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080d1c">
+<title>Vector Transform</title>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#080d1c;
+  --panel:#0c1426;
+  --line:#25304a;
+  --grid:#21314b;
+  --axis:#526888;
+  --ink:#f3f6ff;
+  --muted:#95a2bd;
+  --cyan:#56dfff;
+  --lime:#c6f879;
+  --shadow:0 24px 80px #00000038;
+  --mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg)}
+body{
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:28px;
+  overflow:hidden;
+  background:radial-gradient(ellipse at 80% 0,#2322493b,transparent 47%),var(--bg);
+  font-family:Inter,"Segoe UI",Arial,sans-serif;
+  color:var(--ink);
+}
+main{
+  width:min(980px,100%);
+  height:min(760px,calc(100vh - 56px));
+  display:grid;
+  grid-template-rows:auto 1fr;
+  gap:18px;
+}
+.transform-strip{
+  justify-self:center;
+  display:flex;
+  align-items:center;
+  gap:13px;
+  padding:13px 18px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:linear-gradient(150deg,#18203599,#101728);
+  box-shadow:var(--shadow);
+  font-family:var(--mono);
+}
+.vector-group{display:flex;align-items:center;gap:10px}
+.vector-symbol{font-size:16px;color:var(--muted);min-width:20px;text-align:center}
+.vector-symbol.input{color:var(--cyan)}
+.vector-symbol.output{color:var(--lime)}
+.matrix-fixed{display:flex;align-items:center;gap:0;color:#c8d3e8}
+.matrix-values{display:grid;grid-template-columns:repeat(2,23px);gap:5px 8px;text-align:center;font-size:15px}
+.operator{font-size:21px;color:#7788a5}
+.output-values{display:grid;grid-template-rows:repeat(2,1fr);gap:8px;min-width:92px;text-align:center;font-size:19px;color:var(--lime)}
+.bracket{
+  width:9px;
+  height:61px;
+  border-top:1px solid #71809c;
+  border-bottom:1px solid #71809c;
+}
+.bracket.left{border-left:1px solid #71809c}
+.bracket.right{border-right:1px solid #71809c}
+.inputs{
+  display:grid;
+  grid-template-rows:repeat(2,1fr);
+  gap:8px;
+}
+input{
+  width:92px;
+  height:39px;
+  text-align:center;
+  border:1px solid #2c3b56;
+  border-radius:8px;
+  outline:none;
+  background:#0b1325;
+  color:var(--ink);
+  font:19px var(--mono);
+  transition:border-color .18s,box-shadow .18s,background .18s;
+}
+input:first-child{border-bottom-color:#56dfff66}
+input:last-child{border-bottom-color:#c6f87966}
+input:focus{
+  border-color:var(--cyan);
+  box-shadow:0 0 0 3px #56dfff12;
+  background:#0f1c31;
+}
+input::placeholder{color:#60708d}
+.plot-card{
+  min-height:0;
+  border:1px solid #2b3852;
+  border-radius:24px;
+  overflow:hidden;
+  background:radial-gradient(ellipse at 50% 48%,#15243966,transparent 72%),var(--panel);
+  box-shadow:var(--shadow);
+}
+svg{display:block;width:100%;height:100%}
+@media(max-width:650px){
+  body{padding:16px}
+  main{height:calc(100vh - 32px);gap:14px}
+  .transform-strip{padding:11px 13px;border-radius:14px;gap:9px}
+  .vector-symbol{font-size:14px;min-width:16px}
+  .matrix-values{grid-template-columns:repeat(2,18px);gap:4px 6px;font-size:13px}
+  .operator{font-size:17px}
+  input{width:72px;height:37px;font-size:17px}
+  .output-values{min-width:72px;font-size:17px}
+  .bracket{height:59px}
+  .plot-card{border-radius:20px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+  <div class="transform-strip" aria-label="Matrix times input vector equals output vector">
+    <div class="matrix-fixed" aria-label="Matrix 0 1 negative 1 0">
+      <span class="bracket left" aria-hidden="true"></span>
+      <div class="matrix-values" aria-hidden="true"><span>0</span><span>1</span><span>−1</span><span>0</span></div>
+      <span class="bracket right" aria-hidden="true"></span>
+    </div>
+    <span class="operator" aria-hidden="true">·</span>
+    <div class="vector-group">
+      <span class="vector-symbol input">v</span>
+      <span class="bracket left" aria-hidden="true"></span>
+      <div class="inputs">
+        <input id="vx" inputmode="decimal" autocomplete="off" spellcheck="false" placeholder="x" aria-label="Input vector x coordinate">
+        <input id="vy" inputmode="decimal" autocomplete="off" spellcheck="false" placeholder="y" aria-label="Input vector y coordinate">
+      </div>
+      <span class="bracket right" aria-hidden="true"></span>
+    </div>
+    <span class="operator" aria-hidden="true">=</span>
+    <div class="vector-group" aria-live="polite">
+      <span class="vector-symbol output">Av</span>
+      <span class="bracket left" aria-hidden="true"></span>
+      <div class="output-values"><span id="out-x">1</span><span id="out-y">−2</span></div>
+      <span class="bracket right" aria-hidden="true"></span>
+    </div>
+  </div>
+
+  <section class="plot-card">
+    <svg id="plot" viewBox="0 0 900 620" role="img" aria-label="Vector and transformed vector plot">
+      <defs>
+        <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="2.5" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <marker id="arrow-cyan" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto">
+          <path d="M1 1L7 4L1 7" fill="none" stroke="#56dfff" stroke-width="1.2"/>
+        </marker>
+        <marker id="arrow-lime" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto">
+          <path d="M1 1L7 4L1 7" fill="none" stroke="#c6f879" stroke-width="1.2"/>
+        </marker>
+      </defs>
+      <g id="grid"></g>
+      <g id="vectors" filter="url(#glow)"></g>
+    </svg>
+  </section>
+</main>
+<script>
+'use strict';
+const svg = document.getElementById('plot');
+const grid = document.getElementById('grid');
+const vectors = document.getElementById('vectors');
+const xInput = document.getElementById('vx');
+const yInput = document.getElementById('vy');
+const outX = document.getElementById('out-x');
+const outY = document.getElementById('out-y');
+
+const W=900,H=620,CX=W/2,CY=H/2;
+let current = [2,1];
+
+function parse(v){
+  const t=v.trim().replace('−','-');
+  if(t==='') return null;
+  const n=Number(t);
+  return Number.isFinite(n) ? n : null;
+}
+function fmt(n){
+  if(Math.abs(n)<1e-10) return '0';
+  return Number.isInteger(n)?String(n):String(Number(n.toFixed(2)));
+}
+function niceStep(scale){
+  const raw=44/scale;
+  const p=10**Math.floor(Math.log10(raw));
+  for(const k of [1,2,5,10]) if(k*p>=raw) return k*p;
+  return 10*p;
+}
+function scaleFor(p,q){
+  const m=Math.max(1,Math.abs(p[0]),Math.abs(p[1]),Math.abs(q[0]),Math.abs(q[1]));
+  return Math.min(76,(Math.min(W,H)*0.38)/m);
+}
+function xy(p,s){return [CX+p[0]*s,CY-p[1]*s]}
+
+function renderGrid(scale){
+  const step=niceStep(scale);
+  let g='';
+  const xCount=Math.ceil(W/(2*scale*step))+1;
+  const yCount=Math.ceil(H/(2*scale*step))+1;
+  for(let i=-xCount;i<=xCount;i++){
+    if(i===0) continue;
+    const x=CX+i*step*scale;
+    if(x>16&&x<W-16) g+=`<path d="M${x} 16V${H-16}"/>`;
+  }
+  for(let i=-yCount;i<=yCount;i++){
+    if(i===0) continue;
+    const y=CY-i*step*scale;
+    if(y>16&&y<H-16) g+=`<path d="M16 ${y}H${W-16}"/>`;
+  }
+  grid.innerHTML=`
+    <g stroke="#21314b" stroke-width=".8" opacity=".62">${g}</g>
+    <g stroke="#526888" stroke-width="1.05" fill="none">
+      <path d="M16 ${CY}H${W-16}"/><path d="M${CX} ${H-16}V16"/>
+      <path d="M${W-24} ${CY-4}L${W-16} ${CY}L${W-24} ${CY+4}"/>
+      <path d="M${CX-4} 24L${CX} 16L${CX+4} 24"/>
+    </g>
+    <circle cx="${CX}" cy="${CY}" r="2.8" fill="#9eb2ce"/>
+  `;
+}
+
+function render(){
+  const x=parse(xInput.value), y=parse(yInput.value);
+  const validX=x!==null, validY=y!==null;
+  xInput.style.borderColor = validX || xInput.value==='' ? '' : '#ffd08b';
+  yInput.style.borderColor = validY || yInput.value==='' ? '' : '#ffd08b';
+
+  if(validX&&validY) current=[x,y];
+  const p=current;
+  const q=[p[1],-p[0]];
+  outX.textContent=fmt(q[0]).replace('-', '−');
+  outY.textContent=fmt(q[1]).replace('-', '−');
+  const scale=scaleFor(p,q);
+  renderGrid(scale);
+  const [px,py]=xy(p,scale), [qx,qy]=xy(q,scale);
+  const same=Math.hypot(px-qx,py-qy)<1;
+
+  vectors.innerHTML=`
+    <path d="M${CX} ${CY}L${px} ${py}" stroke="#56dfff" stroke-width="2.2" stroke-dasharray="7 7" fill="none" marker-end="url(#arrow-cyan)"/>
+    <path d="M${CX} ${CY}L${qx} ${qy}" stroke="#c6f879" stroke-width="2.7" fill="none" marker-end="url(#arrow-lime)"/>
+    <circle cx="${px}" cy="${py}" r="8" fill="#56dfff" opacity=".05"/>
+    <circle cx="${px}" cy="${py}" r="4.2" fill="#0c1426" stroke="#56dfff" stroke-width="1.6" stroke-dasharray="2 2"/>
+    <circle cx="${qx}" cy="${qy}" r="9" fill="#c6f879" opacity=".09"/>
+    <circle cx="${qx}" cy="${qy}" r="3.7" fill="#c6f879"/>
+    ${same?'':`<path d="M${px} ${py}Q${CX + (px-CX + qx-CX)*.18} ${CY + (py-CY + qy-CY)*.18} ${qx} ${qy}" stroke="#7f91ae" stroke-width=".8" stroke-dasharray="3 7" fill="none" opacity=".32"/>`}
+    <text x="${Math.max(18,Math.min(W-120,px+12))}" y="${Math.max(24,Math.min(H-18,py-12))}" fill="#56dfff" font-family="var(--mono)" font-size="13">v = (${fmt(p[0])}, ${fmt(p[1])})</text>
+    <text x="${Math.max(18,Math.min(W-145,qx+12))}" y="${Math.max(24,Math.min(H-18,qy-12))}" fill="#c6f879" font-family="var(--mono)" font-size="13">Av = (${fmt(q[0])}, ${fmt(q[1])})</text>
+  `;
+  svg.setAttribute('aria-label',`Vector (${fmt(p[0])}, ${fmt(p[1])}) transforms to (${fmt(q[0])}, ${fmt(q[1])})`);
+}
+
+xInput.addEventListener('input',render);
+yInput.addEventListener('input',render);
+[xInput,yInput].forEach(el=>el.addEventListener('focus',()=>el.select()));
+
+xInput.value='2';
+yInput.value='1';
+render();
+</script>
+</body>
+</html>
