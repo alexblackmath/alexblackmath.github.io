@@ -32,15 +32,14 @@
   </docinfo>
 
   <article xml:id="shortest-paths">
-    <title>Matrix of the Trade</title>
+    <title>The Path of Least Resistance</title>
     <xi:include href="./frontmatter.ptx" />
     <!-- <xi:include href="homework-1.ptx" /> -->
-    <!-- <xi:include href="./review.ptx" />  -->
-    <!-- <xi:include href="./Section-1.ptx" /> -->
+    <xi:include href="./review.ptx" /> 
+    <xi:include href="./Section-1.ptx" />
     <!-- <xi:include href="./Section-2.ptx" /> -->
     <!-- <xi:include href="./Section-3.ptx" />  -->
-    <!-- <xi:include href="./exercises.ptx" /> -->
-    <xi:include href="./Math2000HW3.ptx" />
+    <xi:include href="./exercises.ptx" />
 
   
   </article>

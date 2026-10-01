@@ -6,89 +6,71 @@ var ptx_lunr_docs = [
   "url": "#shortest-paths",
   "type": "Article",
   "number": "",
-  "title": "Matrix of the Trade",
-  "body": " Matrix of the Trade              Playing the Game    For each of the following pairs of points, find a matrix taking the first point to the second.    to .    to .    to .    to .    Recall from Math 1800 the geometry of vector addition. Namely, given and , the points , , , and are the vertices of a (possibly degenerate) parallelogram. For example, if and , the parallelogram has vertices , , , and , and is therefore a square.    What property of a linear transformation guarantees that, given the vertices , , , and of a parallelogram and a matrix , the points , , , and are also the vertices of a parallelogram?      Matrices of Linear Transformations    Suppose I have a linear transformation that scales all coordinates by a factor of : .    If , what is the matrix of ?    If , what is the matrix of ?    Describe in words what you think such a matrix would look like in general.      Consider the linear transformation      Compute      Find the matrix of the linear transformation .     Experiment with applying the linear transformation to examples using the following website . Describe in your own words what this linear transformation does geometrically.     Based on your description in part (c), what do you expect to do?      Linear Transformation Properties    Consider the function .    Compute .    Compute .    Compute .    Explain how the results of parts (a), (b), and (c) show that is not a linear transformation.      If I rescale a vector by and then rotate it by , it is the same as rotating it by and then rescaling it by . Rotation is a linear transformation. What property of linear transformations does what I described illustrate?      Matrix Multiplication   Write down an example of each of the following kinds of matrices.   A matrix .    A matrix .    A matrix .    A matrix .    Which pairs of these matrices can you add together? Which pairs can you multiply together, and in what order?      Consider the row vector   and the column vector     Compute using matrix multiplication.    Compute using matrix multiplication.    What is the rank of the resulting matrix in part (a)? Explain.    What is the rank of the resulting matrix in part (b)? Explain.      Consider the matrix . Consider the following matrices:       Compute .    Compute .    Compute .    What do you notice about these matrices? How do they relate to one another?      "
+  "title": "The Path of Least Resistance",
+  "body": " The Path of Least Resistance        Review  Let be a linear subspace, and consider . An elementary vector  is a nonzero vector that is support minimal in the sense that there does not exist another nonzero vector such that .    Let be a linear subspace and .     Show that the support of any nonzero vector in contains the support of some elementary vector.      Show that, for any nonzero vector , there exists an elementary vector such that and .      Show that is the set of non-negative linear combinations of its elementary vectors.       Shortest Paths  Given a graph , the shortest paths problem asks to find the shortest path between two nodes and of the graph, where the length of the path is the sum of the weights on the edges.  Our goal today is to model this problem using linear algebra.    Let be a directed graph with two distinguished nodes such that . The support of any non-negative circulation on for which contains a path from to . As a consequence, the support of any minimal support circulation with is a cycle containing .    Any non-negative circulation is a non-negative combination of cycles. Thus, in particular, each edge in the support must be contained in such a cycle. Thus, is contained in a cycle meaning there is a path from to in the support. In particular, then a minimal support circulation must contain such a cycle and therefore the support must just be the cycle.    We can define the cost of a non-negative circulation as . The minimum cost circulation problem is to find a circulation of minimum cost subject to some constraints.    Let be a directed graph with two distinguished nodes such that . The minimum cost of a non-negative circulation such that the weight on edge is is plus the minimal number of edges in a shortest path from to .    Let be a non-negative circulation such that , and suppose that is of minimal cost. Let be any cycle containing . Then is a non-negative circulation by last time, and . Thus, is a non-negative circulation with weight on edge equal to . It follows that . Therefore, by minimality of , meaning that is at most the minimum length of a cycle containing . It remains to show that it is exactly that.  Since is a non-negative circulation, by the main theorem of last class, it is a non-negative combination of indicator vectors of cycles. That is , for some and cycles .  Note that the cost of a non-negative circulation is the sum of its weights. This is a linear transformation, so . From this expression, we can see that removing a cycle will only reduce the cost. Furthermore, removing any cycle preserves being a non-negative combination of cycles and thus being a non-negative circulation. The only property this could break would be that .  If a cycle does not contain , then removing it preserves that . Thus, by minimality of , we must have each contains . Thus, for all , so . Let be the minimal length of a cycle in the decomposition. Then . Thus, is at least the minimum length of a cycle containing .  Therefore, it is exactly the weight of a minimal cycle containing , which is the length of a shortest path plus .    This formulation of the shortest path problem endows it with geometry and allows us to use algorithms from linear algebra for solving it. This is particularly relevant right now with the proliferation of GPUs as problems represented in terms of linear algebra benefit from GPU based acceleration. For more details, you'll have to take Math 3009 Combinatorial Optimization.      Exercises    Let be a weighted graph with distinguished vertices and and edge . Let . Define the weighted cost of a circulation as . Suppose that is non-negative and . Then the minimum cost of a non-negative weighted circulation such that is the minimum length of a weighted shortest path with edge weights .     "
 },
 {
-  "id": "playing-the-game-2",
+  "id": "review-2",
   "level": "2",
-  "url": "#playing-the-game-2",
+  "url": "#review-2",
+  "type": "Paragraph (with a defined term)",
+  "number": "",
+  "title": "",
+  "body": "elementary vector "
+},
+{
+  "id": "review-3",
+  "level": "2",
+  "url": "#review-3",
   "type": "Checkpoint",
   "number": "1.1",
   "title": "",
-  "body": "  For each of the following pairs of points, find a matrix taking the first point to the second.    to .    to .    to .    to .   "
+  "body": "  Let be a linear subspace and .     Show that the support of any nonzero vector in contains the support of some elementary vector.      Show that, for any nonzero vector , there exists an elementary vector such that and .      Show that is the set of non-negative linear combinations of its elementary vectors.    "
 },
 {
-  "id": "playing-the-game-4",
+  "id": "Section-1-2",
   "level": "2",
-  "url": "#playing-the-game-4",
-  "type": "Checkpoint",
-  "number": "1.2",
+  "url": "#Section-1-2",
+  "type": "Paragraph (with a defined term)",
+  "number": "",
   "title": "",
-  "body": "  What property of a linear transformation guarantees that, given the vertices , , , and of a parallelogram and a matrix , the points , , , and are also the vertices of a parallelogram?   "
+  "body": "shortest paths problem "
 },
 {
-  "id": "matrices-of-linear-transformations-2",
+  "id": "Section-1-4",
   "level": "2",
-  "url": "#matrices-of-linear-transformations-2",
-  "type": "Checkpoint",
-  "number": "1.3",
+  "url": "#Section-1-4",
+  "type": "Lemma",
+  "number": "2.1",
   "title": "",
-  "body": "  Suppose I have a linear transformation that scales all coordinates by a factor of : .    If , what is the matrix of ?    If , what is the matrix of ?    Describe in words what you think such a matrix would look like in general.   "
+  "body": "  Let be a directed graph with two distinguished nodes such that . The support of any non-negative circulation on for which contains a path from to . As a consequence, the support of any minimal support circulation with is a cycle containing .    Any non-negative circulation is a non-negative combination of cycles. Thus, in particular, each edge in the support must be contained in such a cycle. Thus, is contained in a cycle meaning there is a path from to in the support. In particular, then a minimal support circulation must contain such a cycle and therefore the support must just be the cycle.   "
 },
 {
-  "id": "matrices-of-linear-transformations-3",
+  "id": "Section-1-5",
   "level": "2",
-  "url": "#matrices-of-linear-transformations-3",
-  "type": "Checkpoint",
-  "number": "1.4",
+  "url": "#Section-1-5",
+  "type": "Paragraph (with a defined term)",
+  "number": "",
   "title": "",
-  "body": "  Consider the linear transformation      Compute      Find the matrix of the linear transformation .     Experiment with applying the linear transformation to examples using the following website . Describe in your own words what this linear transformation does geometrically.     Based on your description in part (c), what do you expect to do?   "
+  "body": "cost "
 },
 {
-  "id": "linear-transformation-properties-2",
+  "id": "Section-1-6",
   "level": "2",
-  "url": "#linear-transformation-properties-2",
-  "type": "Checkpoint",
-  "number": "1.5",
+  "url": "#Section-1-6",
+  "type": "Theorem",
+  "number": "2.2",
   "title": "",
-  "body": "  Consider the function .    Compute .    Compute .    Compute .    Explain how the results of parts (a), (b), and (c) show that is not a linear transformation.   "
+  "body": "  Let be a directed graph with two distinguished nodes such that . The minimum cost of a non-negative circulation such that the weight on edge is is plus the minimal number of edges in a shortest path from to .    Let be a non-negative circulation such that , and suppose that is of minimal cost. Let be any cycle containing . Then is a non-negative circulation by last time, and . Thus, is a non-negative circulation with weight on edge equal to . It follows that . Therefore, by minimality of , meaning that is at most the minimum length of a cycle containing . It remains to show that it is exactly that.  Since is a non-negative circulation, by the main theorem of last class, it is a non-negative combination of indicator vectors of cycles. That is , for some and cycles .  Note that the cost of a non-negative circulation is the sum of its weights. This is a linear transformation, so . From this expression, we can see that removing a cycle will only reduce the cost. Furthermore, removing any cycle preserves being a non-negative combination of cycles and thus being a non-negative circulation. The only property this could break would be that .  If a cycle does not contain , then removing it preserves that . Thus, by minimality of , we must have each contains . Thus, for all , so . Let be the minimal length of a cycle in the decomposition. Then . Thus, is at least the minimum length of a cycle containing .  Therefore, it is exactly the weight of a minimal cycle containing , which is the length of a shortest path plus .   "
 },
 {
-  "id": "linear-transformation-properties-3",
+  "id": "exercises-2",
   "level": "2",
-  "url": "#linear-transformation-properties-3",
+  "url": "#exercises-2",
   "type": "Checkpoint",
-  "number": "1.6",
+  "number": "3.1",
   "title": "",
-  "body": "  If I rescale a vector by and then rotate it by , it is the same as rotating it by and then rescaling it by . Rotation is a linear transformation. What property of linear transformations does what I described illustrate?   "
-},
-{
-  "id": "matrix-multiplication-2",
-  "level": "2",
-  "url": "#matrix-multiplication-2",
-  "type": "Checkpoint",
-  "number": "1.7",
-  "title": "",
-  "body": " Write down an example of each of the following kinds of matrices.   A matrix .    A matrix .    A matrix .    A matrix .    Which pairs of these matrices can you add together? Which pairs can you multiply together, and in what order?   "
-},
-{
-  "id": "matrix-multiplication-3",
-  "level": "2",
-  "url": "#matrix-multiplication-3",
-  "type": "Checkpoint",
-  "number": "1.8",
-  "title": "",
-  "body": "  Consider the row vector   and the column vector     Compute using matrix multiplication.    Compute using matrix multiplication.    What is the rank of the resulting matrix in part (a)? Explain.    What is the rank of the resulting matrix in part (b)? Explain.   "
-},
-{
-  "id": "matrix-multiplication-4",
-  "level": "2",
-  "url": "#matrix-multiplication-4",
-  "type": "Checkpoint",
-  "number": "1.9",
-  "title": "",
-  "body": "  Consider the matrix . Consider the following matrices:       Compute .    Compute .    Compute .    What do you notice about these matrices? How do they relate to one another?   "
+  "body": "  Let be a weighted graph with distinguished vertices and and edge . Let . Define the weighted cost of a circulation as . Suppose that is non-negative and . Then the minimum cost of a non-negative weighted circulation such that is the minimum length of a weighted shortest path with edge weights .   "
 }
 ]
 
