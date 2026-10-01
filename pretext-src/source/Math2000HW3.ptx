@@ -1,0 +1,179 @@
+  <section xml:id="Math2000HW3">
+    <subsection xml:id="playing-the-game">
+      <title>Playing the Game</title>
+
+      <exercise>
+        <introduction>
+          <p>For each of the following pairs of points, find a <m>2 \times 2</m> matrix taking the first point to the second.</p>
+        </introduction>
+        <task>
+          <statement><p><m>(1,2)</m> to <m>(2,1)</m>.</p></statement>
+        </task>
+        <task>
+          <statement><p><m>(0,0)</m> to <m>(1,1)</m>.</p></statement>
+        </task>
+        <task>
+          <statement><p><m>(1,0)</m> to <m>(0,1)</m>.</p></statement>
+        </task>
+        <task>
+          <statement><p><m>(-1,-1)</m> to <m>(1,1)</m>.</p></statement>
+        </task>
+      </exercise>
+
+      <p>
+        Recall from Math 1800 the geometry of vector addition. Namely, given <m>(a,b)</m> and <m>(c,d)</m>, the points
+        <m>(0,0)</m>, <m>(a,b)</m>, <m>(a+c,b+d)</m>, and <m>(c,d)</m> are the vertices of a (possibly degenerate) parallelogram.
+        For example, if <m>(a,b)=(1,0)</m> and <m>(c,d)=(0,1)</m>, the parallelogram has vertices <m>(0,0)</m>, <m>(1,0)</m>, <m>(1,1)</m>, and <m>(0,1)</m>, and is therefore a square.
+      </p>
+
+      <exercise>
+        <statement>
+          <p>
+            What property of a linear transformation guarantees that, given the vertices <m>\vec{0}</m>, <m>\vec{u}</m>, <m>\vec{v}</m>, and <m>\vec{u}+\vec{v}</m> of a parallelogram and a <m>2 \times 2</m> matrix <m>A</m>, the points <m>\vec{0}</m>, <m>A\vec{u}</m>, <m>A\vec{v}</m>, and <m>A(\vec{u}+\vec{v})</m> are also the vertices of a parallelogram?
+          </p>
+        </statement>
+      </exercise>
+    </subsection>
+
+    <subsection xml:id="matrices-of-linear-transformations">
+      <title>Matrices of Linear Transformations</title>
+
+      <exercise>
+        <introduction>
+          <p>Suppose I have a linear transformation that scales all coordinates by a factor of <m>2</m>: <m>T(\vec{x})=2\vec{x}</m>.</p>
+        </introduction>
+        <task>
+          <statement><p>If <m>T:\mathbb{R}^{2}\to\mathbb{R}^{2}</m>, what is the matrix of <m>T</m>?</p></statement>
+        </task>
+        <task>
+          <statement><p>If <m>T:\mathbb{R}^{3}\to\mathbb{R}^{3}</m>, what is the matrix of <m>T</m>?</p></statement>
+        </task>
+        <task>
+          <statement><p>Describe in words what you think such a matrix would look like in general.</p></statement>
+        </task>
+      </exercise>
+
+      <exercise>
+        <introduction>
+          <p>Consider the linear transformation</p>
+          <me>T\left(\begin{bmatrix}x\\y\end{bmatrix}\right)=\begin{bmatrix}-y\\x\end{bmatrix}.</me>
+        </introduction>
+        <task>
+          <statement>
+            <p>Compute</p>
+            <me>T\left(\begin{bmatrix}1\\1\end{bmatrix}\right).</me>
+          </statement>
+        </task>
+        <task>
+          <statement><p>Find the matrix of the linear transformation <m>T</m>.</p></statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Experiment with applying the linear transformation to examples using the following
+              <url href="https://alexblackmath.github.io/Math2000/Simulations/MatrixMultiply.html">website</url>.
+              Describe in your own words what this linear transformation does geometrically.
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement><p>Based on your description in part (c), what do you expect <m>T^{2}</m> to do?</p></statement>
+        </task>
+      </exercise>
+    </subsection>
+
+    <subsection xml:id="linear-transformation-properties">
+      <title>Linear Transformation Properties</title>
+
+      <exercise>
+        <introduction>
+          <p>Consider the function <m>T(x,y)=\min(x,y)</m>.</p>
+        </introduction>
+        <task>
+          <statement><p>Compute <m>T(1,0)</m>.</p></statement>
+        </task>
+        <task>
+          <statement><p>Compute <m>T(0,1)</m>.</p></statement>
+        </task>
+        <task>
+          <statement><p>Compute <m>T(1,1)</m>.</p></statement>
+        </task>
+        <task>
+          <statement><p>Explain how the results of parts (a), (b), and (c) show that <m>T</m> is not a linear transformation.</p></statement>
+        </task>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>
+            If I rescale a vector by <m>2</m> and then rotate it by <m>30^\circ</m>, it is the same as rotating it by <m>30^\circ</m> and then rescaling it by <m>2</m>. Rotation is a linear transformation. What property of linear transformations does what I described illustrate?
+          </p>
+        </statement>
+      </exercise>
+    </subsection>
+
+    <subsection xml:id="matrix-multiplication">
+      <title>Matrix Multiplication</title>
+
+      <exercise>
+        <introduction><p>Write down an example of each of the following kinds of matrices.</p></introduction>
+        <task>
+          <statement><p>A <m>3 \times 3</m> matrix <m>A</m>.</p></statement>
+        </task>
+        <task>
+          <statement><p>A <m>2 \times 4</m> matrix <m>B</m>.</p></statement>
+        </task>
+        <task>
+          <statement><p>A <m>4 \times 2</m> matrix <m>C</m>.</p></statement>
+        </task>
+        <task>
+          <statement><p>A <m>3 \times 4</m> matrix <m>D</m>.</p></statement>
+        </task>
+        <conclusion>
+          <p>Which pairs of these matrices can you add together? Which pairs can you multiply together, and in what order?</p>
+        </conclusion>
+      </exercise>
+
+      <exercise>
+        <introduction>
+          <p>Consider the row vector</p>
+          <me>\vec{u}=\begin{pmatrix}1 &amp; 1 &amp; 1 &amp; 1\end{pmatrix}</me>
+          <p>and the column vector</p>
+          <me>\vec{v}=\begin{pmatrix}1\\2\\3\\4\end{pmatrix}.</me>
+        </introduction>
+        <task>
+          <statement><p>Compute <m>\vec{u}\vec{v}</m> using matrix multiplication.</p></statement>
+        </task>
+        <task>
+          <statement><p>Compute <m>\vec{v}\vec{u}</m> using matrix multiplication.</p></statement>
+        </task>
+        <task>
+          <statement><p>What is the rank of the resulting matrix in part (a)? Explain.</p></statement>
+        </task>
+        <task>
+          <statement><p>What is the rank of the resulting matrix in part (b)? Explain.</p></statement>
+        </task>
+      </exercise>
+
+      <exercise>
+        <introduction>
+          <p>Consider the matrix <m>A=\begin{pmatrix}1 &amp; 1 &amp; 1\\2 &amp; 2 &amp; 2\end{pmatrix}</m>. Consider the following matrices:</p>
+          <me>B=\begin{pmatrix}1\\0\\1\end{pmatrix}</me>
+          <me>C=\begin{pmatrix}1 &amp; 2\\0 &amp; 2\\1 &amp; 2\end{pmatrix}</me>
+          <me>D=\begin{pmatrix}1 &amp; 2 &amp; 1\\0 &amp; 2 &amp; 1\\1 &amp; 2 &amp; 0\end{pmatrix}</me>
+        </introduction>
+        <task>
+          <statement><p>Compute <m>AB</m>.</p></statement>
+        </task>
+        <task>
+          <statement><p>Compute <m>AC</m>.</p></statement>
+        </task>
+        <task>
+          <statement><p>Compute <m>AD</m>.</p></statement>
+        </task>
+        <task>
+          <statement><p>What do you notice about these matrices? How do they relate to one another?</p></statement>
+        </task>
+      </exercise>
+    </subsection>
+  </section>

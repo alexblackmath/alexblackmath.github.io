@@ -1,0 +1,8 @@
+WARNING : Using CLI version 2.53.0 but project's `requirements.txt`
+WARNING : is configured to use 2.52.3. Consider either installing
+WARNING : CLI version 2.52.3 or running `pretext update-project`
+WARNING : to update `requirements.txt` and other managed files to match 2.53.0.
+INFO    : Found PreTeXt web server at localhost:8128
+INFO    : Server is already available at https://solid-waffle-pvvq4vwqvr7f6p94-8128.app.github.dev
+INFO    : Now opening browser for target `web` at https://solid-waffle-pvvq4vwqvr7f6p94-8128.app.github.dev/output/web
+INFO    : 
