@@ -52,6 +52,10 @@
         <!--<watermark scale="0.5">DRAFT</watermark>-->
     </common>
 
+  <numbering>
+    <figures level="0" />
+  </numbering>
+
     <!-- LaTeX (and therefore PDF) specific options.                     -->
     <!-- @print is "no" (an electronic PDF, the default) or "yes".       -->
     <!-- @sides is "one" or "two"; the default follows @print.           -->

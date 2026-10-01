@@ -1,0 +1,244 @@
+
+
+<section xml:id="exam-2">
+    <title>Exam 2</title>
+
+    <subsection xml:id="sec-cake-or-fake">
+      <title>Cake or Fake</title>
+      <p>Prove or disprove that each object is a linear transformation or a linear subspace, as appropriate.</p>
+
+      <exercise xml:id="ex-cyclic-permutation">
+        <statement>
+          <p>Is <m>T:\mathbb{R}^{3}\to\mathbb{R}^{3}</m> defined by <m>T(x,y,z)=(z,x,y)</m> a linear transformation?</p>
+        </statement>
+        <!--
+        <solution>
+          <p>Yes. Observe that</p>
+          <me> T\left(\begin{bmatrix} x\\ y\\ z\\ \end{bmatrix}\right) = \begin{bmatrix} z \\ x \\ y \end{bmatrix} = \begin{bmatrix} 0 & 0 & 1 \\1 & 0 &0 \\ 0 & 1 & 0 \end{bmatrix}. </me>
+        </solution>
+        -->
+      </exercise>
+
+      <exercise xml:id="ex-polynomials-roots">
+        <statement>
+          <p>Let <m>S</m> be the set of real polynomials that vanish at <m>0</m>, <m>1</m>, and <m>-1</m>; that is,</p>
+          <me>S=\{f\in\mathbb{R}[x]:f(1)=f(0)=f(-1)=0\}.</me>
+          <p>Is <m>S</m> a linear subspace of <m>\mathbb{R}[x]</m>?</p>
+        </statement>
+        <!--
+        <solution>
+          <p>Yes. The zero polynomial belongs to <m>S</m>. If <m>f,g\in S</m> and <m>a,b\in\mathbb{R}</m>, then for each <m>r\in\{-1,0,1\}</m>,</p>
+          <me>(af+bg)(r)=af(r)+bg(r)=0.</me>
+          <p>Thus <m>af+bg\in S</m>, so <m>S</m> is a subspace. Equivalently, every polynomial in <m>S</m> is divisible by <m>x(x-1)(x+1)</m>, so</p>
+          <me>S=x(x-1)(x+1)\mathbb{R}[x].</me>
+        </solution>
+        -->
+      </exercise>
+
+      <exercise xml:id="ex-nonnegative-circulations">
+        <statement>
+          <p>Let <m>W_{\geq 0}</m> be the set of nonnegative circulations on the directed cycle graph</p>
+          <me>G=(\{1,2,3\},\{(1,2),(2,3),(3,1)\}).</me>
+          <p>Is <m>W_{\geq 0}</m> a linear subspace?</p>
+        </statement>
+        <!--
+        <solution>
+          <p>No. The circulation that assigns weight <m>1</m> to each of the three edges is in <m>W_{\geq 0}</m>. Multiplying it by <m>-1</m> gives a circulation with weight <m>-1</m> on every edge, which is not nonnegative. Hence <m>W_{\geq 0}</m> is not closed under scalar multiplication and therefore is not a linear subspace.</p>
+        </solution>
+        -->
+      </exercise>
+    </subsection>
+
+    <subsection xml:id="sec-new-from-old">
+      <title>New from Old</title>
+      <p>Prove that each indicated way of combining two objects produces another object of the same type.</p>
+
+      <exercise xml:id="ex-sum-linear-maps">
+        <statement>
+          <p>Let <m>T_1:U\to V</m> and <m>T_2:U\to V</m> be linear transformations. Define <m>T=T_1+T_2</m> by <m>T(\vec{x})=T_1(\vec{x})+T_2(\vec{x})</m>. Show that <m>T</m> is a linear transformation.</p>
+        </statement>
+        <!--
+        <solution>
+          <p>For <m>\vec{u},\vec{v}\in U</m> and scalars <m>a,b</m>, linearity of <m>T_1</m> and <m>T_2</m> gives</p>
+          <me>
+            \begin{aligned}
+            T(a\vec{u}+b\vec{v})
+              &amp;=T_1(a\vec{u}+b\vec{v})+T_2(a\vec{u}+b\vec{v})\\
+              &amp;=aT_1(\vec{u})+bT_1(\vec{v})+aT_2(\vec{u})+bT_2(\vec{v})\\
+              &amp;=aT(\vec{u})+bT(\vec{v}).
+            \end{aligned}
+          </me>
+          <p>Thus <m>T</m> is linear.</p>
+        </solution>
+        -->
+      </exercise>
+
+      <exercise xml:id="ex-intersection-subspaces">
+        <statement>
+          <p>Let <m>V</m> be a vector space, and let <m>S</m> and <m>T</m> be subspaces of <m>V</m>. Show that</p>
+          <me>S\cap T=\{\vec{x}:\vec{x}\in S\text{ and }\vec{x}\in T\}</me>
+          <p>is a linear subspace of <m>V</m>.</p>
+        </statement>
+        <!--
+        <solution>
+          <p>Because <m>S</m> and <m>T</m> are subspaces, <m>\vec{0}</m> lies in both, so <m>\vec{0}\in S\cap T</m>. If <m>\vec{x},\vec{y}\in S\cap T</m> and <m>a,b</m> are scalars, then <m>\vec{x},\vec{y}\in S</m> and <m>\vec{x},\vec{y}\in T</m>. Since both sets are subspaces, <m>a\vec{x}+b\vec{y}</m> belongs to both <m>S</m> and <m>T</m>. Therefore <m>a\vec{x}+b\vec{y}\in S\cap T</m>, proving that <m>S\cap T</m> is a subspace.</p>
+        </solution>
+        -->
+      </exercise>
+
+      <exercise xml:id="ex-composition-linear-maps">
+        <statement>
+          <p>Let <m>T_1:U\to V</m> and <m>T_2:V\to W</m> be linear transformations. Show that <m>T_2\circ T_1</m> is a linear transformation.</p>
+        </statement>
+        <!--
+        <solution>
+          <p>For <m>\vec{u},\vec{v}\in U</m> and scalars <m>a,b</m>,</p>
+          <me>
+            \begin{aligned}
+            (T_2\circ T_1)(a\vec{u}+b\vec{v})
+              &amp;=T_2\bigl(T_1(a\vec{u}+b\vec{v})\bigr)\\
+              &amp;=T_2\bigl(aT_1(\vec{u})+bT_1(\vec{v})\bigr)\\
+              &amp;=aT_2(T_1(\vec{u}))+bT_2(T_1(\vec{v}))\\
+              &amp;=a(T_2\circ T_1)(\vec{u})+b(T_2\circ T_1)(\vec{v}).
+            \end{aligned}
+          </me>
+          <p>Hence <m>T_2\circ T_1</m> is linear.</p>
+        </solution>
+        -->
+      </exercise>
+    </subsection>
+
+    <subsection xml:id="sec-span-independence-bases">
+      <title>Span, Independence, Bases</title>
+      <p>Use the given information about spanning or linear independence to draw the requested conclusions.</p>
+
+      <exercise xml:id="ex-image-spanning-set">
+        <statement>
+          <p>Let <m>T:U\to V</m> be a linear transformation. Show that if <m>S\subseteq U</m> spans <m>U</m>, then</p>
+          <me>T(S)=\{T(\vec{x}):\vec{x}\in S\}</me>
+          <p>spans <m>\operatorname{Im}(T)</m>.</p>
+        </statement>
+        <!--
+        <solution>
+          <p>Let <m>\vec{y}\in\operatorname{Im}(T)</m>. Then <m>\vec{y}=T(\vec{x})</m> for some <m>\vec{x}\in U</m>. Since <m>S</m> spans <m>U</m>, there are vectors <m>\vec{s}_1,\ldots,\vec{s}_k\in S</m> and scalars <m>a_1,\ldots,a_k</m> such that</p>
+          <me>\vec{x}=\sum_{i=1}^k a_i\vec{s}_i.</me>
+          <p>By linearity,</p>
+          <me>\vec{y}=T(\vec{x})=\sum_{i=1}^k a_iT(\vec{s}_i).</me>
+          <p>Each <m>T(\vec{s}_i)</m> lies in <m>T(S)</m>, so every vector in <m>\operatorname{Im}(T)</m> is a linear combination of vectors in <m>T(S)</m>. Thus <m>T(S)</m> spans <m>\operatorname{Im}(T)</m>.</p>
+        </solution>
+        -->
+      </exercise>
+
+      <exercise xml:id="ex-kernel-dependence">
+        <statement>
+          <p>Let <m>S=\{\vec{x}_1,\ldots,\vec{x}_n\}</m> be a set of <m>n</m> vectors in a vector space <m>V</m>. Define <m>T:\mathbb{R}^n\to V</m> by</p>
+          <me>T(\vec{y})=\sum_{i=1}^n y_i\vec{x}_i.</me>
+          <p>Show that if <m>\ker(T)\neq\{\vec{0}\}</m>, then the vectors in <m>S</m> are linearly dependent.</p>
+        </statement>
+        <!--
+        <solution>
+          <p>Since <m>\ker(T)\neq\{\vec{0}\}</m>, there is a nonzero vector <m>\vec{y}=(y_1,\ldots,y_n)</m> such that <m>T(\vec{y})=\vec{0}</m>. Therefore</p>
+          <me>y_1\vec{x}_1+\cdots+y_n\vec{x}_n=\vec{0}.</me>
+          <p>Because <m>\vec{y}\neq\vec{0}</m>, at least one coefficient <m>y_i</m> is nonzero. This is a nontrivial linear relation among the vectors in <m>S</m>, so they are linearly dependent.</p>
+        </solution>
+        -->
+      </exercise>
+
+      <exercise xml:id="ex-no-surjection-r2-r3">
+        <statement>
+          <p>Show that there is no linear transformation <m>T:\mathbb{R}^2\to\mathbb{R}^3</m> such that <m>\operatorname{Im}(T)=\mathbb{R}^3</m>.</p>
+        </statement>
+        <!--
+        <solution>
+          <p>Let <m>\vec{e}_1,\vec{e}_2</m> be the standard basis of <m>\mathbb{R}^2</m>. Every vector in the image has the form</p>
+          <me>T(a\vec{e}_1+b\vec{e}_2)=aT(\vec{e}_1)+bT(\vec{e}_2).</me>
+          <p>Thus <m>\operatorname{Im}(T)</m> is spanned by at most two vectors, so <m>\dim(\operatorname{Im}(T))\leq 2</m>. But <m>\dim(\mathbb{R}^3)=3</m>. Therefore the image cannot equal <m>\mathbb{R}^3</m>.</p>
+        </solution>
+        -->
+      </exercise>
+    </subsection>
+
+    <subsection xml:id="sec-applications">
+      <title>... And its Applications</title>
+
+      <exercise xml:id="ex-d20-waiting-time">
+        <statement>
+          <p>In Dungeons and Dragons, you roll a twenty-sided die to make decisions. If you roll a <m>20</m>, you get a critical hit, and if you roll a <m>1</m>, you get a critical failure. Assuming the die is fair, how many rolls do you expect to make until you get your first critical hit or critical failure?</p>
+        </statement>
+        <!--
+        <solution>
+          <p>On each roll, the probability of stopping is</p>
+          <me>p=\frac{2}{20}=\frac{1}{10}.</me>
+          <p>The waiting time is geometric with success probability <m>p</m>, so its expectation is <m>1/p=10</m>. Equivalently, if <m>E</m> denotes the expected number of rolls, then</p>
+          <me>E=1+\frac{9}{10}E,</me>
+          <p>which gives <m>E=10</m>. Thus the expected number of rolls is <m>10</m>.</p>
+        </solution>
+        -->
+      </exercise>
+
+      <exercise xml:id="ex-directed-graph-circulations">
+        <introduction>
+          <p>Consider the directed graph</p>
+          <me>G=(\{1,2,3,4\},\{(1,2),(1,4),(2,3),(4,3),(3,1)\}).</me>
+        </introduction>
+
+        <task xml:id="task-draw-graph">
+          <statement>
+            <p>Draw <m>G</m>.</p>
+          </statement>
+
+        </task>
+
+        <task xml:id="task-find-cycles">
+          <statement>
+            <p>Write down all directed cycles of <m>G</m>, up to cyclic rotation of the starting vertex.</p>
+          </statement>
+          <!--
+          <solution>
+            <p>The directed cycles are</p>
+            <me>1\to 2\to 3\to 1</me>
+            <p>and</p>
+            <me>1\to 4\to 3\to 1.</me>
+          </solution>
+          -->
+        </task>
+
+        <task xml:id="task-generate-circulations">
+          <statement>
+            <p>Write down a collection of weighted graphs such that every nonnegative circulation of <m>G</m> is a nonnegative linear combination of them.</p>
+          </statement>
+          <!--
+          <solution>
+            <p>Order the edges as</p>
+            <me>((1,2),(1,4),(2,3),(4,3),(3,1)).</me>
+            <p>Let</p>
+            <me>\vec{c}_1=(1,0,1,0,1),\qquad \vec{c}_2=(0,1,0,1,1).</me>
+            <p>The vector <m>\vec{c}_1</m> is the unit circulation around <m>1\to2\to3\to1</m>, and <m>\vec{c}_2</m> is the unit circulation around <m>1\to4\to3\to1</m>.</p>
+            <p>To see that these generate all nonnegative circulations, write a circulation as <m>\vec{w}=(a,b,c,d,e)</m> in the same edge order. Flow conservation at vertices <m>1,2,3,4</m> gives</p>
+            <me>e=a+b,\qquad c=a,\qquad e=c+d,\qquad b=d.</me>
+            <p>Hence <m>c=a</m>, <m>d=b</m>, and <m>e=a+b</m>. For a nonnegative circulation, <m>a,b\geq0</m>, and therefore</p>
+            <me>\vec{w}=a\vec{c}_1+b\vec{c}_2.</me>
+          </solution>
+          -->
+        </task>
+      </exercise>
+
+      <exercise xml:id="ex-total-inflow-outflow">
+        <statement>
+          <p>Let <m>G=(N,E)</m> be a directed graph with edge-weight function <m>w:E\to\mathbb{R}</m>. Show that the sum of the total inflow over all vertices equals the sum of the total outflow over all vertices.</p>
+        </statement>
+        <!--
+        <solution>
+          <p>For a vertex <m>v</m>, define</p>
+          <me>\operatorname{in}(v)=\sum_{(u,v)\in E} w(u,v),\qquad
+              \operatorname{out}(v)=\sum_{(v,u)\in E} w(v,u).</me>
+          <p>When we sum the inflows over all vertices, every directed edge <m>(u,v)</m> contributes its weight exactly once, at its head <m>v</m>. Thus</p>
+          <me>\sum_{v\in N}\operatorname{in}(v)=\sum_{(u,v)\in E}w(u,v).</me>
+          <p>Likewise, when we sum the outflows over all vertices, every directed edge contributes its weight exactly once, at its tail <m>u</m>. Therefore</p>
+          <me>\sum_{v\in N}\operatorname{out}(v)=\sum_{(u,v)\in E}w(u,v).</me>
+          <p>The two totals are equal.</p>
+        </solution>
+        -->
+      </exercise>
+    </subsection>
+</section>
