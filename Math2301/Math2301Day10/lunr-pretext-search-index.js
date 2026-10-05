@@ -1,76 +1,67 @@
 var ptx_lunr_search_style = "textbook";
 var ptx_lunr_docs = [
 {
-  "id": "Multiply",
+  "id": "ExamPrep",
   "level": "1",
-  "url": "#Multiply",
+  "url": "#ExamPrep",
   "type": "Article",
   "number": "",
-  "title": "Go Forth and Transpose",
-  "body": " Go Forth and Transpose       Go Forth and Transpose   Linear Transformations Review  Define and .  Are these linear transformations?  If so, what are the matrix representations?  What is ?  What is ?      Dimensions  A matrix is called if it has rows and columns. These are called the dimensions of a matrix. For example, the dimensions of the matrix are .  In particular, henceforth we will be distinguishing between matrices called row vectors  and matrices called column vectors  Previously I was quite laissez faire about the difference between these two, but it is of critical importance. In particular, you cannot add a row vector to a column vector.    Matrix Addition and Scaling  Like vectors, you can rescale matrices by rescaling each of their entries and add them together by adding each of their entries.    Compute:     Warning: You can only add matrices of exactly the same dimensions!    Matrix Multiplication  We know how to multiply a matrix by a vector. For example, and   To multiply by a matrix, we just multiply the matrix by each column: Beyond convenience, there is a reason for this.    Let and be linear transformations. Let and denote their matrix representations. Then  is a linear transformation.  The matrix representation of is .      That's where the definition of matrix multiplication comes from. It's meant to correspond with composing linear transformations. Namely, denote the columns of by be the columns of . Then   Let's look at some examples. Define by to be the identity map. Then Then . Thus, we would guess that . Let's verify it:   What about ? Then . This we can also verify:   Define by . Then , and this corresponds to Matrices have a rich and incredibly deep algebraic structure that is still being actively studied to this day. One thing we can already see that makes them different from numbers is that the number has square roots, whereas the identity matrix seems to have many.  Consider the function that rotates a point by an angle . It turns out this is a linear transformation with matrix representation: You can see this because if you rotate by you get the point , while if you rotate by , you get the point .  Composing rotations by and should give the rotation by . Let's see if this happens: The last step follows from the angle sum trig identities.   Warning: You can only multiply matrices if the dimensions line up, because you have to take dot products. You can only multiply for an matrix and a matrix if ! The number of columns of the first has to equal the number of rows of the second to take the dot products.    Matrix Transposition  Finally we introduce one last operation that is really new called the transpose. For this we swap the entries below the diagonal of the matrix with those above it. For example, In other words, the transpose of a matrix is the matrix whose columns are the rows of in the same order.    Exercises    Consider the matrices   Compute .  Compute and .  Compute and . Do you notice anything interesting about the results?  What is the rank of ?  What is the rank of ?  Compute .  Compute . How does the answer compare to part (f)?        Consider the matrices:   Can you add and ?  Can you multiply by ? If so, compute .  Can you multiply by ? If so, compute .        Let be an matrix.  What are the dimensions of its transpose?  Can you always do the multiplication ? If so, what are the dimensions of ?  Can you always do the multiplication ? If so, what are the dimensions of ?  Compute several examples of for matrices. What are some observations that you can make about the structure of these matrices? Can you guess which ones arise in this way?             "
+  "title": "Crossing the Line",
+  "body": " Crossing the Line       Crossing the Line   Cake or Fake  You need to prove or disprove that something is a linear subspace or linear transformation. To prove something is a linear subspace, you showed it contains and is closed under addition and scalar multiplication or that it is an example of a family of linear subspaces we are already familiar with such as images and kernels of linear transformations.  To show that something is a linear transformation, you check that it respects addition and scalar multiplication. You can also show it is a known linear transformation such as multiplying by a fixed matrix.    Let be a bijection. Define by . Then is a linear transformation.    To show that something is not a linear transformation or subspace, you need to exhibit an explicit counterexample to one of the defining properties.    Let be a linear subspace of and be defined to be its non-negative part (i.e., the vectors in for which all entries are at least ). Give an example of for which is a linear subspace and one for which it is not.      New from Old  In spirit, this exercise is similar to the last one. I want you to show that something is a linear transformation or subspace, but this won't be about a specific function or set. Instead, I will give you a way to combine things together, and I want you to show that the property remains.    Let and be vector spaces. Define to be the set of linear transformations from to . Show that is closed under addition and scalar multiplication.      Span, Independence, Bases  Several of the exercises have worked around proving essential facts regarding span, independence, and bases. The key here is to make sure that you are fully explicit in your arguments. You should either be using definitions or results you know for sure we have proven in class or on homeworks to build what you need. Here is a tool that is very useful for you to prove as practice:    Show that the following are equivalent for a subset of a finite-dimensional vector space such that :  is a basis,  is spanning,  is independent.        ... And its Applications  We discussed two core applications of the ideas we have covered. The first comes from probability theory and is that the expected value map is a linear transformation. Here is an example application:    Take a random directed graph , where each possible directed edge is included in independently with probability . What is the expected number of 2-cycles in (i.e., pairs and that are both edges in )?    The second comes from combinatorics and optimization and shows that we can model graph theoretic properties with linear algebra.    Show that no indicator vector of a cycle can be written as a non-negative linear combination of indicator vectors of other cycles.           "
 },
 {
-  "id": "Math2000Day10-3-2",
+  "id": "Math2301Day10-2-4",
   "level": "2",
-  "url": "#Math2000Day10-3-2",
-  "type": "Paragraph (with a defined term)",
-  "number": "",
-  "title": "",
-  "body": "dimensions "
-},
-{
-  "id": "Math2000Day10-3-3",
-  "level": "2",
-  "url": "#Math2000Day10-3-3",
-  "type": "Paragraph (with a defined term)",
-  "number": "",
-  "title": "",
-  "body": "row vectors column vectors "
-},
-{
-  "id": "Math2000Day10-4-3",
-  "level": "2",
-  "url": "#Math2000Day10-4-3",
+  "url": "#Math2301Day10-2-4",
   "type": "Checkpoint",
   "number": "1.1",
   "title": "",
-  "body": "  Compute:    "
+  "body": "  Let be a bijection. Define by . Then is a linear transformation.   "
 },
 {
-  "id": "Math2000Day10-5-4",
+  "id": "Math2301Day10-2-6",
   "level": "2",
-  "url": "#Math2000Day10-5-4",
-  "type": "Theorem",
+  "url": "#Math2301Day10-2-6",
+  "type": "Checkpoint",
   "number": "1.2",
   "title": "",
-  "body": "  Let and be linear transformations. Let and denote their matrix representations. Then  is a linear transformation.  The matrix representation of is .     "
+  "body": "  Let be a linear subspace of and be defined to be its non-negative part (i.e., the vectors in for which all entries are at least ). Give an example of for which is a linear subspace and one for which it is not.   "
 },
 {
-  "id": "Math2000Day10-7-2",
+  "id": "Math2301Day10-3-3",
   "level": "2",
-  "url": "#Math2000Day10-7-2",
+  "url": "#Math2301Day10-3-3",
   "type": "Checkpoint",
   "number": "1.3",
   "title": "",
-  "body": "  Consider the matrices   Compute .  Compute and .  Compute and . Do you notice anything interesting about the results?  What is the rank of ?  What is the rank of ?  Compute .  Compute . How does the answer compare to part (f)?     "
+  "body": "  Let and be vector spaces. Define to be the set of linear transformations from to . Show that is closed under addition and scalar multiplication.   "
 },
 {
-  "id": "Math2000Day10-7-3",
+  "id": "Math2301Day10-4-3",
   "level": "2",
-  "url": "#Math2000Day10-7-3",
+  "url": "#Math2301Day10-4-3",
   "type": "Checkpoint",
   "number": "1.4",
   "title": "",
-  "body": "  Consider the matrices:   Can you add and ?  Can you multiply by ? If so, compute .  Can you multiply by ? If so, compute .     "
+  "body": "  Show that the following are equivalent for a subset of a finite-dimensional vector space such that :  is a basis,  is spanning,  is independent.     "
 },
 {
-  "id": "Math2000Day10-7-4",
+  "id": "Math2301Day10-5-3",
   "level": "2",
-  "url": "#Math2000Day10-7-4",
+  "url": "#Math2301Day10-5-3",
   "type": "Checkpoint",
   "number": "1.5",
   "title": "",
-  "body": "  Let be an matrix.  What are the dimensions of its transpose?  Can you always do the multiplication ? If so, what are the dimensions of ?  Can you always do the multiplication ? If so, what are the dimensions of ?  Compute several examples of for matrices. What are some observations that you can make about the structure of these matrices? Can you guess which ones arise in this way?     "
+  "body": "  Take a random directed graph , where each possible directed edge is included in independently with probability . What is the expected number of 2-cycles in (i.e., pairs and that are both edges in )?   "
+},
+{
+  "id": "Math2301Day10-5-5",
+  "level": "2",
+  "url": "#Math2301Day10-5-5",
+  "type": "Checkpoint",
+  "number": "1.6",
+  "title": "",
+  "body": "  Show that no indicator vector of a cycle can be written as a non-negative linear combination of indicator vectors of other cycles.   "
 }
 ]
 
