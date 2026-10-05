@@ -7,61 +7,115 @@ var ptx_lunr_docs = [
   "type": "Article",
   "number": "",
   "title": "Crossing the Line",
-  "body": " Crossing the Line       Crossing the Line   Cake or Fake  You need to prove or disprove that something is a linear subspace or linear transformation. To prove something is a linear subspace, you showed it contains and is closed under addition and scalar multiplication or that it is an example of a family of linear subspaces we are already familiar with such as images and kernels of linear transformations.  To show that something is a linear transformation, you check that it respects addition and scalar multiplication. You can also show it is a known linear transformation such as multiplying by a fixed matrix.    Let be a bijection. Define by . Then is a linear transformation.    To show that something is not a linear transformation or subspace, you need to exhibit an explicit counterexample to one of the defining properties.    Let be a linear subspace of and be defined to be its non-negative part (i.e., the vectors in for which all entries are at least ). Give an example of for which is a linear subspace and one for which it is not.      New from Old  In spirit, this exercise is similar to the last one. I want you to show that something is a linear transformation or subspace, but this won't be about a specific function or set. Instead, I will give you a way to combine things together, and I want you to show that the property remains.    Let and be vector spaces. Define to be the set of linear transformations from to . Show that is closed under addition and scalar multiplication.      Span, Independence, Bases  Several of the exercises have worked around proving essential facts regarding span, independence, and bases. The key here is to make sure that you are fully explicit in your arguments. You should either be using definitions or results you know for sure we have proven in class or on homeworks to build what you need. Here is a tool that is very useful for you to prove as practice:    Show that the following are equivalent for a subset of a finite-dimensional vector space such that :  is a basis,  is spanning,  is independent.        ... And its Applications  We discussed two core applications of the ideas we have covered. The first comes from probability theory and is that the expected value map is a linear transformation. Here is an example application:    Take a random directed graph , where each possible directed edge is included in independently with probability . What is the expected number of 2-cycles in (i.e., pairs and that are both edges in )?    The second comes from combinatorics and optimization and shows that we can model graph theoretic properties with linear algebra.    Show that no indicator vector of a cycle can be written as a non-negative linear combination of indicator vectors of other cycles.           "
+  "body": " Crossing the Line       MATH 2301 Exam 1 Prep   Cake or Fake  You need to prove or disprove that something is a linear transformation or linear subspace.    Is defined by a linear transformation?    Yes it is given by multiplication by the matrix:     and is therefore a linear transformation.      Let be the set of polynomials with roots at and (i.e., all polynomials such that ). Is a linear subspace?    Recall that for any , the evaluation map defined by is a linear transformation for each . Thus, the map is a linear transformation and by definition has kernel given by . Therefore, is a linear subspace.      Let be the set of non-negative circulations of the cycle graph . Is a linear subspace?    It is not. Note that contains a cycle , so contains the indicator vector of that cycle. However, multiplying by yields a vector with negative edge weights, which is, by definition, not a non-negative circulation. Thus, it is not closed under scalar multiplication.      New from Old  I will ask you to prove that a way of combining two things leads to another thing of the same type.    Let and be linear transformations. Show that is a linear transformation.    Let . Then, since and are linear transformations,   .  Let . Then  .  Therefore, is a linear transformation.      Let be a vector space, and let and be subspaces of . Show that is a linear subspace.    Note that since and are subspaces of , both contain , so .  Let . Then , so since is a linear subspace, . By similar reasoning, . Therefore, .  Let . Then, since is a linear subspace, . Similarly, , so .  Therefore, is a linear subspace.      Let and be linear transformations. Show that is a linear transformation.    Let . Then   .  Let . Then  .  Thus, is a linear transformation.      Span, Independence, Bases  You are given some information about spanning or independence, and you need to make some conclusions based off of it.    Let be a linear transformation. Show that if is spanning, then spans .    Let . Then . Since is spanning, for some and . Therefore,  .  Therefore, spans .      Let be a subset of a vector space of size . Define by  .  Show that if , then the vectors in are linearly dependent.    Since , there exists such that . For such a ,  .  Since , not all are , meaning that the are, by definition, not linearly independent.      Show that there is no linear transformation such that .    Suppose for the sake of contradiction that . By the rank-nullity theorem,  ,  a contradiction.      ... And its Applications    In Dungeons and Dragons, you roll a twenty-sided die to make decisions. If you roll a , you get a critical hit, and something amazing happens. If you roll a , you get a critical failure and something terrible happens. Assuming the die is fair, how many times do you expect to roll it until you roll your first critical hit or failure?    The probability of having a critical hit or failure is on any roll. We will call being in either case a critical roll . Let be the random variable giving the number of rolls until the first critical hit or failure.  Then , where is if the first roll is critical and otherwise, and is if the first roll is critical and otherwise is the number of rolls until the first critical roll. Then by linearity of expectation. Furthermore, as there is a probability of of getting a critical roll on the first roll, and as there is a probability of of the first roll not being critical and the probability distribution after that point is the same as but with one additional roll needed.  Then  .  Thus,  ,  so .      Consider the graph .     Draw .    Here is a drawing of .   A directed graph with vertices 1, 2, 3, and 4 and edges from 1 to 2, 1 to 3, 2 to 3, 3 to 1, and 4 to 3. The opposite arrows between 1 and 3 are curved apart.        Write down all directed cycles of , up to cyclic rotation of the starting vertex.    The directed cycles are   and       Write down a collection of weighted graphs such that every nonnegative circulation of is a nonnegative linear combination of them.    Take the indicator vectors of the cycles from part (b). It follows from the last theorem we proved in class that any non-negative circulation is a non-negative linear combination of them.       Let be a directed graph with weight function . Show that the sum of the total in-flow at each vertex is equal to the sum of the total out-flow at each vertex.    The weight of each edge is counted in precisely one in-flow and one out-flow, so the sum of all in-flows is the total weight across all edges, and so is the sum of all out-flows. Hence, the sum of all in-flows is equal to the sum of all out-flows.           "
 },
 {
-  "id": "Math2301Day10-2-4",
+  "id": "cake-or-fake-3",
   "level": "2",
-  "url": "#Math2301Day10-2-4",
+  "url": "#cake-or-fake-3",
   "type": "Checkpoint",
   "number": "1.1",
   "title": "",
-  "body": "  Let be a bijection. Define by . Then is a linear transformation.   "
+  "body": "  Is defined by a linear transformation?    Yes it is given by multiplication by the matrix:     and is therefore a linear transformation.   "
 },
 {
-  "id": "Math2301Day10-2-6",
+  "id": "cake-or-fake-4",
   "level": "2",
-  "url": "#Math2301Day10-2-6",
+  "url": "#cake-or-fake-4",
   "type": "Checkpoint",
   "number": "1.2",
   "title": "",
-  "body": "  Let be a linear subspace of and be defined to be its non-negative part (i.e., the vectors in for which all entries are at least ). Give an example of for which is a linear subspace and one for which it is not.   "
+  "body": "  Let be the set of polynomials with roots at and (i.e., all polynomials such that ). Is a linear subspace?    Recall that for any , the evaluation map defined by is a linear transformation for each . Thus, the map is a linear transformation and by definition has kernel given by . Therefore, is a linear subspace.   "
 },
 {
-  "id": "Math2301Day10-3-3",
+  "id": "cake-or-fake-5",
   "level": "2",
-  "url": "#Math2301Day10-3-3",
+  "url": "#cake-or-fake-5",
   "type": "Checkpoint",
   "number": "1.3",
   "title": "",
-  "body": "  Let and be vector spaces. Define to be the set of linear transformations from to . Show that is closed under addition and scalar multiplication.   "
+  "body": "  Let be the set of non-negative circulations of the cycle graph . Is a linear subspace?    It is not. Note that contains a cycle , so contains the indicator vector of that cycle. However, multiplying by yields a vector with negative edge weights, which is, by definition, not a non-negative circulation. Thus, it is not closed under scalar multiplication.   "
 },
 {
-  "id": "Math2301Day10-4-3",
+  "id": "new-from-old-3",
   "level": "2",
-  "url": "#Math2301Day10-4-3",
+  "url": "#new-from-old-3",
   "type": "Checkpoint",
   "number": "1.4",
   "title": "",
-  "body": "  Show that the following are equivalent for a subset of a finite-dimensional vector space such that :  is a basis,  is spanning,  is independent.     "
+  "body": "  Let and be linear transformations. Show that is a linear transformation.    Let . Then, since and are linear transformations,   .  Let . Then  .  Therefore, is a linear transformation.   "
 },
 {
-  "id": "Math2301Day10-5-3",
+  "id": "new-from-old-4",
   "level": "2",
-  "url": "#Math2301Day10-5-3",
+  "url": "#new-from-old-4",
   "type": "Checkpoint",
   "number": "1.5",
   "title": "",
-  "body": "  Take a random directed graph , where each possible directed edge is included in independently with probability . What is the expected number of 2-cycles in (i.e., pairs and that are both edges in )?   "
+  "body": "  Let be a vector space, and let and be subspaces of . Show that is a linear subspace.    Note that since and are subspaces of , both contain , so .  Let . Then , so since is a linear subspace, . By similar reasoning, . Therefore, .  Let . Then, since is a linear subspace, . Similarly, , so .  Therefore, is a linear subspace.   "
 },
 {
-  "id": "Math2301Day10-5-5",
+  "id": "new-from-old-5",
   "level": "2",
-  "url": "#Math2301Day10-5-5",
+  "url": "#new-from-old-5",
   "type": "Checkpoint",
   "number": "1.6",
   "title": "",
-  "body": "  Show that no indicator vector of a cycle can be written as a non-negative linear combination of indicator vectors of other cycles.   "
+  "body": "  Let and be linear transformations. Show that is a linear transformation.    Let . Then   .  Let . Then  .  Thus, is a linear transformation.   "
+},
+{
+  "id": "span-independence-bases-3",
+  "level": "2",
+  "url": "#span-independence-bases-3",
+  "type": "Checkpoint",
+  "number": "1.7",
+  "title": "",
+  "body": "  Let be a linear transformation. Show that if is spanning, then spans .    Let . Then . Since is spanning, for some and . Therefore,  .  Therefore, spans .   "
+},
+{
+  "id": "span-independence-bases-4",
+  "level": "2",
+  "url": "#span-independence-bases-4",
+  "type": "Checkpoint",
+  "number": "1.8",
+  "title": "",
+  "body": "  Let be a subset of a vector space of size . Define by  .  Show that if , then the vectors in are linearly dependent.    Since , there exists such that . For such a ,  .  Since , not all are , meaning that the are, by definition, not linearly independent.   "
+},
+{
+  "id": "span-independence-bases-5",
+  "level": "2",
+  "url": "#span-independence-bases-5",
+  "type": "Checkpoint",
+  "number": "1.9",
+  "title": "",
+  "body": "  Show that there is no linear transformation such that .    Suppose for the sake of contradiction that . By the rank-nullity theorem,  ,  a contradiction.   "
+},
+{
+  "id": "applications-2",
+  "level": "2",
+  "url": "#applications-2",
+  "type": "Checkpoint",
+  "number": "1.10",
+  "title": "",
+  "body": "  In Dungeons and Dragons, you roll a twenty-sided die to make decisions. If you roll a , you get a critical hit, and something amazing happens. If you roll a , you get a critical failure and something terrible happens. Assuming the die is fair, how many times do you expect to roll it until you roll your first critical hit or failure?    The probability of having a critical hit or failure is on any roll. We will call being in either case a critical roll . Let be the random variable giving the number of rolls until the first critical hit or failure.  Then , where is if the first roll is critical and otherwise, and is if the first roll is critical and otherwise is the number of rolls until the first critical roll. Then by linearity of expectation. Furthermore, as there is a probability of of getting a critical roll on the first roll, and as there is a probability of of the first roll not being critical and the probability distribution after that point is the same as but with one additional roll needed.  Then  .  Thus,  ,  so .   "
+},
+{
+  "id": "applications-3",
+  "level": "2",
+  "url": "#applications-3",
+  "type": "Checkpoint",
+  "number": "1.11",
+  "title": "",
+  "body": "  Consider the graph .     Draw .    Here is a drawing of .   A directed graph with vertices 1, 2, 3, and 4 and edges from 1 to 2, 1 to 3, 2 to 3, 3 to 1, and 4 to 3. The opposite arrows between 1 and 3 are curved apart.        Write down all directed cycles of , up to cyclic rotation of the starting vertex.    The directed cycles are   and       Write down a collection of weighted graphs such that every nonnegative circulation of is a nonnegative linear combination of them.    Take the indicator vectors of the cycles from part (b). It follows from the last theorem we proved in class that any non-negative circulation is a non-negative linear combination of them.    "
+},
+{
+  "id": "applications-4",
+  "level": "2",
+  "url": "#applications-4",
+  "type": "Checkpoint",
+  "number": "1.12",
+  "title": "",
+  "body": "  Let be a directed graph with weight function . Show that the sum of the total in-flow at each vertex is equal to the sum of the total out-flow at each vertex.    The weight of each edge is counted in precisely one in-flow and one out-flow, so the sum of all in-flows is the total weight across all edges, and so is the sum of all out-flows. Hence, the sum of all in-flows is equal to the sum of all out-flows.   "
 }
 ]
 

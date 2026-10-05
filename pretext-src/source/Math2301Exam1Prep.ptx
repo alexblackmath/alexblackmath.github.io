@@ -1,0 +1,231 @@
+  <section xml:id="math2301-exam1-prep">
+    <title>MATH 2301 Exam 1 Prep</title>
+
+
+    <subsection xml:id="cake-or-fake">
+      <title>Cake or Fake</title>
+
+      <p>You need to prove or disprove that something is a linear transformation or linear subspace.</p>
+
+      <exercise>
+        <statement>
+          <p>Is <m>T:\mathbb{R}^{3} \to \mathbb{R}^{3}</m> defined by <m>T(x,y,z) = (z,x,y)</m> a linear transformation?</p>
+        </statement>
+        <solution>
+          <p>Yes it is given by multiplication by the matrix:</p>
+          <p>
+            <me>
+T\left(\begin{bmatrix} x\\y\\z
+\end{bmatrix} \right)
+= \begin{bmatrix} z \\ x\\ y\end{bmatrix}
+= \begin{bmatrix} 0 \amp 0 \amp 1 \\ 1 \amp 0 \amp 0 \\ 0 \amp 1 \amp 0 \end{bmatrix}
+\begin{bmatrix} x\\y\\z \end{bmatrix}
+            </me>
+          </p>
+          <p>and is therefore a linear transformation.</p>
+        </solution>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>Let <m>S</m> be the set of polynomials with roots at <m>0, 1,</m> and <m>-1</m> (i.e., all polynomials <m>f</m> such that <m>f(1) = f(0) = f(-1) = 0</m>). Is <m>S</m> a linear subspace?</p>
+        </statement>
+        <solution>
+          <p>Recall that for any <m>c \in \mathbb{R}</m>, the evaluation map <m>\text{ev}_{c}: \mathbb{R}[x] \to \mathbb{R}</m> defined by <m>\text{ev}_{c}(f) = f(c)</m> is a linear transformation for each <m>c</m>. Thus, the map <m>f \mapsto (f(-1), f(0), f(1))</m> is a linear transformation and by definition has kernel given by <m>S</m>. Therefore, <m>S</m> is a linear subspace.</p>
+        </solution>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>Let <m>W_{\geq 0}</m> be the set of non-negative circulations of the cycle graph <m>G = (\{1,2,3\}, \{(1,2), (2,3), (3,1)\})</m>. Is <m>W_{\geq 0}</m> a linear subspace?</p>
+        </statement>
+        <solution>
+          <p>It is not. Note that <m>G</m> contains a cycle <m>(1,2), (2,3), (3,1)</m>, so <m>W_{\geq 0}</m> contains the indicator vector of that cycle. However, multiplying by <m>-1</m> yields a vector with negative edge weights, which is, by definition, not a non-negative circulation. Thus, it is not closed under scalar multiplication.</p>
+        </solution>
+      </exercise>
+    </subsection>
+
+    <subsection xml:id="new-from-old">
+      <title>New from Old</title>
+
+      <p>I will ask you to prove that a way of combining two things leads to another thing of the same type.</p>
+
+      <exercise>
+        <statement>
+          <p>Let <m>T_{1}: U \to V</m> and <m>T_{2}: U \to V</m> be linear transformations. Show that <m>T = T_{1} + T_{2}</m> is a linear transformation.</p>
+        </statement>
+        <solution>
+          <p>Let <m>\vec{x}, \vec{y} \in U</m>. Then, since <m>T_{1}</m> and <m>T_{2}</m> are linear transformations,</p>
+          <p>
+            <md>
+              <mrow>T(\vec{x} +\vec{y}) \amp= T_{1}(\vec{x}+ \vec{y}) + T_{2}(\vec{x}+\vec{y})</mrow>
+              <mrow>\amp= T_{1}(\vec{x}) + T_{1}(\vec{y}) + T_{2}(\vec{x}) + T_{2}(\vec{y})</mrow>
+              <mrow>\amp= (T_{1}(\vec{x}) +T_{2}(\vec{x})) + (T_{1}(\vec{y}) + T_{2}(\vec{y}))</mrow>
+              <mrow>\amp= T(\vec{x}) + T(\vec{y})</mrow>
+            </md>.
+          </p>
+          <p>Let <m>\lambda \in \mathbb{R}</m>. Then</p>
+          <p><me>T(\lambda \vec{x}) = T_{1}(\lambda \vec{x}) + T_{2}(\lambda \vec{x}) = \lambda T_{1}(\vec{x}) + \lambda T_{2}(\vec{x}) = \lambda T(\vec{x})</me>.</p>
+          <p>Therefore, <m>T</m> is a linear transformation.</p>
+        </solution>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>Let <m>V</m> be a vector space, and let <m>S</m> and <m>T</m> be subspaces of <m>V</m>. Show that <m>S \cap T = \{\vec{x}: \vec{x} \in S \text{ and } \vec{x} \in T\}</m> is a linear subspace.</p>
+        </statement>
+        <solution>
+          <p>Note that since <m>S</m> and <m>T</m> are subspaces of <m>V</m>, both contain <m>\vec{0}</m>, so <m>\vec{0} \in S \cap T</m>.</p>
+          <p>Let <m>\vec{u}, \vec{v} \in S \cap T</m>. Then <m>\vec{u}, \vec{v} \in S</m>, so since <m>S</m> is a linear subspace, <m>\vec{u}+ \vec{v} \in S</m>. By similar reasoning, <m>\vec{u} + \vec{v} \in T</m>. Therefore, <m>\vec{u} + \vec{v} \in S \cap T</m>.</p>
+          <p>Let <m>c \in \mathbb{R}</m>. Then, since <m>S</m> is a linear subspace, <m>c \vec{u} \in S</m>. Similarly, <m>c \vec{u} \in T</m>, so <m>c \vec{u} \in S \cap T</m>.</p>
+          <p>Therefore, <m>S \cap T</m> is a linear subspace.</p>
+        </solution>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>Let <m>T_{1}: U \to V</m> and <m>T_{2}: V \to W</m> be linear transformations. Show that <m>T_{2} \circ T_{1}</m> is a linear transformation.</p>
+        </statement>
+        <solution>
+          <p>Let <m>\vec{x}, \vec{y} \in U</m>. Then</p>
+          <p>
+            <md>
+              <mrow>(T_{2} \circ T_{1})(\vec{x} + \vec{y}) \amp= T_{2}(T_{1}(\vec{x}) + T_{1}(\vec{y}))</mrow>
+              <mrow>\amp= (T_{2}\circ T_{1})(\vec{x}) + (T_{2} \circ T_{1})(\vec{y})</mrow>
+            </md>.
+          </p>
+          <p>Let <m>c \in \mathbb{R}</m>. Then</p>
+          <p><me>(T_{2} \circ T_{1})(c \vec{x}) = T_{2}(cT_{1}(\vec{x})) = c (T_{2}\circ T_{1})(\vec{x})</me>.</p>
+          <p>Thus, <m>T_{2} \circ T_{1}</m> is a linear transformation.</p>
+        </solution>
+      </exercise>
+    </subsection>
+
+    <subsection xml:id="span-independence-bases">
+      <title>Span, Independence, Bases</title>
+
+      <p>You are given some information about spanning or independence, and you need to make some conclusions based off of it.</p>
+
+      <exercise>
+        <statement>
+          <p>Let <m>T: U \to V</m> be a linear transformation. Show that if <m>S \subseteq U</m> is spanning, then <m>T(S) = \{T(\vec{x}): \vec{x} \in S\}</m> spans <m>\text{Im}(T)</m>.</p>
+        </statement>
+        <solution>
+          <p>Let <m>\vec{y} \in \text{Im}(T)</m>. Then <m>\vec{y} = T(\vec{x})</m>. Since <m>S</m> is spanning, <m>\vec{x} = \sum_{i=1}^{n} a_{i} \vec{x}_{i}</m> for some <m>a_{1}, \dots, a_{n} \in \mathbb{R}</m> and <m>\vec{x}_{1}, \dots, \vec{x}_{n} \in S</m>. Therefore,</p>
+          <p><me>\vec{y} = T(\vec{x}) = T\left(\sum_{i=1}^{n} a_{i} \vec{x}_{i} \right) = \sum_{i=1}^{n} a_{i} T(\vec{x}_{i}) \in \text{span}(T(S))</me>.</p>
+          <p>Therefore, <m>T(S)</m> spans <m>\text{Im}(T)</m>.</p>
+        </solution>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>Let <m>S = \{\vec{x}_{1}, \dots, \vec{x}_{n}\} \subseteq V</m> be a subset of a vector space of size <m>n</m>. Define <m>T: \mathbb{R}^{n} \to V</m> by</p>
+          <p><me>T(\vec{y}) = \sum_{i=1}^{n} y_{i} \vec{x}_{i}</me>.</p>
+          <p>Show that if <m>\text{ker}(T) \neq \{\vec{0}\}</m>, then the vectors in <m>S</m> are linearly dependent.</p>
+        </statement>
+        <solution>
+          <p>Since <m>\text{ker}(T) \neq \{\vec{0}\}</m>, there exists <m>\vec{y} \neq \vec{0}</m> such that <m>\vec{y} \in \ker(T)</m>. For such a <m>\vec{y}</m>,</p>
+          <p><me>\vec{0} = T(\vec{y}) = \sum_{i=1}^{n} y_{i} \vec{x}_{i}</me>.</p>
+          <p>Since <m>\vec{y} \neq \vec{0}</m>, not all <m>y_{i}</m> are <m>0</m>, meaning that the <m>\vec{x}_{i}</m> are, by definition, not linearly independent.</p>
+        </solution>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>Show that there is no linear transformation <m>T: \mathbb{R}^{2} \to \mathbb{R}^{3}</m> such that <m>\text{Im}(T) = \mathbb{R}^{3}</m>.</p>
+        </statement>
+        <solution>
+          <p>Suppose for the sake of contradiction that <m>\text{Im}(T) = \mathbb{R}^{3}</m>. By the rank-nullity theorem,</p>
+          <p><me>3 = \text{dim}(\mathbb{R}^{3}) = \text{dim}(\text{Im}(T)) = \text{rank}(T) \leq \text{rank}(T) + \text{nullity}(T) = \text{dim}(\mathbb{R}^{2}) = 2</me>,</p>
+          <p>a contradiction.</p>
+        </solution>
+      </exercise>
+    </subsection>
+
+    <subsection xml:id="applications">
+      <title>... And its Applications</title>
+
+      <exercise>
+        <statement>
+          <p>In Dungeons and Dragons, you roll a twenty-sided die to make decisions. If you roll a <m>20</m>, you get a critical hit, and something amazing happens. If you roll a <m>1</m>, you get a critical failure and something terrible happens. Assuming the die is fair, how many times do you expect to roll it until you roll your first critical hit or failure?</p>
+        </statement>
+        <solution>
+          <p>The probability of having a critical hit or failure is <m>2/20 = 1/10</m> on any roll. We will call being in either case a <b>critical roll</b>. Let <m>X</m> be the random variable giving the number of rolls until the first critical hit or failure.</p>
+          <p>Then <m>X = Y+ Z</m>, where <m>Y</m> is <m>1</m> if the first roll is critical and <m>0</m> otherwise, and <m>Z</m> is <m>0</m> if the first roll is critical and otherwise is the number of rolls until the first critical roll. Then <m>\mathbb{E}[X] = \mathbb{E}[Y] + \mathbb{E}[Z]</m> by linearity of expectation. Furthermore, <m>\mathbb{E}[Y] = 1/10</m> as there is a probability of <m>1/10</m> of getting a critical roll on the first roll, and <m>\mathbb{E}[Z] = 9/10(1 + \mathbb{E}[X])</m> as there is a probability of <m>9/10</m> of the first roll not being critical and the probability distribution after that point is the same as <m>X</m> but with one additional roll needed.</p>
+          <p>Then</p>
+          <p><me>\mathbb{E}[X] = 1/10 + 9/10(\mathbb{E}[X] + 1) = 1 + 9/10 \mathbb{E}[X]</me>.</p>
+          <p>Thus,</p>
+          <p><me>(1/10) \mathbb{E}[X] = 1</me>,</p>
+          <p>so <m>\mathbb{E}[X] = 10</m>.</p>
+        </solution>
+      </exercise>
+
+      <exercise>
+        <introduction>
+          <p>Consider the graph <m>G = (\{1,2,3,4\}, \{(1,2),(1,3),(2,3),(4,3),(3,1)\})</m>.</p>
+        </introduction>
+ <task xml:id="task-draw-graph">
+   <statement>
+     <p>Draw <m>G</m>.</p>
+   </statement>
+   <solution>
+     <p>Here is a drawing of <m>G</m>.</p>
+     <image>
+       <shortdescription>A directed graph with vertices 1, 2, 3, and 4 and edges from 1 to 2, 1 to 3, 2 to 3, 3 to 1, and 4 to 3. The opposite arrows between 1 and 3 are curved apart.</shortdescription>
+       <latex-image label="math2301-exam1-prep-directed-graph">
+\begin{tikzpicture}
+  \path[use as bounding box] (-0.7,-0.2) rectangle (4.7,3.1);
+  \node[directed graph vertex] (v1) at (0,1.5) {$1$};
+  \node[directed graph vertex] (v2) at (2,2.5) {$2$};
+  \node[directed graph vertex] (v3) at (2,0.5) {$3$};
+  \node[directed graph vertex] (v4) at (4,1.5) {$4$};
+  \draw[directed graph edge] (v1) -- (v2);
+  \draw[directed graph edge] (v2) -- (v3);
+  \draw[directed graph edge] (v1) -- (v4);
+  \draw[directed graph edge] (v3) -- (v1);
+  \draw[directed graph edge] (v4) -- (v3);
+\end{tikzpicture}
+       </latex-image>
+     </image>
+   </solution>
+
+
+        </task>
+
+        <task xml:id="task-find-cycles">
+          <statement>
+            <p>Write down all directed cycles of <m>G</m>, up to cyclic rotation of the starting vertex.</p>
+          </statement>
+          
+          <solution>
+            <p>The directed cycles are</p>
+            <me>1\to 2\to 3\to 1</me>
+            <p>and</p>
+            <me>1\to 4\to 3\to 1.</me>
+          </solution>
+         
+        </task>
+
+        <task xml:id="task-generate-circulations">
+          <statement>
+            <p>Write down a collection of weighted graphs such that every nonnegative circulation of <m>G</m> is a nonnegative linear combination of them.</p>
+          </statement>
+          
+          <solution>
+            <p> Take the indicator vectors of the cycles from part (b). It follows from the last theorem we proved in class that any non-negative circulation
+            is a non-negative linear combination of them.</p>
+          </solution>
+         
+        </task>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>Let <m>G = (N,E)</m> be a directed graph with weight function <m>\vec{w}</m>. Show that the sum of the total in-flow at each vertex is equal to the sum of the total out-flow at each vertex.</p>
+        </statement>
+        <solution>
+          <p>The weight of each edge is counted in precisely one in-flow and one out-flow, so the sum of all in-flows is the total weight across all edges, and so is the sum of all out-flows. Hence, the sum of all in-flows is equal to the sum of all out-flows.</p>
+        </solution>
+      </exercise>
+    </subsection>
+  </section>

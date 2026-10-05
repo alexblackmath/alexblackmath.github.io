@@ -9,6 +9,10 @@
   <latex-image-preamble>
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta}
+\tikzset{
+  directed graph vertex/.style={circle, draw, minimum size=7mm, inner sep=0pt},
+  directed graph edge/.style={-{Stealth[length=2mm,width=1.4mm]}, semithick}
+}
   </latex-image-preamble>
 
 
@@ -17,7 +21,7 @@
   <article xml:id="ExamPrep">
     <title>Crossing the Line</title>
     <xi:include href="./frontmatter.ptx" />
-    <xi:include href="Math2301Day10.ptx" />
+    <xi:include href="Math2301Exam1Prep.ptx" />
     <!-- <xi:include href="./review.ptx" />  -->
     <!-- <xi:include href="./Section-1.ptx" /> -->
     <!-- <xi:include href="./Section-2.ptx" /> -->
