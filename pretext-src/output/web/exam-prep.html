@@ -19,6 +19,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link rel="stylesheet" href="_static/pretext/fonts/material-symbols-outlined.css">
 <link href="_static/pretext/css/theme.css" rel="stylesheet" type="text/css">
+<style>
+@counter-style ptx-marker-1 { system: extends lower-alpha; prefix: '('; suffix: ') '; }
+</style>
 <script type="module">import { startMathJax } from './_static/pretext/js/dist/mathjax_startup.js';
 startMathJax({
 hasWebworkReps: false,
@@ -122,12 +125,14 @@ eBookConfig.enable_chatcodes =  false;
 <div id="ptx-sidebar" role="complementary" class="ptx-sidebar hidden"><nav id="ptx-toc" tabindex="-1" aria-label="Contents" class="ptx-toc depth0 focused" data-preexpanded-levels="0" data-max-levels="0"><ul class="structural toc-item-list contains-active">
 <li class="toc-item toc-frontmatter"><div class="toc-title-box"><a href="#exam-prep-2" class="internal"><span class="title">Front Matter</span></a></div></li>
 <li class="toc-item toc-section">
-<div class="toc-title-box"><a href="#Math2301Day10" class="internal"><span class="codenumber">1</span> <span class="title">Crossing the Line</span></a></div>
-<ul id="ptx-toc-group-Math2301Day10" class="structural toc-item-list">
-<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#Math2301Day10-2" class="internal"><span class="codenumber">1.1</span> <span class="title">Cake or Fake</span></a></div></li>
-<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#Math2301Day10-3" class="internal"><span class="codenumber">1.2</span> <span class="title">New from Old</span></a></div></li>
-<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#Math2301Day10-4" class="internal"><span class="codenumber">1.3</span> <span class="title">Span, Independence, Bases</span></a></div></li>
-<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#Math2301Day10-5" class="internal"><span class="codenumber">1.4</span> <span class="title">... And its Applications</span></a></div></li>
+<div class="toc-title-box"><a href="#Math2000Day10" class="internal"><span class="codenumber">1</span> <span class="title">Go Forth and Transpose</span></a></div>
+<ul id="ptx-toc-group-Math2000Day10" class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#Math2000Day10-2" class="internal"><span class="codenumber">1.1</span> <span class="title">Linear Transformations Review</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#Math2000Day10-3" class="internal"><span class="codenumber">1.2</span> <span class="title">Dimensions</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#Math2000Day10-4" class="internal"><span class="codenumber">1.3</span> <span class="title">Matrix Addition and Scaling</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#Math2000Day10-5" class="internal"><span class="codenumber">1.4</span> <span class="title">Matrix Multiplication</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#Math2000Day10-6" class="internal"><span class="codenumber">1.5</span> <span class="title">Matrix Transposition</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#Math2000Day10-7" class="internal"><span class="codenumber">1.6</span> <span class="title">Exercises</span></a></div></li>
 </ul>
 </li>
 </ul></nav></div>
@@ -136,115 +141,366 @@ eBookConfig.enable_chatcodes =  false;
 <section class="frontmatter" id="exam-prep-2"><h1 class="heading"><span class="title">Crossing the Line</span></h1>
 <div class="autopermalink" aria-hidden="true" data-description="Front Matter"><a tabindex="-1" href="#exam-prep-2" title="Copy heading and permalink for Front Matter" aria-label="Copy heading and permalink for Front Matter">🔗</a></div>
 </section>
-<section class="section" id="Math2301Day10">
+<section class="section" id="Math2000Day10">
 <h2 class="heading hide-type">
-<span class="type">Section</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Crossing the Line</span>
+<span class="type">Section</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Go Forth and Transpose</span>
 </h2>
-<section class="subsection" id="Math2301Day10-2">
+<section class="subsection" id="Math2000Day10-2">
 <h3 class="heading hide-type">
-<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.1</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Cake or Fake</span>
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.1</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Linear Transformations Review</span>
 </h3>
-<div class="para" id="Math2301Day10-2-2">You need to prove or disprove that something is a linear subspace or linear transformation. To prove something is a linear subspace, you showed it contains <span class="process-math">\(\vec{0}\)</span> and is closed under addition and scalar multiplication or that it is an example of a family of linear subspaces we are already familiar with such as images and kernels of linear transformations.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2301Day10-2-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<div class="para logical" id="Math2000Day10-2-2">
+<div class="para">Define <span class="process-math">\(T_{1}(x_{1},x_{2}) = (x_{2},x_{1})\)</span> and <span class="process-math">\(T_{2}(x_{1},x_{2}) = (x_{1}, x_{1}-x_{2})\text{.}\)</span>
 </div>
-<div class="para" id="Math2301Day10-2-3">To show that something is a linear transformation, you check that it respects addition and scalar multiplication. You can also show it is a known linear transformation such as multiplying by a fixed matrix.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2301Day10-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<ol class="lower-alpha" style="list-style: ptx-marker-1;" id="Math2000Day10-2-2-3">
+<li id="Math2000Day10-2-2-3-1">
+<div class="para" id="p-derived-Math2000Day10-2-2-3-1">Are these linear transformations?</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item a"><a tabindex="-1" href="#Math2000Day10-2-2-3-1" title="Copy heading and permalink for Item a" aria-label="Copy heading and permalink for Item a">🔗</a></div>
+</li>
+<li id="Math2000Day10-2-2-3-2">
+<div class="para" id="p-derived-Math2000Day10-2-2-3-2">If so, what are the matrix representations?</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item b"><a tabindex="-1" href="#Math2000Day10-2-2-3-2" title="Copy heading and permalink for Item b" aria-label="Copy heading and permalink for Item b">🔗</a></div>
+</li>
+<li id="Math2000Day10-2-2-3-3">
+<div class="para" id="p-derived-Math2000Day10-2-2-3-3">What is <span class="process-math">\(T_{1} \circ T_{2}(x_{1},x_{2})\text{?}\)</span>
 </div>
-<details id="Math2301Day10-2-4" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<div class="autopermalink" aria-hidden="true" data-description="Item c"><a tabindex="-1" href="#Math2000Day10-2-2-3-3" title="Copy heading and permalink for Item c" aria-label="Copy heading and permalink for Item c">🔗</a></div>
+</li>
+<li id="Math2000Day10-2-2-3-4">
+<div class="para" id="p-derived-Math2000Day10-2-2-3-4">What is <span class="process-math">\(T_{2} \circ T_{1}(x_{1},x_{2})\text{?}\)</span>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item d"><a tabindex="-1" href="#Math2000Day10-2-2-3-4" title="Copy heading and permalink for Item d" aria-label="Copy heading and permalink for Item d">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2000Day10-2-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Subsection 1.1: Linear Transformations Review"><a tabindex="-1" href="#Math2000Day10-2" title="Copy heading and permalink for Subsection 1.1: Linear Transformations Review" aria-label="Copy heading and permalink for Subsection 1.1: Linear Transformations Review">🔗</a></div>
+</section>
+<section class="subsection" id="Math2000Day10-3">
+<h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.2</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Dimensions</span>
+</h3>
+<div class="para logical" id="Math2000Day10-3-2">
+<div class="para">A matrix is called <span class="process-math">\(m \times n\)</span> if it has <span class="process-math">\(m\)</span> rows and <span class="process-math">\(n\)</span> columns. These are called the <dfn class="terminology">dimensions</dfn> of a matrix. For example, the dimensions of the matrix</div>
+<div class="displaymath process-math" id="Math2000Day10-3-2-5">
+\begin{equation*}
+\begin{pmatrix} 8 &amp; 0 &amp; 5 &amp; 1 \\ 0 &amp; 8 &amp; 1 &amp; 5 \end{pmatrix}
+\end{equation*}
+</div>
+<div class="para">are <span class="process-math">\(2 \times 4\text{.}\)</span>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2000Day10-3-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="Math2000Day10-3-3">
+<div class="para">In particular, henceforth we will be distinguishing between <span class="process-math">\(1 \times n\)</span> matrices called <dfn class="terminology">row vectors</dfn>
+</div>
+<div class="displaymath process-math" id="Math2000Day10-3-3-3">
+\begin{equation*}
+\begin{pmatrix} 1 &amp; 1 &amp; 1 &amp; 1 \end{pmatrix}
+\end{equation*}
+</div>
+<div class="para">and <span class="process-math">\(n \times 1\)</span> matrices called <dfn class="terminology">column vectors</dfn>
+</div>
+<div class="displaymath process-math" id="Math2000Day10-3-3-6">
+\begin{equation*}
+\begin{pmatrix} 1 \\ 1 \\ 1 \\ 1 \end{pmatrix}.
+\end{equation*}
+</div>
+<div class="para">Previously I was quite laissez faire about the difference between these two, but it is of critical importance. In particular, you cannot add a row vector to a column vector.</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2000Day10-3-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Subsection 1.2: Dimensions"><a tabindex="-1" href="#Math2000Day10-3" title="Copy heading and permalink for Subsection 1.2: Dimensions" aria-label="Copy heading and permalink for Subsection 1.2: Dimensions">🔗</a></div>
+</section>
+<section class="subsection" id="Math2000Day10-4">
+<h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.3</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Matrix Addition and Scaling</span>
+</h3>
+<div class="para" id="Math2000Day10-4-2">Like vectors, you can rescale matrices by rescaling each of their entries and add them together by adding each of their entries.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2000Day10-4-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="Math2000Day10-4-3" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
 <span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.1</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
 </h4></summary>
 <article class="exercise exercise-like knowl__content">
-<div class="para" id="Math2301Day10-2-4-1-1">Let <span class="process-math">\(f: [n] \to [n]\)</span> be a bijection. Define <span class="process-math">\(T: \mathbb{R}^{n} \to \mathbb{R}^{n}\)</span> by <span class="process-math">\(T(\vec{x})_{i} = x_{f(i)}\text{.}\)</span> Then <span class="process-math">\(T\)</span> is a linear transformation.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2301Day10-2-4-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<div class="para logical" id="Math2000Day10-4-3-1-1">
+<div class="para">Compute:</div>
+<div class="displaymath process-math" id="Math2000Day10-4-3-1-1-1">
+\begin{equation*}
+\begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix} + 2\begin{pmatrix}0 &amp; 1 \\ 1 &amp; 0 \end{pmatrix}.
+\end{equation*}
 </div>
-<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.1"><a tabindex="-1" href="#Math2301Day10-2-4" title="Copy heading and permalink for Checkpoint 1.1" aria-label="Copy heading and permalink for Checkpoint 1.1">🔗</a></div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2000Day10-4-3-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.1"><a tabindex="-1" href="#Math2000Day10-4-3" title="Copy heading and permalink for Checkpoint 1.1" aria-label="Copy heading and permalink for Checkpoint 1.1">🔗</a></div>
 </article></details>
-<div class="para" id="Math2301Day10-2-5">To show that something is <em class="emphasis">not</em> a linear transformation or subspace, you need to exhibit an explicit counterexample to one of the defining properties.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2301Day10-2-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<div class="para" id="Math2000Day10-4-4">
+<em class="emphasis">Warning:</em> You can only add matrices of exactly the same dimensions!<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2000Day10-4-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
-<details id="Math2301Day10-2-6" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
-<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.2</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
-</h4></summary>
-<article class="exercise exercise-like knowl__content">
-<div class="para" id="Math2301Day10-2-6-1-1">Let <span class="process-math">\(W\)</span> be a linear subspace of <span class="process-math">\(\mathbb{R}^{n}\)</span> and <span class="process-math">\(W_{\geq 0}\)</span> be defined to be its non-negative part (i.e., the vectors in <span class="process-math">\(W\)</span> for which all entries are at least <span class="process-math">\(0\)</span>). Give an example of <span class="process-math">\(W\)</span> for which <span class="process-math">\(W_{\geq 0}\)</span> is a linear subspace and one for which it is not.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2301Day10-2-6-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
-</div>
-<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.2"><a tabindex="-1" href="#Math2301Day10-2-6" title="Copy heading and permalink for Checkpoint 1.2" aria-label="Copy heading and permalink for Checkpoint 1.2">🔗</a></div>
-</article></details><div class="autopermalink" aria-hidden="true" data-description="Subsection 1.1: Cake or Fake"><a tabindex="-1" href="#Math2301Day10-2" title="Copy heading and permalink for Subsection 1.1: Cake or Fake" aria-label="Copy heading and permalink for Subsection 1.1: Cake or Fake">🔗</a></div>
+<div class="autopermalink" aria-hidden="true" data-description="Subsection 1.3: Matrix Addition and Scaling"><a tabindex="-1" href="#Math2000Day10-4" title="Copy heading and permalink for Subsection 1.3: Matrix Addition and Scaling" aria-label="Copy heading and permalink for Subsection 1.3: Matrix Addition and Scaling">🔗</a></div>
 </section>
-<section class="subsection" id="Math2301Day10-3">
+<section class="subsection" id="Math2000Day10-5">
 <h3 class="heading hide-type">
-<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.2</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">New from Old</span>
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.4</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Matrix Multiplication</span>
 </h3>
-<div class="para" id="Math2301Day10-3-2">In spirit, this exercise is similar to the last one. I want you to show that something is a linear transformation or subspace, but this won’t be about a specific function or set. Instead, I will give you a way to combine things together, and I want you to show that the property remains.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2301Day10-3-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<div class="para logical" id="Math2000Day10-5-2">
+<div class="para">We know how to multiply a matrix by a vector. For example,</div>
+<div class="displaymath process-math" id="Math2000Day10-5-2-1">
+\begin{equation*}
+\begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 5 \end{pmatrix} \begin{pmatrix} 1 \\ 0 \end{pmatrix} = \begin{pmatrix} 1 \\ 3 \end{pmatrix},
+\end{equation*}
 </div>
-<details id="Math2301Day10-3-3" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<div class="para">and</div>
+<div class="displaymath process-math" id="Math2000Day10-5-2-2">
+\begin{equation*}
+\begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 5 \end{pmatrix} \begin{pmatrix} 0 \\ 1 \end{pmatrix} = \begin{pmatrix} 2 \\ 5 \end{pmatrix}.
+\end{equation*}
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2000Day10-5-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="Math2000Day10-5-3">
+<div class="para">To multiply by a matrix, we just multiply the matrix by each column:</div>
+<div class="displaymath process-math" id="Math2000Day10-5-3-1">
+\begin{equation*}
+\begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 5 \end{pmatrix} \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}=\begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 5 \end{pmatrix}.
+\end{equation*}
+</div>
+<div class="para">Beyond convenience, there is a reason for this.</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2000Day10-5-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<article class="theorem theorem-like" id="Math2000Day10-5-4"><h4 class="heading">
+<span class="type">Theorem</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.2</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4>
+<div class="para logical" id="Math2000Day10-5-4-1-1">
+<div class="para">Let <span class="process-math">\(T_{A}: \mathbb{R}^{n} \to \mathbb{R}^{m}\)</span> and <span class="process-math">\(T_{B}: \mathbb{R}^{m} \to \mathbb{R}^{k}\)</span> be linear transformations. Let <span class="process-math">\(A\)</span> and <span class="process-math">\(B\)</span> denote their matrix representations. Then</div>
+<ol class="lower-alpha" style="list-style: ptx-marker-1;" id="Math2000Day10-5-4-1-1-5">
+<li id="Math2000Day10-5-4-1-1-5-1">
+<div class="para" id="p-derived-Math2000Day10-5-4-1-1-5-1">
+<span class="process-math">\(T_{B} \circ T_{A}\)</span> is a linear transformation.</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item a"><a tabindex="-1" href="#Math2000Day10-5-4-1-1-5-1" title="Copy heading and permalink for Item a" aria-label="Copy heading and permalink for Item a">🔗</a></div>
+</li>
+<li id="Math2000Day10-5-4-1-1-5-2">
+<div class="para" id="p-derived-Math2000Day10-5-4-1-1-5-2">The matrix representation of <span class="process-math">\(T_{B} \circ T_{A}\)</span> is <span class="process-math">\(BA\text{.}\)</span>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item b"><a tabindex="-1" href="#Math2000Day10-5-4-1-1-5-2" title="Copy heading and permalink for Item b" aria-label="Copy heading and permalink for Item b">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2000Day10-5-4-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Theorem 1.2"><a tabindex="-1" href="#Math2000Day10-5-4" title="Copy heading and permalink for Theorem 1.2" aria-label="Copy heading and permalink for Theorem 1.2">🔗</a></div>
+</article>
+<div class="para logical" id="Math2000Day10-5-5">
+<div class="para">That’s where the definition of matrix multiplication comes from. It’s meant to correspond with composing linear transformations. Namely, denote the columns of <span class="process-math">\(A\)</span> by <span class="process-math">\(\vec{A}_{1}, \dots, \vec{A}_{n}\)</span> be the columns of <span class="process-math">\(A\text{.}\)</span> Then</div>
+<div class="displaymath process-math" id="Math2000Day10-5-5-4">
+\begin{equation*}
+T_{B} \circ T_{A}(\vec{x}) = T_{B}(A\vec{x}) = T_{B}\left(\sum_{i=1}^{n} x_{i}\vec{A}_{i}\right) = \sum_{i=1}^{n} x_{i}T_{B}(\vec{A}_{i}) = \sum_{i=1}^{n} x_{i}B\vec{A}_{i} = BA\vec{x}.
+\end{equation*}
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2000Day10-5-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="Math2000Day10-5-6">
+<div class="para">Let’s look at some examples. Define <span class="process-math">\(I: \mathbb{R}^{2} \to \mathbb{R}^{2}\)</span> by <span class="process-math">\(I(x,y) = (x,y)\)</span> to be the identity map. Then</div>
+<div class="displaymath process-math" id="Math2000Day10-5-6-3">
+\begin{equation*}
+I = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}.
+\end{equation*}
+</div>
+<div class="para">Then <span class="process-math">\(I^{2}(x,y) = (x,y)\text{.}\)</span> Thus, we would guess that <span class="process-math">\(I^{2} = I\text{.}\)</span> Let’s verify it:</div>
+<div class="displaymath process-math" id="Math2000Day10-5-6-6">
+\begin{equation*}
+\begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}\begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix} = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}.
+\end{equation*}
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2000Day10-5-6" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="Math2000Day10-5-7">
+<div class="para">What about <span class="process-math">\(J(x,y) = (-x,-y)\text{?}\)</span> Then <span class="process-math">\(J^{2}(x,y) = (x,y)\text{.}\)</span> This we can also verify:</div>
+<div class="displaymath process-math" id="Math2000Day10-5-7-3">
+\begin{equation*}
+\begin{pmatrix} -1 &amp; 0 \\ 0 &amp; -1 \end{pmatrix}\begin{pmatrix} -1 &amp; 0 \\ 0 &amp; -1 \end{pmatrix} = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}.
+\end{equation*}
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2000Day10-5-7" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="Math2000Day10-5-8">
+<div class="para">Define <span class="process-math">\(T: \mathbb{R}^{2} \to \mathbb{R}^{2}\)</span> by <span class="process-math">\(T(x,y) = (y,x)\text{.}\)</span> Then <span class="process-math">\(T^{2}(x,y) = (x,y)\text{,}\)</span> and this corresponds to</div>
+<div class="displaymath process-math" id="Math2000Day10-5-8-4">
+\begin{equation*}
+\begin{pmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{pmatrix}\begin{pmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{pmatrix} = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}.
+\end{equation*}
+</div>
+<div class="para">Matrices have a rich and incredibly deep algebraic structure that is still being actively studied to this day. One thing we can already see that makes them different from numbers is that the number <span class="process-math">\(1\)</span> has <span class="process-math">\(2\)</span> square roots, whereas the identity matrix seems to have many.</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2000Day10-5-8" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="Math2000Day10-5-9">
+<div class="para">Consider the function <span class="process-math">\(T_{\theta}: \mathbb{R}^{2} \to \mathbb{R}^{2}\)</span> that rotates a point by an angle <span class="process-math">\(\theta\text{.}\)</span> It turns out this is a linear transformation with matrix representation:</div>
+<div class="displaymath process-math" id="Math2000Day10-5-9-3">
+\begin{equation*}
+A_{\theta} = \begin{pmatrix} \cos(\theta) &amp; -\sin(\theta) \\ \sin(\theta) &amp; \cos(\theta) \end{pmatrix}.
+\end{equation*}
+</div>
+<div class="para">You can see this because if you rotate <span class="process-math">\((1,0)\)</span> by <span class="process-math">\(\theta\)</span> you get the point <span class="process-math">\((\cos(\theta), \sin(\theta))\text{,}\)</span> while if you rotate <span class="process-math">\((0,1)\)</span> by <span class="process-math">\(\theta\text{,}\)</span> you get the point <span class="process-math">\((\cos(\theta + \pi/2), \sin(\theta + \pi/2)) = (-\sin(\theta), \cos(\theta))\text{.}\)</span>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2000Day10-5-9" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="Math2000Day10-5-10">
+<div class="para">Composing rotations by <span class="process-math">\(\theta\)</span> and <span class="process-math">\(\rho\)</span> should give the rotation by <span class="process-math">\(\theta + \rho\text{.}\)</span> Let’s see if this happens:</div>
+<div class="displaymath process-math" id="Math2000Day10-5-10-4">
+\begin{equation*}
+\begin{aligned}
+A_{\theta}A_{\rho}
+&amp;= \begin{pmatrix} \cos(\theta) &amp; -\sin(\theta) \\ \sin(\theta) &amp; \cos(\theta) \end{pmatrix}
+\begin{pmatrix} \cos(\rho) &amp; -\sin(\rho) \\ \sin(\rho) &amp; \cos(\rho) \end{pmatrix} \\
+&amp;= \begin{pmatrix}
+\cos(\theta)\cos(\rho) - \sin(\theta)\sin(\rho) &amp; -\cos(\theta)\sin(\rho) - \sin(\theta)\cos(\rho) \\
+\sin(\theta)\cos(\rho) + \cos(\theta)\sin(\rho) &amp; -\sin(\theta)\sin(\rho) + \cos(\theta)\cos(\rho)
+\end{pmatrix} \\
+&amp;= \begin{pmatrix}
+\cos(\theta + \rho) &amp; -\sin(\theta + \rho) \\
+\sin(\theta + \rho) &amp; \cos(\theta + \rho)
+\end{pmatrix}.
+\end{aligned}
+\end{equation*}
+</div>
+<div class="para">The last step follows from the angle sum trig identities.</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2000Day10-5-10" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="Math2000Day10-5-11">
+<em class="emphasis">Warning:</em> You can only multiply matrices if the dimensions line up, because you have to take dot products. You can only multiply <span class="process-math">\(AB\)</span> for an <span class="process-math">\(m \times n\)</span> matrix <span class="process-math">\(A\)</span> and a <span class="process-math">\(k \times \ell\)</span> matrix <span class="process-math">\(B\)</span> if <span class="process-math">\(n = k\text{!}\)</span> The number of columns of the first has to equal the number of rows of the second to take the dot products.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2000Day10-5-11" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Subsection 1.4: Matrix Multiplication"><a tabindex="-1" href="#Math2000Day10-5" title="Copy heading and permalink for Subsection 1.4: Matrix Multiplication" aria-label="Copy heading and permalink for Subsection 1.4: Matrix Multiplication">🔗</a></div>
+</section>
+<section class="subsection" id="Math2000Day10-6">
+<h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.5</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Matrix Transposition</span>
+</h3>
+<div class="para logical" id="Math2000Day10-6-2">
+<div class="para">Finally we introduce one last operation that is really new called the transpose. For this we swap the entries below the diagonal of the matrix with those above it. For example,</div>
+<div class="displaymath process-math" id="Math2000Day10-6-2-1">
+\begin{equation*}
+\begin{pmatrix} 1 &amp; 2 &amp; 3 \\ 4 &amp; 5 &amp; 6 \end{pmatrix}^{\intercal} = \begin{pmatrix} 1 &amp; 4 \\ 2 &amp; 5 \\ 3 &amp; 6 \end{pmatrix}.
+\end{equation*}
+</div>
+<div class="para">In other words, the transpose of a matrix <span class="process-math">\(A\)</span> is the matrix <span class="process-math">\(A^{T}\)</span> whose columns are the rows of <span class="process-math">\(A\)</span> in the same order.</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2000Day10-6-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Subsection 1.5: Matrix Transposition"><a tabindex="-1" href="#Math2000Day10-6" title="Copy heading and permalink for Subsection 1.5: Matrix Transposition" aria-label="Copy heading and permalink for Subsection 1.5: Matrix Transposition">🔗</a></div>
+</section>
+<section class="subsection" id="Math2000Day10-7">
+<h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.6</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Exercises</span>
+</h3>
+<details id="Math2000Day10-7-2" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
 <span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.3</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
 </h4></summary>
 <article class="exercise exercise-like knowl__content">
-<div class="para" id="Math2301Day10-3-3-1-1">Let <span class="process-math">\(U\)</span> and <span class="process-math">\(V\)</span> be vector spaces. Define <span class="process-math">\(\text{Hom}(U,V)\)</span> to be the set of linear transformations from <span class="process-math">\(U\)</span> to <span class="process-math">\(V\text{.}\)</span> Show that <span class="process-math">\(\text{Hom}(U,V)\)</span> is closed under addition and scalar multiplication.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2301Day10-3-3-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<div class="para logical" id="Math2000Day10-7-2-1-1">
+<div class="para">Consider the matrices</div>
+<div class="displaymath process-math" id="Math2000Day10-7-2-1-1-1">
+\begin{equation*}
+A = \begin{pmatrix} 1 &amp; 2 \\ 0 &amp; 1 \end{pmatrix} \text{ and } B = \begin{pmatrix} 1 &amp; 1 \\ 2 &amp; 2 \end{pmatrix}.
+\end{equation*}
 </div>
-<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.3"><a tabindex="-1" href="#Math2301Day10-3-3" title="Copy heading and permalink for Checkpoint 1.3" aria-label="Copy heading and permalink for Checkpoint 1.3">🔗</a></div>
-</article></details><div class="autopermalink" aria-hidden="true" data-description="Subsection 1.2: New from Old"><a tabindex="-1" href="#Math2301Day10-3" title="Copy heading and permalink for Subsection 1.2: New from Old" aria-label="Copy heading and permalink for Subsection 1.2: New from Old">🔗</a></div>
-</section>
-<section class="subsection" id="Math2301Day10-4">
-<h3 class="heading hide-type">
-<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.3</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Span, Independence, Bases</span>
-</h3>
-<div class="para" id="Math2301Day10-4-2">Several of the exercises have worked around proving essential facts regarding span, independence, and bases. The key here is to make sure that you are fully explicit in your arguments. You should either be using definitions or results you know for sure we have proven in class or on homeworks to build what you need. Here is a tool that is very useful for you to prove as practice:<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2301Day10-4-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<ol class="lower-alpha" style="list-style: ptx-marker-1;" id="Math2000Day10-7-2-1-1-2">
+<li id="Math2000Day10-7-2-1-1-2-1">
+<div class="para" id="p-derived-Math2000Day10-7-2-1-1-2-1">Compute <span class="process-math">\(A + B\text{.}\)</span>
 </div>
-<details id="Math2301Day10-4-3" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.3.a"><a tabindex="-1" href="#Math2000Day10-7-2-1-1-2-1" title="Copy heading and permalink for Item 1.3.a" aria-label="Copy heading and permalink for Item 1.3.a">🔗</a></div>
+</li>
+<li id="Math2000Day10-7-2-1-1-2-2">
+<div class="para" id="p-derived-Math2000Day10-7-2-1-1-2-2">Compute <span class="process-math">\(A^{\intercal}\)</span> and <span class="process-math">\(B^{\intercal}\text{.}\)</span>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.3.b"><a tabindex="-1" href="#Math2000Day10-7-2-1-1-2-2" title="Copy heading and permalink for Item 1.3.b" aria-label="Copy heading and permalink for Item 1.3.b">🔗</a></div>
+</li>
+<li id="Math2000Day10-7-2-1-1-2-3">
+<div class="para" id="p-derived-Math2000Day10-7-2-1-1-2-3">Compute <span class="process-math">\(AA^{\intercal}\)</span> and <span class="process-math">\(BB^{\intercal}\text{.}\)</span> Do you notice anything interesting about the results?</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.3.c"><a tabindex="-1" href="#Math2000Day10-7-2-1-1-2-3" title="Copy heading and permalink for Item 1.3.c" aria-label="Copy heading and permalink for Item 1.3.c">🔗</a></div>
+</li>
+<li id="Math2000Day10-7-2-1-1-2-4">
+<div class="para" id="p-derived-Math2000Day10-7-2-1-1-2-4">What is the rank of <span class="process-math">\(A\text{?}\)</span>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.3.d"><a tabindex="-1" href="#Math2000Day10-7-2-1-1-2-4" title="Copy heading and permalink for Item 1.3.d" aria-label="Copy heading and permalink for Item 1.3.d">🔗</a></div>
+</li>
+<li id="Math2000Day10-7-2-1-1-2-5">
+<div class="para" id="p-derived-Math2000Day10-7-2-1-1-2-5">What is the rank of <span class="process-math">\(B\text{?}\)</span>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.3.e"><a tabindex="-1" href="#Math2000Day10-7-2-1-1-2-5" title="Copy heading and permalink for Item 1.3.e" aria-label="Copy heading and permalink for Item 1.3.e">🔗</a></div>
+</li>
+<li id="Math2000Day10-7-2-1-1-2-6">
+<div class="para" id="p-derived-Math2000Day10-7-2-1-1-2-6">Compute <span class="process-math">\(AB\text{.}\)</span>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.3.f"><a tabindex="-1" href="#Math2000Day10-7-2-1-1-2-6" title="Copy heading and permalink for Item 1.3.f" aria-label="Copy heading and permalink for Item 1.3.f">🔗</a></div>
+</li>
+<li id="Math2000Day10-7-2-1-1-2-7">
+<div class="para" id="p-derived-Math2000Day10-7-2-1-1-2-7">Compute <span class="process-math">\(BA\text{.}\)</span> How does the answer compare to part (f)?</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.3.g"><a tabindex="-1" href="#Math2000Day10-7-2-1-1-2-7" title="Copy heading and permalink for Item 1.3.g" aria-label="Copy heading and permalink for Item 1.3.g">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2000Day10-7-2-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.3"><a tabindex="-1" href="#Math2000Day10-7-2" title="Copy heading and permalink for Checkpoint 1.3" aria-label="Copy heading and permalink for Checkpoint 1.3">🔗</a></div>
+</article></details>
+<details id="Math2000Day10-7-3" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
 <span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.4</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
 </h4></summary>
 <article class="exercise exercise-like knowl__content">
-<div class="para logical" id="Math2301Day10-4-3-1-1">
-<div class="para">Show that the following are equivalent for a subset <span class="process-math">\(B\)</span> of a finite-dimensional vector space <span class="process-math">\(V\)</span> such that <span class="process-math">\(|B| = \dim(V)\text{:}\)</span>
+<div class="para logical" id="Math2000Day10-7-3-1-1">
+<div class="para">Consider the matrices:</div>
+<div class="displaymath process-math" id="Math2000Day10-7-3-1-1-1">
+\begin{equation*}
+A = \begin{pmatrix} 1 &amp; 2 &amp; 3 \\ 3 &amp; 2 &amp; 1 \end{pmatrix} \text{ and } B = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \\ 1 &amp; 1 \\ 2 &amp; 1 \end{pmatrix}.
+\end{equation*}
 </div>
-<ul class="disc" id="Math2301Day10-4-3-1-1-4">
-<li id="Math2301Day10-4-3-1-1-4-1">
-<div class="para" id="Math2301Day10-4-3-1-1-4-1-1">
-<span class="process-math">\(B\)</span> is a basis,<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2301Day10-4-3-1-1-4-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<ul class="disc" id="Math2000Day10-7-3-1-1-2">
+<li id="Math2000Day10-7-3-1-1-2-1">
+<div class="para" id="p-derived-Math2000Day10-7-3-1-1-2-1">Can you add <span class="process-math">\(A\)</span> and <span class="process-math">\(B\text{?}\)</span>
 </div>
-<div class="autopermalink" aria-hidden="true" data-description="Item"><a tabindex="-1" href="#Math2301Day10-4-3-1-1-4-1" title="Copy heading and permalink for Item" aria-label="Copy heading and permalink for Item">🔗</a></div>
+<div class="autopermalink" aria-hidden="true" data-description="Item"><a tabindex="-1" href="#Math2000Day10-7-3-1-1-2-1" title="Copy heading and permalink for Item" aria-label="Copy heading and permalink for Item">🔗</a></div>
 </li>
-<li id="Math2301Day10-4-3-1-1-4-2">
-<div class="para" id="Math2301Day10-4-3-1-1-4-2-1">
-<span class="process-math">\(B\)</span> is spanning,<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2301Day10-4-3-1-1-4-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<li id="Math2000Day10-7-3-1-1-2-2">
+<div class="para" id="p-derived-Math2000Day10-7-3-1-1-2-2">Can you multiply <span class="process-math">\(A\)</span> by <span class="process-math">\(B\text{?}\)</span> If so, compute <span class="process-math">\(AB\text{.}\)</span>
 </div>
-<div class="autopermalink" aria-hidden="true" data-description="Item"><a tabindex="-1" href="#Math2301Day10-4-3-1-1-4-2" title="Copy heading and permalink for Item" aria-label="Copy heading and permalink for Item">🔗</a></div>
+<div class="autopermalink" aria-hidden="true" data-description="Item"><a tabindex="-1" href="#Math2000Day10-7-3-1-1-2-2" title="Copy heading and permalink for Item" aria-label="Copy heading and permalink for Item">🔗</a></div>
 </li>
-<li id="Math2301Day10-4-3-1-1-4-3">
-<div class="para" id="Math2301Day10-4-3-1-1-4-3-1">
-<span class="process-math">\(B\)</span> is independent.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2301Day10-4-3-1-1-4-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<li id="Math2000Day10-7-3-1-1-2-3">
+<div class="para" id="p-derived-Math2000Day10-7-3-1-1-2-3">Can you multiply <span class="process-math">\(B\)</span> by <span class="process-math">\(A\text{?}\)</span> If so, compute <span class="process-math">\(BA\text{.}\)</span>
 </div>
-<div class="autopermalink" aria-hidden="true" data-description="Item"><a tabindex="-1" href="#Math2301Day10-4-3-1-1-4-3" title="Copy heading and permalink for Item" aria-label="Copy heading and permalink for Item">🔗</a></div>
+<div class="autopermalink" aria-hidden="true" data-description="Item"><a tabindex="-1" href="#Math2000Day10-7-3-1-1-2-3" title="Copy heading and permalink for Item" aria-label="Copy heading and permalink for Item">🔗</a></div>
 </li>
 </ul>
-<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2301Day10-4-3-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2000Day10-7-3-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
-<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.4"><a tabindex="-1" href="#Math2301Day10-4-3" title="Copy heading and permalink for Checkpoint 1.4" aria-label="Copy heading and permalink for Checkpoint 1.4">🔗</a></div>
-</article></details><div class="autopermalink" aria-hidden="true" data-description="Subsection 1.3: Span, Independence, Bases"><a tabindex="-1" href="#Math2301Day10-4" title="Copy heading and permalink for Subsection 1.3: Span, Independence, Bases" aria-label="Copy heading and permalink for Subsection 1.3: Span, Independence, Bases">🔗</a></div>
-</section>
-<section class="subsection" id="Math2301Day10-5">
-<h3 class="heading hide-type">
-<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.4</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">... And its Applications</span>
-</h3>
-<div class="para" id="Math2301Day10-5-2">We discussed two core applications of the ideas we have covered. The first comes from probability theory and is that the expected value map is a linear transformation. Here is an example application:<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2301Day10-5-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
-</div>
-<details id="Math2301Day10-5-3" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.4"><a tabindex="-1" href="#Math2000Day10-7-3" title="Copy heading and permalink for Checkpoint 1.4" aria-label="Copy heading and permalink for Checkpoint 1.4">🔗</a></div>
+</article></details>
+<details id="Math2000Day10-7-4" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
 <span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.5</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
 </h4></summary>
 <article class="exercise exercise-like knowl__content">
-<div class="para" id="Math2301Day10-5-3-1-1">Take a random directed graph <span class="process-math">\(G = (N,E)\text{,}\)</span> where each possible directed edge is included in <span class="process-math">\(G\)</span> independently with probability <span class="process-math">\(1/2\text{.}\)</span> What is the expected number of 2-cycles in <span class="process-math">\(G\)</span> (i.e., pairs <span class="process-math">\((u,v)\)</span> and <span class="process-math">\((v,u)\)</span> that are both edges in <span class="process-math">\(G\)</span>)?<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2301Day10-5-3-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<div class="para logical" id="Math2000Day10-7-4-1-1">
+<div class="para">Let <span class="process-math">\(A\)</span> be an <span class="process-math">\(m \times n\)</span> matrix.</div>
+<ol class="lower-alpha" style="list-style: ptx-marker-1;" id="Math2000Day10-7-4-1-1-3">
+<li id="Math2000Day10-7-4-1-1-3-1">
+<div class="para" id="p-derived-Math2000Day10-7-4-1-1-3-1">What are the dimensions of its transpose?</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.5.a"><a tabindex="-1" href="#Math2000Day10-7-4-1-1-3-1" title="Copy heading and permalink for Item 1.5.a" aria-label="Copy heading and permalink for Item 1.5.a">🔗</a></div>
+</li>
+<li id="Math2000Day10-7-4-1-1-3-2">
+<div class="para" id="p-derived-Math2000Day10-7-4-1-1-3-2">Can you always do the multiplication <span class="process-math">\(AA^{\intercal}\text{?}\)</span> If so, what are the dimensions of <span class="process-math">\(AA^{\intercal}\text{?}\)</span>
 </div>
-<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.5"><a tabindex="-1" href="#Math2301Day10-5-3" title="Copy heading and permalink for Checkpoint 1.5" aria-label="Copy heading and permalink for Checkpoint 1.5">🔗</a></div>
-</article></details>
-<div class="para" id="Math2301Day10-5-4">The second comes from combinatorics and optimization and shows that we can model graph theoretic properties with linear algebra.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2301Day10-5-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.5.b"><a tabindex="-1" href="#Math2000Day10-7-4-1-1-3-2" title="Copy heading and permalink for Item 1.5.b" aria-label="Copy heading and permalink for Item 1.5.b">🔗</a></div>
+</li>
+<li id="Math2000Day10-7-4-1-1-3-3">
+<div class="para" id="p-derived-Math2000Day10-7-4-1-1-3-3">Can you always do the multiplication <span class="process-math">\(A^{\intercal}A\text{?}\)</span> If so, what are the dimensions of <span class="process-math">\(A^{\intercal}A\text{?}\)</span>
 </div>
-<details id="Math2301Day10-5-5" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
-<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.6</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
-</h4></summary>
-<article class="exercise exercise-like knowl__content">
-<div class="para" id="Math2301Day10-5-5-1-1">Show that no indicator vector of a cycle can be written as a non-negative linear combination of indicator vectors of other cycles.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2301Day10-5-5-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.5.c"><a tabindex="-1" href="#Math2000Day10-7-4-1-1-3-3" title="Copy heading and permalink for Item 1.5.c" aria-label="Copy heading and permalink for Item 1.5.c">🔗</a></div>
+</li>
+<li id="Math2000Day10-7-4-1-1-3-4">
+<div class="para" id="p-derived-Math2000Day10-7-4-1-1-3-4">Compute several examples of <span class="process-math">\(A^{\intercal}A\)</span> for <span class="process-math">\(2 \times 2\)</span> matrices. What are some observations that you can make about the structure of these matrices? Can you guess which ones arise in this way?</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.5.d"><a tabindex="-1" href="#Math2000Day10-7-4-1-1-3-4" title="Copy heading and permalink for Item 1.5.d" aria-label="Copy heading and permalink for Item 1.5.d">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2000Day10-7-4-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
-<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.6"><a tabindex="-1" href="#Math2301Day10-5-5" title="Copy heading and permalink for Checkpoint 1.6" aria-label="Copy heading and permalink for Checkpoint 1.6">🔗</a></div>
-</article></details><div class="autopermalink" aria-hidden="true" data-description="Subsection 1.4: ... And its Applications"><a tabindex="-1" href="#Math2301Day10-5" title="Copy heading and permalink for Subsection 1.4: ... And its Applications" aria-label="Copy heading and permalink for Subsection 1.4: ... And its Applications">🔗</a></div>
-</section><div class="autopermalink" aria-hidden="true" data-description="Section 1: Crossing the Line"><a tabindex="-1" href="#Math2301Day10" title="Copy heading and permalink for Section 1: Crossing the Line" aria-label="Copy heading and permalink for Section 1: Crossing the Line">🔗</a></div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.5"><a tabindex="-1" href="#Math2000Day10-7-4" title="Copy heading and permalink for Checkpoint 1.5" aria-label="Copy heading and permalink for Checkpoint 1.5">🔗</a></div>
+</article></details><div class="autopermalink" aria-hidden="true" data-description="Subsection 1.6: Exercises"><a tabindex="-1" href="#Math2000Day10-7" title="Copy heading and permalink for Subsection 1.6: Exercises" aria-label="Copy heading and permalink for Subsection 1.6: Exercises">🔗</a></div>
+</section><div class="autopermalink" aria-hidden="true" data-description="Section 1: Go Forth and Transpose"><a tabindex="-1" href="#Math2000Day10" title="Copy heading and permalink for Section 1: Go Forth and Transpose" aria-label="Copy heading and permalink for Section 1: Go Forth and Transpose">🔗</a></div>
 </section><div class="autopermalink" aria-hidden="true" data-description="Article: Crossing the Line"><a tabindex="-1" href="#exam-prep" title="Copy heading and permalink for Article: Crossing the Line" aria-label="Copy heading and permalink for Article: Crossing the Line">🔗</a></div>
 </section>
 </div>

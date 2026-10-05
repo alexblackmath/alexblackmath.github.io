@@ -14,10 +14,10 @@
 
   </docinfo>
 
-  <article xml:id="exam-prep">
-    <title>Crossing the Line</title>
+  <article xml:id="Multiply">
+    <title>Go Forth and Transpose</title>
     <xi:include href="./frontmatter.ptx" />
-    <xi:include href="Math2301Day10.ptx" />
+    <xi:include href="Math2000Day10.ptx" />
     <!-- <xi:include href="./review.ptx" />  -->
     <!-- <xi:include href="./Section-1.ptx" /> -->
     <!-- <xi:include href="./Section-2.ptx" /> -->

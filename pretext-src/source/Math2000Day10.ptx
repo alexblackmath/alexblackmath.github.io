@@ -1,0 +1,211 @@
+
+  <section xml:id="Math2000Day10">
+    <title>Go Forth and Transpose</title>
+
+    <subsection>
+      <title>Linear Transformations Review</title>
+
+      <p>
+        Define <m>T_{1}(x_{1},x_{2}) = (x_{2},x_{1})</m> and
+        <m>T_{2}(x_{1},x_{2}) = (x_{1}, x_{1}-x_{2})</m>.
+        <ol marker="(a)">
+          <li>Are these linear transformations?</li>
+          <li>If so, what are the matrix representations?</li>
+          <li>What is <m>T_{1} \circ T_{2}(x_{1},x_{2})</m>?</li>
+          <li>What is <m>T_{2} \circ T_{1}(x_{1},x_{2})</m>?</li>
+        </ol>
+      </p>
+    </subsection>
+
+    <subsection>
+      <title>Dimensions</title>
+
+      <p>
+        A matrix is called <m>m \times n</m> if it has <m>m</m> rows and <m>n</m> columns.
+        These are called the <term>dimensions</term> of a matrix. For example, the dimensions of the matrix
+        <me>\begin{pmatrix} 8 &amp; 0 &amp; 5 &amp; 1 \\ 0 &amp; 8 &amp; 1 &amp; 5 \end{pmatrix}</me>
+        are <m>2 \times 4</m>.
+      </p>
+
+      <p>
+        In particular, henceforth we will be distinguishing between <m>1 \times n</m> matrices called
+        <term>row vectors</term>
+        <me>\begin{pmatrix} 1 &amp; 1 &amp; 1 &amp; 1 \end{pmatrix}</me>
+        and <m>n \times 1</m> matrices called <term>column vectors</term>
+        <me>\begin{pmatrix} 1 \\ 1 \\ 1 \\ 1 \end{pmatrix}.</me>
+        Previously I was quite laissez faire about the difference between these two, but it is of critical importance.
+        In particular, you cannot add a row vector to a column vector.
+      </p>
+    </subsection>
+
+    <subsection>
+      <title>Matrix Addition and Scaling</title>
+
+      <p>
+        Like vectors, you can rescale matrices by rescaling each of their entries and add them together by adding each of their entries.
+      </p>
+
+      <exercise>
+        <statement>
+          <p>
+            Compute:
+            <me>\begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix} + 2\begin{pmatrix}0 &amp; 1 \\ 1 &amp; 0 \end{pmatrix}.</me>
+          </p>
+        </statement>
+      </exercise>
+
+      <p><em>Warning:</em> You can only add matrices of exactly the same dimensions!</p>
+    </subsection>
+
+    <subsection>
+      <title>Matrix Multiplication</title>
+
+      <p>
+        We know how to multiply a matrix by a vector. For example,
+        <me>\begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 5 \end{pmatrix} \begin{pmatrix} 1 \\ 0 \end{pmatrix} = \begin{pmatrix} 1 \\ 3 \end{pmatrix},</me>
+        and
+        <me>\begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 5 \end{pmatrix} \begin{pmatrix} 0 \\ 1 \end{pmatrix} = \begin{pmatrix} 2 \\ 5 \end{pmatrix}.</me>
+      </p>
+
+      <p>
+        To multiply by a matrix, we just multiply the matrix by each column:
+        <me>\begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 5 \end{pmatrix} \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}=\begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 5 \end{pmatrix}.</me>
+        Beyond convenience, there is a reason for this.
+      </p>
+
+      <theorem>
+        <statement>
+          <p>
+            Let <m>T_{A}: \mathbb{R}^{n} \to \mathbb{R}^{m}</m> and
+            <m>T_{B}: \mathbb{R}^{m} \to \mathbb{R}^{k}</m> be linear transformations.
+            Let <m>A</m> and <m>B</m> denote their matrix representations. Then
+            <ol marker="(a)">
+              <li><m>T_{B} \circ T_{A}</m> is a linear transformation.</li>
+              <li>The matrix representation of <m>T_{B} \circ T_{A}</m> is <m>BA</m>.</li>
+            </ol>
+          </p>
+        </statement>
+      </theorem>
+
+      <p>
+        That's where the definition of matrix multiplication comes from. It's meant to correspond with composing linear transformations.
+        Namely, denote the columns of <m>A</m> by <m>\vec{A}_{1}, \dots, \vec{A}_{n}</m> be the columns of <m>A</m>. Then
+        <me>T_{B} \circ T_{A}(\vec{x}) = T_{B}(A\vec{x}) = T_{B}\left(\sum_{i=1}^{n} x_{i}\vec{A}_{i}\right) = \sum_{i=1}^{n} x_{i}T_{B}(\vec{A}_{i}) = \sum_{i=1}^{n} x_{i}B\vec{A}_{i} = BA\vec{x}.</me>
+      </p>
+
+      <p>
+        Let's look at some examples. Define <m>I: \mathbb{R}^{2} \to \mathbb{R}^{2}</m> by
+        <m>I(x,y) = (x,y)</m> to be the identity map. Then
+        <me>I = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}.</me>
+        Then <m>I^{2}(x,y) = (x,y)</m>. Thus, we would guess that <m>I^{2} = I</m>. Let's verify it:
+        <me>\begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}\begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix} = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}.</me>
+      </p>
+
+      <p>
+        What about <m>J(x,y) = (-x,-y)</m>? Then <m>J^{2}(x,y) = (x,y)</m>. This we can also verify:
+        <me>\begin{pmatrix} -1 &amp; 0 \\ 0 &amp; -1 \end{pmatrix}\begin{pmatrix} -1 &amp; 0 \\ 0 &amp; -1 \end{pmatrix} = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}.</me>
+      </p>
+
+      <p>
+        Define <m>T: \mathbb{R}^{2} \to \mathbb{R}^{2}</m> by <m>T(x,y) = (y,x)</m>.
+        Then <m>T^{2}(x,y) = (x,y)</m>, and this corresponds to
+        <me>\begin{pmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{pmatrix}\begin{pmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{pmatrix} = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}.</me>
+        Matrices have a rich and incredibly deep algebraic structure that is still being actively studied to this day.
+        One thing we can already see that makes them different from numbers is that the number <m>1</m> has <m>2</m> square roots, whereas the identity matrix seems to have many.
+      </p>
+
+      <p>
+        Consider the function <m>T_{\theta}: \mathbb{R}^{2} \to \mathbb{R}^{2}</m> that rotates a point by an angle <m>\theta</m>.
+        It turns out this is a linear transformation with matrix representation:
+        <me>A_{\theta} = \begin{pmatrix} \cos(\theta) &amp; -\sin(\theta) \\ \sin(\theta) &amp; \cos(\theta) \end{pmatrix}.</me>
+        You can see this because if you rotate <m>(1,0)</m> by <m>\theta</m> you get the point
+        <m>(\cos(\theta), \sin(\theta))</m>, while if you rotate <m>(0,1)</m> by <m>\theta</m>, you get the point
+        <m>(\cos(\theta + \pi/2), \sin(\theta + \pi/2)) = (-\sin(\theta), \cos(\theta))</m>.
+      </p>
+
+      <p>
+        Composing rotations by <m>\theta</m> and <m>\rho</m> should give the rotation by <m>\theta + \rho</m>. Let's see if this happens:
+        <me>\begin{aligned}
+        A_{\theta}A_{\rho}
+        &amp;= \begin{pmatrix} \cos(\theta) &amp; -\sin(\theta) \\ \sin(\theta) &amp; \cos(\theta) \end{pmatrix}
+        \begin{pmatrix} \cos(\rho) &amp; -\sin(\rho) \\ \sin(\rho) &amp; \cos(\rho) \end{pmatrix} \\
+        &amp;= \begin{pmatrix}
+        \cos(\theta)\cos(\rho) - \sin(\theta)\sin(\rho) &amp; -\cos(\theta)\sin(\rho) - \sin(\theta)\cos(\rho) \\
+        \sin(\theta)\cos(\rho) + \cos(\theta)\sin(\rho) &amp; -\sin(\theta)\sin(\rho) + \cos(\theta)\cos(\rho)
+        \end{pmatrix} \\
+        &amp;= \begin{pmatrix}
+        \cos(\theta + \rho) &amp; -\sin(\theta + \rho) \\
+        \sin(\theta + \rho) &amp; \cos(\theta + \rho)
+        \end{pmatrix}.
+        \end{aligned}</me>
+        The last step follows from the angle sum trig identities.
+      </p>
+
+      <p>
+        <em>Warning:</em> You can only multiply matrices if the dimensions line up, because you have to take dot products.
+        You can only multiply <m>AB</m> for an <m>m \times n</m> matrix <m>A</m> and a <m>k \times \ell</m> matrix <m>B</m> if <m>n = k</m>!
+        The number of columns of the first has to equal the number of rows of the second to take the dot products.
+      </p>
+    </subsection>
+
+    <subsection>
+      <title>Matrix Transposition</title>
+
+      <p>
+        Finally we introduce one last operation that is really new called the transpose. For this we swap the entries below the diagonal of the matrix with those above it. For example,
+        <me>\begin{pmatrix} 1 &amp; 2 &amp; 3 \\ 4 &amp; 5 &amp; 6 \end{pmatrix}^{\intercal} = \begin{pmatrix} 1 &amp; 4 \\ 2 &amp; 5 \\ 3 &amp; 6 \end{pmatrix}.</me>
+        In other words, the transpose of a matrix <m>A</m> is the matrix <m>A^{T}</m> whose columns are the rows of <m>A</m> in the same order.
+      </p>
+    </subsection>
+
+    <subsection>
+      <title>Exercises</title>
+
+      <exercise>
+        <statement>
+          <p>
+            Consider the matrices
+            <me>A = \begin{pmatrix} 1 &amp; 2 \\ 0 &amp; 1 \end{pmatrix} \text{ and } B = \begin{pmatrix} 1 &amp; 1 \\ 2 &amp; 2 \end{pmatrix}.</me>
+            <ol marker="(a)">
+              <li>Compute <m>A + B</m>.</li>
+              <li>Compute <m>A^{\intercal}</m> and <m>B^{\intercal}</m>.</li>
+              <li>Compute <m>AA^{\intercal}</m> and <m>BB^{\intercal}</m>. Do you notice anything interesting about the results?</li>
+              <li>What is the rank of <m>A</m>?</li>
+              <li>What is the rank of <m>B</m>?</li>
+              <li>Compute <m>AB</m>.</li>
+              <li>Compute <m>BA</m>. How does the answer compare to part (f)?</li>
+            </ol>
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>
+            Consider the matrices:
+            <me>A = \begin{pmatrix} 1 &amp; 2 &amp; 3 \\ 3 &amp; 2 &amp; 1 \end{pmatrix} \text{ and } B = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \\ 1 &amp; 1 \\ 2 &amp; 1 \end{pmatrix}.</me>
+            <ul>
+              <li>Can you add <m>A</m> and <m>B</m>?</li>
+              <li>Can you multiply <m>A</m> by <m>B</m>? If so, compute <m>AB</m>.</li>
+              <li>Can you multiply <m>B</m> by <m>A</m>? If so, compute <m>BA</m>.</li>
+            </ul>
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>
+            Let <m>A</m> be an <m>m \times n</m> matrix.
+            <ol marker="(a)">
+              <li>What are the dimensions of its transpose?</li>
+              <li>Can you always do the multiplication <m>AA^{\intercal}</m>? If so, what are the dimensions of <m>AA^{\intercal}</m>?</li>
+              <li>Can you always do the multiplication <m>A^{\intercal}A</m>? If so, what are the dimensions of <m>A^{\intercal}A</m>?</li>
+              <li>Compute several examples of <m>A^{\intercal}A</m> for <m>2 \times 2</m> matrices. What are some observations that you can make about the structure of these matrices? Can you guess which ones arise in this way?</li>
+            </ol>
+          </p>
+        </statement>
+      </exercise>
+    </subsection>
+  </section>
+
