@@ -1,0 +1,263 @@
+
+  <section xml:id="Math2000Day11">>
+    <title>There and Back Again</title>
+
+    <subsection>
+      <title>Matrix Operations Review</title>
+
+      <exercise>
+        <statement>
+          <p>
+            Consider the following matrices:
+            <md>
+              A = \begin{pmatrix} 1 &amp; 1 &amp; 1 \\ 0 &amp; 1 &amp; 1 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}
+              \qquad\text{and}\qquad
+              B = \begin{pmatrix} 1 &amp; -1 &amp; 0 \\ 0 &amp; 1 &amp; -1 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}.
+            </md>
+            <ol marker="(a)">
+              <li>Compute <m>A+B</m>.</li>
+              <li>Compute <m>A-B</m>.</li>
+              <li>Compute <m>AB</m>.</li>
+              <li>Compute <m>BA</m>.</li>
+            </ol>
+          </p>
+        </statement>
+      </exercise>
+    </subsection>
+
+    <subsection>
+      <title>Row Reduction Meets Matrix Multiplication</title>
+
+      <p>
+        Recall that an <term>identity matrix</term> <m>I_n</m> is an <m>n\times n</m> matrix with entries equal to <m>1</m> on the diagonal and <m>0</m> elsewhere. An <term>elementary matrix</term> is an <m>n\times n</m> matrix obtained from <m>I_n</m> by applying one elementary row operation.
+      </p>
+
+      <exercise>
+        <statement>
+          <p>
+            Which of the following is an elementary matrix?
+            <md>
+              \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}
+              \qquad\text{or}\qquad
+              \begin{pmatrix} 1 &amp; -2 \\ -2 &amp; 1 \end{pmatrix}
+              \qquad\text{or}\qquad
+              \begin{pmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{pmatrix}
+            </md>
+          </p>
+        </statement>
+      </exercise>
+
+      <p>The following theorem says that row reduction is really a special case of matrix multiplication:</p>
+
+      <theorem>
+        <statement>
+          <p>
+            Let <m>A</m> be an <m>m\times n</m> matrix. Multiplying <m>A</m> on the left by an <m>m\times m</m> elementary matrix corresponds to applying to <m>A</m> the row operation that produced that elementary matrix.
+          </p>
+        </statement>
+      </theorem>
+
+      <p>Why do I specify on the left? Complete the following exercise:</p>
+
+      <exercise>
+        <statement>
+          <p>
+            Take the elementary matrix
+            <md>E = \begin{pmatrix} 1 &amp; 0 \\ -1 &amp; 1 \end{pmatrix}.</md>
+            Then for the matrix
+            <md>A = \begin{pmatrix} 1 &amp; 0 \\ 2 &amp; 3 \end{pmatrix},</md>
+            <ol marker="(a)">
+              <li>What row operation does <m>E</m> correspond to?</li>
+              <li>Compute <m>EA</m>.</li>
+              <li>Compute <m>AE</m>.</li>
+              <li>Based on the result, explain why multiplication on the left matters.</li>
+            </ol>
+          </p>
+        </statement>
+      </exercise>
+
+      <!--
+      Corrected version of the commented-out solution from the LaTeX source:
+
+      E = (1 0; -1 1), A = (1 0; 2 3), so
+      EA = (1 0; 1 3),
+      which corresponds to subtracting the first row from the second row.
+      However,
+      AE = (1 0; -1 3).
+      Multiplying by E on the right corresponds to the column operation of
+      subtracting the second column from the first.
+      -->
+
+      <p>
+        To put a matrix <m>A</m> in reduced row echelon form, we apply several row operations. Each one corresponds to multiplying by a corresponding elementary matrix <m>E_i</m>. Let <m>E=E_kE_{k-1}\dots E_1</m>. Then
+        <md>EA=B,</md>
+        where <m>B</m> is the reduced row echelon form of <m>A</m>.
+      </p>
+
+      <p>
+        To put this into practice, consider the following matrix:
+        <md>\begin{pmatrix} 1 &amp; 1 &amp; 1 \\ 0 &amp; 1 &amp; 1 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}.</md>
+        Let's compute a matrix to multiply it by on the left to put it into reduced row echelon form:
+        <md>
+          \begin{pmatrix}
+          1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 \\
+          0 &amp; 1 &amp; 1 &amp; 0 &amp; 1 &amp; 0 \\
+          0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 1
+          \end{pmatrix}.
+        </md>
+        Then we subtract the second row from the first row to get
+        <md>
+          \begin{pmatrix}
+          1 &amp; 0 &amp; 0 &amp; 1 &amp; -1 &amp; 0 \\
+          0 &amp; 1 &amp; 1 &amp; 0 &amp; 1 &amp; 0 \\
+          0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 1
+          \end{pmatrix}.
+        </md>
+        We do the same, subtracting the third row from the second row:
+        <md>
+          \begin{pmatrix}
+          1 &amp; 0 &amp; 0 &amp; 1 &amp; -1 &amp; 0 \\
+          0 &amp; 1 &amp; 0 &amp; 0 &amp; 1 &amp; -1 \\
+          0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 1
+          \end{pmatrix}.
+        </md>
+        Now the first <m>3\times 3</m> block is the reduced row echelon form of our matrix, and the second <m>3\times 3</m> block is what we multiply by on the left to get it into reduced row echelon form:
+        <md>\begin{pmatrix} 1 &amp; -1 &amp; 0 \\ 0 &amp; 1 &amp; -1 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}.</md>
+      </p>
+    </subsection>
+
+    <subsection>
+      <title>Invertibility</title>
+
+      <p>
+        An <m>n\times n</m> matrix <m>A</m> is called <term>invertible</term> if there exists another matrix <m>B</m> such that
+        <md>BA=AB=I_n.</md>
+        In that case, we say <m>A^{-1}=B</m> and call <m>B</m> the <term>inverse</term> of <m>A</m>.
+      </p>
+
+      <exercise>
+        <statement>
+          <p>
+            Play the following game to practice until you get a feel for how to find the inverse of an invertible matrix: <url href="https://alexblackmath.github.io/games/Math2000/Inversion.html"/>.
+          </p>
+        </statement>
+      </exercise>
+
+      <p>
+        Why care about invertibility? First off, it allows us to undo a transformation. Let's consider the example of a rotation matrix:
+        <md>A_{\theta}=\begin{pmatrix} \cos(\theta) &amp; -\sin(\theta) \\ \sin(\theta) &amp; \cos(\theta) \end{pmatrix}.</md>
+      </p>
+
+      <theorem>
+        <statement>
+          <p>Rotation matrices are invertible.</p>
+        </statement>
+      </theorem>
+
+      <p>
+        If we think of matrices as coming from linear transformations, then the inverse corresponds to finding a function that takes you back from where you came from, also called the <term>inverse function</term>. For example, <m>\ln(x)</m> is the inverse function of <m>e^x</m>, because <m>\ln(e^x)=x</m>.
+      </p>
+
+      <exercise>
+        <statement>
+          <p>
+            Recall that <m>\sin(-\theta)=-\sin(\theta)</m> and <m>\cos(-\theta)=\cos(\theta)</m>.
+            <ol marker="(a)">
+              <li>Write down <m>A_{-\theta}</m>.</li>
+              <li>Show that <m>A_{-\theta}</m> is the inverse of <m>A_{\theta}</m>.</li>
+              <li>Explain what this means geometrically in terms of rotations.</li>
+            </ol>
+          </p>
+        </statement>
+      </exercise>
+
+      <!--
+      Commented-out solution from the LaTeX source, preserved as a source comment:
+      rotate by -theta and verify A_theta A_{-theta} = I_2 using
+      cos^2(theta) + sin^2(theta) = 1.
+      -->
+
+      <p>
+        From the argument above, an <m>n\times n</m> matrix is invertible if one can apply row operations to reach the identity matrix. It turns out these two properties are equivalent.
+      </p>
+
+      <theorem>
+        <statement>
+          <p>An <m>n\times n</m> matrix <m>A</m> is invertible if and only if its reduced row echelon form is the identity matrix.</p>
+        </statement>
+      </theorem>
+
+      <p>A second reason invertibility matters so much is that it allows us to efficiently solve linear systems:</p>
+
+      <exercise>
+        <statement>
+          <p>
+            Let <m>A</m> be an invertible <m>n\times n</m> matrix and <m>\vec{b}</m> be in <m>\mathbb{R}^n</m>. Explain why <m>\vec{x}=A^{-1}\vec{b}</m> is the unique solution to <m>A\vec{x}=\vec{b}</m>.
+          </p>
+        </statement>
+      </exercise>
+    </subsection>
+
+    <subsection>
+      <title>Exercises</title>
+
+      <exercise>
+        <statement>
+          <p>Give an example of a <m>2\times 2</m> matrix that is not invertible. Are all <m>1\times 1</m> matrices invertible?</p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>
+            For each of the following matrices, compute a matrix to multiply it by on the left to put it in reduced row echelon form, and say whether it is invertible:
+            <ol marker="(a)">
+              <li><md>\begin{pmatrix} 1 &amp; 2 \\ 2 &amp; 1 \end{pmatrix}</md></li>
+              <li><md>\begin{pmatrix} 1 &amp; 1 &amp; 1 \\ 0 &amp; 2 &amp; 3 \\ 2 &amp; 4 &amp; 5 \end{pmatrix}</md></li>
+              <li><md>\begin{pmatrix} 1 &amp; 1 &amp; 0 \\ 1 &amp; 0 &amp; 1 \\ 0 &amp; 1 &amp; 1 \end{pmatrix}</md></li>
+            </ol>
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>
+            Explain why, for any <m>m\times n</m> matrix <m>A</m>, if there exists a matrix <m>B</m> such that <m>AB=BA</m>, then <m>A</m> must be a square matrix (i.e., <m>m=n</m>).
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>
+            Let <m>c_1,c_2,\dots,c_n</m> be nonzero.
+            <ol marker="(a)">
+              <li>Find the inverse of <md>\begin{pmatrix} c_1 &amp; 0 \\ 0 &amp; c_2 \end{pmatrix}.</md></li>
+              <li>Find the inverse of <md>\begin{pmatrix} c_1 &amp; 0 &amp; 0 \\ 0 &amp; c_2 &amp; 0 \\ 0 &amp; 0 &amp; c_3 \end{pmatrix}.</md></li>
+              <li>Find the inverse of <md>\begin{pmatrix} c_1 &amp; 0 &amp; \dots &amp; 0 \\ 0 &amp; c_2 &amp; \dots &amp; 0 \\ \vdots &amp; \vdots &amp; \dots &amp; \vdots \\ 0 &amp; 0 &amp; \dots &amp; c_n \end{pmatrix}.</md></li>
+              <li>Each of these matrices corresponds to the linear transformation of rescaling each coordinate of your vector by <m>c_i</m>. Explain the geometric intuition for your answers to (a)--(c).</li>
+              <li>Why did I require that the <m>c_i</m> are all nonzero?</li>
+            </ol>
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>
+            Explain why the following are equivalent to invertibility for an <m>n\times n</m> matrix:
+            <ol marker="(a)">
+              <li>The rank of <m>A</m> is <m>n</m>.</li>
+              <li>The nullity of <m>A</m> is <m>0</m>.</li>
+              <li><m>A\mathbf{x}=\mathbf{b}</m> has a solution for all choices of <m>\mathbf{b}</m>.</li>
+              <li><m>A\mathbf{x}=\mathbf{b}</m> has a unique solution for all choices of <m>\mathbf{b}</m>.</li>
+              <li><m>A^{\intercal}</m> is invertible.</li>
+              <li><m>AB</m> is invertible for some choice of <m>n\times n</m> matrix <m>B</m>.</li>
+              <li><m>A=BC</m> for some invertible matrices <m>B</m> and <m>C</m>.</li>
+            </ol>
+          </p>
+        </statement>
+      </exercise>
+    </subsection>
+  </section>
