@@ -119,9 +119,9 @@ svg{display:block;width:100%;height:100%}
 <body>
 <main>
   <div class="transform-strip" aria-label="Matrix times input vector equals output vector">
-    <div class="matrix-fixed" aria-label="Matrix 0 1 negative 1 0">
+    <div class="matrix-fixed" aria-label="Matrix 0 negative 1 1 0">
       <span class="bracket left" aria-hidden="true"></span>
-      <div class="matrix-values" aria-hidden="true"><span>0</span><span>1</span><span>−1</span><span>0</span></div>
+      <div class="matrix-values" aria-hidden="true"><span>0</span><span>−1</span><span>1</span><span>0</span></div>
       <span class="bracket right" aria-hidden="true"></span>
     </div>
     <span class="operator" aria-hidden="true">·</span>
@@ -138,7 +138,7 @@ svg{display:block;width:100%;height:100%}
     <div class="vector-group" aria-live="polite">
       <span class="vector-symbol output">Av</span>
       <span class="bracket left" aria-hidden="true"></span>
-      <div class="output-values"><span id="out-x">1</span><span id="out-y">−2</span></div>
+      <div class="output-values"><span id="out-x">−1</span><span id="out-y">2</span></div>
       <span class="bracket right" aria-hidden="true"></span>
     </div>
   </div>
@@ -231,7 +231,7 @@ function render(){
 
   if(validX&&validY) current=[x,y];
   const p=current;
-  const q=[p[1],-p[0]];
+  const q=[-p[1],p[0]];
   outX.textContent=fmt(q[0]).replace('-', '−');
   outY.textContent=fmt(q[1]).replace('-', '−');
   const scale=scaleFor(p,q);
