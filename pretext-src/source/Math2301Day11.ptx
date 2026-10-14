@@ -1,0 +1,194 @@
+
+  <section xml:id="Math2301Day11">
+    <title>Going to Great Lengths and Even Greater Angles</title>
+
+    <subsection xml:id="review">
+      <title>Review</title>
+
+      <p>Let <m>\vec{u}, \vec{v} \in \mathbb{R}^{n}</m>. Recall that
+        <me>\vec{u} \cdot \vec{v} = \sum_{i=1}^{n} u_{i} v_{i}</me>.
+      </p>
+
+      <exercise>
+        <statement>
+          <p>Show that
+            <me>\vec{u} \cdot \vec{v} = \vec{v} \cdot \vec{u}</me>.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>Show that
+            <me>\vec{u} \cdot \vec{u} \geq 0</me>
+            for all <m>\vec{u} \in \mathbb{R}^{n}</m>, with equality if and only if <m>\vec{u} = \vec{0}</m>.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>Fix a vector <m>\vec{c} \in \mathbb{R}^{n}</m>. Then define <m>f: \mathbb{R}^{n} \to \mathbb{R}</m> by <m>f(\vec{x}) = \vec{c} \cdot \vec{x}</m>. Show that <m>f</m> is a linear transformation.</p>
+        </statement>
+      </exercise>
+    </subsection>
+
+    <subsection xml:id="inner-products">
+      <title>Inner Products</title>
+
+      <p>The exercises describe the essential properties necessary for everything we want out of the dot product. In fact, it is best to define a more general structure called an <term>inner product</term> based on those properties.</p>
+
+      <definition>
+        <statement>
+          <p>An <term>inner product</term> on a real vector space <m>V</m> is a function <m>\langle \cdot, \cdot\rangle :V\times V\to\mathbb{R}</m> satisfying, for all <m>\vec{u},\vec{v},\vec{w}\in V</m> and <m>a\in\mathbb{R}</m>:</p>
+          <ol>
+            <li><p><term>Bilinearity</term>: <m>\langle \vec{u}, \vec{v}+ \vec{w}\rangle = \langle \vec{u}, \vec{v}\rangle + \langle \vec{u}, \vec{w}\rangle</m> and <m>\langle \vec{u}, a\vec{v} \rangle = a \langle \vec{u}, \vec{v}\rangle</m>;</p></li>
+            <li><p><term>Symmetry</term>: <m>\langle \vec{u},\vec{v}\rangle =\langle \vec{v},\vec{u}\rangle</m>;</p></li>
+            <li><p><term>Squares are non-negative</term>: <m>\langle \vec{u}, \vec{u} \rangle \ge 0</m>, with equality only when <m>\vec{u}=\vec{0}</m>.</p></li>
+          </ol>
+        </statement>
+      </definition>
+
+      <p>Inner products give us the abstract tools to extend two essential ideas from geometry.</p>
+
+      <p>The first is the notion of length. We define the <term>norm</term> of a vector to be <m>\|\vec{v}\| = \sqrt{\langle \vec{v}, \vec{v} \rangle}</m>. For example,
+        <me>\sqrt{(a,b) \cdot (a,b)} = \sqrt{a^{2} + b^{2}}</me>,
+        which is the length of the vector <m>(a,b)</m>.
+      </p>
+
+      <p>The second is the notion of angle. You may recall that
+        <me>\vec{u} \cdot \vec{v} = \|\vec{u}\|\|\vec{v}\| \cos(\theta)</me>.
+        In particular, for nonzero vectors, you can define the angle between two vectors as
+        <me>\theta = \cos^{-1}\left(\frac{\vec{u}\cdot{\vec{v}}}{\|\vec{u}\|\|\vec{v}\|} \right)</me>.
+      </p>
+
+      <p>But for this to make sense, we need
+        <me>-1 \leq \frac{\vec{u}\cdot{\vec{v}}}{\|\vec{u}\|\|\vec{v}\|} \leq 1</me>.
+        This is called the Cauchy–Schwarz inequality and is one of the most important inequalities in all of math.
+      </p>
+
+      <theorem xml:id="thm-cauchy-schwarz">
+        <title>Cauchy–Schwarz</title>
+        <statement>
+          <p>Let <m>\vec{u}, \vec{v} \in V</m>, where <m>V</m> is an inner product space. Then
+            <me>\left|\langle \vec{u}, \vec{v}\rangle\right| \leq \|\vec{u}\| \|\vec{v}\|</me>.
+          </p>
+        </statement>
+        <proof>
+          <p>The claim is immediate if either <m>\vec{u} = \vec{0}</m> or <m>\vec{v} = \vec{0}</m>, so assume both are nonzero. Let <m>\vec{x} = \frac{\vec{u}}{\|\vec{u}\|}</m> and <m>\vec{y} = \frac{\vec{v}}{\|\vec{v}\|}</m>. Then, by bilinearity,
+            <me>\frac{|\ip{\vec{u}}{\vec{v}}|}{\norm{\vec{u}}\norm{\vec{v}}} = \left|\ip{\frac{\vec{u}}{\norm{\vec{u}}}}{\frac{\vec{v}}{\norm{\vec{v}}}}\right| = \left|\ip{\vec{x}}{\vec{y}}\right|</me>.
+            Thus, it suffices to show that <m>|\ip{\vec{x}}{\vec{y}}| \leq 1</m>.
+          </p>
+
+          <p>We will use the following useful fact by bilinearity and the fact that <m>1 = \|\vec{y}\| = \sqrt{\ip{\vec{y}}{\vec{y}}}</m>:
+            <me>\ip{\vec{x} - \ip{\vec{x}}{\vec{y}} \vec{y}}{\vec{y}} = \ip{\vec{x}}{\vec{y}} - \ip{\vec{x}}{\vec{y}}\ip{\vec{y}}{\vec{y}} = \ip{\vec{x}}{\vec{y}} - \ip{\vec{x}}{\vec{y}} = 0</me>.
+          </p>
+
+          <p>Then we have again by using this observation and bilinearity:
+            <md>
+              <mrow>0 \amp\leq \norm{\vec{x} - \ip{\vec{x}}{\vec{y}} \vec{y}}^{2}</mrow>
+              <mrow>\amp= \ip{\vec{x} - \ip{\vec{x}}{\vec{y}} \vec{y}}{\vec{x} - \ip{\vec{x}}{\vec{y}} \vec{y}}</mrow>
+              <mrow>\amp= \ip{\vec{x} - \ip{\vec{x}}{\vec{y}} \vec{y}}{\vec{x}} - \ip{\vec{x}}{\vec{y}} \ip{\vec{x} - \ip{\vec{x}}{\vec{y}} \vec{y}}{\vec{y}}</mrow>
+              <mrow>\amp= \ip{\vec{x} - \ip{\vec{x}}{\vec{y}} \vec{y}}{\vec{x}}</mrow>
+              <mrow>\amp= \ip{\vec{x}}{\vec{x}} - \ip{\ip{\vec{x}}{\vec{y}}\vec{y}}{\vec{x}}</mrow>
+              <mrow>\amp= \norm{\vec{x}}^{2} - \ip{\vec{x}}{\vec{y}}^{2}</mrow>
+            </md>.
+            Moving the inner product to one side and using that <m>\norm{\vec{x}} = 1</m>, we finally find
+            <me>\ip{\vec{x}}{\vec{y}}^{2} \leq 1</me>,
+            so <m>|\ip{\vec{x}}{\vec{y}}| \leq 1</m> as desired.
+          </p>
+        </proof>
+      </theorem>
+
+      <p>One of the reasons it is such an important inequality is that it is used to prove another very important inequality that is secretly the core tool to prove everything in calculus:</p>
+
+      <theorem xml:id="thm-triangle-inequality">
+        <title>Triangle inequality</title>
+        <statement>
+          <p>Let <m>V</m> be an inner product space. Then for all <m>\vec{u},\vec{v}\in V</m>,
+            <me>\norm{\vec{u} + \vec{v}} \leq \norm{\vec{u}} + \norm{\vec{v}}</me>.
+          </p>
+        </statement>
+        <proof>
+          <p>Bilinearity and Cauchy–Schwarz give the following:
+            <md>
+              <mrow>\norm{\vec{u}+\vec{v}}^2 \amp= \ip{\vec{u}+\vec{v}}{\vec{u}+\vec{v}}</mrow>
+              <mrow>\amp= \ip{\vec{u}}{\vec{u}} + \ip{\vec{u}}{\vec{v}} + \ip{\vec{v}}{\vec{u}} + \ip{\vec{v}}{\vec{v}}</mrow>
+              <mrow>\amp= \norm{\vec{u}}^2+2\ip{\vec{u}}{\vec{v}}+\norm{\vec{v}}^2</mrow>
+              <mrow>\amp=\norm{\vec{u}}^2+2\ip{\vec{u}}{\vec{v}}+\norm{\vec{v}}^2</mrow>
+              <mrow>\amp\le \norm{\vec{u}}^2+2\norm{\vec{u}}\norm{\vec{v}}+\norm{\vec{v}}^2</mrow>
+              <mrow>\amp= (\norm{\vec{u}}+\norm{\vec{v}})^2</mrow>
+            </md>.
+            Taking square roots completes the proof.
+          </p>
+        </proof>
+      </theorem>
+
+      <p>Now you may think surely this can only be used for proving inequalities, but despite all odds, you can even prove amazing <em>equalities</em> too.</p>
+
+      <p>We say two vectors <m>\vec{u}</m> and <m>\vec{v}</m> are <term>orthogonal</term> in an inner product space if <m>\langle \vec{u}, \vec{v} \rangle = 0</m>. The following theorem has a familiar name. It's after a notorious mathematician named Pythagoras who had an <em>irrational</em> fear of <m>\sqrt{2}</m>.</p>
+
+      <theorem xml:id="thm-pythagorean">
+        <title>Pythagorean Theorem</title>
+        <statement>
+          <p>Let <m>\vec{u}</m> and <m>\vec{v}</m> be orthogonal. Then
+            <me>\|\vec{u} +\vec{v}\|^{2} = \|\vec{u}\|^{2} + \|\vec{v}\|^{2}</me>.
+          </p>
+        </statement>
+        <proof>
+          <p>Using bilinearity, symmetry, and the fact that <m>\ip{\vec{u}}{\vec{v}} = 0</m> by our assumption that they are orthogonal, we find the following:
+            <md>
+              <mrow>\norm{\vec{u}+\vec{v}}^2 \amp= \ip{\vec{u}+\vec{v}}{\vec{u}+\vec{v}}</mrow>
+              <mrow>\amp= \ip{\vec{u}}{\vec{u}} + \ip{\vec{u}}{\vec{v}} + \ip{\vec{v}}{\vec{u}} + \ip{\vec{v}}{\vec{v}}</mrow>
+              <mrow>\amp= \norm{\vec{u}}^2+2\ip{\vec{u}}{\vec{v}}+\norm{\vec{v}}^2</mrow>
+              <mrow>\amp= \norm{\vec{u}}^{2} +\norm{\vec{v}}^{2}</mrow>
+            </md>.
+          </p>
+        </proof>
+      </theorem>
+    </subsection>
+
+    <subsection xml:id="exercises">
+      <title>Exercises</title>
+
+      <exercise>
+        <statement>
+          <p>Let <m>V</m> be an inner product space, and let <m>\vec{u}, \vec{v} \in V</m>. Show that <m>\langle \vec{u}, \vec{v}\rangle = \|\vec{u}\|\|\vec{v}\|</m> if and only if <m>\vec{v}=\vec{0}</m> or <m>\vec{u}</m> is a non-negative multiple of <m>\vec{v}</m>.</p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>Let <m>V</m> be an inner product space, and let <m>\vec{u}, \vec{v} \in V</m>. Show that <m>\|\vec{u} + \vec{v}\| = \|\vec{u}\| + \|\vec{v}\|</m> if and only if <m>\vec{v}=\vec{0}</m> or <m>\vec{u}</m> is a non-negative multiple of <m>\vec{v}</m>.</p>
+        </statement>
+      </exercise>
+
+      <p>Let <m>V</m> be a vector space. Then a <term>linear functional</term> is a linear transformation <m>\varphi:V \to \mathbb{R}</m>.</p>
+
+      <exercise>
+        <introduction>
+          <p>Let <m>V</m> be an inner product space. Let <m>\varphi</m> be a linear functional, and let <m>B = \{\vec{x} \in V: \norm{\vec{x}} \leq 1\}</m>. Suppose that <m>\varphi</m> achieves a maximum on <m>B</m>.</p>
+        </introduction>
+        <task>
+          <statement>
+            <p>If <m>\varphi</m> is nonzero, every maximizer of <m>\varphi</m> on <m>B</m> has norm <m>1</m>.</p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>Either <m>\varphi</m> is the zero map or the maximizer is unique.</p>
+          </statement>
+        </task>
+      </exercise>
+
+      <!-- Inactive material preserved from the original LaTeX source:
+      \begin{theorem}[Riesz Representation Theorem]
+      Let $V$ be a finite dimensional inner product space. Let $\varphi: V \to \mathbb{R}$ be a linear functional. Then there exists $\vec{c} \in V$ such that $\varphi(\vec{x}) = \langle \vec{c}, \vec{x}\rangle$.
+      \end{theorem}
+
+      \begin{proof}
+      Let $B = \{\vec{x} \in V: \langle \vec{x}, \vec{x} \rangle \leq  1\}$. Then $S$ is compact, so $\varphi(x)$
+      \end{proof}
+      -->
+    </subsection>
+  </section>

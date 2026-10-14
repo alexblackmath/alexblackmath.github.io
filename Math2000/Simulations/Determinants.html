@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080d1c">
+<meta name="description" content="A minimal, interactive exploration of row operations and determinants.">
+<title>Determinant Lab</title>
+<style>
+:root{color-scheme:dark;--bg:#080d1c;--line:#25304a;--ink:#f3f6ff;--muted:#95a2bd;--cyan:#56dfff;--violet:#b39aff;--lime:#c6f879;--amber:#ffd08b;--mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;--sans:Inter,"Segoe UI",Arial,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 80% 0,#23224935,transparent 48%),var(--bg);color:var(--ink);font:14px var(--sans)}
+button,input,select{font:inherit;-webkit-tap-highlight-color:transparent}
+button,select{cursor:pointer}button{touch-action:manipulation;transition:background .18s,border-color .18s,color .18s}button:disabled{cursor:default;opacity:.35}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--cyan);outline-offset:4px}svg{display:block}button svg{pointer-events:none}::selection{background:#b39aff40}[hidden]{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.header{max-width:1420px;height:78px;margin:auto;padding:0 44px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff0a}
+.brand{display:flex;align-items:center;gap:11px;font-size:19px;font-weight:650;letter-spacing:-.6px}.brand span{color:var(--cyan);font-weight:400}.brand svg{width:32px;height:32px}
+.top-tools{display:flex;gap:8px}.quiet-btn{width:36px;height:36px;padding:9px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--muted);display:inline-flex;align-items:center;justify-content:center}.quiet-btn:hover:not(:disabled){color:var(--ink);border-color:#53607a;background:#141f32}.quiet-btn svg{width:15px;height:15px}
+.shell{max-width:1420px;padding:32px 44px 40px;margin:auto}.workspace{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:stretch}.visual-column{min-width:0;display:flex}
+.plot-card{width:100%;border:1px solid #2b3852;border-radius:21px;background:#0c1426;overflow:hidden;box-shadow:0 22px 70px #00000025}.plot-stage{height:100%;position:relative;background:radial-gradient(ellipse at 50% 50%,#182a4142,transparent 72%)}
+#plot{width:100%;height:clamp(480px,66vh,580px);overflow:hidden}#plot text{font-family:var(--mono);user-select:none}
+.zoom-tools{position:absolute;bottom:16px;right:17px;display:flex;padding:3px;gap:2px;border:1px solid #2c3950;border-radius:8px;background:#0b1325ed}.zoom-tools button{width:29px;height:28px;border:0;border-radius:4px;background:transparent;color:var(--muted);font:18px var(--sans);display:flex;align-items:center;justify-content:center}.zoom-tools button:hover{color:var(--ink);background:#1b2940}.zoom-tools button:last-child{border-left:1px solid var(--line);border-radius:0;width:34px;margin-left:2px}.zoom-tools svg{width:14px;height:14px}
+.plot-options{position:absolute;bottom:16px;left:17px}.view-toggle{display:block;position:relative;width:35px;height:35px;cursor:pointer}.view-toggle input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}.view-toggle svg{width:35px;height:35px;padding:8px;border:1px solid #2c3950;border-radius:8px;color:#7e8ea9;background:#0b1325ed;pointer-events:none}.view-toggle input:checked+svg{color:#cfdaec;border-color:#46536b}.view-toggle input:focus-visible+svg{outline:2px solid var(--cyan);outline-offset:4px}.view-toggle:hover svg{background:#1b2940}
+.console{min-width:0;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:21px;background:linear-gradient(145deg,#182035a0,#101728);padding:28px 24px}
+.matrix-editor{display:flex;align-items:center;justify-content:center;gap:16px;margin:18px 0 28px}.matrix-letter{font:italic 27px Georgia,serif;color:#dfe6f6;white-space:nowrap}.matrix-brackets{position:relative;padding:9px 12px}.matrix-brackets:before,.matrix-brackets:after{position:absolute;content:"";width:7px;top:0;bottom:0;border-top:1px solid #74849e;border-bottom:1px solid #74849e}.matrix-brackets:before{left:0;border-left:1px solid #74849e}.matrix-brackets:after{right:0;border-right:1px solid #74849e}
+.matrix-inputs{display:grid;grid-template-columns:repeat(2,76px);gap:9px}.matrix-input{width:76px;height:55px;text-align:center;background:#0b1325;border:1px solid #2c3b56;border-bottom-color:#56dfff80;border-radius:7px;color:var(--cyan);font:25px var(--mono);padding:0 4px;transition:border-color .2s,background .2s}.matrix-input.row2{color:var(--violet);border-bottom-color:#b39aff80}.matrix-input:focus{border-color:var(--cyan);background:#0f1c31;box-shadow:0 0 0 3px #56dfff10;outline:none}.matrix-input.row2:focus{border-color:var(--violet);box-shadow:0 0 0 3px #b39aff10}.matrix-input[aria-invalid="true"],.factor[aria-invalid="true"]{border-color:var(--amber)}
+.editor-help{font-size:11px;line-height:1.5;color:var(--amber);text-align:center;margin:-12px 0 16px}
+.determinant{border:1px solid #ffffff07;border-radius:10px;background:#09122280;padding:12px 15px;margin-bottom:26px}.det-main{display:flex;align-items:center;justify-content:space-between;gap:10px}.det-title{font:13px var(--mono);color:#bcc9df;white-space:nowrap}.det-number{font:30px var(--mono);color:var(--lime);letter-spacing:-1px;overflow-wrap:anywhere;text-align:right;min-width:0}.det-number[data-sign="negative"],.det-number[data-sign="zero"]{color:var(--amber)}
+.area-main{margin-top:8px}.area-main .det-number{font-size:24px;color:var(--ink)}
+.operations{border-top:1px solid var(--line);margin-top:auto;padding-top:24px}.tabs{display:flex;gap:3px;padding:4px;background:#0b1324;border:1px solid #26324a;border-radius:9px}.tab{flex:1;min-width:0;padding:10px 3px;border:0;border-radius:5px;background:transparent;color:var(--muted);font-size:10px;white-space:nowrap}.tab:hover{color:var(--ink);background:#172139}.tab[aria-selected="true"]{color:var(--cyan);background:#243149}
+.op-panel{padding-top:17px}.operation-equation{display:flex;align-items:center;justify-content:center;gap:9px;min-height:65px;font:16px var(--mono);color:#dbe5f6}.row-select{padding:8px 23px 8px 9px;border:1px solid #35455f;border-radius:6px;background-color:#0a1427;color:var(--cyan);font:14px var(--mono);height:38px;max-width:72px}.row-select[data-row="2"]{color:var(--violet)}.factor{width:62px;height:38px;padding:5px;text-align:center;background:#0a1427;border:1px solid #35455f;border-radius:6px;color:var(--ink);font:15px var(--mono)}.factor:focus{border-color:var(--cyan)}.r1{color:var(--cyan)}.r2{color:var(--violet)}.op-arrow{color:#8699b6}.interchange-equation{font-size:24px;gap:27px}
+.op-error{font-size:11px;color:var(--amber);line-height:1.5;margin:0 0 12px}
+.apply{width:100%;min-height:43px;padding:11px 14px;background:var(--lime);border:1px solid var(--lime);border-radius:8px;display:flex;align-items:center;justify-content:space-between;color:#152017;font-size:12px;font-weight:600}.apply:hover:not(:disabled){background:#d6ff9b;border-color:#d6ff9b}.apply .arrow{font-size:18px;line-height:1}
+@media(max-width:1100px){.header{padding:0 26px;height:70px}.shell{padding:26px}.workspace{grid-template-columns:minmax(0,1fr) 316px;gap:17px}.console{padding:24px 18px}.matrix-editor{gap:14px}.operation-equation{gap:8px}.factor{width:58px}}
+@media(max-width:850px){.header{padding:0 20px}.shell{padding:24px 20px}.workspace{grid-template-columns:minmax(0,1fr) 296px;gap:14px}.console{padding:22px 15px}.matrix-editor{gap:12px}.matrix-inputs{grid-template-columns:repeat(2,70px)}.matrix-input{width:70px}.tab{font-size:9px}.operation-equation{gap:7px}.factor{width:55px}}
+@media(max-width:700px){.header{height:64px;padding:0 17px}.brand{font-size:17px}.brand svg{width:28px;height:28px}.quiet-btn{width:33px;height:33px}.shell{padding:18px 16px 28px}.workspace{grid-template-columns:1fr;gap:16px}#plot{height:clamp(290px,43svh,370px)}.console{padding:23px 22px}.matrix-editor{margin:0 0 22px;gap:20px}.matrix-inputs{grid-template-columns:repeat(2,86px);gap:10px}.matrix-input{width:86px;height:54px}.determinant{margin-bottom:22px}.operations{padding-top:20px}.tab{font-size:11px}.op-panel{padding-top:10px}.operation-equation{gap:11px;min-height:60px}.factor{width:62px}.plot-card,.console{border-radius:18px}.zoom-tools{bottom:13px;right:14px}.plot-options{bottom:13px;left:14px}}
+@media(max-width:360px){.brand{gap:7px;font-size:16px}.header{padding:0 14px}.shell{padding-right:12px;padding-left:12px}.console{padding:20px 15px}.matrix-inputs{grid-template-columns:repeat(2,74px)}.matrix-input{width:74px}.matrix-editor{gap:15px}.operation-equation{gap:7px}.tab{font-size:10px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="brand"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M7 27 13 9 30 9 24 27Z" fill="#c6f8790c" stroke="#c6f879" stroke-width="1.2"/><path d="M7 27H24" stroke="#56dfff" stroke-width="2.3"/><path d="M7 27 13 9" stroke="#b39aff" stroke-width="2.3"/><circle cx="7" cy="27" r="2.4" fill="#f3f6ff"/></svg><div>determinant<span>lab</span></div></div>
+  <div class="top-tools">
+    <button id="undo" class="quiet-btn" type="button" disabled title="Undo" aria-label="Undo the last change"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 4 3 8l4 4M3 8h8a5 5 0 0 1 0 10"/></svg></button>
+    <button id="reset" class="quiet-btn" type="button" title="Reset to identity" aria-label="Reset to the identity matrix"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M16.5 7A7 7 0 1 0 17 12M17 2v5h-5"/></svg></button>
+  </div>
+</header>
+<main class="shell" aria-labelledby="page-title">
+  <h1 id="page-title" class="sr-only">Row operations and determinants</h1>
+  <div class="workspace">
+    <section class="visual-column" aria-label="Geometric visualization">
+      <div class="plot-card">
+        <div class="plot-stage" id="plot-stage">
+          <svg id="plot" role="img" aria-labelledby="plot-title plot-description"><title id="plot-title">Parallelogram spanned by the two rows</title><desc id="plot-description">The identity matrix spans a unit square with determinant 1.</desc></svg>
+          <div class="plot-options">
+            <label class="view-toggle" title="Show previous shape"><input type="checkbox" id="show-before" checked aria-label="Show previous shape"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M2 14 5 4h10l-3 10Z" stroke-dasharray="2 2" opacity=".6"/><path d="M6 17 9 7h9l-3 10Z"/></svg></label>
+          </div>
+          <div class="zoom-tools" aria-label="Graph view controls">
+            <button type="button" id="zoom-out" title="Zoom out" aria-label="Zoom out">−</button>
+            <button type="button" id="zoom-in" title="Zoom in" aria-label="Zoom in">+</button>
+            <button type="button" id="fit-view" title="Fit to view" aria-label="Fit both shapes to the view"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M6 2H2v4m10-4h4v4M2 12v4h4m10-4v4h-4"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <aside class="console" aria-label="Matrix editor and row operations">
+      <div class="matrix-editor">
+        <span class="matrix-letter" aria-hidden="true">A =</span>
+        <div class="matrix-brackets"><div class="matrix-inputs" role="group" aria-label="Matrix A entries">
+          <input id="a" class="matrix-input" type="text" inputmode="text" value="1" spellcheck="false" autocomplete="off" maxlength="64" aria-label="Row 1, x coordinate" aria-describedby="input-help editor-help" title="Row 1, x: enter a number or fraction">
+          <input id="b" class="matrix-input" type="text" inputmode="text" value="0" spellcheck="false" autocomplete="off" maxlength="64" aria-label="Row 1, y coordinate" aria-describedby="input-help editor-help" title="Row 1, y: enter a number or fraction">
+          <input id="c" class="matrix-input row2" type="text" inputmode="text" value="0" spellcheck="false" autocomplete="off" maxlength="64" aria-label="Row 2, x coordinate" aria-describedby="input-help editor-help" title="Row 2, x: enter a number or fraction">
+          <input id="d" class="matrix-input row2" type="text" inputmode="text" value="1" spellcheck="false" autocomplete="off" maxlength="64" aria-label="Row 2, y coordinate" aria-describedby="input-help editor-help" title="Row 2, y: enter a number or fraction">
+        </div></div>
+      </div>
+      <p id="input-help" class="sr-only">Edit any entry. Numbers and fractions, such as 1/2, work. The graph updates as you type.</p>
+      <p class="editor-help" id="editor-help" role="alert" hidden></p>
+      <div class="determinant" role="status" aria-label="Current determinant and area" title="Signed area. The parallelogram's area is |det(A)|.">
+        <div class="det-main"><span class="det-title">det(A)</span><span class="det-number" id="det-value" data-sign="positive">+1</span></div>
+        <div class="det-main area-main"><span class="det-title">Area</span><span class="det-number" id="area-value">1</span></div>
+      </div>
+      <section class="operations" aria-label="Row operations">
+        <div class="tabs" role="tablist" aria-label="Row operation">
+          <button id="tab-replace" class="tab" role="tab" aria-selected="true" aria-controls="panel-replace" tabindex="0" type="button" title="Add a multiple of one row to the other">Replacement</button>
+          <button id="tab-swap" class="tab" role="tab" aria-selected="false" aria-controls="panel-swap" tabindex="-1" type="button" title="Exchange the two rows">Interchange</button>
+          <button id="tab-scale" class="tab" role="tab" aria-selected="false" aria-controls="panel-scale" tabindex="-1" type="button" title="Multiply one row by a factor">Scaling</button>
+        </div>
+        <div id="panel-replace" class="op-panel" role="tabpanel" aria-labelledby="tab-replace">
+          <div class="operation-equation">
+            <select id="replace-row" class="row-select" data-row="1" aria-label="Row to replace"><option value="0">r₁</option><option value="1">r₂</option></select>
+            <span class="op-arrow" aria-hidden="true">←</span><span id="replace-target" class="r1">r₁</span><span aria-hidden="true">+</span>
+            <input id="replace-factor" class="factor" type="text" value="1" inputmode="text" autocomplete="off" spellcheck="false" maxlength="64" aria-label="Multiple of the other row to add" aria-describedby="operation-error"><span id="replace-source" class="r2">r₂</span>
+          </div>
+        </div>
+        <div id="panel-swap" class="op-panel" role="tabpanel" aria-labelledby="tab-swap" hidden>
+          <div class="operation-equation interchange-equation" aria-label="Interchange row 1 and row 2"><span class="r1">r₁</span><span class="op-arrow">⇄</span><span class="r2">r₂</span></div>
+        </div>
+        <div id="panel-scale" class="op-panel" role="tabpanel" aria-labelledby="tab-scale" hidden>
+          <div class="operation-equation">
+            <select id="scale-row" class="row-select" data-row="1" aria-label="Row to scale"><option value="0">r₁</option><option value="1">r₂</option></select>
+            <span class="op-arrow" aria-hidden="true">←</span><input id="scale-factor" class="factor" type="text" value="2" inputmode="text" autocomplete="off" spellcheck="false" maxlength="64" aria-label="Row scaling factor" aria-describedby="operation-error"><span aria-hidden="true">×</span><span id="scale-target" class="r1">r₁</span>
+          </div>
+        </div>
+        <p id="operation-error" class="op-error" role="alert" hidden></p>
+        <button id="apply" class="apply" type="button"><span>Apply</span><span class="arrow" aria-hidden="true">→</span></button>
+      </section>
+    </aside>
+  </div>
+</main>
+<noscript><p style="padding:20px;text-align:center;color:#ffd08b">Enable JavaScript to use the matrix.</p></noscript>
+<!-- Visual inspiration: https://alexblackmath.github.io/games/lineartransformations.html -->
+<script>
+'use strict';
+(() => {
+  /* Exact rational arithmetic keeps repeated operations and fractional entries
+     mathematically consistent. Floating-point coordinates are used only to draw. */
+  const abs = n => n < 0n ? -n : n;
+  function gcd(a,b){a=abs(a);b=abs(b);while(b){[a,b]=[b,a%b];}return a||1n;}
+  function Q(n,d=1n){if(!d)throw Error('A denominator cannot be zero.');if(d<0n){n=-n;d=-d;}const g=gcd(n,d);return {n:n/g,d:d/g};}
+  const add=(a,b)=>Q(a.n*b.d+b.n*a.d,a.d*b.d);
+  const mul=(a,b)=>Q(a.n*b.n,a.d*b.d);
+  const neg=a=>Q(-a.n,a.d);
+  const sub=(a,b)=>add(a,neg(b));
+  const div=(a,b)=>Q(a.n*b.d,a.d*b.n);
+  const num=a=>Number(a.n)/Number(a.d);
+  const eq=(a,b)=>a.n===b.n&&a.d===b.d;
+  const same=(a,b)=>a.every((q,i)=>eq(q,b[i]));
+  const det=m=>sub(mul(m[0],m[3]),mul(m[1],m[2]));
+  const floats=m=>m.map(num);
+  const identity=()=>[Q(1n),Q(0n),Q(0n),Q(1n)];
+  function decimal(s){
+    const m=s.match(/^([+-]?)(?:(\d+)(?:\.(\d*))?|\.(\d+))(?:e([+-]?\d+))?$/i);
+    if(!m)throw Error('Enter a number or fraction, e.g. 1/2.');
+    const exponent=Number(m[5]||0);if(Math.abs(exponent)>12)throw Error('Use an exponent between −12 and 12.');
+    const tail=m[3]??m[4]??'';const whole=m[2]||'0';let n=BigInt(whole+tail);if(m[1]==='-')n=-n;
+    const places=tail.length-exponent;return places>=0?Q(n,10n**BigInt(places)):Q(n*10n**BigInt(-places));
+  }
+  function bounded(q){
+    if(abs(q.n)>1000000n*q.d)throw Error('Use a value between −1,000,000 and 1,000,000.');
+    if(abs(q.n).toString().length>72||q.d.toString().length>72)throw Error('Use a simpler number or fraction.');
+    return q;
+  }
+  function parse(s){
+    s=s.trim().replaceAll('−','-').replace(/\s+/g,'');
+    if(!s)throw Error('Enter a number or fraction.');
+    if(s.length>64)throw Error('Use a shorter number or fraction.');
+    const p=s.split('/');if(p.length>2)throw Error('Use one fraction bar, e.g. 1/3.');
+    return bounded(p.length===2?div(decimal(p[0]),decimal(p[1])):decimal(p[0]));
+  }
+  function exact(q){
+    if(q.d===1n)return String(q.n);
+    let d=q.d,twos=0,fives=0;while(d%2n===0n){d/=2n;twos++;}while(d%5n===0n){d/=5n;fives++;}
+    const places=Math.max(twos,fives);
+    if(d===1n&&places<=8){let s=String(abs(q.n)*(10n**BigInt(places))/q.d).padStart(places+1,'0');s=s.slice(0,-places)+'.'+s.slice(-places);s=s.replace(/0+$/,'').replace(/\.$/,'');return(q.n<0n?'-':'')+s;}
+    return `${q.n}/${q.d}`;
+  }
+  function compactFloat(n,digits=4){
+    if(!Number.isFinite(n))return '—';if(Object.is(n,-0)||n===0)return '0';
+    const a=Math.abs(n);return (a>=1000000||a<0.0001?n.toExponential(digits-1).replace(/\.?(0+)(?=e)/,''):String(Number(n.toPrecision(digits)))).replaceAll('-','−');
+  }
+  function compact(q,signed=false){
+    let s=exact(q),approx=s.length>12;
+    s=approx?compactFloat(num(q),5):s.replaceAll('-','−');
+    if(signed&&q.n>0n)s='+'+s;return (approx?'≈ ':'')+s;
+  }
+  const sign=q=>q.n===0n?'zero':q.n>0n?'positive':'negative';
+  const $=id=>document.getElementById(id);
+  const inputs=['a','b','c','d'].map($);
+  const colors={cyan:'#56dfff',violet:'#b39aff',lime:'#c6f879',amber:'#ffd08b',muted:'#95a2bd'};
+  let matrix=identity(),before=null,last={kind:'initial'},history=[],editSession=null;
+  let active='replace',busy=false,raf=0,display=floats(matrix),displayQ=matrix,swapOpacity=1,previewDet=null;
+  let W=700,H=440,camera={x:.5,y:.5,scale:125},initialized=false;
+  const svg=$('plot');
+  const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+  const saved=()=>({matrix:matrix.slice(),before:before?.slice()||null,last:{...last}});
+  function push(s){history.push(s);if(history.length>100)history.shift();$('undo').disabled=false;}
+  function setHelp(message='',invalid=false){$('editor-help').textContent=invalid?message:'';$('editor-help').hidden=!invalid;}
+  function writeInputs(m=matrix,animated=false){inputs.forEach((el,i)=>{if(editSession&&document.activeElement===el&&!animated)return;const s=animated?compactFloat(m[i],4).replaceAll('−','-'):exact(m[i]);el.value=s;el.title=animated?s:exact(m[i]);el.style.fontSize=s.length>8?'13px':s.length>5?'17px':'';});}
+  function stopAnimation(){cancelAnimationFrame(raf);raf=0;busy=false;swapOpacity=1;previewDet=null;display=floats(matrix);displayQ=matrix;inputs.forEach(el=>el.readOnly=false);refreshControls();}
+  function endEdit(revert=false){
+    if(!editSession)return;
+    const s=editSession;editSession=null;
+    if(revert){matrix=s.matrix;before=s.before;last=s.last;}
+    else if(!same(s.matrix,matrix))push(s);
+    else{before=s.before;last=s.last;}
+    inputs.forEach(el=>el.removeAttribute('aria-invalid'));setHelp();writeInputs();display=floats(matrix);displayQ=matrix;render();refreshControls();
+  }
+  inputs.forEach((el,index)=>{
+    el.addEventListener('focus',()=>{if(busy)return;editSession=saved();el.select();});
+    el.addEventListener('input',()=>{
+      if(busy)return;if(!editSession)editSession=saved();
+      try{const q=parse(el.value);el.removeAttribute('aria-invalid');setHelp();matrix=matrix.slice();matrix[index]=q;before=editSession.matrix.slice();last={kind:'edit',old:det(before),now:det(matrix)};display=floats(matrix);displayQ=matrix;ensureFit();render();refreshControls();}
+      catch(e){el.setAttribute('aria-invalid','true');setHelp(e.message,true);refreshControls();}
+    });
+    el.addEventListener('blur',()=>endEdit());
+    el.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();el.blur();}if(e.key==='Escape'){e.preventDefault();endEdit(true);el.blur();}});
+  });
+  function setTab(name,focus=false){active=name;['replace','swap','scale'].forEach(n=>{const on=n===name;const tab=$('tab-'+n);tab.setAttribute('aria-selected',String(on));tab.tabIndex=on?0:-1;$('panel-'+n).hidden=!on;});if(focus)$('tab-'+name).focus();refreshControls();}
+  ['replace','swap','scale'].forEach((name,index)=>{
+    const tab=$('tab-'+name);tab.addEventListener('click',()=>setTab(name));
+    tab.addEventListener('keydown',e=>{const names=['replace','swap','scale'];let k=index;if(e.key==='ArrowRight')k=(index+1)%3;else if(e.key==='ArrowLeft')k=(index+2)%3;else if(e.key==='Home')k=0;else if(e.key==='End')k=2;else return;e.preventDefault();setTab(names[k],true);});
+  });
+  function paintRow(el,row){el.textContent=row===0?'r₁':'r₂';el.className=row===0?'r1':'r2';}
+  function operationFactor(){return active==='swap'?Q(-1n):parse($(active==='replace'?'replace-factor':'scale-factor').value);}
+  function refreshControls(){
+    const r=Number($('replace-row').value),s=Number($('scale-row').value);
+    $('replace-row').dataset.row=String(r+1);$('scale-row').dataset.row=String(s+1);paintRow($('replace-target'),r);paintRow($('replace-source'),1-r);paintRow($('scale-target'),s);
+    $('apply').setAttribute('aria-label',{replace:'Apply replacement',swap:'Interchange rows',scale:'Apply scaling'}[active]);
+    let error='';try{operationFactor();}catch(e){error=e.message;}
+    const factorEl=active==='swap'?null:$(active==='replace'?'replace-factor':'scale-factor');
+    if(factorEl){if(error)factorEl.setAttribute('aria-invalid','true');else factorEl.removeAttribute('aria-invalid');}
+    $('operation-error').hidden=!error;$('operation-error').textContent=error;
+    $('apply').disabled=busy||!!error||inputs.some(el=>el.getAttribute('aria-invalid')==='true');
+    $('undo').disabled=history.length===0;
+  }
+  ['replace-row','scale-row'].forEach(id=>$(id).addEventListener('change',refreshControls));
+  ['replace-factor','scale-factor'].forEach(id=>{$(id).addEventListener('input',refreshControls);$(id).addEventListener('keydown',e=>{if(e.key==='Enter'&&!$('apply').disabled){e.preventDefault();applyOperation();}});});
+  function applyOperation(){
+    if(busy)return;endEdit();let q;try{q=operationFactor();}catch{refreshControls();return;}
+    const previous=saved(),old=matrix.slice(),next=matrix.slice();let row=0;
+    try{
+      if(active==='replace'){row=Number($('replace-row').value);const other=1-row;for(let j=0;j<2;j++)next[2*row+j]=bounded(add(old[2*row+j],mul(q,old[2*other+j])));}
+      if(active==='swap'){[next[0],next[1],next[2],next[3]]=[old[2],old[3],old[0],old[1]];}
+      if(active==='scale'){row=Number($('scale-row').value);for(let j=0;j<2;j++)next[2*row+j]=bounded(mul(q,old[2*row+j]));}
+    }catch(e){$('operation-error').hidden=false;$('operation-error').textContent=e.message;return;}
+    push(previous);before=old;matrix=next;last={kind:active,row,k:q,old:det(old),now:det(next)};ensureFit(old);
+    if(!reduceMotion.matches&&!same(old,next)){animateChange(old,next,active);}else{display=floats(matrix);displayQ=matrix;writeInputs();render();refreshControls();}
+  }
+  $('apply').addEventListener('click',applyOperation);
+  function animateChange(old,next,kind){
+    stopAnimation();busy=true;inputs.forEach(el=>el.readOnly=true);
+    refreshControls();
+    const from=floats(old),to=floats(next),start=performance.now(),duration=kind==='swap'?520:820;
+    function frame(now){
+      const t=Math.min(1,(now-start)/duration),u=t*t*(3-2*t);
+      if(kind==='swap'){const useNext=t>=.5;displayQ=useNext?next:old;display=floats(displayQ);swapOpacity=.16+.84*Math.abs(2*t-1);writeInputs(displayQ);}
+      else{display=from.map((n,i)=>n+(to[i]-n)*u);displayQ=null;previewDet=kind==='scale'?num(last.old)*(1+(num(last.k)-1)*u):num(last.now);writeInputs(display,true);}
+      render();
+      if(t<1)raf=requestAnimationFrame(frame);else{stopAnimation();writeInputs();render();}
+    }
+    raf=requestAnimationFrame(frame);
+  }
+  $('undo').addEventListener('click',()=>{endEdit();stopAnimation();const s=history.pop();if(!s)return;matrix=s.matrix;before=s.before;last=s.last;display=floats(matrix);displayQ=matrix;writeInputs();fitView();render();refreshControls();});
+  $('reset').addEventListener('click',()=>{endEdit();stopAnimation();matrix=identity();before=null;last={kind:'initial'};history=[];display=floats(matrix);displayQ=matrix;inputs.forEach(el=>el.removeAttribute('aria-invalid'));setHelp();writeInputs();fitView();render();refreshControls();});
+  $('show-before').addEventListener('change',()=>{ensureFit();render();});
+  /* A single camera uses equal scale on both axes. Before and after are always
+     drawn in this same coordinate system, including during a transition. */
+  function vertices(m){return [[0,0],[m[0],m[1]],[m[0]+m[2],m[1]+m[3]],[m[2],m[3]]];}
+  function viewPoints(extra=null){let p=vertices(floats(matrix));if(before&&$('show-before').checked)p=p.concat(vertices(floats(before)));if(extra)p=p.concat(vertices(floats(extra)));return p;}
+  function bounds(points){return {xmin:Math.min(...points.map(p=>p[0])),xmax:Math.max(...points.map(p=>p[0])),ymin:Math.min(...points.map(p=>p[1])),ymax:Math.max(...points.map(p=>p[1]))};}
+  function proposedCamera(points){const b=bounds(points),padX=W<430?60:95,padY=85;return{x:(b.xmin+b.xmax)/2,y:(b.ymin+b.ymax)/2,scale:Math.max(1e-8,Math.min((W-2*padX)/Math.max(b.xmax-b.xmin,2.1),(H-2*padY)/Math.max(b.ymax-b.ymin,2.1)))};}
+  function fitView(){camera=proposedCamera(viewPoints());render();}
+  function ensureFit(extra=null){const points=viewPoints(extra);const padX=Math.min(75,W*.18),padY=68;const outside=points.some(p=>{const s=screen(p);return s[0]<padX||s[0]>W-padX||s[1]<padY||s[1]>H-padY;});if(outside){const next=proposedCamera(points);next.scale=Math.min(next.scale,camera.scale);camera=next;}}
+  function screen(p){return[W/2+(p[0]-camera.x)*camera.scale,H/2-(p[1]-camera.y)*camera.scale];}
+  function screenVertices(m){return vertices(m).map(screen);}
+  $('fit-view').addEventListener('click',fitView);
+  $('zoom-out').addEventListener('click',()=>{camera.scale=Math.max(1e-8,camera.scale/1.25);render();});
+  $('zoom-in').addEventListener('click',()=>{camera.scale=Math.min(1e8,camera.scale*1.25);render();});
+  function resized(){const r=svg.getBoundingClientRect();if(r.width<1||r.height<1)return;W=r.width;H=r.height;svg.setAttribute('viewBox',`0 0 ${W} ${H}`);if(!initialized){initialized=true;fitView();}else fitView();render();}
+  const NS='http://www.w3.org/2000/svg';
+  function el(tag,attrs={},text){const e=document.createElementNS(NS,tag);for(const[k,v]of Object.entries(attrs))e.setAttribute(k,String(v));if(text!==undefined)e.textContent=text;return e;}
+  function line(parent,a,b,attrs={}){parent.append(el('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],...attrs}));}
+  function textNode(parent,x,y,text,attrs={}){const e=el('text',{x,y,...attrs},text);parent.append(e);return e;}
+  function marker(id,color,size=10){const m=el('marker',{id,viewBox:'0 0 10 8',refX:9.1,refY:4,markerWidth:size,markerHeight:size*.8,orient:'auto',markerUnits:'userSpaceOnUse'});m.append(el('path',{d:'M0 0 L10 4 L0 8 L2.2 4 Z',fill:color}));return m;}
+  function niceStep(raw){const p=10**Math.floor(Math.log10(raw));const f=raw/p;return(f<=1?1:f<=2?2:f<=5?5:10)*p;}
+  let graphGroup=null;
+  function render(){
+    if(!initialized)return;
+    if(graphGroup)graphGroup.remove();graphGroup=el('g',{'aria-hidden':'true'});svg.append(graphGroup);
+    const root=graphGroup,defs=el('defs');defs.append(marker('row1-arrow',colors.cyan,12),marker('row2-arrow',colors.violet,12));root.append(defs);
+    const xmin=camera.x-W/(2*camera.scale),xmax=camera.x+W/(2*camera.scale),ymin=camera.y-H/(2*camera.scale),ymax=camera.y+H/(2*camera.scale),major=niceStep(82/camera.scale),minor=major/4;
+    const grid=el('g'),axes=el('g');root.append(grid,axes);
+    function gridLines(step,isMajor){
+      for(let i=Math.ceil(xmin/step),end=Math.floor(xmax/step),count=0;i<=end&&count<220;i++,count++){if(i===0)continue;const x=screen([i*step,0])[0];line(grid,[x,0],[x,H],{stroke:isMajor?'#283b55':'#203049','stroke-width':isMajor?1:.7,opacity:isMajor?.56:.35});}
+      for(let i=Math.ceil(ymin/step),end=Math.floor(ymax/step),count=0;i<=end&&count<220;i++,count++){if(i===0)continue;const y=screen([0,i*step])[1];line(grid,[0,y],[W,y],{stroke:isMajor?'#283b55':'#203049','stroke-width':isMajor?1:.7,opacity:isMajor?.56:.35});}
+    }
+    gridLines(minor,false);gridLines(major,true);const origin=screen([0,0]);
+    line(axes,[0,origin[1]],[W-13,origin[1]],{stroke:'#51637f','stroke-width':1.1});line(axes,[origin[0],H],[origin[0],13],{stroke:'#51637f','stroke-width':1.1});
+    if(origin[1]>4&&origin[1]<H-4){root.append(el('path',{d:`M${W-18} ${origin[1]-3}l6 3-6 3`,fill:'none',stroke:'#7183a0','stroke-width':1}));textNode(axes,W-19,origin[1]+19,'x',{fill:'#8597b3','font-size':11});}
+    if(origin[0]>4&&origin[0]<W-4){root.append(el('path',{d:`M${origin[0]-3} 18l3-6 3 6`,fill:'none',stroke:'#7183a0','stroke-width':1}));textNode(axes,origin[0]+11,21,'y',{fill:'#8597b3','font-size':11});}
+    const tickY=Math.max(19,Math.min(H-15,origin[1]+17)),tickX=Math.max(28,Math.min(W-12,origin[0]-10));
+    for(let i=Math.ceil(xmin/major),end=Math.floor(xmax/major),count=0;i<=end&&count<80;i++,count++){if(!i)continue;const x=screen([i*major,0])[0];if(x<22||x>W-31)continue;textNode(axes,x,tickY,compactFloat(i*major,3),{fill:'#71839f','font-size':10,'text-anchor':'middle'});}
+    for(let i=Math.ceil(ymin/major),end=Math.floor(ymax/major),count=0;i<=end&&count<80;i++,count++){if(!i)continue;const y=screen([0,i*major])[1];if(y<30||y>H-21)continue;textNode(axes,tickX,y+3,compactFloat(i*major,3),{fill:'#71839f','font-size':10,'text-anchor':'end'});}
+    let dNumeric=display[0]*display[3]-display[1]*display[2],dQ=displayQ?det(displayQ):null;
+    // For an animated replacement, the determinant is exactly invariant.
+    if(!dQ&&last.kind==='replace')dQ=last.now;
+    if(dQ)dNumeric=num(dQ);else if(previewDet!==null)dNumeric=previewDet;
+    const sgn=dQ?sign(dQ):(dNumeric===0?'zero':dNumeric>0?'positive':'negative'),fill=sgn==='positive'?colors.lime:colors.amber;
+    const pts=screenVertices(display),ghost=before&&$('show-before').checked;
+    root.append(el('polygon',{points:pts.map(p=>p.join(',')).join(' '),fill,'fill-opacity':.085,stroke:fill,'stroke-opacity':.20,'stroke-width':1}));
+    if(ghost){const prev=screenVertices(floats(before));root.append(el('polygon',{points:prev.map(p=>p.join(',')).join(' '),fill:'none',stroke:'#8b9fbb','stroke-opacity':.68,'stroke-width':1.5,'stroke-dasharray':'5 6'}));}
+    const edges=el('g',{opacity:.50});line(edges,pts[1],pts[2],{stroke:colors.violet,'stroke-width':1.6});line(edges,pts[3],pts[2],{stroke:colors.cyan,'stroke-width':1.6});root.append(edges);
+    const vec=el('g',{opacity:swapOpacity});root.append(vec);
+    [[pts[1],colors.cyan,'row1-arrow'],[pts[3],colors.violet,'row2-arrow']].forEach(([p,color,id])=>{if(Math.hypot(p[0]-origin[0],p[1]-origin[1])<2)vec.append(el('circle',{cx:p[0],cy:p[1],r:4,fill:color}));else line(vec,origin,p,{stroke:color,'stroke-width':2.6,'marker-end':`url(#${id})`});});
+    root.append(el('circle',{cx:origin[0],cy:origin[1],r:3.4,fill:'#d8e3f4',stroke:'#0c1426','stroke-width':1.3}));
+    if(origin[0]>15&&origin[0]<W-15&&origin[1]>15&&origin[1]<H-22)textNode(root,origin[0]-10,origin[1]+18,'0',{fill:'#9badc8','font-size':10,'text-anchor':'end'});
+    // Position row labels as whole bounding boxes, avoiding each other and the
+    // origin. This also keeps zero and coincident row vectors identifiable.
+    const labelBoxes=[];
+    function vectorLabel(index,p,color){
+      const label=index===0?'r₁':'r₂',font=14,tw=label.length*font*.605,th=19;
+      const candidates=index===0?[[13,31],[13,-16],[-tw-13,31],[-tw-13,-16],[-tw/2,32],[-tw/2,-27]]:[[-tw-13,-13],[13,-16],[-tw-13,21],[13,21],[-tw/2,-27],[-tw/2,30]];
+      let best=null,bestScore=Infinity;
+      for(const[dx,dy]of candidates){let bx=Math.max(12,Math.min(W-tw-12,p[0]+dx)),by=Math.max(56,Math.min(H-56,p[1]+dy));const b={x:bx,y:by-13,w:tw,h:th};let score=Math.abs(bx-(p[0]+dx))*.8+Math.abs(by-(p[1]+dy));for(const old of labelBoxes){if(b.x<old.x+old.w+8&&b.x+b.w+8>old.x&&b.y<old.y+old.h+6&&b.y+b.h+6>old.y)score+=1000;}if(b.y<origin[1]+24&&b.y+b.h>origin[1]+6)score+=90;if(b.x<origin[0]-3&&b.x+b.w>origin[0]-33)score+=35;if(origin[0]>b.x-8&&origin[0]<b.x+b.w+8&&origin[1]>b.y-5&&origin[1]<b.y+b.h+8)score+=70;if(score<bestScore){best={b,bx,by};bestScore=score;}}
+      labelBoxes.push(best.b);textNode(vec,best.bx,best.by,label,{fill:color,'font-size':font,stroke:'#0c1426','stroke-width':5,'stroke-linejoin':'round','paint-order':'stroke'});
+    }
+    vectorLabel(0,pts[1],colors.cyan);vectorLabel(1,pts[3],colors.violet);
+    const detString=dQ?compact(dQ,true):((dNumeric>0?'+':'')+compactFloat(dNumeric,5));
+    $('det-value').textContent=detString;$('det-value').dataset.sign=sgn;$('det-value').title=dQ?exact(dQ):String(dNumeric);
+    const areaQ=dQ?Q(abs(dQ.n),dQ.d):null;
+    $('area-value').textContent=areaQ?compact(areaQ):compactFloat(Math.abs(dNumeric),5);
+    $('area-value').title=areaQ?exact(areaQ):String(Math.abs(dNumeric));
+    if(!busy){
+      const d=det(matrix);
+      const orientation={positive:'counterclockwise',negative:'clockwise',zero:'undefined'}[sign(d)];
+      $('plot-description').textContent=`Row 1 is (${exact(matrix[0])}, ${exact(matrix[1])}); row 2 is (${exact(matrix[2])}, ${exact(matrix[3])}). The parallelogram has area ${exact(Q(abs(d.n),d.d))} and determinant ${exact(d)}. Orientation: ${orientation}.`;
+    }
+  }
+  // Expose a read-only diagnostic snapshot for reproducible browser tests.
+  Object.defineProperty(window,'determinantLab',{value:Object.freeze({snapshot:()=>({matrix:matrix.map(exact),determinant:exact(det(matrix)),area:exact(Q(abs(det(matrix).n),det(matrix).d)),operation:last.kind,animating:busy,history:history.length,camera:{...camera}})}),writable:false});
+  writeInputs();refreshControls();
+  if('ResizeObserver' in window)new ResizeObserver(resized).observe(svg);else window.addEventListener('resize',resized);
+  resized();
+})();
+</script>
+</body>
+</html>

@@ -5,7 +5,11 @@
     <directories external="../assets"/>
     <document-id>authorslastnamelowercase-ShortTitleCamelCase</document-id>
 
-    <macros>\newcommand{\foo}{b^{ar}}</macros>
+    <macros>\newcommand{\foo}{b^{ar}}
+          \newcommand{\ip}[2]{\left\langle #1,#2\right\rangle}
+      \newcommand{\norm}[1]{\left\| #1\right\|}
+    </macros>
+
   <latex-image-preamble>
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta}
@@ -18,10 +22,10 @@
 
   </docinfo>
 
-  <article xml:id="Invert">
-    <title>Homework 4</title>
+  <article xml:id="CauchySchwarz">
+    <title>Math 2301 Day 11</title>
     <xi:include href="./frontmatter.ptx" />
-    <xi:include href="Math2000HW4.ptx" />
+    <xi:include href="Math2301Day11.ptx" />
     <!-- <xi:include href="./review.ptx" />  -->
     <!-- <xi:include href="./Section-1.ptx" /> -->
     <!-- <xi:include href="./Section-2.ptx" /> -->
