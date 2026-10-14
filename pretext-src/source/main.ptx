@@ -22,8 +22,8 @@
 
   </docinfo>
 
-  <article xml:id="CauchySchwarz">
-    <title>Math 2301 Day 11</title>
+  <article xml:id="Determinant">
+    <title>Math 2000 Day 12</title>
     <xi:include href="./frontmatter.ptx" />
     <xi:include href="Math2000Day12.ptx" />
     <!-- <xi:include href="./review.ptx" />  -->
