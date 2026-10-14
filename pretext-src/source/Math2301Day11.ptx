@@ -44,7 +44,7 @@
           <ol>
             <li><p><term>Bilinearity</term>: <m>\langle \vec{u}, \vec{v}+ \vec{w}\rangle = \langle \vec{u}, \vec{v}\rangle + \langle \vec{u}, \vec{w}\rangle</m> and <m>\langle \vec{u}, a\vec{v} \rangle = a \langle \vec{u}, \vec{v}\rangle</m>;</p></li>
             <li><p><term>Symmetry</term>: <m>\langle \vec{u},\vec{v}\rangle =\langle \vec{v},\vec{u}\rangle</m>;</p></li>
-            <li><p><term>Squares are non-negative</term>: <m>\langle \vec{u}, \vec{u} \rangle \ge 0</m>, with equality only when <m>\vec{u}=\vec{0}</m>.</p></li>
+            <li><p><term>Positive Definiteness</term>: <m>\langle \vec{u}, \vec{u} \rangle \ge 0</m>, with equality only when <m>\vec{u}=\vec{0}</m>.</p></li>
           </ol>
         </statement>
       </definition>

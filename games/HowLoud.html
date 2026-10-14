@@ -1,1579 +1,446 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>How Loud is this Polygon?</title>
-  <style>
-    :root {
-      --bg: #f5f7fb;
-      --panel: #ffffff;
-      --ink: #182033;
-      --muted: #65708a;
-      --line: #d9dfeb;
-      --accent: #6457e6;
-      --accent-dark: #4e42c7;
-      --accent-soft: #eeecff;
-      --good: #147a50;
-      --good-soft: #e7f7ef;
-      --bad: #b33a3a;
-      --bad-soft: #fff0f0;
-      --shadow: 0 18px 55px rgba(37, 48, 80, 0.12);
-    }
-
-    * { box-sizing: border-box; }
-
-    html, body { min-height: 100%; }
-
-    body {
-      margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", sans-serif;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at 15% 10%, rgba(100, 87, 230, 0.13), transparent 26rem),
-        linear-gradient(180deg, #fbfcff 0%, var(--bg) 100%);
-    }
-
-    button, input { font: inherit; }
-
-    button {
-      border: 0;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: 750;
-      transition: transform 120ms ease, background 120ms ease, opacity 120ms ease;
-    }
-
-    button:hover { transform: translateY(-1px); }
-    button:active { transform: translateY(0); }
-    button:focus-visible, input:focus-visible {
-      outline: 3px solid rgba(100, 87, 230, 0.32);
-      outline-offset: 2px;
-    }
-
-    .app-shell {
-      width: min(1120px, calc(100% - 28px));
-      margin: 0 auto;
-      padding: 22px 0 40px;
-    }
-
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 18px;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 900;
-      letter-spacing: -0.02em;
-    }
-
-    .brand-mark {
-      width: 38px;
-      height: 38px;
-      display: grid;
-      place-items: center;
-      color: white;
-      background: var(--accent);
-      clip-path: polygon(50% 0%, 94% 25%, 88% 78%, 50% 100%, 8% 77%, 5% 24%);
-      box-shadow: 0 8px 20px rgba(100, 87, 230, 0.25);
-    }
-
-    .icon-button {
-      min-width: 44px;
-      min-height: 42px;
-      padding: 8px 12px;
-      color: var(--ink);
-      background: var(--panel);
-      border: 1px solid var(--line);
-    }
-
-    .screen { display: none; }
-    .screen.active { display: block; }
-
-    .hero {
-      min-height: min(680px, calc(100vh - 110px));
-      display: grid;
-      grid-template-columns: 1.12fr 0.88fr;
-      align-items: center;
-      gap: 34px;
-      background: var(--panel);
-      border: 1px solid rgba(217, 223, 235, 0.8);
-      border-radius: 28px;
-      padding: clamp(28px, 6vw, 74px);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      position: relative;
-    }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      width: 320px;
-      height: 320px;
-      right: -140px;
-      bottom: -160px;
-      border: 46px solid var(--accent-soft);
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      padding: 7px 11px;
-      margin-bottom: 14px;
-      border-radius: 999px;
-      color: var(--accent-dark);
-      background: var(--accent-soft);
-      font-size: 0.8rem;
-      font-weight: 850;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    h1, h2, h3, p { margin-top: 0; }
-
-    h1 {
-      max-width: 680px;
-      margin-bottom: 18px;
-      font-size: clamp(2.7rem, 7vw, 6rem);
-      line-height: 0.92;
-      letter-spacing: -0.065em;
-    }
-
-    .hero-copy p {
-      max-width: 620px;
-      margin-bottom: 28px;
-      color: var(--muted);
-      font-size: clamp(1rem, 1.7vw, 1.22rem);
-      line-height: 1.65;
-    }
-
-    .primary-button {
-      padding: 14px 20px;
-      color: #fff;
-      background: var(--accent);
-      box-shadow: 0 10px 24px rgba(100, 87, 230, 0.26);
-    }
-
-    .primary-button:hover { background: var(--accent-dark); }
-
-    .level-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .level-buttons button {
-      min-width: 150px;
-    }
-
-    .secondary-button {
-      padding: 12px 15px;
-      color: var(--accent-dark);
-      background: var(--accent-soft);
-    }
-
-    .hero-art {
-      min-height: 350px;
-      display: grid;
-      place-items: center;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-card {
-      width: min(390px, 100%);
-      aspect-ratio: 1;
-      border-radius: 30px;
-      background:
-        linear-gradient(rgba(255,255,255,0.84), rgba(255,255,255,0.84)),
-        repeating-linear-gradient(0deg, transparent 0 29px, #dfe4ef 30px),
-        repeating-linear-gradient(90deg, transparent 0 29px, #dfe4ef 30px);
-      border: 1px solid var(--line);
-      position: relative;
-      box-shadow: 0 22px 52px rgba(53, 63, 96, 0.15);
-      transform: rotate(2deg);
-    }
-
-    .hero-triangle {
-      position: absolute;
-      inset: 18% 14% 17% 16%;
-      background: linear-gradient(145deg, rgba(100, 87, 230, 0.88), rgba(100, 87, 230, 0.36));
-      clip-path: polygon(12% 90%, 42% 7%, 92% 76%);
-      filter: drop-shadow(0 15px 15px rgba(100, 87, 230, 0.2));
-    }
-
-    .sound-bars {
-      position: absolute;
-      right: -16px;
-      top: 36px;
-      display: flex;
-      align-items: end;
-      gap: 7px;
-      padding: 12px 14px;
-      border-radius: 18px;
-      background: var(--ink);
-      box-shadow: 0 12px 30px rgba(24, 32, 51, 0.25);
-    }
-
-    .sound-bars span {
-      width: 8px;
-      border-radius: 99px;
-      background: #fff;
-    }
-
-    .sound-bars span:nth-child(1) { height: 18px; }
-    .sound-bars span:nth-child(2) { height: 42px; }
-    .sound-bars span:nth-child(3) { height: 29px; }
-    .sound-bars span:nth-child(4) { height: 52px; }
-    .sound-bars span:nth-child(5) { height: 23px; }
-
-    .game-card {
-      background: var(--panel);
-      border: 1px solid rgba(217, 223, 235, 0.9);
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .game-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 18px 22px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .level-title {
-      margin: 0 0 3px;
-      font-size: 1rem;
-    }
-
-    .round-text {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.88rem;
-    }
-
-    .score-pill {
-      padding: 8px 11px;
-      border-radius: 999px;
-      color: var(--accent-dark);
-      background: var(--accent-soft);
-      font-weight: 850;
-      white-space: nowrap;
-    }
-
-    .progress-track {
-      height: 7px;
-      background: #edf0f6;
-    }
-
-    .progress-bar {
-      width: 0%;
-      height: 100%;
-      background: var(--accent);
-      transition: width 220ms ease;
-    }
-
-    .game-content {
-      display: grid;
-      grid-template-columns: minmax(0, 1.06fr) minmax(330px, 0.94fr);
-      min-height: 620px;
-    }
-
-    .plot-panel {
-      padding: clamp(18px, 3vw, 32px);
-      border-right: 1px solid var(--line);
-      background: #fbfcff;
-    }
-
-    .plot-wrap {
-      max-width: 590px;
-      margin: 0 auto;
-    }
-
-    canvas {
-      display: block;
-      width: 100%;
-      aspect-ratio: 1;
-      border-radius: 18px;
-      background: #fff;
-      border: 1px solid var(--line);
-    }
-
-    .coordinates {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 14px;
-    }
-
-    .coordinate-chip {
-      padding: 7px 10px;
-      border-radius: 9px;
-      background: #fff;
-      border: 1px solid var(--line);
-      font-weight: 720;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .answer-panel {
-      padding: clamp(24px, 4vw, 42px);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .answer-panel h2 {
-      margin-bottom: 9px;
-      font-size: clamp(1.55rem, 3vw, 2.25rem);
-      letter-spacing: -0.035em;
-    }
-
-    .instruction {
-      color: var(--muted);
-      line-height: 1.55;
-      margin-bottom: 28px;
-    }
-
-    .formula {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      margin: 0 0 24px;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(1.3rem, 3vw, 2rem);
-      white-space: nowrap;
-    }
-
-    .formula.two-matrices {
-      flex-wrap: wrap;
-      row-gap: 16px;
-      font-size: clamp(1.05rem, 2.25vw, 1.65rem);
-    }
-
-    .formula-part {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    [hidden] { display: none !important; }
-
-    .matrix-shell {
-      display: grid;
-      grid-template-columns: 13px auto 13px;
-      align-items: stretch;
-      gap: 5px;
-    }
-
-    .matrix-bracket {
-      border-top: 3px solid currentColor;
-      border-bottom: 3px solid currentColor;
-    }
-
-    .matrix-bracket.left { border-left: 3px solid currentColor; }
-    .matrix-bracket.right { border-right: 3px solid currentColor; }
-
-    .matrix-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 68px);
-      gap: 8px;
-      padding: 7px 2px;
-    }
-
-    .matrix-grid input {
-      width: 68px;
-      height: 52px;
-      border: 1px solid #bfc7d8;
-      border-radius: 9px;
-      text-align: center;
-      color: var(--ink);
-      background: #fff;
-      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-      font-weight: 800;
-      font-size: 1.12rem;
-    }
-
-    .button-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 4px;
-    }
-
-    .feedback {
-      min-height: 74px;
-      margin-top: 18px;
-      padding: 14px 16px;
-      border-radius: 13px;
-      line-height: 1.45;
-      display: none;
-    }
-
-    .feedback.show { display: block; }
-    .feedback.good { color: var(--good); background: var(--good-soft); }
-    .feedback.bad { color: var(--bad); background: var(--bad-soft); }
-
-    .canonical {
-      margin-top: 10px;
-      font-weight: 760;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .hint-box {
-      display: none;
-      margin-top: 14px;
-      padding: 14px 16px;
-      border: 1px dashed #a9a0f1;
-      border-radius: 13px;
-      color: #4f478c;
-      background: #f7f5ff;
-      line-height: 1.5;
-    }
-
-    .hint-box.show { display: block; }
-
-
-
-    .row-operation-content {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0;
-      min-height: 650px;
-    }
-
-    .row-op-panel {
-      padding: clamp(22px, 3.4vw, 38px);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .row-op-panel + .row-op-panel {
-      border-left: 1px solid var(--line);
-      background: #fbfcff;
-    }
-
-    .row-op-panel h2 {
-      margin-bottom: 12px;
-      font-size: clamp(1.45rem, 2.5vw, 2rem);
-      letter-spacing: -0.03em;
-    }
-
-    .static-matrix {
-      margin: 2px 0 18px;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 1.25rem;
-    }
-
-    .static-matrix-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(54px, auto));
-      gap: 7px 18px;
-      min-width: 142px;
-      padding: 9px 12px;
-      text-align: center;
-      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-      font-weight: 850;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .parallelogram-canvas {
-      width: min(100%, 430px);
-      margin: 0 auto;
-    }
-
-    .area-readout {
-      width: min(100%, 430px);
-      margin-top: 15px;
-      padding: 12px 14px;
-      border-radius: 12px;
-      color: var(--accent-dark);
-      background: var(--accent-soft);
-      text-align: center;
-      font-size: 1.05rem;
-    }
-
-    .operation-chip {
-      min-height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: -2px 0 12px;
-      padding: 9px 12px;
-      border: 1px solid #cfc9ff;
-      border-radius: 10px;
-      color: var(--accent-dark);
-      background: var(--accent-soft);
-      font-weight: 850;
-      text-align: center;
-    }
-
-    .area-answer-label {
-      width: min(100%, 430px);
-      margin-top: 18px;
-      font-weight: 850;
-    }
-
-    .area-answer-row {
-      width: min(100%, 430px);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 8px 0 4px;
-      color: var(--muted);
-    }
-
-    .area-input {
-      width: 130px;
-      height: 52px;
-      border: 1px solid #bfc7d8;
-      border-radius: 10px;
-      padding: 8px 12px;
-      color: var(--ink);
-      background: #fff;
-      text-align: center;
-      font-size: 1.2rem;
-      font-weight: 850;
-    }
-
-    .complete {
-      max-width: 720px;
-      margin: 5vh auto 0;
-      padding: clamp(34px, 7vw, 72px);
-      text-align: center;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      box-shadow: var(--shadow);
-    }
-
-    .complete-badge {
-      width: 92px;
-      height: 92px;
-      display: grid;
-      place-items: center;
-      margin: 0 auto 20px;
-      border-radius: 50%;
-      color: #fff;
-      background: var(--accent);
-      font-size: 2.7rem;
-      box-shadow: 0 15px 34px rgba(100, 87, 230, 0.28);
-    }
-
-    .complete h2 {
-      margin-bottom: 10px;
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      letter-spacing: -0.045em;
-    }
-
-    .complete p { color: var(--muted); }
-
-    .final-score {
-      display: inline-block;
-      margin: 14px 0 24px;
-      padding: 12px 16px;
-      border-radius: 14px;
-      color: var(--accent-dark);
-      background: var(--accent-soft);
-      font-size: 1.2rem;
-      font-weight: 900;
-    }
-
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    }
-
-    .level-select { margin-top: 28px; }
-    .level-select-title { margin: 0 0 10px; font-weight: 800; color: var(--ink); }
-    .level-buttons { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-    .level-buttons button { min-height: 82px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; text-align: left; }
-    .level-buttons button span { font-size: 1.05rem; font-weight: 900; }
-    .level-buttons button small { margin-top: 4px; font-size: .78rem; opacity: .82; font-weight: 700; }
-
-    @media (max-width: 860px) {
-      .hero { grid-template-columns: 1fr; }
-      .hero-art { min-height: 280px; }
-      .hero-card { width: min(320px, 86%); }
-      .game-content { grid-template-columns: 1fr; }
-      .plot-panel { border-right: 0; border-bottom: 1px solid var(--line); }
-      .answer-panel { min-height: 500px; }
-      .row-operation-content { grid-template-columns: 1fr; }
-      .row-op-panel + .row-op-panel { border-left: 0; border-top: 1px solid var(--line); }
-      .level-buttons { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-
-    @media (max-width: 520px) {
-      .app-shell { width: min(100% - 16px, 1120px); padding-top: 10px; }
-      .topbar { margin-bottom: 10px; }
-      .brand-text { font-size: 0.9rem; }
-      .hero, .game-card, .complete { border-radius: 18px; }
-      .hero { padding: 28px 22px; }
-      .hero-art { display: none; }
-      h1 { font-size: 3.2rem; }
-      .game-header { padding: 14px; }
-      .answer-panel { padding: 28px 18px; }
-      .formula { gap: 7px; }
-      .formula.two-matrices { gap: 8px; }
-      .matrix-grid { grid-template-columns: repeat(2, 54px); gap: 6px; }
-      .matrix-grid input { width: 54px; height: 48px; }
-      .button-row > button { flex: 1 1 130px; }
-      .level-buttons { grid-template-columns: 1fr; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080d1c">
+<meta name="description" content="Four minimal geometry challenges: match polygon areas with determinants, then compare row-vector parallelograms.">
+<title>How Loud is this Polygon?</title>
+<style>
+:root{color-scheme:dark;--bg:#080d1c;--line:#25304a;--ink:#f3f6ff;--muted:#95a2bd;--cyan:#56dfff;--violet:#b39aff;--lime:#c6f879;--amber:#ffd08b;--mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;--sans:Inter,"Segoe UI",Arial,sans-serif;--stage:clamp(600px,70vh,650px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 80% 0,#23224935,transparent 48%),var(--bg);color:var(--ink);font:14px var(--sans)}
+button,input{font:inherit;-webkit-tap-highlight-color:transparent}button{cursor:pointer;touch-action:manipulation;transition:background .18s,border-color .18s,color .18s}button:disabled{cursor:default;opacity:.4}button:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:4px}svg{display:block}button svg{pointer-events:none}::selection{background:#b39aff40}[hidden]{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.header{max-width:1420px;height:78px;margin:auto;padding:0 44px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff0a}
+.brand{display:flex;align-items:center;gap:11px;font-size:19px;font-weight:650;letter-spacing:-.6px}.brand span{color:var(--cyan);font-weight:400}.brand svg{width:32px;height:32px}.top-tools{display:flex;align-items:center;gap:8px}.score{margin-right:13px;color:var(--muted);font:12px var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.quiet-btn{width:36px;height:36px;padding:9px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--muted);display:inline-flex;align-items:center;justify-content:center}.quiet-btn:hover:not(:disabled){color:var(--ink);border-color:#53607a;background:#141f32}.quiet-btn svg{width:15px;height:15px}
+.shell{max-width:1420px;padding:32px 44px 40px;margin:auto}.workspace{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:stretch}
+.plot-card{min-width:0;min-height:var(--stage);border:1px solid #2b3852;border-radius:21px;background:#0c1426;overflow:hidden;box-shadow:0 22px 70px #00000025;display:flex}.plots{display:grid;grid-template-columns:minmax(0,1fr);flex:1;min-width:0}.plot-pane{min-width:0;min-height:0;position:relative;background:radial-gradient(ellipse at 50% 50%,#182a4142,transparent 72%)}.graph{position:absolute;inset:0;width:100%;height:100%;overflow:hidden}.graph text{font-family:var(--mono);user-select:none}.plot-name{position:absolute;left:22px;top:20px;z-index:1;color:#c3cde0;font:italic 20px Georgia,serif;pointer-events:none}.dual{grid-template-columns:repeat(2,minmax(0,1fr))}.dual .plot-pane+.plot-pane{border-left:1px solid var(--line)}
+.console{min-width:0;min-height:var(--stage);display:flex;flex-direction:column;border:1px solid var(--line);border-radius:21px;background:linear-gradient(145deg,#182035a0,#101728);padding:24px}
+.levels{display:flex;gap:3px;padding:4px;background:#0b1324;border:1px solid #26324a;border-radius:9px}.level-tab{flex:1;min-width:0;height:32px;border:0;border-radius:5px;background:transparent;color:var(--muted);font:12px var(--mono)}.level-tab:hover{color:var(--ink);background:#172139}.level-tab[aria-selected="true"]{color:var(--cyan);background:#243149}
+.level-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:22px}.level-meta h1{margin:0;font-size:15px;font-weight:500;letter-spacing:-.15px}.round{font:11px var(--mono);color:var(--muted);white-space:nowrap}.prompt{margin:8px 0 0;color:var(--muted);font-size:12px;line-height:1.6}
+.round-view{display:flex;flex-direction:column;flex:1;min-height:0;margin:0}.puzzle{flex:1;display:flex;align-items:center;justify-content:center;padding:26px 0 18px;min-width:0}.expression{width:100%}.det-term{display:flex;align-items:center;justify-content:center;gap:12px}.fraction{display:inline-flex;flex-direction:column;align-items:stretch;min-width:12px;align-self:center;font:16px Georgia,serif;text-align:center;line-height:1.2;color:#dfe6f6}.fraction span:first-child{border-bottom:1px solid #9aaac1;padding:0 2px 3px}.fraction span:last-child{padding-top:3px}.absolute{display:flex;align-items:center;gap:8px;padding:3px 10px;border-left:1px solid #74849e;border-right:1px solid #74849e}.det-word{font:17px Georgia,serif;color:#dfe6f6}
+.matrix-brackets{position:relative;padding:9px 12px}.matrix-brackets:before,.matrix-brackets:after{position:absolute;content:"";width:7px;top:0;bottom:0;border-top:1px solid #74849e;border-bottom:1px solid #74849e}.matrix-brackets:before{left:0;border-left:1px solid #74849e}.matrix-brackets:after{right:0;border-right:1px solid #74849e}
+.matrix-inputs{display:grid;grid-template-columns:repeat(2,64px);gap:9px}.matrix-input{width:64px;height:54px;text-align:center;background:#0b1325;border:1px solid #2c3b56;border-bottom-color:#56dfff80;border-radius:7px;color:var(--cyan);font:23px var(--mono);padding:0 4px;transition:border-color .18s,background .18s}.matrix-input.row2{color:var(--violet);border-bottom-color:#b39aff80}.matrix-input:focus{border-color:var(--cyan);background:#0f1c31;box-shadow:0 0 0 3px #56dfff10;outline:none}.matrix-input.row2:focus{border-color:var(--violet);box-shadow:0 0 0 3px #b39aff10}.matrix-input[aria-invalid="true"],.area-input[aria-invalid="true"]{border-color:var(--amber)}.matrix-input:read-only{cursor:default;background:#0b132580}.matrix-input::placeholder{color:#43516a;font-size:14px}.plus{text-align:center;margin:11px 0;color:#70819e;font:17px var(--mono);line-height:14px}
+body[data-level="2"] .matrix-inputs,body[data-level="3"] .matrix-inputs{grid-template-columns:repeat(2,58px);gap:7px}body[data-level="2"] .matrix-input,body[data-level="3"] .matrix-input{width:58px;height:43px;font-size:20px}body[data-level="3"] .matrix-input{height:38px;font-size:19px}body[data-level="3"] .matrix-brackets{padding:6px 11px}body[data-level="3"] .plus{margin:7px 0}body[data-level="3"] .puzzle{padding:18px 0 9px}
+.matrix-letter{font:italic 26px Georgia,serif;color:#dfe6f6;white-space:nowrap}.comparison{width:100%}.matrix-display{display:flex;align-items:center;justify-content:center;gap:17px}.static-grid{display:grid;grid-template-columns:repeat(2,64px);gap:7px;padding:2px 0}.static-cell{display:grid;place-items:center;height:39px;color:var(--cyan);font:23px var(--mono)}.static-cell:nth-child(n+3){color:var(--violet)}.comparison-item+.comparison-item{margin-top:23px;padding-top:23px;border-top:1px solid var(--line)}.area-readout{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:15px;padding:10px 15px;background:#09122280;border:1px solid #ffffff07;border-radius:9px}.area-label{font:12px var(--mono);color:#bcc9df}.area-value{font:26px var(--mono);color:var(--ink)}.area-input{width:94px;height:38px;padding:4px 8px;text-align:center;background:#0b1325;border:1px solid #35455f;border-radius:6px;color:var(--ink);font:23px var(--mono)}.area-input:focus{border-color:var(--cyan);background:#0f1c31;outline:none;box-shadow:0 0 0 3px #56dfff10}.area-input::placeholder{color:#66748b;font-size:18px}
+.answer-footer{position:relative;padding-top:9px;margin-top:auto}.feedback{min-height:19px;margin:0 0 12px;font-size:12px;color:var(--muted);line-height:1.6}.feedback[data-kind="good"]{color:var(--lime)}.feedback[data-kind="bad"]{color:var(--amber)}.actions{display:flex;gap:8px}.primary{flex:1;min-width:0;min-height:43px;padding:11px 14px;background:var(--lime);border:1px solid var(--lime);border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:15px;color:#152017;font-size:12px;font-weight:600}.primary:hover:not(:disabled){background:#d6ff9b;border-color:#d6ff9b}.primary .arrow{font-size:18px;line-height:1}.hint-button{width:43px;height:43px;flex:0 0 43px;font:17px var(--sans)}.hint-button[aria-expanded="true"]{color:var(--cyan);border-color:#53607a;background:#172139}
+.hint-popover{position:absolute;bottom:55px;left:0;right:0;z-index:5;border:1px solid #40506b;border-radius:11px;padding:20px 17px;background:#101b2e;box-shadow:0 15px 35px #0007;color:#c2cde0}.hint-popover:focus{outline:none}.hint-popover h2{font-size:12px;font-weight:500;margin:0 28px 14px 0}.hint-close{position:absolute;right:9px;top:8px;width:28px;height:28px;padding:7px;border:0;background:transparent}.hint-popover p{font-size:12px;line-height:1.7;margin:0}.hint-vectors{display:grid;gap:11px;font:11px var(--mono);line-height:1.5}.hint-pair{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 9px}.hint-triangle{color:var(--muted)}.hint-row1{color:var(--cyan)}.hint-row2{color:var(--violet)}.hint-math{font:21px Georgia,serif;color:var(--ink);padding:7px 0 2px}
+.complete-view{display:flex;flex:1;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding-top:38px}.complete-view h2{margin:0;font-size:19px;font-weight:500;letter-spacing:-.3px}.final-score{font:42px var(--mono);color:var(--lime);letter-spacing:-1.6px;margin:24px 0 6px}.final-score small{font-size:17px;letter-spacing:0;color:var(--muted)}.complete-caption{margin:0;color:var(--muted);font-size:12px}.complete-actions{display:flex;gap:8px;width:100%;margin-top:auto;padding-top:52px}.complete-replay{width:43px;height:43px;flex:0 0 43px}
+@media(max-width:1100px){.header{padding:0 26px;height:70px}.shell{padding:26px}.workspace{grid-template-columns:minmax(0,1fr) 316px;gap:17px}.console{padding:24px 18px}.dual{grid-template-columns:minmax(0,1fr);grid-template-rows:repeat(2,minmax(0,1fr))}.dual .plot-pane+.plot-pane{border-left:0;border-top:1px solid var(--line)}.plot-name{left:18px;top:15px}}
+@media(max-width:850px){.header{padding:0 20px}.shell{padding:24px 20px}.workspace{grid-template-columns:minmax(0,1fr) 296px;gap:14px}.console{padding:22px 15px}.absolute{gap:6px;padding:3px 8px}.det-term{gap:10px}}
+@media(max-width:700px){.header{height:64px;padding:0 17px}.brand{font-size:18px;gap:8px}.brand svg{width:28px;height:28px}.quiet-btn{width:33px;height:33px}.score{margin-right:6px;font-size:11px}.shell{padding:18px 16px 28px}.workspace{grid-template-columns:minmax(0,1fr);gap:16px}.plot-card{height:clamp(310px,45svh,380px);min-height:0}.console{min-height:435px;padding:21px 22px}.plot-card,.console{border-radius:18px}.level-meta{margin-top:18px}.puzzle{padding:24px 0 13px}.matrix-inputs{grid-template-columns:repeat(2,72px)}.matrix-input{width:72px;height:53px}.hint-button,.complete-replay{width:43px;height:43px}.hint-close{width:28px;height:28px}body[data-level="2"] .console{min-height:514px}body[data-level="3"] .console{min-height:614px}body[data-level="4"] .console{min-height:600px}body[data-level="4"] .plot-card{height:580px}.complete-view{min-height:330px}body[data-complete="true"] .console{min-height:410px}.hint-popover{padding:20px}.hint-vectors{font-size:12px}}
+@media(max-width:360px){.header{padding:0 14px}.brand{font-size:17px}.shell{padding-right:12px;padding-left:12px}.console{padding:20px 15px}.matrix-inputs{grid-template-columns:repeat(2,64px)}.matrix-input{width:64px}.score{margin-right:2px}.top-tools{gap:6px}.hint-vectors{font-size:11px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
 </head>
-<body>
-  <main class="app-shell">
-    <header class="topbar">
-      <div class="brand" aria-label="How Loud is this Polygon?">
-        <span class="brand-mark" aria-hidden="true">△</span>
-        <span class="brand-text">How Loud is this Polygon?</span>
-      </div>
-      <button id="soundButton" class="icon-button" type="button" aria-pressed="true" title="Toggle sound">
-        Sound on
-      </button>
-    </header>
-
-    <section id="homeScreen" class="screen active" aria-labelledby="gameTitle">
-      <div class="hero">
-        <div class="hero-copy">
-          <span class="eyebrow">Geometry meets determinants</span>
-          <h1 id="gameTitle">How Loud is this Polygon?</h1>
-          <p>
-            Turn coordinate polygons into determinants, then explore how row operations change the area of a row-vector parallelogram.
-          </p>
-          <div class="level-select" aria-label="Choose a level">
-            <p class="level-select-title">Choose any level</p>
-            <div class="level-buttons">
-              <button id="startLevel1Button" class="primary-button" type="button">
-                <span>Level 1</span>
-                <small>Triangles · one determinant</small>
-              </button>
-              <button id="startLevel2Button" class="secondary-button" type="button">
-                <span>Level 2</span>
-                <small>Quadrilaterals · two determinants</small>
-              </button>
-              <button id="startLevel3Button" class="secondary-button" type="button">
-                <span>Level 3</span>
-                <small>Pentagons · three determinants</small>
-              </button>
-              <button id="startLevel4Button" class="secondary-button" type="button">
-                <span>Level 4</span>
-                <small>Row operations · parallelogram area</small>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="hero-art" aria-hidden="true">
-          <div class="hero-card">
-            <div class="hero-triangle"></div>
-            <div class="sound-bars"><span></span><span></span><span></span><span></span><span></span></div>
-          </div>
-        </div>
+<body data-level="1" data-complete="false">
+<header class="header">
+  <div class="brand" aria-label="How Loud is this Polygon?"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M6 27 13 8 29 13 26 27Z" fill="#c6f8790c" stroke="#c6f879" stroke-width="1.2"/><path d="M6 27 13 8" stroke="#56dfff" stroke-width="2"/><path d="M6 27 29 13" stroke="#b39aff" stroke-width="1.2" stroke-dasharray="3 3"/><circle cx="6" cy="27" r="2.2" fill="#f3f6ff"/></svg><div>how<span>loud?</span></div></div>
+  <div class="top-tools">
+    <span id="score" class="score" aria-label="Score: 0 points">0 pts</span>
+    <button id="sound" class="quiet-btn" type="button" title="Mute sound" aria-label="Sound" aria-pressed="true"></button>
+    <button id="restart" class="quiet-btn" type="button" title="Restart level" aria-label="Restart level"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M16 6a6.5 6.5 0 1 0 .5 7M16 2v4h-4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+</header>
+<main class="shell">
+  <div class="workspace">
+    <section class="plot-card" aria-label="Coordinate diagrams">
+      <div id="plots" class="plots">
+        <div id="paneA" class="plot-pane"><span id="nameA" class="plot-name" aria-hidden="true" hidden>A</span><svg id="graphA" class="graph" role="img" aria-label="Polygon on a coordinate grid"></svg></div>
+        <div id="paneB" class="plot-pane" hidden><span class="plot-name" aria-hidden="true">B</span><svg id="graphB" class="graph" role="img" aria-label="Parallelogram B"></svg></div>
       </div>
     </section>
-
-    <section id="gameScreen" class="screen" aria-labelledby="levelHeading">
-      <div class="game-card">
-        <div class="game-header">
-          <div>
-            <h2 id="levelHeading" class="level-title">Level 1 · Triangle determinants</h2>
-            <p id="roundText" class="round-text">Round 1 of 5</p>
-          </div>
-          <div style="display:flex;gap:8px;align-items:center"><div id="scoreText" class="score-pill">Score: 0</div><button id="menuButton" class="icon-button" type="button">Main Menu</button></div>
-        </div>
-        <div class="progress-track" aria-hidden="true"><div id="progressBar" class="progress-bar"></div></div>
-
-        <div id="polygonGameContent" class="game-content">
-          <div class="plot-panel">
-            <div class="plot-wrap">
-              <canvas id="gridCanvas" width="620" height="620" aria-label="Coordinate grid showing a polygon"></canvas>
-              <div id="coordinates" class="coordinates" aria-label="Polygon vertices"></div>
-            </div>
-          </div>
-
-          <div class="answer-panel">
-            <h2>Make the determinant match.</h2>
-            <p class="instruction">
-              Enter four integers. Your answer is correct when half the absolute value of the determinant equals the triangle’s area.
-            </p>
-
-            <div id="formula" class="formula" aria-label="Polygon area determinant formula">
-              <span>½(</span>
-              <span class="formula-part">
-                <span>|det</span>
-                <span class="matrix-shell">
-                  <span class="matrix-bracket left" aria-hidden="true"></span>
-                  <span class="matrix-grid">
-                    <label class="sr-only" for="m11">First matrix top-left entry</label>
-                    <input id="m11" inputmode="numeric" type="number" step="1" autocomplete="off" />
-                    <label class="sr-only" for="m12">First matrix top-right entry</label>
-                    <input id="m12" inputmode="numeric" type="number" step="1" autocomplete="off" />
-                    <label class="sr-only" for="m21">First matrix bottom-left entry</label>
-                    <input id="m21" inputmode="numeric" type="number" step="1" autocomplete="off" />
-                    <label class="sr-only" for="m22">First matrix bottom-right entry</label>
-                    <input id="m22" inputmode="numeric" type="number" step="1" autocomplete="off" />
-                  </span>
-                  <span class="matrix-bracket right" aria-hidden="true"></span>
-                </span>
-                <span>|</span>
-              </span>
-              <span id="secondMatrixGroup" class="formula-part" hidden>
-                <span>+</span>
-                <span>|det</span>
-                <span class="matrix-shell">
-                  <span class="matrix-bracket left" aria-hidden="true"></span>
-                  <span class="matrix-grid">
-                    <label class="sr-only" for="n11">Second matrix top-left entry</label>
-                    <input id="n11" inputmode="numeric" type="number" step="1" autocomplete="off" />
-                    <label class="sr-only" for="n12">Second matrix top-right entry</label>
-                    <input id="n12" inputmode="numeric" type="number" step="1" autocomplete="off" />
-                    <label class="sr-only" for="n21">Second matrix bottom-left entry</label>
-                    <input id="n21" inputmode="numeric" type="number" step="1" autocomplete="off" />
-                    <label class="sr-only" for="n22">Second matrix bottom-right entry</label>
-                    <input id="n22" inputmode="numeric" type="number" step="1" autocomplete="off" />
-                  </span>
-                  <span class="matrix-bracket right" aria-hidden="true"></span>
-                </span>
-                <span>|</span>
-              </span>
-              <span id="thirdMatrixGroup" class="formula-part" hidden>
-                <span>+</span>
-                <span>|det</span>
-                <span class="matrix-shell">
-                  <span class="matrix-bracket left" aria-hidden="true"></span>
-                  <span class="matrix-grid">
-                    <label class="sr-only" for="p11">Third matrix top-left entry</label>
-                    <input id="p11" inputmode="numeric" type="number" step="1" autocomplete="off" />
-                    <label class="sr-only" for="p12">Third matrix top-right entry</label>
-                    <input id="p12" inputmode="numeric" type="number" step="1" autocomplete="off" />
-                    <label class="sr-only" for="p21">Third matrix bottom-left entry</label>
-                    <input id="p21" inputmode="numeric" type="number" step="1" autocomplete="off" />
-                    <label class="sr-only" for="p22">Third matrix bottom-right entry</label>
-                    <input id="p22" inputmode="numeric" type="number" step="1" autocomplete="off" />
-                  </span>
-                  <span class="matrix-bracket right" aria-hidden="true"></span>
-                </span>
-                <span>|</span>
-              </span>
-              <span>)</span>
-            </div>
-
-            <div class="button-row">
-              <button id="checkButton" class="primary-button" type="button">Check answer</button>
-              <button id="hintButton" class="secondary-button" type="button">Show hint</button>
-              <button id="nextButton" class="secondary-button" type="button" hidden>Next triangle</button>
-            </div>
-
-            <div id="hintBox" class="hint-box"></div>
-            <div id="feedback" class="feedback" role="status" aria-live="polite"></div>
-          </div>
-        </div>
-
-        <div id="rowOperationContent" class="row-operation-content" hidden>
-          <section class="row-op-panel" aria-labelledby="matrixATitle">
-            <h2 id="matrixATitle">Matrix A</h2>
-            <div id="matrixADisplay" class="static-matrix" aria-label="Matrix A">
-              <span class="matrix-shell">
-                <span class="matrix-bracket left" aria-hidden="true"></span>
-                <span class="static-matrix-grid">
-                  <span id="a11">0</span><span id="a12">0</span>
-                  <span id="a21">0</span><span id="a22">0</span>
-                </span>
-                <span class="matrix-bracket right" aria-hidden="true"></span>
-              </span>
-            </div>
-            <canvas id="matrixACanvas" class="parallelogram-canvas" width="520" height="520" aria-label="Parallelogram spanned by the rows of matrix A"></canvas>
-            <div class="area-readout">Area of A's parallelogram: <strong id="areaAValue">0</strong></div>
-          </section>
-
-          <section class="row-op-panel" aria-labelledby="matrixBTitle">
-            <h2 id="matrixBTitle">Matrix B</h2>
-            <div id="matrixBDisplay" class="static-matrix" aria-label="Matrix B">
-              <span class="matrix-shell">
-                <span class="matrix-bracket left" aria-hidden="true"></span>
-                <span class="static-matrix-grid">
-                  <span id="b11">0</span><span id="b12">0</span>
-                  <span id="b21">0</span><span id="b22">0</span>
-                </span>
-                <span class="matrix-bracket right" aria-hidden="true"></span>
-              </span>
-            </div>
-            <canvas id="matrixBCanvas" class="parallelogram-canvas" width="520" height="520" aria-label="Parallelogram spanned by the rows of matrix B"></canvas>
-
-            <label class="area-answer-label" for="areaBInput">What is the area of B's parallelogram?</label>
-            <div class="area-answer-row">
-              <input id="areaBInput" class="area-input" inputmode="numeric" type="number" step="1" min="0" autocomplete="off" />
-              <span>square units</span>
-            </div>
-
-            <div class="button-row">
-              <button id="rowCheckButton" class="primary-button" type="button">Check answer</button>
-              <button id="rowHintButton" class="secondary-button" type="button">Show hint</button>
-              <button id="rowNextButton" class="secondary-button" type="button" hidden>Next matrix</button>
-            </div>
-            <div id="rowHintBox" class="hint-box"></div>
-            <div id="rowFeedback" class="feedback" role="status" aria-live="polite"></div>
-          </section>
-        </div>
+    <aside class="console" aria-label="Game controls">
+      <div class="levels" role="tablist" aria-label="Choose a level">
+        <button id="level1" class="level-tab" role="tab" type="button" aria-selected="true" aria-controls="levelPanel" aria-label="Level 1: Triangles" title="Level 1 · Triangles" tabindex="0">1</button>
+        <button id="level2" class="level-tab" role="tab" type="button" aria-selected="false" aria-controls="levelPanel" aria-label="Level 2: Quadrilaterals" title="Level 2 · Quadrilaterals" tabindex="-1">2</button>
+        <button id="level3" class="level-tab" role="tab" type="button" aria-selected="false" aria-controls="levelPanel" aria-label="Level 3: Pentagons" title="Level 3 · Pentagons" tabindex="-1">3</button>
+        <button id="level4" class="level-tab" role="tab" type="button" aria-selected="false" aria-controls="levelPanel" aria-label="Level 4: Row operations" title="Level 4 · Row operations" tabindex="-1">4</button>
       </div>
-    </section>
-
-    <section id="completeScreen" class="screen" aria-labelledby="completeTitle">
-      <div class="complete">
-        <div class="complete-badge" aria-hidden="true">✓</div>
-        <h2 id="completeTitle">Level complete!</h2>
-        <p id="completeText">You matched every polygon with determinants.</p>
-        <div id="finalScore" class="final-score">Final score: 0</div><br />
-        <button id="playAgainButton" class="primary-button" type="button">Play again</button>
-        <button id="nextLevelButton" class="secondary-button" type="button" hidden>Play next level</button>
-        <button id="homeButton" class="secondary-button" type="button">Home</button>
+      <div id="levelPanel" role="tabpanel" aria-labelledby="level1" style="display:flex;flex:1;flex-direction:column;min-height:0">
+        <div class="level-meta"><h1 id="levelName">Triangles</h1><span id="round" class="round" aria-label="Round 1 of 5">1 / 5</span></div>
+        <form id="answerForm" class="round-view" novalidate>
+          <p id="prompt" class="prompt">Match the area.</p>
+          <div id="entryRegion" class="puzzle" role="group" aria-describedby="prompt"></div>
+          <div class="answer-footer">
+            <p id="feedback" class="feedback" role="status" aria-live="polite" aria-atomic="true"></p>
+            <div class="actions">
+              <button id="check" class="primary" type="submit"><span id="checkText">Check</span><span class="arrow" aria-hidden="true">→</span></button>
+              <button id="hintButton" class="quiet-btn hint-button" type="button" title="Hint" aria-label="Show hint" aria-expanded="false" aria-controls="hint">?</button>
+            </div>
+            <section id="hint" class="hint-popover" aria-label="Hint" tabindex="-1" hidden>
+              <button id="hintClose" class="quiet-btn hint-close" type="button" title="Close hint" aria-label="Close hint"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="m4 4 8 8m0-8-8 8" stroke-linecap="round"/></svg></button>
+              <div id="hintContent"></div>
+            </section>
+          </div>
+        </form>
+        <section id="complete" class="complete-view" aria-labelledby="completeTitle" hidden>
+          <h2 id="completeTitle" tabindex="-1">Level complete.</h2>
+          <div class="final-score"><span id="finalScore">500</span> <small>/ 500</small></div>
+          <div class="complete-actions">
+            <button id="continue" class="primary" type="button"><span id="continueText">Next level</span><span class="arrow" aria-hidden="true">→</span></button>
+            <button id="replay" class="quiet-btn complete-replay" type="button" title="Play this level again" aria-label="Play this level again"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M16 6a6.5 6.5 0 1 0 .5 7M16 2v4h-4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+        </section>
       </div>
-    </section>
-  </main>
-
-  <script>
-    (() => {
-      "use strict";
-
-      const TOTAL_ROUNDS = 5;
-      const state = {
-        level: 1,
-        round: 1,
-        score: 0,
-        mistakesThisRound: 0,
-        polygon: null,
-        rowChallenge: null,
-        answered: false,
-        soundOn: true,
-      };
-
-      const screens = {
-        home: document.getElementById("homeScreen"),
-        game: document.getElementById("gameScreen"),
-        complete: document.getElementById("completeScreen"),
-      };
-
-      const canvas = document.getElementById("gridCanvas");
-      const ctx = canvas.getContext("2d");
-      const polygonGameContent = document.getElementById("polygonGameContent");
-      const rowOperationContent = document.getElementById("rowOperationContent");
-      const matrixACanvas = document.getElementById("matrixACanvas");
-      const matrixBCanvas = document.getElementById("matrixBCanvas");
-      const areaAValue = document.getElementById("areaAValue");
-      const areaBInput = document.getElementById("areaBInput");
-      const rowCheckButton = document.getElementById("rowCheckButton");
-      const rowHintButton = document.getElementById("rowHintButton");
-      const rowNextButton = document.getElementById("rowNextButton");
-      const rowHintBox = document.getElementById("rowHintBox");
-      const rowFeedback = document.getElementById("rowFeedback");
-      const coordinatesEl = document.getElementById("coordinates");
-      const levelHeading = document.getElementById("levelHeading");
-      const roundText = document.getElementById("roundText");
-      const scoreText = document.getElementById("scoreText");
-      const progressBar = document.getElementById("progressBar");
-      const feedback = document.getElementById("feedback");
-      const hintBox = document.getElementById("hintBox");
-      const checkButton = document.getElementById("checkButton");
-      const hintButton = document.getElementById("hintButton");
-      const nextButton = document.getElementById("nextButton");
-      const finalScore = document.getElementById("finalScore");
-      const completeTitle = document.getElementById("completeTitle");
-      const completeText = document.getElementById("completeText");
-      const nextLevelButton = document.getElementById("nextLevelButton");
-      const soundButton = document.getElementById("soundButton");
-      const formula = document.getElementById("formula");
-      const secondMatrixGroup = document.getElementById("secondMatrixGroup");
-      const thirdMatrixGroup = document.getElementById("thirdMatrixGroup");
-      const answerHeading = document.querySelector(".answer-panel h2");
-      const instruction = document.querySelector(".instruction");
-      const firstInputs = ["m11", "m12", "m21", "m22"].map((id) => document.getElementById(id));
-      const secondInputs = ["n11", "n12", "n21", "n22"].map((id) => document.getElementById(id));
-      const thirdInputs = ["p11", "p12", "p21", "p22"].map((id) => document.getElementById(id));
-      const allInputs = firstInputs.concat(secondInputs, thirdInputs);
-
-      function activeInputs() {
-        if (state.level === 4) return [areaBInput];
-        return allInputs.slice(0, state.level * 4);
-      }
-
-      function showScreen(name) {
-        Object.entries(screens).forEach(([key, element]) => {
-          element.classList.toggle("active", key === name);
-        });
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-
-      function randomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-      }
-
-      function cross(o, a, b) {
-        return (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
-      }
-
-      function polygonDoubledArea(points) {
-        let sum = 0;
-        for (let i = 0; i < points.length; i += 1) {
-          const next = points[(i + 1) % points.length];
-          sum += points[i].x * next.y - points[i].y * next.x;
-        }
-        return Math.abs(sum);
-      }
-
-      function convexHull(points) {
-        const sorted = [...points].sort((a, b) => a.x - b.x || a.y - b.y);
-        if (sorted.length <= 1) return sorted;
-
-        const lower = [];
-        for (const point of sorted) {
-          while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], point) <= 0) {
-            lower.pop();
-          }
-          lower.push(point);
-        }
-
-        const upper = [];
-        for (let i = sorted.length - 1; i >= 0; i -= 1) {
-          const point = sorted[i];
-          while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], point) <= 0) {
-            upper.pop();
-          }
-          upper.push(point);
-        }
-
-        lower.pop();
-        upper.pop();
-        return lower.concat(upper);
-      }
-
-      function makeConvexPolygon(vertexCount) {
-        let hull;
-        let twiceArea;
-        do {
-          const pointMap = new Map();
-          while (pointMap.size < vertexCount) {
-            const point = { x: randomInt(0, 10), y: randomInt(0, 10) };
-            pointMap.set(`${point.x},${point.y}`, point);
-          }
-          hull = convexHull([...pointMap.values()]);
-          twiceArea = hull.length === vertexCount ? polygonDoubledArea(hull) : 0;
-        } while (hull.length !== vertexCount || twiceArea < vertexCount);
-        return { points: hull, twiceArea };
-      }
-
-      function makePolygon() {
-        return makeConvexPolygon(state.level + 2);
-      }
-
-      function formatArea(twiceArea) {
-        return twiceArea % 2 === 0 ? String(twiceArea / 2) : `${Math.floor(twiceArea / 2)}½`;
-      }
-
-      function vectorFrom(p, q) {
-        return { x: q.x - p.x, y: q.y - p.y };
-      }
-
-      function matrixFromVectors(first, second) {
-        return [[first.x, first.y], [second.x, second.y]];
-      }
-
-      function canonicalMatrices() {
-        const points = state.polygon.points;
-        const origin = points[0];
-        const matrices = [];
-        for (let i = 1; i < points.length - 1; i += 1) {
-          matrices.push(matrixFromVectors(vectorFrom(origin, points[i]), vectorFrom(origin, points[i + 1])));
-        }
-        return matrices;
-      }
-
-      function matrixText(matrix) {
-        return `[${matrix[0][0]}, ${matrix[0][1]}; ${matrix[1][0]}, ${matrix[1][1]}]`;
-      }
-
-      function cloneMatrix(matrix) {
-        return matrix.map((row) => [...row]);
-      }
-
-      function matrixDeterminant(matrix) {
-        return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
-      }
-
-      function choose(items) {
-        return items[randomInt(0, items.length - 1)];
-      }
-
-      function makeRowChallenge() {
-        let A;
-        let detA;
-        do {
-          A = [
-            [randomInt(-4, 4), randomInt(-4, 4)],
-            [randomInt(-4, 4), randomInt(-4, 4)],
-          ];
-          detA = matrixDeterminant(A);
-        } while (detA === 0 || Math.abs(detA) > 24);
-
-        const kind = choose(["swap", "scale", "add"]);
-        const B = cloneMatrix(A);
-        let areaMultiplier = 1;
-        let factor = 1;
-
-        if (kind === "swap") {
-          [B[0], B[1]] = [B[1], B[0]];
-        } else if (kind === "scale") {
-          const row = randomInt(0, 1);
-          factor = choose([-3, -2, -1, 2, 3]);
-          B[row] = B[row].map((value) => factor * value);
-          areaMultiplier = Math.abs(factor);
-        } else {
-          const target = randomInt(0, 1);
-          const source = 1 - target;
-          factor = choose([-3, -2, -1, 1, 2, 3]);
-          B[target] = B[target].map((value, index) => value + factor * B[source][index]);
-        }
-
-        return {
-          A,
-          B,
-          kind,
-          factor,
-          areaA: Math.abs(detA),
-          areaB: Math.abs(matrixDeterminant(B)),
-          areaMultiplier,
-        };
-      }
-
-      function setStaticMatrix(prefix, matrix) {
-        document.getElementById(`${prefix}11`).textContent = matrix[0][0];
-        document.getElementById(`${prefix}12`).textContent = matrix[0][1];
-        document.getElementById(`${prefix}21`).textContent = matrix[1][0];
-        document.getElementById(`${prefix}22`).textContent = matrix[1][1];
-      }
-
-      function drawArrow(context, from, to, color) {
-        const angle = Math.atan2(to.y - from.y, to.x - from.x);
-        const head = 12;
-        context.strokeStyle = color;
-        context.fillStyle = color;
-        context.lineWidth = 4;
-        context.beginPath();
-        context.moveTo(from.x, from.y);
-        context.lineTo(to.x, to.y);
-        context.stroke();
-        context.beginPath();
-        context.moveTo(to.x, to.y);
-        context.lineTo(to.x - head * Math.cos(angle - Math.PI / 6), to.y - head * Math.sin(angle - Math.PI / 6));
-        context.lineTo(to.x - head * Math.cos(angle + Math.PI / 6), to.y - head * Math.sin(angle + Math.PI / 6));
-        context.closePath();
-        context.fill();
-      }
-
-      function parallelogramExtent(matrix) {
-        const u = { x: matrix[0][0], y: matrix[0][1] };
-        const v = { x: matrix[1][0], y: matrix[1][1] };
-        const vertices = [
-          { x: 0, y: 0 },
-          u,
-          { x: u.x + v.x, y: u.y + v.y },
-          v,
-        ];
-        const maxCoordinate = Math.max(3, ...vertices.flatMap((point) => [Math.abs(point.x), Math.abs(point.y)]));
-        return Math.ceil(maxCoordinate + 1);
-      }
-
-      function drawParallelogram(targetCanvas, matrix, label, extentOverride, revealArea = false) {
-        const context = targetCanvas.getContext("2d");
-        const size = targetCanvas.width;
-        const center = size / 2;
-        const u = { x: matrix[0][0], y: matrix[0][1] };
-        const v = { x: matrix[1][0], y: matrix[1][1] };
-        const vertices = [
-          { x: 0, y: 0 },
-          u,
-          { x: u.x + v.x, y: u.y + v.y },
-          v,
-        ];
-        const extent = extentOverride || parallelogramExtent(matrix);
-        const scale = (size - 90) / (2 * extent);
-        const mapPoint = (point) => ({ x: center + point.x * scale, y: center - point.y * scale });
-
-        context.clearRect(0, 0, size, size);
-        context.fillStyle = "#ffffff";
-        context.fillRect(0, 0, size, size);
-
-        const gridStep = extent > 12 ? 2 : 1;
-        context.strokeStyle = "#e5e8f0";
-        context.lineWidth = 1;
-        for (let value = -extent; value <= extent; value += gridStep) {
-          const x = center + value * scale;
-          const y = center - value * scale;
-          context.beginPath();
-          context.moveTo(x, 24);
-          context.lineTo(x, size - 24);
-          context.stroke();
-          context.beginPath();
-          context.moveTo(24, y);
-          context.lineTo(size - 24, y);
-          context.stroke();
-        }
-
-        context.strokeStyle = "#747d93";
-        context.lineWidth = 2;
-        context.beginPath();
-        context.moveTo(24, center);
-        context.lineTo(size - 24, center);
-        context.moveTo(center, 24);
-        context.lineTo(center, size - 24);
-        context.stroke();
-
-        const plotted = vertices.map(mapPoint);
-        context.beginPath();
-        context.moveTo(plotted[0].x, plotted[0].y);
-        plotted.slice(1).forEach((point) => context.lineTo(point.x, point.y));
-        context.closePath();
-        context.fillStyle = "rgba(100, 87, 230, 0.22)";
-        context.strokeStyle = "#6457e6";
-        context.lineWidth = 5;
-        context.lineJoin = "round";
-        context.fill();
-        context.stroke();
-
-        const origin = mapPoint({ x: 0, y: 0 });
-        drawArrow(context, origin, mapPoint(u), "#4e42c7");
-        drawArrow(context, origin, mapPoint(v), "#147a50");
-
-        context.font = "bold 17px Inter, system-ui, sans-serif";
-        context.fillStyle = "#4e42c7";
-        const uPoint = mapPoint(u);
-        context.fillText("row 1", uPoint.x + 8, uPoint.y - 9);
-        context.fillStyle = "#147a50";
-        const vPoint = mapPoint(v);
-        context.fillText("row 2", vPoint.x + 8, vPoint.y + 21);
-
-        const areaDescription = revealArea ? `; parallelogram area ${Math.abs(matrixDeterminant(matrix))}` : "";
-        targetCanvas.setAttribute("aria-label", `${label}: row 1 is (${u.x}, ${u.y}), row 2 is (${v.x}, ${v.y})${areaDescription}.`);
-      }
-
-      function configureLevelUI() {
-        const isRowLevel = state.level === 4;
-        polygonGameContent.hidden = isRowLevel;
-        rowOperationContent.hidden = !isRowLevel;
-
-        if (isRowLevel) {
-          levelHeading.textContent = "Level 4 · Row operations and area";
-          return;
-        }
-
-        const names = ["Triangle", "Quadrilateral", "Pentagon"];
-        const countWords = ["one", "two", "three"];
-        const boxCounts = ["four", "eight", "twelve"];
-        const plural = state.level === 1 ? "determinant" : "determinants";
-        levelHeading.textContent = `Level ${state.level} · ${names[state.level - 1]} determinants`;
-        answerHeading.textContent = state.level === 1 ? "Make the determinant match." : `Make all ${countWords[state.level - 1]} determinants add up.`;
-        instruction.textContent = `Enter ${boxCounts[state.level - 1]} integers. Your answer is correct when half the sum of the ${countWords[state.level - 1]} absolute ${plural} equals the ${names[state.level - 1].toLowerCase()}’s area.`;
-        formula.classList.toggle("two-matrices", state.level > 1);
-        secondMatrixGroup.hidden = state.level < 2;
-        thirdMatrixGroup.hidden = state.level < 3;
-        formula.setAttribute("aria-label", `One half times the sum of the absolute values of ${countWords[state.level - 1]} two by two ${plural}`);
-      }
-
-      function setupRound() {
-        state.mistakesThisRound = 0;
-        state.answered = false;
-        configureLevelUI();
-
-        feedback.className = "feedback";
-        feedback.innerHTML = "";
-        hintBox.className = "hint-box";
-        hintBox.innerHTML = "";
-        rowFeedback.className = "feedback";
-        rowFeedback.innerHTML = "";
-        rowHintBox.className = "hint-box";
-        rowHintBox.innerHTML = "";
-
-        roundText.textContent = `Round ${state.round} of ${TOTAL_ROUNDS}`;
-        scoreText.textContent = `Score: ${state.score}`;
-        progressBar.style.width = `${((state.round - 1) / TOTAL_ROUNDS) * 100}%`;
-
-        if (state.level === 4) {
-          state.rowChallenge = makeRowChallenge();
-          areaBInput.value = "";
-          areaBInput.disabled = false;
-          rowCheckButton.hidden = false;
-          rowHintButton.hidden = false;
-          rowNextButton.hidden = true;
-          setStaticMatrix("a", state.rowChallenge.A);
-          setStaticMatrix("b", state.rowChallenge.B);
-          areaAValue.textContent = state.rowChallenge.areaA;
-          const sharedExtent = Math.max(parallelogramExtent(state.rowChallenge.A), parallelogramExtent(state.rowChallenge.B));
-          drawParallelogram(matrixACanvas, state.rowChallenge.A, "Parallelogram for matrix A", sharedExtent, true);
-          drawParallelogram(matrixBCanvas, state.rowChallenge.B, "Parallelogram for matrix B", sharedExtent, false);
-          areaBInput.focus();
-          return;
-        }
-
-        state.polygon = makePolygon();
-        allInputs.forEach((input) => {
-          input.value = "";
-          input.disabled = false;
-        });
-        checkButton.hidden = false;
-        hintButton.hidden = false;
-        nextButton.hidden = true;
-        renderCoordinates();
-        drawPolygon();
-        firstInputs[0].focus();
-      }
-
-      function renderCoordinates() {
-        const names = ["A", "B", "C", "D", "E"];
-        const shapeName = ["triangle", "quadrilateral", "pentagon"][state.level - 1];
-        coordinatesEl.setAttribute("aria-label", `${shapeName} vertices`);
-        coordinatesEl.innerHTML = state.polygon.points
-          .map((point, index) => `<span class="coordinate-chip">${names[index]} = (${point.x}, ${point.y})</span>`)
-          .join("");
-
-        const vertexDescription = state.polygon.points
-          .map((point, index) => `${names[index]} at ${point.x}, ${point.y}`)
-          .join("; ");
-        canvas.setAttribute("aria-label", `Coordinate grid with ${shapeName} vertices ${vertexDescription}.`);
-      }
-
-      function drawPolygon() {
-        const size = canvas.width;
-        const pad = 58;
-        const gridSize = size - pad * 2;
-        const step = gridSize / 10;
-
-        ctx.clearRect(0, 0, size, size);
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, size, size);
-
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = "#e2e6ef";
-        ctx.font = "15px Inter, system-ui, sans-serif";
-        ctx.fillStyle = "#6b7489";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-
-        for (let i = 0; i <= 10; i += 1) {
-          const x = pad + i * step;
-          const y = pad + i * step;
-
-          ctx.beginPath();
-          ctx.moveTo(x, pad);
-          ctx.lineTo(x, size - pad);
-          ctx.stroke();
-
-          ctx.beginPath();
-          ctx.moveTo(pad, y);
-          ctx.lineTo(size - pad, y);
-          ctx.stroke();
-
-          ctx.fillText(String(i), x, size - pad + 25);
-          ctx.fillText(String(10 - i), pad - 26, y);
-        }
-
-        ctx.strokeStyle = "#6d7690";
-        ctx.lineWidth = 2;
-        ctx.strokeRect(pad, pad, gridSize, gridSize);
-
-        const mapPoint = ({ x, y }) => ({
-          x: pad + x * step,
-          y: size - pad - y * step,
-        });
-
-        const plotted = state.polygon.points.map(mapPoint);
-
-        ctx.beginPath();
-        ctx.moveTo(plotted[0].x, plotted[0].y);
-        plotted.slice(1).forEach((point) => ctx.lineTo(point.x, point.y));
-        ctx.closePath();
-        ctx.fillStyle = "rgba(100, 87, 230, 0.24)";
-        ctx.strokeStyle = "#6457e6";
-        ctx.lineWidth = 5;
-        ctx.lineJoin = "round";
-        ctx.fill();
-        ctx.stroke();
-
-        if (state.level > 1) {
-          ctx.save();
-          ctx.setLineDash([12, 10]);
-          ctx.strokeStyle = "rgba(78, 66, 199, 0.72)";
-          ctx.lineWidth = 3;
-          for (let i = 2; i < plotted.length - 1; i += 1) {
-            ctx.beginPath();
-            ctx.moveTo(plotted[0].x, plotted[0].y);
-            ctx.lineTo(plotted[i].x, plotted[i].y);
-            ctx.stroke();
-          }
-          ctx.restore();
-        }
-
-        const labels = ["A", "B", "C", "D", "E"];
-        plotted.forEach((point, index) => {
-          ctx.beginPath();
-          ctx.arc(point.x, point.y, 8, 0, Math.PI * 2);
-          ctx.fillStyle = "#182033";
-          ctx.fill();
-
-          ctx.font = "bold 19px Inter, system-ui, sans-serif";
-          ctx.fillStyle = "#182033";
-          ctx.textAlign = "left";
-          ctx.textBaseline = "bottom";
-          ctx.fillText(labels[index], point.x + 12, point.y - 10);
-        });
-      }
-
-      function showHint() {
-        if (state.level === 4) {
-          rowHintBox.innerHTML = "The area of the parallelogram is <strong>|det(B)|</strong>. For B = [[a, b], [c, d]], compute |ad − bc|.";
-          rowHintBox.className = "hint-box show";
-          return;
-        }
-        const points = state.polygon.points;
-        const labels = ["B", "C", "D", "E"];
-        const vectors = points.slice(1).map((point) => vectorFrom(points[0], point));
-        if (state.level === 1) {
-          hintBox.innerHTML = `Use two side vectors from A: <strong>B − A = (${vectors[0].x}, ${vectors[0].y})</strong> and <strong>C − A = (${vectors[1].x}, ${vectors[1].y})</strong>. Put those vectors in the two rows.`;
-        } else {
-          const triangles = [];
-          for (let i = 0; i < state.level; i += 1) {
-            triangles.push(`<strong>${labels[i]} − A = (${vectors[i].x}, ${vectors[i].y})</strong> and <strong>${labels[i + 1]} − A = (${vectors[i + 1].x}, ${vectors[i + 1].y})</strong>`);
-          }
-          hintBox.innerHTML = `The dashed diagonals split the polygon into ${state.level} triangles from A. Use these row-vector pairs: ${triangles.join("; ")}.`;
-        }
-        hintBox.className = "hint-box show";
-      }
-
-      function readValues(inputs) {
-        const values = inputs.map((input) => Number(input.value));
-        if (values.some((value) => !Number.isFinite(value) || !Number.isInteger(value))) {
-          return null;
-        }
-        return values;
-      }
-
-      function determinant([a, b, c, d]) {
-        return a * d - b * c;
-      }
-
-      function checkAnswer() {
-        if (state.level === 4) {
-          checkRowAnswer();
-          return;
-        }
-        if (state.answered) return;
-        const groups = [firstInputs, secondInputs, thirdInputs].slice(0, state.level);
-        const values = groups.map(readValues);
-        if (values.some((group) => !group)) {
-          feedback.className = "feedback show bad";
-          feedback.textContent = `Please enter an integer in each of the ${state.level * 4} boxes.`;
-          playTone(false);
-          return;
-        }
-        const dets = values.map(determinant);
-        const magnitudes = dets.map(Math.abs);
-        const submittedTwiceArea = magnitudes.reduce((sum, value) => sum + value, 0);
-        const target = state.polygon.twiceArea;
-        if (submittedTwiceArea === target) {
-          state.answered = true;
-          const earned = Math.max(40, 100 - state.mistakesThisRound * 15);
-          state.score += earned;
-          scoreText.textContent = `Score: ${state.score}`;
-          progressBar.style.width = `${(state.round / TOTAL_ROUNDS) * 100}%`;
-          const matrices = canonicalMatrices();
-          feedback.className = "feedback show good";
-          const sumText = magnitudes.join(" + ");
-          feedback.innerHTML = `<strong>Correct!</strong> The determinant magnitudes are ${magnitudes.join(", ")}, so ½(${sumText}) = ${formatArea(target)}.<div class="canonical">One coordinate-based answer is ${matrices.map(matrixText).join("; ")}.</div>`;
-          activeInputs().forEach((input) => { input.disabled = true; });
-          checkButton.hidden = true;
-          hintButton.hidden = true;
-          nextButton.hidden = false;
-          nextButton.textContent = state.round === TOTAL_ROUNDS ? "Finish level" : `Next ${["triangle", "quadrilateral", "pentagon"][state.level - 1]}`;
-          nextButton.focus();
-          playTone(true, target);
-        } else {
-          state.mistakesThisRound += 1;
-          feedback.className = "feedback show bad";
-          feedback.innerHTML = `<strong>Not yet.</strong> Your determinant magnitudes are ${magnitudes.join(", ")}, so your area is ${formatArea(submittedTwiceArea)}. Try different matrices.`;
-          playTone(false);
-        }
-      }
-
-      function checkRowAnswer() {
-        if (state.answered) return;
-        const submitted = Number(areaBInput.value);
-        if (!Number.isFinite(submitted) || submitted < 0) {
-          rowFeedback.className = "feedback show bad";
-          rowFeedback.textContent = "Please enter a nonnegative number for the area.";
-          playTone(false);
-          return;
-        }
-
-        const target = state.rowChallenge.areaB;
-        if (submitted === target) {
-          state.answered = true;
-          const earned = Math.max(40, 100 - state.mistakesThisRound * 15);
-          state.score += earned;
-          scoreText.textContent = `Score: ${state.score}`;
-          progressBar.style.width = `${(state.round / TOTAL_ROUNDS) * 100}%`;
-          rowFeedback.className = "feedback show good";
-          rowFeedback.innerHTML = `<strong>Correct!</strong> |det(B)| = ${target}, so the parallelogram has area ${target} square units.<div class="canonical">For comparison, |det(A)| = ${state.rowChallenge.areaA}.</div>`;
-          areaBInput.disabled = true;
-          rowCheckButton.hidden = true;
-          rowHintButton.hidden = true;
-          rowNextButton.hidden = false;
-          rowNextButton.textContent = state.round === TOTAL_ROUNDS ? "Finish level" : "Next matrix";
-          rowNextButton.focus();
-          playTone(true, target);
-        } else {
-          state.mistakesThisRound += 1;
-          rowFeedback.className = "feedback show bad";
-          rowFeedback.innerHTML = `<strong>Not yet.</strong> Compute |det(B)| directly from the entries of matrix B.`;
-          playTone(false);
-        }
-      }
-
-      function finishLevel() {
-        completeTitle.textContent = `Level ${state.level} complete!`;
-        completeText.textContent = [
-          "You matched every triangle with a determinant.",
-          "You split every quadrilateral into two determinant areas.",
-          "You split every pentagon into three determinant areas.",
-          "You tracked how row operations change parallelogram area."
-        ][state.level - 1];
-        finalScore.textContent = `Final score: ${state.score} / ${TOTAL_ROUNDS * 100}`;
-        nextLevelButton.hidden = state.level >= 4;
-        nextLevelButton.textContent = `Play Level ${state.level + 1}`;
-        showScreen("complete");
-        playCelebration();
-      }
-
-      function nextRound() {
-        if (!state.answered) return;
-        if (state.round >= TOTAL_ROUNDS) {
-          finishLevel();
-          return;
-        }
-        state.round += 1;
-        setupRound();
-      }
-
-      function startGame(level) {
-        state.level = level;
-        state.round = 1;
-        state.score = 0;
-        showScreen("game");
-        setupRound();
-      }
-
-      function playTone(correct, areaMagnitude = 10) {
-        if (!state.soundOn) return;
-        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContextClass) return;
-
-        const audio = playTone.context || (playTone.context = new AudioContextClass());
-        const osc = audio.createOscillator();
-        const gain = audio.createGain();
-        const now = audio.currentTime;
-
-        osc.type = correct ? "sine" : "triangle";
-        osc.frequency.setValueAtTime(correct ? 440 + Math.min(areaMagnitude, 80) * 3 : 180, now);
-        if (correct) osc.frequency.exponentialRampToValueAtTime(660, now + 0.18);
-
-        const volume = correct ? Math.min(0.12, 0.045 + areaMagnitude / 1600) : 0.035;
-        gain.gain.setValueAtTime(0.0001, now);
-        gain.gain.exponentialRampToValueAtTime(volume, now + 0.02);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.28);
-
-        osc.connect(gain);
-        gain.connect(audio.destination);
-        osc.start(now);
-        osc.stop(now + 0.3);
-      }
-
-      function playCelebration() {
-        if (!state.soundOn) return;
-        [0, 150, 300].forEach((delay, index) => {
-          window.setTimeout(() => playTone(true, 18 + index * 20), delay);
-        });
-      }
-
-      function toggleSound() {
-        state.soundOn = !state.soundOn;
-        soundButton.textContent = state.soundOn ? "Sound on" : "Sound off";
-        soundButton.setAttribute("aria-pressed", String(state.soundOn));
-      }
-
-      document.getElementById("startLevel1Button").addEventListener("click", () => startGame(1));
-      document.getElementById("startLevel2Button").addEventListener("click", () => startGame(2));
-      document.getElementById("startLevel3Button").addEventListener("click", () => startGame(3));
-      document.getElementById("startLevel4Button").addEventListener("click", () => startGame(4));
-      document.getElementById("playAgainButton").addEventListener("click", () => startGame(state.level));
-      nextLevelButton.addEventListener("click", () => startGame(state.level + 1));
-      document.getElementById("homeButton").addEventListener("click", () => showScreen("home"));
-      document.getElementById("menuButton").addEventListener("click", () => showScreen("home"));
-      checkButton.addEventListener("click", checkAnswer);
-      hintButton.addEventListener("click", showHint);
-      nextButton.addEventListener("click", nextRound);
-      rowCheckButton.addEventListener("click", checkRowAnswer);
-      rowHintButton.addEventListener("click", showHint);
-      rowNextButton.addEventListener("click", nextRound);
-      areaBInput.addEventListener("keydown", (event) => {
-        if (event.key === "Enter") {
-          event.preventDefault();
-          checkRowAnswer();
-        }
+    </aside>
+  </div>
+</main>
+<noscript><p style="padding:20px;text-align:center;color:#ffd08b">Enable JavaScript to play.</p></noscript>
+<script>
+'use strict';
+(() => {
+  /* Level design follows HowLoud.html: five rounds per level; any integer
+     matrices with the required sum of absolute determinants are accepted.
+     Level 4 uses the same starting-matrix ranges and row-operation factors.
+     The UI palette and controls follow Determinant Lab. No external assets. */
+  const $ = id => document.getElementById(id);
+  const TOTAL = 5;
+  const NAMES = ['Triangles', 'Quadrilaterals', 'Pentagons', 'Row operations'];
+  const LETTERS = ['A', 'B', 'C', 'D', 'E'];
+  const C = {cyan:'#56dfff', violet:'#b39aff', lime:'#c6f879', ink:'#f3f6ff', muted:'#95a2bd', bg:'#0c1426'};
+  const state = {level:1, round:1, score:0, mistakes:0, answered:false, complete:false, polygon:null, challenge:null, sound:true};
+  let fields = [], audio = null, timers = [], drawFrame = 0;
+  const randomInt = (min,max) => Math.floor(Math.random() * (max-min+1)) + min;
+  const choose = a => a[randomInt(0,a.length-1)];
+  const cross = (o,a,b) => (a.x-o.x)*(b.y-o.y)-(a.y-o.y)*(b.x-o.x);
+  const determinant = m => m[0][0]*m[1][1]-m[0][1]*m[1][0];
+  const detBig = a => a[0]*a[3]-a[1]*a[2];
+  const absBig = x => x < 0n ? -x : x;
+  const fmt = n => String(Object.is(n,-0)?0:n).replaceAll('-','−');
+  const svgNum = n => Number(n.toFixed(2));
+  const areaText = twice => {const n=typeof twice==='bigint'?twice:BigInt(twice);return String(n/2n)+(n%2n?'.5':'');};
+  function doubledArea(points) {
+    return Math.abs(points.reduce((sum,p,i) => {const q=points[(i+1)%points.length];return sum+p.x*q.y-p.y*q.x;},0));
+  }
+  function convexHull(points) {
+    const sorted=[...points].sort((a,b)=>a.x-b.x||a.y-b.y), lower=[], upper=[];
+    for(const p of sorted){while(lower.length>=2&&cross(lower.at(-2),lower.at(-1),p)<=0)lower.pop();lower.push(p);}
+    for(const p of sorted.reverse()){while(upper.length>=2&&cross(upper.at(-2),upper.at(-1),p)<=0)upper.pop();upper.push(p);}
+    lower.pop();upper.pop();return lower.concat(upper);
+  }
+  function makePolygon(n) {
+    for(let attempt=0;attempt<3000;attempt++) {
+      const unique=new Map();
+      for(let k=0;k<100 && unique.size<n;k++){const p={x:randomInt(0,10),y:randomInt(0,10)};unique.set(`${p.x},${p.y}`,p);}
+      if(unique.size!==n)continue;
+      const points=convexHull([...unique.values()]), twiceArea=doubledArea(points);
+      if(points.length===n&&twiceArea>=n)return {points,twiceArea};
+    }
+    // A finite fallback keeps unusual random-number environments responsive.
+    const fallback={3:[[1,1],[9,2],[4,9]],4:[[1,1],[8,1],[9,8],[2,9]],5:[[1,2],[6,0],[10,5],[7,10],[1,8]]};
+    const points=fallback[n].map(([x,y])=>({x,y}));return {points,twiceArea:doubledArea(points)};
+  }
+  function makeRowChallenge() {
+    let A=[[2,1],[1,2]];
+    for(let i=0;i<1000;i++) {
+      const m=[[randomInt(-4,4),randomInt(-4,4)],[randomInt(-4,4),randomInt(-4,4)]];
+      if(determinant(m)!==0&&Math.abs(determinant(m))<=24){A=m;break;}
+    }
+    const B=A.map(row=>[...row]), kind=choose(['swap','scale','add']);
+    let row=0, factor=1;
+    if(kind==='swap')[B[0],B[1]]=[B[1],B[0]];
+    else if(kind==='scale'){row=randomInt(0,1);factor=choose([-3,-2,-1,2,3]);B[row]=B[row].map(x=>factor*x);}
+    else {row=randomInt(0,1);factor=choose([-3,-2,-1,1,2,3]);B[row]=B[row].map((x,i)=>x+factor*A[1-row][i]);}
+    return {A,B,kind,row,factor,areaA:Math.abs(determinant(A)),areaB:Math.abs(determinant(B))};
+  }
+  function matrixInputs(index) {
+    const inputs=Array.from({length:4},(_,i)=>`<input class="matrix-input${i>=2?' row2':''}" id="m${index}-${i}" type="text" inputmode="text" autocomplete="off" spellcheck="false" maxlength="24" aria-label="Matrix ${index+1}, row ${Math.floor(i/2)+1}, column ${i%2+1}" aria-describedby="prompt feedback" placeholder="·">`).join('');
+    return `<div class="det-term" role="group" aria-label="One half of the absolute determinant of matrix ${index+1}"><span class="fraction" aria-hidden="true"><span>1</span><span>2</span></span><div class="absolute"><span class="det-word" aria-hidden="true">det</span><div class="matrix-brackets"><div class="matrix-inputs">${inputs}</div></div></div></div>`;
+  }
+  function staticMatrix(name,m) {
+    const cells=m.flat().map(v=>`<span class="static-cell">${fmt(v)}</span>`).join('');
+    return `<div class="matrix-display" aria-label="Matrix ${name}"><span class="matrix-letter" aria-hidden="true">${name} =</span><div class="matrix-brackets"><div class="static-grid" data-matrix="${name}">${cells}</div></div></div>`;
+  }
+  function renderEntries() {
+    if(state.level<4){
+      $('entryRegion').innerHTML=`<div class="expression">${Array.from({length:state.level},(_,i)=>matrixInputs(i)).join('<div class="plus" aria-hidden="true">+</div>')}</div>`;
+    } else {
+      const q=state.challenge;
+      $('entryRegion').innerHTML=`<div class="comparison"><section class="comparison-item" aria-label="Given matrix A">${staticMatrix('A',q.A)}<div class="area-readout"><span class="area-label">Area</span><span id="areaA" class="area-value">${q.areaA}</span></div></section><section class="comparison-item" aria-label="Find the area for matrix B">${staticMatrix('B',q.B)}<div class="area-readout"><label class="area-label" for="areaB">Area</label><input id="areaB" class="area-input" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" maxlength="24" placeholder="?" aria-label="Area of B’s parallelogram" aria-describedby="prompt feedback"></div></section></div>`;
+    }
+    fields=[...$('entryRegion').querySelectorAll('input')];
+    fields.forEach((input,index)=>{
+      input.addEventListener('input',()=>{
+        input.removeAttribute('aria-invalid');
+        if(!state.answered)setFeedback('');
+        if(input.classList.contains('matrix-input'))input.style.fontSize=input.value.length>8?'10px':input.value.length>4?'14px':'';
+        else input.style.fontSize=input.value.length>8?'13px':'';
       });
-      soundButton.addEventListener("click", toggleSound);
-
-      allInputs.forEach((input) => {
-        input.addEventListener("keydown", (event) => {
-          if (event.key !== "Enter") return;
-          event.preventDefault();
-          const inputs = activeInputs();
-          const index = inputs.indexOf(input);
-          if (index < inputs.length - 1 && inputs[index + 1].value === "") {
-            inputs[index + 1].focus();
-          } else {
-            checkAnswer();
-          }
-        });
+      input.addEventListener('keydown',e=>{
+        if(e.key!=='Enter')return;
+        e.preventDefault();
+        if(state.answered){advance();return;}
+        if(index<fields.length-1 && !fields[index+1].value.trim())fields[index+1].focus();
+        else checkAnswer();
       });
-
-      window.addEventListener("resize", () => {
-        if (!screens.game.classList.contains("active")) return;
-        if (state.level === 4 && state.rowChallenge) {
-          const sharedExtent = Math.max(parallelogramExtent(state.rowChallenge.A), parallelogramExtent(state.rowChallenge.B));
-          drawParallelogram(matrixACanvas, state.rowChallenge.A, "Parallelogram for matrix A", sharedExtent, true);
-          drawParallelogram(matrixBCanvas, state.rowChallenge.B, "Parallelogram for matrix B", sharedExtent, false);
-        } else if (state.polygon) {
-          drawPolygon();
-        }
-      });
-    })();
-  </script>
+    });
+  }
+  function setFeedback(text,kind='') {
+    $('feedback').textContent=text;$('feedback').dataset.kind=kind;
+  }
+  function updateScore() {
+    $('score').textContent=`${state.score} pts`;$('score').setAttribute('aria-label',`Score: ${state.score} points`);
+  }
+  function setupRound() {
+    state.mistakes=0;state.answered=false;state.complete=false;
+    closeHint();document.body.dataset.complete='false';
+    $('answerForm').hidden=false;$('complete').hidden=true;$('round').hidden=false;
+    $('round').textContent=`${state.round} / ${TOTAL}`;$('round').setAttribute('aria-label',`Round ${state.round} of ${TOTAL}`);
+    $('prompt').textContent=state.level===4?'Find the area of B.':'Match the area.';
+    $('checkText').textContent='Check';$('check').setAttribute('aria-label','Check answer');$('hintButton').hidden=false;
+    setFeedback('');updateScore();
+    const rows=state.level===4;
+    $('plots').classList.toggle('dual',rows);$('paneB').hidden=!rows;$('nameA').hidden=!rows;
+    if(rows){state.challenge=makeRowChallenge();state.polygon=null;}
+    else {state.polygon=makePolygon(state.level+2);state.challenge=null;}
+    renderEntries();scheduleDraw();
+  }
+  function startLevel(level) {
+    if(!Number.isInteger(level)||level<1||level>4)return;
+    clearTimers();state.level=level;state.round=1;state.score=0;document.body.dataset.level=String(level);
+    NAMES.forEach((name,i)=>{const el=$('level'+(i+1)),on=i+1===level;el.setAttribute('aria-selected',String(on));el.tabIndex=on?0:-1;});
+    $('levelPanel').setAttribute('aria-labelledby','level'+level);$('levelName').textContent=NAMES[level-1];
+    setupRound();
+  }
+  function readInteger(input) {
+    const raw=input.value.trim().replaceAll('−','-');
+    // Blank is not zero. BigInt prevents false matches from rounded products.
+    if(!/^[+-]?\d+$/.test(raw))return null;
+    try{return BigInt(raw);}catch{return null;}
+  }
+  function checkAnswer() {
+    if(state.complete)return;
+    if(state.answered){advance();return;}
+    closeHint();let correct=false, submittedTwice=0n;
+    if(state.level===4){
+      const raw=fields[0].value.trim().replaceAll('−','-');
+      const n=Number(raw);
+      if(!raw || !/^\+?(?:\d+(?:\.\d*)?|\.\d+)$/.test(raw) || !Number.isFinite(n) || n<0){
+        fields[0].setAttribute('aria-invalid','true');setFeedback('Enter a nonnegative area.','bad');fields[0].focus();playTone(false);return;
+      }
+      // Decimal input is allowed here, as in the original area challenge.
+      // Compare exactly with the integer target rather than round a decimal.
+      const [whole,fraction='']=raw.replace(/^\+/,'').split('.');
+      correct=BigInt(whole||'0')===BigInt(state.challenge.areaB) && !/[1-9]/.test(fraction);
+    } else {
+      const values=fields.map(readInteger);
+      if(values.some(n=>n===null)){
+        values.forEach((n,i)=>{if(n===null)fields[i].setAttribute('aria-invalid','true');});
+        setFeedback('Enter an integer in every box.','bad');fields[values.findIndex(n=>n===null)].focus();playTone(false);return;
+      }
+      for(let i=0;i<state.level;i++)submittedTwice+=absBig(detBig(values.slice(i*4,i*4+4)));
+      correct=submittedTwice===BigInt(state.polygon.twiceArea);
+    }
+    if(correct){
+      state.answered=true;state.score+=Math.max(40,100-state.mistakes*15);updateScore();
+      const answer=state.level===4?String(state.challenge.areaB):areaText(state.polygon.twiceArea);
+      setFeedback(`Correct · area ${answer}`,'good');
+      fields.forEach(input=>{input.readOnly=true;input.removeAttribute('aria-invalid');});
+      $('checkText').textContent=state.round===TOTAL?'Finish':'Next';$('check').setAttribute('aria-label',state.round===TOTAL?'Finish level':'Next round');
+      $('hintButton').hidden=true;$('check').focus({preventScroll:true});
+      playTone(true,state.level===4?state.challenge.areaB:state.polygon.twiceArea);
+    } else {
+      state.mistakes++;
+      let text='Try again.';
+      if(state.level<4){const area=areaText(submittedTwice);if(area.length<=14)text=`Not quite · your area ${area}`;}
+      setFeedback(text,'bad');playTone(false);
+    }
+  }
+  function advance() {
+    if(!state.answered || state.complete)return;
+    if(state.round<TOTAL){state.round++;setupRound();if(!window.matchMedia('(pointer:coarse)').matches)fields[0].focus({preventScroll:true});return;}
+    state.complete=true;document.body.dataset.complete='true';closeHint();
+    $('answerForm').hidden=true;$('complete').hidden=false;$('round').hidden=true;
+    $('finalScore').textContent=String(state.score);$('continueText').textContent=state.level<4?'Next level':'Play again';$('replay').hidden=state.level===4;
+    $('completeTitle').focus({preventScroll:true});scheduleDraw();
+    [0,150,300].forEach((delay,i)=>timers.push(setTimeout(()=>playTone(true,18+i*20),delay)));
+  }
+  function closeHint(focus=false) {
+    $('hint').hidden=true;$('hintButton').setAttribute('aria-expanded','false');$('hintButton').setAttribute('aria-label','Show hint');
+    if(focus)$('hintButton').focus({preventScroll:true});
+  }
+  function showHint() {
+    if(!$('hint').hidden){closeHint(true);return;}
+    if(state.level===4){
+      $('hintContent').innerHTML='<h2>For B = [a b; c d]</h2><div class="hint-math">Area = |ad − bc|</div>';
+    } else {
+      const points=state.polygon.points, o=points[0];
+      const pairLines=Array.from({length:state.level},(_,i)=>{
+        const u=points[i+1],v=points[i+2];
+        return `<div class="hint-pair"><span class="hint-triangle">A${LETTERS[i+1]}${LETTERS[i+2]}</span><span><span class="hint-row1">(${fmt(u.x-o.x)}, ${fmt(u.y-o.y)})</span><span style="color:#70819e"> ; </span><span class="hint-row2">(${fmt(v.x-o.x)}, ${fmt(v.y-o.y)})</span></span></div>`;
+      }).join('');
+      $('hintContent').innerHTML=`<h2>Use these row pairs from A.</h2><div class="hint-vectors">${pairLines}</div>`;
+    }
+    $('hint').hidden=false;$('hintButton').setAttribute('aria-expanded','true');$('hintButton').setAttribute('aria-label','Hide hint');$('hint').focus({preventScroll:true});
+  }
+  // Responsive SVG graphs use CSS-pixel view boxes, so strokes and type stay crisp.
+  function niceStep(n) {
+    const base=10**Math.floor(Math.log10(n)), f=n/base;
+    return (f<=1?1:f<=2?2:f<=5?5:10)*base;
+  }
+  function pointMap(W,H,camera) {return p=>({x:W/2+(p.x-camera.x)*camera.scale,y:H/2-(p.y-camera.y)*camera.scale});}
+  function path(points,map,close=true) {return points.map((p,i)=>{const q=map(p);return `${i?'L':'M'}${svgNum(q.x)},${svgNum(q.y)}`;}).join(' ')+(close?' Z':'');}
+  function grid(W,H,camera,reserved=[]) {
+    const {x:cx,y:cy,scale:s}=camera, map=pointMap(W,H,camera), o=map({x:0,y:0});
+    const x0=cx-W/(2*s),x1=cx+W/(2*s),y0=cy-H/(2*s),y1=cy+H/(2*s);
+    const minor=niceStep(13/s),major=niceStep(45/s), tick=niceStep(45/s);
+    const clearOfLabels=box=>!reserved.some(r=>overlap(box,{x:r.x-3,y:r.y-3,w:r.w+6,h:r.h+6})>0);
+    const lines=(step,color,width)=>{
+      let d='';
+      for(let i=Math.ceil(x0/step);i<=Math.floor(x1/step);i++){const x=svgNum(map({x:i*step,y:0}).x);d+=`M${x},0V${H}`;}
+      for(let i=Math.ceil(y0/step);i<=Math.floor(y1/step);i++){const y=svgNum(map({x:0,y:i*step}).y);d+=`M0,${y}H${W}`;}
+      return `<path d="${d}" stroke="${color}" stroke-width="${width}" fill="none"/>`;
+    };
+    let out=lines(minor,'#26354b55',.65)+lines(major,'#33496566',.8);
+    out+=`<path d="M0,${svgNum(o.y)}H${W-9}m-5,-3 5,3-5,3 M${svgNum(o.x)},${H}V9m-3,5 3,-5 3,5" fill="none" stroke="#8298b580" stroke-width="1"/>`;
+    out+='<g fill="#7e91ad" font-size="10" font-family="ui-monospace,monospace">';
+    for(let i=Math.ceil(x0/tick);i<=Math.floor(x1/tick);i++){
+      if(!i)continue;const v=Number((i*tick).toPrecision(9)),x=map({x:v,y:0}).x;
+      if(x<21||x>W-28)continue;
+      const text=fmt(v), width=textWidth(text,10);
+      if(!clearOfLabels({x:x-width/2,y:Math.min(H-9,o.y+17)-10,w:width,h:13}))continue;
+      out+=`<text x="${svgNum(x)}" y="${svgNum(Math.min(H-9,o.y+17))}" text-anchor="middle">${fmt(v)}</text>`;
+    }
+    for(let i=Math.ceil(y0/tick);i<=Math.floor(y1/tick);i++){
+      if(!i)continue;const v=Number((i*tick).toPrecision(9)),y=map({x:0,y:v}).y;
+      if(y<24||y>H-14)continue;
+      const width=textWidth(fmt(v),10);
+      if(!clearOfLabels({x:Math.max(24,o.x-10)-width,y:y-8,w:width,h:13}))continue;
+      out+=`<text x="${svgNum(Math.max(24,o.x-10))}" y="${svgNum(y+3)}" text-anchor="end">${fmt(v)}</text>`;
+    }
+    if(clearOfLabels({x:o.x-16,y:o.y+7,w:9,h:13}))out+=`<text x="${svgNum(o.x-9)}" y="${svgNum(o.y+17)}" text-anchor="end">0</text>`;
+    out+=`<text x="${W-13}" y="${svgNum(Math.min(H-9,o.y+18))}" text-anchor="end">x</text><text x="${svgNum(o.x+11)}" y="20">y</text></g>`;
+    return out;
+  }
+  const measure=document.createElement('canvas').getContext('2d');
+  function textWidth(s,font=12){measure.font=`${font}px ui-monospace,Consolas,monospace`;return measure.measureText(s).width;}
+  const overlap=(a,b)=>Math.max(0,Math.min(a.x+a.w,b.x+b.w)-Math.max(a.x,b.x))*Math.max(0,Math.min(a.y+a.h,b.y+b.h)-Math.max(a.y,b.y));
+  function inside(p,poly) {
+    let result=false;
+    for(let i=0,j=poly.length-1;i<poly.length;j=i++){
+      const a=poly[i],b=poly[j];
+      if((a.y>p.y)!==(b.y>p.y) && p.x<(b.x-a.x)*(p.y-a.y)/(b.y-a.y)+a.x)result=!result;
+    }
+    return result;
+  }
+  function labelPositions(points,texts,center,W,H,polygon=points,reserved=[]) {
+    const placed=[...reserved];
+    return points.map((p,index)=>{
+      const w=textWidth(texts[index])+2,h=18,base=Math.atan2(p.y-center.y,p.x-center.x);
+      let best=null,bestCost=Infinity;
+      for(const offset of [0,.35,-.35,.75,-.75,1.2,-1.2,1.8,-1.8,Math.PI]){
+        const a=base+offset,nx=Math.cos(a),ny=Math.sin(a),d=12+Math.abs(nx)*w/2+Math.abs(ny)*h/2;
+        const raw={x:p.x+nx*d-w/2,y:p.y+ny*d-h/2,w,h};
+        const box={...raw,x:Math.max(8,Math.min(W-w-8,raw.x)),y:Math.max(8,Math.min(H-h-8,raw.y))};
+        const middle={x:box.x+w/2,y:box.y+h/2};
+        let cost=Math.abs(offset)*5+Math.abs(box.x-raw.x)*3+Math.abs(box.y-raw.y)*3;
+        if(inside(middle,polygon))cost+=95;
+        for(const other of placed)cost+=overlap(box,other)*7;
+        for(const q of points)cost+=overlap(box,{x:q.x-9,y:q.y-9,w:18,h:18})*8;
+        if(cost<bestCost){best=box;bestCost=cost;}
+      }
+      placed.push({...best,x:best.x-3,y:best.y-3,w:best.w+6,h:best.h+6});return best;
+    });
+  }
+  function drawPolygon(svg,W,H) {
+    const points=state.polygon.points;
+    const camera={x:5,y:5,scale:Math.max(5,Math.min((W-112)/10,(H-112)/10))},map=pointMap(W,H,camera);
+    const plotted=points.map(map),center={x:plotted.reduce((s,p)=>s+p.x,0)/plotted.length,y:plotted.reduce((s,p)=>s+p.y,0)/plotted.length};
+    const labels=points.map((p,i)=>`${LETTERS[i]} (${p.x}, ${p.y})`);
+    const positions=labelPositions(plotted,labels,center,W,H);
+    let out=grid(W,H,camera,positions);
+    out+=`<path d="${path(points,map)}" fill="#c6f87914" stroke="#79c1c9" stroke-opacity=".8" stroke-width="1.6" stroke-linejoin="round"/>`;
+    if(points.length>3){
+      let d='';for(let i=2;i<points.length-1;i++)d+=path([points[0],points[i]],map,false);
+      out+=`<path d="${d}" fill="none" stroke="${C.violet}" stroke-opacity=".7" stroke-width="1.2" stroke-dasharray="5 6"/>`;
+    }
+    plotted.forEach((p,i)=>{
+      out+=`<circle cx="${svgNum(p.x)}" cy="${svgNum(p.y)}" r="3.2" fill="#dfeafb" stroke="${C.bg}" stroke-width="1.3"/>`;
+      const b=positions[i],v=points[i];
+      out+=`<text x="${svgNum(b.x)}" y="${svgNum(b.y+b.h/2)}" dominant-baseline="central" font-size="12" fill="${C.ink}" stroke="${C.bg}" stroke-width="5" stroke-linejoin="round" paint-order="stroke"><tspan>${LETTERS[i]}</tspan><tspan fill="${C.muted}"> (${v.x}, ${v.y})</tspan></text>`;
+    });
+    svg.setAttribute('aria-label',`${NAMES[state.level-1].slice(0,-1)} with vertices ${points.map((p,i)=>`${LETTERS[i]} (${p.x}, ${p.y})`).join('; ')}.${state.level>1?' Dashed diagonals from A divide it into '+state.level+' triangles.':''}`);
+    svg.innerHTML=out;
+  }
+  function corners(m){const u={x:m[0][0],y:m[0][1]},v={x:m[1][0],y:m[1][1]};return [{x:0,y:0},u,{x:u.x+v.x,y:u.y+v.y},v];}
+  function arrow(a,b,color) {
+    const dx=b.x-a.x,dy=b.y-a.y,len=Math.hypot(dx,dy);if(len<1)return '';
+    const ux=dx/len,uy=dy/len,head=Math.min(9,len*.35),bx=b.x-head*ux,by=b.y-head*uy;
+    return `<path d="M${svgNum(a.x)},${svgNum(a.y)}L${svgNum(bx+ux*2)},${svgNum(by+uy*2)}" stroke="${color}" stroke-width="2.4" fill="none"/><path d="M${svgNum(b.x)},${svgNum(b.y)}L${svgNum(bx-uy*head*.4)},${svgNum(by+ux*head*.4)}L${svgNum(bx+ux*head*.4)},${svgNum(by-uy*head*.4)}Z" fill="${color}"/>`;
+  }
+  function drawRows(svg,matrix,name,W,H,camera) {
+    const points=corners(matrix),map=pointMap(W,H,camera),p=points.map(map),o=p[0];
+    const texts=['r₁','r₂'],tips=[p[1],p[3]],positions=labelPositions(tips,texts,o,W,H,p,[{x:10,y:7,w:35,h:40}]);
+    let out=grid(W,H,camera,[...positions,{x:10,y:7,w:35,h:40}]);
+    out+=`<path d="${path(points,map)}" fill="#c6f87916" stroke="#9fb88d90" stroke-width="1.2" stroke-linejoin="round"/>`;
+    out+=`<path d="${path([points[1],points[2]],map,false)}" stroke="${C.violet}" stroke-opacity=".45" fill="none"/><path d="${path([points[3],points[2]],map,false)}" stroke="${C.cyan}" stroke-opacity=".45" fill="none"/>`;
+    out+=arrow(o,p[1],C.cyan)+arrow(o,p[3],C.violet);
+    positions.forEach((b,i)=>{out+=`<text x="${svgNum(b.x)}" y="${svgNum(b.y+b.h/2)}" dominant-baseline="central" font-size="12" fill="${i?C.violet:C.cyan}" stroke="${C.bg}" stroke-width="4" paint-order="stroke">${texts[i]}</text>`;});
+    out+=`<circle cx="${svgNum(o.x)}" cy="${svgNum(o.y)}" r="3.1" fill="#dfeafb" stroke="${C.bg}" stroke-width="1.2"/>`;
+    svg.setAttribute('aria-label',`Parallelogram ${name}: row 1 (${matrix[0].join(', ')}); row 2 (${matrix[1].join(', ')}).${name==='A'?' Area '+state.challenge.areaA+'.':''} Same coordinate scale as the other diagram.`);
+    svg.innerHTML=out;
+  }
+  function draw() {
+    const graphs=state.level===4?[$('graphA'),$('graphB')]:[$('graphA')];
+    const sizes=graphs.map(svg=>{const r=svg.getBoundingClientRect(),W=Math.max(1,Math.round(r.width)),H=Math.max(1,Math.round(r.height));svg.setAttribute('viewBox',`0 0 ${W} ${H}`);return {W,H};});
+    if(sizes.some(r=>r.W<40||r.H<40))return;
+    if(state.level<4){if(state.polygon)drawPolygon(graphs[0],sizes[0].W,sizes[0].H);return;}
+    if(!state.challenge)return;
+    // Both diagrams share the camera: area comparisons never use different scales.
+    const matrices=[state.challenge.A,state.challenge.B],all=matrices.flatMap(corners);
+    const minX=Math.min(...all.map(p=>p.x)),maxX=Math.max(...all.map(p=>p.x)),minY=Math.min(...all.map(p=>p.y)),maxY=Math.max(...all.map(p=>p.y));
+    const W=Math.min(...sizes.map(r=>r.W)),H=Math.min(...sizes.map(r=>r.H));
+    const camera={x:(minX+maxX)/2,y:(minY+maxY)/2,scale:Math.min((W-96)/Math.max(3,maxX-minX),(H-100)/Math.max(3,maxY-minY))};
+    camera.scale=Math.max(2,camera.scale);
+    graphs.forEach((svg,i)=>drawRows(svg,matrices[i],i?'B':'A',sizes[i].W,sizes[i].H,camera));
+  }
+  function scheduleDraw(){cancelAnimationFrame(drawFrame);drawFrame=requestAnimationFrame(draw);}
+  // Sound stays user-initiated; gain is capped, and unavailable audio is harmless.
+  async function playTone(correct,magnitude=10) {
+    if(!state.sound)return;
+    try {
+      const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)return;
+      if(!audio)audio=new Audio();
+      if(audio.state==='suspended')await audio.resume();
+      if(!state.sound)return;
+      const osc=audio.createOscillator(),gain=audio.createGain(),now=audio.currentTime;
+      osc.type=correct?'sine':'triangle';osc.frequency.setValueAtTime(correct?440+Math.min(magnitude,80)*3:180,now);
+      if(correct)osc.frequency.exponentialRampToValueAtTime(660,now+.18);
+      const volume=correct?Math.min(.12,.045+magnitude/1600):.035;
+      gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(volume,now+.02);gain.gain.exponentialRampToValueAtTime(.0001,now+.28);
+      osc.connect(gain);gain.connect(audio.destination);osc.start(now);osc.stop(now+.3);
+      osc.onended=()=>{osc.disconnect();gain.disconnect();};
+    } catch(_) { /* A browser without audio still has a fully playable game. */ }
+  }
+  function clearTimers(){timers.forEach(clearTimeout);timers=[];}
+  function renderSound() {
+    const icon=state.sound?'<path d="M11.5 6.5a5 5 0 0 1 0 7m2-9a8 8 0 0 1 0 11"/>':'<path d="m12 7 5 6m0-6-5 6"/>';
+    $('sound').innerHTML=`<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h3l4-3v12l-4-3H3Z"/>${icon}</svg>`;
+    $('sound').setAttribute('aria-pressed',String(state.sound));$('sound').title=state.sound?'Mute sound':'Enable sound';
+  }
+  NAMES.forEach((_,index)=>{
+    const el=$('level'+(index+1));
+    el.addEventListener('click',()=>{if(state.level!==index+1)startLevel(index+1);});
+    el.addEventListener('keydown',e=>{
+      let n=index;
+      if(e.key==='ArrowRight')n=(index+1)%4;else if(e.key==='ArrowLeft')n=(index+3)%4;else if(e.key==='Home')n=0;else if(e.key==='End')n=3;else return;
+      e.preventDefault();if(state.level!==n+1)startLevel(n+1);$('level'+(n+1)).focus({preventScroll:true});
+    });
+  });
+  $('answerForm').addEventListener('submit',e=>{e.preventDefault();checkAnswer();});
+  $('hintButton').addEventListener('click',showHint);$('hintClose').addEventListener('click',()=>closeHint(true));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('hint').hidden){e.preventDefault();closeHint(true);}});
+  document.addEventListener('pointerdown',e=>{if(!$('hint').hidden&&!$('hint').contains(e.target)&&!$('hintButton').contains(e.target))closeHint();});
+  $('restart').addEventListener('click',()=>startLevel(state.level));$('replay').addEventListener('click',()=>startLevel(state.level));
+  $('continue').addEventListener('click',()=>{startLevel(state.level<4?state.level+1:state.level);$('level'+state.level).focus({preventScroll:true});});
+  $('sound').addEventListener('click',()=>{state.sound=!state.sound;clearTimers();renderSound();if(!state.sound&&audio)audio.suspend().catch(()=>{});});
+  if('ResizeObserver' in window){const observer=new ResizeObserver(scheduleDraw);observer.observe($('paneA'));observer.observe($('paneB'));}
+  window.addEventListener('resize',scheduleDraw);
+  renderSound();startLevel(1);
+})();
+</script>
 </body>
 </html>
