@@ -19,6 +19,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link rel="stylesheet" href="_static/pretext/fonts/material-symbols-outlined.css">
 <link href="_static/pretext/css/theme.css" rel="stylesheet" type="text/css">
+<style>
+@counter-style ptx-marker-1 { system: extends lower-alpha; prefix: '('; suffix: ') '; }
+</style>
 <script type="module">import { startMathJax } from './_static/pretext/js/dist/mathjax_startup.js';
 startMathJax({
 hasWebworkReps: false,
@@ -124,11 +127,12 @@ eBookConfig.enable_chatcodes =  false;
 <div id="ptx-sidebar" role="complementary" class="ptx-sidebar hidden"><nav id="ptx-toc" tabindex="-1" aria-label="Contents" class="ptx-toc depth0 focused" data-preexpanded-levels="0" data-max-levels="0"><ul class="structural toc-item-list contains-active">
 <li class="toc-item toc-frontmatter"><div class="toc-title-box"><a href="#Normies-2" class="internal"><span class="title">Front Matter</span></a></div></li>
 <li class="toc-item toc-section">
-<div class="toc-title-box"><a href="#Math2301HW4" class="internal"><span class="codenumber">1</span> <span class="title">Normies</span></a></div>
-<ul id="ptx-toc-group-Math2301HW4" class="structural toc-item-list">
-<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#sec-normal-things" class="internal"><span class="codenumber">1.1</span> <span class="title">Normal Things</span></a></div></li>
-<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#sec-quadratic-algebra" class="internal"><span class="codenumber">1.2</span> <span class="title">Quadratic Algebra</span></a></div></li>
-<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#sec-geometry" class="internal"><span class="codenumber">1.3</span> <span class="title">Geometry</span></a></div></li>
+<div class="toc-title-box"><a href="#Math2000Exam2Practice" class="internal"><span class="codenumber">1</span> <span class="title">Determined Ants</span></a></div>
+<ul id="ptx-toc-group-Math2000Exam2Practice" class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#Math2000Exam2Practice-2" class="internal"><span class="codenumber">1.1</span> <span class="title">Matrix Computations</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#section-2" class="internal"><span class="codenumber">1.2</span> <span class="title">Compute Determinants</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#section-3" class="internal"><span class="codenumber">1.3</span> <span class="title">Is the matrix invertible?</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#section-4" class="internal"><span class="codenumber">1.4</span> <span class="title">Geometry</span></a></div></li>
 </ul>
 </li>
 </ul></nav></div>
@@ -137,122 +141,870 @@ eBookConfig.enable_chatcodes =  false;
 <section class="frontmatter" id="Normies-2"><h1 class="heading"><span class="title">Math 2301 Homework 4</span></h1>
 <div class="autopermalink" aria-hidden="true" data-description="Front Matter"><a tabindex="-1" href="#Normies-2" title="Copy heading and permalink for Front Matter" aria-label="Copy heading and permalink for Front Matter">🔗</a></div>
 </section>
-<section class="section" id="Math2301HW4">
+<section class="section" id="Math2000Exam2Practice">
 <h2 class="heading hide-type">
-<span class="type">Section</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Normies</span>
+<span class="type">Section</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Determined Ants</span>
 </h2>
-<section class="subsection" id="sec-normal-things">
+<section class="subsection" id="Math2000Exam2Practice-2">
 <h3 class="heading hide-type">
-<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.1</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Normal Things</span>
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.1</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Matrix Computations</span>
 </h3>
-<details id="ex-norm-scalar" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<div class="para" id="Math2000Exam2Practice-2-2">The focus on this exercise will be on having a specific <span class="process-math">\(1\)</span> or <span class="process-math">\(2\)</span> kinds of matrices and computing various things about them. The goal is to see how well you can understand these small matrices.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Math2000Exam2Practice-2-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="exercise-1-1" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
 <span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.1</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
 </h4></summary>
 <article class="exercise exercise-like knowl__content">
-<div class="para logical" id="ex-norm-scalar-1-1">
-<div class="para">Let <span class="process-math">\(V\)</span> be an inner product space. Show that for all <span class="process-math">\(\vec{v}\in V\)</span> and <span class="process-math">\(c\in\mathbb{R}\text{,}\)</span>
+<div class="para" id="exercise-1-1-1-1">Let <span class="process-math">\(A = \begin{pmatrix} 0 &amp; 1 \\ 1  &amp; 0\end{pmatrix}\)</span> and <span class="process-math">\(B = \begin{pmatrix} 0 &amp;1 \\ -1 &amp;0 \end{pmatrix}\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> 
+<div class="para logical" id="exercise-1-1-1-2">
+<ol class="lower-alpha" style="list-style: ptx-marker-1;" id="exercise-1-1-1-2-1">
+<li id="exercise-1-1-1-2-1-1">
+<div class="para" id="exercise-1-1-1-2-1-1-1">Compute <span class="process-math">\(A + B\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-1-1-2-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
-<div class="displaymath process-math" id="ex-norm-scalar-1-1-4">
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.1.a"><a tabindex="-1" href="#exercise-1-1-1-2-1-1" title="Copy heading and permalink for Item 1.1.a" aria-label="Copy heading and permalink for Item 1.1.a">🔗</a></div>
+</li>
+<li id="exercise-1-1-1-2-1-2">
+<div class="para" id="exercise-1-1-1-2-1-2-1">Compute <span class="process-math">\(B^{4}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-1-1-2-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.1.b"><a tabindex="-1" href="#exercise-1-1-1-2-1-2" title="Copy heading and permalink for Item 1.1.b" aria-label="Copy heading and permalink for Item 1.1.b">🔗</a></div>
+</li>
+<li id="exercise-1-1-1-2-1-3">
+<div class="para" id="exercise-1-1-1-2-1-3-1">Compute <span class="process-math">\(AB\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-1-1-2-1-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.1.c"><a tabindex="-1" href="#exercise-1-1-1-2-1-3" title="Copy heading and permalink for Item 1.1.c" aria-label="Copy heading and permalink for Item 1.1.c">🔗</a></div>
+</li>
+<li id="exercise-1-1-1-2-1-4">
+<div class="para" id="exercise-1-1-1-2-1-4-1">What is the determinant of <span class="process-math">\(B\text{?}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-1-1-2-1-4-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.1.d"><a tabindex="-1" href="#exercise-1-1-1-2-1-4" title="Copy heading and permalink for Item 1.1.d" aria-label="Copy heading and permalink for Item 1.1.d">🔗</a></div>
+</li>
+<li id="exercise-1-1-1-2-1-5">
+<div class="para" id="exercise-1-1-1-2-1-5-1">Is <span class="process-math">\(A^{10}\)</span> invertible?<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-1-1-2-1-5-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.1.e"><a tabindex="-1" href="#exercise-1-1-1-2-1-5" title="Copy heading and permalink for Item 1.1.e" aria-label="Copy heading and permalink for Item 1.1.e">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-1-1-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="exercise-1-1-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para logical" id="exercise-1-1-2-1">
+<div class="para">For (a),</div>
+<div class="displaymath process-math" id="exercise-1-1-2-1-1">
 \begin{equation*}
-\|c\vec{v}\|=|c|\|\vec{v}\|.
+A+B = \begin{pmatrix} 0 &amp; 1 \\ 1  &amp; 0\end{pmatrix} + \begin{pmatrix} 0 &amp;1 \\ -1 &amp;0 \end{pmatrix} = \begin{pmatrix} 0 &amp;2 \\ 0 &amp;0 \end{pmatrix}.
 \end{equation*}
 </div>
-<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-norm-scalar-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<div class="para">For (b):</div>
+<div class="displaymath process-math" id="exercise-1-1-2-1-2">
+\begin{equation*}
+B^{4} = (B^{2})^{2} = \left(\begin{pmatrix} 0 &amp;1 \\ -1 &amp;0 \end{pmatrix}^{2}\right)^{2} = \begin{pmatrix} -1 &amp;0 \\ 0 &amp;-1 \end{pmatrix}^{2} = I_{2}.
+\end{equation*}
 </div>
-<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.1"><a tabindex="-1" href="#ex-norm-scalar" title="Copy heading and permalink for Checkpoint 1.1" aria-label="Copy heading and permalink for Checkpoint 1.1">🔗</a></div>
+<div class="para">For (c),</div>
+<div class="displaymath process-math" id="exercise-1-1-2-1-3">
+\begin{equation*}
+AB = \begin{pmatrix} 0 &amp; 1 \\ 1  &amp; 0\end{pmatrix}\begin{pmatrix} 0 &amp;1 \\ -1 &amp;0 \end{pmatrix} = \begin{pmatrix} -1 &amp;0 \\ 0 &amp; 1\end{pmatrix}.
+\end{equation*}
+</div>
+<div class="para">For (d),</div>
+<div class="displaymath process-math" id="exercise-1-1-2-1-4">
+\begin{equation*}
+\text{det}\begin{pmatrix} 0 &amp;1 \\ -1 &amp;0 \end{pmatrix} = 0^{2} - (-1)(1) = 1.
+\end{equation*}
+</div>
+<div class="para">For (e),</div>
+<div class="displaymath process-math" id="exercise-1-1-2-1-5">
+\begin{equation*}
+\text{det}(A^{10}) = \text{det}(A)^{10} = \text{det}\begin{pmatrix} 0 &amp; 1 \\ 1  &amp; 0\end{pmatrix}^{10} = (-1)^{10} = 1.
+\end{equation*}
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.1.1"><a tabindex="-1" href="#exercise-1-1-2" title="Copy heading and permalink for Solution 1.1.1" aria-label="Copy heading and permalink for Solution 1.1.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.1"><a tabindex="-1" href="#exercise-1-1" title="Copy heading and permalink for Checkpoint 1.1" aria-label="Copy heading and permalink for Checkpoint 1.1">🔗</a></div>
 </article></details>
-<div class="para" id="sec-normal-things-3">A function <span class="process-math">\(f:V\to\mathbb{R}\)</span> is <dfn class="terminology">convex</dfn> if, for any <span class="process-math">\(t\in[0,1]\)</span> and <span class="process-math">\(\vec{x},\vec{y}\in V\text{,}\)</span> <span class="process-math">\(f(t\vec{x}+(1-t)\vec{y})\leq t f(\vec{x})+(1-t)f(\vec{y})\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#sec-normal-things-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
-</div>
-<details id="ex-norm-convex" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<details id="exercise-1-2" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
 <span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.2</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
 </h4></summary>
 <article class="exercise exercise-like knowl__content">
-<div class="para" id="ex-norm-convex-1-1">Let <span class="process-math">\(V\)</span> be an inner product space. Show that <span class="process-math">\(f:V\to\mathbb{R}\)</span> defined by <span class="process-math">\(f(\vec{x})=\|\vec{x}\|\)</span> is a convex function.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-norm-convex-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<div class="para" id="exercise-1-2-1-1">Let <span class="process-math">\(A = \begin{pmatrix} a &amp; 0 \\ 0 &amp; a \end{pmatrix}\)</span> and <span class="process-math">\(B = \begin{pmatrix} 1 &amp;2 \\ 3 &amp; 4 \end{pmatrix}\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-2-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> 
+<div class="para logical" id="exercise-1-2-1-2">
+<ol class="lower-alpha" style="list-style: ptx-marker-1;" id="exercise-1-2-1-2-1">
+<li id="exercise-1-2-1-2-1-1">
+<div class="para" id="exercise-1-2-1-2-1-1-1">Compute <span class="process-math">\(A^{10}\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-2-1-2-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
-<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.2"><a tabindex="-1" href="#ex-norm-convex" title="Copy heading and permalink for Checkpoint 1.2" aria-label="Copy heading and permalink for Checkpoint 1.2">🔗</a></div>
-</article></details><div class="autopermalink" aria-hidden="true" data-description="Subsection 1.1: Normal Things"><a tabindex="-1" href="#sec-normal-things" title="Copy heading and permalink for Subsection 1.1: Normal Things" aria-label="Copy heading and permalink for Subsection 1.1: Normal Things">🔗</a></div>
-</section>
-<section class="subsection" id="sec-quadratic-algebra">
-<h3 class="heading hide-type">
-<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.2</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Quadratic Algebra</span>
-</h3>
-<div class="para" id="sec-quadratic-algebra-2">Let <span class="process-math">\(A\)</span> be an invertible <span class="process-math">\(n\times n\)</span> matrix. Define <span class="process-math">\(\langle\cdot,\cdot\rangle_A:\mathbb{R}^n\times\mathbb{R}^n\to\mathbb{R}\)</span> by <span class="process-math">\(\langle\vec{x},\vec{y}\rangle_A=A\vec{x}\cdot A\vec{y}\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#sec-quadratic-algebra-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.2.a"><a tabindex="-1" href="#exercise-1-2-1-2-1-1" title="Copy heading and permalink for Item 1.2.a" aria-label="Copy heading and permalink for Item 1.2.a">🔗</a></div>
+</li>
+<li id="exercise-1-2-1-2-1-2">
+<div class="para" id="exercise-1-2-1-2-1-2-1">Compute <span class="process-math">\(AB\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-2-1-2-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
-<details id="ex-quadratic-form" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.2.b"><a tabindex="-1" href="#exercise-1-2-1-2-1-2" title="Copy heading and permalink for Item 1.2.b" aria-label="Copy heading and permalink for Item 1.2.b">🔗</a></div>
+</li>
+<li id="exercise-1-2-1-2-1-3">
+<div class="para" id="exercise-1-2-1-2-1-3-1">Compute <span class="process-math">\(BA\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-2-1-2-1-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.2.c"><a tabindex="-1" href="#exercise-1-2-1-2-1-3" title="Copy heading and permalink for Item 1.2.c" aria-label="Copy heading and permalink for Item 1.2.c">🔗</a></div>
+</li>
+<li id="exercise-1-2-1-2-1-4">
+<div class="para" id="exercise-1-2-1-2-1-4-1">Compute <span class="process-math">\(AB - BA\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-2-1-2-1-4-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.2.d"><a tabindex="-1" href="#exercise-1-2-1-2-1-4" title="Copy heading and permalink for Item 1.2.d" aria-label="Copy heading and permalink for Item 1.2.d">🔗</a></div>
+</li>
+<li id="exercise-1-2-1-2-1-5">
+<div class="para" id="exercise-1-2-1-2-1-5-1">For what values of <span class="process-math">\(a\)</span> is <span class="process-math">\(A\)</span> invertible? Explain.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-2-1-2-1-5-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.2.e"><a tabindex="-1" href="#exercise-1-2-1-2-1-5" title="Copy heading and permalink for Item 1.2.e" aria-label="Copy heading and permalink for Item 1.2.e">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-2-1-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="exercise-1-2-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para logical" id="exercise-1-2-2-1">
+<div class="para">For (a), since products of diagonal matrices just correspond to multiplying the elements on the diagonal,</div>
+<div class="displaymath process-math" id="exercise-1-2-2-1-1">
+\begin{equation*}
+A^{10} = \begin{pmatrix} a &amp; 0 \\ 0 &amp; a \end{pmatrix}^{10} = \begin{pmatrix} a^{10} &amp; 0 \\ 0 &amp; a^{10} \end{pmatrix}.
+\end{equation*}
+</div>
+<div class="para">For (b),</div>
+<div class="displaymath process-math" id="exercise-1-2-2-1-2">
+\begin{equation*}
+AB = \begin{pmatrix} a &amp; 0 \\ 0 &amp; a \end{pmatrix} \begin{pmatrix} 1 &amp;2 \\ 3 &amp; 4 \end{pmatrix} = \begin{pmatrix} a &amp;2a \\ 3a &amp; 4a \end{pmatrix}.
+\end{equation*}
+</div>
+<div class="para">For (c),</div>
+<div class="displaymath process-math" id="exercise-1-2-2-1-3">
+\begin{equation*}
+BA =\begin{pmatrix} 1 &amp;2 \\ 3 &amp; 4 \end{pmatrix} \begin{pmatrix} a &amp; 0 \\ 0 &amp; a \end{pmatrix}  = \begin{pmatrix} a &amp;2a \\ 3a &amp; 4a \end{pmatrix}.
+\end{equation*}
+</div>
+<div class="para">For (d), <span class="process-math">\(AB = BA\text{,}\)</span> so <span class="process-math">\(AB-BA = \begin{pmatrix} 0 &amp; 0 \\ 0 &amp;0\end{pmatrix}\text{.}\)</span> For (e), note that</div>
+<div class="displaymath process-math" id="exercise-1-2-2-1-6">
+\begin{equation*}
+\text{det}(A) = \text{det}\begin{pmatrix} a &amp; 0 \\ 0 &amp; a \end{pmatrix} = a^{2}.
+\end{equation*}
+</div>
+<div class="para">Then <span class="process-math">\(A\)</span> is invertible, if and only if <span class="process-math">\(a^{2} = \text{det}(A) \neq 0\text{,}\)</span> which is true if and only if <span class="process-math">\(a \neq 0\text{.}\)</span>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-2-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.2.1"><a tabindex="-1" href="#exercise-1-2-2" title="Copy heading and permalink for Solution 1.2.1" aria-label="Copy heading and permalink for Solution 1.2.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.2"><a tabindex="-1" href="#exercise-1-2" title="Copy heading and permalink for Checkpoint 1.2" aria-label="Copy heading and permalink for Checkpoint 1.2">🔗</a></div>
+</article></details>
+<details id="exercise-1-3" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
 <span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.3</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
 </h4></summary>
 <article class="exercise exercise-like knowl__content">
-<div class="para" id="ex-quadratic-form-1-1">Show that <span class="process-math">\(\langle\vec{x},\vec{y}\rangle_A=\vec{x}^{\intercal}A^{\intercal}A\vec{y}\text{,}\)</span> where we interpret <span class="process-math">\(\vec{x}^{\intercal}\)</span> as a <span class="process-math">\(1\times n\)</span> matrix.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-quadratic-form-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<div class="para" id="exercise-1-3-1-1">Let <span class="process-math">\(A = \begin{pmatrix} 1 &amp; 0 &amp; 0 \\0 &amp; 1 &amp; 0 \end{pmatrix}\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-3-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> 
+<div class="para logical" id="exercise-1-3-1-2">
+<ol class="lower-alpha" style="list-style: ptx-marker-1;" id="exercise-1-3-1-2-1">
+<li id="exercise-1-3-1-2-1-1">
+<div class="para" id="exercise-1-3-1-2-1-1-1">Compute <span class="process-math">\(A + (A^{\intercal})^{\intercal}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-3-1-2-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
-<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.3"><a tabindex="-1" href="#ex-quadratic-form" title="Copy heading and permalink for Checkpoint 1.3" aria-label="Copy heading and permalink for Checkpoint 1.3">🔗</a></div>
-</article></details>
-<details id="ex-induced-inner-product" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.3.a"><a tabindex="-1" href="#exercise-1-3-1-2-1-1" title="Copy heading and permalink for Item 1.3.a" aria-label="Copy heading and permalink for Item 1.3.a">🔗</a></div>
+</li>
+<li id="exercise-1-3-1-2-1-2">
+<div class="para" id="exercise-1-3-1-2-1-2-1">Compute <span class="process-math">\(AA^{\intercal}\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-3-1-2-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.3.b"><a tabindex="-1" href="#exercise-1-3-1-2-1-2" title="Copy heading and permalink for Item 1.3.b" aria-label="Copy heading and permalink for Item 1.3.b">🔗</a></div>
+</li>
+<li id="exercise-1-3-1-2-1-3">
+<div class="para" id="exercise-1-3-1-2-1-3-1">Compute <span class="process-math">\(A^{\intercal}A\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-3-1-2-1-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.3.c"><a tabindex="-1" href="#exercise-1-3-1-2-1-3" title="Copy heading and permalink for Item 1.3.c" aria-label="Copy heading and permalink for Item 1.3.c">🔗</a></div>
+</li>
+<li id="exercise-1-3-1-2-1-4">
+<div class="para" id="exercise-1-3-1-2-1-4-1">Is <span class="process-math">\(A A^{\intercal}\)</span> invertible? Explain.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-3-1-2-1-4-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.3.d"><a tabindex="-1" href="#exercise-1-3-1-2-1-4" title="Copy heading and permalink for Item 1.3.d" aria-label="Copy heading and permalink for Item 1.3.d">🔗</a></div>
+</li>
+<li id="exercise-1-3-1-2-1-5">
+<div class="para" id="exercise-1-3-1-2-1-5-1">Is <span class="process-math">\(A^{\intercal} A\)</span> invertible? Explain.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-3-1-2-1-5-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.3.e"><a tabindex="-1" href="#exercise-1-3-1-2-1-5" title="Copy heading and permalink for Item 1.3.e" aria-label="Copy heading and permalink for Item 1.3.e">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-3-1-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="exercise-1-3-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para logical" id="exercise-1-3-2-1">
+<div class="para">For (a), <span class="process-math">\((A^{\intercal})^{\intercal} = A\text{,}\)</span> so</div>
+<div class="displaymath process-math" id="exercise-1-3-2-1-2">
+\begin{equation*}
+A +(A^{\intercal})^{\intercal} = A+A = 2A = \begin{pmatrix} 2 &amp; 0 &amp; 0 \\0 &amp; 2 &amp; 0 \end{pmatrix}.
+\end{equation*}
+</div>
+<div class="para">For (b),</div>
+<div class="displaymath process-math" id="exercise-1-3-2-1-3">
+\begin{equation*}
+AA^{\intercal} = \begin{pmatrix} 1 &amp; 0 &amp; 0 \\0 &amp; 1 &amp; 0 \end{pmatrix}\begin{pmatrix} 1 &amp; 0  \\0 &amp; 1 \\0&amp;0\end{pmatrix} = \begin{pmatrix} 1 &amp; 0\\0 &amp; 1 \end{pmatrix}.
+\end{equation*}
+</div>
+<div class="para">For (c),</div>
+<div class="displaymath process-math" id="exercise-1-3-2-1-4">
+\begin{equation*}
+A^{\intercal} A = \begin{pmatrix} 1 &amp; 0  \\0 &amp; 1 \\0&amp;0\end{pmatrix} \begin{pmatrix} 1 &amp; 0 &amp; 0 \\0 &amp; 1 &amp; 0 \end{pmatrix} = \begin{pmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0\\ 0 &amp;0 &amp; 0 \end{pmatrix}
+\end{equation*}
+</div>
+<div class="para">For (d), <span class="process-math">\(A A^{\intercal} = I_{2}\text{,}\)</span> which is invertible. For (e), <span class="process-math">\(A^{\intercal}A\)</span> has a row of zeroes and is therefore not invertible.</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-1-3-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.3.1"><a tabindex="-1" href="#exercise-1-3-2" title="Copy heading and permalink for Solution 1.3.1" aria-label="Copy heading and permalink for Solution 1.3.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.3"><a tabindex="-1" href="#exercise-1-3" title="Copy heading and permalink for Checkpoint 1.3" aria-label="Copy heading and permalink for Checkpoint 1.3">🔗</a></div>
+</article></details><div class="autopermalink" aria-hidden="true" data-description="Subsection 1.1: Matrix Computations"><a tabindex="-1" href="#Math2000Exam2Practice-2" title="Copy heading and permalink for Subsection 1.1: Matrix Computations" aria-label="Copy heading and permalink for Subsection 1.1: Matrix Computations">🔗</a></div>
+</section>
+<section class="subsection" id="section-2">
+<h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.2</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Compute Determinants</span>
+</h3>
+<div class="para" id="section-2-2">In this exercise, I will give you three matrices defined implicitly somehow or explicitly, and you will need to either compute their determinants or explain why it’s not possible to do so.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#section-2-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="exercise-2-1" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
 <span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.4</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
 </h4></summary>
 <article class="exercise exercise-like knowl__content">
-<div class="para" id="ex-induced-inner-product-1-1">Show that <span class="process-math">\(\langle\cdot,\cdot\rangle_A\)</span> is an inner product on <span class="process-math">\(\mathbb{R}^n\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-induced-inner-product-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<div class="para" id="exercise-2-1-1-1">Compute the determinants of the following matrices or explain why you can’t. Explain your answers:<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> 
+<div class="para logical" id="exercise-2-1-1-2">
+<ol class="lower-alpha" style="list-style: ptx-marker-1;" id="exercise-2-1-1-2-1">
+<li id="exercise-2-1-1-2-1-1">
+<div class="para logical" id="exercise-2-1-1-2-1-1-1">
+<div class="displaymath process-math" id="exercise-2-1-1-2-1-1-1-1">
+\begin{equation*}
+\begin{pmatrix} 1 &amp; 1 &amp; 1 \\ 2 &amp; 2 &amp; 2 \\ 3 &amp; 3 &amp; 3 \end{pmatrix}
+\end{equation*}
 </div>
-<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.4"><a tabindex="-1" href="#ex-induced-inner-product" title="Copy heading and permalink for Checkpoint 1.4" aria-label="Copy heading and permalink for Checkpoint 1.4">🔗</a></div>
-</article></details><div class="autopermalink" aria-hidden="true" data-description="Subsection 1.2: Quadratic Algebra"><a tabindex="-1" href="#sec-quadratic-algebra" title="Copy heading and permalink for Subsection 1.2: Quadratic Algebra" aria-label="Copy heading and permalink for Subsection 1.2: Quadratic Algebra">🔗</a></div>
-</section>
-<section class="subsection" id="sec-geometry">
-<h3 class="heading hide-type">
-<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.3</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Geometry</span>
-</h3>
-<div class="para" id="sec-geometry-2">Let <span class="process-math">\(\vec{c}\in\mathbb{R}^n\text{,}\)</span> and suppose that <span class="process-math">\(\|\vec{c}\|=1\text{.}\)</span> Define the hyperplane <span class="process-math">\(H_{\vec{c}}=\{\vec{x}:\langle\vec{c},\vec{x}\rangle=0\}\text{,}\)</span> the set of vectors orthogonal to <span class="process-math">\(\vec{c}\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#sec-geometry-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-1-1-2-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
-<details id="ex-distance-lower-bound" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.4.a"><a tabindex="-1" href="#exercise-2-1-1-2-1-1" title="Copy heading and permalink for Item 1.4.a" aria-label="Copy heading and permalink for Item 1.4.a">🔗</a></div>
+</li>
+<li id="exercise-2-1-1-2-1-2">
+<div class="para logical" id="exercise-2-1-1-2-1-2-1">
+<div class="displaymath process-math" id="exercise-2-1-1-2-1-2-1-1">
+\begin{equation*}
+\begin{pmatrix} 6 &amp; 0 &amp; 0\\ 0 &amp; 7 &amp; 0 \\0 &amp; 0 &amp;8 \end{pmatrix}
+\end{equation*}
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-1-1-2-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.4.b"><a tabindex="-1" href="#exercise-2-1-1-2-1-2" title="Copy heading and permalink for Item 1.4.b" aria-label="Copy heading and permalink for Item 1.4.b">🔗</a></div>
+</li>
+<li id="exercise-2-1-1-2-1-3">
+<div class="para" id="exercise-2-1-1-2-1-3-1">
+<span class="process-math">\(A\text{,}\)</span> where <span class="process-math">\(A\)</span> is obtained from the identity matrix by the sequence of operations: Replacement of first row minus the second, Scaling row <span class="process-math">\(3\)</span> by <span class="process-math">\(3\text{,}\)</span> Interchanging rows one and three, Scaling row <span class="process-math">\(1\)</span> by <span class="process-math">\(1/3\text{,}\)</span> and Replacing row <span class="process-math">\(2\)</span> by row <span class="process-math">\(2\)</span> minus row <span class="process-math">\(3\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-1-1-2-1-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.4.c"><a tabindex="-1" href="#exercise-2-1-1-2-1-3" title="Copy heading and permalink for Item 1.4.c" aria-label="Copy heading and permalink for Item 1.4.c">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-1-1-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="exercise-2-1-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para" id="exercise-2-1-2-1">For (a), apply row replacement to subtract three times the first row from the third row. The resulting matrix has an all <span class="process-math">\(0\)</span> row and so has determinant <span class="process-math">\(0\text{.}\)</span> Replacement does not change the determinant, so the whole matrix has determinant <span class="process-math">\(0\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="exercise-2-1-2-2">For (b), the determinant of a diagonal matrix is the product of the diagonal entries, which is <span class="process-math">\(6(7)(8)\)</span> in this case.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-1-2-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="exercise-2-1-2-3">For (c), the replacements don’t change anything, so we can ignore them. There is one interchange, and a scaling by <span class="process-math">\(3\)</span> and <span class="process-math">\(1/3\text{,}\)</span> so the determinant in the end is <span class="process-math">\(-1\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-1-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.4.1"><a tabindex="-1" href="#exercise-2-1-2" title="Copy heading and permalink for Solution 1.4.1" aria-label="Copy heading and permalink for Solution 1.4.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.4"><a tabindex="-1" href="#exercise-2-1" title="Copy heading and permalink for Checkpoint 1.4" aria-label="Copy heading and permalink for Checkpoint 1.4">🔗</a></div>
+</article></details>
+<details id="exercise-2-2" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
 <span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.5</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
 </h4></summary>
 <article class="exercise exercise-like knowl__content">
-<div class="para logical" id="ex-distance-lower-bound-1-1">
-<div class="para">Show that for any <span class="process-math">\(\vec{x}\in H_{\vec{c}}\)</span> and <span class="process-math">\(\vec{y}\notin H_{\vec{c}}\text{,}\)</span>
-</div>
-<div class="displaymath process-math" id="ex-distance-lower-bound-1-1-3">
+<div class="para" id="exercise-2-2-1-1">Compute the determinants of the following matrices or explain why you can’t. Explain your answers:<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-2-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> 
+<div class="para logical" id="exercise-2-2-1-2">
+<ol class="lower-alpha" style="list-style: ptx-marker-1;" id="exercise-2-2-1-2-1">
+<li id="exercise-2-2-1-2-1-1">
+<div class="para logical" id="exercise-2-2-1-2-1-1-1">
+<div class="displaymath process-math" id="exercise-2-2-1-2-1-1-1-1">
 \begin{equation*}
-\|\vec{x}-\vec{y}\|\geq|\langle\vec{c},\vec{y}\rangle|.
+\begin{pmatrix} 1 &amp; 3 &amp; 4 \\ 0&amp; 0 &amp; 2 \\ 0 &amp; 0 &amp;1 \end{pmatrix}
 \end{equation*}
 </div>
-<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-distance-lower-bound-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-2-1-2-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
-<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.5"><a tabindex="-1" href="#ex-distance-lower-bound" title="Copy heading and permalink for Checkpoint 1.5" aria-label="Copy heading and permalink for Checkpoint 1.5">🔗</a></div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.5.a"><a tabindex="-1" href="#exercise-2-2-1-2-1-1" title="Copy heading and permalink for Item 1.5.a" aria-label="Copy heading and permalink for Item 1.5.a">🔗</a></div>
+</li>
+<li id="exercise-2-2-1-2-1-2">
+<div class="para logical" id="exercise-2-2-1-2-1-2-1">
+<div class="displaymath process-math" id="exercise-2-2-1-2-1-2-1-1">
+\begin{equation*}
+\begin{pmatrix} 1 &amp; 2 &amp;4 \\ 0 &amp; 2&amp; 6 \end{pmatrix}
+\end{equation*}
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-2-1-2-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.5.b"><a tabindex="-1" href="#exercise-2-2-1-2-1-2" title="Copy heading and permalink for Item 1.5.b" aria-label="Copy heading and permalink for Item 1.5.b">🔗</a></div>
+</li>
+<li id="exercise-2-2-1-2-1-3">
+<div class="para logical" id="exercise-2-2-1-2-1-3-1">
+<div class="para">
+<span class="process-math">\(A^{4}\text{,}\)</span> where</div>
+<div class="displaymath process-math" id="exercise-2-2-1-2-1-3-1-2">
+\begin{equation*}
+A = \begin{pmatrix} 0 &amp;0 &amp; 1\\ 0 &amp;1 &amp; 0 \\ 1 &amp; 0 &amp;0\end{pmatrix}
+\end{equation*}
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-2-1-2-1-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.5.c"><a tabindex="-1" href="#exercise-2-2-1-2-1-3" title="Copy heading and permalink for Item 1.5.c" aria-label="Copy heading and permalink for Item 1.5.c">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-2-1-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="exercise-2-2-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para" id="exercise-2-2-2-1">For (a), the matrix is upper triangular, so the determinant is the product of the diagonal entries, which is <span class="process-math">\(0\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-2-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="exercise-2-2-2-2">For (b), it is not square, so you can’t take the determinant.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-2-2-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="exercise-2-2-2-3">
+<div class="para">For (c), <span class="process-math">\(A\)</span> is one interchange away from <span class="process-math">\(I_{3}\)</span> and so has determinant <span class="process-math">\(-1\text{.}\)</span> Then</div>
+<div class="displaymath process-math" id="exercise-2-2-2-3-4">
+\begin{equation*}
+\text{det}(A^{4}) = \text{det}(A)^{4} = (-1)^{4} = 1.
+\end{equation*}
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-2-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.5.1"><a tabindex="-1" href="#exercise-2-2-2" title="Copy heading and permalink for Solution 1.5.1" aria-label="Copy heading and permalink for Solution 1.5.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.5"><a tabindex="-1" href="#exercise-2-2" title="Copy heading and permalink for Checkpoint 1.5" aria-label="Copy heading and permalink for Checkpoint 1.5">🔗</a></div>
 </article></details>
-<details id="ex-projection-attains-bound" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<details id="exercise-2-3" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
 <span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.6</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
 </h4></summary>
 <article class="exercise exercise-like knowl__content">
-<div class="para logical" id="ex-projection-attains-bound-1-1">
-<div class="para">Let <span class="process-math">\(\vec{y}\notin H_{\vec{c}}\text{.}\)</span> Define</div>
-<div class="displaymath process-math" id="ex-projection-attains-bound-1-1-2">
+<div class="para" id="exercise-2-3-1-1">Compute the determinants of the following matrices or explain why you can’t. Explain your answers:<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-3-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> 
+<div class="para logical" id="exercise-2-3-1-2">
+<ol class="lower-alpha" style="list-style: ptx-marker-1;" id="exercise-2-3-1-2-1">
+<li id="exercise-2-3-1-2-1-1">
+<div class="para logical" id="exercise-2-3-1-2-1-1-1">
+<div class="displaymath process-math" id="exercise-2-3-1-2-1-1-1-1">
 \begin{equation*}
-\vec{x}=\vec{y}-\langle\vec{c},\vec{y}\rangle\vec{c}.
+\begin{pmatrix} 1&amp;1&amp;1 \\1&amp;2 &amp; 3 \\ 2&amp;3&amp; 4 \end{pmatrix}
 \end{equation*}
 </div>
-<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-projection-attains-bound-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
-</div> 
-<div class="para logical" id="ex-projection-attains-bound-1-2">
-<ol class="decimal" id="ex-projection-attains-bound-1-2-1">
-<li id="ex-projection-attains-bound-1-2-1-1">
-<div class="para" id="ex-projection-attains-bound-1-2-1-1-1">Show that <span class="process-math">\(\vec{x}\in H_{\vec{c}}\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-projection-attains-bound-1-2-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-3-1-2-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
-<div class="autopermalink" aria-hidden="true" data-description="Item 1.6.1"><a tabindex="-1" href="#ex-projection-attains-bound-1-2-1-1" title="Copy heading and permalink for Item 1.6.1" aria-label="Copy heading and permalink for Item 1.6.1">🔗</a></div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.6.a"><a tabindex="-1" href="#exercise-2-3-1-2-1-1" title="Copy heading and permalink for Item 1.6.a" aria-label="Copy heading and permalink for Item 1.6.a">🔗</a></div>
 </li>
-<li id="ex-projection-attains-bound-1-2-1-2">
-<div class="para" id="ex-projection-attains-bound-1-2-1-2-1">Show that <span class="process-math">\(\|\vec{x}-\vec{y}\|=|\langle\vec{c},\vec{y}\rangle|\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-projection-attains-bound-1-2-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<li id="exercise-2-3-1-2-1-2">
+<div class="para logical" id="exercise-2-3-1-2-1-2-1">
+<div class="para">
+<span class="process-math">\(AB\text{,}\)</span> where</div>
+<div class="displaymath process-math" id="exercise-2-3-1-2-1-2-1-2">
+\begin{equation*}
+A = \begin{pmatrix} 1 &amp; 2 &amp;4 \\ 0 &amp; 2&amp; 6 \\ 0&amp; 0 &amp;3 \end{pmatrix} \text{ and } B = \begin{pmatrix} 0 &amp; 1/3 &amp; 0 \\ 1/2 &amp; 0 &amp; 0 \\ 0 &amp;0 &amp;1 \end{pmatrix}.
+\end{equation*}
 </div>
-<div class="autopermalink" aria-hidden="true" data-description="Item 1.6.2"><a tabindex="-1" href="#ex-projection-attains-bound-1-2-1-2" title="Copy heading and permalink for Item 1.6.2" aria-label="Copy heading and permalink for Item 1.6.2">🔗</a></div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-3-1-2-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.6.b"><a tabindex="-1" href="#exercise-2-3-1-2-1-2" title="Copy heading and permalink for Item 1.6.b" aria-label="Copy heading and permalink for Item 1.6.b">🔗</a></div>
 </li>
-<li id="ex-projection-attains-bound-1-2-1-3">
-<div class="para" id="ex-projection-attains-bound-1-2-1-3-1">What does combining the results of <a href="#ex-distance-lower-bound" class="xref" data-knowl="./knowl/xref/ex-distance-lower-bound.html" data-reveal-label="Reveal" data-close-label="Close" title="Checkpoint 1.5">Checkpoint 1.5</a> and this exercise tell you?<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-projection-attains-bound-1-2-1-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<li id="exercise-2-3-1-2-1-3">
+<div class="para" id="exercise-2-3-1-2-1-3-1">
+<span class="process-math">\(C\)</span> where <span class="process-math">\(C\)</span> is a <span class="process-math">\(10 \times 10\)</span> matrix obtained from the identity matrix <span class="process-math">\(I_{10}\)</span> by applying <span class="process-math">\(13\)</span> interchanges.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-3-1-2-1-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
-<div class="autopermalink" aria-hidden="true" data-description="Item 1.6.3"><a tabindex="-1" href="#ex-projection-attains-bound-1-2-1-3" title="Copy heading and permalink for Item 1.6.3" aria-label="Copy heading and permalink for Item 1.6.3">🔗</a></div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.6.c"><a tabindex="-1" href="#exercise-2-3-1-2-1-3" title="Copy heading and permalink for Item 1.6.c" aria-label="Copy heading and permalink for Item 1.6.c">🔗</a></div>
 </li>
 </ol>
-<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-projection-attains-bound-1-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-3-1-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
-<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.6"><a tabindex="-1" href="#ex-projection-attains-bound" title="Copy heading and permalink for Checkpoint 1.6" aria-label="Copy heading and permalink for Checkpoint 1.6">🔗</a></div>
-</article></details><div class="autopermalink" aria-hidden="true" data-description="Subsection 1.3: Geometry"><a tabindex="-1" href="#sec-geometry" title="Copy heading and permalink for Subsection 1.3: Geometry" aria-label="Copy heading and permalink for Subsection 1.3: Geometry">🔗</a></div>
-</section><div class="autopermalink" aria-hidden="true" data-description="Section 1: Normies"><a tabindex="-1" href="#Math2301HW4" title="Copy heading and permalink for Section 1: Normies" aria-label="Copy heading and permalink for Section 1: Normies">🔗</a></div>
+<div class="solutions">
+<details id="exercise-2-3-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para" id="exercise-2-3-2-1">For (a), the third row is the sum of the first <span class="process-math">\(2\text{,}\)</span> so the rows are linearly dependent. It follows that the matrix is not invertible, and so the matrix has determinant <span class="process-math">\(0\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-3-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="exercise-2-3-2-2">For (b), <span class="process-math">\(A\)</span> is upper triangular, so its determinant is the product of its diagonal entries, which is <span class="process-math">\(1(2)(3) = 6\text{.}\)</span> After interchanging, <span class="process-math">\(B\)</span> is diagonal with entries <span class="process-math">\(1/2, 1/3,1\)</span> and so has determinant <span class="process-math">\(-1(1/2)(1/3)(1) = -1/6\text{.}\)</span> Hence, <span class="process-math">\(\text{det}(AB) =\text{det}(A)\text{det}(B) = 6(-1/6) = -1.\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-3-2-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="exercise-2-3-2-3">For (c), each interchange yields a multiplication by <span class="process-math">\(-1\text{,}\)</span> so the determinant is <span class="process-math">\((-1)^{13} = -1\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-2-3-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.6.1"><a tabindex="-1" href="#exercise-2-3-2" title="Copy heading and permalink for Solution 1.6.1" aria-label="Copy heading and permalink for Solution 1.6.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.6"><a tabindex="-1" href="#exercise-2-3" title="Copy heading and permalink for Checkpoint 1.6" aria-label="Copy heading and permalink for Checkpoint 1.6">🔗</a></div>
+</article></details><div class="autopermalink" aria-hidden="true" data-description="Subsection 1.2: Compute Determinants"><a tabindex="-1" href="#section-2" title="Copy heading and permalink for Subsection 1.2: Compute Determinants" aria-label="Copy heading and permalink for Subsection 1.2: Compute Determinants">🔗</a></div>
+</section>
+<section class="subsection" id="section-3">
+<h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.3</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Is the matrix invertible?</span>
+</h3>
+<div class="para" id="section-3-2">In this exercise, I will give you 5 situations. In each, there are three possibilities:<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#section-3-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="section-3-3">
+<ol class="lower-alpha" style="list-style: ptx-marker-1;" id="section-3-3-1">
+<li id="section-3-3-1-1">
+<div class="para" id="section-3-3-1-1-1">The matrix <span class="process-math">\(A\)</span> is definitely invertible.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#section-3-3-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item a"><a tabindex="-1" href="#section-3-3-1-1" title="Copy heading and permalink for Item a" aria-label="Copy heading and permalink for Item a">🔗</a></div>
+</li>
+<li id="section-3-3-1-2">
+<div class="para" id="section-3-3-1-2-1">The matrix <span class="process-math">\(A\)</span> is definitely not invertible.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#section-3-3-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item b"><a tabindex="-1" href="#section-3-3-1-2" title="Copy heading and permalink for Item b" aria-label="Copy heading and permalink for Item b">🔗</a></div>
+</li>
+<li id="section-3-3-1-3">
+<div class="para" id="section-3-3-1-3-1">There’s not enough information to determine either way.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#section-3-3-1-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item c"><a tabindex="-1" href="#section-3-3-1-3" title="Copy heading and permalink for Item c" aria-label="Copy heading and permalink for Item c">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#section-3-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="section-3-4">Your job will be to determine which situation of the <span class="process-math">\(5\)</span> you are in and justify why.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#section-3-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="exercise-3-1" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.7</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="exercise-3-1-1-1">Which of the following conditions guarantee a matrix is invertible, guarantee it is not invertible, or does not give enough information to determine one way or another? Explain why for each.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> 
+<div class="para logical" id="exercise-3-1-1-2">
+<ol class="lower-alpha" style="list-style: ptx-marker-1;" id="exercise-3-1-1-2-1">
+<li id="exercise-3-1-1-2-1-1">
+<div class="para" id="exercise-3-1-1-2-1-1-1">
+<span class="process-math">\(A\)</span> is <span class="process-math">\(2 \times 4\)</span> with rank <span class="process-math">\(2\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-1-1-2-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.7.a"><a tabindex="-1" href="#exercise-3-1-1-2-1-1" title="Copy heading and permalink for Item 1.7.a" aria-label="Copy heading and permalink for Item 1.7.a">🔗</a></div>
+</li>
+<li id="exercise-3-1-1-2-1-2">
+<div class="para" id="exercise-3-1-1-2-1-2-1">
+<span class="process-math">\(A\)</span> is <span class="process-math">\(3 \times 3\)</span> with determinant <span class="process-math">\(10\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-1-1-2-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.7.b"><a tabindex="-1" href="#exercise-3-1-1-2-1-2" title="Copy heading and permalink for Item 1.7.b" aria-label="Copy heading and permalink for Item 1.7.b">🔗</a></div>
+</li>
+<li id="exercise-3-1-1-2-1-3">
+<div class="para" id="exercise-3-1-1-2-1-3-1">
+<span class="process-math">\(A\)</span> is <span class="process-math">\(n \times n\)</span> and there exist <span class="process-math">\(B\)</span> and <span class="process-math">\(C\)</span> both <span class="process-math">\(n \times n\)</span> such that <span class="process-math">\(BAC = I_{n}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-1-1-2-1-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.7.c"><a tabindex="-1" href="#exercise-3-1-1-2-1-3" title="Copy heading and permalink for Item 1.7.c" aria-label="Copy heading and permalink for Item 1.7.c">🔗</a></div>
+</li>
+<li id="exercise-3-1-1-2-1-4">
+<div class="para" id="exercise-3-1-1-2-1-4-1">
+<span class="process-math">\(A\)</span> is <span class="process-math">\(n \times n\)</span> and <span class="process-math">\(A^{\intercal}\)</span> is upper triangular<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-1-1-2-1-4-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.7.d"><a tabindex="-1" href="#exercise-3-1-1-2-1-4" title="Copy heading and permalink for Item 1.7.d" aria-label="Copy heading and permalink for Item 1.7.d">🔗</a></div>
+</li>
+<li id="exercise-3-1-1-2-1-5">
+<div class="para" id="exercise-3-1-1-2-1-5-1">
+<span class="process-math">\(A\)</span> is <span class="process-math">\(n \times n\)</span> and <span class="process-math">\(A = A^{\intercal}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-1-1-2-1-5-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.7.e"><a tabindex="-1" href="#exercise-3-1-1-2-1-5" title="Copy heading and permalink for Item 1.7.e" aria-label="Copy heading and permalink for Item 1.7.e">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-1-1-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="exercise-3-1-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para logical" id="exercise-3-1-2-1">
+<div class="para">For (a), it is not invertible, since only square matrices are invertible. For (b), it is invertible, since its determinant is nonzero. For (c), since <span class="process-math">\(B\)</span> is invertible, <span class="process-math">\(AC = B^{-1} BA C = B^{-1} I_{n} = B^{-1}\text{.}\)</span> Then <span class="process-math">\(AC B=  B^{-1} B = I_{n}\text{.}\)</span> Hence, <span class="process-math">\(A\)</span> is invertible, with inverse <span class="process-math">\(CB\text{.}\)</span> For (d), there is not enough information to determine it. For example, the zero matrix is such that</div>
+<div class="displaymath process-math" id="exercise-3-1-2-1-6">
+\begin{equation*}
+\begin{pmatrix} 0 &amp; 0 \\ 0 &amp; 0\end{pmatrix}^{\intercal} =  \begin{pmatrix} 0 &amp; 0 \\ 0 &amp; 0\end{pmatrix},
+\end{equation*}
+</div>
+<div class="para">and the zero matrix is upper triangular, but it is not invertible. However, the same holds for <span class="process-math">\(I_{2}\text{.}\)</span> It is upper triangular and invertible. Therefore, there is not enough to determine it. For (e), the same two examples work.</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.7.1"><a tabindex="-1" href="#exercise-3-1-2" title="Copy heading and permalink for Solution 1.7.1" aria-label="Copy heading and permalink for Solution 1.7.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.7"><a tabindex="-1" href="#exercise-3-1" title="Copy heading and permalink for Checkpoint 1.7" aria-label="Copy heading and permalink for Checkpoint 1.7">🔗</a></div>
+</article></details>
+<details id="exercise-3-2" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.8</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="exercise-3-2-1-1">Which of the following conditions guarantee a matrix is invertible, guarantee it is not invertible, or does not give enough information to determine one way or another? Explain why for each.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-2-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> 
+<div class="para logical" id="exercise-3-2-1-2">
+<ol class="lower-alpha" style="list-style: ptx-marker-1;" id="exercise-3-2-1-2-1">
+<li id="exercise-3-2-1-2-1-1">
+<div class="para" id="exercise-3-2-1-2-1-1-1">
+<span class="process-math">\(A\)</span> is <span class="process-math">\(4 \times 4\text{,}\)</span> and the rows and columns of <span class="process-math">\(A\)</span> all sum to <span class="process-math">\(1\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-2-1-2-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.8.a"><a tabindex="-1" href="#exercise-3-2-1-2-1-1" title="Copy heading and permalink for Item 1.8.a" aria-label="Copy heading and permalink for Item 1.8.a">🔗</a></div>
+</li>
+<li id="exercise-3-2-1-2-1-2">
+<div class="para" id="exercise-3-2-1-2-1-2-1">
+<span class="process-math">\(A\)</span> is <span class="process-math">\(4 \times 4\text{,}\)</span> and the rows and columns of <span class="process-math">\(A\)</span> all sum to <span class="process-math">\(0\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-2-1-2-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.8.b"><a tabindex="-1" href="#exercise-3-2-1-2-1-2" title="Copy heading and permalink for Item 1.8.b" aria-label="Copy heading and permalink for Item 1.8.b">🔗</a></div>
+</li>
+<li id="exercise-3-2-1-2-1-3">
+<div class="para" id="exercise-3-2-1-2-1-3-1">The columns of <span class="process-math">\(A\)</span> are linearly independent.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-2-1-2-1-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.8.c"><a tabindex="-1" href="#exercise-3-2-1-2-1-3" title="Copy heading and permalink for Item 1.8.c" aria-label="Copy heading and permalink for Item 1.8.c">🔗</a></div>
+</li>
+<li id="exercise-3-2-1-2-1-4">
+<div class="para" id="exercise-3-2-1-2-1-4-1">
+<span class="process-math">\(A\)</span> is <span class="process-math">\(2 \times 2\text{,}\)</span> and <span class="process-math">\(\text{det}(A - I_{2}) = 0\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-2-1-2-1-4-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.8.d"><a tabindex="-1" href="#exercise-3-2-1-2-1-4" title="Copy heading and permalink for Item 1.8.d" aria-label="Copy heading and permalink for Item 1.8.d">🔗</a></div>
+</li>
+<li id="exercise-3-2-1-2-1-5">
+<div class="para" id="exercise-3-2-1-2-1-5-1">
+<span class="process-math">\(10 A\)</span> is invertible.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-2-1-2-1-5-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.8.e"><a tabindex="-1" href="#exercise-3-2-1-2-1-5" title="Copy heading and permalink for Item 1.8.e" aria-label="Copy heading and permalink for Item 1.8.e">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-2-1-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="exercise-3-2-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para" id="exercise-3-2-2-1">For (a), this is not enough information to determine it. The identity matrix <span class="process-math">\(I_{4}\)</span> satisfies this and is invertible. However, the <span class="process-math">\(4 \times 4\)</span> matrix with all entries <span class="process-math">\(1/4\)</span> satisfies that and is not invertible.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-2-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="exercise-3-2-2-2">For (b), it is never invertible. There are various ways to see this, but for example, one can apply three replacements adding row 1 to row 4, then adding row 2 to row 4, and finally row 3 to row 4. After that row 4 would be equal to the sum of the rows, which is <span class="process-math">\((0,0,0,0)\text{.}\)</span> Thus, after applying row operations one finds a matrix with a row of all zeroes. Hence, it is never invertible.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-2-2-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="exercise-3-2-2-3">For (c), this is not enough information, since you need to know if <span class="process-math">\(A\)</span> is a square matrix or not.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-2-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="exercise-3-2-2-4">
+<div class="para">For (d), it is not enough information to determine it. For example, if <span class="process-math">\(A = I_{2}\text{,}\)</span> then <span class="process-math">\(A - I_{2}\)</span> is the <span class="process-math">\(2 \times 2\)</span> zero matrix and so has determinant <span class="process-math">\(0\text{.}\)</span> Thus, <span class="process-math">\(A\)</span> can be invertible. At the same time for <span class="process-math">\(A = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 0 \end{pmatrix}\)</span> is not invertible, and</div>
+<div class="displaymath process-math" id="exercise-3-2-2-4-7">
+\begin{equation*}
+A -I_{2} =\begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 0 \end{pmatrix} - \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix} = \begin{pmatrix} 0 &amp; 0 \\ 0 &amp; -1 \end{pmatrix}
+\end{equation*}
+</div>
+<div class="para">The determinant of <span class="process-math">\(A -I_{2}\)</span> in that case is still <span class="process-math">\(0\text{.}\)</span> Thus, it is not enough information to determine it.</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-2-2-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="exercise-3-2-2-5">For (e), there are various ways to see this. For example, <span class="process-math">\(A\)</span> is row equivalent to <span class="process-math">\(10A\)</span> by rescaling each row by a factor of <span class="process-math">\(10\text{.}\)</span> Hence, since <span class="process-math">\(10A\)</span> is invertible, <span class="process-math">\(A\)</span> must also be invertible.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-2-2-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.8.1"><a tabindex="-1" href="#exercise-3-2-2" title="Copy heading and permalink for Solution 1.8.1" aria-label="Copy heading and permalink for Solution 1.8.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.8"><a tabindex="-1" href="#exercise-3-2" title="Copy heading and permalink for Checkpoint 1.8" aria-label="Copy heading and permalink for Checkpoint 1.8">🔗</a></div>
+</article></details>
+<details id="exercise-3-3" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.9</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="exercise-3-3-1-1">Which of the following conditions guarantee a matrix is invertible, guarantee it is not invertible, or does not give enough information to determine one way or another? Explain why for each.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-3-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> 
+<div class="para logical" id="exercise-3-3-1-2">
+<ol class="lower-alpha" style="list-style: ptx-marker-1;" id="exercise-3-3-1-2-1">
+<li id="exercise-3-3-1-2-1-1">
+<div class="para" id="exercise-3-3-1-2-1-1-1">
+<span class="process-math">\(A\)</span> is <span class="process-math">\(n \times n\text{,}\)</span> and the reduced row echelon form of <span class="process-math">\(A\)</span> has <span class="process-math">\(n\)</span> pivot columns<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-3-1-2-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.9.a"><a tabindex="-1" href="#exercise-3-3-1-2-1-1" title="Copy heading and permalink for Item 1.9.a" aria-label="Copy heading and permalink for Item 1.9.a">🔗</a></div>
+</li>
+<li id="exercise-3-3-1-2-1-2">
+<div class="para" id="exercise-3-3-1-2-1-2-1">
+<span class="process-math">\(A\)</span> is <span class="process-math">\(n \times n\text{,}\)</span> and <span class="process-math">\(A \mathbf{x} = 0\)</span> has a unique solution<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-3-1-2-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.9.b"><a tabindex="-1" href="#exercise-3-3-1-2-1-2" title="Copy heading and permalink for Item 1.9.b" aria-label="Copy heading and permalink for Item 1.9.b">🔗</a></div>
+</li>
+<li id="exercise-3-3-1-2-1-3">
+<div class="para" id="exercise-3-3-1-2-1-3-1">
+<span class="process-math">\(A\)</span> is <span class="process-math">\(n \times n\text{,}\)</span> and every entry on the diagonal of <span class="process-math">\(A\)</span> is equal to <span class="process-math">\(1\)</span> for <span class="process-math">\(n \geq 2\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-3-1-2-1-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.9.c"><a tabindex="-1" href="#exercise-3-3-1-2-1-3" title="Copy heading and permalink for Item 1.9.c" aria-label="Copy heading and permalink for Item 1.9.c">🔗</a></div>
+</li>
+<li id="exercise-3-3-1-2-1-4">
+<div class="para" id="exercise-3-3-1-2-1-4-1">
+<span class="process-math">\(A\)</span> is <span class="process-math">\(3 \times 3\text{,}\)</span> and all <span class="process-math">\(2 \times 2\)</span> subdeterminants of <span class="process-math">\(A\)</span> are nonzero.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-3-1-2-1-4-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.9.d"><a tabindex="-1" href="#exercise-3-3-1-2-1-4" title="Copy heading and permalink for Item 1.9.d" aria-label="Copy heading and permalink for Item 1.9.d">🔗</a></div>
+</li>
+<li id="exercise-3-3-1-2-1-5">
+<div class="para" id="exercise-3-3-1-2-1-5-1">
+<span class="process-math">\(A\)</span> is <span class="process-math">\(3 \times 3\)</span> and <span class="process-math">\(A = A^{2}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-3-1-2-1-5-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.9.e"><a tabindex="-1" href="#exercise-3-3-1-2-1-5" title="Copy heading and permalink for Item 1.9.e" aria-label="Copy heading and permalink for Item 1.9.e">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-3-1-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="exercise-3-3-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para" id="exercise-3-3-2-1">For (a), the answer is yes. It implies that the reduced row echelon form has to be the identity matrix.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-3-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="exercise-3-3-2-2">For (b), the answer is also yes. It implies the columns of <span class="process-math">\(A\)</span> are linearly independent meaning that the nullity is <span class="process-math">\(0\text{,}\)</span> so the rank is <span class="process-math">\(n\text{,}\)</span> which implies invertibility for an <span class="process-math">\(n \times n\)</span> matrix.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-3-2-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="exercise-3-3-2-3">For (c), there is not enough information. The identity matrix <span class="process-math">\(I_{n}\)</span> satisfies this and is invertible. However, the all <span class="process-math">\(1\)</span>’s matrix satisfies this but is not invertible, since one row replacement yields a row of all <span class="process-math">\(0\)</span>’s.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-3-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="exercise-3-3-2-4">
+<div class="para">For (d), there is not enough information to determine it. Note that the determinant of the matrix:</div>
+<div class="displaymath process-math" id="exercise-3-3-2-4-1">
+\begin{equation*}
+\begin{pmatrix} 1 &amp; 1 &amp; 1\\ 0&amp; 1 &amp; 1 \\ 0 &amp; 0 &amp; 1\end{pmatrix}
+\end{equation*}
+</div>
+<div class="para">is <span class="process-math">\(1\)</span> and so it is invertible. Then applying two replacements adding the first row to the latter two rows to get the matrix</div>
+<div class="displaymath process-math" id="exercise-3-3-2-4-3">
+\begin{equation*}
+B = \begin{pmatrix} 1 &amp; 1 &amp; 1\\ 1&amp; 2 &amp; 2 \\ 1 &amp; 1 &amp; 2\end{pmatrix}
+\end{equation*}
+</div>
+<div class="para">Define <span class="process-math">\(A = B^{-1}\text{.}\)</span> Then the entries are, up to a nonzero constant scaling, exactly the <span class="process-math">\(2 \times 2\)</span> subdeterminants of <span class="process-math">\(A\text{.}\)</span> Hence, the <span class="process-math">\(2 \times 2\)</span> subdeterminants of <span class="process-math">\(A\)</span> are all nonzero in that case. For a noninvertible example, take</div>
+<div class="displaymath process-math" id="exercise-3-3-2-4-9">
+\begin{equation*}
+\begin{pmatrix} 
+1 &amp; 0 &amp; 1 \\0 &amp;1 &amp;1
+\\ 1 &amp;1 &amp; 2
+\end{pmatrix}
+\end{equation*}
+</div>
+<div class="para">The last row is the sum of the previous two rows meaning the rows are linearly dependent and so it is not invertible. By checking each <span class="process-math">\(2 \times 2\)</span> subdeterminant, you can verify they are all nonzero.</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-3-2-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="exercise-3-3-2-5">For (e), <span class="process-math">\(I_{3} = I_{3}^{2}\)</span> and the zero matrix is equal to its square, so it is not enough information to determine that <span class="process-math">\(A\)</span> is invertible.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-3-3-2-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.9.1"><a tabindex="-1" href="#exercise-3-3-2" title="Copy heading and permalink for Solution 1.9.1" aria-label="Copy heading and permalink for Solution 1.9.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.9"><a tabindex="-1" href="#exercise-3-3" title="Copy heading and permalink for Checkpoint 1.9" aria-label="Copy heading and permalink for Checkpoint 1.9">🔗</a></div>
+</article></details><div class="autopermalink" aria-hidden="true" data-description="Subsection 1.3: Is the matrix invertible?"><a tabindex="-1" href="#section-3" title="Copy heading and permalink for Subsection 1.3: Is the matrix invertible?" aria-label="Copy heading and permalink for Subsection 1.3: Is the matrix invertible?">🔗</a></div>
+</section>
+<section class="subsection" id="section-4">
+<h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.4</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Geometry</span>
+</h3>
+<details id="exercise-4-1" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.10</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para logical" id="exercise-4-1-1-1">
+<div class="para">Consider the linear transformation <span class="process-math">\(T: \mathbb{R}^{2} \to \mathbb{R}^{2}\)</span> given by</div>
+<div class="displaymath process-math" id="exercise-4-1-1-1-2">
+\begin{equation*}
+T\left( \begin{matrix} x\\y \end{matrix}\right) = \begin{pmatrix} -\frac{1}{2}y \\ \frac{1}{2} x \end{pmatrix} .
+\end{equation*}
+</div>
+<div class="para">Let <span class="process-math">\(\vec{v} = \begin{pmatrix} 1 \\ 0 \end{pmatrix}\text{.}\)</span>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> 
+<div class="para logical" id="exercise-4-1-1-2">
+<ol class="lower-alpha" style="list-style: ptx-marker-1;" id="exercise-4-1-1-2-1">
+<li id="exercise-4-1-1-2-1-1">
+<div class="para" id="exercise-4-1-1-2-1-1-1">Find the matrix <span class="process-math">\(A\)</span> of <span class="process-math">\(T\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-1-1-2-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.10.a"><a tabindex="-1" href="#exercise-4-1-1-2-1-1" title="Copy heading and permalink for Item 1.10.a" aria-label="Copy heading and permalink for Item 1.10.a">🔗</a></div>
+</li>
+<li id="exercise-4-1-1-2-1-2">
+<div class="para" id="exercise-4-1-1-2-1-2-1">Compute <span class="process-math">\(A \vec{v}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-1-1-2-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.10.b"><a tabindex="-1" href="#exercise-4-1-1-2-1-2" title="Copy heading and permalink for Item 1.10.b" aria-label="Copy heading and permalink for Item 1.10.b">🔗</a></div>
+</li>
+<li id="exercise-4-1-1-2-1-3">
+<div class="para" id="exercise-4-1-1-2-1-3-1">Describe what <span class="process-math">\(T\)</span> does geometrically.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-1-1-2-1-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.10.c"><a tabindex="-1" href="#exercise-4-1-1-2-1-3" title="Copy heading and permalink for Item 1.10.c" aria-label="Copy heading and permalink for Item 1.10.c">🔗</a></div>
+</li>
+<li id="exercise-4-1-1-2-1-4">
+<div class="para" id="exercise-4-1-1-2-1-4-1">Find the inverse <span class="process-math">\(A^{-1}\)</span> of <span class="process-math">\(A\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-1-1-2-1-4-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.10.d"><a tabindex="-1" href="#exercise-4-1-1-2-1-4" title="Copy heading and permalink for Item 1.10.d" aria-label="Copy heading and permalink for Item 1.10.d">🔗</a></div>
+</li>
+<li id="exercise-4-1-1-2-1-5">
+<div class="para" id="exercise-4-1-1-2-1-5-1">Describe what multiplication by <span class="process-math">\(A^{-1}\)</span> does geometrically.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-1-1-2-1-5-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.10.e"><a tabindex="-1" href="#exercise-4-1-1-2-1-5" title="Copy heading and permalink for Item 1.10.e" aria-label="Copy heading and permalink for Item 1.10.e">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-1-1-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="exercise-4-1-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para logical" id="exercise-4-1-2-1">
+<div class="para">For (a), the columns of the matrix are the images of the standard basis vectors. Since</div>
+<div class="displaymath process-math" id="exercise-4-1-2-1-1">
+\begin{equation*}
+T\left(\begin{pmatrix}1\\0\end{pmatrix}\right)=\begin{pmatrix}0\\\frac{1}{2}\end{pmatrix},\qquad T\left(\begin{pmatrix}0\\1\end{pmatrix}\right)=\begin{pmatrix}-\frac{1}{2}\\0\end{pmatrix},
+\end{equation*}
+</div>
+<div class="para">we have</div>
+<div class="displaymath process-math" id="exercise-4-1-2-1-2">
+\begin{equation*}
+A=\begin{pmatrix}0&amp;-\frac{1}{2}\\\frac{1}{2}&amp;0\end{pmatrix}.
+\end{equation*}
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="exercise-4-1-2-2">
+<div class="para">For (b),</div>
+<div class="displaymath process-math" id="exercise-4-1-2-2-1">
+\begin{equation*}
+A\vec{v}=\begin{pmatrix}0&amp;-\frac{1}{2}\\\frac{1}{2}&amp;0\end{pmatrix}\begin{pmatrix}1\\0\end{pmatrix}=\begin{pmatrix}0\\\frac{1}{2}\end{pmatrix}.
+\end{equation*}
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-1-2-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="exercise-4-1-2-3">For (c), <span class="process-math">\(T\)</span> rotates vectors counterclockwise by <span class="process-math">\(90^\circ\)</span> and scales their lengths by a factor of <span class="process-math">\(\frac12\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-1-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="exercise-4-1-2-4">
+<div class="para">For (d), because the inverse must undo both operations,</div>
+<div class="displaymath process-math" id="exercise-4-1-2-4-1">
+\begin{equation*}
+A^{-1}=\begin{pmatrix}0&amp;2\\-2&amp;0\end{pmatrix}.
+\end{equation*}
+</div>
+<div class="para">Indeed, <span class="process-math">\(AA^{-1}=A^{-1}A=I_2\text{.}\)</span>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-1-2-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="exercise-4-1-2-5">For (e), multiplication by <span class="process-math">\(A^{-1}\)</span> rotates vectors clockwise by <span class="process-math">\(90^\circ\)</span> and scales their lengths by a factor of <span class="process-math">\(2\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-1-2-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.10.1"><a tabindex="-1" href="#exercise-4-1-2" title="Copy heading and permalink for Solution 1.10.1" aria-label="Copy heading and permalink for Solution 1.10.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.10"><a tabindex="-1" href="#exercise-4-1" title="Copy heading and permalink for Checkpoint 1.10" aria-label="Copy heading and permalink for Checkpoint 1.10">🔗</a></div>
+</article></details>
+<details id="exercise-4-2" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.11</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="exercise-4-2-1-1">Let <span class="process-math">\(\vec{u} = \begin{pmatrix} 1\\1  \end{pmatrix}\)</span> and <span class="process-math">\(\vec{v} = \begin{pmatrix} 1\\0 \end{pmatrix}\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-2-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> 
+<div class="para logical" id="exercise-4-2-1-2">
+<ol class="lower-alpha" style="list-style: ptx-marker-1;" id="exercise-4-2-1-2-1">
+<li id="exercise-4-2-1-2-1-1">
+<div class="para" id="exercise-4-2-1-2-1-1-1">Find a matrix <span class="process-math">\(A\)</span> such that <span class="process-math">\(A \vec{u} = 2\vec{u}\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-2-1-2-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.11.a"><a tabindex="-1" href="#exercise-4-2-1-2-1-1" title="Copy heading and permalink for Item 1.11.a" aria-label="Copy heading and permalink for Item 1.11.a">🔗</a></div>
+</li>
+<li id="exercise-4-2-1-2-1-2">
+<div class="para" id="exercise-4-2-1-2-1-2-1">Find a matrix <span class="process-math">\(B\)</span> such that <span class="process-math">\(B \vec{v} = 3\vec{v}\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-2-1-2-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.11.b"><a tabindex="-1" href="#exercise-4-2-1-2-1-2" title="Copy heading and permalink for Item 1.11.b" aria-label="Copy heading and permalink for Item 1.11.b">🔗</a></div>
+</li>
+<li id="exercise-4-2-1-2-1-3">
+<div class="para" id="exercise-4-2-1-2-1-3-1">Find a matrix <span class="process-math">\(C\)</span> such that <span class="process-math">\(C \vec{u} = 2 \vec{u}\)</span> and <span class="process-math">\(C\vec{v} = 3 \vec{v}\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-2-1-2-1-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.11.c"><a tabindex="-1" href="#exercise-4-2-1-2-1-3" title="Copy heading and permalink for Item 1.11.c" aria-label="Copy heading and permalink for Item 1.11.c">🔗</a></div>
+</li>
+<li id="exercise-4-2-1-2-1-4">
+<div class="para" id="exercise-4-2-1-2-1-4-1">Explain why for such a matrix <span class="process-math">\(C\text{,}\)</span> for any point <span class="process-math">\(\vec{a}\)</span> on the <span class="process-math">\(x\)</span>-axis, <span class="process-math">\(C\vec{a}\)</span> is also on the <span class="process-math">\(x\)</span>-axis.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-2-1-2-1-4-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.11.d"><a tabindex="-1" href="#exercise-4-2-1-2-1-4" title="Copy heading and permalink for Item 1.11.d" aria-label="Copy heading and permalink for Item 1.11.d">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-2-1-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="exercise-4-2-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para" id="exercise-4-2-2-1">For (a), one choice is <span class="process-math">\(A=2I_2=\begin{pmatrix}2&amp;0\\0&amp;2\end{pmatrix}\text{.}\)</span> Then <span class="process-math">\(A\vec{u}=2\vec{u}\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-2-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="exercise-4-2-2-2">For (b), one choice is <span class="process-math">\(B=3I_2=\begin{pmatrix}3&amp;0\\0&amp;3\end{pmatrix}\text{.}\)</span> Then <span class="process-math">\(B\vec{v}=3\vec{v}\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-2-2-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="exercise-4-2-2-3">
+<div class="para">For (c), write <span class="process-math">\(C=\begin{pmatrix}a&amp;b\\c&amp;d\end{pmatrix}\text{.}\)</span> Since <span class="process-math">\(C\vec{v}=3\vec{v}\text{,}\)</span> the first column must be <span class="process-math">\(\begin{pmatrix}3\\0\end{pmatrix}\text{.}\)</span> The condition <span class="process-math">\(C\vec{u}=2\vec{u}\)</span> then gives <span class="process-math">\(3+b=2\)</span> and <span class="process-math">\(0+d=2\text{.}\)</span> Therefore,</div>
+<div class="displaymath process-math" id="exercise-4-2-2-3-7">
+\begin{equation*}
+C=\begin{pmatrix}3&amp;-1\\0&amp;2\end{pmatrix}.
+\end{equation*}
+</div>
+<div class="para">Both conditions are satisfied.</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-2-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="exercise-4-2-2-4">
+<div class="para">For (d), every point on the <span class="process-math">\(x\)</span>-axis has the form <span class="process-math">\(\vec{a}=t\vec{v}\)</span> for some real number <span class="process-math">\(t\text{.}\)</span> By linearity,</div>
+<div class="displaymath process-math" id="exercise-4-2-2-4-4">
+\begin{equation*}
+C\vec{a}=C(t\vec{v})=tC\vec{v}=3t\vec{v}=\begin{pmatrix}3t\\0\end{pmatrix},
+\end{equation*}
+</div>
+<div class="para">which is again on the <span class="process-math">\(x\)</span>-axis.</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-2-2-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.11.1"><a tabindex="-1" href="#exercise-4-2-2" title="Copy heading and permalink for Solution 1.11.1" aria-label="Copy heading and permalink for Solution 1.11.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.11"><a tabindex="-1" href="#exercise-4-2" title="Copy heading and permalink for Checkpoint 1.11" aria-label="Copy heading and permalink for Checkpoint 1.11">🔗</a></div>
+</article></details>
+<details id="exercise-4-3" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.12</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="exercise-4-3-1-1">Consider the pentagon with vertices: <span class="process-math">\((0,2), (2,1), (1,0), (-1,0), (-2,1)\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-3-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> 
+<div class="para logical" id="exercise-4-3-1-2">
+<ol class="lower-alpha" style="list-style: ptx-marker-1;" id="exercise-4-3-1-2-1">
+<li id="exercise-4-3-1-2-1-1">
+<div class="para" id="exercise-4-3-1-2-1-1-1">Draw the pentagon.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-3-1-2-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.12.a"><a tabindex="-1" href="#exercise-4-3-1-2-1-1" title="Copy heading and permalink for Item 1.12.a" aria-label="Copy heading and permalink for Item 1.12.a">🔗</a></div>
+</li>
+<li id="exercise-4-3-1-2-1-2">
+<div class="para" id="exercise-4-3-1-2-1-2-1">Draw a subdivision of the pentagon into triangles.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-3-1-2-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.12.b"><a tabindex="-1" href="#exercise-4-3-1-2-1-2" title="Copy heading and permalink for Item 1.12.b" aria-label="Copy heading and permalink for Item 1.12.b">🔗</a></div>
+</li>
+<li id="exercise-4-3-1-2-1-3">
+<div class="para" id="exercise-4-3-1-2-1-3-1">Find the area of the pentagon.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-3-1-2-1-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item 1.12.c"><a tabindex="-1" href="#exercise-4-3-1-2-1-3" title="Copy heading and permalink for Item 1.12.c" aria-label="Copy heading and permalink for Item 1.12.c">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-3-1-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="exercise-4-3-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para" id="exercise-4-3-2-1">For (a), plot the five given points and join them in the order <span class="process-math">\((0,2)\text{,}\)</span> <span class="process-math">\((2,1)\text{,}\)</span> <span class="process-math">\((1,0)\text{,}\)</span> <span class="process-math">\((-1,0)\text{,}\)</span> <span class="process-math">\((-2,1)\text{,}\)</span> returning to <span class="process-math">\((0,2)\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-3-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="exercise-4-3-2-2">For (b), draw two diagonals from <span class="process-math">\((0,2)\)</span> to <span class="process-math">\((1,0)\)</span> and <span class="process-math">\((-1,0)\text{.}\)</span> This divides the pentagon into three triangles.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-3-2-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="exercise-4-3-2-3">
+<div class="para">For (c), use <span class="process-math">\((0,2)\)</span> as the reference point for each triangle. Each column is one of the other vertices minus <span class="process-math">\((0,2)\text{,}\)</span> with the coordinate differences shown explicitly:</div>
+<div class="displaymath process-math" id="exercise-4-3-2-3-3">
+\begin{equation*}
+\begin{aligned}
+A_{\text{right}} &amp;= \frac12\left|\det\begin{pmatrix}2-0 &amp; 1-2 \\ 1-0 &amp; 0-2\end{pmatrix}\right| = \frac12|{-3}| = \frac32,\\
+A_{\text{middle}} &amp;= \frac12\left|\det\begin{pmatrix}1-0 &amp; 0-2 \\ -1-0 &amp; 0-2\end{pmatrix}\right| = \frac12|{-4}| = 2,\\
+A_{\text{left}} &amp;= \frac12\left|\det\begin{pmatrix}-1-0 &amp; 0-2 \\ -2-0 &amp; 1-2\end{pmatrix}\right| = \frac12|{-3}| = \frac32.
+\end{aligned}
+\end{equation*}
+</div>
+<div class="para">Therefore,</div>
+<div class="displaymath process-math" id="exercise-4-3-2-3-4">
+\begin{equation*}
+\text{Area}=A_{\text{right}}+A_{\text{middle}}+A_{\text{left}}=\frac32+2+\frac32=5.
+\end{equation*}
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercise-4-3-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="image-box" style="width: 65%; margin-left: 17.5%; margin-right: 17.5%;"><img src="generated/latex-image/exercise-4-3-2-4.svg" role="img" class="contained" alt="Pentagon with five labeled vertices."></div>
+<div class="image-box" style="width: 65%; margin-left: 17.5%; margin-right: 17.5%;"><img src="generated/latex-image/exercise-4-3-2-5.svg" role="img" class="contained" alt="Pentagon subdivided into three triangles by two diagonals from the top vertex."></div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.12.1"><a tabindex="-1" href="#exercise-4-3-2" title="Copy heading and permalink for Solution 1.12.1" aria-label="Copy heading and permalink for Solution 1.12.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.12"><a tabindex="-1" href="#exercise-4-3" title="Copy heading and permalink for Checkpoint 1.12" aria-label="Copy heading and permalink for Checkpoint 1.12">🔗</a></div>
+</article></details><div class="autopermalink" aria-hidden="true" data-description="Subsection 1.4: Geometry"><a tabindex="-1" href="#section-4" title="Copy heading and permalink for Subsection 1.4: Geometry" aria-label="Copy heading and permalink for Subsection 1.4: Geometry">🔗</a></div>
+</section><div class="autopermalink" aria-hidden="true" data-description="Section 1: Determined Ants"><a tabindex="-1" href="#Math2000Exam2Practice" title="Copy heading and permalink for Section 1: Determined Ants" aria-label="Copy heading and permalink for Section 1: Determined Ants">🔗</a></div>
 </section><div class="autopermalink" aria-hidden="true" data-description="Article: Math 2301 Homework 4"><a tabindex="-1" href="#Normies" title="Copy heading and permalink for Article: Math 2301 Homework 4" aria-label="Copy heading and permalink for Article: Math 2301 Homework 4">🔗</a></div>
 </section>
 </div>

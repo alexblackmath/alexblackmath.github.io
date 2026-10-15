@@ -1,0 +1,294 @@
+
+  <section xml:id="Math2000Exam2Practice">
+    <title>Determined Ants</title>
+
+  <subsection>
+    <title>Matrix Computations</title>
+    <p>The focus on this exercise will be on computing things about some specific small matrices.</p>
+    <exercise xml:id="exercise-1-1">
+      <statement>
+        <p>Let <m>A = \begin{pmatrix} 0 &amp; 1 \\ 1  &amp; 0\end{pmatrix}</m> and <m>B = \begin{pmatrix} 0 &amp;1 \\ -1 &amp;0 \end{pmatrix}</m>.</p>
+        <p><ol marker="(a)">
+          <li><p>Compute <m>A + B</m></p></li>
+          <li><p>Compute <m>B^{4}</m></p></li>
+          <li><p>Compute <m>AB</m></p></li>
+          <li><p>What is the determinant of <m>B</m>?</p></li>
+          <li><p>Is <m>A^{10}</m> invertible?</p></li>
+        </ol></p>
+      </statement>
+      <solution>
+        <p>For (a), <me>A+B = \begin{pmatrix} 0 &amp; 1 \\ 1  &amp; 0\end{pmatrix} + \begin{pmatrix} 0 &amp;1 \\ -1 &amp;0 \end{pmatrix} = \begin{pmatrix} 0 &amp;2 \\ 0 &amp;0 \end{pmatrix}.</me> For (b): <me>B^{4} = (B^{2})^{2} = \left(\begin{pmatrix} 0 &amp;1 \\ -1 &amp;0 \end{pmatrix}^{2}\right)^{2} = \begin{pmatrix} -1 &amp;0 \\ 0 &amp;-1 \end{pmatrix}^{2} = I_{2}.</me> For (c), <me>AB = \begin{pmatrix} 0 &amp; 1 \\ 1  &amp; 0\end{pmatrix}\begin{pmatrix} 0 &amp;1 \\ -1 &amp;0 \end{pmatrix} = \begin{pmatrix} -1 &amp;0 \\ 0 &amp; 1\end{pmatrix}.</me> For (d), <me>\text{det}\begin{pmatrix} 0 &amp;1 \\ -1 &amp;0 \end{pmatrix} = 0^{2} - (-1)(1) = 1.</me> For (e), <me>\text{det}(A^{10}) = \text{det}(A)^{10} = \text{det}\begin{pmatrix} 0 &amp; 1 \\ 1  &amp; 0\end{pmatrix}^{10} = (-1)^{10} = 1.</me></p>
+      </solution>
+    </exercise>
+    <exercise xml:id="exercise-1-2">
+      <statement>
+        <p>Let <m>A = \begin{pmatrix} a &amp; 0 \\ 0 &amp; a \end{pmatrix}</m> and <m>B = \begin{pmatrix} 1 &amp;2 \\ 3 &amp; 4 \end{pmatrix}</m>.</p>
+        <p><ol marker="(a)">
+          <li><p>Compute <m>A^{10}</m>.</p></li>
+          <li><p>Compute <m>AB</m></p></li>
+          <li><p>Compute <m>BA</m></p></li>
+          <li><p>Compute <m>AB - BA</m></p></li>
+          <li><p>For what values of <m>a</m> is <m>A</m> invertible? Explain.</p></li>
+        </ol></p>
+      </statement>
+      <solution>
+        <p>For (a), since products of diagonal matrices just correspond to multiplying the elements on the diagonal, <me>A^{10} = \begin{pmatrix} a &amp; 0 \\ 0 &amp; a \end{pmatrix}^{10} = \begin{pmatrix} a^{10} &amp; 0 \\ 0 &amp; a^{10} \end{pmatrix}.</me> For (b), <me>AB = \begin{pmatrix} a &amp; 0 \\ 0 &amp; a \end{pmatrix} \begin{pmatrix} 1 &amp;2 \\ 3 &amp; 4 \end{pmatrix} = \begin{pmatrix} a &amp;2a \\ 3a &amp; 4a \end{pmatrix}.</me> For (c), <me>BA =\begin{pmatrix} 1 &amp;2 \\ 3 &amp; 4 \end{pmatrix} \begin{pmatrix} a &amp; 0 \\ 0 &amp; a \end{pmatrix}  = \begin{pmatrix} a &amp;2a \\ 3a &amp; 4a \end{pmatrix}.</me> For (d), <m>AB = BA</m>, so <m>AB-BA = \begin{pmatrix} 0 &amp; 0 \\ 0 &amp;0\end{pmatrix}</m>. For (e), note that <me>\text{det}(A) = \text{det}\begin{pmatrix} a &amp; 0 \\ 0 &amp; a \end{pmatrix} = a^{2}.</me> Then <m>A</m> is invertible, if and only if <m>a^{2} = \text{det}(A) \neq 0</m>, which is true if and only if <m>a \neq 0</m>.</p>
+      </solution>
+    </exercise>
+    <exercise xml:id="exercise-1-3">
+      <statement>
+        <p>Let <m>A = \begin{pmatrix} 1 &amp; 0 &amp; 0 \\0 &amp; 1 &amp; 0 \end{pmatrix}</m>.</p>
+        <p><ol marker="(a)">
+          <li><p>Compute <m>A + (A^{\intercal})^{\intercal}</m></p></li>
+          <li><p>Compute <m>AA^{\intercal}</m>.</p></li>
+          <li><p>Compute <m>A^{\intercal}A</m>.</p></li>
+          <li><p>Is <m>A A^{\intercal}</m> invertible? Explain.</p></li>
+          <li><p>Is <m>A^{\intercal} A</m> invertible? Explain.</p></li>
+        </ol></p>
+      </statement>
+      <solution>
+        <p>For (a), <m>(A^{\intercal})^{\intercal} = A</m>, so <me>A +(A^{\intercal})^{\intercal} = A+A = 2A = \begin{pmatrix} 2 &amp; 0 &amp; 0 \\0 &amp; 2 &amp; 0 \end{pmatrix}.</me> For (b), <me>AA^{\intercal} = \begin{pmatrix} 1 &amp; 0 &amp; 0 \\0 &amp; 1 &amp; 0 \end{pmatrix}\begin{pmatrix} 1 &amp; 0  \\0 &amp; 1 \\0&amp;0\end{pmatrix} = \begin{pmatrix} 1 &amp; 0\\0 &amp; 1 \end{pmatrix}.</me> For (c), <me>A^{\intercal} A = \begin{pmatrix} 1 &amp; 0  \\0 &amp; 1 \\0&amp;0\end{pmatrix} \begin{pmatrix} 1 &amp; 0 &amp; 0 \\0 &amp; 1 &amp; 0 \end{pmatrix} = \begin{pmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0\\ 0 &amp;0 &amp; 0 \end{pmatrix}</me> For (d), <m>A A^{\intercal} = I_{2}</m>, which is invertible. For (e), <m>A^{\intercal}A</m> has a row of zeroes and is therefore not invertible.</p>
+      </solution>
+    </exercise>
+  </subsection>
+  <subsection xml:id="section-2">
+    <title>Compute Determinants</title>
+    <p>In this exercise, I will give you three matrices defined implicitly somehow or explicitly, and you will need to either compute their determinants or explain why it's not possible to do so.</p>
+    <exercise xml:id="exercise-2-1">
+      <statement>
+        <p>Compute the determinants of the following matrices or explain why you can't. Explain your answers:</p>
+        <p><ol marker="(a)">
+          <li><p><me>\begin{pmatrix} 1 &amp; 1 &amp; 1 \\ 2 &amp; 2 &amp; 2 \\ 3 &amp; 3 &amp; 3 \end{pmatrix}</me></p></li>
+          <li><p><me>\begin{pmatrix} 6 &amp; 0 &amp; 0\\ 0 &amp; 7 &amp; 0 \\0 &amp; 0 &amp;8 \end{pmatrix}</me></p></li>
+          <li><p><m>A</m>, where <m>A</m> is obtained from the identity matrix by the sequence of operations: Replacement of first row minus the second, Scaling row <m>3</m> by <m>3</m>, Interchanging rows one and three, Scaling row <m>1</m> by <m>1/3</m>, and Replacing row <m>2</m> by row <m>2</m> minus row <m>3</m>.</p></li>
+        </ol></p>
+      </statement>
+      <solution>
+        <p>For (a), apply row replacement to subtract three times the first row from the third row. The resulting matrix has an all <m>0</m> row and so has determinant <m>0</m>. Replacement does not change the determinant, so the whole matrix has determinant <m>0</m>.</p>
+        <p>For (b), the determinant of a diagonal matrix is the product of the diagonal entries, which is <m>6(7)(8)</m> in this case.</p>
+        <p>For (c), the replacements don't change anything, so we can ignore them. There is one interchange, and a scaling by <m>3</m> and <m>1/3</m>, so the determinant in the end is <m>-1</m>.</p>
+      </solution>
+    </exercise>
+    <exercise xml:id="exercise-2-2">
+      <statement>
+        <p>Compute the determinants of the following matrices or explain why you can't. Explain your answers:</p>
+        <p><ol marker="(a)">
+          <li><p><me>\begin{pmatrix} 1 &amp; 3 &amp; 4 \\ 0&amp; 0 &amp; 2 \\ 0 &amp; 0 &amp;1 \end{pmatrix}</me></p></li>
+          <li><p><me>\begin{pmatrix} 1 &amp; 2 &amp;4 \\ 0 &amp; 2&amp; 6 \end{pmatrix}</me></p></li>
+          <li><p><m>A^{4}</m>, where <me>A = \begin{pmatrix} 0 &amp;0 &amp; 1\\ 0 &amp;1 &amp; 0 \\ 1 &amp; 0 &amp;0\end{pmatrix}</me></p></li>
+        </ol></p>
+      </statement>
+      <solution>
+        <p>For (a), the matrix is upper triangular, so the determinant is the product of the diagonal entries, which is <m>0</m>.</p>
+        <p>For (b), it is not square, so you can't take the determinant.</p>
+        <p>For (c), <m>A</m> is one interchange away from <m>I_{3}</m> and so has determinant <m>-1</m>. Then <me>\text{det}(A^{4}) = \text{det}(A)^{4} = (-1)^{4} = 1.</me></p>
+      </solution>
+    </exercise>
+    <exercise xml:id="exercise-2-3">
+      <statement>
+        <p>Compute the determinants of the following matrices or explain why you can't. Explain your answers:</p>
+        <p><ol marker="(a)">
+          <li><p><me>\begin{pmatrix} 1&amp;1&amp;1 \\1&amp;2 &amp; 3 \\ 2&amp;3&amp; 4 \end{pmatrix}</me></p></li>
+          <li><p><m>AB</m>, where <me>A = \begin{pmatrix} 1 &amp; 2 &amp;4 \\ 0 &amp; 2&amp; 6 \\ 0&amp; 0 &amp;3 \end{pmatrix} \text{ and } B = \begin{pmatrix} 0 &amp; 1/3 &amp; 0 \\ 1/2 &amp; 0 &amp; 0 \\ 0 &amp;0 &amp;1 \end{pmatrix}.</me></p></li>
+          <li><p><m>C</m> where <m>C</m> is a <m>10 \times 10</m> matrix obtained from the identity matrix <m>I_{10}</m> by applying <m>13</m> interchanges.</p></li>
+        </ol></p>
+      </statement>
+      <solution>
+        <p>For (a), the third row is the sum of the first <m>2</m>, so the rows are linearly dependent. It follows that the matrix is not invertible, and so the matrix has determinant <m>0</m>.</p>
+        <p>For (b), <m>A</m> is upper triangular, so its determinant is the product of its diagonal entries, which is <m>1(2)(3) = 6</m>. After interchanging, <m>B</m> is diagonal with entries <m>1/2, 1/3,1</m> and so has determinant <m>-1(1/2)(1/3)(1) = -1/6</m>. Hence, <m>\text{det}(AB) =\text{det}(A)\text{det}(B) = 6(-1/6) = -1.</m></p>
+        <p>For (c), each interchange yields a multiplication by <m>-1</m>, so the determinant is <m>(-1)^{13} = -1</m>.</p>
+      </solution>
+    </exercise>
+  </subsection>
+  <subsection xml:id="section-3">
+    <title>Is the matrix invertible?</title>
+    <p>In this exercise, I will give you 5 situations. In each, there are three possibilities:</p>
+        <p><ol marker="(a)">
+          <li><p>The matrix <m>A</m> is definitely invertible.</p></li>
+          <li><p>The matrix <m>A</m> is definitely not invertible.</p></li>
+          <li><p>There's not enough information to determine either way.</p></li>
+        </ol></p>
+    <p>Your job will be to determine which situation of the <m>3</m> you are in and justify why.</p>
+    <exercise xml:id="exercise-3-1">
+      <statement>
+        <p>Which of the following conditions guarantee a matrix is invertible, guarantee it is not invertible, or does not give enough information to determine one way or another? Explain why for each.</p>
+        <p><ol marker="(a)">
+          <li><p><m>A</m> is <m>2 \times 4</m> with rank <m>2</m></p></li>
+          <li><p><m>A</m> is <m>3 \times 3</m> with determinant <m>10</m></p></li>
+          <li><p><m>A</m> is <m>n \times n</m> and there exist <m>B</m> and <m>C</m> both <m>n \times n</m> such that <m>BAC = I_{n}</m></p></li>
+          <li><p><m>A</m> is <m>n \times n</m> and <m>A^{\intercal}</m> is upper triangular</p></li>
+          <li><p><m>A</m> is <m>n \times n</m> and <m>A = A^{\intercal}</m></p></li>
+        </ol></p>
+      </statement>
+      <solution>
+        <p>For (a), it is not invertible, since only square matrices are invertible. For (b), it is invertible, since its determinant is nonzero. For (c), since <m>B</m> is invertible, <m>AC = B^{-1} BA C = B^{-1} I_{n} = B^{-1}</m>. Then <m>AC B=  B^{-1} B = I_{n}</m>. Hence, <m>A</m> is invertible, with inverse <m>CB</m>. For (d), there is not enough information to determine it. For example, the zero matrix is such that <me>\begin{pmatrix} 0 &amp; 0 \\ 0 &amp; 0\end{pmatrix}^{\intercal} =  \begin{pmatrix} 0 &amp; 0 \\ 0 &amp; 0\end{pmatrix},</me> and the zero matrix is upper triangular, but it is not invertible. However, the same holds for <m>I_{2}</m>. It is upper triangular and invertible. Therefore, there is not enough to determine it. For (e), the same two examples work.</p>
+      </solution>
+    </exercise>
+    <exercise xml:id="exercise-3-2">
+      <statement>
+        <p>Which of the following conditions guarantee a matrix is invertible, guarantee it is not invertible, or does not give enough information to determine one way or another? Explain why for each.</p>
+        <p><ol marker="(a)">
+          <li><p><m>A</m> is <m>4 \times 4</m>, and the rows and columns of <m>A</m> all sum to <m>1</m>.</p></li>
+          <li><p><m>A</m> is <m>4 \times 4</m>, and the rows and columns of <m>A</m> all sum to <m>0</m>.</p></li>
+          <li><p>The columns of <m>A</m> are linearly independent.</p></li>
+          <li><p><m>A</m> is <m>2 \times 2</m>, and <m>\text{det}(A - I_{2}) = 0</m></p></li>
+          <li><p><m>10 A</m> is invertible.</p></li>
+        </ol></p>
+      </statement>
+      <solution>
+        <p>For (a), this is not enough information to determine it. The identity matrix <m>I_{4}</m> satisfies this and is invertible. However, the <m>4 \times 4</m> matrix with all entries <m>1/4</m> satisfies that and is not invertible.</p>
+        <p>For (b), it is never invertible. There are various ways to see this, but for example, one can apply three replacements adding row 1 to row 4, then adding row 2 to row 4, and finally row 3 to row 4. After that row 4 would be equal to the sum of the rows, which is <m>(0,0,0,0)</m>. Thus, after applying row operations one finds a matrix with a row of all zeroes. Hence, it is never invertible.</p>
+        <p>For (c), this is not enough information, since you need to know if <m>A</m> is a square matrix or not.</p>
+        <p>For (d), it is not enough information to determine it. For example, if <m>A = I_{2}</m>, then <m>A - I_{2}</m> is the <m>2 \times 2</m> zero matrix and so has determinant <m>0</m>. Thus, <m>A</m> can be invertible. At the same time if <m>A = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 0 \end{pmatrix}</m>, it is not invertible, and <me>A -I_{2} =\begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 0 \end{pmatrix} - \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix} = \begin{pmatrix} 0 &amp; 0 \\ 0 &amp; -1 \end{pmatrix}</me> The determinant of <m>A -I_{2}</m> in that case is still <m>0</m>. Thus, it is not enough information to determine it.</p>
+        <p>For (e), there are various ways to see this. For example, <m>A</m> is row equivalent to <m>10A</m> by rescaling each row by a factor of <m>10</m>. Hence, since <m>10A</m> is invertible, <m>A</m> must also be invertible.</p>
+      </solution>
+    </exercise>
+    <exercise xml:id="exercise-3-3">
+      <statement>
+        <p>Which of the following conditions guarantee a matrix is invertible, guarantee it is not invertible, or does not give enough information to determine one way or another? Explain why for each.</p>
+        <p><ol marker="(a)">
+          <li><p><m>A</m> is <m>n \times n</m>, and the reduced row echelon form of <m>A</m> has <m>n</m> pivot columns</p></li>
+          <li><p><m>A</m> is <m>n \times n</m>, and <m>A \mathbf{x} = 0</m> has a unique solution</p></li>
+          <li><p><m>A</m> is <m>n \times n</m>, and every entry on the diagonal of <m>A</m> is equal to <m>1</m> for <m>n \geq 2</m>.</p></li>
+          <li><p><m>A</m> is <m>3 \times 3</m>, and all <m>2 \times 2</m> subdeterminants of <m>A</m> are nonzero.</p></li>
+          <li><p><m>A</m> is <m>3 \times 3</m> and <m>A = A^{2}</m></p></li>
+        </ol></p>
+      </statement>
+      <solution>
+        <p>For (a), the answer is yes. It implies that the reduced row echelon form has to be the identity matrix.</p>
+        <p>For (b), the answer is also yes. It implies the columns of <m>A</m> are linearly independent meaning that the nullity is <m>0</m>, so the rank is <m>n</m>, which implies invertibility for an <m>n \times n</m> matrix.</p>
+        <p>For (c), there is not enough information. The identity matrix <m>I_{n}</m> satisfies this and is invertible. However, the all <m>1</m>'s matrix satisfies this but is not invertible, since one row replacement yields a row of all <m>0</m>'s.</p>
+        <p>For (d), there is not enough information to determine it. Note that the determinant of the matrix: <me>\begin{pmatrix} 1 &amp; 1 &amp; 1\\ 0&amp; 1 &amp; 1 \\ 0 &amp; 0 &amp; 1\end{pmatrix}</me> is <m>1</m> and so it is invertible. Then applying two replacements adding the first row to the latter two rows to get the matrix <me>B = \begin{pmatrix} 1 &amp; 1 &amp; 1\\ 1&amp; 2 &amp; 2 \\ 1 &amp; 1 &amp; 2\end{pmatrix}</me> Define <m>A = B^{-1}</m>. Then the entries are, up to a nonzero constant scaling, exactly the <m>2 \times 2</m> subdeterminants of <m>A</m>. Hence, the <m>2 \times 2</m> subdeterminants of <m>A</m> are all nonzero in that case. For a noninvertible example, take <me>\begin{pmatrix} 
+ 1 &amp; 0 &amp; 1 \\0 &amp;1 &amp;1
+ \\ 1 &amp;1 &amp; 2
+\end{pmatrix}</me> The last row is the sum of the previous two rows meaning the rows are linearly dependent and so it is not invertible. By checking each <m>2 \times 2</m> subdeterminant, you can verify they are all nonzero.</p>
+        <p>For (e), <m>I_{3} = I_{3}^{2}</m> and the zero matrix is equal to its square, so it is not enough information to determine that <m>A</m> is invertible.</p>
+      </solution>
+    </exercise>
+  </subsection>
+  <subsection xml:id="section-4">
+    <title>Geometry</title>
+    <exercise xml:id="exercise-4-1">
+      <statement>
+        <p>Consider the linear transformation <m>T: \mathbb{R}^{2} \to \mathbb{R}^{2}</m> given by <me>T\left( \begin{matrix} x\\y \end{matrix}\right) = \begin{pmatrix} -\frac{1}{2}y \\ \frac{1}{2} x \end{pmatrix} .</me> Let <m>\vec{v} = \begin{pmatrix} 1 \\ 0 \end{pmatrix}</m>.</p>
+        <p><ol marker="(a)">
+          <li><p>Find the matrix <m>A</m> of <m>T</m>.</p></li>
+          <li><p>Compute <m>A \vec{v}</m></p></li>
+          <li><p>Describe what <m>T</m> does geometrically.</p></li>
+          <li><p>Find the inverse <m>A^{-1}</m> of <m>A</m>.</p></li>
+          <li><p>Describe what multiplication by <m>A^{-1}</m> does geometrically.</p></li>
+        </ol></p>
+      </statement>
+      <solution>
+        <p>For (a), the columns of the matrix are the images of the standard basis vectors. Since <me>T\left(\begin{pmatrix}1\\0\end{pmatrix}\right)=\begin{pmatrix}0\\\frac{1}{2}\end{pmatrix},\qquad T\left(\begin{pmatrix}0\\1\end{pmatrix}\right)=\begin{pmatrix}-\frac{1}{2}\\0\end{pmatrix},</me> we have <me>A=\begin{pmatrix}0&amp;-\frac{1}{2}\\\frac{1}{2}&amp;0\end{pmatrix}.</me></p>
+        <p>For (b), <me>A\vec{v}=\begin{pmatrix}0&amp;-\frac{1}{2}\\\frac{1}{2}&amp;0\end{pmatrix}\begin{pmatrix}1\\0\end{pmatrix}=\begin{pmatrix}0\\\frac{1}{2}\end{pmatrix}.</me></p>
+        <p>For (c), <m>T</m> rotates vectors counterclockwise by <m>90^\circ</m> and scales their lengths by a factor of <m>\frac12</m>.</p>
+        <p>For (d), because the inverse must undo both operations, <me>A^{-1}=\begin{pmatrix}0&amp;2\\-2&amp;0\end{pmatrix}.</me> Indeed, <m>AA^{-1}=A^{-1}A=I_2</m>.</p>
+        <p>For (e), multiplication by <m>A^{-1}</m> rotates vectors clockwise by <m>90^\circ</m> and scales their lengths by a factor of <m>2</m>.</p>
+      </solution>
+    </exercise>
+    <exercise xml:id="exercise-4-2">
+      <statement>
+        <p>Let <m>\vec{u} = \begin{pmatrix} 1\\1  \end{pmatrix}</m> and <m>\vec{v} = \begin{pmatrix} 1\\0 \end{pmatrix}</m>.</p>
+        <p><ol marker="(a)">
+          <li><p>Find a matrix <m>A</m> such that <m>A \vec{u} = 2\vec{u}</m>.</p></li>
+          <li><p>Find a matrix <m>B</m> such that <m>B \vec{v} = 3\vec{v}</m>.</p></li>
+          <li><p>Find a matrix <m>C</m> such that <m>C \vec{u} = 2 \vec{u}</m> and <m>C\vec{v} = 3 \vec{v}</m>.</p></li>
+          <li><p>Explain why for such a matrix <m>C</m>, for any point <m>\vec{a}</m> on the <m>x</m>-axis, <m>C\vec{a}</m> is also on the <m>x</m>-axis.</p></li>
+        </ol></p>
+      </statement>
+      <solution>
+        <p>For (a), one choice is <m>A=2I_2=\begin{pmatrix}2&amp;0\\0&amp;2\end{pmatrix}</m>. Then <m>A\vec{u}=2\vec{u}</m>.</p>
+        <p>For (b), one choice is <m>B=3I_2=\begin{pmatrix}3&amp;0\\0&amp;3\end{pmatrix}</m>. Then <m>B\vec{v}=3\vec{v}</m>.</p>
+        <p>For (c), write <m>C=\begin{pmatrix}a&amp;b\\c&amp;d\end{pmatrix}</m>. Since <m>C\vec{v}=3\vec{v}</m>, the first column must be <m>\begin{pmatrix}3\\0\end{pmatrix}</m>. The condition <m>C\vec{u}=2\vec{u}</m> then gives <m>3+b=2</m> and <m>0+d=2</m>. Therefore, <me>C=\begin{pmatrix}3&amp;-1\\0&amp;2\end{pmatrix}.</me> Both conditions are satisfied.</p>
+        <p>For (d), every point on the <m>x</m>-axis has the form <m>\vec{a}=t\vec{v}</m> for some real number <m>t</m>. By linearity, <me>C\vec{a}=C(t\vec{v})=tC\vec{v}=3t\vec{v}=\begin{pmatrix}3t\\0\end{pmatrix},</me> which is again on the <m>x</m>-axis.</p>
+      </solution>
+    </exercise>
+    <exercise xml:id="exercise-4-3">
+      <statement>
+        <p>Consider the pentagon with vertices: <m>(0,2), (2,1), (1,0), (-1,0), (-2,1)</m>.</p>
+        <p><ol marker="(a)">
+          <li><p>Draw the pentagon.</p></li>
+          <li><p>Draw a subdivision of the pentagon into triangles.</p></li>
+          <li><p>Find the area of the pentagon.</p></li>
+        </ol></p>
+      </statement>
+      <solution>
+        <p>For (a), plot the five given points and join them in the order <m>(0,2)</m>, <m>(2,1)</m>, <m>(1,0)</m>, <m>(-1,0)</m>, <m>(-2,1)</m>, returning to <m>(0,2)</m>.</p>
+        <p>For (b), draw two diagonals from <m>(0,2)</m> to <m>(1,0)</m> and <m>(-1,0)</m>. This divides the pentagon into three triangles.</p>
+        <p>For (c), use <m>(0,2)</m> as the reference point for each triangle. Each row is one of the other vertices minus <m>(0,2)</m>, with the coordinate differences shown explicitly:
+          <me>\begin{aligned}
+          A_{\text{right}} &amp;= \frac12\left|\det\begin{pmatrix}2-0 &amp; 1-2 \\ 1-0 &amp; 0-2\end{pmatrix}\right| = \frac12|{-3}| = \frac32,\\
+          A_{\text{middle}} &amp;= \frac12\left|\det\begin{pmatrix}1-0 &amp; 0-2 \\ -1-0 &amp; 0-2\end{pmatrix}\right| = \frac12|{-4}| = 2,\\
+          A_{\text{left}} &amp;= \frac12\left|\det\begin{pmatrix}-1-0 &amp; 0-2 \\ -2-0 &amp; 1-2\end{pmatrix}\right| = \frac12|{-3}| = \frac32.
+          \end{aligned}</me>
+          Therefore, <me>\text{Area}=A_{\text{right}}+A_{\text{middle}}+A_{\text{left}}=\frac32+2+\frac32=5.</me></p>
+        <image width="65%">
+          <shortdescription>Pentagon with five labeled vertices.</shortdescription>
+          <latex-image>\begin{tikzpicture}[scale=1.1]
+\draw[thick] (0,2) -- (2,1) -- (1,0) -- (-1,0) -- (-2,1) -- cycle;
+\fill (0,2) circle (1.5pt) node[above] {$(0,2)$};
+\fill (2,1) circle (1.5pt) node[right] {$(2,1)$};
+\fill (1,0) circle (1.5pt) node[below right] {$(1,0)$};
+\fill (-1,0) circle (1.5pt) node[below left] {$(-1,0)$};
+\fill (-2,1) circle (1.5pt) node[left] {$(-2,1)$};
+\end{tikzpicture}</latex-image>
+        </image>
+        <image width="65%">
+          <shortdescription>Pentagon subdivided into three triangles by two diagonals from the top vertex.</shortdescription>
+          <latex-image>\begin{tikzpicture}[scale=1.1]
+\draw[thick] (0,2) -- (2,1) -- (1,0) -- (-1,0) -- (-2,1) -- cycle;
+\draw[dashed] (0,2) -- (1,0);
+\draw[dashed] (0,2) -- (-1,0);
+\fill (0,2) circle (1.5pt) node[above] {$(0,2)$};
+\fill (2,1) circle (1.5pt) node[right] {$(2,1)$};
+\fill (1,0) circle (1.5pt) node[below right] {$(1,0)$};
+\fill (-1,0) circle (1.5pt) node[below left] {$(-1,0)$};
+\fill (-2,1) circle (1.5pt) node[left] {$(-2,1)$};
+\end{tikzpicture}</latex-image>
+        </image>
+      </solution>
+    </exercise>
+  </subsection>
+</section>
+  <!-- Original commented-out LaTeX retained verbatim for reference:
+% \section{Semigroup, Monoid, Group, or None of the above?}
+
+% In this exercise, I will describe a set of matrices and you will need to determine if it is a semigroup, monoid, group, or none of the above. You will need to carefully justify your answer using the definitions of each of these things. To get full credit, you must give the strongest property it has. In particular, if it is a group, and you only say it is a semigroup, you will have points taken off.
+
+% \begin{exercise}
+% A matrix $A$ is called \textbf{orthogonal} if $A^{\intercal} = A^{-1}$. Is the set of $n \times n$ orthogonal matrices a semigroup, monoid, group, or none of the above?
+% \end{exercise}
+
+% \begin{proof}[Solution]
+% By definition, all orthogonal matrices are invertible. It turns out they are a group. Let $A$ and $B$ be orthogonal. Then $(AB)^{\intercal} = B^{\intercal} A^{\intercal} = B^{-1} A^{-1} = (AB)^{-1}$. Hence, orthogonal matrices are closed under multiplication.
+
+% Furthermore, $(A^{\intercal})^{-1} = A = (A^{\intercal})^{\intercal}$. Thus, orthogonal matrices are closed under inversion.
+
+% Finally, $I_{n}^{\intercal} = I_{n} = I_{n}^{-1}$, so $I_{n}$ is orthogonal. Hence, it is a group.
+% \end{proof}
+
+% \begin{exercise}
+% Consider the strictly upper triangular $3 \times 3$ matrices, where all nonzero elements are strictly above the diagonal. Are these a semigroup, monoid, group, or none of the above?
+% \end{exercise}
+
+% \begin{proof}[Solution]
+% They are not a monoid or a group, because $I_{3}$ does not have all nonzero entries strictly above the diagonal. 
+
+% Consider 
+% \[\begin{pmatrix} 0 & a & b \\ 0 & 0 & c \\ 0 & 0 & 0\end{pmatrix} \begin{pmatrix} 0 & d & e \\ 0 & 0 & f \\ 0 & 0 & 0\end{pmatrix} = \begin{pmatrix} 0 & 0 & af \\ 0 & 0 & 0 \\ 0 & 0 & 0\end{pmatrix}\]
+% Hence, the product of two matrices is still in the set meaning that it is a semigroup. 
+% \end{proof}
+
+% \begin{exercise}
+% Let $G$ be a matrix group, and let $H$ be the set $G$ together with the matrix $Z$ with all zero entries. Is $H$ a semigroup, monoid, group, or none of the above?
+% \end{exercise}
+
+% \begin{proof}[Solution]
+% Note first that $H$ is not a group, since $Z$ is not invertible.
+
+% Since $G$ is a group it is closed under multiplication, and multiplying anything else by $Z$ just yields $Z$, $H$ is still closed under multiplication. Also, since $G$ is a group, it contains $I_{n}$, and so $H$ contains $I_{n}$. Thus, $H$ is a monoid.
+% \end{proof}
+
+
+  -->
