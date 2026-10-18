@@ -116,7 +116,7 @@
           <li><p><m>A</m> is <m>2 \times 4</m> with rank <m>2</m></p></li>
           <li><p><m>A</m> is <m>3 \times 3</m> with determinant <m>10</m></p></li>
           <li><p><m>A</m> is <m>n \times n</m> and there exist <m>B</m> and <m>C</m> both <m>n \times n</m> such that <m>BAC = I_{n}</m></p></li>
-          <li><p><m>A</m> is <m>n \times n</m> and <m>A^{\intercal}</m> is upper triangular</p></li>
+          <li><p><m>A</m> is <m>n \times n</m> and <m>A</m>  </p></li>
           <li><p><m>A</m> is <m>n \times n</m> and <m>A = A^{\intercal}</m></p></li>
         </ol></p>
       </statement>
