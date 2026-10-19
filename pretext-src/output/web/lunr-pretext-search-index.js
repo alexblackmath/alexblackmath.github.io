@@ -1,121 +1,103 @@
 var ptx_lunr_search_style = "textbook";
 var ptx_lunr_docs = [
 {
-  "id": "Ants",
+  "id": "Gram",
   "level": "1",
-  "url": "#Ants",
+  "url": "#Gram",
   "type": "Article",
   "number": "",
-  "title": "Math 2000 Exam 2 Practice",
-  "body": " Math 2000 Exam 2 Practice       Determined Ants   Matrix Computations  The focus on this exercise will be on computing things about some specific small matrices.    Let and .   Compute  Compute  Compute  What is the determinant of ?  Is invertible?     For (a), For (b): For (c), For (d), For (e),      Let and .   Compute .  Compute  Compute  Compute  For what values of is invertible? Explain.     For (a), since products of diagonal matrices just correspond to multiplying the elements on the diagonal, For (b), For (c), For (d), , so . For (e), note that Then is invertible, if and only if , which is true if and only if .      Let .   Compute  Compute .  Compute .  Is invertible? Explain.  Is invertible? Explain.     For (a), , so For (b), For (c), For (d), , which is invertible. For (e), has a row of zeroes and is therefore not invertible.      Compute Determinants  In this exercise, I will give you three matrices defined implicitly somehow or explicitly, and you will need to either compute their determinants or explain why it's not possible to do so.    Compute the determinants of the following matrices or explain why you can't. Explain your answers:     , where is obtained from the identity matrix by the sequence of operations: Replacement of first row minus the second, Scaling row by , Interchanging rows one and three, Scaling row by , and Replacing row by row minus row .     For (a), apply row replacement to subtract three times the first row from the third row. The resulting matrix has an all row and so has determinant . Replacement does not change the determinant, so the whole matrix has determinant .  For (b), the determinant of a diagonal matrix is the product of the diagonal entries, which is in this case.  For (c), the replacements don't change anything, so we can ignore them. There is one interchange, and a scaling by and , so the determinant in the end is .      Compute the determinants of the following matrices or explain why you can't. Explain your answers:     , where     For (a), the matrix is upper triangular, so the determinant is the product of the diagonal entries, which is .  For (b), it is not square, so you can't take the determinant.  For (c), is one interchange away from and so has determinant . Then      Compute the determinants of the following matrices or explain why you can't. Explain your answers:    , where  where is a matrix obtained from the identity matrix by applying interchanges.     For (a), the third row is the sum of the first , so the rows are linearly dependent. It follows that the matrix is not invertible, and so the matrix has determinant .  For (b), is upper triangular, so its determinant is the product of its diagonal entries, which is . After interchanging, is diagonal with entries and so has determinant . Hence,  For (c), each interchange yields a multiplication by , so the determinant is .      Is the matrix invertible?  In this exercise, I will give you 5 situations. In each, there are three possibilities:   The matrix is definitely invertible.  The matrix is definitely not invertible.  There's not enough information to determine either way.   Your job will be to determine which situation of the you are in and justify why.    Which of the following conditions guarantee a matrix is invertible, guarantee it is not invertible, or does not give enough information to determine one way or another? Explain why for each.   is with rank  is with determinant  is and there exist and both such that  is and is upper triangular  is and     For (a), it is not invertible, since only square matrices are invertible. For (b), it is invertible, since its determinant is nonzero. For (c), since is invertible, . Then . Hence, is invertible, with inverse . For (d), there is not enough information to determine it. For example, the zero matrix is such that and the zero matrix is upper triangular, but it is not invertible. However, the same holds for . It is upper triangular and invertible. Therefore, there is not enough to determine it. For (e), the same two examples work.      Which of the following conditions guarantee a matrix is invertible, guarantee it is not invertible, or does not give enough information to determine one way or another? Explain why for each.   is , and the rows and columns of all sum to .  is , and the rows and columns of all sum to .  The columns of are linearly independent.  is , and  is invertible.     For (a), this is not enough information to determine it. The identity matrix satisfies this and is invertible. However, the matrix with all entries satisfies that and is not invertible.  For (b), it is never invertible. There are various ways to see this, but for example, one can apply three replacements adding row 1 to row 4, then adding row 2 to row 4, and finally row 3 to row 4. After that row 4 would be equal to the sum of the rows, which is . Thus, after applying row operations one finds a matrix with a row of all zeroes. Hence, it is never invertible.  For (c), this is not enough information, since you need to know if is a square matrix or not.  For (d), it is not enough information to determine it. For example, if , then is the zero matrix and so has determinant . Thus, can be invertible. At the same time if , it is not invertible, and The determinant of in that case is still . Thus, it is not enough information to determine it.  For (e), there are various ways to see this. For example, is row equivalent to by rescaling each row by a factor of . Hence, since is invertible, must also be invertible.      Which of the following conditions guarantee a matrix is invertible, guarantee it is not invertible, or does not give enough information to determine one way or another? Explain why for each.   is , and the reduced row echelon form of has pivot columns  is , and has a unique solution  is , and every entry on the diagonal of is equal to for .  is , and all subdeterminants of are nonzero.  is and     For (a), the answer is yes. It implies that the reduced row echelon form has to be the identity matrix.  For (b), the answer is also yes. It implies the columns of are linearly independent meaning that the nullity is , so the rank is , which implies invertibility for an matrix.  For (c), there is not enough information. The identity matrix satisfies this and is invertible. However, the all 's matrix satisfies this but is not invertible, since one row replacement yields a row of all 's.  For (d), there is not enough information to determine it. Note that the determinant of the matrix: is and so it is invertible. Then applying two replacements adding the first row to the latter two rows to get the matrix Define . Then the entries are, up to a nonzero constant scaling, exactly the subdeterminants of . Hence, the subdeterminants of are all nonzero in that case. For a noninvertible example, take The last row is the sum of the previous two rows meaning the rows are linearly dependent and so it is not invertible. By checking each subdeterminant, you can verify they are all nonzero.  For (e), and the zero matrix is equal to its square, so it is not enough information to determine that is invertible.      Geometry    Consider the linear transformation given by Let .   Find the matrix of .  Compute  Describe what does geometrically.  Find the inverse of .  Describe what multiplication by does geometrically.     For (a), the columns of the matrix are the images of the standard basis vectors. Since we have  For (b),  For (c), rotates vectors counterclockwise by and scales their lengths by a factor of .  For (d), because the inverse must undo both operations, Indeed, .  For (e), multiplication by rotates vectors clockwise by and scales their lengths by a factor of .      Let and .   Find a matrix such that .  Find a matrix such that .  Find a matrix such that and .  Explain why for such a matrix , for any point on the -axis, is also on the -axis.     For (a), one choice is . Then .  For (b), one choice is . Then .  For (c), write . Since , the first column must be . The condition then gives and . Therefore, Both conditions are satisfied.  For (d), every point on the -axis has the form for some real number . By linearity, which is again on the -axis.      Consider the pentagon with vertices: .   Draw the pentagon.  Draw a subdivision of the pentagon into triangles.  Find the area of the pentagon.     For (a), plot the five given points and join them in the order , , , , , returning to .  For (b), draw two diagonals from to and . This divides the pentagon into three triangles.  For (c), use as the reference point for each triangle. Each row is one of the other vertices minus , with the coordinate differences shown explicitly: Therefore,   Pentagon with five labeled vertices.     Pentagon subdivided into three triangles by two diagonals from the top vertex.             "
+  "title": "Math 2301 Day 12",
+  "body": " Math 2301 Day 12       Linear Aggression   Review  Recall the definitions from last time:  What properties does an inner product have?  How do I go from an inner product to a norm?  What does it mean for two vectors to be orthogonal?      Regressing  A classic tool used throughout the sciences that you may already be familiar with is linear regression . For this you have a set of points in and you want to find the line of best fit for those points.  What does it mean to fit best? We want to minimize the error of our predictions. For example, suppose we get the line . Then the error at the point is . When minimizing error over many points, there's a choice here. It turns out we can think of this from a geometric perspective. Namely, we can store our error terms in a vector: . In other words, . The vector is called the residual vector . When we are minimizing error, we think of this geometrically as minimizing the distance from to the origin. From the distance equation, or really, the Pythagorean theorem, . The notation we use for this is called a norm, and it's like an absolute value with bars: .  Minimizing the square root of a non-negative function is the same as just minimizing the square. Thus, we want to solve the following optimization problem: . We can further rewrite this expression. Define the matrix: , and define . Then we can rewrite the residuals more compactly: . Note that and are fixed as part of our input data. The only thing that varies is . This gives rise to a general problem.    Best Approximations for Solving Linear Systems  We have discussed ad nauseam that a system of linear equations need not have a solution. However, what should we do if there is no solution? Can we please just give up? No! Of course not.  What we could instead ask is how close are we to having a solution. Concretely we have a solution if . We could instead ask to minimize . To do this, we minimize the distance to the origin expressed as . If we can solve this, we can do linear regression and find a line of best fit. Thus, this is our goal. We can reformulate this a bit further in a way that will be helpful. Namely, vectors of the form are exactly the column span of . In other words, .  Thus, another way to view this problem is that we have a vector and a linear subspace . How can we find the closest vector to in that subspace? Our next goal is to solve this problem, and for it, we will need to develop some theory.    The Gram-Schmidt Process  Suppose I have a basis for a subspace of : . Let . Then if we're very lucky is in that subspace, but what if it is not? How do we find the distance to that subspace? It turns out there is a recipe for doing this called the Gram-Schmidt Process . The idea is as follows: Find a basis to write every vector in for which computing distances is easier.  Let be vectors in . We call an orthonormal basis if The reason this is a basis is that if we let be the matrix with columns and let , then by definition of matrix multiplication, . Then Thus, has ones along the diagonal and zeroes otherwise and is therefore an identity matrix. Thus, . We can recall from our group theory unit that we call such a matrix orthogonal .    For any basis of , there exists an orthonormal basis such that for all .    First, we let . Then for we define , and . Then for , assuming are orthonormal, . Since is just a rescaling of , it follows that . By construction, . That the spans coincide follows by construction.    The Gram-Schmidt process is the algorithm used to make this happen:  Start with .   Iteratively replace with , where .   Then is an orthonormal basis.  The beauty of having an orthonormal basis is that distances are easy to compute. To start, as discussed above, the distance from a vector to the origin is given by the distance formula: . Now let's use an orthonormal basis . Then , where . Then . Thus, , where is the matrix with rows .  This actually allows us to solve the distance to a subspace minimization problem. Namely, the subspace is .  Extend to a basis of all of , .  Apply Gram-Schmidt to to get .  Take the matrix with rows . Then is the distance, and gives the closest vector in that subspace.      Exercises    Draw pictures and compute the following:  What is the distance from to ?  What is the distance from to the - plane?  What is the distance from to the -axis?        Consider the points . Write down the system of equations for checking if there is a line through all of these points.      Let and be in .   Explain why the set of vectors orthogonal to are exactly the solutions to the equation .   Find an analogous equation describing the set of vectors orthogonal to .  Write a system of two equations describing the set of vectors orthogonal to both and .  How would you generalize your answer to part (c) to an arbitrary number of vectors?        Consider the point in .  Compute .  Find a vector orthogonal to .  Find an orthonormal basis for using your answers for parts (a) and (b).  Find the closest point to on the line .        Apply the Gram-Schmidt process to the following three vectors to find an orthonormal basis for : .           "
 },
 {
-  "id": "exercise-1-1",
+  "id": "regressing-2",
   "level": "2",
-  "url": "#exercise-1-1",
-  "type": "Checkpoint",
+  "url": "#regressing-2",
+  "type": "Paragraph (with a defined term)",
+  "number": "",
+  "title": "",
+  "body": "linear regression line of best fit "
+},
+{
+  "id": "regressing-3",
+  "level": "2",
+  "url": "#regressing-3",
+  "type": "Paragraph (with a defined term)",
+  "number": "",
+  "title": "",
+  "body": "residual vector "
+},
+{
+  "id": "the-gram-schmidt-process-2",
+  "level": "2",
+  "url": "#the-gram-schmidt-process-2",
+  "type": "Paragraph (with a defined term)",
+  "number": "",
+  "title": "",
+  "body": "Gram-Schmidt Process "
+},
+{
+  "id": "the-gram-schmidt-process-3",
+  "level": "2",
+  "url": "#the-gram-schmidt-process-3",
+  "type": "Paragraph (with a defined term)",
+  "number": "",
+  "title": "",
+  "body": "orthonormal basis orthogonal "
+},
+{
+  "id": "the-gram-schmidt-process-4",
+  "level": "2",
+  "url": "#the-gram-schmidt-process-4",
+  "type": "Theorem",
   "number": "1.1",
   "title": "",
-  "body": "  Let and .   Compute  Compute  Compute  What is the determinant of ?  Is invertible?     For (a), For (b): For (c), For (d), For (e),   "
+  "body": "  For any basis of , there exists an orthonormal basis such that for all .    First, we let . Then for we define , and . Then for , assuming are orthonormal, . Since is just a rescaling of , it follows that . By construction, . That the spans coincide follows by construction.   "
 },
 {
-  "id": "exercise-1-2",
+  "id": "exercises-2",
   "level": "2",
-  "url": "#exercise-1-2",
+  "url": "#exercises-2",
   "type": "Checkpoint",
   "number": "1.2",
   "title": "",
-  "body": "  Let and .   Compute .  Compute  Compute  Compute  For what values of is invertible? Explain.     For (a), since products of diagonal matrices just correspond to multiplying the elements on the diagonal, For (b), For (c), For (d), , so . For (e), note that Then is invertible, if and only if , which is true if and only if .   "
+  "body": "  Draw pictures and compute the following:  What is the distance from to ?  What is the distance from to the - plane?  What is the distance from to the -axis?     "
 },
 {
-  "id": "exercise-1-3",
+  "id": "exercises-3",
   "level": "2",
-  "url": "#exercise-1-3",
+  "url": "#exercises-3",
   "type": "Checkpoint",
   "number": "1.3",
   "title": "",
-  "body": "  Let .   Compute  Compute .  Compute .  Is invertible? Explain.  Is invertible? Explain.     For (a), , so For (b), For (c), For (d), , which is invertible. For (e), has a row of zeroes and is therefore not invertible.   "
+  "body": "  Consider the points . Write down the system of equations for checking if there is a line through all of these points.   "
 },
 {
-  "id": "exercise-2-1",
+  "id": "exercises-4",
   "level": "2",
-  "url": "#exercise-2-1",
+  "url": "#exercises-4",
   "type": "Checkpoint",
   "number": "1.4",
   "title": "",
-  "body": "  Compute the determinants of the following matrices or explain why you can't. Explain your answers:     , where is obtained from the identity matrix by the sequence of operations: Replacement of first row minus the second, Scaling row by , Interchanging rows one and three, Scaling row by , and Replacing row by row minus row .     For (a), apply row replacement to subtract three times the first row from the third row. The resulting matrix has an all row and so has determinant . Replacement does not change the determinant, so the whole matrix has determinant .  For (b), the determinant of a diagonal matrix is the product of the diagonal entries, which is in this case.  For (c), the replacements don't change anything, so we can ignore them. There is one interchange, and a scaling by and , so the determinant in the end is .   "
+  "body": "  Let and be in .   Explain why the set of vectors orthogonal to are exactly the solutions to the equation .   Find an analogous equation describing the set of vectors orthogonal to .  Write a system of two equations describing the set of vectors orthogonal to both and .  How would you generalize your answer to part (c) to an arbitrary number of vectors?     "
 },
 {
-  "id": "exercise-2-2",
+  "id": "exercises-5",
   "level": "2",
-  "url": "#exercise-2-2",
+  "url": "#exercises-5",
   "type": "Checkpoint",
   "number": "1.5",
   "title": "",
-  "body": "  Compute the determinants of the following matrices or explain why you can't. Explain your answers:     , where     For (a), the matrix is upper triangular, so the determinant is the product of the diagonal entries, which is .  For (b), it is not square, so you can't take the determinant.  For (c), is one interchange away from and so has determinant . Then   "
+  "body": "  Consider the point in .  Compute .  Find a vector orthogonal to .  Find an orthonormal basis for using your answers for parts (a) and (b).  Find the closest point to on the line .     "
 },
 {
-  "id": "exercise-2-3",
+  "id": "exercises-6",
   "level": "2",
-  "url": "#exercise-2-3",
+  "url": "#exercises-6",
   "type": "Checkpoint",
   "number": "1.6",
   "title": "",
-  "body": "  Compute the determinants of the following matrices or explain why you can't. Explain your answers:    , where  where is a matrix obtained from the identity matrix by applying interchanges.     For (a), the third row is the sum of the first , so the rows are linearly dependent. It follows that the matrix is not invertible, and so the matrix has determinant .  For (b), is upper triangular, so its determinant is the product of its diagonal entries, which is . After interchanging, is diagonal with entries and so has determinant . Hence,  For (c), each interchange yields a multiplication by , so the determinant is .   "
-},
-{
-  "id": "exercise-3-1",
-  "level": "2",
-  "url": "#exercise-3-1",
-  "type": "Checkpoint",
-  "number": "1.7",
-  "title": "",
-  "body": "  Which of the following conditions guarantee a matrix is invertible, guarantee it is not invertible, or does not give enough information to determine one way or another? Explain why for each.   is with rank  is with determinant  is and there exist and both such that  is and is upper triangular  is and     For (a), it is not invertible, since only square matrices are invertible. For (b), it is invertible, since its determinant is nonzero. For (c), since is invertible, . Then . Hence, is invertible, with inverse . For (d), there is not enough information to determine it. For example, the zero matrix is such that and the zero matrix is upper triangular, but it is not invertible. However, the same holds for . It is upper triangular and invertible. Therefore, there is not enough to determine it. For (e), the same two examples work.   "
-},
-{
-  "id": "exercise-3-2",
-  "level": "2",
-  "url": "#exercise-3-2",
-  "type": "Checkpoint",
-  "number": "1.8",
-  "title": "",
-  "body": "  Which of the following conditions guarantee a matrix is invertible, guarantee it is not invertible, or does not give enough information to determine one way or another? Explain why for each.   is , and the rows and columns of all sum to .  is , and the rows and columns of all sum to .  The columns of are linearly independent.  is , and  is invertible.     For (a), this is not enough information to determine it. The identity matrix satisfies this and is invertible. However, the matrix with all entries satisfies that and is not invertible.  For (b), it is never invertible. There are various ways to see this, but for example, one can apply three replacements adding row 1 to row 4, then adding row 2 to row 4, and finally row 3 to row 4. After that row 4 would be equal to the sum of the rows, which is . Thus, after applying row operations one finds a matrix with a row of all zeroes. Hence, it is never invertible.  For (c), this is not enough information, since you need to know if is a square matrix or not.  For (d), it is not enough information to determine it. For example, if , then is the zero matrix and so has determinant . Thus, can be invertible. At the same time if , it is not invertible, and The determinant of in that case is still . Thus, it is not enough information to determine it.  For (e), there are various ways to see this. For example, is row equivalent to by rescaling each row by a factor of . Hence, since is invertible, must also be invertible.   "
-},
-{
-  "id": "exercise-3-3",
-  "level": "2",
-  "url": "#exercise-3-3",
-  "type": "Checkpoint",
-  "number": "1.9",
-  "title": "",
-  "body": "  Which of the following conditions guarantee a matrix is invertible, guarantee it is not invertible, or does not give enough information to determine one way or another? Explain why for each.   is , and the reduced row echelon form of has pivot columns  is , and has a unique solution  is , and every entry on the diagonal of is equal to for .  is , and all subdeterminants of are nonzero.  is and     For (a), the answer is yes. It implies that the reduced row echelon form has to be the identity matrix.  For (b), the answer is also yes. It implies the columns of are linearly independent meaning that the nullity is , so the rank is , which implies invertibility for an matrix.  For (c), there is not enough information. The identity matrix satisfies this and is invertible. However, the all 's matrix satisfies this but is not invertible, since one row replacement yields a row of all 's.  For (d), there is not enough information to determine it. Note that the determinant of the matrix: is and so it is invertible. Then applying two replacements adding the first row to the latter two rows to get the matrix Define . Then the entries are, up to a nonzero constant scaling, exactly the subdeterminants of . Hence, the subdeterminants of are all nonzero in that case. For a noninvertible example, take The last row is the sum of the previous two rows meaning the rows are linearly dependent and so it is not invertible. By checking each subdeterminant, you can verify they are all nonzero.  For (e), and the zero matrix is equal to its square, so it is not enough information to determine that is invertible.   "
-},
-{
-  "id": "exercise-4-1",
-  "level": "2",
-  "url": "#exercise-4-1",
-  "type": "Checkpoint",
-  "number": "1.10",
-  "title": "",
-  "body": "  Consider the linear transformation given by Let .   Find the matrix of .  Compute  Describe what does geometrically.  Find the inverse of .  Describe what multiplication by does geometrically.     For (a), the columns of the matrix are the images of the standard basis vectors. Since we have  For (b),  For (c), rotates vectors counterclockwise by and scales their lengths by a factor of .  For (d), because the inverse must undo both operations, Indeed, .  For (e), multiplication by rotates vectors clockwise by and scales their lengths by a factor of .   "
-},
-{
-  "id": "exercise-4-2",
-  "level": "2",
-  "url": "#exercise-4-2",
-  "type": "Checkpoint",
-  "number": "1.11",
-  "title": "",
-  "body": "  Let and .   Find a matrix such that .  Find a matrix such that .  Find a matrix such that and .  Explain why for such a matrix , for any point on the -axis, is also on the -axis.     For (a), one choice is . Then .  For (b), one choice is . Then .  For (c), write . Since , the first column must be . The condition then gives and . Therefore, Both conditions are satisfied.  For (d), every point on the -axis has the form for some real number . By linearity, which is again on the -axis.   "
-},
-{
-  "id": "exercise-4-3",
-  "level": "2",
-  "url": "#exercise-4-3",
-  "type": "Checkpoint",
-  "number": "1.12",
-  "title": "",
-  "body": "  Consider the pentagon with vertices: .   Draw the pentagon.  Draw a subdivision of the pentagon into triangles.  Find the area of the pentagon.     For (a), plot the five given points and join them in the order , , , , , returning to .  For (b), draw two diagonals from to and . This divides the pentagon into three triangles.  For (c), use as the reference point for each triangle. Each row is one of the other vertices minus , with the coordinate differences shown explicitly: Therefore,   Pentagon with five labeled vertices.     Pentagon subdivided into three triangles by two diagonals from the top vertex.     "
+  "body": "  Apply the Gram-Schmidt process to the following three vectors to find an orthonormal basis for : .   "
 }
 ]
 
