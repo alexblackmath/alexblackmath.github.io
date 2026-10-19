@@ -22,10 +22,10 @@
 
   </docinfo>
 
-  <article xml:id="Gram">
-    <title>Math 2301 Day 12</title>
+  <article xml:id="Exam2Prep">
+    <title>Math 2000 Day 13</title>
     <xi:include href="./frontmatter.ptx" />
-    <xi:include href="Math2301Day12.ptx" />
+    <xi:include href="Math2000Day13.ptx" />
     <!-- <xi:include href="./review.ptx" />  -->
     <!-- <xi:include href="./Section-1.ptx" /> -->
     <!-- <xi:include href="./Section-2.ptx" /> -->
