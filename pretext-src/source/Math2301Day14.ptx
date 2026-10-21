@@ -1,0 +1,152 @@
+
+  <section xml:id="Math2301Day14">
+    <title>Completely Ordinary Equations</title>
+
+    <subsection xml:id="sec-review">
+      <title>Review</title>
+      <p>What does it mean for a basis to be orthonormal?</p>
+
+      <exercise>
+        <statement>
+          <p>Prove that the columns of an <m>n \times n</m> matrix <m>A</m> form an orthonormal basis if and only if <m>A^{\intercal} A = I_{n}</m>, where <m>I_{n}</m> is the <m>n \times n</m> identity matrix.</p>
+        </statement>
+      </exercise>
+    </subsection>
+
+    <subsection xml:id="sec-better-way">
+      <title>A Better Way</title>
+      <p>Last time we reduced linear regression to the following optimization problem:
+        <md>\min_{\vec{x} \in \mathbb{R}^{n}} \|A \vec{x} - \vec{b}\|</md>
+        for an <m>m \times n</m> matrix <m>A</m> and <m>\vec{b} \in \mathbb{R}^{m}</m>. We discussed a way to solve this using Gram-Schmidt, but as you may have discovered from the exercises, doing Gram-Schmidt is kind of a pain. Is there a simpler way?</p>
+
+      <p>It turns out you can represent this by solving a linear system.</p>
+
+      <theorem xml:id="thm-normal-equations">
+        <statement>
+          <p>Let <m>\vec{y} \in \mathbb{R}^{n}</m> be a solution to the linear system <m>A^{\intercal} A \vec{x} = A^{\intercal} \vec{b}</m>. Then <m>\vec{y}</m> is a minimizer of <m>\|A \vec{x} - \vec{b}\|</m>.</p>
+        </statement>
+      </theorem>
+
+      <p>The equations <m>A^{\intercal} A \vec{x} = A^{\intercal} \vec{b}</m> are called the <term>normal equations</term>. It is not obvious that they would even have any solution. To prove this, we need to build more theory.</p>
+    </subsection>
+
+    <subsection xml:id="sec-orthogonal-decomposition">
+      <title>Orthogonal Decomposition</title>
+      <p>Let <m>W</m> be a linear subspace of an inner product space <m>V</m>. Define its <term>orthogonal complement</term>
+        <md>W^{\perp} = \{\vec{v} \in V: \langle \vec{v},\vec{w}\rangle = 0 \text{ for all }\vec{w} \in W\}</md>.
+      </p>
+
+      <theorem>
+        <statement>
+          <p>Let <m>W</m> be a linear subspace of a finite-dimensional real inner product space <m>V</m>. Then
+            <ol marker="(a)">
+              <li><m>W^{\perp}</m> is a subspace of <m>V</m>.</li>
+              <li><m>W + W^{\perp} = V</m>.</li>
+              <li><m>W \cap W^{\perp} = \{\vec{0}\}</m>.</li>
+              <li>Any vector <m>\vec{u} \in V</m> can be written uniquely as <m>\vec{u} = \vec{w} + \vec{w}'</m> for some <m>\vec{w} \in W</m> and <m>\vec{w}' \in W^{\perp}</m>.</li>
+            </ol>
+          </p>
+        </statement>
+        <proof>
+          <p>For (a), let <m>\vec{x}, \vec{y} \in W^{\perp}</m> and <m>\lambda \in \mathbb{R}</m>. Let <m>\vec{z} \in W</m>.</p>
+
+          <p>Show that <m>\langle \vec{x} + \vec{y}, \vec{z}\rangle = 0</m>.</p>
+          <p><fillin characters="60"/></p>
+
+          <p>Show that <m>\langle \lambda \vec{x}, \vec{z}\rangle = 0</m>.</p>
+          <p><fillin characters="60"/></p>
+
+          <p>Explain why <m>W^{\perp}</m> is a linear subspace.</p>
+          <p><fillin characters="60"/></p>
+
+          <p>For (b), take an orthonormal basis <m>\vec{b}_{1}, \dots, \vec{b}_{n}</m> of <m>V</m> such that <m>\vec{b}_{1}, \dots, \vec{b}_{k}</m> is an orthonormal basis for <m>W</m>. This exists by the Gram-Schmidt procedure.</p>
+
+          <p>Then let <m>\vec{v} \in V</m>. Since this is a basis,
+            <md>\vec{v} = \sum_{i=1}^{k} a_{i} \vec{b}_{i} + \sum_{j=k+1}^{n} a_{j}\vec{b}_{j}</md>.
+            Explain why <m>\vec{x} = \sum_{i=1}^{k} a_{i} \vec{b}_{i} \in W</m>.</p>
+          <p><fillin characters="60"/></p>
+
+          <p>Note that <m>\vec{b}_{1}, \dots, \vec{b}_{k}</m> is a basis for <m>W</m>. Explain why <m>\langle \vec{b}_{j}, \vec{b}_{i} \rangle = 0</m> for all <m>1 \leq i \leq k</m> and <m>k+1 \leq j \leq n</m>.</p>
+          <p><fillin characters="60"/></p>
+
+          <p>Use this observation to argue that <m>\vec{b}_{j} \in W^{\perp}</m> for all <m>k+1 \leq j \leq n</m>.</p>
+          <p><fillin characters="60"/></p>
+
+          <p>Explain why <m>\vec{y} = \sum_{j=k+1}^{n}a_{j} \vec{b}_{j} \in W^{\perp}</m>.</p>
+          <p><fillin characters="60"/></p>
+
+          <p>Thus, <m>\vec{v} = \vec{x} + \vec{y}</m>, where <m>\vec{x} \in W</m> and <m>\vec{y} \in W^{\perp}</m>, so <m>V \subseteq W + W^{\perp}</m>. Since <m>W + W^{\perp} \subseteq V</m>, <m>W + W^{\perp} = V</m>.</p>
+
+          <p>For (c), let <m>\vec{z} \in W \cap W^{\perp}</m>. Since <m>\vec{z} \in V</m>,
+            <md>\vec{z} = \sum_{i=1}^{k} c_{i} \vec{b}_{i} + \sum_{j=k+1}^{n} c_{j} \vec{b}_{j}</md>.
+            Explain why <m>\vec{z} \in W^{\perp}</m> implies <m>\langle \vec{z}, \vec{b}_{i} \rangle = 0</m> for all <m>1 \leq i \leq k</m>.</p>
+          <p><fillin characters="60"/></p>
+
+          <p>Explain why <m>\vec{z} \in W</m> implies <m>\langle \vec{z}, \vec{b}_{j} \rangle = 0</m> for all <m>k+1 \leq j \leq n</m>.</p>
+          <p><fillin characters="60"/></p>
+
+          <p>Therefore,
+            <md>
+              <mrow>\|\vec{z}\|^{2} \amp = \langle \vec{z}, \vec{z} \rangle</mrow>
+              <mrow>\amp = \left\langle \vec{z}, \sum_{i=1}^{n} c_{i} \vec{b}_{i} \right\rangle</mrow>
+              <mrow>\amp = \sum_{i=1}^{n} c_{i} \langle \vec{z}, \vec{b}_{i}\rangle</mrow>
+              <mrow>\amp = \sum_{i=1}^{n} c_{i} 0</mrow>
+              <mrow>\amp = 0</mrow>
+            </md>.
+            Explain why this means <m>\vec{z} = \vec{0}</m>.</p>
+          <p><fillin characters="60"/></p>
+
+          <p>Therefore, <m>W \cap W^{\perp} = \{\vec{0}\}</m>.</p>
+
+          <p>For (d), suppose that <m>\vec{u} = \vec{x}_{1} + \vec{x}_{2} = \vec{y}_{1} + \vec{y}_{2}</m> for some <m>\vec{x}_{1}, \vec{y}_{1} \in W</m> and <m>\vec{x}_{2}, \vec{y}_{2} \in W^{\perp}</m>. Rearranging, <m>\vec{x}_{1}- \vec{y}_{1} = \vec{y}_{2} -\vec{x}_{2}</m>. Explain why <m>\vec{x}_{1} -\vec{y}_{1} \in W</m>.</p>
+          <p><fillin characters="60"/></p>
+
+          <p>Explain why <m>\vec{y}_{2} - \vec{x}_{2} \in W^{\perp}</m>.</p>
+          <p><fillin characters="60"/></p>
+
+          <p>Thus, <m>\vec{x}_{1} - \vec{y}_{1}, \vec{y}_{2} - \vec{x}_{2} \in W \cap W^{\perp}</m>. Explain why this means <m>\vec{x}_{1} = \vec{y}_{1}</m> and <m>\vec{x}_{2} = \vec{y}_{2}</m>.</p>
+          <p><fillin characters="60"/></p>
+
+          <p>Therefore the orthogonal decomposition is unique.</p>
+        </proof>
+      </theorem>
+
+      <p>This decomposition gives us a canonical way to isolate the closest point.</p>
+
+      <theorem>
+        <statement>
+          <p>Let <m>W</m> be a subspace of an inner product space <m>V</m>, and let <m>\vec{v} \in V</m>. Let <m>\vec{v} = \vec{a} + \vec{b}</m>, where <m>\vec{a} \in W</m> and <m>\vec{b} \in W^{\perp}</m>. Then <m>\vec{a}</m> is the closest point in <m>W</m> to <m>\vec{v}</m>.</p>
+        </statement>
+        <proof>
+          <p>Let <m>\vec{u} \in W</m>. Then, by the Pythagorean theorem,
+            <md>
+              <mrow>\|\vec{u} - \vec{v}\|^{2} \amp = \| \vec{u} -\vec{a} -\vec{b}\|^{2}</mrow>
+              <mrow>\amp = \|(\vec{u}-\vec{a})-\vec{b}\|^{2}</mrow>
+              <mrow>\amp = \|\vec{u}-\vec{a}\|^{2} + \|\vec{b}\|^{2}</mrow>
+              <mrow>\amp \geq \|\vec{b}\|^{2}</mrow>
+              <mrow>\amp = \|(\vec{a}+\vec{b})-\vec{a}\|^{2}</mrow>
+              <mrow>\amp = \|\vec{v}-\vec{a}\|^{2}</mrow>
+            </md>.
+            Therefore, <m>\|\vec{u}-\vec{v}\|</m> is minimized precisely when <m>\vec{u} = \vec{a}</m>.</p>
+        </proof>
+      </theorem>
+    </subsection>
+
+    <subsection xml:id="sec-proving-better-way">
+      <title>Proving the Better Way</title>
+      <p>We use this observation to verify that the normal equations are doing precisely what we want them to be doing.</p>
+
+      <proof ref="thm-normal-equations" text="type-global">
+        <p>We will do the proof in two steps. First, I will argue that a minimizer is a solution to the normal equations <m>A^{\intercal} A \vec{x} = A^{\intercal} \vec{b}</m>. This in particular tells you that a solution always exists. Second we argue that any solution will be a closest point.</p>
+
+        <p>Let <m>W</m> be the span of the columns of <m>A</m>. Then let <m>\vec{b} = \vec{y} + \vec{z}</m> be the orthogonal decomposition of <m>\vec{b}</m> with <m>\vec{y} \in W</m> and <m>\vec{z} \in W^{\perp}</m>. Then <m>\vec{y}</m> is the closest point to <m>\vec{b}</m> in <m>W</m>. Furthermore, <m>\vec{y} \in \text{span}(\text{cols}(A))</m>, so <m>\vec{y} = A \vec{x}</m> for some <m>\vec{x} \in \mathbb{R}^{n}</m>. Then
+          <md>A^{\intercal}(A\vec{x} -\vec{b}) = -A^{\intercal} \vec{z}</md>
+          Explain why <m>\vec{z} \in W^{\perp}</m> implies that <m>A^{\intercal} \vec{z} = \vec{0}</m>.</p>
+        <p><fillin characters="60"/></p>
+
+        <p>Thus, <m>A^{\intercal} (A \vec{x} - \vec{b}) = \vec{0}</m>, so <m>A^{\intercal} A \vec{x} = A^{\intercal}\vec{b}</m>. It follows that if <m>A\vec{x}</m> is the closest point in the image of <m>A</m> to <m>\vec{b}</m>, then <m>\vec{x}</m> is a solution to that equation. In particular, a solution always exists.</p>
+
+        <p>What remains is to show that any solution arises in that way. Let <m>\vec{x}</m> be a solution to the normal equation. We want to argue that <m>A\vec{x}</m> is the closest point in <m>W</m> to <m>\vec{b}</m>. For this, we work in reverse. We can rewrite <m>A^{\intercal} A \vec{x} = A^{\intercal} \vec{b}</m> as <m>A^{\intercal}(A\vec{x} - \vec{b}) = \vec{0}</m>. Thus, <m>A\vec{x} -\vec{b}</m> is in <m>\ker(A^{\intercal})</m> and thus in <m>W^{\perp}</m>. Since <m>W^{\perp}</m> is a subspace, <m>\vec{b} - A \vec{x} \in W^{\perp}</m>, so <m>\vec{b} = (\vec{b}-A\vec{x}) + A\vec{x}</m> is the orthogonal decomposition of <m>\vec{b}</m>. It follows that the closest point to <m>\vec{b}</m> in <m>W</m> is <m>A\vec{x}</m>, which completes the proof.</p>
+      </proof>
+    </subsection>
+  </section>
