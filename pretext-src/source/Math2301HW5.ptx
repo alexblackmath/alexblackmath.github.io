@@ -1,0 +1,53 @@
+
+  <section xml:id="Math2301HW5">
+    <title>Orthonormies</title>
+
+    <subsection xml:id="projecting-confidence">
+      <title>Projecting Confidence</title>
+
+      <p>Let <m>W</m> be a subspace of a finite dimensional inner product space <m>V</m>. Define <m>P_{W}: V \to V</m> by <m>P_{W}(\vec{x}) = \vec{y}</m> if <m>\vec{x} = \vec{y} + \vec{z}</m> is the orthogonal decomposition of <m>\vec{x}</m> with <m>\vec{y} \in W</m> and <m>\vec{z} \in W^{\perp}</m>. This is the projection map.</p>
+
+      <exercise>
+        <statement>
+          <p>Explain why <m>P_{W}</m> is well-defined. That is, show that if <m>\vec{x} = \vec{x}'</m>, then <m>P_{W}(\vec{x}) = P_{W}(\vec{x}')</m>.</p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>Show that <m>P_{W}</m> is a linear transformation.</p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>Show that <m>P_{W}^{2} = P_{W}</m>.</p>
+        </statement>
+      </exercise>
+    </subsection>
+
+    <subsection xml:id="orthonormal-things">
+      <title>Orthonormal Things</title>
+
+      <exercise>
+        <statement>
+          <p>Find an orthonormal basis for <m>\text{ker}(T)</m>, where <m>T: \mathbb{R}^{3} \to \mathbb{R}</m> is defined by <m>T(x,y,z) = x+y+z</m>.</p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <introduction>
+          <p>Let <m>V</m> be an inner product space, and let <m>B= \{\vec{v}_{1}, \dots, \vec{v}_{n}\} \subseteq V \setminus \{\vec{0}\}</m>. Suppose that for all <m>1 \leq i &lt; j \leq n</m>,</p>
+          <me>\langle \vec{v}_{i}, \vec{v}_{j}\rangle = 0.</me>
+        </introduction>
+        <task>
+          <p>Show that <m>B</m> is linearly independent.</p>
+        </task>
+        <task>
+          <p>Show that if <m>V</m> is <m>n</m>-dimensional, <m>B</m> is an orthogonal basis.</p>
+        </task>
+      </exercise>
+
+
+    </subsection>
+  </section>
