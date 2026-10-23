@@ -1,0 +1,1667 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Finding Non-negative Solutions to Ax = b in Theory and Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap">
+<style>
+*{box-sizing:border-box}
+:root{
+  color-scheme:dark;
+  --void:#05060e; --deep:#0b1030; --ink:#e9edff; --mute:#8d96c4; --faint:#2a3160;
+  --cyan:#3ce6ff; --rose:#ff3d7f; --amber:#ffb23f; --violet:#b28dff; --lime:#b9ff5e;
+  --display:"Chakra Petch","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --sans:"IBM Plex Sans","Helvetica Neue",Arial,system-ui,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+/* The deck is dark by design, in both viewer themes */
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --void:#05060e; --deep:#0b1030; --ink:#e9edff; --mute:#8d96c4; }
+}
+:root[data-theme="dark"]{ --void:#05060e; --deep:#0b1030; --ink:#e9edff; --mute:#8d96c4; }
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{height:100%;margin:0;background:var(--void);color:var(--ink);font-family:var(--sans);font-weight:300;
+  overflow:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+#viewport{position:relative;width:100%;height:100%;overflow:hidden;touch-action:pan-y}
+#stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;overflow:hidden;
+  transform:translate(-50%,-50%) scale(var(--s,1));transform-origin:50% 50%;
+  background:radial-gradient(110% 90% at 70% 36%, #0e1540 0%, #080b22 42%, var(--void) 78%)}
+#stage::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(circle, rgba(150,172,255,.16) 1.1px, transparent 1.7px);
+  background-size:44px 44px;background-position:22px 22px;
+  -webkit-mask-image:radial-gradient(85% 75% at 62% 45%, #000 20%, transparent 88%);
+          mask-image:radial-gradient(85% 75% at 62% 45%, #000 20%, transparent 88%)}
+
+/* ---------- slides ---------- */
+.slide{position:absolute;inset:0;padding:64px 100px 118px;opacity:0;visibility:hidden;display:flex;flex-direction:column;
+  transition:opacity .6s ease, visibility 0s linear .6s}
+.slide.active{opacity:1;visibility:visible;transition:opacity .6s ease, visibility 0s}
+h2{font-family:var(--display);font-weight:600;font-size:52px;line-height:1.08;letter-spacing:.004em;
+  margin:0 0 34px;color:var(--ink);text-shadow:0 0 26px rgba(60,230,255,.30), 0 0 2px rgba(60,230,255,.5)}
+p{font-size:32px;line-height:1.46;margin:0 0 16px;max-width:34em}
+strong{font-weight:600}
+em{font-style:italic;font-weight:400}
+.eq{font-size:32px;margin:6px 0 16px}
+.eq.sm{font-size:28px}
+.eq.lg{font-size:40px}
+.eq.xs{font-size:25px}
+.dense p{font-size:28px;margin-bottom:10px}
+.dense .eq.sm{font-size:24px;margin:2px 0 8px}
+.eq mjx-container[display="true"]{margin:.3em 0 !important}
+.c-red{color:var(--rose)} .c-blue{color:var(--cyan)} .c-orange{color:var(--amber)}
+.c-violet{color:var(--violet)} .c-lime{color:var(--lime)}
+mjx-container .c-red{fill:var(--rose);stroke:var(--rose);color:var(--rose)}
+mjx-container .c-blue{fill:var(--cyan);stroke:var(--cyan);color:var(--cyan)}
+mjx-container .c-orange{fill:var(--amber);stroke:var(--amber);color:var(--amber)}
+mjx-container .c-violet{fill:var(--violet);stroke:var(--violet);color:var(--violet)}
+mjx-container .c-lime{fill:var(--lime);stroke:var(--lime);color:var(--lime)}
+.c-red,.c-blue,.c-orange,.c-violet,.c-lime{text-shadow:0 0 14px currentColor}
+mjx-container{text-shadow:none}
+
+/* overlays (Beamer \pause): hidden content keeps its space */
+[data-step]{opacity:0;filter:blur(5px);transition:opacity .5s ease, filter .5s ease}
+[data-step].on{opacity:1;filter:none}
+
+/* blocks */
+.thm{position:relative;margin:4px 0 26px;padding:20px 30px 22px 32px;max-width:1400px;
+  border-left:2px solid var(--k,var(--cyan));border-radius:0 14px 14px 0;
+  background:linear-gradient(90deg, color-mix(in srgb, var(--k,var(--cyan)) 11%, transparent), color-mix(in srgb, var(--k,var(--cyan)) 2%, transparent) 70%, transparent)}
+.thm::before{content:"";position:absolute;left:-6px;top:22px;width:10px;height:10px;border-radius:50%;
+  background:var(--k,var(--cyan));box-shadow:0 0 14px var(--k,var(--cyan)), 0 0 4px var(--k,var(--cyan))}
+.thm.lemma{--k:var(--violet)} .thm.conj{--k:var(--amber)}
+.thm .hd{font-family:var(--display);font-weight:600;font-size:29px;letter-spacing:.01em;color:var(--k,var(--cyan));margin:0 0 8px}
+.thm .hd strong{font-weight:600;color:var(--ink)}
+.thm .bd{font-size:30px;line-height:1.45;font-style:italic;font-weight:400;max-width:none}
+.thm .bd .eq{font-style:normal}
+
+ul.pts{list-style:none;margin:6px 0 0;padding:0;font-size:32px;max-width:30em}
+ul.pts li{position:relative;font-size:1em;line-height:1.45;padding-left:40px;margin:0 0 20px}
+ul.pts li::before{content:"";position:absolute;left:6px;top:.62em;width:11px;height:11px;transform:rotate(45deg);
+  border:2px solid var(--cyan);box-shadow:0 0 10px rgba(60,230,255,.6)}
+
+/* by-the-book rail: the three steps really are a sequence */
+ol.rail{list-style:none;margin:10px 0 0;padding:0;font-size:31px;max-width:30em}
+ol.rail li{position:relative;font-size:1em;line-height:1.42;padding:0 0 30px 62px}
+ol.rail li::before{content:"";position:absolute;left:8px;top:.32em;width:22px;height:22px;border-radius:50%;
+  border:2px solid var(--cyan);background:var(--void);box-shadow:0 0 16px rgba(60,230,255,.75), inset 0 0 8px rgba(60,230,255,.6);z-index:1}
+ol.rail li::after{content:"";position:absolute;left:18px;top:1.0em;bottom:-.25em;width:2px;
+  background:linear-gradient(var(--cyan),rgba(60,230,255,.15));box-shadow:0 0 8px rgba(60,230,255,.7)}
+ol.rail li:last-child::after{display:none}
+
+/* layouts */
+.two{display:grid;gap:44px;align-items:center;flex:1 1 auto;min-height:0}
+/* Beamer centres frame content vertically; do the same below the title */
+.slide:not(.title-slide) > h2 + *{margin-top:auto}
+.slide:not(.title-slide) > :last-child{margin-bottom:auto}
+.slide > h2{flex:none}
+.two > .txt{align-self:center}
+.fig-host{position:relative}
+.fig-host > svg{display:block;width:100%;height:100%;overflow:visible}
+.stack .fig-host{margin-top:6px}
+
+/* title slide */
+.title-slide{padding:92px 100px 118px}
+.title-slide .tw{position:absolute;left:100px;top:104px;width:900px}
+.title-slide h1{font-family:var(--display);font-weight:600;font-size:64px;line-height:1.06;letter-spacing:-.004em;margin:0 0 46px;
+  text-shadow:0 0 34px rgba(60,230,255,.35), 0 0 3px rgba(60,230,255,.45)}
+.title-slide h1 mjx-container{font-size:.92em}
+.byline p{font-size:27px;line-height:1.42;margin:0 0 6px;color:var(--mute);max-width:none}
+.byline .author{font-size:36px;color:var(--ink);margin-bottom:8px}
+.byline .inst{margin-top:26px;color:var(--ink);font-size:29px}
+.byline .date{margin-top:30px;font-family:var(--display);font-weight:500;font-size:24px;letter-spacing:.06em;color:var(--cyan)}
+.byline sup{font-size:.62em;color:var(--amber);margin-left:1px}
+.byline .insts span{margin-right:22px;white-space:nowrap}
+.title-slide .hero{position:absolute;right:40px;top:40px;width:700px;height:760px}
+
+/* chrome */
+#chrome{position:absolute;left:0;right:0;bottom:0;height:96px;pointer-events:none}
+#progress{position:absolute;left:100px;bottom:30px;width:1150px;height:44px;pointer-events:auto;overflow:visible}
+#progress .v{cursor:pointer}
+#progress .v:focus-visible{outline:none}
+#progress .v:focus-visible circle.hit{stroke:var(--amber);stroke-width:2}
+#count{position:absolute;right:196px;bottom:38px;font-family:var(--display);font-weight:500;font-size:21px;letter-spacing:.06em;color:var(--mute)}
+#count b{color:var(--ink);font-weight:600}
+.navbtn{position:absolute;bottom:28px;width:44px;height:44px;border-radius:50%;pointer-events:auto;cursor:pointer;
+  border:1px solid rgba(60,230,255,.35);background:rgba(10,14,40,.6);color:var(--cyan);display:grid;place-items:center;
+  transition:border-color .2s, box-shadow .2s}
+.navbtn:hover{border-color:var(--cyan);box-shadow:0 0 16px rgba(60,230,255,.45)}
+.navbtn:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+.navbtn svg{width:18px;height:18px}
+#prev{right:146px} #next{right:96px}
+#hint{position:absolute;right:100px;top:30px;font-size:19px;color:var(--mute);
+  letter-spacing:.02em;opacity:0;transition:opacity 1s;pointer-events:none}
+#hint.show{opacity:.85}
+
+@media (prefers-reduced-motion: reduce){
+  .slide,[data-step]{transition:none !important}
+  [data-step]{filter:none}
+}
+</style>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['\\[', '\\]']],
+    macros: {
+      T: '\\intercal', R: '\\mathbb{R}',
+      cR: ['\\class{c-red}{#1}', 1], cB: ['\\class{c-blue}{#1}', 1], cO: ['\\class{c-orange}{#1}', 1],
+      cV: ['\\class{c-violet}{#1}', 1], cL: ['\\class{c-lime}{#1}', 1]
+    }
+  },
+  svg: { fontCache: 'global' },
+  options: { enableMenu: false },
+  startup: {
+    pageReady: function () {
+      return MathJax.startup.defaultPageReady().then(function () { document.documentElement.classList.add('math-ready'); });
+    }
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js" defer></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="bloom" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="wide"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2.2" result="tight"/>
+      <feMerge><feMergeNode in="wide"/><feMergeNode in="wide"/><feMergeNode in="tight"/></feMerge>
+    </filter>
+    <marker id="ah-cyan" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1.2 L10,5 L0,8.8 L2.4,5 z" fill="#3ce6ff"/></marker>
+    <marker id="ah-rose" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="15" markerHeight="15" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1.2 L10,5 L0,8.8 L2.4,5 z" fill="#ff3d7f"/></marker>
+    <marker id="ah-amber" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="14" markerHeight="14" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1.2 L10,5 L0,8.8 L2.4,5 z" fill="#ffb23f"/></marker>
+    <marker id="ah-violet" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1.2 L10,5 L0,8.8 L2.4,5 z" fill="#b28dff"/></marker>
+    <marker id="ah-lime" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="16" markerHeight="16" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1.2 L10,5 L0,8.8 L2.4,5 z" fill="#b9ff5e"/></marker>
+    <marker id="ah-mute" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1.2 L10,5 L0,8.8 L2.4,5 z" fill="#8d96c4"/></marker>
+    <marker id="ah-axis" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,1.5 L10,5 L0,8.5 z" fill="#4c5590"/></marker>
+  </defs>
+</svg>
+
+<div id="viewport">
+<main id="stage">
+
+<!-- 1 -->
+<section class="slide title-slide" data-title="Title">
+  <div class="tw">
+    <h1>Finding <span style="white-space:nowrap">Non-negative</span> Solutions to \(A \mathbf{x} = \mathbf{b}\) in Theory and Practice</h1>
+    <div class="byline">
+      <p class="author"><strong>Alex Black</strong></p>
+      <p>Based on joint works with Eleon Bach<sup>∗</sup>, Sophie Huiberts<sup>†</sup>, Sean Kafer<sup>∘</sup>, and Lei Xue<sup>×</sup></p>
+      <p class="inst"><strong>Bowdoin College</strong></p>
+      <p class="insts"><span>TU Munich<sup>∗</sup></span><span>CNRS<sup>†</sup></span><span>Illinois State University<sup>∘</sup></span><span>Colby College<sup>×</sup></span></p>
+      <p class="date">10/23/2026</p>
+    </div>
+  </div>
+  <div class="fig-host hero" data-fig="hero"></div>
+</section>
+
+<!-- 2 -->
+<section class="slide" data-title="Solving Ax = b">
+  <h2>Solving \(A \mathbf{x} = \mathbf{b}\)</h2>
+  <p>Does the following linear system have a solution?</p>
+  <div class="eq">\[\begin{bmatrix} 1 & 0 & 0 & -1 & 1 & 0\\ 0 & 1 & 0 & 1 & 0 & -1\\ 0 & 0 & 1 & 0 & -1 & 1\end{bmatrix}\begin{bmatrix} x_{1} \\ x_{2} \\ x_{3} \\ x_{4} \\ x_{5}\\ x_{6} \end{bmatrix} = \begin{bmatrix}-1\\-1\\-1 \end{bmatrix}\]</div>
+  <div data-step="1">
+    <p><span class="c-blue"><strong>Yes!</strong></span> Take</p>
+    <div class="eq">\[\begin{bmatrix} -1 & -1 & -1 & 0 & 0 & 0\end{bmatrix}^{\intercal}.\]</div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="slide" data-title="Non-negative solutions">
+  <h2>Solving \(A \mathbf{x} = \mathbf{b}, \mathbf{x} \geq \mathbf{0}\)</h2>
+  <p>Does the following linear system have a <strong>non-negative</strong> solution?</p>
+  <div class="eq">\[\begin{bmatrix} 1 & 0 & 0 & -1 & 1 & 0\\ 0 & 1 & 0 & 1 & 0 & -1\\ 0 & 0 & 1 & 0 & -1 & 1\end{bmatrix}\begin{bmatrix} x_{1} \\ x_{2} \\ x_{3} \\ x_{4} \\ x_{5}\\ x_{6} \end{bmatrix} = \begin{bmatrix}-1\\-1\\-1 \end{bmatrix}\]</div>
+  <p data-step="1"><strong><span class="c-red">No!</span> But <em>why not</em>? How does one check this?</strong></p>
+</section>
+
+<!-- 4 -->
+<section class="slide dense" data-title="Why not?">
+  <h2>Solving \(A \mathbf{x} = \mathbf{b}, \mathbf{x} \geq \mathbf{0}\)</h2>
+  <div class="two" style="grid-template-columns:900px 1fr">
+    <div class="txt">
+      <p>Does the following linear system have a <strong>non-negative</strong> solution?</p>
+      <div class="eq sm">\[\begin{bmatrix} 1 & 0 & 0 & -1 & 1 & 0\\ 0 & 1 & 0 & 1 & 0 & -1\\ 0 & 0 & 1 & 0 & -1 & 1\end{bmatrix}\begin{bmatrix} x_{1} \\ x_{2} \\ x_{3} \\ x_{4} \\ x_{5}\\ x_{6} \end{bmatrix} = \begin{bmatrix}-1\\-1\\-1 \end{bmatrix}\]</div>
+      <p><span class="c-red">Why not?</span> Each column \(A_{\bullet,j}\) of the constraint matrix satisfies</p>
+      <div class="eq sm">\[(1,1,1) \cdot A_{\bullet, j} \geq 0,\]</div>
+      <div data-step="1">
+        <p>but</p>
+        <div class="eq sm">\[(1,1,1) \cdot (-1,-1,-1) = -3 \lt 0\]</div>
+      </div>
+    </div>
+    <div class="fig-host" data-fig="cone3d" style="height:600px"></div>
+  </div>
+</section>
+
+<!-- 5 (three Beamer frames merged as overlays) -->
+<section class="slide" data-title="Farkas Lemma Proof" data-steps="3">
+  <h2>Farkas Lemma Proof</h2>
+  <div class="two" style="grid-template-columns:900px 1fr">
+    <div class="txt">
+      <p>Consider a simpler instance with <span class="c-red">no solution</span>:</p>
+      <div class="eq">\[\begin{pmatrix} 1 & 1 \\ 1 & 0 \end{pmatrix} \begin{pmatrix}x_{1}\\x_{2} \end{pmatrix} = \begin{pmatrix}-1 \\ 1 \end{pmatrix}\]</div>
+      <div class="eq xs" data-step="1">\[\begin{bmatrix} 1 & 0\end{bmatrix}\begin{pmatrix} 1 & 1 \\ 1 & 0 \end{pmatrix} = \begin{bmatrix} 1 & 1 \end{bmatrix} \geq \begin{bmatrix}0 & 0 \end{bmatrix} \text{, but }(1,0) \cdot (-1,1) = -1 \lt 0.\]</div>
+    </div>
+    <div class="fig-host" data-fig="farkas" style="height:520px"></div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="slide" data-title="Farkas Lemma">
+  <h2>Farkas Lemma</h2>
+  <div class="thm lemma">
+    <div class="hd">Lemma (Farkas Lemma)</div>
+    <p class="bd">A system of equations \(A \mathbf{x} = \mathbf{b}\) has a non-negative solution if and only if there does not exist \(\mathbf{y} \in \mathbb{R}^{n}\) such that
+      <span class="eq" style="display:block">\[A^{\intercal}\mathbf{y} \geq \mathbf{0} \text{ and } \mathbf{b}\cdot \mathbf{y} \lt 0.\]</span></p>
+  </div>
+  <div data-step="1">
+    <p>Thus, checking is equivalent to checking if the following <strong>optimization problem</strong> has a non-negative value:</p>
+    <div class="eq">\[\begin{aligned} \min(\mathbf{b} \cdot \mathbf{y}) \text{ s.t. }\\ A^{\intercal}\mathbf{y} \geq \mathbf{0} \end{aligned}\]</div>
+  </div>
+  <p data-step="2">This is called a <span class="c-blue">Linear Program</span></p>
+</section>
+
+<!-- 7 -->
+<section class="slide" data-title="Linear Program">
+  <h2>Linear Program</h2>
+  <div class="two" style="grid-template-columns:700px 1fr">
+    <div class="txt">
+      <p>A linear program is a problem of the form \(\text{max}(\cL{\mathbf{c}}^{\T}\mathbf{x})\) such that \(A\mathbf{x} \leq \mathbf{b}\). Geometrically, it corresponds to finding the <span class="c-orange">highest point</span> in the <span class="c-lime">direction \(\mathbf{c}\)</span> on a polytope:</p>
+    </div>
+    <div class="fig-host" data-fig="lp" style="height:680px"></div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="slide" data-title="The Simplex Method and Monotone Paths">
+  <h2>The Simplex Method and Monotone Paths</h2>
+  <div class="two" style="grid-template-columns:700px 1fr">
+    <div class="txt">
+      <p>Using the <strong>Simplex Method</strong> to solve the LP \(\text{max}(\cL{\mathbf{c}}^{\T}\mathbf{x}: \mathbf{x} \in P)\) with \(P\) a polytope corresponds to following a <span class="c-red">monotone path</span> on \(P\):</p>
+    </div>
+    <div class="fig-host" data-fig="paths" style="height:680px"></div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="slide" data-title="Klee–Minty Cubes">
+  <h2>Klee–Minty Cubes</h2>
+  <div class="two" style="grid-template-columns:700px 1fr">
+    <div class="txt">
+      <p>In 1972, Klee and Minty already observed that the simplex method can take <span class="c-red"><strong>exponentially many</strong></span> steps in the worst case:</p>
+    </div>
+    <div class="fig-host" data-fig="km" style="height:680px"></div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="slide" data-title="Confusion">
+  <h2>Confusion</h2>
+  <p>Why would anyone use an <span class="c-red"><strong>exponential time</strong></span> algorithm to solve a problem?</p>
+  <div data-step="1" style="margin-top:34px">
+    <p>Because theory is <strong>bad</strong>. The simplex method is lightning fast in practice!</p>
+    <div class="eq lg" style="margin:30px 0 34px">\[\text{Inefficient in Theory } \cR{\neq} \text{ Inefficient in Practice}\]</div>
+  </div>
+  <p data-step="2">How do we explain this phenomenon? Can <span class="c-blue"><strong>theory</strong></span> be <span class="c-blue"><strong>good</strong></span>?</p>
+</section>
+
+<!-- 11 -->
+<section class="slide" data-title="State of the Art: Smoothed Analysis">
+  <h2>State of the Art: Smoothed Analysis</h2>
+  <div class="two" style="grid-template-columns:820px 1fr">
+    <div class="txt">
+      <p>Start with a linear program: \(\min(x_{1} + x_{2} + x_{3} + x_{4})\) subject to</p>
+      <div class="eq">\[ \begin{bmatrix} 7 & 4 & 1 & 0\\ 4 & 7 & 0 & 1 \\ 43 & 53 & 2 & 5 \\ 53 & 43 & 5 & 2 \\-1 & 0 & 0 & 0 \\0 & -1 & 0 & 0\\0 & 0 & -1 & 0\\ 0 & 0 & 0 & -1 \end{bmatrix} \begin{bmatrix} x_{1} \\x_{2} \\x_{3} \\x_{4} \end{bmatrix} \leq \begin{bmatrix} 1 \\ 1 \\ 8 \\ 8 \\0\\0 \\0\\0\end{bmatrix}. \]</div>
+    </div>
+    <div class="fig-host" data-fig="lpStatic" style="height:560px"></div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="slide" data-title="Smoothed Analysis: noise">
+  <h2>State of the Art: Smoothed Analysis</h2>
+  <div class="two" style="grid-template-columns:900px 1fr">
+    <div class="txt">
+      <p>Add Gaussian distributed noise with standard deviation \(\sigma\) <span class="c-red">\(\tilde{A}\)</span> to the constraint matrix and the right hand side <span class="c-red">\(\tilde{\mathbf{b}}\)</span>:</p>
+      <div class="eq sm">\[\cR{\tilde{A}}\begin{bmatrix} x_{1} \\x_{2} \\x_{3} \\x_{4} \end{bmatrix} + \begin{bmatrix} 7 & 4 & 1 & 0\\ 4 & 7 & 0 & 1 \\ 43 & 53 & 2 & 5 \\ 53 & 43 & 5 & 2 \\-1 & 0 & 0 & 0 \\0 & -1 & 0 & 0\\0 & 0 & -1 & 0\\ 0 & 0 & 0 & -1 \end{bmatrix} \begin{bmatrix} x_{1} \\x_{2} \\x_{3} \\x_{4} \end{bmatrix} \leq \cR{\tilde{\mathbf{b}}} + \begin{bmatrix} 1 \\ 1 \\ 8 \\ 8 \\0\\0 \\0\\0\end{bmatrix}.\]</div>
+    </div>
+    <div class="fig-host" data-fig="lpNoise" style="height:540px"></div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="slide stack" data-title="Smoothed Analysis Bounds">
+  <h2>Smoothed Analysis Bounds</h2>
+  <div class="thm">
+    <div class="hd">Theorem (Spielman and Teng, 2003, <strong>Bach</strong> and <strong>Huiberts</strong>, 2025)</div>
+    <p class="bd">For a linear program in \(n\) inequalities and \(d\) variables, perturbed with Gaussian noise with standard deviation \(\sigma\), the expected run-time of the simplex method is \(O(\sigma^{-1/2} d^{11/4} \log(n)^{7/4})\).</p>
+  </div>
+  <div class="fig-host" data-fig="shadowRho" style="height:430px"></div>
+</section>
+
+<!-- 14 -->
+<section class="slide" data-title="Smoothed Analysis Drawbacks">
+  <h2>Smoothed Analysis Drawbacks</h2>
+  <div class="thm">
+    <div class="hd">Theorem (Spielman and Teng, 2003, <strong>Bach</strong> and <strong>Huiberts</strong>, 2025)</div>
+    <p class="bd">For a linear program in \(n\) inequalities and \(d\) variables, perturbed with Gaussian noise with standard deviation \(\sigma\), the expected run-time of the simplex method is \(O(\sigma^{-1/2} d^{11/4} \log(n)^{7/4})\).</p>
+  </div>
+  <ul class="pts" style="max-width:none">
+    <li>How big is \(\sigma\) in practice, and what does it measure? It’s not clear.</li>
+    <li data-step="1">In practice, more noise is <strong>bad</strong>, but in smoothed analysis, more noise is <strong>good</strong></li>
+  </ul>
+</section>
+
+<!-- 15 -->
+<section class="slide" data-title="Sparsity">
+  <h2>Smoothed Analysis Drawbacks: Sparsity</h2>
+  <p style="max-width:none">Constraint matrices in practice are very sparse with \(99\%\) of entries equal to \(0\), but after perturbing <strong>all entries are nonzero with probability 1</strong>:</p>
+  <div class="two" style="grid-template-columns:760px 1fr;height:auto;margin-top:6px">
+    <div class="eq sm">\[\cR{\tilde{A}}\begin{bmatrix} x_{1} \\x_{2} \\x_{3} \\x_{4} \end{bmatrix} + \begin{bmatrix} 0 & 2 & 3 & 0\\ 0 & 7 & 0 & 1 \\ 41 & 0 & 0 & 5.1 \\ 53 & 43 & 0 & 0 \\1 & 0 & 0 & 0 \\0 & -1 & 0 & 0\\0 & 0 & -1 & 0\\ 0 & 0 & 0 & -1 \end{bmatrix} \begin{bmatrix} x_{1} \\x_{2} \\x_{3} \\x_{4} \end{bmatrix} \leq \cR{\tilde{\mathbf{b}}} + \begin{bmatrix} 1 \\ 1 \\ 8 \\ 8 \\0\\0 \\0\\0\end{bmatrix}.\]</div>
+    <div class="fig-host" data-fig="sparse" style="height:470px"></div>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="slide" data-title="Confusion, answered">
+  <h2>Confusion</h2>
+  <p>Why would anyone use an <span class="c-red"><strong>exponential time</strong></span> algorithm to solve a problem?</p>
+  <p style="margin-top:22px">Because theory is <strong>bad</strong>. The simplex method is lightning fast in practice!</p>
+  <div class="eq lg" style="margin:18px 0 20px">\[\text{Inefficient in Theory } \cR{\neq} \text{ Inefficient in Practice}\]</div>
+  <p>How do we explain this phenomenon? Can <span class="c-blue"><strong>theory</strong></span> be <span class="c-blue"><strong>good</strong></span>?</p>
+  <p data-step="1" style="margin-top:26px;max-width:none"><strong>Our Answer:</strong> Our model of the simplex method is <span class="c-red">meaningfully different</span> from its implementation. We need to use an analysis framework that incorporates a <strong>model of the algorithm</strong>.</p>
+</section>
+
+<!-- 17 -->
+<section class="slide" data-title="By the Book Analysis">
+  <h2>By the Book Analysis</h2>
+  <p style="max-width:none">In our work, we introduce a new framework for analyzing algorithms we call <strong>by the book analysis</strong>:</p>
+  <ol class="rail" style="max-width:1300px;margin-top:34px">
+    <li>Step 1: Read the <strong>book</strong>: Read primary sources such as source code, implementation manuals, and interview practitioners</li>
+    <li data-step="1">Step 2: Synthesize these resources to develop a <strong>model of the algorithm</strong> and <strong>relevant parameters</strong></li>
+    <li data-step="2">Step 3: <strong>Analyze</strong> the algorithm using a <strong>framework grounded in your findings from Step 1</strong> such as worst-case analysis, average case analysis, smoothed analysis, etc.</li>
+  </ol>
+</section>
+
+<!-- 18 -->
+<section class="slide" data-title="Our By the Book Analysis for Simplex">
+  <h2>Our By the Book Analysis for Simplex</h2>
+  <div class="two" style="grid-template-columns:820px 1fr">
+    <div class="txt">
+      <p>While perturbing the constraint matrix does not appear in practice, all modern simplex implementations <span class="c-blue"><strong>randomly perturb the right hand side</strong></span>:</p>
+      <div class="eq sm">\[\begin{bmatrix} 7 & 4 & 1 & 0\\ 4 & 7 & 0 & 1 \\ 43 & 53 & 2 & 5 \\ 53 & 43 & 5 & 2 \\-1 & 0 & 0 & 0 \\0 & -1 & 0 & 0\\0 & 0 & -1 & 0\\ 0 & 0 & 0 & -1 \end{bmatrix} \begin{bmatrix} x_{1} \\x_{2} \\x_{3} \\x_{4} \end{bmatrix} \leq \cB{\tilde{\mathbf{b}}} + \begin{bmatrix} 1 \\ 1 \\ 8 \\ 8 \\0\\0 \\0\\0\end{bmatrix}.\]</div>
+    </div>
+    <div class="fig-host" data-fig="lpRhs" style="height:540px"></div>
+  </div>
+</section>
+
+<!-- 19 -->
+<section class="slide" data-title="Parameters Measured and Bounded in Practice">
+  <h2>Parameters Measured and Bounded in Practice</h2>
+  <div class="two" style="grid-template-columns:840px 1fr">
+    <div class="txt">
+      <p>From the book, we used the following parameters for our model:</p>
+      <ul class="pts">
+        <li>Order of perturbation is about \(10^{-6}\) corresponding to <strong>feasibility tolerances</strong> \(\eta\)</li>
+        <li>Feasible regions tend to have low mean width \(M\) on the order of \(100\) and more generally are well-scaled</li>
+      </ul>
+    </div>
+    <div class="fig-host" data-fig="calipers" style="height:600px"></div>
+  </div>
+</section>
+
+<!-- 20 -->
+<section class="slide" data-title="Our By the Book Analysis Bound">
+  <h2>Our By the Book Analysis Bound</h2>
+  <div class="thm">
+    <div class="hd">Theorem (Bach, B., Huiberts, and Kafer, 2026)</div>
+    <div class="bd">The expected number of pivots for our simplex method to solve an LP of the form \(\max(\mathbf{c}^{\intercal} \mathbf{x})\) such that \(A \mathbf{x} \leq \mathbf{b}\) with \(A\) \(n \times d\) <strong>up to tolerances</strong> is
+      <div class="eq lg">\[O\left(d \sqrt{\frac{d \ln(n) M}{\eta} \ln\left(\frac{nN\kappa}{\eta \text{optTol}}\right)}\right).\]</div></div>
+  </div>
+</section>
+
+<!-- 21 -->
+<section class="slide" data-title="Our By the Book Analysis Bound, read">
+  <h2>Our By the Book Analysis Bound</h2>
+  <div class="thm">
+    <div class="hd">Theorem (Bach, B., Huiberts, and Kafer, 2026)</div>
+    <div class="bd">The expected number of pivots for our simplex method to solve an LP of the form \(\max(\mathbf{c}^{\intercal} \mathbf{x})\) such that \(A \mathbf{x} \leq \mathbf{b}\) with \(A\) \(m \times n\) <strong>up to tolerances</strong> is
+      <div class="eq lg">\[O\left(n \sqrt{\frac{n \ln(m) \cR{M}}{\cR{\eta}} \ln\left(\frac{mN\kappa}{\eta \text{optTol}}\right)}\right).\]</div></div>
+  </div>
+  <p style="max-width:none">All terms other than \(\cR{\frac{M}{\eta}}\) are polynomially bounded in the bit-complexity of the input. Here \(M\) is the mean width, and \(\eta\) is the perturbation. Both are <strong>measurable</strong> and tend to be <strong>small</strong>.</p>
+</section>
+
+<!-- 22 -->
+<section class="slide stack" data-title="Proof Approach: Shadow Simplex Method">
+  <h2>Proof Approach: Shadow Simplex Method</h2>
+  <p style="max-width:none">Like all previous randomized analyses of the simplex method, we use the shadow simplex method:</p>
+  <div class="fig-host" data-fig="shadowRho" style="height:540px;margin-top:20px"></div>
+</section>
+
+<!-- 23 -->
+<section class="slide" data-title="Back to Theory">
+  <h2>Back to Theory</h2>
+  <div class="two" style="grid-template-columns:900px 1fr">
+    <div class="txt">
+      <div class="thm conj">
+        <div class="hd">Conjecture (Polynomial Hirsch Conjecture, 1957)</div>
+        <p class="bd">Is the length of a shortest path between any pair of vertices on any polytope defined by \(m\) inequalities in \(n\) variables bounded by a polynomial in \(m\) and \(n\)?</p>
+      </div>
+      <p><span data-step="1"><strong>My Research Program</strong>: Can you use the shadow simplex method to resolve this open problem?</span> <span data-step="2" class="c-red">Was perturbation necessary?</span></p>
+    </div>
+    <div class="fig-host" data-fig="permuto" style="height:620px"></div>
+  </div>
+</section>
+
+<!-- 24 -->
+<section class="slide stack" data-title="Shadow Lower Bounds">
+  <h2>Shadow Lower Bounds</h2>
+  <div class="thm">
+    <div class="hd">Theorem (Zadeh, 1973, Murty, 1980, Goldfarb, 1983)</div>
+    <p class="bd">There exists a polytope with \(2d\) facets in \(d\) dimensions with a shadow of size \(2^{d}\). In particular, there is a linear program for which a shadow pivot rule runs in exponential time.</p>
+  </div>
+  <div class="fig-host" data-fig="shadowPi" style="height:430px"></div>
+</section>
+
+<!-- 25 -->
+<section class="slide stack" data-title="Bad Shadow Paths">
+  <h2>Bad Shadow Paths</h2>
+  <div class="thm">
+    <div class="hd">Theorem (Zadeh, 1973, Murty, 1980, Goldfarb, 1983)</div>
+    <p class="bd">There exists a polytope with \(2d\) facets in \(d\) dimensions with a shadow of size \(2^{d}\). In particular, there is a linear program for which a shadow pivot rule runs in exponential time.</p>
+  </div>
+  <p class="c-red" style="max-width:none;margin:0">However, one could just choose a different shadow!</p>
+  <div class="fig-host" data-fig="shadowMorph" style="height:380px"></div>
+</section>
+
+<!-- 26 -->
+<section class="slide" data-title="Worst-Case for all Shadow Rules">
+  <h2>Worst-Case for all Shadow Rules</h2>
+  <p style="max-width:none"><strong>Question:</strong> While <span class="c-red">exponential shadows</span> may exist, can we always find at least <span class="c-blue">one polynomial sized shadow</span>?</p>
+  <div class="thm" data-step="1" style="margin-top:34px">
+    <div class="hd">Theorem (B., 2024)</div>
+    <p class="bd">There exists a polytope with <span class="c-orange">\(4d\)</span> facets in \(d\) dimensions with vertices \(\mathbf{u}\) and \(\mathbf{v}\) for which <span class="c-red">every</span> shadow path from \(\mathbf{u}\) to \(\mathbf{v}\) is of length at least \(2^{d}+1\).</p>
+  </div>
+</section>
+
+<!-- 27 -->
+<section class="slide stack" data-title="How?">
+  <h2>How?</h2>
+  <p style="max-width:none">Start with a polytope with <span class="c-blue">one</span> exponential shadow path and <span class="c-violet">modify it</span> to force <span class="c-red">all</span> shadow paths to be exponentially long.</p>
+  <div class="fig-host" data-fig="shadowPi" style="height:540px;margin-top:20px"></div>
+</section>
+
+<!-- 28 -->
+<section class="slide" data-title="Normal Fan">
+  <h2>Normal Fan</h2>
+  <div class="fig-host" data-fig="fan" style="height:640px;margin-top:10px"></div>
+</section>
+
+<!-- 29 (three Beamer frames merged as overlays) -->
+<section class="slide" data-title="Shadow Simplex (Dual Form)" data-steps="2">
+  <h2>Shadow Simplex (Dual Form)</h2>
+  <div class="fig-host" data-fig="dual" style="height:640px;margin-top:10px"></div>
+</section>
+
+<!-- 30 (four Beamer frames merged as overlays) -->
+<section class="slide" data-title="Proof Idea for Main Theorem" data-steps="3">
+  <h2>Proof Idea for Main Theorem</h2>
+  <div class="fig-host" data-fig="proof" style="height:640px;margin-top:10px"></div>
+</section>
+
+<!-- 31 -->
+<section class="slide" data-title="Back to Theory, again">
+  <h2>Back to Theory</h2>
+  <div class="thm conj">
+    <div class="hd">Conjecture (Polynomial Hirsch Conjecture, 1957)</div>
+    <p class="bd">Is the length of a shortest path between any pair of vertices on any polytope defined by \(m\) inequalities in \(n\) variables bounded by a polynomial in \(m\) and \(n\)?</p>
+  </div>
+  <p style="max-width:none"><strong>My Research Program</strong>: Can you use the shadow simplex method to resolve this open problem? <span class="c-red">Was perturbation necessary?</span> <span data-step="1"><span class="c-red"><strong>Yes</strong> at least for a straightforward shadow simplex implementation</span>.</span> <span data-step="2"><span class="c-blue">However, there is still hope</span>:</span></p>
+  <div class="thm lemma" data-step="2">
+    <div class="hd">Lemma (B., 2026)</div>
+    <p class="bd">If for any polytope \(P\) and a vertex \(\mathbf{v}\) of \(P\), there is some (generic) projection with polynomially many vertices taking that vertex to the boundary, the polynomial Hirsch conjecture is true.</p>
+  </div>
+</section>
+
+<!-- 32 -->
+<section class="slide" data-title="Another Broken Dream">
+  <h2>Another Broken Dream</h2>
+  <div class="two" style="grid-template-columns:600px 1fr;gap:30px">
+    <div class="txt">
+      <div class="thm" style="margin-bottom:14px">
+        <div class="hd">Theorem (B. and Xue, 2026)</div>
+        <p class="bd">There exists a family of polytopes for which each has a specified vertex such that every shadow projecting that vertex to the boundary has exponentially many vertices.</p>
+      </div>
+      <div class="fig-host" data-fig="seed" style="height:300px"></div>
+    </div>
+    <div class="fig-host" data-fig="nest" style="height:640px"></div>
+  </div>
+</section>
+
+<!-- 33 -->
+<section class="slide" data-title="AI-Assisted Dream Breaking">
+  <h2>AI-Assisted Dream Breaking</h2>
+  <div class="two" style="grid-template-columns:760px 1fr">
+    <div class="txt">
+      <p>In fact, using GPT Pro I can extend the proof technique of Lei and I to prove the following:</p>
+      <div class="thm" style="margin-top:26px">
+        <div class="hd">Theorem (B., 2026+)</div>
+        <p class="bd">There exists a family of polytopes for which every shadow has exponentially many vertices.</p>
+      </div>
+    </div>
+    <div class="fig-host" data-fig="netsphere" style="height:640px"></div>
+  </div>
+</section>
+
+<div id="chrome">
+  <svg id="progress" viewBox="0 0 1150 44" aria-label="Slides"></svg>
+  <div id="count"><b>1</b> / 33</div>
+  <button class="navbtn" id="prev" aria-label="Previous"><svg viewBox="0 0 20 20"><path d="M13 3 L6 10 L13 17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button class="navbtn" id="next" aria-label="Next"><svg viewBox="0 0 20 20"><path d="M7 3 L14 10 L7 17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+</div>
+<div id="hint">Arrow keys or space to advance, F for full screen</div>
+</main>
+</div>
+<script>
+(function () {
+'use strict';
+var NS = 'http://www.w3.org/2000/svg';
+var RM = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+var D2R = Math.PI / 180;
+var C = { ink: '#e9edff', mute: '#8d96c4', dim: '#4c5590', faint: '#262c55', cyan: '#3ce6ff', rose: '#ff3d7f',
+          amber: '#ffb23f', violet: '#b28dff', lime: '#b9ff5e', white: '#ffffff', void: '#05060e' };
+var SERIF = '"Latin Modern Roman","CMU Serif","STIX Two Text","Cambria Math","Times New Roman",serif';
+var SANS = '"IBM Plex Sans","Helvetica Neue",Arial,sans-serif';
+
+function el(tag, a, p) { var e = document.createElementNS(NS, tag); if (a) for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
+function set(e, a) { for (var k in a) e.setAttribute(k, a[k]); return e; }
+function clear(g) { while (g.firstChild) g.removeChild(g.firstChild); }
+function r1(x) { return Math.round(x * 10) / 10; }
+function dPath(P, close) { var s = ''; for (var i = 0; i < P.length; i++) s += (i ? 'L' : 'M') + r1(P[i][0]) + ' ' + r1(P[i][1]); return close ? s + 'Z' : s; }
+function clamp(x, a, b) { return x < a ? a : x > b ? b : x; }
+function lerp(a, b, t) { return a + (b - a) * t; }
+function ease(t) { t = clamp(t, 0, 1); return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+function easeOut(t) { t = clamp(t, 0, 1); return 1 - Math.pow(1 - t, 3); }
+function seeded(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function smoothNoise(rng) {
+  var f = [.35 + rng() * .3, .8 + rng() * .5, 1.5 + rng() * .7], p = [rng() * 6.283, rng() * 6.283, rng() * 6.283];
+  return function (t) { return (Math.sin(f[0] * t + p[0]) + .7 * Math.sin(f[1] * t + p[1]) + .45 * Math.sin(f[2] * t + p[2])) / 1.35; };
+}
+
+var UID = 0;
+function makeSVG(host, w, h, label) {
+  var svg = el('svg', { viewBox: '0 0 ' + w + ' ' + h, role: 'img', 'aria-label': label, preserveAspectRatio: 'xMidYMid meet' });
+  host.appendChild(svg);
+  var id = 'fg' + (UID++);
+  var under = el('g', {}, svg); // fills and washes: not bloomed
+  el('use', { href: '#' + id, filter: 'url(#bloom)', opacity: '.85' }, svg);
+  var root = el('g', { id: id }, svg);
+  return { svg: svg, root: root, under: under };
+}
+function G(p, a) { return el('g', a || {}, p); }
+function ln(g, a) { return el('line', Object.assign({ 'stroke-linecap': 'round' }, a || {}), g); }
+function setL(l, p, q) { l.setAttribute('x1', r1(p[0])); l.setAttribute('y1', r1(p[1])); l.setAttribute('x2', r1(q[0])); l.setAttribute('y2', r1(q[1])); return l; }
+function txt(g, s, a) {
+  var t = el('text', Object.assign({ 'font-family': SERIF, 'font-size': 26, fill: C.ink, 'text-anchor': 'middle', 'dominant-baseline': 'central' }, a || {}), g);
+  t.textContent = s; return t;
+}
+function dot(g, p, r, fill, a) { return el('circle', Object.assign({ cx: r1(p[0]), cy: r1(p[1]), r: r, fill: fill }, a || {}), g); }
+function arrow(g, p, q, color, w, a) {
+  var name = { '#3ce6ff': 'cyan', '#ff3d7f': 'rose', '#ffb23f': 'amber', '#b28dff': 'violet', '#b9ff5e': 'lime', '#8d96c4': 'mute' }[color] || 'mute';
+  return setL(ln(g, Object.assign({ stroke: color, 'stroke-width': w || 2.4, 'marker-end': 'url(#ah-' + name + ')' }, a || {})), p, q);
+}
+function axes(g, cx, cy, ax, ay) {
+  ln(g, { x1: cx - ax, y1: cy, x2: cx + ax, y2: cy, stroke: C.dim, 'stroke-width': 1.3, 'marker-start': 'url(#ah-axis)', 'marker-end': 'url(#ah-axis)' });
+  ln(g, { x1: cx, y1: cy + ay, x2: cx, y2: cy - ay, stroke: C.dim, 'stroke-width': 1.3, 'marker-start': 'url(#ah-axis)', 'marker-end': 'url(#ah-axis)' });
+}
+/* a comet: bright head with a tapering trail that follows a polyline (u in edge units) */
+function comet(g, color) {
+  var tr = G(g), n = 18, segs = [];
+  for (var i = 0; i < n; i++) segs.push(ln(tr, { stroke: color }));
+  var halo = el('circle', { r: 13, fill: color, 'fill-opacity': .32 }, g);
+  var head = el('circle', { r: 4.6, fill: C.white }, g);
+  function vis(v) { var d = v ? '' : 'none'; tr.style.display = d; halo.style.display = d; head.style.display = d; }
+  return {
+    hide: function () { vis(false); },
+    at: function (P, u, tail) {
+      if (!P || P.length < 2) { vis(false); return; }
+      vis(true); tail = tail == null ? .85 : tail;
+      var m = P.length - 1; u = clamp(u, 0, m);
+      var pos = function (x) { x = clamp(x, 0, m); var i = Math.min(m - 1, Math.floor(x)), t = x - i; return [lerp(P[i][0], P[i + 1][0], t), lerp(P[i][1], P[i + 1][1], t)]; };
+      var prev = pos(u - tail);
+      for (var k = 0; k < n; k++) {
+        var x = u - tail + tail * (k + 1) / n, q = pos(x), a = (k + 1) / n;
+        setL(segs[k], prev, q); segs[k].setAttribute('stroke-width', r1(1.2 + 5.5 * a)); segs[k].setAttribute('stroke-opacity', (.05 + .85 * a * a).toFixed(3)); prev = q;
+      }
+      var h = pos(u); set(head, { cx: r1(h[0]), cy: r1(h[1]) }); set(halo, { cx: r1(h[0]), cy: r1(h[1]) });
+    }
+  };
+}
+/* pivot counter: a row of small diamonds, k of them lit */
+function pivots(g, x, y, n, color) {
+  var items = [];
+  for (var i = 0; i < n; i++) items.push(el('rect', { x: x + i * 22 - 5, y: y - 5, width: 10, height: 10, transform: 'rotate(45 ' + (x + i * 22) + ' ' + y + ')', fill: 'none', stroke: C.dim, 'stroke-width': 1.5 }, g));
+  return function (k, total) {
+    for (var i = 0; i < n; i++) {
+      var on = i < k, exists = total == null || i < total;
+      set(items[i], { fill: on ? color : 'none', stroke: on ? color : C.dim, opacity: exists ? 1 : .25 });
+    }
+  };
+}
+function convexHull(p) { // indices, CCW (y up), collinear removed
+  var idx = p.map(function (_, i) { return i; }).sort(function (a, b) { return p[a][0] - p[b][0] || p[a][1] - p[b][1]; });
+  var cr = function (o, a, b) { return (p[a][0] - p[o][0]) * (p[b][1] - p[o][1]) - (p[a][1] - p[o][1]) * (p[b][0] - p[o][0]); };
+  var lo = [], up = [], i;
+  for (i = 0; i < idx.length; i++) { while (lo.length >= 2 && cr(lo[lo.length - 2], lo[lo.length - 1], idx[i]) <= 1e-9) lo.pop(); lo.push(idx[i]); }
+  for (i = idx.length - 1; i >= 0; i--) { while (up.length >= 2 && cr(up[up.length - 2], up[up.length - 1], idx[i]) <= 1e-9) up.pop(); up.push(idx[i]); }
+  return lo.slice(0, -1).concat(up.slice(0, -1));
+}
+
+/* ================= Klee–Minty cube (d = 3, eps = 1/3) ================= */
+var KM = (function () {
+  var eps = 1 / 3, V = [];
+  for (var b1 = 0; b1 < 2; b1++) for (var b2 = 0; b2 < 2; b2++) for (var b3 = 0; b3 < 2; b3++) {
+    var x1 = b1, x2 = b2 ? 1 - eps * x1 : eps * x1, x3 = b3 ? 1 - eps * x2 : eps * x2;
+    V.push({ b: [b1, b2, b3], x: [x1, x2, x3] });
+  }
+  V.sort(function (p, q) { return p.x[2] - q.x[2]; }); // 0..7 = A..H, increasing in the objective
+  var E = [];
+  for (var i = 0; i < 8; i++) for (var j = i + 1; j < 8; j++) {
+    var d = [0, 1, 2].filter(function (k) { return V[i].b[k] !== V[j].b[k]; });
+    if (d.length === 1) E.push({ i: i, j: j, faces: [0, 1, 2].filter(function (m) { return m !== d[0]; }).map(function (m) { return [m, V[i].b[m]]; }) });
+  }
+  var N = [[[-1, 0, 0], [1, 0, 0]], [[eps, -1, 0], [eps, 1, 0]], [[0, eps, -1], [0, eps, 1]]];
+  function edge(a, b) { for (var k = 0; k < E.length; k++) if ((E[k].i === a && E[k].j === b) || (E[k].i === b && E[k].j === a)) return k; return -1; }
+  /* display-only height warp: spaces the eight levels like the original Beamer drawing; order (hence monotonicity) is kept */
+  var KN = [0, 1 / 9, 2 / 9, 1 / 3, 2 / 3, 7 / 9, 8 / 9, 1], WP = [0, .06, .17, .40, .60, .83, .94, 1];
+  function g(z) { for (var i = 0; i < 7; i++) if (z <= KN[i + 1] + 1e-9) return WP[i] + (z - KN[i]) / (KN[i + 1] - KN[i]) * (WP[i + 1] - WP[i]); return 1; }
+  var L = 'ABCDEFGH';
+  function P(s) { return s.split('').map(function (ch) { return L.indexOf(ch); }); }
+  return { V: V, E: E, N: N, edge: edge, P: P, g: g };
+})();
+
+function cubeScene(root, o) {
+  var sx = o.sx || 1.0, sy = o.sy || 1.7, sz = o.sz || 1.9;
+  var P3 = KM.V.map(function (v) { return [sx * (v.x[0] - .5), sy * (v.x[1] - .5), sz * (KM.g(v.x[2]) - .5)]; });
+  var L = { under: G(root), hid: G(root), edges: G(root), trails: G(root), path: G(root), verts: G(root), fx: G(root), over: G(root) };
+  var lines = KM.E.map(function () { return ln(L.edges, { stroke: o.edge || C.cyan, 'stroke-width': 2 }); });
+  var dots = KM.V.map(function () { return el('circle', { r: 4.6, fill: C.ink }, L.verts); });
+  function view(phi, tau) {
+    tau = tau == null ? (o.tau || 0) : tau;
+    var c = Math.cos(phi), s = Math.sin(phi), ct = Math.cos(tau), st = Math.sin(tau);
+    var pts = P3.map(function (p) { var u = c * p[0] + s * p[1], w = -s * p[0] + c * p[1]; return { u: u, v: p[2] * ct - w * st, d: w * ct + p[2] * st }; });
+    var vis = KM.N.map(function (pair) { return pair.map(function (n) { var nX = n[0] / sx, nY = n[1] / sy, nZ = n[2] / sz; var nw = -s * nX + c * nY; return nw * ct + nZ * st > 0; }); });
+    var hidden = KM.E.map(function (e) { return !vis[e.faces[0][0]][e.faces[0][1]] && !vis[e.faces[1][0]][e.faces[1][1]]; });
+    var vhid = KM.V.map(function (v) { return !vis[0][v.b[0]] && !vis[1][v.b[1]] && !vis[2][v.b[2]]; });
+    var sp = pts.map(function (p) { return [o.cx + o.S * p.u, o.cy - o.S * p.v]; });
+    return { pts: pts, sp: sp, hidden: hidden, vhid: vhid, phi: phi, tau: tau, c: c, s: s, ct: ct, st: st };
+  }
+  function project(r, X, Y, Z) { var u = r.c * X + r.s * Y, w = -r.s * X + r.c * Y; return [o.cx + o.S * u, o.cy - o.S * (Z * r.ct - w * r.st)]; }
+  function draw(r) {
+    KM.E.forEach(function (e, k) {
+      setL(lines[k], r.sp[e.i], r.sp[e.j]);
+      if (r.hidden[k]) set(lines[k], { 'stroke-dasharray': '4 8', 'stroke-opacity': .36, 'stroke-width': 1.4 });
+      else set(lines[k], { 'stroke-dasharray': 'none', 'stroke-opacity': .9, 'stroke-width': 2.1 });
+    });
+    KM.V.forEach(function (v, i) { set(dots[i], { cx: r1(r.sp[i][0]), cy: r1(r.sp[i][1]), opacity: r.vhid[i] ? .45 : 1, r: r.vhid[i] ? 3.4 : 4.6 }); });
+  }
+  return { L: L, P3: P3, view: view, draw: draw, project: project, dots: dots, lines: lines, sx: sx, sy: sy, sz: sz };
+}
+function pathPts(r, idx) { return idx.map(function (i) { return r.sp[i]; }); }
+function cArrow(g, x, y0, y1) { arrow(g, [x, y0], [x, y1], C.lime, 3); txt(g, 'c', { x: x - 24, y: (y0 + y1) / 2, fill: C.lime, 'font-weight': 700, 'font-size': 30 }); }
+
+var FIGS = {};
+
+/* ---------- title hero: spinning Klee–Minty cube, a comet visiting every vertex ---------- */
+FIGS.hero = function (host) {
+  var f = makeSVG(host, 700, 760, 'A Klee–Minty cube rotating while a comet traces a monotone path through all eight vertices');
+  var sc = cubeScene(f.root, { cx: 350, cy: 380, S: 225, tau: 13 * D2R });
+  var trail = el('path', { fill: 'none', stroke: C.rose, 'stroke-width': 3, 'stroke-opacity': .55, 'stroke-linejoin': 'round' }, sc.L.path);
+  var cm = comet(sc.L.fx, C.rose);
+  var ham = KM.P('ABCDEFGH');
+  return {
+    frame: function (t) {
+      var r = sc.view(RM ? 84 * D2R : 84 * D2R + t * .16);
+      sc.draw(r);
+      var P = pathPts(r, ham);
+      if (RM) { trail.setAttribute('d', dPath(P)); cm.hide(); return; }
+      var cyc = t % 7.2, u = clamp((cyc - .4) / 4.6, 0, 1) * 7;
+      var k = Math.floor(u), part = P.slice(0, k + 1);
+      if (u < 7) { var i = Math.min(6, k), tt = u - i; part.push([lerp(P[i][0], P[i + 1][0], tt), lerp(P[i][1], P[i + 1][1], tt)]); }
+      trail.setAttribute('d', dPath(part));
+      trail.setAttribute('stroke-opacity', cyc > 6.2 ? (.55 * (7.2 - cyc)).toFixed(3) : .55);
+      if (cyc < 5.4) cm.at(P, u); else cm.hide();
+      sc.dots.forEach(function (d, i) { if (i <= u && cyc < 6.2) set(d, { fill: C.rose }); else set(d, { fill: C.ink }); });
+    }
+  };
+};
+
+/* ---------- linear program: a level plane sweeps up in direction c until it touches the top vertex ---------- */
+FIGS.lp = function (host) {
+  var f = makeSVG(host, 660, 680, 'A polytope with a horizontal level plane sweeping upward in the direction c until it touches the highest vertex');
+  var sc = cubeScene(f.root, { cx: 375, cy: 352, S: 265, tau: 12 * D2R });
+  cArrow(f.root, 70, 420, 280);
+  var plane = el('path', { fill: C.cyan, 'fill-opacity': .07, stroke: C.cyan, 'stroke-opacity': .35, 'stroke-width': 1.2 }, f.under);
+  var sect = el('path', { fill: C.cyan, 'fill-opacity': .2, stroke: C.cyan, 'stroke-width': 2.6 }, sc.L.fx);
+  var ring = el('circle', { r: 10, fill: 'none', stroke: C.amber, 'stroke-width': 2.5 }, sc.L.over);
+  var top = el('circle', { r: 7, fill: C.amber }, sc.L.over);
+  var zmin = sc.P3[0][2], zmax = sc.P3[7][2];
+  return {
+    frame: function (t) {
+      var r = sc.view(84 * D2R + (RM ? 0 : 7 * D2R * Math.sin(t * .35)));
+      sc.draw(r);
+      var cyc = RM ? 6 : t % 7.4;
+      var z = lerp(zmin - .22, zmax, ease((cyc - .5) / 4.4));
+      if (cyc < .5) z = zmin - .22;
+      var R = .95;
+      var Q = [[-R, -R], [R, -R], [R, R], [-R, R]].map(function (q) { return sc.project(r, q[0], q[1], z); });
+      plane.setAttribute('d', dPath(Q, true));
+      var pts = [];
+      KM.E.forEach(function (e) {
+        var a = sc.P3[e.i], b = sc.P3[e.j], za = a[2], zb = b[2];
+        if ((za - z) * (zb - z) <= 0 && za !== zb) { var s = (z - za) / (zb - za); pts.push(sc.project(r, lerp(a[0], b[0], s), lerp(a[1], b[1], s), z)); }
+      });
+      if (pts.length >= 3) { var H = convexHull(pts.map(function (p) { return [p[0], -p[1]]; })); sect.setAttribute('d', dPath(H.map(function (i) { return pts[i]; }), true)); sect.style.display = ''; }
+      else sect.style.display = 'none';
+      sc.dots.forEach(function (d, i) { set(d, { fill: sc.P3[i][2] <= z + 1e-6 ? C.cyan : C.ink }); });
+      var hit = z >= zmax - 1e-3, h = r.sp[7];
+      set(top, { cx: r1(h[0]), cy: r1(h[1]), opacity: hit ? 1 : .0 });
+      var k = hit ? (cyc - 4.9) / 2.5 : 0;
+      set(ring, { cx: r1(h[0]), cy: r1(h[1]), r: r1(8 + 46 * easeOut(k)), opacity: hit && !RM ? (1 - k).toFixed(3) : 0 });
+      set(sect, { 'fill-opacity': hit ? 0 : .2 });
+    }
+  };
+};
+
+/* ---------- simplex method: the different monotone paths it could take ---------- */
+FIGS.paths = function (host) {
+  var f = makeSVG(host, 660, 680, 'A polytope on which the seven different monotone paths from the lowest to the highest vertex are traced one after another');
+  var sc = cubeScene(f.root, { cx: 375, cy: 340, S: 255, tau: 0 });
+  cArrow(f.root, 70, 410, 270);
+  var order = ['ABGH', 'ADEH', 'AH', 'ABCFGH', 'ADEFGH', 'ABCDEH', 'ABCDEFGH'].map(KM.P);
+  var trails = order.map(function () { return el('path', { fill: 'none', stroke: C.rose, 'stroke-width': 3, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, sc.L.trails); });
+  var live = el('path', { fill: 'none', stroke: C.rose, 'stroke-width': 3.6, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, sc.L.path);
+  var cm = comet(sc.L.fx, C.rose);
+  var piv = pivots(f.root, 375 - 66, 650, 7, C.rose);
+  var top = el('circle', { r: 7, fill: C.amber }, sc.L.over);
+  var durs = order.map(function (p) { return .55 * (p.length - 1) + 1.5; });
+  var total = durs.reduce(function (a, b) { return a + b; }, 0);
+  return {
+    frame: function (t) {
+      var r = sc.view(84 * D2R + (RM ? 0 : 7 * D2R * Math.sin(t * .3)));
+      sc.draw(r);
+      set(top, { cx: r1(r.sp[7][0]), cy: r1(r.sp[7][1]) });
+      if (RM) { trails.forEach(function (p, i) { p.setAttribute('d', dPath(pathPts(r, order[i]))); p.setAttribute('stroke-opacity', i ? .25 : .9); }); live.setAttribute('d', ''); cm.hide(); piv(3, 7); return; }
+      var tt = t % total, k = 0; while (tt > durs[k]) { tt -= durs[k]; k++; }
+      var P = pathPts(r, order[k]), m = P.length - 1, u = clamp((tt - .25) / .55, 0, m);
+      var i = Math.min(m - 1, Math.floor(u)), part = P.slice(0, i + 1); part.push([lerp(P[i][0], P[i + 1][0], u - i), lerp(P[i][1], P[i + 1][1], u - i)]);
+      live.setAttribute('d', dPath(part));
+      if (u < m) cm.at(P, u); else cm.hide();
+      piv(Math.floor(u + 1e-6), 7);
+      trails.forEach(function (p, j) {
+        var age = (k - j + order.length) % order.length;
+        var op = age === 0 ? 0 : Math.max(0, .42 - .1 * age);
+        p.setAttribute('d', dPath(pathPts(r, order[j]))); p.setAttribute('stroke-opacity', op.toFixed(3));
+      });
+      sc.dots.forEach(function (d, j) { var on = order[k].indexOf(j); set(d, { fill: on >= 0 && on <= u + 1e-6 ? C.rose : C.ink }); });
+    }
+  };
+};
+
+/* ---------- Klee–Minty: the path that visits every vertex ---------- */
+FIGS.km = function (host) {
+  var f = makeSVG(host, 660, 680, 'A Klee–Minty cube on which the simplex path visits all eight vertices, one pivot at a time');
+  var sc = cubeScene(f.root, { cx: 375, cy: 340, S: 255, tau: 0 });
+  cArrow(f.root, 70, 410, 270);
+  var ham = KM.P('ABCDEFGH');
+  var live = el('path', { fill: 'none', stroke: C.rose, 'stroke-width': 3.6, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, sc.L.path);
+  var rings = ham.map(function () { return el('circle', { r: 8, fill: 'none', stroke: C.rose, 'stroke-width': 2 }, sc.L.over); });
+  var cm = comet(sc.L.fx, C.rose);
+  var piv = pivots(f.root, 375 - 66, 650, 7, C.rose);
+  var top = el('circle', { r: 7, fill: C.amber }, sc.L.over);
+  return {
+    frame: function (t) {
+      var r = sc.view(84 * D2R + (RM ? 0 : 7 * D2R * Math.sin(t * .3)));
+      sc.draw(r);
+      var P = pathPts(r, ham);
+      set(top, { cx: r1(r.sp[7][0]), cy: r1(r.sp[7][1]) });
+      if (RM) { live.setAttribute('d', dPath(P)); cm.hide(); piv(7, 7); rings.forEach(function (c) { c.setAttribute('opacity', 0); }); sc.dots.forEach(function (d) { set(d, { fill: C.rose }); }); return; }
+      var cyc = t % 7.6, u = clamp((cyc - .5) / .62, 0, 7);
+      var i = Math.min(6, Math.floor(u)), part = P.slice(0, i + 1); part.push([lerp(P[i][0], P[i + 1][0], u - i), lerp(P[i][1], P[i + 1][1], u - i)]);
+      live.setAttribute('d', dPath(part));
+      live.setAttribute('stroke-opacity', cyc > 6.8 ? ((7.6 - cyc) / .8).toFixed(3) : 1);
+      if (u < 7) cm.at(P, u); else cm.hide();
+      piv(cyc > 6.8 ? 0 : Math.floor(u + 1e-6), 7);
+      rings.forEach(function (c, j) {
+        var since = u - j; var on = since >= 0 && since < 1.2 && cyc < 6.8;
+        set(c, { cx: r1(P[j][0]), cy: r1(P[j][1]), r: r1(6 + 22 * clamp(since, 0, 1)), opacity: on ? (1 - since / 1.2).toFixed(3) : 0 });
+      });
+      sc.dots.forEach(function (d, j) { set(d, { fill: j <= u + 1e-6 && cyc < 6.8 ? C.rose : C.ink }); });
+    }
+  };
+};
+
+/* ---------- shadow simplex: polytope -> projection -> shadow polygon ---------- */
+function shadowFigure(host, mode) {
+  var f = makeSVG(host, 1400, 430, mode === 'morph'
+    ? 'A polytope and its shadow; the projection rotates and the shadow path shrinks from seven edges to three'
+    : mode === 'pi' ? 'A polytope whose shadow under the projection pi has all eight vertices, so the shadow path visits every vertex'
+    : 'A polytope and its shadow under the projection rho; the shadow path takes only three steps');
+  var sc = cubeScene(f.root, { cx: 330, cy: 215, S: 182, tau: 0 });
+  cArrow(f.root, 92, 270, 160);
+  var PSI_PI = 84 * D2R, PSI_RHO = -2.5 * D2R;
+  var mid = G(f.root);
+  arrow(mid, [575, 215], [760, 215], C.violet, 3);
+  var lab = txt(mid, mode === 'pi' ? 'π' : 'ρ', { x: 667, y: 182, fill: C.violet, 'font-style': 'italic', 'font-size': 36 });
+  var labPi = mode === 'morph' ? txt(mid, 'π', { x: 667, y: 182, fill: C.violet, 'font-style': 'italic', 'font-size': 36 }) : null;
+  var piv = pivots(f.root, 667 - 66, 258, 7, C.rose);
+  var sh = { fill: el('path', { fill: C.violet, 'fill-opacity': .1, stroke: 'none' }, f.under), inner: G(f.root), other: el('path', { fill: 'none', stroke: C.ink, 'stroke-opacity': .7, 'stroke-width': 2, 'stroke-linejoin': 'round' }, f.root),
+             chain: el('path', { fill: 'none', stroke: C.rose, 'stroke-width': 3.4, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, f.root), dots: G(f.root), fx: G(f.root) };
+  var innerL = KM.E.map(function () { return ln(sh.inner, { stroke: C.cyan, 'stroke-opacity': .16, 'stroke-width': 1.2, 'stroke-dasharray': '3 6' }); });
+  var sdots = KM.V.map(function () { return el('circle', { r: 4.4, fill: C.ink }, sh.dots); });
+  var path3 = el('path', { fill: 'none', stroke: C.rose, 'stroke-width': 3.6, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, sc.L.path);
+  var cm1 = comet(sc.L.fx, C.rose), cm2 = comet(sh.fx, C.rose);
+  var top = el('circle', { r: 7, fill: C.amber }, sc.L.over), top2 = el('circle', { r: 7, fill: C.amber }, sh.fx);
+  var S2 = 182, CX2 = 1040, CY2 = 215, lastLen = -1, flash = 0;
+  function shadow(psi) {
+    var c = Math.cos(psi), s = Math.sin(psi);
+    var p = sc.P3.map(function (q) { return [c * q[0] + s * q[1], q[2]]; });
+    var H = convexHull(p), k = H.indexOf(0); H = H.slice(k).concat(H.slice(0, k));
+    var chain = H.slice(0, H.indexOf(7) + 1), rest = H.slice(H.indexOf(7)).concat([0]);
+    var hmin = Math.min.apply(null, p.map(function (q) { return q[0]; })), hmax = Math.max.apply(null, p.map(function (q) { return q[0]; }));
+    var off = (hmin + hmax) / 2;
+    var sp = p.map(function (q) { return [CX2 + S2 * (q[0] - off), CY2 - S2 * q[1]]; });
+    return { sp: sp, hull: H, chain: chain, rest: rest };
+  }
+  return {
+    enter: function () { lastLen = -1; },
+    frame: function (t) {
+      var r = sc.view(84 * D2R + (RM ? 0 : 5 * D2R * Math.sin(t * .3)));
+      sc.draw(r);
+      var psi = mode === 'pi' ? PSI_PI : PSI_RHO, mt = 1;
+      if (mode === 'morph') { mt = RM ? 1 : ease((t - 1.4) / 3.6); psi = lerp(PSI_PI, PSI_RHO, mt); set(lab, { opacity: mt.toFixed(3) }); set(labPi, { opacity: (1 - mt).toFixed(3) }); }
+      var s = shadow(psi);
+      sh.fill.setAttribute('d', dPath(s.hull.map(function (i) { return s.sp[i]; }), true));
+      sh.chain.setAttribute('d', dPath(s.chain.map(function (i) { return s.sp[i]; })));
+      sh.other.setAttribute('d', dPath(s.rest.map(function (i) { return s.sp[i]; })));
+      KM.E.forEach(function (e, k) { setL(innerL[k], s.sp[e.i], s.sp[e.j]); });
+      KM.V.forEach(function (v, i) { var onHull = s.hull.indexOf(i) >= 0, onChain = s.chain.indexOf(i) >= 0; set(sdots[i], { cx: r1(s.sp[i][0]), cy: r1(s.sp[i][1]), r: onHull ? 4.6 : 3, fill: onChain ? C.rose : onHull ? C.ink : C.dim }); });
+      var P = pathPts(r, s.chain), Q = s.chain.map(function (i) { return s.sp[i]; });
+      path3.setAttribute('d', dPath(P));
+      sc.dots.forEach(function (d, i) { if (s.chain.indexOf(i) >= 0) set(d, { fill: C.rose }); else set(d, { fill: C.ink }); });
+      set(top, { cx: r1(r.sp[7][0]), cy: r1(r.sp[7][1]) }); set(top2, { cx: r1(s.sp[7][0]), cy: r1(s.sp[7][1]) });
+      var m = s.chain.length - 1;
+      if (m !== lastLen) { if (lastLen >= 0) flash = t; lastLen = m; }
+      piv(m, 7);
+      var fl = clamp(1 - (t - flash) / .7, 0, 1);
+      sh.chain.setAttribute('stroke-width', r1(3.4 + 4 * fl));
+      var settled = mode !== 'morph' || t > 5.2;
+      if (RM || !settled) { cm1.hide(); cm2.hide(); return; }
+      var per = .55 * m + 1.3, tt = (t - (mode === 'morph' ? 5.2 : 0)) % per, u = clamp((tt - .2) / .55, 0, m);
+      if (u < m) { cm1.at(P, u); cm2.at(Q, u); } else { cm1.hide(); cm2.hide(); }
+    }
+  };
+}
+FIGS.shadowRho = function (h) { return shadowFigure(h, 'rho'); };
+FIGS.shadowPi = function (h) { return shadowFigure(h, 'pi'); };
+FIGS.shadowMorph = function (h) { return shadowFigure(h, 'morph'); };
+
+/* step bookkeeping for figures whose builds animate (forward) or snap (backward) */
+function Stepper() {
+  var at = [], now = 0, cur = 0;
+  return {
+    tick: function (t) { now = t; },
+    set: function (s, instant) {
+      var n = Math.max(s, at.length - 1);
+      for (var k = 1; k <= n; k++) { if (k <= s) { if (at[k] == null) at[k] = instant ? -1e6 : now; } else at[k] = null; }
+      cur = s;
+    },
+    reset: function () { at = []; now = 0; cur = 0; },
+    p: function (k, dur, delay) { if (k === 0) return 1; if (at[k] == null) return 0; if (RM) return 1; return clamp((now - at[k] - (delay || 0)) / dur, 0, 1); },
+    since: function (k) { return at[k] == null ? -1 : now - at[k]; },
+    cur: function () { return cur; }
+  };
+}
+
+/* ---------- 3D: the columns of A, the plane (1,1,1)·x = 0, and b below it ---------- */
+FIGS.cone3d = function (host) {
+  var f = makeSVG(host, 540, 640, 'Three-dimensional view: the six columns of A all lie on or above the plane with normal (1,1,1), while b = (−1,−1,−1) lies strictly below it');
+  var st = Stepper(), CX = 270, CY = 330, S = 122, TAU = 21 * D2R;
+  var s2 = Math.sqrt(2), s3 = Math.sqrt(3), s6 = Math.sqrt(6);
+  function B(p) { return [(p[0] - p[1]) / s2, (p[0] + p[1] - 2 * p[2]) / s6, (p[0] + p[1] + p[2]) / s3]; }
+  var cols = [[1, 0, 0], [0, 1, 0], [0, 0, 1], [-1, 1, 0], [1, 0, -1], [0, -1, 1]].map(B);
+  var b = B([-1, -1, -1]), n = B([1, 1, 1]);
+  var below = G(f.root), plane = G(f.root), inpl = G(f.root), above = G(f.root), labs = G(f.root);
+  var diskF = el('path', { fill: C.amber, 'fill-opacity': .07 }, f.under);
+  var disk = el('path', { fill: 'none', stroke: C.amber, 'stroke-opacity': .55, 'stroke-width': 1.6 }, plane);
+  var rings = [.55, 1.1].map(function () { return el('path', { fill: 'none', stroke: C.amber, 'stroke-opacity': .18, 'stroke-width': 1 }, plane); });
+  var spokes = [0, 1, 2, 3, 4, 5].map(function () { return ln(plane, { stroke: C.amber, 'stroke-opacity': .14, 'stroke-width': 1 }); });
+  var colL = cols.map(function (c) { return arrow(Math.abs(c[2]) < 1e-9 ? inpl : above, [0, 0], [0, 0], C.cyan, 2.6); });
+  var nL = arrow(above, [0, 0], [0, 0], C.amber, 3);
+  var bL = arrow(below, [0, 0], [0, 0], C.rose, 3.4);
+  var o = dot(above, [0, 0], 4, C.ink);
+  var nT = txt(labs, '(1,1,1)', { fill: C.amber, 'font-size': 24 });
+  var bT = txt(labs, '(−1,−1,−1)', { fill: C.rose, 'font-size': 24 });
+  function pr(p, phi) { var c = Math.cos(phi), s = Math.sin(phi), u = c * p[0] + s * p[1], w = -s * p[0] + c * p[1]; return [CX + S * u, CY - S * (p[2] * Math.cos(TAU) - w * Math.sin(TAU))]; }
+  function circ(R, phi) { var P = []; for (var k = 0; k <= 72; k++) { var a = k / 72 * 2 * Math.PI; P.push(pr([R * Math.cos(a), R * Math.sin(a), 0], phi)); } return P; }
+  return {
+    enter: function (s, inst) { st.reset(); st.set(s, inst); },
+    step: function (s, inst) { st.set(s, inst); },
+    frame: function (t) {
+      st.tick(t);
+      var phi = RM ? .3 : t * .22, O = pr([0, 0, 0], phi);
+      disk.setAttribute('d', dPath(circ(1.75, phi), true)); diskF.setAttribute('d', disk.getAttribute('d'));
+      rings.forEach(function (r, i) { r.setAttribute('d', dPath(circ([.6, 1.2][i], phi), true)); });
+      spokes.forEach(function (l, i) { var a = i * Math.PI / 3 + Math.PI / 6; setL(l, O, pr([1.75 * Math.cos(a), 1.75 * Math.sin(a), 0], phi)); });
+      cols.forEach(function (c, i) { setL(colL[i], O, pr(c, phi)); });
+      var nt = pr(n, phi); setL(nL, O, nt); set(nT, { x: r1(nt[0] + 62), y: r1(nt[1] + 4) });
+      var p = st.p(1, .9), bt = pr([b[0] * p, b[1] * p, b[2] * p], phi);
+      setL(bL, O, bt); bL.style.display = p > .02 ? '' : 'none';
+      set(bT, { x: r1(bt[0] + 86), y: r1(bt[1] - 4), opacity: p.toFixed(3) });
+      set(o, { cx: r1(O[0]), cy: r1(O[1]) });
+    }
+  };
+};
+
+/* ---------- Farkas in the plane: cone, b, separating half-space ---------- */
+FIGS.farkas = function (host) {
+  var f = makeSVG(host, 520, 440, 'The cone generated by (1,0) and (1,1), the vector b = (−1,1) outside it, and the half-space of points with non-negative x-coordinate that contains the cone but not b');
+  var st = Stepper(), S = 116, O = [222, 250];
+  function to(x, y) { return [O[0] + S * x, O[1] - S * y]; }
+  var half = el('rect', { y: r1(to(0, 1.8)[1]), height: r1(2.9 * S), x: O[0], width: 0, fill: C.amber, 'fill-opacity': .2 }, f.under);
+  var hline = ln(f.root, { stroke: C.amber, 'stroke-width': 3.2 });
+  var coneF = el('path', { fill: C.cyan, 'fill-opacity': 0 }, f.under);
+  var ax = G(f.root);
+  ln(ax, { x1: r1(to(-1.6, 0)[0]), y1: O[1], x2: r1(to(2.3, 0)[0]), y2: O[1], stroke: C.dim, 'stroke-width': 1.3, 'marker-start': 'url(#ah-axis)', 'marker-end': 'url(#ah-axis)' });
+  ln(ax, { x1: O[0], y1: r1(to(0, -1.1)[1]), x2: O[0], y2: r1(to(0, 1.8)[1]), stroke: C.dim, 'stroke-width': 1.3, 'marker-start': 'url(#ah-axis)', 'marker-end': 'url(#ah-axis)' });
+  var r1L = arrow(f.root, O, O, C.cyan, 2.6), r2L = arrow(f.root, O, O, C.cyan, 2.6);
+  var d1 = dot(f.root, to(1, 0), 5, C.cyan), d2 = dot(f.root, to(1, 1), 5, C.cyan);
+  var t1 = txt(f.root, '(1,0)', { x: r1(to(1, 0)[0]), y: r1(to(1, 0)[1] + 28), fill: C.cyan, 'font-size': 25 });
+  var t2 = txt(f.root, '(1,1)', { x: r1(to(1, 1)[0] - 46), y: r1(to(1, 1)[1] - 16), fill: C.cyan, 'font-size': 25 });
+  var bL = arrow(f.root, O, O, C.rose, 3.4);
+  var bT1 = txt(f.root, '(−1,1)', { x: r1(to(-1, 1)[0] - 40), y: r1(to(-1, 1)[1] - 22), fill: C.rose, 'font-size': 25 });
+  var bT2 = txt(f.root, 'b', { x: r1(to(-1, 1)[0] - 20), y: r1(to(-1, 1)[1] - 22), fill: C.rose, 'font-size': 32, 'font-weight': 700 });
+  return {
+    enter: function (s, inst) { st.reset(); st.set(s, inst); },
+    step: function (s, inst) { st.set(s, inst); },
+    frame: function (t) {
+      st.tick(t);
+      var p1 = ease(st.p(1, .9)), p2 = ease(st.p(2, .8)), p3 = ease(st.p(3, 1.1));
+      setL(r1L, O, to(2 * p1, 0)); setL(r2L, O, to(1.7 * p1, 1.7 * p1));
+      r1L.style.display = r2L.style.display = p1 > .02 ? '' : 'none';
+      coneF.setAttribute('d', dPath([to(0, 0), to(2, 0), to(2, 1.7), to(1.7, 1.7)], true));
+      coneF.setAttribute('fill-opacity', (.24 * p1).toFixed(3));
+      var dv = clamp((p1 - .5) * 2, 0, 1).toFixed(3);
+      [d1, d2, t1, t2].forEach(function (e) { e.setAttribute('opacity', dv); });
+      setL(bL, O, to(-p2, p2)); bL.style.display = p2 > .02 ? '' : 'none';
+      bT1.setAttribute('opacity', (p2 * (1 - p3)).toFixed(3)); bT2.setAttribute('opacity', p3.toFixed(3));
+      half.setAttribute('width', r1(2.3 * S * p3));
+      setL(hline, to(0, -1.1), to(0, lerp(-1.1, 1.8, p3))); hline.style.display = p3 > .01 ? '' : 'none';
+    }
+  };
+};
+
+/* ---------- 2D halfplane machinery ---------- */
+function clipPoly(P, n, h, id) {
+  var out = [], L = P.length;
+  for (var i = 0; i < L; i++) {
+    var A = P[i], B = P[(i + 1) % L], da = n[0] * A.x + n[1] * A.y - h, db = n[0] * B.x + n[1] * B.y - h;
+    var ain = da <= 1e-12, bin = db <= 1e-12, t;
+    if (ain && bin) out.push(A);
+    else if (ain) { out.push(A); t = da / (da - db); out.push({ x: A.x + t * (B.x - A.x), y: A.y + t * (B.y - A.y), lab: id }); }
+    else if (bin) { t = da / (da - db); out.push({ x: A.x + t * (B.x - A.x), y: A.y + t * (B.y - A.y), lab: A.lab }); }
+  }
+  return out;
+}
+function buildPoly(fs) {
+  var P = [{ x: -40, y: -40, lab: -1 }, { x: 40, y: -40, lab: -1 }, { x: 40, y: 40, lab: -1 }, { x: -40, y: 40, lab: -1 }];
+  fs.forEach(function (f) { P = clipPoly(P, [Math.cos(f.a * D2R), Math.sin(f.a * D2R)], f.h, f.id == null ? f.a : f.id); });
+  P.forEach(function (v, i) { v.inn = P[(i - 1 + P.length) % P.length].lab; });
+  return P;
+}
+function argmax(P, d) { var b = 0, bv = -1e9; P.forEach(function (v, i) { var s = v.x * d[0] + v.y * d[1]; if (s > bv) { bv = s; b = i; } }); return b; }
+function vBetween(P, a, b) { for (var i = 0; i < P.length; i++) if ((P[i].inn === a && P[i].lab === b) || (P[i].inn === b && P[i].lab === a)) return i; return -1; }
+
+/* ---------- a 2D LP drawn as a line arrangement; optionally perturbed ---------- */
+function arrangement(host, mode) {
+  var f = makeSVG(host, 560, 540, mode === 'noise' ? 'The constraint lines of a linear program wobbling under Gaussian noise in both their directions and offsets, next to the unperturbed region'
+    : mode === 'rhs' ? 'The constraint lines of a linear program sliding parallel to themselves as only the right hand side is perturbed'
+    : 'The feasible region of a linear program as the polygon cut out by its constraint lines');
+  var cid = 'clip' + (UID++);
+  var cp = el('clipPath', { id: cid }, f.root); el('rect', { x: 12, y: 12, width: 536, height: 516, rx: 18 }, cp);
+  var CX = 285, CY = 272, S = 168;
+  var base = [[18, .95], [62, .88], [108, 1.0], [152, .9], [198, .97], [243, .9], [290, 1.0], [336, .92]];
+  var rng = seeded(mode === 'rhs' ? 11 : 7), nA = base.map(function () { return smoothNoise(rng); }), nB = base.map(function () { return smoothNoise(rng); });
+  var col = mode === 'noise' ? C.rose : C.cyan;
+  var lines = G(f.root, { 'clip-path': 'url(#' + cid + ')' });
+  var ghost = el('path', { fill: 'none', stroke: C.cyan, 'stroke-opacity': mode === 'static' ? 0 : .5, 'stroke-width': 1.5, 'stroke-dasharray': '5 7' }, f.root);
+  var polyF = el('path', { fill: col, 'fill-opacity': .12 }, f.under);
+  var poly = el('path', { fill: 'none', stroke: col, 'stroke-width': 2.8, 'stroke-linejoin': 'round' }, f.root);
+  var vg = G(f.root);
+  var Ls = base.map(function () { return ln(lines, { stroke: col, 'stroke-opacity': .38, 'stroke-width': 1.4 }); });
+  function to(x, y) { return [CX + S * x, CY - S * y]; }
+  var g0 = buildPoly(base.map(function (b, i) { return { a: b[0], h: b[1], id: i }; }));
+  ghost.setAttribute('d', dPath(g0.map(function (v) { return to(v.x, v.y); }), true));
+  return {
+    frame: function (t) {
+      var tt = RM ? 2.1 : t * 1.1;
+      var amp = mode === 'static' ? 0 : 1;
+      var fs = base.map(function (b, i) {
+        var a = b[0] + (mode === 'noise' ? 8 * amp * nA[i](tt) : 0);
+        var h = b[1] + (mode === 'noise' ? .09 : mode === 'rhs' ? .12 : 0) * amp * nB[i](tt);
+        return { a: a, h: h, id: i };
+      });
+      fs.forEach(function (q, i) {
+        var n = [Math.cos(q.a * D2R), Math.sin(q.a * D2R)], d = [-n[1], n[0]];
+        setL(Ls[i], to(n[0] * q.h + 3 * d[0], n[1] * q.h + 3 * d[1]), to(n[0] * q.h - 3 * d[0], n[1] * q.h - 3 * d[1]));
+      });
+      var P = buildPoly(fs);
+      poly.setAttribute('d', dPath(P.map(function (v) { return to(v.x, v.y); }), true)); polyF.setAttribute('d', poly.getAttribute('d'));
+      clear(vg); P.forEach(function (v) { dot(vg, to(v.x, v.y), 4.2, C.ink); });
+    }
+  };
+}
+FIGS.lpStatic = function (h) { return arrangement(h, 'static'); };
+FIGS.lpNoise = function (h) { return arrangement(h, 'noise'); };
+FIGS.lpRhs = function (h) { return arrangement(h, 'rhs'); };
+
+/* ---------- sparsity: a sparse matrix whose zeros all light up once perturbed ---------- */
+FIGS.sparse = function (host) {
+  var f = makeSVG(host, 596, 470, 'A sparse matrix drawn as a grid of dots with only a few nonzero entries; a wave of noise sweeps across and every entry becomes nonzero');
+  var R = 15, K = 25, sp = 21.5, x0 = (596 - (K - 1) * sp) / 2, y0 = (470 - (R - 1) * sp) / 2;
+  var rng = seeded(3), cells = [];
+  for (var i = 0; i < R; i++) for (var j = 0; j < K; j++) {
+    var nz = rng() < .045 || (i === j % R && rng() < .5);
+    cells.push({ i: i, j: j, nz: nz, n: smoothNoise(rng), c: el('circle', { cx: r1(x0 + j * sp), cy: r1(y0 + i * sp), r: 3, fill: C.faint }, f.root) });
+  }
+  var front = ln(f.root, { stroke: C.rose, 'stroke-width': 2, 'stroke-opacity': 0 });
+  return {
+    frame: function (t) {
+      var w = RM ? 1e9 : (t - 1.4) / 2.6 * (K + 4) - 2;
+      var fx = x0 + w * sp;
+      setL(front, [fx, y0 - 18], [fx, y0 + (R - 1) * sp + 18]);
+      front.setAttribute('stroke-opacity', w > -1 && w < K + 1 ? .8 : 0);
+      cells.forEach(function (c) {
+        if (c.nz) { set(c.c, { r: 5.2, fill: C.cyan, opacity: 1 }); return; }
+        var since = w - c.j;
+        if (since < 0) { set(c.c, { r: 2.6, fill: C.faint, opacity: 1 }); return; }
+        var flash = clamp(1 - since / 2.2, 0, 1), fl = .5 + .5 * c.n(t * 2.4);
+        set(c.c, { r: r1(2.2 + 1.6 * fl + 2.4 * flash), fill: C.rose, opacity: (.32 + .45 * fl + .3 * flash).toFixed(3) });
+      });
+    }
+  };
+};
+
+/* ---------- mean width by rotating calipers; the eta tolerance band ---------- */
+FIGS.calipers = function (host) {
+  var f = makeSVG(host, 520, 600, 'Rotating calipers measure the width of a polygon in every direction; their average is the mean width M, drawn as a circle of diameter M, and a thin band around the boundary shows the tolerance eta');
+  var CX = 260, CY = 300, S = 112;
+  var P = [[1.62, -.3], [1.4, .42], [.55, .86], [-.75, .82], [-1.6, .3], [-1.52, -.38], [-.62, -.84], [.75, -.8]];
+  function to(p) { return [CX + S * p[0], CY - S * p[1]]; }
+  var per = 0, cx = 0, cy = 0;
+  P.forEach(function (p, i) { var q = P[(i + 1) % P.length]; per += Math.hypot(q[0] - p[0], q[1] - p[1]); cx += p[0] / P.length; cy += p[1] / P.length; });
+  var M = per / Math.PI;
+  var circ = el('circle', { cx: r1(CX + S * cx), cy: r1(CY - S * cy), r: r1(S * M / 2), fill: 'none', stroke: C.violet, 'stroke-width': 1.8, 'stroke-dasharray': '6 8' }, f.root);
+  var diam = ln(f.root, { stroke: C.violet, 'stroke-width': 1.6, 'stroke-dasharray': '2 6' });
+  setL(diam, to([cx - M / 2, cy]), to([cx + M / 2, cy]));
+  txt(f.root, 'M', { x: r1(CX + S * (cx + M / 2) - 30), y: r1(CY - S * cy - 22), fill: C.violet, 'font-style': 'italic', 'font-size': 30 });
+  el('path', { d: dPath(P.map(to), true), fill: C.cyan, 'fill-opacity': .08 }, f.under);
+  el('path', { d: dPath(P.map(to), true), fill: 'none', stroke: C.rose, 'stroke-opacity': .3, 'stroke-width': 16, 'stroke-linejoin': 'round' }, f.under);
+  el('path', { d: dPath(P.map(to), true), fill: 'none', stroke: C.cyan, 'stroke-width': 2.6, 'stroke-linejoin': 'round' }, f.root);
+  P.forEach(function (p) { dot(f.root, to(p), 4.2, C.ink); });
+  var eT = txt(f.root, 'η', { x: r1(to(P[6])[0] - 18), y: r1(to(P[6])[1] + 34), fill: C.rose, 'font-style': 'italic', 'font-size': 30 });
+  var l1 = ln(f.root, { stroke: C.amber, 'stroke-width': 2.2 }), l2 = ln(f.root, { stroke: C.amber, 'stroke-width': 2.2 });
+  var wbar = ln(f.root, { stroke: C.amber, 'stroke-width': 2, 'marker-start': 'url(#ah-amber)', 'marker-end': 'url(#ah-amber)' });
+  wbar.setAttribute('marker-start', 'url(#ah-amber)');
+  var s1 = dot(f.root, [0, 0], 6, C.amber), s2 = dot(f.root, [0, 0], 6, C.amber);
+  return {
+    frame: function (t) {
+      var th = RM ? .5 : t * .42, d = [Math.cos(th), Math.sin(th)], q = [-d[1], d[0]];
+      var hi = -1e9, lo = 1e9, pi = 0, pl = 0;
+      P.forEach(function (p, i) { var s = p[0] * d[0] + p[1] * d[1]; if (s > hi) { hi = s; pi = i; } if (s < lo) { lo = s; pl = i; } });
+      var a = P[pi], b = P[pl];
+      setL(l1, to([a[0] - 2.1 * q[0], a[1] - 2.1 * q[1]]), to([a[0] + 2.1 * q[0], a[1] + 2.1 * q[1]]));
+      setL(l2, to([b[0] - 2.1 * q[0], b[1] - 2.1 * q[1]]), to([b[0] + 2.1 * q[0], b[1] + 2.1 * q[1]]));
+      var mid = (a[0] * q[0] + a[1] * q[1] + b[0] * q[0] + b[1] * q[1]) / 2 + 1.62;
+      setL(wbar, to([d[0] * lo + q[0] * mid, d[1] * lo + q[1] * mid]), to([d[0] * hi + q[0] * mid, d[1] * hi + q[1] * mid]));
+      set(s1, { cx: r1(to(a)[0]), cy: r1(to(a)[1]) }); set(s2, { cx: r1(to(b)[0]), cy: r1(to(b)[1]) });
+    }
+  };
+};
+// both ends of the width bar get an arrowhead
+(function () { var m = document.getElementById('ah-amber'); if (m) m.setAttribute('orient', 'auto-start-reverse'); })();
+
+/* ---------- Hirsch: breadth-first search across the graph of a permutahedron ---------- */
+FIGS.permuto = function (host) {
+  var f = makeSVG(host, 460, 620, 'A rotating permutahedron; a breadth-first search spreads from the top vertex layer by layer until it reaches the opposite vertex, and a shortest path between them lights up');
+  var CX = 230, CY = 300, S = 82, TAU = 14 * D2R;
+  var perms = [];
+  (function gen(a, rest) { if (!rest.length) { perms.push(a); return; } rest.forEach(function (x, i) { gen(a.concat([x]), rest.slice(0, i).concat(rest.slice(i + 1))); }); })([], [1, 2, 3, 4]);
+  var u1 = [1, -1, 0, 0].map(function (x) { return x / Math.SQRT2; }), u2 = [1, 1, -2, 0].map(function (x) { return x / Math.sqrt(6); }), u3 = [1, 1, 1, -3].map(function (x) { return x / Math.sqrt(12); });
+  function dot4(a, b) { return a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3]; }
+  var P3 = perms.map(function (p) { var c = p.map(function (x) { return x - 2.5; }); return [dot4(c, u1), dot4(c, u2), dot4(c, u3)]; });
+  var src = 0, dst = perms.length - 1; // (1,2,3,4) and (4,3,2,1)
+  var A = P3[src], an = Math.hypot(A[0], A[1], A[2]), e3 = A.map(function (x) { return x / an; });
+  var tmp = Math.abs(e3[0]) < .9 ? [1, 0, 0] : [0, 1, 0];
+  var e1 = [tmp[1] * e3[2] - tmp[2] * e3[1], tmp[2] * e3[0] - tmp[0] * e3[2], tmp[0] * e3[1] - tmp[1] * e3[0]], e1n = Math.hypot(e1[0], e1[1], e1[2]); e1 = e1.map(function (x) { return x / e1n; });
+  var e2 = [e3[1] * e1[2] - e3[2] * e1[1], e3[2] * e1[0] - e3[0] * e1[2], e3[0] * e1[1] - e3[1] * e1[0]];
+  var Q = P3.map(function (p) { return [p[0] * e1[0] + p[1] * e1[1] + p[2] * e1[2], p[0] * e2[0] + p[1] * e2[1] + p[2] * e2[2], p[0] * e3[0] + p[1] * e3[1] + p[2] * e3[2]]; });
+  var E = [];
+  for (var i = 0; i < 24; i++) for (var j = i + 1; j < 24; j++) {
+    var diff = [0, 1, 2, 3].filter(function (k) { return perms[i][k] !== perms[j][k]; });
+    if (diff.length === 2 && Math.abs(perms[i][diff[0]] - perms[i][diff[1]]) === 1) E.push([i, j]);
+  }
+  var dist = perms.map(function () { return -1; }), par = perms.map(function () { return -1; }), qu = [src]; dist[src] = 0;
+  while (qu.length) { var x = qu.shift(); E.forEach(function (e) { var y = e[0] === x ? e[1] : e[1] === x ? e[0] : -1; if (y >= 0 && dist[y] < 0) { dist[y] = dist[x] + 1; par[y] = x; qu.push(y); } }); }
+  var path = [dst]; while (path[0] !== src) path.unshift(par[path[0]]);
+  var D = dist[dst];
+  var eg = G(f.root), lit = G(f.root), pg = el('path', { fill: 'none', stroke: C.rose, 'stroke-width': 3.6, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, f.root), vg = G(f.root), fx = G(f.root);
+  var EL = E.map(function () { return ln(eg, { stroke: C.cyan }); });
+  var VL = perms.map(function () { return el('circle', { r: 4, fill: C.ink }, vg); });
+  var cm = comet(fx, C.rose);
+  var ends = [dot(fx, [0, 0], 7, C.amber), dot(fx, [0, 0], 7, C.amber)];
+  return {
+    frame: function (t) {
+      var phi = RM ? .4 : t * .25, c = Math.cos(phi), s = Math.sin(phi), ct = Math.cos(TAU), st = Math.sin(TAU);
+      var sp = Q.map(function (p) { var u = c * p[0] + s * p[1], w = -s * p[0] + c * p[1]; return { x: CX + S * u, y: CY - S * (p[2] * ct - w * st), d: w * ct + p[2] * st }; });
+      var cyc = RM ? 99 : t % 10.5, L = (cyc - .6) / .5;
+      E.forEach(function (e, k) {
+        var a = sp[e[0]], b = sp[e[1]], dep = (a.d + b.d) / 2, op = .2 + .5 * clamp((dep + 2.2) / 4.4, 0, 1);
+        var lo = Math.min(dist[e[0]], dist[e[1]]), hi = Math.max(dist[e[0]], dist[e[1]]);
+        var on = hi === lo + 1 && L >= hi, wave = on && L - hi < 1.2;
+        set(EL[k], { x1: r1(a.x), y1: r1(a.y), x2: r1(b.x), y2: r1(b.y), 'stroke-opacity': (on ? Math.min(1, op + .35) : op * .7).toFixed(3), 'stroke-width': wave ? 3 : on ? 2 : 1.3, stroke: on ? C.cyan : C.dim });
+      });
+      VL.forEach(function (v, i) { var on = L >= dist[i]; set(v, { cx: r1(sp[i].x), cy: r1(sp[i].y), fill: on ? C.cyan : C.mute, r: on ? 4.6 : 3.4 }); });
+      var pts = path.map(function (i) { return [sp[i].x, sp[i].y]; });
+      var u = RM ? D : clamp((cyc - 4.6) / .45, 0, D);
+      var k2 = Math.min(D - 1, Math.floor(u)), part = pts.slice(0, k2 + 1); part.push([lerp(pts[k2][0], pts[k2 + 1][0], u - k2), lerp(pts[k2][1], pts[k2 + 1][1], u - k2)]);
+      pg.setAttribute('d', cyc > 4.6 ? dPath(part) : ''); pg.setAttribute('stroke-opacity', cyc > 9.7 ? ((10.5 - cyc) / .8).toFixed(3) : 1);
+      if (!RM && cyc > 4.6 && u < D) cm.at(pts, u); else cm.hide();
+      set(ends[0], { cx: r1(sp[src].x), cy: r1(sp[src].y) }); set(ends[1], { cx: r1(sp[dst].x), cy: r1(sp[dst].y) });
+    }
+  };
+};
+
+/* ---------- normal fan, shadow simplex in dual form, and the proof idea ---------- */
+var FAN = [60, 70, 80, 95, 100, 110, 120, 240, 300];
+function fanFigure(host, mode) {
+  var f = makeSVG(host, 1400, 600, mode === 'fan' ? 'Left: a polygon. Right: its normal fan, one ray per edge normal. A rotating direction lights up the cone it lies in and the vertex of the polygon it selects.'
+    : mode === 'dual' ? 'Shadow simplex in dual form: the objective moves along a segment from w to c through the normal fan; each cone it crosses is one pivot along the polygon. Short way below, long way over the top.'
+    : 'Proof idea: new facets with normals at 160 and 140 degrees, and then 10 and 30 degrees, are carved into the polygon, inserting new cones into the normal fan.');
+  var st = Stepper(), LC = [385, 300], RC = [1040, 300], SP = 128, SF = 186;
+  function toL(x, y) { return [LC[0] + SP * x, LC[1] - SP * y]; }
+  function toR(x, y) { return [RC[0] + SF * x, RC[1] - SF * y]; }
+  function u(a, r) { return [r * Math.cos(a * D2R), r * Math.sin(a * D2R)]; }
+  var stat = G(f.root); axes(stat, LC[0], LC[1], 2.5 * SP, 1.55 * SP); axes(stat, RC[0], RC[1], 1.5 * SF, 1.5 * SF);
+  var dynU = G(f.under), dyn = G(f.root);
+  var EXTRA = { 1: [160], 2: [140], 3: [10, 30] };
+  function present(s) { var out = []; for (var k = 1; k <= s; k++) if (EXTRA[k]) out = out.concat(EXTRA[k]); return out; }
+  function addedAt(a) { for (var k in EXTRA) if (EXTRA[k].indexOf(a) >= 0) return +k; return 0; }
+  function fcol(a, path) {
+    if (mode === 'fan') return C.cyan;
+    if (mode === 'dual') return path && path.indexOf(a) >= 0 ? C.violet : C.mute;
+    if (a >= 60 && a <= 120) return C.violet;
+    if (a === 240 || a === 300) return C.mute;
+    return C.amber;
+  }
+  function wedge(a1, a2, r, color, op) {
+    var A = []; if (a2 < a1) a2 += 360; for (var k = 0; k <= 30; k++) { var q = u(a1 + (a2 - a1) * k / 30, r); A.push(toR(q[0], q[1])); }
+    el('path', { d: dPath([RC].concat(A), true), fill: color, 'fill-opacity': op, stroke: 'none' }, dynU);
+  }
+  function drawPoly(P, path, extraCol) {
+    el('path', { d: dPath(P.map(function (v) { return toL(v.x, v.y); }), true), fill: mode === 'fan' ? C.cyan : C.violet, 'fill-opacity': .07 }, dynU);
+    P.forEach(function (v, i) { var w = P[(i + 1) % P.length]; var col = extraCol && extraCol[v.lab] || fcol(v.lab, path); setL(ln(dyn, { stroke: col, 'stroke-width': col === C.mute ? 2.2 : 3 }), toL(v.x, v.y), toL(w.x, w.y)); });
+    P.forEach(function (v) { dot(dyn, toL(v.x, v.y), 3.2, C.ink, { opacity: .8 }); });
+  }
+  function ray(a, len, col, w) { var q = u(a, len); return arrow(dyn, RC, toR(q[0], q[1]), col, w || 2.2); }
+  function bigDot(p, col) { dot(dyn, p, 12, col, { 'fill-opacity': .25 }); dot(dyn, p, 6.5, col); }
+  function vec(a, col, lab, op) {
+    var q = u(a, 1), g = G(dyn, { opacity: op == null ? 1 : op }); arrow(g, RC, toR(q[0], q[1]), col, 3);
+    var l = u(a, 1.17); txt(g, lab, { x: r1(toR(l[0], l[1])[0]), y: r1(toR(l[0], l[1])[1]), fill: col, 'font-weight': 700, 'font-size': 30 });
+  }
+  var wAng = 210;
+  return {
+    enter: function (s, inst) { st.reset(); st.set(s, inst); },
+    step: function (s, inst) { st.set(s, inst); },
+    frame: function (t) {
+      st.tick(t); clear(dyn); clear(dynU);
+      var s = st.cur();
+      if (mode === 'fan') {
+        var P = buildPoly(FAN.map(function (a) { return { a: a, h: 1 }; }));
+        var th = RM ? 35 : (t * 19 + 35) % 360, d = u(th, 1), vi = argmax(P, d), v = P[vi];
+        wedge(v.inn, v.lab, SF * 1.0 / SF, C.amber, .2);
+        drawPoly(P, null);
+        FAN.forEach(function (a) { ray(a, 1, C.cyan); });
+        var q = u(th, 1.22); arrow(dyn, RC, toR(q[0], q[1]), C.amber, 3);
+        var tq = [-d[1], d[0]]; setL(ln(dyn, { stroke: C.amber, 'stroke-width': 2, 'stroke-dasharray': '6 7' }), toL(v.x - 1.5 * tq[0], v.y - 1.5 * tq[1]), toL(v.x + 1.5 * tq[0], v.y + 1.5 * tq[1]));
+        arrow(dyn, toL(v.x, v.y), toL(v.x + .55 * d[0], v.y + .55 * d[1]), C.amber, 2.6);
+        bigDot(toL(v.x, v.y), C.amber);
+        return;
+      }
+      if (mode === 'dual') {
+        var P2 = buildPoly(FAN.map(function (a) { return { a: a, h: 1 }; }));
+        var tw = st.since(2);
+        if (s >= 2) wAng = (RM || tw > 2.6) ? 150 : lerp(210, 150, ease(tw / 2.5)); else wAng = 210;
+        var cv = u(15, 1), wv = u(wAng, 1);
+        var lam = 0, phase = s >= 1;
+        if (phase) {
+          var t0 = s >= 2 ? Math.max(0, tw - 2.9) : st.since(1);
+          if (s >= 2 && tw < 2.9 && !RM) lam = -1;
+          else { var cyc = RM ? 99 : t0 % 11; lam = ease((cyc - .6) / 6.8); }
+        }
+        var visited = [], pathF = [];
+        if (phase && lam >= 0) {
+          for (var k = 0; k <= 160; k++) { var l = lam * k / 160; var pp = [lerp(wv[0], cv[0], l), lerp(wv[1], cv[1], l)]; var a = argmax(P2, pp); if (visited[visited.length - 1] !== a) visited.push(a); }
+          for (var m = 1; m < visited.length; m++) { var a0 = visited[m - 1], a1 = visited[m]; pathF.push(P2[(a0 + 1) % P2.length] === P2[a1] ? P2[a0].lab : P2[a1].lab); }
+        }
+        drawPoly(P2, pathF);
+        FAN.forEach(function (a) { ray(a, 1, pathF.indexOf(a) >= 0 ? C.violet : C.mute, pathF.indexOf(a) >= 0 ? 2.8 : 2); });
+        if (phase) {
+          setL(ln(dyn, { stroke: C.cyan, 'stroke-width': 2.4, 'stroke-dasharray': '7 7' }), toR(wv[0], wv[1]), toR(cv[0], cv[1]));
+          if (lam >= 0) {
+            var pnt = [lerp(wv[0], cv[0], lam), lerp(wv[1], cv[1], lam)], pn = Math.hypot(pnt[0], pnt[1]), pd = [pnt[0] / pn, pnt[1] / pn];
+            setL(ln(dyn, { stroke: C.cyan, 'stroke-width': 1.4, 'stroke-opacity': .7 }), RC, toR(pd[0] * 1.4, pd[1] * 1.4));
+            dot(dyn, toR(pnt[0], pnt[1]), 10, C.cyan, { 'fill-opacity': .3 }); dot(dyn, toR(pnt[0], pnt[1]), 5, C.white);
+            var cur = P2[visited[visited.length - 1]], tq2 = [-pd[1], pd[0]];
+            setL(ln(dyn, { stroke: C.cyan, 'stroke-width': 1.8, 'stroke-dasharray': '5 7' }), toL(cur.x - 1.4 * tq2[0], cur.y - 1.4 * tq2[1]), toL(cur.x + 1.4 * tq2[0], cur.y + 1.4 * tq2[1]));
+            bigDot(toL(cur.x, cur.y), C.cyan);
+          }
+        }
+        vec(15, C.rose, 'c'); vec(wAng, C.rose, 'w');
+        var ic = P2[argmax(P2, cv)], iw = P2[argmax(P2, wv)];
+        dot(dyn, toL(ic.x, ic.y), 6.5, C.rose); dot(dyn, toL(iw.x, iw.y), 6.5, C.rose);
+        return;
+      }
+      /* proof */
+      var pres = present(s), fs = FAN.map(function (a) { return { a: a, h: 1 }; }), cuts = [];
+      pres.forEach(function (a) {
+        var k = addedAt(a), dl = (a === 30 ? .35 : 0), p = ease(st.p(k, 1.3, dl));
+        var others = buildPoly(fs), n = u(a, 1), h0 = -1e9;
+        others.forEach(function (v) { h0 = Math.max(h0, v.x * n[0] + v.y * n[1]); });
+        var h = lerp(h0 + .04, 1, p);
+        fs.push({ a: a, h: h }); cuts.push({ a: a, h: h, p: p });
+      });
+      var P3 = buildPoly(fs);
+      if (s === 0) wedge(140, 160, 1, C.amber, .3);
+      drawPoly(P3, null);
+      cuts.forEach(function (c) {
+        if (c.p >= 1) return;
+        var n = u(c.a, 1), d = [-n[1], n[0]], o = [n[0] * c.h, n[1] * c.h];
+        setL(ln(dyn, { stroke: C.amber, 'stroke-width': 2.4, 'stroke-opacity': (.95 * (1 - c.p) + .05).toFixed(3) }), toL(o[0] - 2.6 * d[0], o[1] - 2.6 * d[1]), toL(o[0] + 2.6 * d[0], o[1] + 2.6 * d[1]));
+      });
+      FAN.forEach(function (a) { ray(a, 1, fcol(a), 2.4); });
+      if (s === 0) { ray(140, 1, C.amber, 2.6); ray(160, 1, C.amber, 2.6); }
+      cuts.forEach(function (c) { if (c.p > .02) ray(c.a, c.p, C.amber, 2.8); });
+      var cOp = s >= 3 ? 1 - ease(st.p(3, .6)) : 1;
+      if (cOp > .01) vec(15, C.rose, 'c', cOp);
+      var cv2 = u(15, 1);
+      if (s <= 2) { var ic2 = P3[argmax(P3, cv2)]; bigDot(toL(ic2.x, ic2.y), C.rose); }
+      if (s === 0) { var iw2 = P3[argmax(P3, u(150, 1))]; bigDot(toL(iw2.x, iw2.y), C.rose); }
+      if (s >= 2) { var bi = vBetween(P3, 140, 160); if (bi >= 0 && st.p(2, 1.3) > .85) bigDot(toL(P3[bi].x, P3[bi].y), C.cyan); }
+      if (s >= 3) { var ri = vBetween(P3, 10, 30); if (ri >= 0 && st.p(3, 1.3, .35) > .85) bigDot(toL(P3[ri].x, P3[ri].y), C.rose); }
+    }
+  };
+}
+FIGS.fan = function (h) { return fanFigure(h, 'fan'); };
+FIGS.dual = function (h) { return fanFigure(h, 'dual'); };
+FIGS.proof = function (h) { return fanFigure(h, 'proof'); };
+
+
+/* ================= Black–Xue: "Any proof of polynomial Hirsch must be completely incoherent" ================= */
+/* Slice of the normal fan at height 1.  Seed = star triangulation around the hub -w (dual of the funnel-shaped seed
+   polyhedron).  Every ray from the origin o (= e_{d+1}) inside the "good wedge" crosses all seven blades. */
+var NEST = (function () {
+  function U(a) { return [Math.cos(a * D2R), Math.sin(a * D2R)]; }
+  var h = .4, RH = 1.1, B = [], i;
+  for (i = 0; i < 8; i++) B.push(10 + 40 * i / 7);
+  B = B.concat([150, 210, 270, 330]);
+  var p = [0, -h];
+  var Q = B.map(function (a) { var u = U(a); return [p[0] + RH * u[0], p[1] + RH * u[1]]; }), n = B.length, cells = [];
+  for (i = 0; i < n; i++) cells.push([p, Q[i], Q[(i + 1) % n]]);
+  var th1 = -86, th2 = -9, mid = (th1 + th2) / 2, T1 = mid - 65, T2 = mid + 65;
+  var u1 = U(th1), u2 = U(th2), v1 = U(T1), v2 = U(T2), det = u1[0] * u2[1] - u2[0] * u1[1];
+  var inv = [[u2[1] / det, -u2[0] / det], [-u1[1] / det, u1[0] / det]];
+  var S = [[v1[0] * inv[0][0] + v2[0] * inv[1][0], v1[0] * inv[0][1] + v2[0] * inv[1][1]],
+           [v1[1] * inv[0][0] + v2[1] * inv[1][0], v1[1] * inv[0][1] + v2[1] * inv[1][1]]];
+  return { p: p, Q: Q, cells: cells, n: n, central: 7, S: S, th1: th1, th2: th2, T1: T1, T2: T2, s: .0429, r0: .0006, RREF: 2.0 };
+})();
+function nestMat(k, scale, stretch) { // copy k: scale * Rot(120k) * lerp(I, S, stretch)
+  var S = NEST.S, A = [[lerp(1, S[0][0], stretch), lerp(0, S[0][1], stretch)], [lerp(0, S[1][0], stretch), lerp(1, S[1][1], stretch)]];
+  var c = Math.cos(120 * k * D2R), s = Math.sin(120 * k * D2R);
+  return [[scale * (c * A[0][0] - s * A[1][0]), scale * (c * A[0][1] - s * A[1][1])], [scale * (s * A[0][0] + c * A[1][0]), scale * (s * A[0][1] + c * A[1][1])]];
+}
+function mapv(M, v) { return [M[0][0] * v[0] + M[0][1] * v[1], M[1][0] * v[0] + M[1][1] * v[1]]; }
+function fish(r, m) { var R = NEST.RREF, r0 = NEST.r0; return (1 - m) * r / R + m * Math.log(1 + r / r0) / Math.log(1 + R / r0); }
+function crossTri(T, d) { // does the ray {t d : t >= 0} meet the interior of triangle T?
+  var t0 = 0, t1 = 1e9, cx = (T[0][0] + T[1][0] + T[2][0]) / 3, cy = (T[0][1] + T[1][1] + T[2][1]) / 3;
+  for (var i = 0; i < 3; i++) {
+    var a = T[i], b = T[(i + 1) % 3], nx = b[1] - a[1], ny = -(b[0] - a[0]);
+    if (nx * (cx - a[0]) + ny * (cy - a[1]) > 0) { nx = -nx; ny = -ny; }
+    var den = nx * d[0] + ny * d[1], num = nx * a[0] + ny * a[1];
+    if (Math.abs(den) < 1e-14) { if (num < 0) return false; continue; }
+    var t = num / den; if (den > 0) t1 = Math.min(t1, t); else t0 = Math.max(t0, t);
+  }
+  return t1 > t0 + 1e-12;
+}
+/* final nested picture as display-space polylines (unit radius), reused by the sphere on the next slide */
+function nestPolylines(m, scales, stretch, spokeN, outerN) {
+  var out = [];
+  for (var k = 0; k < 3; k++) {
+    var M = nestMat(k, scales[k], stretch), P = mapv(M, NEST.p), Qs = NEST.Q.map(function (q) { return mapv(M, q); }), lines = [];
+    function seg(a, b, nn) { var L = []; for (var j = 0; j <= nn; j++) { var x = lerp(a[0], b[0], j / nn), y = lerp(a[1], b[1], j / nn), r = Math.hypot(x, y), g = r < 1e-12 ? 0 : fish(r, m) / r; L.push([x * g, y * g]); } return L; }
+    Qs.forEach(function (q, i) { lines.push(seg(P, q, spokeN)); lines.push(seg(q, Qs[(i + 1) % Qs.length], outerN)); });
+    out.push(lines);
+  }
+  return out;
+}
+
+FIGS.nest = function (host) {
+  var f = makeSVG(host, 820, 740, 'The construction in the slice of the normal fan at height one: a fan of thin cells that every ray in a wedge must cross; a linear map widens the wedge past 120 degrees; three rotated copies cover every direction; each is shrunk inside the central cell of the previous one, shown magnified in two lenses; a ray from the centre sweeps all the way around and always crosses many cells');
+  var COL = [C.cyan, C.violet, C.amber], s = NEST.s;
+  var V0 = { c: [292, 382], k: 124 }, L1 = { c: [670, 200], r: 136 }, L2 = { c: [670, 552], r: 118 };
+  L1.k = L1.r / (s * 2.05); L2.k = L2.r / (s * s * 2.05);
+  L1.zr = Math.max(6, s * 2.05 * V0.k); L2.zr = Math.max(6, s * s * 2.05 * L1.k);
+  var defs = el('defs', {}, f.svg), cid = 'nl' + (UID++);
+  [L1, L2].forEach(function (L, j) { var cp = el('clipPath', { id: cid + j }, defs); el('circle', { cx: L.c[0], cy: L.c[1], r: L.r - 1 }, cp); L.clip = 'url(#' + cid + j + ')'; });
+  var dynU = G(f.under), dyn = G(f.root);
+  var piv = pivots(f.root, V0.c[0] - 187, 716, 18, C.rose);
+  function P(view, v) { return [view.c[0] + view.k * v[0], view.c[1] - view.k * v[1]]; }
+  function sector(view, a1, a2, r, col, op) { var A = [view.c]; for (var j = 0; j <= 40; j++) { var a = lerp(a1, a2, j / 40) * D2R; A.push([view.c[0] + r * Math.cos(a), view.c[1] - r * Math.sin(a)]); } el('path', { d: dPath(A, true), fill: col, 'fill-opacity': op }, dynU); }
+  function ang(v) { return Math.atan2(v[1], v[0]) / D2R; }
+  return {
+    frame: function (t) {
+      clear(dyn); clear(dynU);
+      if (RM) t = 40;
+      var stretch = ease((t - 4.4) / 2), ghost = ease((t - 6.6) / 1.2);
+      var sc1 = lerp(1, s, ease((t - 8.6) / 2));
+      var sc2 = t < 10.8 ? 1 : lerp(s, s * s, ease((t - 10.8) / 2));
+      var op = [clamp(t / .8, 0, 1), ghost, t < 10.8 ? ghost * (1 - ease((t - 8.6) / .5)) : ease((t - 10.8) / .4)];
+      var lens1 = ease((t - 9.9) / .9), lens2 = ease((t - 12.2) / .9);
+      var mats = [nestMat(0, 1, stretch), nestMat(1, sc1, stretch), nestMat(2, sc2, stretch)];
+      var copies = mats.map(function (M) { return NEST.cells.map(function (T) { return T.map(function (v) { return mapv(M, v); }); }); });
+      var nested = t > 13.2;
+      var probe = null, lit = 0, litCells = [];
+      if (t > 1 && t < 4.4) probe = lerp(NEST.th1 + 2, NEST.th2 - 2, ease((t - 1) / 3));
+      if (nested) probe = (t - 13.2) * 24 - 70;
+      if (RM) probe = 25;
+      if (probe != null) {
+        var d = [Math.cos(probe * D2R), Math.sin(probe * D2R)];
+        for (var k = 0; k < 3; k++) {
+          if (!nested && k > 0) continue;
+          copies[k].forEach(function (T, i) {
+            if (i === NEST.central && (!nested || k < 2)) return;
+            if (crossTri(T, d)) { lit++; litCells.push(T); }
+          });
+        }
+      }
+      piv(lit, 18);
+      // wedges in the main view
+      var a1 = ang(mapv(mats[0], [Math.cos(NEST.th1 * D2R), Math.sin(NEST.th1 * D2R)])), a2 = ang(mapv(mats[0], [Math.cos(NEST.th2 * D2R), Math.sin(NEST.th2 * D2R)]));
+      if (a2 < a1) a2 += 360;
+      var wop = t < 6.6 ? 1 : 1 - ease((t - 8.4) / 1.2);
+      if (t > 1 && t < 4.4) sector(V0, a1, probe, 268, C.amber, .14);
+      else if (t >= 4.4 && wop > 0) { sector(V0, a1, a2, 268, COL[0], .12 * wop); if (ghost > 0) { sector(V0, a1 + 120, a2 + 120, 268, COL[1], .12 * wop * ghost); sector(V0, a1 + 240, a2 + 240, 268, COL[2], .12 * wop * ghost); } }
+      function view(V, gU, g, vis) {
+        var inner = t > 12.6 ? 2 : t > 10.4 ? 1 : 0;
+        el('path', { d: dPath(copies[inner][NEST.central].map(function (v) { return P(V, v); }), true), fill: C.white, 'fill-opacity': .05 }, gU);
+        litCells.forEach(function (T) { el('path', { d: dPath(T.map(function (v) { return P(V, v); }), true), fill: C.rose, 'fill-opacity': .22 }, gU); });
+        for (var k = 2; k >= 0; k--) {
+          if (op[k] <= .01 || vis[k] === false) continue;
+          var M = mats[k], hub = mapv(M, NEST.p), Qs = NEST.Q.map(function (q) { return mapv(M, q); }), dd = '';
+          var H = P(V, hub);
+          Qs.forEach(function (q, i) { var A = P(V, q), Bq = P(V, Qs[(i + 1) % Qs.length]); dd += 'M' + r1(H[0]) + ' ' + r1(H[1]) + 'L' + r1(A[0]) + ' ' + r1(A[1]) + 'L' + r1(Bq[0]) + ' ' + r1(Bq[1]); });
+          el('path', { d: dd, fill: 'none', stroke: COL[k], 'stroke-width': 1.8, 'stroke-opacity': (.92 * op[k]).toFixed(3), 'stroke-linejoin': 'round' }, g);
+          dot(g, H, 3.6, COL[k], { opacity: op[k].toFixed(3) });
+        }
+        if (probe != null) { var R = V === V0 ? 272 : V.r * 1.05; ln(g, { x1: V.c[0], y1: V.c[1], x2: r1(V.c[0] + R * Math.cos(probe * D2R)), y2: r1(V.c[1] - R * Math.sin(probe * D2R)), stroke: C.rose, 'stroke-width': 2.6 }); }
+        dot(g, V.c, 8, C.white, { 'fill-opacity': .25 }); dot(g, V.c, 3.8, C.white);
+      }
+      view(V0, dynU, dyn, [true, true, t < 10.8]);
+      [[L1, lens1, V0, COL[1]], [L2, lens2, L1, COL[2]]].forEach(function (z) {
+        var L = z[0], o = z[1], par = z[2]; if (o <= .01) return;
+        var rr = L.zr;
+        var ring = el('circle', { cx: par.c[0], cy: par.c[1], r: r1(rr), fill: 'none', stroke: z[3], 'stroke-width': 1.6, opacity: o.toFixed(3) }, dyn);
+        var dx = L.c[0] - par.c[0], dy = L.c[1] - par.c[1], dl = Math.hypot(dx, dy), nx = -dy / dl, ny = dx / dl;
+        [-1, 1].forEach(function (sg) { ln(dyn, { x1: r1(par.c[0] + sg * rr * nx), y1: r1(par.c[1] + sg * rr * ny), x2: r1(L.c[0] + sg * L.r * nx), y2: r1(L.c[1] + sg * L.r * ny), stroke: z[3], 'stroke-width': 1.1, 'stroke-dasharray': '3 6', opacity: (.7 * o).toFixed(3) }); });
+        el('circle', { cx: L.c[0], cy: L.c[1], r: L.r, fill: C.void, 'fill-opacity': .92 * o }, dynU);
+        var gU = G(dynU, { 'clip-path': L.clip, opacity: o.toFixed(3) }), g = G(dyn, { 'clip-path': L.clip, opacity: o.toFixed(3) });
+        view(L, gU, g, [true, true, true]);
+        el('circle', { cx: L.c[0], cy: L.c[1], r: L.r, fill: 'none', stroke: z[3], 'stroke-width': 2.2, opacity: o.toFixed(3) }, dyn);
+        txt(dyn, '×' + Math.round(L === L1 ? 1 / s : 1 / (s * s)), { x: L.c[0] + L.r * .78, y: L.c[1] - L.r * .9, fill: z[3], 'font-family': SANS, 'font-size': 19, opacity: o.toFixed(3) });
+      });
+    }
+  };
+};
+
+/* the seed polyhedron (paper's Fig. 1): lift P by w, cone from an apex above, flip the lifted facet -> an upward funnel.
+   Later, lenses show rotated, flattened copies being glued in at the top vertex. */
+FIGS.seed = function (host) {
+  var f = makeSVG(host, 560, 300, 'The seed polyhedron: a polygon is lifted by a linear height function, coned from an apex above, and the lifted facet is flipped, leaving an unbounded funnel; its top vertex is where smaller rotated copies are glued in');
+  var N = 12, P = [], i, wv = [.42, .3], APEX = 1.2, TAU = 26 * D2R;
+  for (i = 0; i < N; i++) { var a = i / N * 2 * Math.PI + .12 * Math.sin(i * 1.7); P.push([Math.cos(a), .66 * Math.sin(a)]); }
+  var top = 0; P.forEach(function (v, j) { if (v[0] * wv[0] + v[1] * wv[1] > P[top][0] * wv[0] + P[top][1] * wv[1]) top = j; });
+  var defs = el('defs', {}, f.svg), cid = 'sd' + (UID++), cp = el('clipPath', { id: cid }, defs);
+  el('rect', { x: 0, y: 0, width: 560, height: 300 }, cp);
+  var dynU = G(f.under, { 'clip-path': 'url(#' + cid + ')' }), dyn = G(f.root, { 'clip-path': 'url(#' + cid + ')' });
+  return {
+    frame: function (t) {
+      clear(dyn); clear(dynU);
+      if (RM) t = 40;
+      var phi = .5 + (RM ? 0 : .12 * t), c = Math.cos(phi), s = Math.sin(phi), ct = Math.cos(TAU), st = Math.sin(TAU);
+      var CX = 270, CY = 150, S = 112;
+      function pr(X, Y, Z) { var u = c * X + s * Y, w = -s * X + c * Y; return [CX + S * u, CY - S * (Z * ct - w * st)]; }
+      var lift = ease((t - .6) / 1.2), apex = ease((t - 2) / 1.2), flip = ease((t - 3.4) / 1.6);
+      var V = P.map(function (v) { return [v[0], v[1], lift * (v[0] * wv[0] + v[1] * wv[1])]; }), ap = [0, 0, lerp(0, APEX, apex)];
+      var T2 = V.map(function (v) { return pr(v[0], v[1], v[2]); }), A = pr(ap[0], ap[1], ap[2]);
+      // shadow of P on the floor before lifting, for context
+      el('path', { d: dPath(P.map(function (v) { return pr(v[0], v[1], 0); }), true), fill: 'none', stroke: C.cyan, 'stroke-opacity': (.25 * lift).toFixed(3), 'stroke-dasharray': '3 6' }, dyn);
+      if (lift > 0) el('path', { d: dPath(T2, true), fill: C.cyan, 'fill-opacity': .13 }, dynU);
+      el('path', { d: dPath(T2, true), fill: 'none', stroke: C.cyan, 'stroke-width': 2.2, 'stroke-linejoin': 'round' }, dyn);
+      if (apex > 0 && flip < 1) {
+        V.forEach(function (v, j) { setL(ln(dyn, { stroke: C.ink, 'stroke-width': 1.1, 'stroke-dasharray': '3 6', 'stroke-opacity': (.6 * apex * (1 - flip)).toFixed(3) }), A, T2[j]); });
+        dot(dyn, A, 4.5, C.ink, { opacity: (apex * (1 - flip)).toFixed(3) });
+      }
+      if (flip > 0) V.forEach(function (v, j) {
+        var dx = v[0] - ap[0], dy = v[1] - ap[1], dz = v[2] - ap[2], L = Math.hypot(dx, dy, dz), k = .95 * flip / L, prev = T2[j];
+        [.95, .55, .2, .06].forEach(function (o, q) { var nx = pr(v[0] + dx * k * (q + 1) / 4, v[1] + dy * k * (q + 1) / 4, v[2] + dz * k * (q + 1) / 4); setL(ln(dyn, { stroke: C.cyan, 'stroke-width': 1.7, 'stroke-opacity': o }), prev, nx); prev = nx; });
+      });
+      T2.forEach(function (p2, j) { if (!(j === top && flip > .5)) dot(dyn, p2, 3, C.ink); });
+      if (flip > .5) {
+        var vs = T2[top];
+        dot(dyn, vs, 11, C.amber, { 'fill-opacity': .3 }); dot(dyn, vs, 5.5, C.amber);
+        [[C.violet, 8.6], [C.amber, 10.8]].forEach(function (z, j) {
+          var o = ease((t - z[1]) / 1); if (o <= 0) return;
+          var pulse = RM ? 0 : (t * .7 + j * .5) % 1;
+          el('circle', { cx: r1(vs[0]), cy: r1(vs[1]), r: r1(15 + 9 * j + 10 * pulse), fill: 'none', stroke: z[0], 'stroke-width': 1.6, opacity: (o * (1 - pulse * .8)).toFixed(3) }, dyn);
+        });
+      }
+    }
+  };
+};
+
+/* ---------- the nested construction planted at every point of an epsilon-net on the sphere ---------- */
+FIGS.netsphere = function (host) {
+  var f = makeSVG(host, 620, 640, 'A sphere of directions covered by an epsilon-net; a copy of the nested construction blooms at every net point; a great circle, standing for an arbitrary shadow, sweeps over the sphere and always passes close to some net point, whose copy lights up');
+  var CX = 310, CY = 318, R = 248, EPS = .3, NPTS = 46, RHO = R * .135;
+  var defs = el('defs', {}, f.svg), id = 'mand' + (UID++);
+  var polys = nestPolylines(1, [1, NEST.s, NEST.s * NEST.s], 1, 5, 2), COL = [C.cyan, C.violet, C.amber];
+  function mk(suffix, cols, w) {
+    var g = el('g', { id: id + suffix }, defs);
+    polys.forEach(function (lines, k) { var d = ''; lines.forEach(function (L) { d += dPath(L.map(function (p) { return [100 * p[0], -100 * p[1]]; })); }); el('path', { d: d, fill: 'none', stroke: cols[k], 'stroke-width': w, 'stroke-linejoin': 'round' }, g); });
+    el('circle', { cx: 0, cy: 0, r: 6, fill: C.white }, g);
+  }
+  mk('a', COL, 3.2); mk('b', [C.rose, C.rose, C.white], 4.4);
+  el('circle', { id: id + 'cap', cx: 0, cy: 0, r: 100, fill: C.violet, 'fill-opacity': .05, stroke: C.violet, 'stroke-width': 3, 'stroke-dasharray': '10 14' }, defs);
+  var glow = el('radialGradient', { id: id + 'gl', cx: '42%', cy: '38%', r: '62%' }, defs);
+  el('stop', { offset: '0%', 'stop-color': '#1a2a6e', 'stop-opacity': .55 }, glow); el('stop', { offset: '100%', 'stop-color': '#05060e', 'stop-opacity': .1 }, glow);
+  el('circle', { cx: CX, cy: CY, r: R, fill: 'url(#' + id + 'gl)' }, f.under);
+  el('circle', { cx: CX, cy: CY, r: R, fill: 'none', stroke: C.cyan, 'stroke-opacity': .55, 'stroke-width': 1.6 }, f.root);
+  var gridB = el('path', { fill: 'none', stroke: C.cyan, 'stroke-opacity': .07, 'stroke-width': 1 }, f.root);
+  var gridF = el('path', { fill: 'none', stroke: C.cyan, 'stroke-opacity': .2, 'stroke-width': 1 }, f.root);
+  var gcB = el('path', { fill: 'none', stroke: C.rose, 'stroke-opacity': .3, 'stroke-width': 1.6, 'stroke-dasharray': '4 7' }, f.root);
+  var capsG = G(f.root), mandG = G(f.root);
+  var gcF = el('path', { fill: 'none', stroke: C.rose, 'stroke-width': 3, 'stroke-linecap': 'round' }, f.root);
+  var ga = (1 + Math.sqrt(5)) / 2, pts = [];
+  for (var i = 0; i < NPTS; i++) {
+    var z = 1 - 2 * (i + .5) / NPTS, rr = Math.sqrt(1 - z * z), th = 2 * Math.PI * i / ga, u = [rr * Math.cos(th), rr * Math.sin(th), z];
+    var tmp = Math.abs(u[2]) < .9 ? [0, 0, 1] : [1, 0, 0];
+    var e1 = [tmp[1] * u[2] - tmp[2] * u[1], tmp[2] * u[0] - tmp[0] * u[2], tmp[0] * u[1] - tmp[1] * u[0]], n1 = Math.hypot(e1[0], e1[1], e1[2]); e1 = e1.map(function (x) { return x / n1; });
+    var e2 = [u[1] * e1[2] - u[2] * e1[1], u[2] * e1[0] - u[0] * e1[2], u[0] * e1[1] - u[1] * e1[0]];
+    var spin = i * 2.399, cs = Math.cos(spin), sn = Math.sin(spin), f1 = e1.map(function (x, k) { return cs * x + sn * e2[k]; }), f2 = e2.map(function (x, k) { return -sn * e1[k] + cs * x; });
+    pts.push({ u: u, e1: f1, e2: f2, cap: el('use', { href: '#' + id + 'cap' }, capsG), m: el('use', { href: '#' + id + 'a' }, mandG), dot: el('circle', { r: 2.6, fill: C.ink }, mandG) });
+  }
+  var start = pts[Math.floor(NPTS / 2)].u;
+  pts.forEach(function (p) { p.delay = Math.acos(clamp(p.u[0] * start[0] + p.u[1] * start[1] + p.u[2] * start[2], -1, 1)) / Math.PI; });
+  var lit = pivots(f.root, CX - 77, 624, 8, C.rose);
+  function rot(t) { var a = RM ? .6 : .6 + t * .11, b = -.42, ca = Math.cos(a), sa = Math.sin(a), cb = Math.cos(b), sb = Math.sin(b);
+    return function (v) { var x = ca * v[0] + sa * v[1], y = -sa * v[0] + ca * v[1], z = v[2]; return [x, cb * y - sb * z, sb * y + cb * z]; }; }
+  function scr(v) { return [CX + R * v[0], CY - R * v[2]]; } // view from -y: screen x = x, screen up = z, depth = -y
+  return {
+    frame: function (t) {
+      if (RM) t = 40;
+      var Rt = rot(t);
+      var dF = '', dB = '';
+      function circleLine(fn) { var L = [], k; for (k = 0; k <= 72; k++) L.push(Rt(fn(k / 72 * 2 * Math.PI))); return L; }
+      function addLine(L) { for (var k = 1; k < L.length; k++) { var a = L[k - 1], b = L[k], s = 'M' + r1(scr(a)[0]) + ' ' + r1(scr(a)[1]) + 'L' + r1(scr(b)[0]) + ' ' + r1(scr(b)[1]); if (a[1] + b[1] < 0) dF += s; else dB += s; } }
+      var gridOp = clamp(t / 1.2, 0, 1);
+      [-60, -30, 0, 30, 60].forEach(function (lat) { var z = Math.sin(lat * D2R), c = Math.cos(lat * D2R); addLine(circleLine(function (a) { return [c * Math.cos(a), c * Math.sin(a), z]; })); });
+      for (var mer = 0; mer < 8; mer++) { var phm = mer * Math.PI / 8; addLine(circleLine(function (a) { return [Math.cos(phm) * Math.cos(a), Math.sin(phm) * Math.cos(a), Math.sin(a)]; })); }
+      gridF.setAttribute('d', dF); gridB.setAttribute('d', dB); gridF.setAttribute('opacity', gridOp); gridB.setAttribute('opacity', gridOp);
+      // great circle = an arbitrary shadow plane
+      var gOp = ease((t - 7.4) / 1.2), al = 1.05, be = RM ? 1 : (t - 7.4) * .23;
+      var n = [Math.sin(al) * Math.cos(be), Math.sin(al) * Math.sin(be), Math.cos(al)];
+      var aa = [Math.cos(al) * Math.cos(be), Math.cos(al) * Math.sin(be), -Math.sin(al)], bb = [n[1] * aa[2] - n[2] * aa[1], n[2] * aa[0] - n[0] * aa[2], n[0] * aa[1] - n[1] * aa[0]];
+      var gF = '', gB = '';
+      if (gOp > 0) {
+        var GL = circleLine(function (a) { return [Math.cos(a) * aa[0] + Math.sin(a) * bb[0], Math.cos(a) * aa[1] + Math.sin(a) * bb[1], Math.cos(a) * aa[2] + Math.sin(a) * bb[2]]; });
+        for (var k = 1; k < GL.length; k++) { var A = GL[k - 1], Bq = GL[k], s = 'M' + r1(scr(A)[0]) + ' ' + r1(scr(A)[1]) + 'L' + r1(scr(Bq)[0]) + ' ' + r1(scr(Bq)[1]); if (A[1] + Bq[1] < 0) gF += s; else gB += s; }
+      }
+      gcF.setAttribute('d', gF); gcB.setAttribute('d', gB); gcF.setAttribute('opacity', gOp.toFixed(3)); gcB.setAttribute('opacity', gOp.toFixed(3));
+      var nlit = 0;
+      pts.forEach(function (p, idx) {
+        var u = Rt(p.u), e1 = Rt(p.e1), e2 = Rt(p.e2), front = u[1] < 0;
+        var vis = front ? 1 : .16, ap = clamp((t - .4 - idx * .022) / .4, 0, 1);
+        var c = scr(u); set(p.dot, { cx: r1(c[0]), cy: r1(c[1]), opacity: (ap * vis).toFixed(3) });
+        var capOp = ease((t - 1.8) / 1.2) * vis * (1 - .55 * ease((t - 6) / 1.5));
+        var kc = R * Math.sin(EPS) / 100, cc = [CX + R * Math.cos(EPS) * u[0], CY - R * Math.cos(EPS) * u[2]];
+        set(p.cap, { transform: 'matrix(' + [kc * e1[0], -kc * e1[2], -kc * e2[0], kc * e2[2], cc[0], cc[1]].map(function (x) { return x.toFixed(3); }).join(' ') + ')', opacity: capOp.toFixed(3) });
+        var bloom = RM ? 1 : easeOut((t - 3 - 3.6 * p.delay) / .7), km = RHO * bloom / 100;
+        var near = gOp > 0 && Math.abs(p.u[0] * n[0] + p.u[1] * n[1] + p.u[2] * n[2]) < Math.sin(EPS) * .82;
+        if (near && front) nlit++;
+        p.m.setAttribute('href', '#' + id + (near ? 'b' : 'a'));
+        var kk = near ? km * 1.25 : km;
+        set(p.m, { transform: 'matrix(' + [kk * e1[0], -kk * e1[2], -kk * e2[0], kk * e2[2], c[0], c[1]].map(function (x) { return x.toFixed(3); }).join(' ') + ')', opacity: (bloom * vis * (near ? 1 : .85)).toFixed(3) });
+      });
+      lit(nlit, 8);
+    }
+  };
+};
+
+/* ================= deck engine ================= */
+var stage = document.getElementById('stage'), viewport = document.getElementById('viewport');
+var slides = [].slice.call(document.querySelectorAll('.slide')), N = slides.length;
+var maxStep = slides.map(function (s) {
+  var m = 0; [].forEach.call(s.querySelectorAll('[data-step]'), function (e) { m = Math.max(m, +e.getAttribute('data-step')); });
+  if (s.dataset.steps) m = Math.max(m, +s.dataset.steps); return m;
+});
+var figs = slides.map(function () { return []; });
+[].forEach.call(document.querySelectorAll('[data-fig]'), function (h) {
+  var i = slides.indexOf(h.closest('.slide')), mk = FIGS[h.getAttribute('data-fig')];
+  if (i >= 0 && mk) { try { figs[i].push(mk(h)); } catch (e) { if (window.console) console.error(e); } }
+});
+var cur = -1, step = 0, t0 = performance.now();
+
+function fit() {
+  var w = viewport.clientWidth, h = viewport.clientHeight;
+  stage.style.setProperty('--s', Math.min(w / 1600, h / 900).toFixed(4));
+}
+window.addEventListener('resize', fit); fit();
+
+/* footer: the talk drawn as a path through vertices */
+var prog = document.getElementById('progress'), pv = [], pBase, pDone;
+(function () {
+  var pts = [];
+  for (var i = 0; i < N; i++) pts.push([12 + i * (1126 / (N - 1)), 26 - 12 * (i / (N - 1)) + 6 * Math.sin(i * 2.17)]);
+  pBase = el('path', { d: dPath(pts), fill: 'none', stroke: C.faint, 'stroke-width': 1.4 }, prog);
+  pDone = el('path', { fill: 'none', stroke: C.cyan, 'stroke-width': 1.8, 'stroke-opacity': .85 }, prog);
+  pts.forEach(function (p, i) {
+    var g = el('g', { class: 'v', tabindex: '0', role: 'button', 'aria-label': 'Go to slide ' + (i + 1) + ': ' + (slides[i].dataset.title || '') }, prog);
+    el('title', {}, g).textContent = (i + 1) + '. ' + (slides[i].dataset.title || '');
+    el('circle', { class: 'hit', cx: r1(p[0]), cy: r1(p[1]), r: 10, fill: 'transparent' }, g);
+    var c = el('circle', { cx: r1(p[0]), cy: r1(p[1]), r: 3, fill: C.dim }, g);
+    g.addEventListener('click', function (e) { e.stopPropagation(); go(i, 0, false); });
+    g.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); go(i, 0, false); } });
+    pv.push({ p: p, c: c });
+  });
+  prog._pts = pts;
+})();
+function chrome() {
+  pDone.setAttribute('d', dPath(prog._pts.slice(0, cur + 1)));
+  pv.forEach(function (v, i) { set(v.c, i === cur ? { r: 6.5, fill: C.amber } : i < cur ? { r: 3.4, fill: C.cyan } : { r: 3, fill: C.dim }); });
+  document.getElementById('count').innerHTML = '<b>' + (cur + 1) + '</b> / ' + N;
+}
+
+function go(i, s, instant) {
+  i = clamp(i, 0, N - 1); s = clamp(s, 0, maxStep[i]);
+  var changed = i !== cur;
+  if (changed) {
+    if (cur >= 0) { slides[cur].classList.remove('active'); slides[cur].setAttribute('aria-hidden', 'true'); figs[cur].forEach(function (f) { if (f.leave) f.leave(); }); }
+    slides[i].classList.add('active'); slides[i].setAttribute('aria-hidden', 'false');
+    cur = i; t0 = performance.now();
+  }
+  step = s;
+  [].forEach.call(slides[i].querySelectorAll('[data-step]'), function (e) { e.classList.toggle('on', +e.getAttribute('data-step') <= s); });
+  figs[i].forEach(function (f) { if (changed && f.enter) f.enter(s, instant); else if (f.step) f.step(s, instant); if (f.frame) f.frame(0 + (performance.now() - t0) / 1000); });
+  chrome();
+}
+function next() { hideHint(); if (step < maxStep[cur]) go(cur, step + 1, false); else if (cur < N - 1) go(cur + 1, 0, false); }
+function prev() { hideHint(); if (step > 0) go(cur, step - 1, true); else if (cur > 0) go(cur - 1, maxStep[cur - 1], true); }
+slides.forEach(function (s) { s.setAttribute('aria-hidden', 'true'); });
+
+document.addEventListener('keydown', function (e) {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  var k = e.key;
+  if (k === 'ArrowRight' || k === 'ArrowDown' || k === 'PageDown' || k === ' ' || k === 'Spacebar') { e.preventDefault(); next(); }
+  else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp' || k === 'Backspace') { e.preventDefault(); prev(); }
+  else if (k === 'Home') { e.preventDefault(); go(0, 0, true); }
+  else if (k === 'End') { e.preventDefault(); go(N - 1, maxStep[N - 1], true); }
+  else if (k === 'f' || k === 'F') { try { if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); } catch (err) {} }
+});
+document.getElementById('next').addEventListener('click', function (e) { e.stopPropagation(); next(); });
+document.getElementById('prev').addEventListener('click', function (e) { e.stopPropagation(); prev(); });
+stage.addEventListener('click', function (e) {
+  if (e.target.closest('#chrome') || e.target.closest('a,button')) return;
+  if (window.getSelection && String(window.getSelection()).length) return;
+  next();
+});
+var tx = null, ty = null;
+viewport.addEventListener('touchstart', function (e) { var p = e.touches[0]; tx = p.clientX; ty = p.clientY; }, { passive: true });
+viewport.addEventListener('touchend', function (e) {
+  if (tx == null) return; var p = e.changedTouches[0], dx = p.clientX - tx, dy = p.clientY - ty; tx = null;
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) { if (dx < 0) next(); else prev(); }
+}, { passive: true });
+
+var hint = document.getElementById('hint'), hintT = setTimeout(function () { hint.classList.add('show'); }, 1800);
+function hideHint() { clearTimeout(hintT); hint.classList.remove('show'); }
+
+var startAt = 0, m = /^#(\d+)$/.exec(location.hash || '');
+if (m) startAt = clamp(+m[1] - 1, 0, N - 1);
+go(startAt, 0, true);
+window.addEventListener('hashchange', function () { var mm = /^#(\d+)$/.exec(location.hash || ''); if (mm) go(+mm[1] - 1, 0, true); });
+
+function loop(now) {
+  var t = (now - t0) / 1000;
+  var fl = figs[cur];
+  for (var k = 0; k < fl.length; k++) { try { fl[k].frame(t); } catch (e) {} }
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+})();
+
+</script>
+</body>
+</html>
