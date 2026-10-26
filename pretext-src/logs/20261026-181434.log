@@ -19,31 +19,27 @@ INFO    : Runestone Services via online CDN query: version 8.3.6
 INFO    : Downloading Runestone Services, version 8.3.6
 INFO    : Extracting Runestone Services from archive file
 INFO    : Building custom css theme: theme-default-modern
-INFO    : converting /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx to HTML in /tmp/ptx-_ilhjsba
+INFO    : converting /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx to HTML in /tmp/ptx-fga15fvt
 INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.55.0/core/xsl/pretext-html.xsl
 INFO    : messages from the log for XSL processing (prefaced with a *):
 INFO    : * PTX:INFO:   checking all deprecated elements.
-WARNING : * PTX:DEPRECATE: (2026-05-11) the "me" and "men" elements have been deprecated.  The replacement is an "md" with no "mrow" children, and numbering is controlled by the "@number" attribute, or a global setting in "docinfo". (9 times)
+WARNING : * PTX:DEPRECATE: (2026-05-11) the "me" and "men" elements have been deprecated.  The replacement is an "md" with no "mrow" children, and numbering is controlled by the "@number" attribute, or a global setting in "docinfo". (6 times)
 INFO    : *              located at: pretext/article/section/subsection/exercise/introduction/p/me
-INFO    : *              located within: "matrix-notation" (xml:id), "Matrix Notation" (title)
+INFO    : *              located within: "ex-ease-curve" (xml:id)
+INFO    : *              located at: pretext/article/section/subsection/exercise/statement/p/me
+INFO    : *              located within: "ex-line-four-points" (xml:id)
 INFO    : *              located at: pretext/article/section/subsection/exercise/introduction/p/me
-INFO    : *              located within: "matrix-notation" (xml:id), "Matrix Notation" (title)
-INFO    : *              located at: pretext/article/section/subsection/exercise/introduction/p/me
-INFO    : *              located within: "diagonal-matrices" (xml:id), "Diagonal Matrices" (title)
-INFO    : *              located at: pretext/article/section/subsection/exercise/p/me
-INFO    : *              located within: "diagonal-matrices" (xml:id), "Diagonal Matrices" (title)
-INFO    : *              located at: pretext/article/section/subsection/exercise/introduction/p/me
-INFO    : *              located within: "upper-triangular-matrices" (xml:id), "Upper Triangular Matrices" (title)
+INFO    : *              located within: "ex-partial-fractions" (xml:id)
 INFO    : *              located at: pretext/article/section/subsection/p/me
-INFO    : *              located within: "simplest-linear-transformations" (xml:id), "Simplest Linear Transformations" (title)
-INFO    : *              located at: pretext/article/section/subsection/exercise/p/me
-INFO    : *              located within: "simplest-linear-transformations" (xml:id), "Simplest Linear Transformations" (title)
+INFO    : *              located within: "sec-exercises" (xml:id), "Exercises" (title)
 INFO    : *              located at: pretext/article/section/subsection/p/me
-INFO    : *              located within: "simplest-linear-transformations" (xml:id), "Simplest Linear Transformations" (title)
+INFO    : *              located within: "sec-exercises" (xml:id), "Exercises" (title)
+INFO    : *              located at: pretext/article/section/subsection/exercise/introduction/p/me
+INFO    : *              located within: "ex-power-series" (xml:id)
 INFO    : * --------------
 INFO    : successful application of /home/codespace/.ptx/2.55.0/core/xsl/pretext-html.xsl
-INFO    : Removing temporary directory /tmp/ptx-_ilhjsba
-INFO    : Removing temporary directory /tmp/ptx-akyzqug3
+INFO    : Removing temporary directory /tmp/ptx-fga15fvt
+INFO    : Removing temporary directory /tmp/ptx-5n86kv_g
 INFO    : 
 Finished build for target web. Run `pretext view web` to see the results.
 

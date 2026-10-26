@@ -10,6 +10,10 @@ To preview your output, run `pretext view web`.
 
 To deploy your output to GitHub pages, run `pretext deploy`.
 
+This project is part of the `alexblackmath.github.io` site, so its web output is served at
+`https://alexblackmath.github.io/pretext-src/output/web/`. After running `pretext build web`,
+commit and push the generated files in `output/web` to update that page.
+
 To compile a pdf, run `pretext build print`.
 
 
@@ -69,9 +73,9 @@ VS Code should prompt you to rebuild your codespace, which you should do (you do
 
 
 <!-- 
-rm -rf ../Math2301/Math2301Day14Take2
-mkdir ../Math2301/Math2301Day14Take2
-cp -a output/web/. ../Math2301/Math2301Day14Take2
+rm -rf ../Math2000/Math2000Day15
+mkdir ../Math2000/Math2000Day15
+cp -a output/web/. ../Math2000/Math2000Day15
 
 cd ..
 git add .
