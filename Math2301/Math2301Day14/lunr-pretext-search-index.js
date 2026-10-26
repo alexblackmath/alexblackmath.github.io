@@ -1,76 +1,139 @@
 var ptx_lunr_search_style = "textbook";
 var ptx_lunr_docs = [
 {
-  "id": "GoneGirl",
+  "id": "EigenundEigen",
   "level": "1",
-  "url": "#GoneGirl",
+  "url": "#EigenundEigen",
   "type": "Article",
   "number": "",
   "title": "Math 2301 Day 14",
-  "body": " Math 2301 Day 14       Completely Ordinary Equations   Review  What does it mean for a basis to be orthonormal?    Prove that the columns of an matrix form an orthonormal basis if and only if , where is the identity matrix.      A Better Way  Last time we reduced linear regression to the following optimization problem: for an matrix and . We discussed a way to solve this using Gram-Schmidt, but as you may have discovered from the exercises, doing Gram-Schmidt is kind of a pain. Is there a simpler way?  It turns out you can represent this by solving a linear system.    Let be a solution to the linear system . Then is a minimizer of .    The equations are called the normal equations . It is not obvious that they would even have any solution. To prove this, we need to build more theory.    Orthogonal Decomposition  Let be a linear subspace of an inner product space . Define its orthogonal complement  .    Let be a linear subspace of a finite-dimensional real inner product space . Then  is a subspace of .  .  .  Any vector can be written uniquely as for some and .      For (a), let and . Let .  Show that .   Show that .   Explain why is a linear subspace.   For (b), take an orthonormal basis of such that is an orthonormal basis for . This exists by the Gram-Schmidt procedure.  Then let . Since this is a basis, . Explain why .   Note that is a basis for . Explain why for all and .   Use this observation to argue that for all .   Explain why .   Thus, , where and , so . Since , .  For (c), let . Since , . Explain why implies for all .   Explain why implies for all .   Therefore, . Explain why this means .   Therefore, .  For (d), suppose that for some and . Rearranging, . Explain why .   Explain why .   Thus, . Explain why this means and .   Therefore the orthogonal decomposition is unique.    This decomposition gives us a canonical way to isolate the closest point.    Let be a subspace of an inner product space , and let . Let , where and . Then is the closest point in to .    Let . Then, by the Pythagorean theorem, . Therefore, is minimized precisely when .      Proving the Better Way  We use this observation to verify that the normal equations are doing precisely what we want them to be doing.   We will do the proof in two steps. First, I will argue that a minimizer is a solution to the normal equations . This in particular tells you that a solution always exists. Second we argue that any solution will be a closest point.  Let be the span of the columns of . Then let be the orthogonal decomposition of with and . Then is the closest point to in . Furthermore, , so for some . Then Explain why implies that .   Thus, , so . It follows that if is the closest point in the image of to , then is a solution to that equation. In particular, a solution always exists.  What remains is to show that any solution arises in that way. Let be a solution to the normal equation. We want to argue that is the closest point in to . For this, we work in reverse. We can rewrite as . Thus, is in and thus in . Since is a subspace, , so is the orthogonal decomposition of . It follows that the closest point to in is , which completes the proof.     "
+  "body": " Math 2301 Day 14       We're Doing This Eigen?    Review    Let be a linear transformation between vector spaces. Let be a subspace. Let . Show that is a subspace of .       Eigenstuff  With all of our new tools from orthogonality, we are now going to revisit eigenvectors from the end of math 2000. The rest of the course is focused on building and then extending this theory from diagonalizable square matrices to encompass every matrix. We will conclude with a core application to data science.  First let's remind ourselves about eigenvectors.    Let be a vector space and be an operator. A nonzero vector is an eigenvector of with eigenvalue  if The eigenspace for is the set of eigenvectors with eigenvalue , together with the zero vector.      Let be a vector space and an operator with eigenvalue and be the identity operator. Then the eigenspace of is precisely In particular, it is a linear subspace of .    A vector if and only if which is true if and only if . Thus, the eigenspace is indeed a linear subspace.    For any set , a fixed point of a function is a point such that . For example, for any operator, is a fixed point. Eigenspaces are generalizations of fixed points. Instead of just fixing a point, you fix a subspace.    A subspace is invariant under if .    Eigenspaces are a particular kind of invariant subspace. Recalling from math 2000, for a matrix , an eigenvector is a solution to the equation or equivalently In that class, we then came to the conclusion that a nonzero solution exists exactly when is singular. This happens precisely when This function is a polynomial called the characteristic polynomial of the matrix, and the eigenvalues are the roots of that polynomial. Then computationally finding eigenvalues came down to finding roots of characteristic polynomials, and you'd find eigenvectors after by solving the linear system for each eigenvalue .     Eigenvectors and Bases  From the definition, any two eigenspaces for distinct eigenvalues only intersect at the zero vector. In fact, we get a stronger property.    Let be a vector space and be a linear operator. Nonzero eigenvectors corresponding to distinct eigenvalues are linearly independent.    We do this by induction. Certainly, one eigenvector is independent. Suppose that any set of eigenvectors with distinct eigenvalues is linearly independent. We want to show it is true for eigenvectors.  Let be eigenvectors each with distinct eigenvalues. Suppose for the sake of contradiction that they are linearly dependent. By our inductive hypothesis is linearly independent. Since is linearly dependent, we must then have that is -dimensional.  Define the linear transformation by and extending linearly. Then the image is precisely . Thus, the kernel is one dimensional by the rank-nullity theorem.  Hence, there is a unique nonzero vector up to rescaling such that In particular, since each is nonzero, there exist such that .  Finally now we use that each is an eigenvector with eigenvalue to see that Thus, by the uniqueness of , we must have that there exists such that for all . In particular, and . Since and are both nonzero, this implies , a contradiction. The only assumption we made was that were dependent. Hence, the contradiction implies they are independent, and induction completes the proof.         Diagonalization  One of the primary uses of eigenvalues and eigenvectors is that they allow us to treat almost any matrix as a diagonal matrix via a process called diagonalization.    An operator is diagonalizable over if has a basis consisting of real eigenvectors of .    We call a basis of eigenvectors an eigenbasis . Let be an eigenbasis for an operator with . Then recall the notation for how to go from an operator to a matrix in a basis. We just write the coefficients of the image of each basis element in that basis. Well, , meaning that the th column is just in the th entry and 's otherwise. Thus, written in an eigenbasis, the operator is a diagonal matrix: You may recall that for matrices, using the change of basis formula, if has columns given by an eigenbasis for a matrix , then where is the diagonal matrix of corresponding eigenvalues. You may recall from math 2000 that not every matrix is diagonalizable. Here is a characterization in terms of eigenspaces that follows from what we've shown so far:    An real matrix is diagonalizable if and only if the sum of the dimensions of its real eigenspaces is .    Eigenspaces for distinct eigenvalues combine independently by the preceding theorem. Their union of bases forms an eigenbasis exactly when the total number of basis vectors is .       Iterated Powers  If , then For an initial state , Each eigen-direction evolves independently.     Exercises    Consider the rotation . Show that has no invariant lines and no real eigenvalues. Interpret this geometrically.      Let be an operator on an inner product space. Let be an eigenvector of with eigenvalue . Show that       Let be any matrix. Show that for all , where the inner product is the dot product.    We call a matrix  symmetric if .    Suppose that a matrix is symmetric.     Show that , where the inner product here is the regular old dot product.      Show that eigenvectors of a symmetric matrix with distinct eigenvalues are orthogonal.       "
 },
 {
-  "id": "sec-review-3",
+  "id": "ex-preimage-subspace",
   "level": "2",
-  "url": "#sec-review-3",
+  "url": "#ex-preimage-subspace",
   "type": "Checkpoint",
   "number": "1.1",
   "title": "",
-  "body": "  Prove that the columns of an matrix form an orthonormal basis if and only if , where is the identity matrix.   "
+  "body": "  Let be a linear transformation between vector spaces. Let be a subspace. Let . Show that is a subspace of .   "
 },
 {
-  "id": "thm-normal-equations",
+  "id": "def-eigenvector",
   "level": "2",
-  "url": "#thm-normal-equations",
-  "type": "Theorem",
+  "url": "#def-eigenvector",
+  "type": "Definition",
   "number": "1.2",
   "title": "",
-  "body": "  Let be a solution to the linear system . Then is a minimizer of .   "
+  "body": "  Let be a vector space and be an operator. A nonzero vector is an eigenvector of with eigenvalue  if The eigenspace for is the set of eigenvectors with eigenvalue , together with the zero vector.   "
 },
 {
-  "id": "sec-better-way-5",
+  "id": "thm-eigenspace-kernel",
   "level": "2",
-  "url": "#sec-better-way-5",
-  "type": "Paragraph (with a defined term)",
-  "number": "",
-  "title": "",
-  "body": "normal equations "
-},
-{
-  "id": "sec-orthogonal-decomposition-2",
-  "level": "2",
-  "url": "#sec-orthogonal-decomposition-2",
-  "type": "Paragraph (with a defined term)",
-  "number": "",
-  "title": "",
-  "body": "orthogonal complement "
-},
-{
-  "id": "sec-orthogonal-decomposition-3",
-  "level": "2",
-  "url": "#sec-orthogonal-decomposition-3",
+  "url": "#thm-eigenspace-kernel",
   "type": "Theorem",
   "number": "1.3",
   "title": "",
-  "body": "  Let be a linear subspace of a finite-dimensional real inner product space . Then  is a subspace of .  .  .  Any vector can be written uniquely as for some and .      For (a), let and . Let .  Show that .   Show that .   Explain why is a linear subspace.   For (b), take an orthonormal basis of such that is an orthonormal basis for . This exists by the Gram-Schmidt procedure.  Then let . Since this is a basis, . Explain why .   Note that is a basis for . Explain why for all and .   Use this observation to argue that for all .   Explain why .   Thus, , where and , so . Since , .  For (c), let . Since , . Explain why implies for all .   Explain why implies for all .   Therefore, . Explain why this means .   Therefore, .  For (d), suppose that for some and . Rearranging, . Explain why .   Explain why .   Thus, . Explain why this means and .   Therefore the orthogonal decomposition is unique.   "
+  "body": "  Let be a vector space and an operator with eigenvalue and be the identity operator. Then the eigenspace of is precisely In particular, it is a linear subspace of .    A vector if and only if which is true if and only if . Thus, the eigenspace is indeed a linear subspace.   "
 },
 {
-  "id": "sec-orthogonal-decomposition-5",
+  "id": "def-invariant-subspace",
   "level": "2",
-  "url": "#sec-orthogonal-decomposition-5",
-  "type": "Theorem",
+  "url": "#def-invariant-subspace",
+  "type": "Definition",
   "number": "1.4",
   "title": "",
-  "body": "  Let be a subspace of an inner product space , and let . Let , where and . Then is the closest point in to .    Let . Then, by the Pythagorean theorem, . Therefore, is minimized precisely when .   "
+  "body": "  A subspace is invariant under if .   "
 },
 {
-  "id": "sec-proving-better-way-3",
+  "id": "sec-eigenstuff-8",
   "level": "2",
-  "url": "#sec-proving-better-way-3",
-  "type": "Proof",
-  "number": "1.4.1",
+  "url": "#sec-eigenstuff-8",
+  "type": "Paragraph (with a defined term)",
+  "number": "",
   "title": "",
-  "body": " We will do the proof in two steps. First, I will argue that a minimizer is a solution to the normal equations . This in particular tells you that a solution always exists. Second we argue that any solution will be a closest point.  Let be the span of the columns of . Then let be the orthogonal decomposition of with and . Then is the closest point to in . Furthermore, , so for some . Then Explain why implies that .   Thus, , so . It follows that if is the closest point in the image of to , then is a solution to that equation. In particular, a solution always exists.  What remains is to show that any solution arises in that way. Let be a solution to the normal equation. We want to argue that is the closest point in to . For this, we work in reverse. We can rewrite as . Thus, is in and thus in . Since is a subspace, , so is the orthogonal decomposition of . It follows that the closest point to in is , which completes the proof.  "
+  "body": "characteristic polynomial "
+},
+{
+  "id": "thm-distinct-eigenvalues-independent",
+  "level": "2",
+  "url": "#thm-distinct-eigenvalues-independent",
+  "type": "Theorem",
+  "number": "1.5",
+  "title": "",
+  "body": "  Let be a vector space and be a linear operator. Nonzero eigenvectors corresponding to distinct eigenvalues are linearly independent.    We do this by induction. Certainly, one eigenvector is independent. Suppose that any set of eigenvectors with distinct eigenvalues is linearly independent. We want to show it is true for eigenvectors.  Let be eigenvectors each with distinct eigenvalues. Suppose for the sake of contradiction that they are linearly dependent. By our inductive hypothesis is linearly independent. Since is linearly dependent, we must then have that is -dimensional.  Define the linear transformation by and extending linearly. Then the image is precisely . Thus, the kernel is one dimensional by the rank-nullity theorem.  Hence, there is a unique nonzero vector up to rescaling such that In particular, since each is nonzero, there exist such that .  Finally now we use that each is an eigenvector with eigenvalue to see that Thus, by the uniqueness of , we must have that there exists such that for all . In particular, and . Since and are both nonzero, this implies , a contradiction. The only assumption we made was that were dependent. Hence, the contradiction implies they are independent, and induction completes the proof.    "
+},
+{
+  "id": "def-diagonalizable",
+  "level": "2",
+  "url": "#def-diagonalizable",
+  "type": "Definition",
+  "number": "1.6",
+  "title": "",
+  "body": "  An operator is diagonalizable over if has a basis consisting of real eigenvectors of .   "
+},
+{
+  "id": "sec-diagonalization-4",
+  "level": "2",
+  "url": "#sec-diagonalization-4",
+  "type": "Paragraph (with a defined term)",
+  "number": "",
+  "title": "",
+  "body": "eigenbasis "
+},
+{
+  "id": "thm-diagonalizable-dimensions",
+  "level": "2",
+  "url": "#thm-diagonalizable-dimensions",
+  "type": "Theorem",
+  "number": "1.7",
+  "title": "",
+  "body": "  An real matrix is diagonalizable if and only if the sum of the dimensions of its real eigenspaces is .    Eigenspaces for distinct eigenvalues combine independently by the preceding theorem. Their union of bases forms an eigenbasis exactly when the total number of basis vectors is .   "
+},
+{
+  "id": "ex-invariant-lines",
+  "level": "2",
+  "url": "#ex-invariant-lines",
+  "type": "Checkpoint",
+  "number": "1.8",
+  "title": "",
+  "body": "  Consider the rotation . Show that has no invariant lines and no real eigenvalues. Interpret this geometrically.   "
+},
+{
+  "id": "ex-eigen-inner-product",
+  "level": "2",
+  "url": "#ex-eigen-inner-product",
+  "type": "Checkpoint",
+  "number": "1.9",
+  "title": "",
+  "body": "  Let be an operator on an inner product space. Let be an eigenvector of with eigenvalue . Show that    "
+},
+{
+  "id": "ex-transpose-adjoint",
+  "level": "2",
+  "url": "#ex-transpose-adjoint",
+  "type": "Checkpoint",
+  "number": "1.10",
+  "title": "",
+  "body": "  Let be any matrix. Show that for all , where the inner product is the dot product.   "
+},
+{
+  "id": "sec-day14-exercises-5",
+  "level": "2",
+  "url": "#sec-day14-exercises-5",
+  "type": "Paragraph (with a defined term)",
+  "number": "",
+  "title": "",
+  "body": "symmetric "
+},
+{
+  "id": "ex-symmetric-orthogonal",
+  "level": "2",
+  "url": "#ex-symmetric-orthogonal",
+  "type": "Checkpoint",
+  "number": "1.11",
+  "title": "",
+  "body": "  Suppose that a matrix is symmetric.     Show that , where the inner product here is the regular old dot product.      Show that eigenvectors of a symmetric matrix with distinct eigenvalues are orthogonal.    "
 }
 ]
 
