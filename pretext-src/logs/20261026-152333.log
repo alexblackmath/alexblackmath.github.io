@@ -19,31 +19,31 @@ INFO    : Runestone Services via online CDN query: version 8.3.6
 INFO    : Downloading Runestone Services, version 8.3.6
 INFO    : Extracting Runestone Services from archive file
 INFO    : Building custom css theme: theme-default-modern
-INFO    : converting /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx to HTML in /tmp/ptx-1hkbe_q5
+INFO    : converting /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx to HTML in /tmp/ptx-dgc6o7k6
 INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.55.0/core/xsl/pretext-html.xsl
 INFO    : messages from the log for XSL processing (prefaced with a *):
 INFO    : * PTX:INFO:   checking all deprecated elements.
-WARNING : * PTX:DEPRECATE: (2026-05-11) the "me" and "men" elements have been deprecated.  The replacement is an "md" with no "mrow" children, and numbering is controlled by the "@number" attribute, or a global setting in "docinfo". (25 times)
+WARNING : * PTX:DEPRECATE: (2026-05-11) the "me" and "men" elements have been deprecated.  The replacement is an "md" with no "mrow" children, and numbering is controlled by the "@number" attribute, or a global setting in "docinfo". (13 times)
+INFO    : *              located at: pretext/article/section/subsection/definition/statement/p/me
+INFO    : *              located within: "def-eigenvector" (xml:id)
+INFO    : *              located at: pretext/article/section/subsection/theorem/statement/p/me
+INFO    : *              located within: "thm-eigenspace-kernel" (xml:id)
+INFO    : *              located at: pretext/article/section/subsection/theorem/proof/p/me
+INFO    : *              located within: "thm-eigenspace-kernel" (xml:id)
 INFO    : *              located at: pretext/article/section/subsection/p/me
-INFO    : *              located within: "regressing" (xml:id), "Regressing" (title)
+INFO    : *              located within: "sec-eigenstuff" (xml:id), "Eigenstuff" (title)
 INFO    : *              located at: pretext/article/section/subsection/p/me
-INFO    : *              located within: "regressing" (xml:id), "Regressing" (title)
-INFO    : *              located at: pretext/article/section/subsection/p/me
-INFO    : *              located within: "regressing" (xml:id), "Regressing" (title)
-INFO    : *              located at: pretext/article/section/subsection/p/me
-INFO    : *              located within: "regressing" (xml:id), "Regressing" (title)
-INFO    : *              located at: pretext/article/section/subsection/p/me
-INFO    : *              located within: "regressing" (xml:id), "Regressing" (title)
-INFO    : *              located at: pretext/article/section/subsection/p/me
-INFO    : *              located within: "regressing" (xml:id), "Regressing" (title)
-INFO    : *              located at: pretext/article/section/subsection/p/me
-INFO    : *              located within: "regressing" (xml:id), "Regressing" (title)
-INFO    : *              located at: pretext/article/section/subsection/p/me
-INFO    : *              located within: "regressing" (xml:id), "Regressing" (title)
+INFO    : *              located within: "sec-eigenstuff" (xml:id), "Eigenstuff" (title)
+INFO    : *              located at: pretext/article/section/subsection/theorem/proof/p/me
+INFO    : *              located within: "thm-distinct-eigenvalues-independent" (xml:id)
+INFO    : *              located at: pretext/article/section/subsection/theorem/proof/p/me
+INFO    : *              located within: "thm-distinct-eigenvalues-independent" (xml:id)
+INFO    : *              located at: pretext/article/section/subsection/theorem/proof/p/me
+INFO    : *              located within: "thm-distinct-eigenvalues-independent" (xml:id)
 INFO    : * --------------
 INFO    : successful application of /home/codespace/.ptx/2.55.0/core/xsl/pretext-html.xsl
-INFO    : Removing temporary directory /tmp/ptx-1hkbe_q5
-INFO    : Removing temporary directory /tmp/ptx-9e9tixub
+INFO    : Removing temporary directory /tmp/ptx-dgc6o7k6
+INFO    : Removing temporary directory /tmp/ptx-5ezzmvkz
 INFO    : 
 Finished build for target web. Run `pretext view web` to see the results.
 
