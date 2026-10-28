@@ -6,107 +6,125 @@ var ptx_lunr_docs = [
   "url": "#sensing",
   "type": "Article",
   "number": "",
-  "title": "Math 2000 Day 15",
-  "body": " Math 2000 Day 15       (Vector) Space: The Final Frontier   Game  To start this unit, we will play the following motivating game: Compressed Sensing Game .    Vector Spaces  A vector space is a set of things that you can add and rescale by any real constant.  Examples of vector spaces include:   Matrices of a fixed size under addition and rescaling every entry  Polynomials  Functions from  Continuous functions from to  Differentiable functions from to    It turns out you can use linear algebra to solve problems in all of these settings simultaneously.  Checking if something is a vector space is an arduous and delicate task. We won't talk about how to do that. Though you can feel free to read it in the book. Instead I want to give some applications, so you can see the kinds of problems that solving a linear system helps solve.    Exercises    Suppose I give you a function , and I tell you and . What must and equal?      Suppose I give you a function , and I tell you , , and . Find , , and .    Video game designers rarely move characters at a constant speed, because it looks robotic. Instead, they use ease-in, ease-out curves where the character starts slowly, speeds up, and gently slows to a stop. These are modeled using polynomials, and finding the right curve ends up being a linear algebra problem.    A character needs to move from position to position in one second. Let be its position after seconds. The character should start and end at rest, so      Write a system of linear equations for , , , and .      Solve it.      Why did we need a cubic instead of a quadratic?     The following gives the essential first step for understanding linear regression in statistics.    Write a system of linear equations for solving the following problem: Is there a line that passes through all four of the following points:     The next is an example of an initial value problem from projectile motion. Newtonian physics tells you that the motion of an object is governed by an equation , where is the gravitational constant.    You wake up on a new planet, and you're trying to figure out the gravity. Your best bud Aaron Rodgers wakes up next to you with his league official pigskin. You tell Mr. Rodgers that you can figure out the gravity as long as he throws the football. He throws the football starting at an initial height of cm; it hits its peak height after minute before hitting the ground after minutes. Let be the function defining the height of the football in centimeters after minutes.     Find .      Find .      Find .      Using (a), (b), and (c), write a system of linear equations for finding , , and .      What is the gravitational constant on the planet?     Remember in Calc 2, you learned about something called partial fraction decomposition . This is another example of where linear algebra appears.    We want to compute by finding constants and with      Multiply both sides by . You should get an equation between two polynomials.      Two polynomials are equal exactly when their coefficients are the same. Use this to write a system of linear equations for and .      Solve the system and compute the integral.     Recall from Calc 2, you learned about power series, functions of the form By using Taylor series, it turns out any sufficiently nice function can be written as a power series. For example, The following is an example of how power series are used for solving differential equations:    Suppose I give you a function that is a power series:      Write as a power series.      What is the coefficient of in ?      Two power series are equal exactly when their coefficients are the same. Suppose that . How then must and relate?      Explain why the value of determines the value of all remaining coefficients.      Explain why this means any power series solution must be a multiple of .     In probability theory a special family of matrices called stochastic matrices are used to model a random process.    A matrix is called stochastic if the sum of values in each row is equal to and each entry is non-negative (i.e., ). A matrix is called doubly stochastic if the sum of entries in each row and column is equal to and each entry is non-negative.     Give an example of a matrix that is stochastic but not doubly stochastic.      Explain why every doubly stochastic matrix is symmetric.      Explain how to check if a matrix with non-negative entries is doubly stochastic by solving a system of equations. How many equations do you need?      Explain how to check if a matrix with non-negative entries is doubly stochastic by solving a system of equations. How many equations do you need?      How would your answers to (c) and (d) change if you were talking about stochastic matrices?       Let be a set with vector addition and scalar multiplication by real numbers. For all and , the vector space axioms are:   (closure under addition)  (closure under scalar multiplication)  (commutativity of addition)  (associativity of addition)  There is a zero vector such that .  For every , there is an additive inverse such that .  (compatibility of scalar multiplication)  (identity for scalar multiplication)  (scalar multiplication distributes over vector addition)  (scalar addition distributes over scalar multiplication)      For each axiom, say whether it is surprising to you or not, and explain why. Which ones feel most natural, and which ones would you be most likely to forget when checking whether a set is a vector space?       "
+  "title": "Math 2301 Day 15",
+  "body": " Math 2301 Day 15       Diagonal Lies   Review    What is an eigenvalue?  What is an eigenvector?  What did we show holds for eigenvectors with distinct eigenvalues?      Reminder: From Linear Transformations to Matrices    Given a matrix: , what do we find when we compute ? What about and ?    This observation extends in general to give us the following result:    Given a linear transformation , , where is the matrix with columns .    Note that .    But what about for abstract vector spaces?    Change of Basis  Let be a linear transformation between finite dimensional vector spaces and of dimension and respectively. This linear transformation may be defined abstractly, and instead we want to write it down explicitly.  To do this we take a basis for and for . Then there are linear isomorphisms  and given by   Then we can define a linear transformation by . Then is represented by a matrix , and we say the matrix  represents the linear transformation with respect to the bases and . Different bases give rise to different matrices.  The core question is: What is the natural basis for us to use?    Diagonalization  We'll focus on operators and use the same basis for the domain and co-domain, so here .    An operator is diagonalizable over if has a basis consisting of real eigenvectors of .    We call a basis of eigenvectors an eigenbasis .    Let be an operator, and let be a basis. Then the matrix with respect to representing is diagonal with nonzero entries on the diagonal if and only if is an eigenbasis with nonzero eigenvalues.    Let be the matrix representing . Then is diagonal with nonzero entries on the diagonal if and only if there exist such that for all .  Suppose first that is diagonal. Since represents , for all  . By applying on the left of both sides, we find, , so is an eigenvector for all . Since is diagonal with nonzero entries on the diagonal, it is invertible meaning that must also be a basis.  Suppose instead that is an eigenbasis. Then for all  . Thus, is diagonal.    Intuitively, having a diagonal basis is helpful, but they carry even greater meaning. We'll discuss applications of diagonalization next class and in the exercises. Unfortunately, not all operators are diagonalizable as you'll show in one of the exercises. Our next steps are in pursuit of proving the following spooky theorem called the spectral theorem :    Let be an matrix such that . Then is diagonalizable with real eigenvalues.      Exercises  We know how to take the square of a matrix. But how do we take the square root?    Suppose that an matrix is diagonalizable so and all of its eigenvalues are non-negative. Give an expression for .    This is an important condition. Again like with numbers, not all matrices have real square roots.    Show that the matrix is not diagonalizable andhas no square root.      Show that if an operator has distinct eigenvalues and is dimensional, then has an eigenbasis with respect to .      Suppose that a matrix is symmetric.     Show that , where the inner product here is the regular old dot product.      Show that eigenvectors of a symmetric matrix with distinct eigenvalues are orthogonal.       "
 },
 {
-  "id": "ex-line-two-points",
+  "id": "ex-columns",
   "level": "2",
-  "url": "#ex-line-two-points",
+  "url": "#ex-columns",
   "type": "Checkpoint",
   "number": "1.1",
   "title": "",
-  "body": "  Suppose I give you a function , and I tell you and . What must and equal?   "
+  "body": "  Given a matrix: , what do we find when we compute ? What about and ?   "
 },
 {
-  "id": "ex-quadratic-derivatives",
+  "id": "thm-standard-matrix",
   "level": "2",
-  "url": "#ex-quadratic-derivatives",
-  "type": "Checkpoint",
+  "url": "#thm-standard-matrix",
+  "type": "Theorem",
   "number": "1.2",
   "title": "",
-  "body": "  Suppose I give you a function , and I tell you , , and . Find , , and .   "
+  "body": "  Given a linear transformation , , where is the matrix with columns .    Note that .   "
 },
 {
-  "id": "ex-ease-curve",
+  "id": "sec-change-of-basis-3",
   "level": "2",
-  "url": "#ex-ease-curve",
-  "type": "Checkpoint",
-  "number": "1.3",
-  "title": "",
-  "body": "  A character needs to move from position to position in one second. Let be its position after seconds. The character should start and end at rest, so      Write a system of linear equations for , , , and .      Solve it.      Why did we need a cubic instead of a quadratic?    "
-},
-{
-  "id": "ex-line-four-points",
-  "level": "2",
-  "url": "#ex-line-four-points",
-  "type": "Checkpoint",
-  "number": "1.4",
-  "title": "",
-  "body": "  Write a system of linear equations for solving the following problem: Is there a line that passes through all four of the following points:    "
-},
-{
-  "id": "ex-football",
-  "level": "2",
-  "url": "#ex-football",
-  "type": "Checkpoint",
-  "number": "1.5",
-  "title": "",
-  "body": "  You wake up on a new planet, and you're trying to figure out the gravity. Your best bud Aaron Rodgers wakes up next to you with his league official pigskin. You tell Mr. Rodgers that you can figure out the gravity as long as he throws the football. He throws the football starting at an initial height of cm; it hits its peak height after minute before hitting the ground after minutes. Let be the function defining the height of the football in centimeters after minutes.     Find .      Find .      Find .      Using (a), (b), and (c), write a system of linear equations for finding , , and .      What is the gravitational constant on the planet?    "
-},
-{
-  "id": "sec-exercises-10",
-  "level": "2",
-  "url": "#sec-exercises-10",
+  "url": "#sec-change-of-basis-3",
   "type": "Paragraph (with a defined term)",
   "number": "",
   "title": "",
-  "body": "partial fraction decomposition "
+  "body": "linear isomorphisms "
 },
 {
-  "id": "ex-partial-fractions",
+  "id": "sec-change-of-basis-4",
   "level": "2",
-  "url": "#ex-partial-fractions",
+  "url": "#sec-change-of-basis-4",
+  "type": "Paragraph (with a defined term)",
+  "number": "",
+  "title": "",
+  "body": "represents "
+},
+{
+  "id": "def-diagonalizable",
+  "level": "2",
+  "url": "#def-diagonalizable",
+  "type": "Definition",
+  "number": "1.3",
+  "title": "",
+  "body": "  An operator is diagonalizable over if has a basis consisting of real eigenvectors of .   "
+},
+{
+  "id": "sec-diagonalization-4",
+  "level": "2",
+  "url": "#sec-diagonalization-4",
+  "type": "Paragraph (with a defined term)",
+  "number": "",
+  "title": "",
+  "body": "eigenbasis "
+},
+{
+  "id": "thm-diagonal-iff-eigenbasis",
+  "level": "2",
+  "url": "#thm-diagonal-iff-eigenbasis",
+  "type": "Theorem",
+  "number": "1.4",
+  "title": "",
+  "body": "  Let be an operator, and let be a basis. Then the matrix with respect to representing is diagonal with nonzero entries on the diagonal if and only if is an eigenbasis with nonzero eigenvalues.    Let be the matrix representing . Then is diagonal with nonzero entries on the diagonal if and only if there exist such that for all .  Suppose first that is diagonal. Since represents , for all  . By applying on the left of both sides, we find, , so is an eigenvector for all . Since is diagonal with nonzero entries on the diagonal, it is invertible meaning that must also be a basis.  Suppose instead that is an eigenbasis. Then for all  . Thus, is diagonal.   "
+},
+{
+  "id": "sec-diagonalization-6",
+  "level": "2",
+  "url": "#sec-diagonalization-6",
+  "type": "Paragraph (with a defined term)",
+  "number": "",
+  "title": "",
+  "body": "spectral theorem "
+},
+{
+  "id": "thm-spectral",
+  "level": "2",
+  "url": "#thm-spectral",
+  "type": "Theorem",
+  "number": "1.5",
+  "title": "",
+  "body": "  Let be an matrix such that . Then is diagonalizable with real eigenvalues.   "
+},
+{
+  "id": "ex-square-root",
+  "level": "2",
+  "url": "#ex-square-root",
   "type": "Checkpoint",
   "number": "1.6",
   "title": "",
-  "body": "  We want to compute by finding constants and with      Multiply both sides by . You should get an equation between two polynomials.      Two polynomials are equal exactly when their coefficients are the same. Use this to write a system of linear equations for and .      Solve the system and compute the integral.    "
+  "body": "  Suppose that an matrix is diagonalizable so and all of its eigenvalues are non-negative. Give an expression for .   "
 },
 {
-  "id": "ex-power-series",
+  "id": "ex-no-square-root",
   "level": "2",
-  "url": "#ex-power-series",
+  "url": "#ex-no-square-root",
   "type": "Checkpoint",
   "number": "1.7",
   "title": "",
-  "body": "  Suppose I give you a function that is a power series:      Write as a power series.      What is the coefficient of in ?      Two power series are equal exactly when their coefficients are the same. Suppose that . How then must and relate?      Explain why the value of determines the value of all remaining coefficients.      Explain why this means any power series solution must be a multiple of .    "
+  "body": "  Show that the matrix is not diagonalizable andhas no square root.   "
 },
 {
-  "id": "sec-exercises-14",
+  "id": "ex-distinct-eigenvalues",
   "level": "2",
-  "url": "#sec-exercises-14",
-  "type": "Paragraph (with a defined term)",
-  "number": "",
-  "title": "",
-  "body": "stochastic matrices "
-},
-{
-  "id": "ex-stochastic",
-  "level": "2",
-  "url": "#ex-stochastic",
+  "url": "#ex-distinct-eigenvalues",
   "type": "Checkpoint",
   "number": "1.8",
   "title": "",
-  "body": "  A matrix is called stochastic if the sum of values in each row is equal to and each entry is non-negative (i.e., ). A matrix is called doubly stochastic if the sum of entries in each row and column is equal to and each entry is non-negative.     Give an example of a matrix that is stochastic but not doubly stochastic.      Explain why every doubly stochastic matrix is symmetric.      Explain how to check if a matrix with non-negative entries is doubly stochastic by solving a system of equations. How many equations do you need?      Explain how to check if a matrix with non-negative entries is doubly stochastic by solving a system of equations. How many equations do you need?      How would your answers to (c) and (d) change if you were talking about stochastic matrices?    "
+  "body": "  Show that if an operator has distinct eigenvalues and is dimensional, then has an eigenbasis with respect to .   "
 },
 {
-  "id": "ex-vector-space-axioms",
+  "id": "ex-symmetric",
   "level": "2",
-  "url": "#ex-vector-space-axioms",
+  "url": "#ex-symmetric",
   "type": "Checkpoint",
   "number": "1.9",
   "title": "",
-  "body": "  Let be a set with vector addition and scalar multiplication by real numbers. For all and , the vector space axioms are:   (closure under addition)  (closure under scalar multiplication)  (commutativity of addition)  (associativity of addition)  There is a zero vector such that .  For every , there is an additive inverse such that .  (compatibility of scalar multiplication)  (identity for scalar multiplication)  (scalar multiplication distributes over vector addition)  (scalar addition distributes over scalar multiplication)      For each axiom, say whether it is surprising to you or not, and explain why. Which ones feel most natural, and which ones would you be most likely to forget when checking whether a set is a vector space?    "
+  "body": "  Suppose that a matrix is symmetric.     Show that , where the inner product here is the regular old dot product.      Show that eigenvectors of a symmetric matrix with distinct eigenvalues are orthogonal.    "
 }
 ]
 

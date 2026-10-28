@@ -1,0 +1,232 @@
+
+
+  <section xml:id="Math2301Day15">
+    <title>Diagonal Lies</title>
+
+    <subsection xml:id="sec-review">
+      <title>Review</title>
+      <p>
+        <ol marker="(a)">
+          <li>What is an eigenvalue?</li>
+          <li>What is an eigenvector?</li>
+          <li>What did we show holds for eigenvectors with distinct eigenvalues?</li>
+        </ol>
+      </p>
+    </subsection>
+
+    <subsection xml:id="sec-lt-to-matrices">
+      <title>Reminder: From Linear Transformations to Matrices</title>
+
+      <exercise xml:id="ex-columns">
+        <statement>
+          <p>
+            Given a matrix:
+            <me>
+              A = \begin{bmatrix}1 \amp 2 \amp 3\\4 \amp 5 \amp 6 \\7 \amp 8 \amp 9 \end{bmatrix}
+            </me>,
+            what do we find when we compute
+            <me>
+              Ae_{1} = A\begin{bmatrix} 1\\0\\0\end{bmatrix}
+            </me>?
+            What about <m>A e_{2}</m> and <m>Ae_{3}</m>?
+          </p>
+        </statement>
+      </exercise>
+
+      <p>
+        This observation extends in general to give us the following result:
+      </p>
+
+      <theorem xml:id="thm-standard-matrix">
+        <statement>
+          <p>
+            Given a linear transformation <m>T: \mathbb{R}^{n} \to \mathbb{R}^{m}</m>,
+            <me>
+              T(\vec{x}) = A\vec{x}
+            </me>,
+            where <m>A</m> is the <m>m \times n</m> matrix with columns <m>T(e_{1}),\dots,T(e_{n})</m>.
+          </p>
+        </statement>
+        <proof>
+          <p>
+            Note that
+            <me>
+              T(\sum_{i=1}^{n} x_{i} e_{i}) = \sum_{i=1}^{n} x_{i} T(e_{i}) = \begin{bmatrix} T(e_{1}) \amp T(e_{2}) \amp \dots \amp T(e_{n})\end{bmatrix}\vec{x} = A \vec{x}
+            </me>.
+          </p>
+        </proof>
+      </theorem>
+
+      <p>
+        But what about for abstract vector spaces?
+      </p>
+    </subsection>
+
+    <subsection xml:id="sec-change-of-basis">
+      <title>Change of Basis</title>
+
+      <p>
+        Let <m>T: U \to V</m> be a linear transformation between finite dimensional vector spaces <m>U</m> and <m>V</m> of dimension <m>n</m> and <m>m</m> respectively.
+        This linear transformation may be defined abstractly, and instead we want to write it down explicitly.
+      </p>
+
+      <p>
+        To do this we take a basis <m>\vec{u}_{1}, \dots, \vec{u}_{n}</m> for <m>U</m> and <m>\vec{v}_{1}, \dots, \vec{v}_{m}</m> for <m>V</m>.
+        Then there are <term>linear isomorphisms</term> <m>P: \mathbb{R}^{n} \to U</m> and <m>Q: \mathbb{R}^{m} \to V</m> given by
+        <md>
+          <mrow>P(x_{1},\dots, x_{n}) \amp= \sum_{i=1}^{n} x_{i} \vec{u}_{i}</mrow>
+          <mrow>Q(y_{1},\dots, y_{m}) \amp= \sum_{j=1}^{m}y_{j}\vec{v}_{j}</mrow>
+        </md>
+      </p>
+
+      <p>
+        Then we can define a linear transformation <m>F: \mathbb{R}^{n} \to \mathbb{R}^{m}</m> by
+        <me>
+          F(\vec{x}) = Q^{-1} T P(\vec{x})
+        </me>.
+        Then <m>F</m> is represented by a matrix <m>A</m>, and we say the matrix <m>A</m> <term>represents</term> the linear transformation <m>T: U \to V</m> with respect to the bases <m>\vec{u}_{1}, \dots, \vec{u}_{n}</m> and <m>\vec{v}_{1},\dots,\vec{v}_{m}</m>.
+        Different bases give rise to different matrices.
+      </p>
+
+      <p>
+        The core question is: What is the <alert>natural</alert> basis for us to use?
+      </p>
+    </subsection>
+
+    <subsection xml:id="sec-diagonalization">
+      <title>Diagonalization</title>
+
+      <p>
+        We'll focus on operators and use the same basis for the domain and co-domain, so here <m>P = Q</m>.
+      </p>
+
+      <definition xml:id="def-diagonalizable">
+        <statement>
+          <p>
+            An operator <m>T</m> is <term>diagonalizable</term> over <m>\mathbb{R}</m> if <m>V</m> has a basis consisting of real eigenvectors of <m>T</m>.
+          </p>
+        </statement>
+      </definition>
+
+      <p>
+        We call a basis of eigenvectors an <term>eigenbasis</term>.
+      </p>
+
+      <theorem xml:id="thm-diagonal-iff-eigenbasis">
+        <statement>
+          <p>
+            Let <m>T: V \to V</m> be an operator, and let <m>\mathcal{B}= \{\vec{v}_{1}, \dots, \vec{v}_{n}\}</m> be a basis.
+            Then the matrix with respect to <m>\mathcal{B}</m> representing <m>T</m> is diagonal with nonzero entries on the diagonal if and only if <m>\vec{v}_{1},\dots, \vec{v}_{n}</m> is an eigenbasis with nonzero eigenvalues.
+          </p>
+        </statement>
+        <proof>
+          <p>
+            Let <m>A</m> be the matrix representing <m>T</m>.
+            Then <m>A</m> is diagonal with nonzero entries on the diagonal if and only if there exist <m>\lambda_{1}, \dots, \lambda_{n} \in \mathbb{R} \setminus \{0\}</m> such that
+            <me>
+              Ae_{i} = \lambda_{i} e_{i}
+            </me>
+            for all <m>1 \leq i \leq n</m>.
+          </p>
+          <p>
+            Suppose first that <m>A</m> is diagonal.
+            Since <m>A</m> represents <m>T</m>, for all <m>1 \leq i \leq n</m>
+            <me>
+              \lambda_{i} e_{i} = A(e_{i}) = P^{-1} T P(e_{i}) = P^{-1}T(\vec{v}_{i})
+            </me>.
+            By applying <m>P</m> on the left of both sides, we find,
+            <me>
+              \lambda_{i}\vec{v}_{i} = P(\lambda_{i} e_{i}) = P(P^{-1}(T(\vec{v}_{i}))) = T(\vec{v}_{i})
+            </me>,
+            so <m>\vec{v}_{i}</m> is an eigenvector for all <m>1 \leq i \leq n</m>.
+            Since <m>A</m> is diagonal with nonzero entries on the diagonal, it is invertible meaning that <m>\vec{v}_{1},\dots, \vec{v}_{n}</m> must also be a basis.
+          </p>
+          <p>
+            Suppose instead that <m>\vec{v}_{1}, \dots, \vec{v}_{n}</m> is an eigenbasis.
+            Then for all <m>1 \leq i \leq n</m>
+            <me>
+              Ae_{i} = P^{-1}TP(e_{i}) = P^{-1} T(\vec{v}_{i}) = P^{-1}(\lambda_{i}\vec{v}_{i}) = \lambda_{i} e_{i}
+            </me>.
+            Thus, <m>A</m> is diagonal.
+          </p>
+        </proof>
+      </theorem>
+
+      <p>
+        Intuitively, having a diagonal basis is helpful, but they carry even greater meaning. We'll discuss applications of diagonalization next class and in the exercises. Unfortunately, not all operators are diagonalizable as you'll show in one of the exercises. 
+        Our next steps are in pursuit of proving the following <alert>spooky</alert> theorem called the <term>spectral theorem</term>:
+      </p>
+
+      <theorem xml:id="thm-spectral">
+        <statement>
+          <p>
+            Let <m>A</m> be an <m>n \times n</m> matrix such that <m>A = A^{\intercal}</m>.
+            Then <m>A</m> is diagonalizable with real eigenvalues.
+          </p>
+        </statement>
+      </theorem>
+    </subsection>
+
+    <subsection xml:id="sec-exercises">
+      <title>Exercises</title>
+
+      <p>
+        We know how to take the square of a matrix. But how do we take the square root?
+      </p>
+
+      <exercise xml:id="ex-square-root">
+        <statement>
+          <p>
+            Suppose that an <m>n \times n</m> matrix <m>A</m> is diagonalizable so <m>A = P D P^{-1}</m> and all of its eigenvalues are non-negative.
+            Give an expression for <m>\sqrt{A}</m>.
+          </p>
+        </statement>
+      </exercise>
+
+      <p>
+        This is an important condition. Again like with numbers, not all matrices have real square roots. 
+      </p>
+
+      <exercise xml:id="ex-no-square-root">
+        <statement>
+          <p>
+            Show that the matrix
+            <me>
+              A= \begin{pmatrix} 0 \amp 1 \\0 \amp 0\end{pmatrix}
+            </me>
+            is not diagonalizable andhas no square root.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-distinct-eigenvalues">
+        <statement>
+          <p>
+            Show that if an operator <m>T: V \to V</m> has <m>n</m> distinct eigenvalues and <m>V</m> is <m>n</m> dimensional, then <m>V</m> has an eigenbasis with respect to <m>T</m>.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-symmetric">
+        <introduction>
+          <p>
+            Suppose that a matrix <m>A</m> is symmetric.
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>
+              Show that <m>\langle \vec{u}, A\vec{v}\rangle = \langle A \vec{u},\vec{v}\rangle</m>, where the inner product here is the regular old dot product.
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Show that eigenvectors of a symmetric matrix with distinct eigenvalues are orthogonal.
+            </p>
+          </statement>
+        </task>
+      </exercise>
+    </subsection>
+  </section>

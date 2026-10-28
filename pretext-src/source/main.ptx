@@ -23,9 +23,9 @@
   </docinfo>
 
   <article xml:id="sensing">
-    <title>Math 2000 Day 15 </title>
+    <title>Math 2301 Day 15 </title>
     <xi:include href="./frontmatter.ptx" />
-    <xi:include href="Math2000Day15.ptx" />
+    <xi:include href="Math2301Day15.ptx" />
 
   
   </article>
