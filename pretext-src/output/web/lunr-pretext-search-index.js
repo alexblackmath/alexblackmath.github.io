@@ -1,130 +1,130 @@
 var ptx_lunr_search_style = "textbook";
 var ptx_lunr_docs = [
 {
-  "id": "sensing",
+  "id": "supersmash",
   "level": "1",
-  "url": "#sensing",
+  "url": "#supersmash",
   "type": "Article",
   "number": "",
-  "title": "Math 2301 Day 15",
-  "body": " Math 2301 Day 15       Diagonal Lies   Review    What is an eigenvalue?  What is an eigenvector?  What did we show holds for eigenvectors with distinct eigenvalues?      Reminder: From Linear Transformations to Matrices    Given a matrix: , what do we find when we compute ? What about and ?    This observation extends in general to give us the following result:    Given a linear transformation , , where is the matrix with columns .    Note that .    But what about for abstract vector spaces?    Change of Basis  Let be a linear transformation between finite dimensional vector spaces and of dimension and respectively. This linear transformation may be defined abstractly, and instead we want to write it down explicitly.  To do this we take a basis for and for . Then there are linear isomorphisms  and given by   Then we can define a linear transformation by . Then is represented by a matrix , and we say the matrix  represents the linear transformation with respect to the bases and . Different bases give rise to different matrices.  The core question is: What is the natural basis for us to use?    Diagonalization  We'll focus on operators and use the same basis for the domain and co-domain, so here .    An operator is diagonalizable over if has a basis consisting of real eigenvectors of .    We call a basis of eigenvectors an eigenbasis .    Let be an operator, and let be a basis. Then the matrix with respect to representing is diagonal with nonzero entries on the diagonal if and only if is an eigenbasis with nonzero eigenvalues.    Let be the matrix representing . Then is diagonal with nonzero entries on the diagonal if and only if there exist such that for all .  Suppose first that is diagonal. Since represents , for all  . By applying on the left of both sides, we find, , so is an eigenvector for all . Since is diagonal with nonzero entries on the diagonal, it is invertible meaning that must also be a basis.  Suppose instead that is an eigenbasis. Then for all  . Thus, is diagonal.    Intuitively, having a diagonal basis is helpful, but they carry even greater meaning. We'll discuss applications of diagonalization next class and in the exercises. Unfortunately, not all operators are diagonalizable as you'll show in one of the exercises. Our next steps are in pursuit of proving the following spooky theorem called the spectral theorem :    Let be an matrix such that . Then is diagonalizable with real eigenvalues.      Exercises  We know how to take the square of a matrix. But how do we take the square root?    Suppose that an matrix is diagonalizable so and all of its eigenvalues are non-negative. Give an expression for .    This is an important condition. Again like with numbers, not all matrices have real square roots.    Show that the matrix is not diagonalizable andhas no square root.      Show that if an operator has distinct eigenvalues and is dimensional, then has an eigenbasis with respect to .      Suppose that a matrix is symmetric.     Show that , where the inner product here is the regular old dot product.      Show that eigenvectors of a symmetric matrix with distinct eigenvalues are orthogonal.       "
+  "title": "Math 2000 Day 16",
+  "body": " Math 2000 Day 16       Subspace Emissary    Review  What are the two operations you can do in a vector space?    Consider the linear system: Does it have a solution? Why or why not?       Linear Subspaces  Given a vector space , a subset of is a subspace if it has the following three properties:   Contains .     Closure under addition : Adding any two elements of gives you an element of .     Closure under scaling : Rescaling elements of yields other elements of .     There are four subspaces associated to a matrix that each have rich geometric and computational meaning.     A Kernel of Truth  The first type is called the kernel of the matrix.    Let be an matrix. Then the set of vectors in such that is a subspace of called the kernel  .    In other words, is the set of solutions to the system of linear equations .  But why is it a linear subspace?   It contains , since .    If and , then . Thus, a sum of any two elements in the kernel is in the kernel.    If , then for any real number , . Thus, would also be in the kernel.     This is how you make such an argument. You can always just follow these steps. My intermediate linear algebra students have done this a double digit number of times in class. It's a very fundamental argument style.  For example, let . Then is the set of such that and . In other words, it is the -axis.  Similarly, let . Then is the plane satisfying the equation .     Column Span  As we learned, a linear system may not always have a solution if . When does it?  Well, remember that . Thus, has a solution when you can write as a linear combination of the columns of . Thus, the set of all for which a solution exists is exactly the set of linear combinations of columns of . We called this or equally .    For any collection of vectors in , , their span is a linear subspace.    Why? Again we follow our steps. We consider the matrix with as the columns. Then the question becomes: is the set of vectors of the form a subspace?   Note that , so is in the set of vectors of the form .    Since , the sum of any two vectors in the span must still be in the span.    Similarly, since , any rescaling of something in the span is in the span.   Note our reasoning is very similar to what we did for kernels.     Row Span  By the same argument the span of the rows of a matrix is a linear subspace, but what does this subspace mean?  You have a matrix , and you can consider the linear system . For example, . One solution to this system is . This is because , and . Now take . Then that also equals .  In fact, this fact is true in general.    The row-span of consists of all vectors that are rows of valid equations defining . That is, the set of all vectors that dot product with each vector in the kernel of to get .       Row Kernel  The span of the rows is exactly . What about ? It is interpreted as the set of solutions to , but where do those come up?  Let's say has no solution. How do you know? Well, you can row reduce and check whether the last column is a pivot column for the augmented matrix in reduced row echelon form.  But there's another way to phrase this. This is the same as saying there is a way to derive the equation . If that is the case, then there is no solution.  Note that by how row reduction works, any new row is a linear combination of old rows. A linear combination of rows is a vector of the form by the previous discussion. Therefore, we have the following result:   Fredholm Alternative   Either has a solution or there exists in such that .    This ends up being a useful formulation that generalizes to systems of linear inequalities, systems of polynomial equations, and even systems of polynomial inequalities! It's a primary tool in symbolic computation.     Exercises    Reexplain the four subspaces in your own words.      Explain why the vector cannot be obtained from any linear combination of the vectors , , and .      Is the collection of vectors in such that and a subspace of ?      Which of the following are linear subspaces of the vector space of matrices:  Invertible matrices  Noninvertible matrices  Upper triangular matrices  Permutation matrices  Diagonal matrices  Matrices with determinant  Orthogonal matrices (i.e., such that )        Consider the linear system: . Use the Fredholm alternative to explain why it has no solution.      Consider the following linear system .     Without row reducing, explain why this system has a solution and give an example solution.      Does this system have a solution in which each for each ?       "
 },
 {
-  "id": "ex-columns",
+  "id": "ex-review-system",
   "level": "2",
-  "url": "#ex-columns",
+  "url": "#ex-review-system",
   "type": "Checkpoint",
   "number": "1.1",
   "title": "",
-  "body": "  Given a matrix: , what do we find when we compute ? What about and ?   "
+  "body": "  Consider the linear system: Does it have a solution? Why or why not?   "
 },
 {
-  "id": "thm-standard-matrix",
+  "id": "sec-linear-subspaces-2",
   "level": "2",
-  "url": "#thm-standard-matrix",
+  "url": "#sec-linear-subspaces-2",
+  "type": "Paragraph (with a defined term)",
+  "number": "",
+  "title": "",
+  "body": "subspace Closure under addition Closure under scaling "
+},
+{
+  "id": "sec-kernel-2",
+  "level": "2",
+  "url": "#sec-kernel-2",
+  "type": "Paragraph (with a defined term)",
+  "number": "",
+  "title": "",
+  "body": "kernel "
+},
+{
+  "id": "thm-kernel-subspace",
+  "level": "2",
+  "url": "#thm-kernel-subspace",
   "type": "Theorem",
   "number": "1.2",
   "title": "",
-  "body": "  Given a linear transformation , , where is the matrix with columns .    Note that .   "
+  "body": "  Let be an matrix. Then the set of vectors in such that is a subspace of called the kernel  .   "
 },
 {
-  "id": "sec-change-of-basis-3",
+  "id": "thm-span-subspace",
   "level": "2",
-  "url": "#sec-change-of-basis-3",
-  "type": "Paragraph (with a defined term)",
-  "number": "",
-  "title": "",
-  "body": "linear isomorphisms "
-},
-{
-  "id": "sec-change-of-basis-4",
-  "level": "2",
-  "url": "#sec-change-of-basis-4",
-  "type": "Paragraph (with a defined term)",
-  "number": "",
-  "title": "",
-  "body": "represents "
-},
-{
-  "id": "def-diagonalizable",
-  "level": "2",
-  "url": "#def-diagonalizable",
-  "type": "Definition",
+  "url": "#thm-span-subspace",
+  "type": "Theorem",
   "number": "1.3",
   "title": "",
-  "body": "  An operator is diagonalizable over if has a basis consisting of real eigenvectors of .   "
+  "body": "  For any collection of vectors in , , their span is a linear subspace.   "
 },
 {
-  "id": "sec-diagonalization-4",
+  "id": "thm-row-span",
   "level": "2",
-  "url": "#sec-diagonalization-4",
-  "type": "Paragraph (with a defined term)",
-  "number": "",
-  "title": "",
-  "body": "eigenbasis "
-},
-{
-  "id": "thm-diagonal-iff-eigenbasis",
-  "level": "2",
-  "url": "#thm-diagonal-iff-eigenbasis",
+  "url": "#thm-row-span",
   "type": "Theorem",
   "number": "1.4",
   "title": "",
-  "body": "  Let be an operator, and let be a basis. Then the matrix with respect to representing is diagonal with nonzero entries on the diagonal if and only if is an eigenbasis with nonzero eigenvalues.    Let be the matrix representing . Then is diagonal with nonzero entries on the diagonal if and only if there exist such that for all .  Suppose first that is diagonal. Since represents , for all  . By applying on the left of both sides, we find, , so is an eigenvector for all . Since is diagonal with nonzero entries on the diagonal, it is invertible meaning that must also be a basis.  Suppose instead that is an eigenbasis. Then for all  . Thus, is diagonal.   "
+  "body": "  The row-span of consists of all vectors that are rows of valid equations defining . That is, the set of all vectors that dot product with each vector in the kernel of to get .   "
 },
 {
-  "id": "sec-diagonalization-6",
+  "id": "thm-fredholm",
   "level": "2",
-  "url": "#sec-diagonalization-6",
-  "type": "Paragraph (with a defined term)",
-  "number": "",
-  "title": "",
-  "body": "spectral theorem "
-},
-{
-  "id": "thm-spectral",
-  "level": "2",
-  "url": "#thm-spectral",
+  "url": "#thm-fredholm",
   "type": "Theorem",
   "number": "1.5",
-  "title": "",
-  "body": "  Let be an matrix such that . Then is diagonalizable with real eigenvalues.   "
+  "title": "Fredholm Alternative.",
+  "body": " Fredholm Alternative   Either has a solution or there exists in such that .   "
 },
 {
-  "id": "ex-square-root",
+  "id": "ex-four-subspaces",
   "level": "2",
-  "url": "#ex-square-root",
-  "type": "Checkpoint",
-  "number": "1.6",
+  "url": "#ex-four-subspaces",
+  "type": "Exercise",
+  "number": "1.7.1",
   "title": "",
-  "body": "  Suppose that an matrix is diagonalizable so and all of its eigenvalues are non-negative. Give an expression for .   "
+  "body": "  Reexplain the four subspaces in your own words.   "
 },
 {
-  "id": "ex-no-square-root",
+  "id": "ex-not-in-span",
   "level": "2",
-  "url": "#ex-no-square-root",
-  "type": "Checkpoint",
-  "number": "1.7",
+  "url": "#ex-not-in-span",
+  "type": "Exercise",
+  "number": "1.7.2",
   "title": "",
-  "body": "  Show that the matrix is not diagonalizable andhas no square root.   "
+  "body": "  Explain why the vector cannot be obtained from any linear combination of the vectors , , and .   "
 },
 {
-  "id": "ex-distinct-eigenvalues",
+  "id": "ex-quadrant",
   "level": "2",
-  "url": "#ex-distinct-eigenvalues",
-  "type": "Checkpoint",
-  "number": "1.8",
+  "url": "#ex-quadrant",
+  "type": "Exercise",
+  "number": "1.7.3",
   "title": "",
-  "body": "  Show that if an operator has distinct eigenvalues and is dimensional, then has an eigenbasis with respect to .   "
+  "body": "  Is the collection of vectors in such that and a subspace of ?   "
 },
 {
-  "id": "ex-symmetric",
+  "id": "ex-matrix-subspaces",
   "level": "2",
-  "url": "#ex-symmetric",
-  "type": "Checkpoint",
-  "number": "1.9",
+  "url": "#ex-matrix-subspaces",
+  "type": "Exercise",
+  "number": "1.7.4",
   "title": "",
-  "body": "  Suppose that a matrix is symmetric.     Show that , where the inner product here is the regular old dot product.      Show that eigenvectors of a symmetric matrix with distinct eigenvalues are orthogonal.    "
+  "body": "  Which of the following are linear subspaces of the vector space of matrices:  Invertible matrices  Noninvertible matrices  Upper triangular matrices  Permutation matrices  Diagonal matrices  Matrices with determinant  Orthogonal matrices (i.e., such that )     "
+},
+{
+  "id": "ex-fredholm-apply",
+  "level": "2",
+  "url": "#ex-fredholm-apply",
+  "type": "Exercise",
+  "number": "1.7.5",
+  "title": "",
+  "body": "  Consider the linear system: . Use the Fredholm alternative to explain why it has no solution.   "
+},
+{
+  "id": "ex-nonnegative-solution",
+  "level": "2",
+  "url": "#ex-nonnegative-solution",
+  "type": "Exercise",
+  "number": "1.7.6",
+  "title": "",
+  "body": "  Consider the following linear system .     Without row reducing, explain why this system has a solution and give an example solution.      Does this system have a solution in which each for each ?    "
 }
 ]
 

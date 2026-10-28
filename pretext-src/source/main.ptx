@@ -22,10 +22,10 @@
 
   </docinfo>
 
-  <article xml:id="sensing">
-    <title>Math 2301 Day 15 </title>
+  <article xml:id="supersmash">
+    <title>Math 2000 Day 16 </title>
     <xi:include href="./frontmatter.ptx" />
-    <xi:include href="Math2301Day15.ptx" />
+    <xi:include href="Math2000Day16.ptx" />
 
   
   </article>

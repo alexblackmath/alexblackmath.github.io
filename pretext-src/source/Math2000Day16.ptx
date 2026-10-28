@@ -1,0 +1,334 @@
+
+
+  <section xml:id="Math2000Day16">
+    <title>Subspace Emissary</title>
+
+    <!-- ========================================================= -->
+    <subsection xml:id="sec-review">
+      <title>Review</title>
+
+      <p>
+        What are the two operations you can do in a vector space?
+      </p>
+
+      <exercise xml:id="ex-review-system">
+        <statement>
+          <p>
+            Consider the linear system:
+            <me>
+              \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \\ 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}
+              \begin{pmatrix} x \\ y \end{pmatrix}
+              = \begin{pmatrix} 1 \\ 2 \\ 1 \\ 4 \end{pmatrix}
+            </me>
+            Does it have a solution? Why or why not?
+          </p>
+        </statement>
+      </exercise>
+    </subsection>
+
+    <!-- ========================================================= -->
+    <subsection xml:id="sec-linear-subspaces">
+      <title>Linear Subspaces</title>
+
+      <p>
+        Given a vector space <m>V</m>, a subset <m>W</m> of <m>V</m> is a <term>subspace</term> if it has the following three properties:
+        <ol marker="(a)">
+          <li>
+            <p>
+              Contains <m>\vec{0}</m>.
+            </p>
+          </li>
+          <li>
+            <p>
+              <term>Closure under addition</term>: Adding any two elements of <m>W</m> gives you an element of <m>W</m>.
+            </p>
+          </li>
+          <li>
+            <p>
+              <term>Closure under scaling</term>: Rescaling elements of <m>W</m> yields other elements of <m>W</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+
+      <p>
+        There are four subspaces associated to a matrix that each have rich geometric and computational meaning.
+      </p>
+    </subsection>
+
+    <!-- ========================================================= -->
+    <subsection xml:id="sec-kernel">
+      <title>A Kernel of Truth</title>
+
+      <p>
+        The first type is called the <term>kernel</term> of the matrix.
+      </p>
+
+      <theorem xml:id="thm-kernel-subspace">
+        <statement>
+          <p>
+            Let <m>A</m> be an <m>m \times n</m> matrix. Then the set of vectors in <m>\mathbb{R}^{n}</m> such that <m>A \vec{x} = \vec{0}</m> is a subspace of <m>\mathbb{R}^{n}</m> called the <term>kernel</term> <m>\ker(A)</m>.
+          </p>
+        </statement>
+      </theorem>
+
+      <p>
+        In other words, <m>\ker(A)</m> is the set of solutions to the system of linear equations <m>A \vec{x} = \vec{0}</m>.
+      </p>
+
+      <p>
+        But why is it a linear subspace?
+        <ol marker="(a)">
+          <li>
+            <p>
+              It contains <m>\vec{0}</m>, since <m>A \vec{0} = \vec{0}</m>.
+            </p>
+          </li>
+          <li>
+            <p>
+              If <m>A \vec{x} = \vec{0}</m> and <m>A \vec{y} = \vec{0}</m>, then <m>A (\vec{x} + \vec{y}) = A \vec{x} + A\vec{y} = \vec{0} + \vec{0} = \vec{0}</m>. Thus, a sum of any two elements in the kernel is in the kernel.
+            </p>
+          </li>
+          <li>
+            <p>
+              If <m>A\vec{x} = \vec{0}</m>, then for any real number <m>c</m>, <m>A(c \vec{x}) = c A\vec{x} = c(\vec{0}) = \vec{0}</m>. Thus, <m>c \vec{x}</m> would also be in the kernel.
+            </p>
+          </li>
+        </ol>
+      </p>
+
+      <p>
+        This is how you make such an argument. You can always just follow these steps. My intermediate linear algebra students have done this a double digit number of times in class. It's a very fundamental argument style.
+      </p>
+
+      <p>
+        For example, let
+        <me>
+          A = \begin{pmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \end{pmatrix}
+        </me>.
+        Then <m>\ker(A)</m> is the set of <m>(x,y,z)</m> such that <m>x = 0</m> and <m>y = 0</m>. In other words, it is the <m>z</m>-axis.
+      </p>
+
+      <p>
+        Similarly, let
+        <me>
+          B = \begin{pmatrix} 1 &amp; 1 &amp; 1 \end{pmatrix}
+        </me>.
+        Then <m>\ker(B)</m> is the plane satisfying the equation <m>x+y+z = 0</m>.
+      </p>
+    </subsection>
+
+    <!-- ========================================================= -->
+    <subsection xml:id="sec-column-span">
+      <title>Column Span</title>
+
+      <p>
+        As we learned, a linear system <m>A \vec{x} =\vec{b}</m> may not always have a solution if <m>\vec{b} \neq \vec{0}</m>. When does it?
+      </p>
+
+      <p>
+        Well, remember that
+        <me>
+          A \vec{x} = x_{1} \vec{A}_{1} + x_{2} \vec{A}_{2} + \dots + x_{n} \vec{A}_{n}
+        </me>.
+        Thus, <m>A \vec{x} = \vec{b}</m> has a solution when you can write <m>\vec{b}</m> as a linear combination of the columns of <m>A</m>. Thus, the set of all <m>\vec{b}</m> for which a solution exists is exactly the set of linear combinations of columns of <m>A</m>. We called this <m>\text{span}(\vec{A}_{1}, \dots, \vec{A}_{n})</m> or equally <m>\text{colspan}(A)</m>.
+      </p>
+
+      <theorem xml:id="thm-span-subspace">
+        <statement>
+          <p>
+            For any collection of vectors in <m>\mathbb{R}^{m}</m>, <m>\vec{v}_{1}, \dots, \vec{v}_{n}</m>, their span is a linear subspace.
+          </p>
+        </statement>
+      </theorem>
+
+      <p>
+        Why? Again we follow our steps. We consider the matrix <m>A</m> with <m>\vec{v}_{1}, \dots, \vec{v}_{n}</m> as the columns. Then the question becomes: is the set of vectors of the form <m>A \vec{x}</m> a subspace?
+        <ol marker="(a)">
+          <li>
+            <p>
+              Note that <m>A \vec{0} = \vec{0}</m>, so <m>\vec{0}</m> is in the set of vectors of the form <m>A \vec{x}</m>.
+            </p>
+          </li>
+          <li>
+            <p>
+              Since <m>A(\vec{x} + \vec{y}) = A\vec{x} + A\vec{y}</m>, the sum of any two vectors in the span must still be in the span.
+            </p>
+          </li>
+          <li>
+            <p>
+              Similarly, since <m>A(c \vec{x}) = c A\vec{x}</m>, any rescaling of something in the span is in the span.
+            </p>
+          </li>
+        </ol>
+        Note our reasoning is very similar to what we did for kernels.
+      </p>
+    </subsection>
+
+    <!-- ========================================================= -->
+    <subsection xml:id="sec-row-span">
+      <title>Row Span</title>
+
+      <p>
+        By the same argument the span of the rows of a matrix is a linear subspace, but what does this subspace mean?
+      </p>
+
+      <p>
+        You have a matrix <m>A</m>, and you can consider the linear system <m>A \vec{x} = \vec{0}</m>. For example,
+        <me>
+          \begin{pmatrix} 1 &amp; -1 &amp; 0 \\ 0 &amp; 1 &amp; -1 \end{pmatrix}
+          \begin{pmatrix} x \\ y \\ z \end{pmatrix}
+          = \begin{pmatrix} 0 \\ 0 \end{pmatrix}
+        </me>.
+        One solution to this system is
+        <me>
+          \begin{pmatrix} 1 \\ 1 \\ 1 \end{pmatrix}
+        </me>.
+        This is because <m>(1,-1,0) \cdot (1,1,1) = 0</m>, and <m>(0,1,-1) \cdot (1,1,1) = 0</m>. Now take <m>((1,-1,0) + (0,1,-1)) \cdot (1,1,1)</m>. Then that also equals <m>0</m>.
+      </p>
+
+      <p>
+        In fact, this fact is true in general.
+      </p>
+
+      <theorem xml:id="thm-row-span">
+        <statement>
+          <p>
+            The row-span of <m>A</m> consists of all vectors that are rows of valid equations defining <m>\ker(A)</m>. That is, the set of all vectors that dot product with each vector in the kernel of <m>A</m> to get <m>0</m>.
+          </p>
+        </statement>
+      </theorem>
+    </subsection>
+
+    <!-- ========================================================= -->
+    <subsection xml:id="sec-row-kernel">
+      <title>Row Kernel</title>
+
+      <p>
+        The span of the rows is exactly <m>\text{colspan}(A^{\intercal})</m>. What about <m>\ker(A^{\intercal})</m>? It is interpreted as the set of solutions to <m>A^{\intercal} \vec{x} = \vec{0}</m>, but where do those come up?
+      </p>
+
+      <p>
+        Let's say
+        <me>
+          A \vec{x} = \vec{b}
+        </me>
+        has no solution. How do you know? Well, you can row reduce and check whether the last column is a pivot column for the augmented matrix in reduced row echelon form.
+      </p>
+
+      <p>
+        But there's another way to phrase this. This is the same as saying there is a way to derive the equation <m>\vec{0}\cdot \vec{x} = 1</m>. If that is the case, then there is no solution.
+      </p>
+
+      <p>
+        Note that by how row reduction works, any new row is a linear combination of old rows. A linear combination of rows is a vector of the form <m>A^{\intercal} \vec{y}</m> by the previous discussion. Therefore, we have the following result:
+      </p>
+
+      <theorem xml:id="thm-fredholm">
+        <title>Fredholm Alternative</title>
+        <statement>
+          <p>
+            Either <m>A \vec{x} = \vec{b}</m> has a solution or there exists <m>\vec{y}</m> in <m>\ker(A^{\intercal})</m> such that <m>\vec{y} \cdot \vec{b} = 1</m>.
+          </p>
+        </statement>
+      </theorem>
+
+      <p>
+        This ends up being a useful formulation that generalizes to systems of linear inequalities, systems of polynomial equations, and even systems of polynomial inequalities! It's a primary tool in symbolic computation.
+      </p>
+    </subsection>
+
+    <!-- ========================================================= -->
+    <exercises xml:id="exercises-day15">
+      <title>Exercises</title>
+
+      <exercise xml:id="ex-four-subspaces">
+        <statement>
+          <p>
+            Reexplain the four subspaces in your own words.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-not-in-span">
+        <statement>
+          <p>
+            Explain why the vector <m>(1,2,3)</m> cannot be obtained from any linear combination of the vectors <m>(1,-1,0)</m>, <m>(0,1,-1)</m>, and <m>(1,0,-1)</m>.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-quadrant">
+        <statement>
+          <p>
+            Is the collection of vectors <m>(x,y)</m> in <m>\mathbb{R}^{2}</m> such that <m>x \geq 0</m> and <m>y \geq 0</m> a subspace of <m>\mathbb{R}^{2}</m>?
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-matrix-subspaces">
+        <statement>
+          <p>
+            Which of the following are linear subspaces of the vector space of <m>n \times n</m> matrices:
+            <ol marker="(a)">
+              <li><p>Invertible matrices</p></li>
+              <li><p>Noninvertible matrices</p></li>
+              <li><p>Upper triangular matrices</p></li>
+              <li><p>Permutation matrices</p></li>
+              <li><p>Diagonal matrices</p></li>
+              <li><p>Matrices with determinant <m>1</m></p></li>
+              <li><p>Orthogonal matrices (i.e., such that <m>A^{\intercal} = A^{-1}</m>)</p></li>
+            </ol>
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-fredholm-apply">
+        <statement>
+          <p>
+            Consider the linear system:
+            <me>
+              \begin{pmatrix} 1 &amp; 0 \\ -1 &amp; 1 \\ 0 &amp; -1 \end{pmatrix}
+              \begin{pmatrix} x_{1} \\ x_{2} \end{pmatrix}
+              = \begin{pmatrix} 1 \\ 2 \\ 3 \end{pmatrix}
+            </me>.
+            Use the Fredholm alternative to explain why it has no solution.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-nonnegative-solution">
+        <introduction>
+          <p>
+            Consider the following linear system
+            <me>
+              \begin{pmatrix}
+                1 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; 0 \\
+                0 &amp; 1 &amp; 0 &amp; -1 &amp; 0 &amp; 1 \\
+                0 &amp; 0 &amp; 1 &amp; 0 &amp; -1 &amp; -1
+              \end{pmatrix}
+              \begin{pmatrix} x_{1} \\ x_{2} \\ x_{3} \\ x_{4} \\ x_{5} \\ x_{6} \end{pmatrix}
+              = \begin{pmatrix} -1 \\ -1 \\ -1 \end{pmatrix}
+            </me>.
+          </p>
+        </introduction>
+
+        <task>
+          <statement>
+            <p>
+              Without row reducing, explain why this system has a solution and give an example solution.
+            </p>
+          </statement>
+        </task>
+
+        <task>
+          <statement>
+            <p>
+              Does this system have a solution in which each <m>x_{i} \geq 0</m> for each <m>1 \leq i \leq 6</m>?
+            </p>
+          </statement>
+        </task>
+      </exercise>
+    </exercises>
+
+  </section>
