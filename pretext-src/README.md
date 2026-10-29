@@ -82,3 +82,14 @@ git add .
 git commit -m "Add PreTeXt math notes"
 git push
  -->
+
+ <!-- 
+rm -rf ../Math2301/Math2301HW6
+mkdir ../Math2301/Math2301HW6
+cp -a output/web/. ../Math2301/Math2301HW6
+
+cd ..
+git add .
+git commit -m "Add PreTeXt math notes"
+git push
+ -->

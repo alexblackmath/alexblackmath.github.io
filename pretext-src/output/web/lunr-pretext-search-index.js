@@ -1,76 +1,67 @@
 var ptx_lunr_search_style = "textbook";
 var ptx_lunr_docs = [
 {
-  "id": "supersmash",
+  "id": "axioms",
   "level": "1",
-  "url": "#supersmash",
+  "url": "#axioms",
   "type": "Article",
   "number": "",
-  "title": "Math 2000 Homework 5",
-  "body": " Math 2000 Homework 5       Axioms Speak Louder than Words   The Four Fundamental Subspaces    Consider the matrix      Is in the kernel of ?      Is in the kernel of ?      Is in the column span of ?      Is in the row span of ?       Consider a matrix and suppose that it is invertible.     What is ?      What is ?      What is ?      What is ?      Explain your answers.       Use the Fredholm alternative to explain why the following linear system has no solution.      Polynomials  Recall the following facts about polynomials. Polynomials are functions of the form . Polynomials form a vector space under addition and scalar multiplication.  The degree of a polynomial is the maximum power of that appears with nonzero coefficient. For example, has degree and has degree . We say the polynomial has degree . A nonzero constant polynomial such as has degree .    Polynomials of degree at most are a subspace of the vector space of all polynomials. Explain why this is the case by following the three steps:     Explain why the polynomial has degree at most .      Explain why the sum of any polynomials of degree at most has degree at most .      Explain why rescaling a polynomial of degree at most yields a polynomial of degree at most .        Explain why the set of polynomials of degree exactly is not a linear subspace. Which properties does it not satisfy and why?      A polynomial is called even if for all . Define and .     Find a system of linear equations on for which is even if and only if its coefficients are a solution to that system.      Find a system of linear equations on for which is even if and only if its coefficients are a solution to that system.      Find a system of linear equations on for which and are both even if and only if their corresponding coefficients are a solution to that linear system.         "
+  "title": "Math 2301 Homework 6",
+  "body": " Math 2301 Homework 6       Calculus Eigen   Calc 2: Power Series  In Calc , you learn about power series. They look like this: Taylor series tells you that any sufficiently nice function has a power series representation given by Thus, they are a useful model of functions.    Let be an infinitely differentiable function.     Show that where is the th derivative of .      Show that if , then for all .     Power series are useful for describing eigenvectors of the derivative.    Let .     Find a power series for .      Show that if , then .      Explain why this means the set of solutions to the differential equation is -dimensional.      Describe the set of solutions to .      Describe the set of all eigenvectors of the derivative.       Multivariable Calc: Second Derivatives  For a function , its gradient is the function given by . Its Hessian is , which is the matrix given by   The following collection of exercises answers the question: Which matrices can appear as Hessians?  Let be an matrix. Then the quadratic form associated with is     Let be an matrix. Show that for all :       Show that       Show that any symmetric matrix is the Hessian of some quadratic form.      "
 },
 {
-  "id": "ex-kernel-span-membership",
+  "id": "ex-power-series-coefficients",
   "level": "2",
-  "url": "#ex-kernel-span-membership",
+  "url": "#ex-power-series-coefficients",
   "type": "Checkpoint",
   "number": "1.1",
   "title": "",
-  "body": "  Consider the matrix      Is in the kernel of ?      Is in the kernel of ?      Is in the column span of ?      Is in the row span of ?    "
+  "body": "  Let be an infinitely differentiable function.     Show that where is the th derivative of .      Show that if , then for all .    "
 },
 {
-  "id": "ex-invertible-subspaces",
+  "id": "ex-derivative-eigenvectors",
   "level": "2",
-  "url": "#ex-invertible-subspaces",
+  "url": "#ex-derivative-eigenvectors",
   "type": "Checkpoint",
   "number": "1.2",
   "title": "",
-  "body": "  Consider a matrix and suppose that it is invertible.     What is ?      What is ?      What is ?      What is ?      Explain your answers.    "
+  "body": "  Let .     Find a power series for .      Show that if , then .      Explain why this means the set of solutions to the differential equation is -dimensional.      Describe the set of solutions to .      Describe the set of all eigenvectors of the derivative.    "
 },
 {
-  "id": "ex-fredholm",
+  "id": "sec-second-derivatives-2",
   "level": "2",
-  "url": "#ex-fredholm",
-  "type": "Checkpoint",
-  "number": "1.3",
-  "title": "",
-  "body": "  Use the Fredholm alternative to explain why the following linear system has no solution.   "
-},
-{
-  "id": "sec-polynomials-3",
-  "level": "2",
-  "url": "#sec-polynomials-3",
+  "url": "#sec-second-derivatives-2",
   "type": "Paragraph (with a defined term)",
   "number": "",
   "title": "",
-  "body": "degree "
+  "body": "gradient Hessian "
 },
 {
-  "id": "ex-degree-at-most-2-subspace",
+  "id": "ex-quadratic-form-partials",
   "level": "2",
-  "url": "#ex-degree-at-most-2-subspace",
+  "url": "#ex-quadratic-form-partials",
+  "type": "Checkpoint",
+  "number": "1.3",
+  "title": "",
+  "body": "  Let be an matrix. Show that for all :    "
+},
+{
+  "id": "ex-quadratic-form-hessian",
+  "level": "2",
+  "url": "#ex-quadratic-form-hessian",
   "type": "Checkpoint",
   "number": "1.4",
   "title": "",
-  "body": "  Polynomials of degree at most are a subspace of the vector space of all polynomials. Explain why this is the case by following the three steps:     Explain why the polynomial has degree at most .      Explain why the sum of any polynomials of degree at most has degree at most .      Explain why rescaling a polynomial of degree at most yields a polynomial of degree at most .    "
+  "body": "  Show that    "
 },
 {
-  "id": "ex-degree-exactly-2",
+  "id": "ex-symmetric-hessian",
   "level": "2",
-  "url": "#ex-degree-exactly-2",
+  "url": "#ex-symmetric-hessian",
   "type": "Checkpoint",
   "number": "1.5",
   "title": "",
-  "body": "  Explain why the set of polynomials of degree exactly is not a linear subspace. Which properties does it not satisfy and why?   "
-},
-{
-  "id": "ex-even-polynomials",
-  "level": "2",
-  "url": "#ex-even-polynomials",
-  "type": "Checkpoint",
-  "number": "1.6",
-  "title": "",
-  "body": "  A polynomial is called even if for all . Define and .     Find a system of linear equations on for which is even if and only if its coefficients are a solution to that system.      Find a system of linear equations on for which is even if and only if its coefficients are a solution to that system.      Find a system of linear equations on for which and are both even if and only if their corresponding coefficients are a solution to that linear system.    "
+  "body": "  Show that any symmetric matrix is the Hessian of some quadratic form.   "
 }
 ]
 

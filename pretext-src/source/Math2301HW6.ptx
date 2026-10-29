@@ -1,0 +1,147 @@
+
+
+  <section xml:id="Math2301HW6">
+    <title>Calculus Eigen</title>
+
+    <subsection xml:id="sec-power-series">
+      <title>Calc 2: Power Series</title>
+
+      <p>
+        In Calc <m>2</m>, you learn about power series. They look like this:
+        <me>
+          f(x) = \sum_{n=0}^{\infty} a_{n}x^{n}.
+        </me>
+        Taylor series tells you that any sufficiently nice function has a power series representation given by
+        <me>
+          f(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(0)}{n!}x^{n}.
+        </me>
+        Thus, they are a useful model of functions.
+      </p>
+
+      <exercise xml:id="ex-power-series-coefficients">
+        <introduction>
+          <p>
+            Let <m>f(x) = \sum_{n=0}^{\infty} a_{n} x^{n}</m> be an infinitely differentiable function.
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>
+              Show that
+              <me>
+                f^{(n)}(0) = n!\, a_{n},
+              </me>
+              where <m>f^{(n)}</m> is the <m>n</m>th derivative of <m>f</m>.
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Show that if <m>f(x) = \sum_{n=0}^{\infty} b_{n} x^{n}</m>, then <m>a_{n} = b_{n}</m> for all <m>n \geq 0</m>.
+            </p>
+          </statement>
+        </task>
+      </exercise>
+
+      <p>
+        Power series are useful for describing eigenvectors of the derivative.
+      </p>
+
+      <exercise xml:id="ex-derivative-eigenvectors">
+        <introduction>
+          <p>
+            Let <m>f(x) = \sum_{n=0}^{\infty} a_{n} x^{n}</m>.
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>
+              Find a power series for <m>\frac{df}{dx}</m>.
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Show that if <m>\frac{df}{dx} = \lambda f(x)</m>, then <m>\lambda a_{n} = (n+1)a_{n+1}</m>.
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Explain why this means the set of solutions to the differential equation <m>\frac{df}{dx} = \lambda f(x)</m> is <m>1</m>-dimensional.
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Describe the set of solutions to <m>\frac{df}{dx} = f(x)</m>.
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Describe the set of all eigenvectors of the derivative.
+            </p>
+          </statement>
+        </task>
+      </exercise>
+    </subsection>
+
+    <subsection xml:id="sec-second-derivatives">
+      <title>Multivariable Calc: Second Derivatives</title>
+
+      <p>
+        For a function <m>f: \mathbb{R}^{n} \to \mathbb{R}</m>, its <term>gradient</term> is the function <m>\nabla f: \mathbb{R}^{n} \to \mathbb{R}^{n}</m> given by <m>(\nabla f(\vec{x}))_{i} = \frac{\partial f}{\partial x_{i}}</m>.
+        Its <term>Hessian</term> is <m>H_{f}: \mathbb{R}^{n} \to \mathbb{R}^{n \times n}</m>, which is the <m>n \times n</m> matrix given by
+        <me>
+          H_{f}(\vec{x})_{i, j} = \frac{\partial^{2}f(\vec{x})}{\partial x_{i} \partial x_{j}}.
+        </me>
+      </p>
+
+      <p>
+        The following collection of exercises answers the question: Which matrices can appear as Hessians?
+      </p>
+
+      <p>
+        Let <m>A</m> be an <m>n \times n</m> matrix. Then the quadratic form associated with <m>A</m> is
+        <me>
+          q_{A}(\vec{x}) = \sum_{i=1}^{n} \sum_{j=1}^{n} A_{i,j} x_{i} x_{j}.
+        </me>
+      </p>
+
+      <exercise xml:id="ex-quadratic-form-partials">
+        <statement>
+          <p>
+            Let <m>A</m> be an <m>n \times n</m> matrix. Show that for all <m>1 \leq i \leq n</m>:
+            <me>
+              \frac{\partial}{\partial x_{i}} q_{A}(\vec{x}) = \sum_{j = 1}^{n}(A_{j,i} + A_{i,j})x_{j}.
+            </me>
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-quadratic-form-hessian">
+        <statement>
+          <p>
+            Show that
+            <me>
+              H_{q_{A}}(\vec{x}) = A+A^{\intercal}.
+            </me>
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-symmetric-hessian">
+        <statement>
+          <p>
+            Show that any symmetric matrix is the Hessian of some quadratic form.
+          </p>
+        </statement>
+      </exercise>
+    </subsection>
+  </section>
