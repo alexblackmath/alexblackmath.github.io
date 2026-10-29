@@ -1,0 +1,227 @@
+
+
+  <section xml:id="Math2000HW5">
+    <title>Axioms Speak Louder than Words</title>
+
+    <subsection xml:id="sec-four-subspaces">
+      <title>The Four Fundamental Subspaces</title>
+
+      <exercise xml:id="ex-kernel-span-membership">
+        <introduction>
+          <p>
+            Consider the matrix
+            <me>
+              A = \begin{pmatrix} 1 &amp; 1 &amp; 1 \\ 0 &amp; 0 &amp; 1 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}
+              \text{ and }
+              \vec{x} = \begin{pmatrix} 1 \\ -1 \\ -1 \end{pmatrix}.
+            </me>
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>
+              Is <m>\vec{x}</m> in the kernel of <m>A</m>?
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Is <m>\vec{x}</m> in the kernel of <m>A^{\intercal}</m>?
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Is <m>\vec{x}</m> in the column span of <m>A</m>?
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Is <m>\vec{x}</m> in the row span of <m>A</m>?
+            </p>
+          </statement>
+        </task>
+      </exercise>
+
+      <exercise xml:id="ex-invertible-subspaces">
+        <introduction>
+          <p>
+            Consider a <m>3 \times 3</m> matrix <m>A</m> and suppose that it is invertible.
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>
+              What is <m>\text{ker}(A)</m>?
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              What is <m>\text{ker}(A^{\intercal})</m>?
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              What is <m>\text{rowspan}(A)</m>?
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              What is <m>\text{colspan}(A)</m>?
+            </p>
+          </statement>
+        </task>
+        <conclusion>
+          <p>
+            <alert>Explain your answers.</alert>
+          </p>
+        </conclusion>
+      </exercise>
+
+      <exercise xml:id="ex-fredholm">
+        <statement>
+          <p>
+            Use the Fredholm alternative to explain why the following linear system
+            <me>
+              \begin{pmatrix} 1 &amp; 1 \\ 2 &amp; 1 \\ 3 &amp; 1 \end{pmatrix}
+              \begin{pmatrix} m \\ b \end{pmatrix}
+              = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix}
+            </me>
+            has no solution.
+          </p>
+        </statement>
+      </exercise>
+    </subsection>
+
+    <subsection xml:id="sec-polynomials">
+      <title>Polynomials</title>
+
+      <p>
+        Recall the following facts about polynomials.
+        Polynomials are functions of the form <m>f(x) = \sum_{k=0}^{n} c_{k}x^{k}</m>.
+        Polynomials form a vector space under addition and scalar multiplication.
+      </p>
+
+      <p>
+        The <term>degree</term> of a polynomial is the maximum power of <m>x</m> that appears with nonzero coefficient.
+        For example, <m>1 + x^{2}</m> has degree <m>2</m> and <m>10</m> has degree <m>0</m>.
+        We say the polynomial <m>f(x) = 0</m> has degree <m>-\infty</m>.
+        A nonzero constant polynomial such as <m>f(x) = 1</m> has degree <m>0</m>.
+      </p>
+
+      <exercise xml:id="ex-degree-at-most-2-subspace">
+        <introduction>
+          <p>
+            Polynomials of degree at most <m>2</m> are a subspace of the vector space of all polynomials.
+            Explain why this is the case by following the three steps:
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>
+              Explain why the <m>0</m> polynomial has degree at most <m>2</m>.
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Explain why the sum of any polynomials of degree at most <m>2</m> has degree at most <m>2</m>.
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Explain why rescaling a polynomial of degree at most <m>2</m> yields a polynomial of degree at most <m>2</m>.
+            </p>
+          </statement>
+        </task>
+      </exercise>
+
+      <!-- Solution (hidden, carried over from the commented-out LaTeX):
+        There are many ways to see this. We will do this directly. Let $f$ and $g$ be polynomials
+        of degree at most $n$, and let $c$ be in $\mathbb{R}$. Then
+          f(x) = \sum_{i=0}^{n} a_{i} x^{i},   g(x) = \sum_{i=0}^{n} b_{i} x^{i}
+        for some $a_{0}, \dots, a_{n}, b_{0}, \dots, b_{n}$ in $\mathbb{R}$. Note that
+          f + g = \sum_{i=0}^{n} a_{i} x^{i} + \sum_{i=0}^{n} b_{i} x^{i} = \sum_{i=0}^{n} (a_{i} + b_{i}) x^{i},
+        which is a polynomial of degree at most $n$. Similarly,
+          c f = \sum_{i=0}^{n} c a_{i} x^{i},
+        which is a polynomial of degree at most $n$. Note that $h(x) = 0$ is a polynomial of degree
+        $-\infty$, which is of degree at most $n$. Therefore, it is a subspace of the space of all polynomials.
+      -->
+
+      <exercise xml:id="ex-degree-exactly-2">
+        <statement>
+          <p>
+            Explain why the set of polynomials of degree exactly <m>2</m> is not a linear subspace.
+            Which properties does it not satisfy and why?
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-even-polynomials">
+        <introduction>
+          <p>
+            A polynomial is called <term>even</term> if <m>f(x) = f(-x)</m> for all <m>x</m>.
+            Define <m>f(x) = ax^{2} + bx + c</m> and <m>g(x) = ax^{4} + bx^{3} + cx^{2} + dx + e</m>.
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>
+              Find a system of linear equations on <m>a,b,c</m> for which <m>f</m> is even if and only if its coefficients are a solution to that system.
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Find a system of linear equations on <m>a,b,c,d,e</m> for which <m>g</m> is even if and only if its coefficients are a solution to that system.
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Find a system of linear equations on <m>a,b,c,d,e</m> for which <m>f</m> and <m>g</m> are both even if and only if their corresponding coefficients are a solution to that linear system.
+            </p>
+          </statement>
+        </task>
+      </exercise>
+
+      <!-- Solution to the "degree exactly 2" exercise (hidden, carried over from the LaTeX):
+        No. Since $h(x) = 0$ has degree $-\infty$, it is not in any of those sets. Hence, since they
+        do not contain $0$, they cannot be subspaces.
+      -->
+
+      <!-- Hidden solutions from the LaTeX for an exercise not present in this file
+           (polynomials of degree at most 2 with f(0) = 0):
+
+        Let $\mathbb{R}[x]_{2}$ be the set of polynomials of degree at most $2$. This is a vector space
+        by Exercise 4. Define $\text{ev}:\mathbb{R}[x]_{2} \to \mathbb{R}$ by $\text{ev}(f) = f(0)$.
+        I claim this is a linear map. Note that
+          \text{ev}(f+g) = (f+g)(0) = f(0) + g(0).
+        Similarly,
+          \text{ev}(cf) = (cf)(0) = c(f(0)).
+        Hence, $\text{ev}$ is linear. Then the kernel of this map is the set of polynomials of degree at
+        most $2$ such that $f(0) = 0$ and is therefore a linear subspace.
+
+        I claim that $\{x, x^{2}\}$ span that subspace. Note that $g(x) = x$ and $h(x) = x^{2}$ satisfy
+        $g(0) = 0$ and $h(0) = 0^{2} = 0$ and are thus in the subspace. Let $f$ be a polynomial in that
+        subspace. Then $f(x) = a_{0} + a_{1} x + a_{2}x^{2}$, and $0 = f(0) = a_{0}$. Hence,
+        $f(x) = a_{1} x + a_{2} x^{2} = a_{1} g + a_{2} h$. Therefore, $x$ and $x^{2}$ span that
+        subspace as desired.
+      -->
+    </subsection>
+  </section>
