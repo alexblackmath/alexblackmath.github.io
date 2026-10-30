@@ -1,0 +1,735 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Circuit walk</title>
+<style>
+:root{
+  /* Dark neon by design: the same palette is used in every viewer theme. */
+  --void:#03040b;
+  --line:#1b2550;
+  --grid-major:#18244f;
+  --ink:#dfe5ff;
+  --dim:#8d97c9;
+  --faint:#4d5788;
+  --cyan:#36f2ff;
+  --magenta:#ff36d4;
+  --amber:#ffc24a;
+  --lime:#8cff9e;
+  --red:#ff5a77;
+  color-scheme:dark;
+  box-sizing:border-box;
+  height:100%;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  background:var(--void);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--void:#03040b;--ink:#dfe5ff}}
+:root[data-theme="dark"]{--void:#03040b;--ink:#dfe5ff}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0;height:100%;overflow:hidden;
+  background:radial-gradient(110% 80% at 50% 45%, #0a1033 0%, var(--void) 64%), var(--void);
+  color:var(--ink);
+}
+#stage{
+  display:block;width:100%;height:100%;
+  padding:max(8px,1.2vmin);
+  touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;
+  cursor:crosshair;outline:none;
+  --f:1;
+}
+#stage.no-aim{cursor:not-allowed}
+#stage.busy{cursor:progress}
+#stage.advance{cursor:pointer}
+
+/* board */
+.grid-major{stroke:var(--grid-major);stroke-width:calc(1px * var(--f))}
+.frame{fill:none;stroke:var(--line);stroke-width:calc(1.2px * var(--f))}
+.corner{fill:none;stroke:var(--dim);stroke-width:calc(2px * var(--f))}
+.iso{stroke:#2a1a55;stroke-width:calc(1.2px * var(--f))}
+.iso-target{stroke:var(--magenta);stroke-opacity:.55;stroke-width:calc(1.4px * var(--f));stroke-dasharray:calc(10px * var(--f)) calc(8px * var(--f))}
+.iso-cur{stroke:var(--cyan);stroke-opacity:.45;stroke-width:calc(1.4px * var(--f));stroke-dasharray:calc(3px * var(--f)) calc(7px * var(--f))}
+.iso-land{stroke-opacity:.5;stroke-width:calc(1.2px * var(--f));stroke-dasharray:calc(2px * var(--f)) calc(6px * var(--f))}
+.edge{stroke-width:calc(2.6px * var(--f));stroke-linecap:round;opacity:.78}
+.edge-hot{stroke-width:calc(7px * var(--f));stroke-linecap:round}
+.vertex{fill:#9aa4dc}
+.start-mark{fill:none;stroke:var(--cyan);stroke-width:calc(2.2px * var(--f));opacity:.85}
+.target-ring{fill:none;stroke:var(--magenta);stroke-width:calc(2.4px * var(--f))}
+.target-core{fill:var(--magenta)}
+.target-pulse{fill:none;stroke:var(--magenta);stroke-width:calc(1.6px * var(--f));transform-box:fill-box;transform-origin:center;animation:pulse 2.4s ease-out infinite}
+@keyframes pulse{0%{transform:scale(.55);opacity:.9}100%{transform:scale(1.6);opacity:0}}
+.trail{stroke:var(--amber);stroke-width:calc(3px * var(--f));stroke-linecap:round}
+.trail-dot{fill:var(--amber)}
+.win .trail{stroke:var(--lime)} .win .trail-dot{fill:var(--lime)}
+.fail .trail{stroke:var(--red)} .fail .trail-dot{fill:var(--red)}
+.fan-under{stroke:var(--void);stroke-width:calc(8px * var(--f));stroke-linecap:round;opacity:.75}
+.fan{stroke-width:calc(3.2px * var(--f));stroke-linecap:round;opacity:.7}
+.fan-head{opacity:.75}
+.fan.down{stroke-dasharray:calc(5px * var(--f)) calc(4px * var(--f));stroke-width:calc(2.6px * var(--f))}
+.fan-head.down{fill:var(--void);stroke-width:calc(2px * var(--f));stroke-linejoin:round}
+.trail.down{stroke-dasharray:calc(9px * var(--f)) calc(7px * var(--f))}
+.fan.active,.fan-head.active{opacity:1}
+.fan.active{stroke-width:calc(4.5px * var(--f))}
+.fan.hinted{animation:blink .9s ease-in-out infinite alternate}
+@keyframes blink{from{opacity:.35}to{opacity:1}}
+.hint-line{stroke:var(--amber);stroke-opacity:.6;stroke-width:calc(1.8px * var(--f));stroke-dasharray:calc(3px * var(--f)) calc(7px * var(--f))}
+.hint-ring{fill:none;stroke:var(--amber);stroke-width:calc(2px * var(--f));stroke-dasharray:calc(4px * var(--f)) calc(5px * var(--f))}
+.sel-seg{stroke-width:calc(3.4px * var(--f));stroke-linecap:round;stroke-dasharray:calc(14px * var(--f)) calc(9px * var(--f));animation:flow .7s linear infinite}
+@keyframes flow{to{stroke-dashoffset:calc(-23px * var(--f))}}
+.sel-ghost{stroke-width:calc(9px * var(--f));stroke-linecap:round;opacity:.16}
+.chev{fill:none;stroke-width:calc(2.4px * var(--f));stroke-linecap:round;stroke-linejoin:round}
+.land-ring{fill:none;stroke-width:calc(2.6px * var(--f))}
+.land-cross{stroke-width:calc(1.6px * var(--f))}
+.agent-halo{fill:var(--cyan);opacity:.18}
+.agent-ring{fill:none;stroke:var(--cyan);stroke-width:calc(2px * var(--f));stroke-dasharray:calc(6px * var(--f)) calc(5px * var(--f))}
+.agent-core{fill:#eaffff}
+.dead .agent-halo{fill:var(--red);opacity:.3}
+.dead .agent-ring{stroke:var(--red)}
+.dead .agent-core{fill:#ffd0d8}
+.agent-rot{animation:spin 9s linear infinite;transform-box:fill-box;transform-origin:center}
+@keyframes spin{to{transform:rotate(360deg)}}
+.burst{fill:none;stroke:var(--lime);stroke-width:calc(3px * var(--f));transform-box:fill-box;transform-origin:center;animation:burst 1.4s cubic-bezier(.2,.7,.3,1) forwards;opacity:0}
+@keyframes burst{0%{transform:scale(.2);opacity:1}100%{transform:scale(3.4);opacity:0}}
+
+/* heads-up glyphs */
+.compass-ring{fill:rgba(3,4,11,.6);stroke:var(--line);stroke-width:1.4px}
+.compass-arrow{stroke:var(--magenta);stroke-width:3px;stroke-linecap:round}
+.compass-head{fill:var(--magenta)}
+.pip{fill:none;stroke:var(--cyan);stroke-width:1.6px;opacity:.6}
+.pip.on{fill:var(--cyan);opacity:1}
+.pip.over{fill:var(--red);stroke:var(--red);opacity:1}
+.win .pip.on{fill:var(--lime);stroke:var(--lime)}
+.btn{cursor:pointer;outline:none}
+.btn .hit{fill:rgba(13,19,46,.55);stroke:var(--line);stroke-width:1.2px;transition:stroke .15s,fill .15s}
+.btn .glyph{fill:none;stroke:var(--dim);stroke-width:2.6px;stroke-linecap:round;stroke-linejoin:round;transition:stroke .15s}
+.btn .glyph-fill{fill:var(--dim);stroke:none;transition:fill .15s}
+.btn:hover .hit,.btn:focus-visible .hit{stroke:var(--cyan);fill:rgba(20,40,80,.6)}
+.btn:hover .glyph,.btn:focus-visible .glyph{stroke:var(--cyan)}
+.btn:hover .glyph-fill,.btn:focus-visible .glyph-fill{fill:var(--cyan)}
+.btn.off{pointer-events:none;opacity:.28}
+.btn.alert .hit{stroke:var(--amber);animation:alert 1s ease-in-out infinite alternate}
+.btn.alert .glyph{stroke:var(--amber)} .btn.alert .glyph-fill{fill:var(--amber)}
+.btn.danger .hit{stroke:var(--red);animation:alert 1s ease-in-out infinite alternate}
+.btn.danger .glyph{stroke:var(--red)} .btn.danger .glyph-fill{fill:var(--red)}
+@keyframes alert{from{stroke-width:1.2px}to{stroke-width:4px}}
+.btn.next .hit{fill:rgba(140,255,158,.14);stroke:var(--lime);stroke-width:2.4px}
+.btn.next .glyph{stroke:var(--lime);stroke-width:3.4px}
+.btn.next{animation:nudge 1.1s ease-in-out infinite alternate}
+@keyframes nudge{from{opacity:.65}to{opacity:1}}
+.btn.hidden{display:none}
+.lvl{cursor:pointer;outline:none}
+.lvl .hit{fill:transparent}
+.lvl .ring{fill:none;stroke:none}
+.lvl .gem{fill:none;stroke:var(--faint);stroke-width:1.6px}
+.lvl.open .gem{stroke:var(--dim)}
+.lvl.done .gem{fill:var(--cyan);stroke:var(--cyan)}
+.lvl.cur .ring{fill:none;stroke:var(--magenta);stroke-width:2px}
+.lvl.locked{cursor:default;pointer-events:none}
+.lvl.locked .gem{opacity:.45}
+.lvl:hover .gem,.lvl:focus-visible .gem{stroke:var(--cyan)}
+.all-done .lvl .gem{fill:var(--lime);stroke:var(--lime)}
+
+@media (prefers-reduced-motion: reduce){
+  .target-pulse,.agent-rot,.sel-seg,.fan.hinted,.burst,.btn.alert .hit,.btn.danger .hit,.btn.next{animation:none}
+  .burst{display:none}
+}
+</style>
+</head>
+<body>
+<svg id="stage" viewBox="0 0 1000 1160" preserveAspectRatio="xMidYMid meet" tabindex="0" role="application"
+     aria-label="Circuit walk. Arrow keys aim a step, Enter takes it, U undoes, R restarts, H shows a hint, N goes to the next level.">
+  <defs>
+    <filter id="glow" filterUnits="userSpaceOnUse" x="0" y="0" width="1000" height="1160">
+      <feGaussianBlur stdDeviation="3.2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowWide" filterUnits="userSpaceOnUse" x="0" y="0" width="1000" height="1160">
+      <feGaussianBlur stdDeviation="9" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="gridFine" x="50" y="110" width="22.5" height="22.5" patternUnits="userSpaceOnUse">
+      <path d="M22.5 0H0V22.5" fill="none" stroke="#0d1433" stroke-width="1"/>
+    </pattern>
+    <clipPath id="frameClip"><rect x="50" y="110" width="900" height="900"/></clipPath>
+    <linearGradient id="polyFill" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0c1a4a" stop-opacity=".55"/>
+      <stop offset=".65" stop-color="#2a1260" stop-opacity=".5"/>
+      <stop offset="1" stop-color="#ff36d4" stop-opacity=".32"/>
+    </linearGradient>
+  </defs>
+  <g id="gBack"></g>
+  <g id="gIso" clip-path="url(#frameClip)"></g>
+  <g id="gPoly"></g>
+  <g id="gHot"></g>
+  <g id="gTrail"></g>
+  <g id="gSel"></g>
+  <g id="gFan"></g>
+  <g id="gMarks"></g>
+  <g id="gAgent"></g>
+  <g id="gFx"></g>
+  <g id="gHud"></g>
+</svg>
+
+<script>
+'use strict';
+/* Set 1: convex polygons, vertices counter-clockwise in [-1,1]^2 (y up); c = objective angle in degrees; s = start vertex. */
+const CONVEX=[{"c":193,"s":1,"V":[[-0.947,-1],[0.947,0.691],[-0.802,1]]},{"c":150,"s":2,"V":[[-0.955,-0.245],[-0.572,-1],[0.847,-0.575],[0.955,1],[-0.102,0.58]]},{"c":221,"s":3,"V":[[-1,-0.838],[0.322,-0.452],[0.891,-0.164],[1,0.814],[-0.1,0.838],[-0.675,-0.073]]},{"c":298,"s":0,"V":[[-1,0.72],[-0.318,-0.519],[0.321,-0.897],[1,-0.782],[0.771,0.125],[0.331,0.689],[-0.532,0.897]]},{"c":158,"s":7,"V":[[0.377,-0.297],[0.676,0.688],[0.336,0.882],[-0.026,1],[-0.377,0.297],[-0.676,-0.688],[-0.336,-0.882],[0.026,-1]]},{"c":268,"s":2,"V":[[0.732,-0.326],[0.22,1],[0.024,0.976],[-0.161,0.924],[-0.732,0.326],[-0.22,-1],[-0.024,-0.976],[0.161,-0.924]]},{"c":52,"s":2,"V":[[-0.917,0.175],[-0.842,-0.312],[-0.672,-0.753],[-0.444,-0.889],[-0.062,-1],[0.346,-0.923],[0.668,-0.63],[0.917,-0.175],[0.842,0.312],[0.672,0.753],[0.444,0.889],[0.062,1],[-0.346,0.923],[-0.668,0.63]]},{"c":97,"s":6,"V":[[1,-0.248],[0.977,0.14],[0.854,0.544],[0.036,0.515],[-1,0.248],[-0.977,-0.14],[-0.854,-0.544],[-0.036,-0.515]]},{"c":215,"s":3,"V":[[1,-0.54],[0.55,0.335],[0.133,0.831],[-0.32,0.776],[-0.792,0.651],[-1,0.54],[-0.55,-0.335],[-0.133,-0.831],[0.32,-0.776],[0.792,-0.651]]},{"c":161,"s":1,"V":[[0.34,-0.992],[0.437,-0.764],[0.614,-0.142],[0.543,0.287],[0.476,0.471],[-0.015,1],[-0.34,0.992],[-0.437,0.764],[-0.614,0.142],[-0.543,-0.287],[-0.476,-0.471],[0.015,-1]]},{"c":151,"s":1,"V":[[-0.416,-0.752],[0.013,-0.757],[0.92,-0.615],[0.968,-0.511],[1,-0.403],[0.806,0.42],[0.416,0.752],[-0.013,0.757],[-0.92,0.615],[-0.968,0.511],[-1,0.403],[-0.806,-0.42]]},{"c":112,"s":4,"V":[[0.404,1],[0.098,0.899],[-0.515,0.605],[-0.633,0.353],[-0.668,0.206],[-0.617,-0.447],[-0.502,-0.833],[-0.404,-1],[-0.098,-0.899],[0.515,-0.605],[0.633,-0.353],[0.668,-0.206],[0.617,0.447],[0.502,0.833]]},{"c":248,"s":1,"V":[[1,-0.495],[0.792,0.577],[0.533,0.782],[0.343,0.875],[0.082,0.912],[-1,0.495],[-0.792,-0.577],[-0.533,-0.782],[-0.343,-0.875],[-0.082,-0.912]]},{"c":222,"s":10,"V":[[0.8,0.494],[0.559,0.735],[-0.114,0.897],[-0.62,0.623],[-0.847,0.389],[-1,-0.236],[-0.8,-0.494],[-0.559,-0.735],[0.114,-0.897],[0.62,-0.623],[0.847,-0.389],[1,0.236]]}];
+/* Set 2: non-convex polygons. Optional M is a linear map applied to V; fit scales the result into [-1,1]^2. */
+const NONCONVEX=[{"c":300,"s":0,"V":[[0.493,0.552],[0.098,0.44],[-0.466,0.791],[-0.527,-0.137],[-0.366,-0.277],[0.073,-0.597],[0.349,-0.313],[0.959,-0.046]],"fit":1},{"c":152,"s":3,"V":[[-0.425,0.144],[-0.873,-0.339],[-0.372,-0.535],[0.249,-0.574],[0.628,-0.268],[0.564,0.313],[0.063,0.786],[-0.591,0.691]],"fit":1},{"c":1,"s":9,"V":[[-0.478,0.586],[-0.361,0.178],[-0.925,-0.208],[-0.189,-0.283],[-0.04,-0.996],[0.147,-0.327],[0.781,-0.315],[0.3,0.026],[0.64,0.591],[-0.003,0.309]],"fit":1},{"c":354,"s":1,"V":[[0,2],[1,2],[1,1.5],[1.5,1],[2,1],[2,0],[3,0],[4,1],[4,2],[4.5,2],[5,2.5],[5,3],[6,3],[6,3.5],[5.5,4],[4,4],[4,4.5],[3.5,5],[2,5],[2,4],[0,4]],"fit":1,"rot":23},{"c":42.5,"s":0,"V":[[0,2],[1,2],[1,0],[4,0],[4,1],[3,1],[3,2],[2,2],[2,4],[4,4],[4,5],[0,5],[0,4],[1,4],[1,3],[0,3]],"fit":1,"rot":-23},{"c":240,"s":8,"V":[[-0.058,-0.99],[0.195,-0.263],[0.851,-0.33],[0.33,0.116],[0.394,0.841],[-0.002,0.319],[-0.575,0.536],[-0.345,0.06],[-0.741,-0.332],[-0.199,-0.262]],"fit":1},{"c":254.5,"s":5,"V":[[1,3],[2,3],[2,1],[4,1],[5,2],[5,4.5],[4.5,5],[3,5],[3,4],[1.5,4],[1,3.5]],"fit":1,"M":[0.881,-0.63,0.779,0.578]},{"c":38,"s":0,"V":[[0,1],[1,0],[4.5,0],[5,0.5],[5,1],[4,1],[4,2],[4.5,2],[5,2.5],[5,3],[3,3],[3,1.5],[2.5,1],[2,1],[2,3.5],[1.5,4],[1,4],[1,2],[0.5,2],[0,1.5]],"fit":1,"rot":14},{"c":131,"s":4,"V":[[-0.1,-0.81],[0.174,-0.289],[0.794,-0.638],[0.313,0.003],[0.728,0.625],[0.042,0.272],[-0.317,0.657],[-0.321,0.213],[-0.874,0.005],[-0.239,-0.237]],"fit":1},{"c":51.5,"s":17,"V":[[1,0],[5,0],[5,2.5],[4.5,3],[4,3],[4,4],[5,4],[5,4.5],[4.5,5],[3.5,5],[3,4.5],[3,4],[2,4],[2,3],[3,3],[3,2],[2,1],[1,1]],"fit":1,"M":[1.148,0.061,0.215,0.883]},{"c":180.5,"s":5,"V":[[0,1.5],[0.5,1],[1,1],[1,2],[2.5,2],[3,2.5],[3,3],[5,3],[5,4],[3,4],[3,4.5],[2.5,5],[0,5]],"fit":1,"M":[-0.623,-0.966,0.544,-0.761]},{"c":133.5,"s":5,"V":[[0,0],[5.5,0],[6,0.5],[6,4],[5,4],[5,3.5],[4.5,3],[4,3],[4,4],[3,4],[3,2],[1,2],[1,1],[0.5,1],[0,0.5]],"fit":1,"M":[0.949,-0.599,0.46,0.763]},{"c":106.5,"s":0,"V":[[0,1],[3,1],[3,0],[4,0],[4,1],[5,1],[5,3],[4,3],[4,4.5],[3.5,5],[1,5],[1,5.5],[0.5,6],[0,6]],"fit":1,"M":[0.281,-1.199,0.797,0.156]},{"c":120.5,"s":6,"V":[[2,1],[3,1],[3,0],[4,0],[4,1],[6,1],[6,0],[7,0],[7,6],[6.5,6],[6,5.5],[6,5],[5,5],[5,6],[4.5,6],[4,5.5],[4,5],[2.5,5],[2,4.5]],"fit":1,"M":[0.966,-0.597,0.259,0.875]}];
+const LEVELS=CONVEX.concat(NONCONVEX);
+const SET2=CONVEX.length;
+
+/* ================= Geometry =================
+   A step runs parallel to an edge, in either direction, and continues as far as the
+   closed polygon allows. For convex polygons these are maximal circuit steps; uphill
+   ones are circuit augmentation steps. Downhill steps are allowed too. */
+const EPS=1e-9;
+const cross=(a,b)=>a[0]*b[1]-a[1]*b[0];
+function prepare(d){
+  let V=d.V.map(p=>p.slice()), cdeg=d.c;
+  if(d.M){const [a,b,c2,e]=d.M; V=V.map(([x,y])=>[a*x+b*y,c2*x+e*y]);}
+  if(d.rot){const r=d.rot*Math.PI/180,ca=Math.cos(r),sa=Math.sin(r); V=V.map(([x,y])=>[x*ca-y*sa,x*sa+y*ca]); cdeg+=d.rot;}
+  if(d.fit){
+    let mnx=Infinity,mxx=-Infinity,mny=Infinity,mxy=-Infinity;
+    for(const [x,y] of V){mnx=Math.min(mnx,x);mxx=Math.max(mxx,x);mny=Math.min(mny,y);mxy=Math.max(mxy,y);}
+    const k=2/Math.max(mxx-mnx,mxy-mny),cx=(mnx+mxx)/2,cy=(mny+mxy)/2;
+    V=V.map(([x,y])=>[(x-cx)*k,(y-cy)*k]);
+  }
+  return {V,c:[Math.cos(cdeg*Math.PI/180),Math.sin(cdeg*Math.PI/180)]};
+}
+function buildPoly(V){
+  const n=V.length, edges=[];
+  for(let i=0;i<n;i++){
+    const p=V[i], q=V[(i+1)%n], ex=q[0]-p[0], ey=q[1]-p[1], L=Math.hypot(ex,ey);
+    edges.push({i,p,q,dir:[ex/L,ey/L],len:L});
+  }
+  return {V,n,edges};
+}
+function circuitsOf(P,c){
+  const out=[];
+  for(const e of P.edges){
+    let [dx,dy]=e.dir; if(c[0]*dx+c[1]*dy<0){dx=-dx;dy=-dy;}
+    const dup=out.find(o=>Math.abs(o.d[0]*dy-o.d[1]*dx)<1e-9);
+    if(dup){dup.edges.push(e.i);continue;}
+    out.push({d:[dx,dy],edges:[e.i]});
+  }
+  return out;
+}
+function onBoundary(P,x){
+  for(const e of P.edges){
+    const w=[x[0]-e.p[0],x[1]-e.p[1]], t=w[0]*e.dir[0]+w[1]*e.dir[1];
+    if(t<-EPS||t>e.len+EPS) continue;
+    if(Math.abs(cross(e.dir,w))<1e-9) return true;
+  }
+  return false;
+}
+function inside(P,x){
+  if(onBoundary(P,x)) return true;
+  let c=false; const V=P.V;
+  for(let i=0,j=P.n-1;i<P.n;j=i++){
+    const a=V[i], b=V[j];
+    if((a[1]>x[1])!==(b[1]>x[1])){const xi=a[0]+(x[1]-a[1])*(b[0]-a[0])/(b[1]-a[1]); if(x[0]<xi) c=!c;}
+  }
+  return c;
+}
+function rayExit(P,x,d){
+  const ts=[0];
+  for(const e of P.edges){
+    const ev=[e.q[0]-e.p[0],e.q[1]-e.p[1]], w=[e.p[0]-x[0],e.p[1]-x[1]], den=cross(d,ev);
+    if(Math.abs(den)<1e-12*e.len){
+      if(Math.abs(cross(w,d))<1e-9){
+        const tp=w[0]*d[0]+w[1]*d[1], tq=(e.q[0]-x[0])*d[0]+(e.q[1]-x[1])*d[1];
+        if(tp>EPS) ts.push(tp); if(tq>EPS) ts.push(tq);
+      }
+    }else{
+      const t=cross(w,ev)/den, u=cross(w,d)/den;
+      if(u>=-1e-9&&u<=1+1e-9&&t>EPS) ts.push(t);
+    }
+  }
+  ts.sort((a,b)=>a-b);
+  const T=[ts[0]]; for(const t of ts) if(t-T[T.length-1]>1e-9) T.push(t);
+  for(let i=0;i+1<T.length;i++){
+    const m=(T[i]+T[i+1])/2;
+    if(!inside(P,[x[0]+m*d[0],x[1]+m*d[1]])) return T[i];
+  }
+  return T[T.length-1];
+}
+function snap(P,y){
+  for(let i=0;i<P.n;i++) if(Math.hypot(P.V[i][0]-y[0],P.V[i][1]-y[1])<1e-7) return [P.V[i][0],P.V[i][1]];
+  return y;
+}
+// Steps may run either way along a circuit (sg=+1 improves c, sg=-1 goes downhill).
+const MONOTONE=false;
+function movesFrom(P,C,x){
+  const res=[];
+  C.forEach((g,k)=>{
+    for(const sg of MONOTONE?[1]:[1,-1]){
+      const d=[g.d[0]*sg,g.d[1]*sg], t=rayExit(P,x,d);
+      if(t>1e-7&&isFinite(t)) res.push({k,sg,d,t,to:snap(P,[x[0]+t*d[0],x[1]+t*d[1]])});
+    }
+  });
+  return res;
+}
+const keyOf=x=>Math.round(x[0]*1e6)+','+Math.round(x[1]*1e6);
+const dot=(a,b)=>a[0]*b[0]+a[1]*b[1];
+
+/* ================= Rendering helpers ================= */
+const NS='http://www.w3.org/2000/svg';
+const RS=370, CX=500, CY=560, TOPY=58, ROW1=1054, ROW2=1108;
+const toS=p=>[CX+RS*p[0], CY-RS*p[1]];
+function el(tag,attrs,parent){
+  const e=document.createElementNS(NS,tag);
+  for(const k in attrs) if(attrs[k]!=null) e.setAttribute(k,attrs[k]);
+  if(parent) parent.appendChild(e);
+  return e;
+}
+const clear=g=>{while(g.firstChild) g.removeChild(g.firstChild);};
+function hueOfDir(d){let a=Math.atan2(d[1],d[0])*180/Math.PI; a=((a%180)+180)%180; return (a*2+205)%360;}
+const colorOf=d=>`oklch(0.82 0.17 ${hueOfDir(d).toFixed(1)})`;
+const svgDir=d=>[d[0],-d[1]];
+const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+const noHover=window.matchMedia('(hover: none)');
+function headPath(tip,u,len,wid){
+  const w=[-u[1],u[0]], b=[tip[0]-u[0]*len, tip[1]-u[1]*len];
+  return `M${tip[0]} ${tip[1]}L${b[0]+w[0]*wid} ${b[1]+w[1]*wid}L${b[0]-w[0]*wid} ${b[1]-w[1]*wid}Z`;
+}
+
+const svg=document.getElementById('stage');
+const $=id=>document.getElementById(id);
+const G={back:$('gBack'),iso:$('gIso'),poly:$('gPoly'),hot:$('gHot'),trail:$('gTrail'),sel:$('gSel'),fan:$('gFan'),marks:$('gMarks'),agent:$('gAgent'),fx:$('gFx'),hud:$('gHud')};
+
+/* ================= Progress ================= */
+const STORE='circuitWalk.progress.v3';
+const progress={solved:LEVELS.map(()=>false)};
+try{
+  const p=JSON.parse(localStorage.getItem(STORE)||'null');
+  if(p&&Array.isArray(p.solved)) LEVELS.forEach((_,i)=>progress.solved[i]=!!p.solved[i]);
+  else{
+    const old=JSON.parse(localStorage.getItem('circuitWalk.progress.v2')||'null');
+    if(old&&Array.isArray(old.solved)) for(let i=0;i<SET2;i++) progress.solved[i]=!!old.solved[i];
+  }
+}catch(e){}
+const saveProgress=()=>{try{localStorage.setItem(STORE,JSON.stringify(progress));}catch(e){}};
+const unlocked=i=>i===0||i===SET2||progress.solved[i-1]||progress.solved[i];
+
+/* ================= State ================= */
+let lv=0,P,c,C,opt,optPt,start,par,distMemo,moveMemo;
+let hist=[],avail=[],sel=-1,hintK=-1,animating=false,solvedNow=false,solvedAt=0,f=1,undoAlert=false;
+let lastPointer=null,pointerDown=false,pointerType='mouse',isoCur;
+
+function moves(x){
+  const k=keyOf(x);
+  if(!moveMemo.has(k)) moveMemo.set(k,movesFrom(P,C,x));
+  return moveMemo.get(k);
+}
+// fewest steps from x to x*, searching at most b steps (Infinity if more are needed)
+function dist(x,b){
+  const k=keyOf(x);
+  if(k===keyOf(optPt)) return 0;
+  if(b<=0) return Infinity;
+  const mk=k+'|'+b;
+  if(distMemo.has(mk)) return distMemo.get(mk);
+  let best=Infinity;
+  for(const m of moves(x)){const r=1+dist(m.to,b-1); if(r<best) best=r;}
+  distMemo.set(mk,best);
+  return best;
+}
+const cur=()=>hist[hist.length-1];
+const steps=()=>hist.length-1;
+const atOpt=()=>keyOf(cur())===keyOf(optPt);
+const overPar=()=>atOpt()&&!solvedNow;
+const stuck=()=>!atOpt()&&avail.length===0;
+const outOfPar=()=>!atOpt()&&steps()>=par;
+
+function loadLevel(i){
+  lv=i; const d=LEVELS[i];
+  const prep=prepare(d);
+  P=buildPoly(prep.V); c=prep.c;
+  C=circuitsOf(P,c);
+  opt=0; let bv=-Infinity; P.V.forEach((v,j)=>{const s=dot(c,v); if(s>bv){bv=s;opt=j;}});
+  optPt=P.V[opt]; start=d.s; distMemo=new Map(); moveMemo=new Map();
+  par=Infinity; for(let D=1;D<=12&&!isFinite(par);D++) if(dist(P.V[start],D)<=D) par=D;
+  hist=[P.V[start]];
+  sel=-1; hintK=-1; solvedNow=false; animating=false; undoAlert=false;
+  clear(G.fx);
+  renderStatic();
+  refresh();
+  if(lastPointer&&pointerType==='mouse'&&!noHover.matches) updateSel(lastPointer);
+}
+
+/* ================= Board (static per level) ================= */
+function isoEnds(v){
+  const p=[-c[1],c[0]], m=[c[0]*v,c[1]*v];
+  return [toS([m[0]-3*p[0],m[1]-3*p[1]]), toS([m[0]+3*p[0],m[1]+3*p[1]])];
+}
+function isoLine(v,cls,parent,extra){
+  const [a,b]=isoEnds(v);
+  return el('line',Object.assign({x1:a[0],y1:a[1],x2:b[0],y2:b[1],class:cls},extra||{}),parent);
+}
+function renderStatic(){
+  [G.back,G.iso,G.poly,G.marks].forEach(clear);
+  el('rect',{x:50,y:110,width:900,height:900,fill:'url(#gridFine)'},G.back);
+  for(let k=-2;k<=2;k++){
+    const sx=CX+k*0.5*RS, sy=CY+k*0.5*RS;
+    if(sx>50&&sx<950) el('line',{x1:sx,y1:110,x2:sx,y2:1010,class:'grid-major'},G.back);
+    if(sy>110&&sy<1010) el('line',{x1:50,y1:sy,x2:950,y2:sy,class:'grid-major'},G.back);
+  }
+  el('rect',{x:50,y:110,width:900,height:900,class:'frame'},G.back);
+  const L=26;
+  [[50,110,1,1],[950,110,-1,1],[50,1010,1,-1],[950,1010,-1,-1]].forEach(([x,y,sx,sy])=>
+    el('path',{d:`M${x+sx*L} ${y}H${x}V${y+sy*L}`,class:'corner'},G.back));
+
+  for(let t=-2;t<=2.001;t+=0.2) isoLine(t,'iso',G.iso);
+  isoLine(dot(c,optPt),'iso-target',G.iso);
+  isoCur=isoLine(0,'iso-cur',G.iso);
+
+  let lo=Infinity,hi=-Infinity; P.V.forEach(v=>{const s=dot(c,v); lo=Math.min(lo,s); hi=Math.max(hi,s);});
+  const g1=toS([c[0]*lo,c[1]*lo]), g2=toS([c[0]*hi,c[1]*hi]), grad=$('polyFill');
+  grad.setAttribute('x1',g1[0]);grad.setAttribute('y1',g1[1]);grad.setAttribute('x2',g2[0]);grad.setAttribute('y2',g2[1]);
+  el('polygon',{points:P.V.map(v=>toS(v).join(',')).join(' '),fill:'url(#polyFill)'},G.poly);
+  P.edges.forEach(e=>{
+    const a=toS(e.p), b=toS(e.q);
+    el('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],class:'edge',style:`stroke:${colorOf(e.dir)}`,filter:'url(#glow)'},G.poly);
+  });
+  P.V.forEach(v=>{const s=toS(v); el('circle',{cx:s[0],cy:s[1],r:4*f,class:'vertex'},G.poly);});
+
+  // start marker: a hollow diamond around the start vertex
+  const ss=toS(P.V[start]), r=24*f;
+  el('path',{d:`M${ss[0]} ${ss[1]-r}L${ss[0]+r} ${ss[1]}L${ss[0]} ${ss[1]+r}L${ss[0]-r} ${ss[1]}Z`,class:'start-mark'},G.marks);
+  // optimum marker
+  const os=toS(optPt);
+  el('circle',{cx:os[0],cy:os[1],r:20*f,class:'target-pulse'},G.marks);
+  el('circle',{cx:os[0],cy:os[1],r:12*f,class:'target-ring',filter:'url(#glow)'},G.marks);
+  el('circle',{cx:os[0],cy:os[1],r:4.5*f,class:'target-core'},G.marks);
+
+  buildHud();
+}
+
+/* ================= Heads-up glyphs (no text) ================= */
+let hud={};
+function makeButton(x,y,label,draw,onAct){
+  const g=el('g',{class:'btn',transform:`translate(${x} ${y}) scale(${f})`,role:'button',tabindex:'0','aria-label':label},G.hud);
+  el('rect',{x:-30,y:-30,width:60,height:60,rx:6,class:'hit'},g);
+  draw(g);
+  g.addEventListener('click',e=>{e.stopPropagation(); onAct();});
+  g.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();onAct();} });
+  return g;
+}
+function buildHud(){
+  clear(G.hud); hud={};
+  // objective direction, top centre
+  const cc=[500,TOPY], cr=34;
+  const comp=el('g',{transform:`translate(${cc[0]} ${cc[1]}) scale(${Math.min(f,1.35)})`,'aria-hidden':'true'},G.hud);
+  el('circle',{cx:0,cy:0,r:cr,class:'compass-ring'},comp);
+  const u=svgDir(c), tip=[u[0]*cr*0.62,u[1]*cr*0.62], tail=[-u[0]*cr*0.55,-u[1]*cr*0.55];
+  el('line',{x1:tail[0],y1:tail[1],x2:tip[0]-u[0]*6,y2:tip[1]-u[1]*6,class:'compass-arrow'},comp);
+  el('path',{d:headPath([tip[0]+u[0]*6,tip[1]+u[1]*6],u,13,7),class:'compass-head'},comp);
+
+  // par meter, top left
+  hud.pips=el('g',{transform:`translate(66 ${TOPY}) scale(${f})`,'aria-hidden':'true'},G.hud);
+
+  // controls, top right
+  const gap=74*f;
+  hud.hint=makeButton(950-30*f-2*gap,TOPY,'Show a hint',g=>{
+    el('path',{d:'M-6 5 A9.5 9.5 0 1 1 6 5 L5 9 H-5 Z',class:'glyph'},g);
+    el('path',{d:'M-4 13.5 H4',class:'glyph'},g);
+  },hint);
+  hud.undo=makeButton(950-30*f-gap,TOPY,'Undo step',g=>{
+    el('path',{d:'M11 11 V2 A8.5 8.5 0 0 0 2.5 -6.5 H-8',class:'glyph'},g);
+    el('path',{d:headPath([-13,-6.5],[-1,0],8,6.5),class:'glyph-fill'},g);
+  },undo);
+  hud.reset=makeButton(950-30*f,TOPY,'Restart level',g=>{
+    const r=11, a0=-90*Math.PI/180, a1=210*Math.PI/180;
+    const p0=[r*Math.cos(a0),r*Math.sin(a0)], p1=[r*Math.cos(a1),r*Math.sin(a1)];
+    el('path',{d:`M${p0[0]} ${p0[1]}A${r} ${r} 0 1 1 ${p1[0]} ${p1[1]}`,class:'glyph'},g);
+    const t=[-Math.sin(a1),Math.cos(a1)];
+    el('path',{d:headPath([p1[0]+t[0]*5,p1[1]+t[1]*5],t,9,6.5),class:'glyph-fill'},g);
+  },restart);
+
+  // next level, bottom right
+  hud.next=makeButton(950-30*f,(ROW1+ROW2)/2,'Next level',g=>{
+    el('path',{d:'M-11 -10 L-1 0 L-11 10 M1 -10 L11 0 L1 10',class:'glyph'},g);
+  },()=>goNext());
+
+  // level gems, bottom centre: one row per set (diamonds = convex, four-point stars = non-convex)
+  hud.lvls=el('g',{},G.hud);
+  const gs=Math.min(f,1.45);
+  hud.gems=LEVELS.map((_,i)=>{
+    const second=i>=SET2, row=second?i-SET2:i, count=second?LEVELS.length-SET2:SET2;
+    const span=Math.min(560,44*gs*(count-1)), x=count>1?500-span/2+span*row/(count-1):500;
+    const g=el('g',{class:'lvl',transform:`translate(${x} ${second?ROW2:ROW1}) scale(${gs})`,role:'button',tabindex:'0','aria-label':`Level ${i+1}`},hud.lvls);
+    el('rect',{x:-20,y:-20,width:40,height:40,class:'hit'},g);
+    el('circle',{cx:0,cy:0,r:14,class:'ring'},g);
+    el('path',{d:second?'M0 -10 L2.6 -2.6 L10 0 L2.6 2.6 L0 10 L-2.6 2.6 L-10 0 L-2.6 -2.6 Z':'M0 -8 L8 0 L0 8 L-8 0 Z',class:'gem'},g);
+    const go=()=>{ if(!animating&&unlocked(i)) loadLevel(i); };
+    g.addEventListener('click',e=>{e.stopPropagation(); go();});
+    g.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();go();} });
+    return g;
+  });
+}
+function updateHud(){
+  clear(hud.pips);
+  const n=steps(), total=Math.min(Math.max(par,n),par+4);
+  const room=(500-34*Math.min(f,1.35)-20-66)/f-12, gap=total>1?Math.min(30,room/(total-1)):30;
+  for(let i=0;i<total;i++){
+    const x=i*gap, cls='pip'+(i<n?(i>=par?' over':' on'):'');
+    el('path',{d:`M${x} -11 L${x+11} 0 L${x} 11 L${x-11} 0 Z`,class:cls},hud.pips);
+  }
+  G.hud.classList.toggle('win',solvedNow);
+  const set=(b,cls,on)=>b.classList.toggle(cls,!!on);
+  set(hud.undo,'off',steps()===0||animating);
+  set(hud.reset,'off',steps()===0||animating);
+  const failed=overPar()||outOfPar()||stuck();
+  set(hud.hint,'off',atOpt()||stuck()||animating);
+  set(hud.undo,'alert',undoAlert&&!failed);
+  set(hud.undo,'danger',failed);
+  set(hud.reset,'danger',failed);
+  set(hud.next,'hidden',!(solvedNow&&lv<LEVELS.length-1));
+  set(hud.next,'next',true);
+  const allDone=progress.solved.every(Boolean);
+  G.hud.classList.toggle('all-done',allDone&&solvedNow&&lv===LEVELS.length-1);
+  hud.gems.forEach((g,i)=>{
+    const ok=unlocked(i), done=progress.solved[i];
+    g.setAttribute('class','lvl'+(done?' done':'')+(ok?' open':' locked')+(i===lv?' cur':''));
+    g.setAttribute('aria-label',`Level ${i+1}${done?', solved':ok?'':', locked'}`);
+    if(ok) g.setAttribute('tabindex','0'); else g.removeAttribute('tabindex');
+    if(i===lv) g.setAttribute('aria-current','true'); else g.removeAttribute('aria-current');
+  });
+  svg.classList.toggle('advance',solvedNow||overPar()||stuck());
+}
+
+/* ================= Board (dynamic) ================= */
+function chevrons(mid,u,col,parent){
+  const v=[-u[1],u[0]], s=7*f; let d='';
+  for(const off of [-5*f,5*f]){
+    const m=[mid[0]+u[0]*off, mid[1]+u[1]*off];
+    d+=`M${m[0]-u[0]*s+v[0]*s*0.8} ${m[1]-u[1]*s+v[1]*s*0.8}L${m[0]} ${m[1]}L${m[0]-u[0]*s-v[0]*s*0.8} ${m[1]-u[1]*s-v[1]*s*0.8}`;
+  }
+  el('path',{d,class:'chev',style:`stroke:${col}`},parent);
+}
+function setAgent(p){
+  clear(G.agent);
+  const s=toS(p);
+  el('circle',{cx:s[0],cy:s[1],r:22*f,class:'agent-halo'},G.agent);
+  el('circle',{cx:s[0],cy:s[1],r:15*f,class:'agent-ring agent-rot'},G.agent);
+  el('circle',{cx:s[0],cy:s[1],r:6.5*f,class:'agent-core',filter:'url(#glowWide)'},G.agent);
+  const [a,b]=isoEnds(dot(c,p));
+  isoCur.setAttribute('x1',a[0]);isoCur.setAttribute('y1',a[1]);isoCur.setAttribute('x2',b[0]);isoCur.setAttribute('y2',b[1]);
+}
+function renderDynamic(){
+  [G.trail,G.sel,G.fan,G.hot].forEach(clear);
+  G.trail.setAttribute('class',solvedNow?'win':(overPar()||outOfPar()||(stuck()&&!animating))?'fail':'');
+  for(let i=1;i<hist.length;i++){
+    const a=toS(hist[i-1]), b=toS(hist[i]), down=dot(c,hist[i])<dot(c,hist[i-1]);
+    el('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],class:'trail'+(down?' down':''),filter:'url(#glow)'},G.trail);
+  }
+  for(let i=1;i<hist.length;i++){const b=toS(hist[i]); el('circle',{cx:b[0],cy:b[1],r:5*f,class:'trail-dot'},G.trail);}
+  const ps=toS(cur());
+  if(!animating&&!atOpt()){
+    avail.forEach((m,i)=>{
+      const d=svgDir(m.d), col=colorOf(m.d), active=i===sel, down=m.sg<0;
+      const r0=19*f, r1=Math.min(70*f, Math.max(r0+8, m.t*RS-4));
+      el('line',{x1:ps[0]+d[0]*r0,y1:ps[1]+d[1]*r0,x2:ps[0]+d[0]*(r1+4*f),y2:ps[1]+d[1]*(r1+4*f),class:'fan-under'},G.fan);
+      el('line',{x1:ps[0]+d[0]*r0,y1:ps[1]+d[1]*r0,x2:ps[0]+d[0]*r1,y2:ps[1]+d[1]*r1,
+        class:'fan'+(down?' down':'')+(active?' active':'')+(i===hintK?' hinted':''),style:`stroke:${col}`},G.fan);
+      el('path',{d:headPath([ps[0]+d[0]*(r1+11*f),ps[1]+d[1]*(r1+11*f)],d,11*f,7*f),
+        class:'fan-head'+(down?' down':'')+(active?' active':''),style:down?`stroke:${col}`:`fill:${col}`},G.fan);
+    });
+    if(hintK>=0&&avail[hintK]){
+      const s=toS(avail[hintK].to);
+      el('line',{x1:ps[0],y1:ps[1],x2:s[0],y2:s[1],class:'hint-line'},G.fan);
+      el('circle',{cx:s[0],cy:s[1],r:17*f,class:'hint-ring'},G.fan);
+    }
+    if(sel>=0&&avail[sel]){
+      const m=avail[sel], g=C[m.k], col=colorOf(m.d), d=svgDir(m.d), q=toS(m.to);
+      g.edges.forEach(ei=>{
+        const e=P.edges[ei], a=toS(e.p), b=toS(e.q);
+        el('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],class:'edge-hot',style:`stroke:${col}`,filter:'url(#glowWide)'},G.hot);
+        chevrons([(a[0]+b[0])/2,(a[1]+b[1])/2],d,'#ffffff',G.hot);
+      });
+      el('line',{x1:ps[0],y1:ps[1],x2:q[0],y2:q[1],class:'sel-ghost',style:`stroke:${col}`},G.sel);
+      el('line',{x1:ps[0],y1:ps[1],x2:q[0],y2:q[1],class:'sel-seg',style:`stroke:${col}`,filter:'url(#glow)'},G.sel);
+      chevrons([(ps[0]+q[0])/2,(ps[1]+q[1])/2],d,'#ffffff',G.sel);
+      isoLine(dot(c,m.to),'iso-land',G.sel,{style:`stroke:${col}`,'clip-path':'url(#frameClip)'});
+      el('circle',{cx:q[0],cy:q[1],r:12*f,class:'land-ring',style:`stroke:${col}`,filter:'url(#glow)'},G.sel);
+      const cs=19*f;
+      el('path',{d:`M${q[0]-cs} ${q[1]}H${q[0]-cs*0.55}M${q[0]+cs*0.55} ${q[1]}H${q[0]+cs}M${q[0]} ${q[1]-cs}V${q[1]-cs*0.55}M${q[0]} ${q[1]+cs*0.55}V${q[1]+cs}`,
+        class:'land-cross',style:`stroke:${col}`},G.sel);
+    }
+  }
+  if(!animating) setAgent(cur());
+  G.agent.classList.toggle('dead',stuck()&&!animating);
+  svg.classList.toggle('busy',animating);
+}
+function refresh(){
+  avail=atOpt()?[]:moves(cur());
+  if(sel>=avail.length) sel=-1;
+  renderDynamic();
+  updateHud();
+}
+
+/* ================= Actions ================= */
+function commit(i){
+  if(animating||atOpt()||i<0||!avail[i]) return;
+  const m=avail[i], from=cur(), to=m.to;
+  sel=-1; hintK=-1; undoAlert=false;
+  const finish=()=>{
+    animating=false;
+    hist.push(to);
+    if(atOpt()&&steps()===par){
+      solvedNow=true; solvedAt=performance.now();
+      if(!progress.solved[lv]){progress.solved[lv]=true; saveProgress();}
+      celebrate();
+    }
+    refresh();
+    if(lastPointer&&pointerType==='mouse'&&!pointerDown&&!noHover.matches) updateSel(lastPointer);
+  };
+  if(reduceMotion.matches){finish();return;}
+  animating=true;
+  renderDynamic(); updateHud();
+  const a=toS(from), live=el('line',{x1:a[0],y1:a[1],x2:a[0],y2:a[1],class:'trail'+(m.sg<0?' down':''),filter:'url(#glow)'},G.trail);
+  const dur=Math.min(560,240+260*m.t), t0=performance.now();
+  const frame=now=>{
+    const u=Math.min(1,(now-t0)/dur), e=1-Math.pow(1-u,3);
+    const p=[from[0]+(to[0]-from[0])*e, from[1]+(to[1]-from[1])*e], s=toS(p);
+    live.setAttribute('x2',s[0]); live.setAttribute('y2',s[1]);
+    setAgent(p);
+    if(u<1) requestAnimationFrame(frame); else finish();
+  };
+  requestAnimationFrame(frame);
+}
+function celebrate(){
+  clear(G.fx);
+  if(reduceMotion.matches) return;
+  const s=toS(optPt);
+  [0,180,360].forEach(delay=>el('circle',{cx:s[0],cy:s[1],r:26*f,class:'burst',style:`animation-delay:${delay}ms`},G.fx));
+  setTimeout(()=>clear(G.fx),2200);
+}
+function after(){
+  refresh();
+  if(lastPointer&&pointerType==='mouse'&&!noHover.matches) updateSel(lastPointer);
+}
+function undo(){
+  if(animating||steps()===0) return;
+  hist.pop(); solvedNow=false; hintK=-1; sel=-1; undoAlert=false; after();
+}
+function restart(){
+  if(animating) return;
+  hist=[hist[0]]; solvedNow=false; hintK=-1; sel=-1; undoAlert=false; after();
+}
+function hint(){
+  if(animating||atOpt()) return;
+  const b=par-steps(), r=dist(cur(),b);
+  if(r>b){ hintK=-1; undoAlert=true; }
+  else { hintK=avail.findIndex(m=>1+dist(m.to,b-1)===r); undoAlert=false; }
+  renderDynamic(); updateHud();
+}
+function goNext(){
+  if(animating||!solvedNow||lv>=LEVELS.length-1) return;
+  loadLevel(lv+1);
+}
+
+/* ================= Aiming ================= */
+function svgPoint(evt){
+  const m=svg.getScreenCTM(); if(!m) return null;
+  const pt=svg.createSVGPoint(); pt.x=evt.clientX; pt.y=evt.clientY;
+  return pt.matrixTransform(m.inverse());
+}
+function angDiff(a,b){let d=Math.abs(a-b)%(2*Math.PI); return d>Math.PI?2*Math.PI-d:d;}
+function pickByAngle(sp){
+  if(!sp||!avail.length) return -1;
+  const s=toS(cur()), dx=sp.x-s[0], dy=sp.y-s[1];
+  if(Math.hypot(dx,dy)<9*f) return sel;
+  const a=Math.atan2(dy,dx);
+  let best=-1,bd=Infinity;
+  avail.forEach((m,i)=>{const d=svgDir(m.d), df=angDiff(a,Math.atan2(d[1],d[0])); if(df<bd){bd=df;best=i;}});
+  return bd<=75*Math.PI/180?best:-1;
+}
+function updateSel(sp){
+  if(animating) return;
+  const ns=pickByAngle(sp);
+  svg.classList.toggle('no-aim',ns<0&&!atOpt()&&avail.length>0);
+  if(ns!==sel){sel=ns; renderDynamic();}
+}
+const onHud=e=>e.target&&e.target.closest&&e.target.closest('.btn,.lvl');
+svg.addEventListener('pointermove',e=>{
+  pointerType=e.pointerType;
+  if(onHud(e)&&!pointerDown){ if(sel!==-1){sel=-1;renderDynamic();} svg.classList.remove('no-aim'); return; }
+  const sp=svgPoint(e); lastPointer=sp;
+  if(e.pointerType==='mouse'||pointerDown) updateSel(sp);
+});
+svg.addEventListener('pointerdown',e=>{
+  pointerType=e.pointerType;
+  if(onHud(e)) return;
+  if(e.pointerType==='mouse'&&e.button!==0) return;
+  pointerDown=true;
+  try{svg.setPointerCapture(e.pointerId);}catch(err){}
+  const sp=svgPoint(e); lastPointer=sp;
+  if(!solvedNow&&!overPar()&&!stuck()) updateSel(sp);
+});
+svg.addEventListener('pointerup',e=>{
+  if(!pointerDown) return;
+  pointerDown=false;
+  if(solvedNow){ if(performance.now()-solvedAt>450) goNext(); return; }
+  if(overPar()||stuck()){ restart(); return; }
+  const sp=svgPoint(e); lastPointer=sp; updateSel(sp);
+  const chosen=sel;
+  if(e.pointerType!=='mouse') lastPointer=null;
+  if(chosen>=0) commit(chosen);
+  else if(e.pointerType!=='mouse'){sel=-1; renderDynamic();}
+});
+svg.addEventListener('pointercancel',()=>{pointerDown=false; sel=-1; renderDynamic();});
+svg.addEventListener('pointerleave',e=>{
+  if(e.pointerType==='mouse'&&!pointerDown){lastPointer=null; sel=-1; svg.classList.remove('no-aim'); renderDynamic();}
+});
+
+/* ================= Keyboard ================= */
+function cycle(dir){
+  if(animating||!avail.length) return;
+  const order=avail.map((m,i)=>{const d=svgDir(m.d); return {i,a:Math.atan2(d[1],d[0])};}).sort((p,q)=>p.a-q.a).map(o=>o.i);
+  let pos=order.indexOf(sel);
+  pos=pos<0?(dir>0?0:order.length-1):(pos+dir+order.length)%order.length;
+  sel=order[pos]; renderDynamic();
+}
+svg.addEventListener('keydown',e=>{
+  if(e.target!==svg) return;
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();cycle(1);}
+  else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();cycle(-1);}
+  else if(e.key==='Enter'||e.key===' '){
+    e.preventDefault();
+    if(solvedNow) goNext(); else if(overPar()||stuck()) restart(); else if(sel>=0) commit(sel); else cycle(1);
+  }
+});
+document.addEventListener('keydown',e=>{
+  if(e.metaKey||e.ctrlKey||e.altKey) return;
+  const k=e.key.toLowerCase();
+  if(k==='u'||e.key==='Backspace'){e.preventDefault(); undo();}
+  else if(k==='r') restart();
+  else if(k==='h') hint();
+  else if(k==='n') goNext();
+});
+
+/* ================= Sizing ================= */
+function computeScale(){
+  const m=svg.getScreenCTM(); const ppu=m?m.a:0.7;
+  return Math.max(1,Math.min(2.2,(1/ppu)/1.55));
+}
+let resizeT=null;
+new ResizeObserver(()=>{
+  clearTimeout(resizeT);
+  resizeT=setTimeout(()=>{
+    const nf=computeScale();
+    if(Math.abs(nf-f)>0.03){ f=nf; svg.style.setProperty('--f',f.toFixed(3)); if(P){renderStatic(); renderDynamic(); updateHud();} }
+  },60);
+}).observe(svg);
+
+f=computeScale(); svg.style.setProperty('--f',f.toFixed(3));
+let first=progress.solved.findIndex(s=>!s); if(first<0) first=LEVELS.length-1;
+loadLevel(first);
+svg.focus({preventScroll:true});
+</script>
+</body>
+</html>
