@@ -1,0 +1,334 @@
+
+
+
+
+  <section xml:id="Math2301Day16">
+    <title>Quadratic Algebra</title>
+
+    <subsection xml:id="sec-day16-review">
+      <title>Review</title>
+
+      <p>
+        What was the statement of the spectral theorem?
+      </p>
+    </subsection>
+
+    <subsection xml:id="sec-symmetry-without-coordinates">
+      <title>Symmetry without coordinates</title>
+
+      <p>
+        It turns out that eigenvectors and eigenvalues are particularly nice for <term>symmetric matrices</term>, matrices such that <m>A = A^{\intercal}</m>.
+        We want to describe this in arbitrary vector spaces, and this is particularly important as most of what we do here extends to infinite dimensions.
+        In quantum mechanics, you study infinite dimensional operators, and a key property is the following:
+      </p>
+
+      <definition xml:id="def-self-adjoint">
+        <statement>
+          <p>
+            A linear operator <m>T</m> on an inner-product space <m>V</m> is <term>self-adjoint</term> if
+            <me>
+              \langle T(\vec{u}), \vec{v}\rangle = \langle \vec{u},T(\vec{v})\rangle
+              \qquad\text{for all }\vec{u},\vec{v}\in V.
+            </me>
+          </p>
+        </statement>
+      </definition>
+
+      <p>
+        In an orthonormal basis on a finite dimensional inner product space, <m>T</m> is self-adjoint exactly when its matrix <m>A</m> is symmetric:
+        <me>
+          A^{\intercal}=A.
+        </me>
+      </p>
+
+      <!--
+      Indeed, in standard coordinates,
+      \ip{A\vec{x}}{\vec{y}}=\vec{y}^{\intercal} A\vec{x}=\vec{x}^{\intercal} A^{\intercal} \vec{y},
+      \qquad
+      \ip{\vec{x}}{A\vec{y}}=\vec{x}^{\intercal} A\vec{y}.
+      Equality for all \vec{x},\vec{y} is equivalent to A^{\intercal}=A.
+      -->
+
+      <p>
+        This definition turns out to be advantageous for generalization and for proving things.
+        For example, let's recall projection operations.
+      </p>
+
+      <theorem xml:id="thm-projection-self-adjoint">
+        <statement>
+          <p>
+            Let <m>P_{W}: V \to V</m> be an orthogonal projection onto a linear subspace <m>W</m> of an inner product space <m>V</m>.
+            Then <m>P_{W}</m> is self-adjoint.
+          </p>
+        </statement>
+
+        <proof>
+          <p>
+            Let <m>\vec{u}, \vec{v} \in V</m>.
+            Using orthogonal decomposition, <m>\vec{u} = \vec{u}_{1} + \vec{u}_{2}</m> and <m>\vec{v} = \vec{v}_{1} + \vec{v}_{2}</m>, where <m>\vec{u}_{1}, \vec{v}_{1} \in W</m> and <m>\vec{u}_{2}, \vec{v}_{2} \in W^{\perp}</m>.
+            Then applying orthogonality relations and these decompositions yields:
+            <md>
+              <mrow>\ip{P_{W}(\vec{u})}{\vec{v}} \amp = \ip{\vec{u}_{1}}{\vec{v}}</mrow>
+              <mrow>\amp = \ip{\vec{u}_{1}}{\vec{v}_{1} + \vec{v}_{2}}</mrow>
+              <mrow>\amp = \ip{\vec{u}_{1}}{\vec{v}_{1}} + \ip{\vec{u}_{1}}{\vec{v}_{2}}</mrow>
+              <mrow>\amp = \ip{\vec{u}_{1}}{\vec{v}_{1}}</mrow>
+              <mrow>\amp = \ip{\vec{u}_{1}}{\vec{v}_{1}} + \ip{\vec{u}_{2}}{\vec{v}_{1}}</mrow>
+              <mrow>\amp = \ip{\vec{u}_{1} + \vec{u}_{2}}{\vec{v}_{1}}</mrow>
+              <mrow>\amp = \ip{\vec{u}}{P_{W}(\vec{v})}.</mrow>
+            </md>
+          </p>
+        </proof>
+      </theorem>
+    </subsection>
+
+    <subsection xml:id="sec-eigenspaces-perpendicular">
+      <title>Different eigenspaces are perpendicular</title>
+
+      <p>
+        Being self-adjoint allows us to not only show that eigenspaces are distinct and independent but, in fact, orthogonal:
+      </p>
+
+      <theorem xml:id="thm-eigenvectors-orthogonal">
+        <statement>
+          <p>
+            Let <m>T</m> be a self-adjoint operator on an inner product space <m>V</m>.
+            Let <m>\vec{u}, \vec{v} \in V</m> be eigenvectors with distinct eigenvalues in <m>V</m>.
+            Then <m>\vec{u}\perp \vec{v}</m>.
+          </p>
+        </statement>
+
+        <proof>
+          <p>
+            Let <m>T(\vec{u}) = \lambda\vec{u}</m> and <m>T(\vec{v}) = \mu\vec{v}</m>.
+            Self-adjointness gives
+            <me>
+              \lambda\ip{\vec{u}}{\vec{v}}=\ip{\lambda \vec{u}}{\vec{v}}=\ip{T(\vec{u})}{\vec{v}}
+              =\ip{\vec{u}}{T(\vec{v})}=\ip{\vec{u}}{\mu \vec{v}}=\mu\ip{\vec{u}}{\vec{v}}.
+            </me>
+            Thus <m>(\lambda-\mu)\ip{\vec{u}}{\vec{v}}=0</m>.
+            Since the eigenvalues are distinct <m>\lambda - \mu \neq 0</m>, so <m>\ip{\vec{u}}{\vec{v}}=0</m>.
+          </p>
+        </proof>
+      </theorem>
+
+      <!--
+      <example>
+        <title>Symmetry produces perpendicular eigendirections</title>
+        <statement>
+          <p>
+            For <m>A=\begin{bmatrix}3\amp 1\\1\amp 3\end{bmatrix}</m>, <m>(1,1)</m> and <m>(1,-1)</m> have eigenvalues <m>4</m> and <m>2</m>, and their dot product is <m>0</m>.
+          </p>
+        </statement>
+      </example>
+      -->
+    </subsection>
+
+    <subsection xml:id="sec-quadratic-forms">
+      <title>Quadratic Forms</title>
+
+      <p>
+        Up until this point in the eigen-unit, we have proven some new things about stuff we already know, but the main things we are talking about are pretty familiar from Math 2000.
+        In order to prove the deeper results, we will need to go one step beyond linear algebra to <alert>quadratic algebra</alert>.
+      </p>
+
+      <definition xml:id="def-quadratic-form">
+        <statement>
+          <p>
+            The <term>quadratic form</term> associated with a matrix <m>A</m> is
+            <me>
+              q_A(\vec{x})=\ip{\vec{x}}{A\vec{x}}.
+            </me>
+          </p>
+        </statement>
+      </definition>
+
+      <p>
+        More explicitly for an <m>n \times n</m> matrix <m>A</m>, we get
+        <me>
+          q_{A}(\vec{x}) = \sum_{1 \leq i, j \leq n} A_{i,j} x_{i} x_{j}.
+        </me>
+        Notation you will also see for this is <m>q_{A}(\vec{x}) = \vec{x}^{\intercal} A \vec{x}</m>.
+        If you treat <m>\vec{x}</m> as an <m>n \times 1</m> vector, this gives precisely the same formula as the standard inner product on <m>\mathbb{R}^{n}</m>.
+      </p>
+
+      <p>
+        Each term has degree two, which is where it gets its name.
+        Quadratic forms are a key tool for studying symmetric matrices.
+        This is because they only care about the symmetric part of a matrix.
+      </p>
+
+      <theorem xml:id="thm-quadratic-form-symmetric-part">
+        <statement>
+          <p>
+            Let <m>A</m> be an <m>n \times n</m> matrix.
+            Then for all <m>\vec{x} \in \mathbb{R}^{n}</m>,
+            <me>
+              q_{A}(\vec{x}) = q_{S}(\vec{x}),
+            </me>
+            where <m>S = (A + A^{\intercal})/2</m>.
+            In particular, <m>S</m> is symmetric.
+          </p>
+        </statement>
+
+        <proof>
+          <p>
+            Note that
+            <me>
+              A=S+K, \text{ where }
+              \qquad
+              S=\frac{A+A^{\intercal}}{2},
+              \qquad
+              K=\frac{A-A^{\intercal}}{2}.
+            </me>
+            Then, since transposing is a linear involution (i.e., it is its own inverse) <m>S</m> is symmetric and <m>K = -K^{\intercal}</m>, which we call <term>skew symmetric</term>.
+            Let <m>\vec{x} \in \mathbb{R}^{n}</m>.
+            Note that, by bilinearity,
+            <me>
+              q_{A}(\vec{x}) = \ip{\vec{x}}{A \vec{x}} = \ip{\vec{x}}{S \vec{x}} + \ip{\vec{x}}{K \vec{x}}.
+            </me>
+            Thus, to complete the proof, it suffices to show that <m>\ip{\vec{x}}{K\vec{x}} = 0</m>.
+            Observe that
+            <me>
+              \ip{\vec{x}}{K\vec{x}} = \ip{K^{\intercal} \vec{x}}{\vec{x}} = \ip{-K \vec{x}}{\vec{x}} = \ip{\vec{x}}{-K\vec{x}} = -\ip{\vec{x}}{K\vec{x}}.
+            </me>
+            Thus, <m>\ip{\vec{x}}{K\vec{x}} = 0</m>, which completes the proof.
+          </p>
+        </proof>
+      </theorem>
+
+      <!--
+      Since the scalar \vec{x}^{\intercal} K\vec{x} equals its transpose,
+      \vec{x}^{\intercal} K\vec{x}=(\vec{x}^{\intercal} K\vec{x})^{\intercal}=\vec{x}^{\intercal} K^{\intercal} \vec{x}=-\vec{x}^{\intercal} K\vec{x},
+      we get \vec{x}^{\intercal} K\vec{x}=0.  Therefore
+      q_A(\vec{x})=q_S(\vec{x}).
+      -->
+
+      <p>
+        Quadratic measurements cannot detect the skew-symmetric part of a matrix.
+      </p>
+    </subsection>
+
+    <subsection xml:id="sec-positive-matrices">
+      <title>Positive Matrices</title>
+
+      <p>
+        A quadratic form gives a way to detect when an operator is positive.
+      </p>
+
+      <definition xml:id="def-psd-pd">
+        <statement>
+          <p>
+            A symmetric <m>n \times n</m> matrix <m>A</m> is
+            <ul>
+              <li>
+                <p>
+                  <term>positive semidefinite</term> (PSD) if <m>q_{A}(\vec{x}) \ge 0</m> for every <m>\vec{x} \in \mathbb{R}^{n}</m>;
+                </p>
+              </li>
+              <li>
+                <p>
+                  <term>positive definite</term> (PD) if <m>q_{A}(\vec{x}) \gt 0</m> for every nonzero <m>\vec{x} \in \mathbb{R}^{n}</m>.
+                </p>
+              </li>
+            </ul>
+          </p>
+        </statement>
+      </definition>
+
+      <p>
+        For example, the identity matrix is positive definite, since
+        <me>
+          q_{I_{n}}(\vec{x}) = \ip{\vec{x}}{\vec{x}} \geq 0
+        </me>
+        with equality if and only if <m>\vec{x} = \vec{0}</m>.
+      </p>
+
+      <theorem xml:id="thm-eigenvalues-psd">
+        <statement>
+          <p>
+            Let <m>A</m> be a symmetric matrix, and let <m>\vec{v}</m> be an eigenvector of <m>A</m> with eigenvalue <m>\lambda</m>.
+            Then
+            <me>
+              \lambda=\frac{\vec{v}^{\intercal} A\vec{v}}{\vec{v}^{\intercal} \vec{v}}.
+            </me>
+            Consequently, every eigenvalue of a PSD matrix is nonnegative, and every eigenvalue of a PD matrix is positive.
+          </p>
+        </statement>
+      </theorem>
+    </subsection>
+
+    <exercises xml:id="exercises-day16">
+      <title>Exercises</title>
+
+      <exercise xml:id="ex-outer-product">
+        <introduction>
+          <p>
+            Let <m>\vec{x} \in \mathbb{R}^{n}</m>.
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>
+              Show that the <m>n \times n</m> matrix <m>\vec{x}\vec{x}^{\intercal}</m> satisfies
+              <me>
+                (\vec{x}\vec{x}^{\intercal})_{i,j} = x_{i}x_{j}.
+              </me>
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Show that <m>\vec{x}\vec{x}^{\intercal}</m> is symmetric.
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Show that <m>\vec{x}\vec{x}^{\intercal}</m> is positive semidefinite.
+            </p>
+          </statement>
+        </task>
+      </exercise>
+
+      <exercise xml:id="ex-pd-cone">
+        <introduction>
+          <p>
+            Let <m>A</m> be a positive definite matrix.
+            Show that
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>
+              For any <m>c \gt 0</m>, <m>cA</m> is positive definite.
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              For any positive definite matrix <m>B</m>, <m>A + B</m> is positive definite.
+            </p>
+          </statement>
+        </task>
+      </exercise>
+
+      <exercise xml:id="ex-combination-outer-products">
+        <statement>
+          <p>
+            Show that any non-negative linear combination of matrices of the form <m>\vec{x}\vec{x}^{\intercal}</m> is positive semidefinite.
+          </p>
+        </statement>
+      </exercise>
+
+      <conclusion>
+        <p>
+          It turns out the spectral theorem shows that the reverse direction is true: every positive semidefinite matrix is a non-negative combination of matrices of the form <m>\vec{x}\vec{x}^{\intercal}</m>.
+        </p>
+      </conclusion>
+    </exercises>
+
+  </section>
+
