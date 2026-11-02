@@ -243,22 +243,15 @@
         with equality if and only if <m>\vec{x} = \vec{0}</m>.
       </p>
 
-      <theorem xml:id="thm-eigenvalues-psd">
-        <statement>
-          <p>
-            Let <m>A</m> be a symmetric matrix, and let <m>\vec{v}</m> be an eigenvector of <m>A</m> with eigenvalue <m>\lambda</m>.
-            Then
-            <me>
-              \lambda=\frac{\vec{v}^{\intercal} A\vec{v}}{\vec{v}^{\intercal} \vec{v}}.
-            </me>
-            Consequently, every eigenvalue of a PSD matrix is nonnegative, and every eigenvalue of a PD matrix is positive.
-          </p>
-        </statement>
-      </theorem>
+
     </subsection>
 
     <exercises xml:id="exercises-day16">
       <title>Exercises</title>
+
+      <exercise>
+      <p> Let <m>A</m> be a positive semidefinite matrix. Show that all eigenvalues of A are non-negative. </p>
+      </exercise>
 
       <exercise xml:id="ex-outer-product">
         <introduction>

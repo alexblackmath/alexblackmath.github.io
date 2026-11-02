@@ -7,7 +7,7 @@ var ptx_lunr_docs = [
   "type": "Article",
   "number": "",
   "title": "Math 2301 Day 16",
-  "body": " Math 2301 Day 16       Quadratic Algebra   Review  What was the statement of the spectral theorem?    Symmetry without coordinates  It turns out that eigenvectors and eigenvalues are particularly nice for symmetric matrices , matrices such that . We want to describe this in arbitrary vector spaces, and this is particularly important as most of what we do here extends to infinite dimensions. In quantum mechanics, you study infinite dimensional operators, and a key property is the following:    A linear operator on an inner-product space is self-adjoint if     In an orthonormal basis on a finite dimensional inner product space, is self-adjoint exactly when its matrix is symmetric:    This definition turns out to be advantageous for generalization and for proving things. For example, let's recall projection operations.    Let be an orthogonal projection onto a linear subspace of an inner product space . Then is self-adjoint.    Let . Using orthogonal decomposition, and , where and . Then applying orthogonality relations and these decompositions yields:       Different eigenspaces are perpendicular  Being self-adjoint allows us to not only show that eigenspaces are distinct and independent but, in fact, orthogonal:    Let be a self-adjoint operator on an inner product space . Let be eigenvectors with distinct eigenvalues in . Then .    Let and . Self-adjointness gives Thus . Since the eigenvalues are distinct , so .       Quadratic Forms  Up until this point in the eigen-unit, we have proven some new things about stuff we already know, but the main things we are talking about are pretty familiar from Math 2000. In order to prove the deeper results, we will need to go one step beyond linear algebra to quadratic algebra .    The quadratic form associated with a matrix is     More explicitly for an matrix , we get Notation you will also see for this is . If you treat as an vector, this gives precisely the same formula as the standard inner product on .  Each term has degree two, which is where it gets its name. Quadratic forms are a key tool for studying symmetric matrices. This is because they only care about the symmetric part of a matrix.    Let be an matrix. Then for all , where . In particular, is symmetric.    Note that Then, since transposing is a linear involution (i.e., it is its own inverse) is symmetric and , which we call skew symmetric . Let . Note that, by bilinearity, Thus, to complete the proof, it suffices to show that . Observe that Thus, , which completes the proof.     Quadratic measurements cannot detect the skew-symmetric part of a matrix.    Positive Matrices  A quadratic form gives a way to detect when an operator is positive.    A symmetric matrix is    positive semidefinite (PSD) if for every ;     positive definite (PD) if for every nonzero .       For example, the identity matrix is positive definite, since with equality if and only if .    Let be a symmetric matrix, and let be an eigenvector of with eigenvalue . Then Consequently, every eigenvalue of a PSD matrix is nonnegative, and every eigenvalue of a PD matrix is positive.      Exercises    Let .     Show that the matrix satisfies       Show that is symmetric.      Show that is positive semidefinite.       Let be a positive definite matrix. Show that     For any , is positive definite.      For any positive definite matrix , is positive definite.       Show that any non-negative linear combination of matrices of the form is positive semidefinite.     It turns out the spectral theorem shows that the reverse direction is true: every positive semidefinite matrix is a non-negative combination of matrices of the form .     "
+  "body": " Math 2301 Day 16       Quadratic Algebra   Review  What was the statement of the spectral theorem?    Symmetry without coordinates  It turns out that eigenvectors and eigenvalues are particularly nice for symmetric matrices , matrices such that . We want to describe this in arbitrary vector spaces, and this is particularly important as most of what we do here extends to infinite dimensions. In quantum mechanics, you study infinite dimensional operators, and a key property is the following:    A linear operator on an inner-product space is self-adjoint if     In an orthonormal basis on a finite dimensional inner product space, is self-adjoint exactly when its matrix is symmetric:    This definition turns out to be advantageous for generalization and for proving things. For example, let's recall projection operations.    Let be an orthogonal projection onto a linear subspace of an inner product space . Then is self-adjoint.    Let . Using orthogonal decomposition, and , where and . Then applying orthogonality relations and these decompositions yields:       Different eigenspaces are perpendicular  Being self-adjoint allows us to not only show that eigenspaces are distinct and independent but, in fact, orthogonal:    Let be a self-adjoint operator on an inner product space . Let be eigenvectors with distinct eigenvalues in . Then .    Let and . Self-adjointness gives Thus . Since the eigenvalues are distinct , so .       Quadratic Forms  Up until this point in the eigen-unit, we have proven some new things about stuff we already know, but the main things we are talking about are pretty familiar from Math 2000. In order to prove the deeper results, we will need to go one step beyond linear algebra to quadratic algebra .    The quadratic form associated with a matrix is     More explicitly for an matrix , we get Notation you will also see for this is . If you treat as an vector, this gives precisely the same formula as the standard inner product on .  Each term has degree two, which is where it gets its name. Quadratic forms are a key tool for studying symmetric matrices. This is because they only care about the symmetric part of a matrix.    Let be an matrix. Then for all , where . In particular, is symmetric.    Note that Then, since transposing is a linear involution (i.e., it is its own inverse) is symmetric and , which we call skew symmetric . Let . Note that, by bilinearity, Thus, to complete the proof, it suffices to show that . Observe that Thus, , which completes the proof.     Quadratic measurements cannot detect the skew-symmetric part of a matrix.    Positive Matrices  A quadratic form gives a way to detect when an operator is positive.    A symmetric matrix is    positive semidefinite (PSD) if for every ;     positive definite (PD) if for every nonzero .       For example, the identity matrix is positive definite, since with equality if and only if .    Exercises   Let be a positive semidefinite matrix. Show that all eigenvalues of A are non-negative.     Let .     Show that the matrix satisfies       Show that is symmetric.      Show that is positive semidefinite.       Let be a positive definite matrix. Show that     For any , is positive definite.      For any positive definite matrix , is positive definite.       Show that any non-negative linear combination of matrices of the form is positive semidefinite.     It turns out the spectral theorem shows that the reverse direction is true: every positive semidefinite matrix is a non-negative combination of matrices of the form .     "
 },
 {
   "id": "sec-symmetry-without-coordinates-2",
@@ -73,20 +73,20 @@ var ptx_lunr_docs = [
   "body": "  A symmetric matrix is    positive semidefinite (PSD) if for every ;     positive definite (PD) if for every nonzero .      "
 },
 {
-  "id": "thm-eigenvalues-psd",
+  "id": "exercises-day16-2",
   "level": "2",
-  "url": "#thm-eigenvalues-psd",
-  "type": "Theorem",
-  "number": "1.7",
+  "url": "#exercises-day16-2",
+  "type": "Exercise",
+  "number": "1.6.1",
   "title": "",
-  "body": "  Let be a symmetric matrix, and let be an eigenvector of with eigenvalue . Then Consequently, every eigenvalue of a PSD matrix is nonnegative, and every eigenvalue of a PD matrix is positive.   "
+  "body": " Let be a positive semidefinite matrix. Show that all eigenvalues of A are non-negative.  "
 },
 {
   "id": "ex-outer-product",
   "level": "2",
   "url": "#ex-outer-product",
   "type": "Exercise",
-  "number": "1.6.1",
+  "number": "1.6.2",
   "title": "",
   "body": "  Let .     Show that the matrix satisfies       Show that is symmetric.      Show that is positive semidefinite.    "
 },
@@ -95,7 +95,7 @@ var ptx_lunr_docs = [
   "level": "2",
   "url": "#ex-pd-cone",
   "type": "Exercise",
-  "number": "1.6.2",
+  "number": "1.6.3",
   "title": "",
   "body": "  Let be a positive definite matrix. Show that     For any , is positive definite.      For any positive definite matrix , is positive definite.    "
 },
@@ -104,7 +104,7 @@ var ptx_lunr_docs = [
   "level": "2",
   "url": "#ex-combination-outer-products",
   "type": "Exercise",
-  "number": "1.6.3",
+  "number": "1.6.4",
   "title": "",
   "body": "  Show that any non-negative linear combination of matrices of the form is positive semidefinite.   "
 }
