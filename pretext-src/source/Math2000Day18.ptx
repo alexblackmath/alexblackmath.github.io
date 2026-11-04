@@ -1,0 +1,244 @@
+
+  <section xml:id="Math2000Day18">
+    <title>Linkedin</title>
+
+    <subsection xml:id="day18-review">
+      <title>Review</title>
+
+      <exercise xml:id="day18-ex-nuggets">
+        <statement>
+          <p>
+            For the McDonald's and Chick-fil-A Nugget sizes, which actual nugget sizes were needed to be able to generate anything?
+          </p>
+        </statement>
+      </exercise>
+    </subsection>
+
+    <subsection xml:id="day18-independence">
+      <title>Independence</title>
+
+      <p>
+        Often a set of vectors contains redundancy, where you can get one as a combination of the others.
+        For example, consider the following
+        <me>
+          \begin{bmatrix} 1\\-1\\0 \end{bmatrix}, \begin{bmatrix} 1\\0\\-1 \end{bmatrix}, \begin{bmatrix} 0\\1\\-1 \end{bmatrix}.
+        </me>
+        Note that
+        <me>
+          \begin{bmatrix} 1\\0\\-1 \end{bmatrix} = \begin{bmatrix} 1\\-1\\0 \end{bmatrix} + \begin{bmatrix} 0\\1\\-1 \end{bmatrix},
+        </me>
+        so its inclusion does not change the span.
+        That is
+        <me>
+          \text{span}\left(\begin{bmatrix} 1\\-1\\0 \end{bmatrix}, \begin{bmatrix} 1\\0\\-1 \end{bmatrix}, \begin{bmatrix} 0\\1\\-1 \end{bmatrix}\right) = \text{span}\left(\begin{bmatrix} 1\\-1\\0 \end{bmatrix}, \begin{bmatrix} 0\\1\\-1 \end{bmatrix}\right).
+        </me>
+        But that's as far as it goes.
+        No more can be removed.
+        When you can't write any vector as a linear combination of the others, you call the set of vectors <term>independent</term>.
+      </p>
+
+      <p>
+        Recall that for vectors in <m>\mathbb{R}^{n}</m>, we already had an algorithm for checking independence.
+        Simply row reduce the matrix with columns given by those vectors.
+        Then they are independent exactly when every column is a pivot column.
+      </p>
+
+      <exercise xml:id="day18-ex-rowreduce-dependent">
+        <statement>
+          <p>
+            Use row reduction of the following matrix to explain why its columns are not independent:
+            <me>
+              \begin{bmatrix} 1 &amp; 1 &amp; 0 \\ -1 &amp; 0 &amp; 1 \\ 0 &amp; -1 &amp; -1 \end{bmatrix}.
+            </me>
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="day18-ex-columns-independent">
+        <statement>
+          <p>
+            Are the columns of the following matrix independent?
+            <me>
+              \begin{bmatrix} 1 &amp; 1 &amp; 0 \\ 1 &amp; 0 &amp; 1 \\ 0 &amp; 1 &amp; 1 \end{bmatrix}.
+            </me>
+          </p>
+        </statement>
+      </exercise>
+    </subsection>
+
+    <subsection xml:id="day18-networks">
+      <title>Networks</title>
+
+      <p>
+        A network is a collection of nodes, which you can think of as, for example, computers on the internet, and connections between nodes.
+        Consider a network with nodes labeled <m>1,2,\dots, n</m>.
+        Here we are going to consider two ways to build a matrix from a network.
+      </p>
+
+      <p>
+        Recall that <m>e_{i}</m> denotes the vector with <m>1</m> in the <m>i</m>th coordinate and zeroes in all other coordinates.
+      </p>
+
+      <p>
+        The signed incidence matrix: If two nodes <m>i \lt j</m> are connected, add a column vector <m>e_{i} - e_{j}</m>.
+      </p>
+
+      <p>
+        The unsigned incidence matrix: If two nodes <m>i \lt j</m> are connected, add a column vector <m>e_{i} + e_{j}</m>.
+      </p>
+
+      <p>
+        Given a network, when is the collection of vectors independent?
+      </p>
+
+      <exercise xml:id="day18-ex-triangle">
+        <statement>
+          <p>
+            Consider the graph of a triangle.
+            <ol marker="(a)">
+              <li>
+                <p>
+                  Draw it.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Label the nodes <m>1,2,3</m>.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Write down the vectors for the edges.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Are they independent for the signed incidence matrix?
+                </p>
+              </li>
+              <li>
+                <p>
+                  What about for the unsigned incidence matrix?
+                </p>
+              </li>
+            </ol>
+          </p>
+        </statement>
+      </exercise>
+    </subsection>
+
+    <subsection xml:id="day18-exercises">
+      <title>Exercises</title>
+
+      <p>
+        Use the following simulation for signed incidence matrices of networks on <url href="https://alexblackmath.github.io/Math2000/Simulations/SignedIncidenceMatrices" visual="alexblackmath.github.io/Math2000/Simulations/SignedIncidenceMatrices">this page</url>.
+        Our goal is to characterize when the column sets of these matrices are independent.
+      </p>
+
+      <exercise xml:id="day18-ex-signed-cycle">
+        <statement>
+          <p>
+            Start with networks that are just a cycle.
+            <ol marker="(a)">
+              <li>
+                <p>
+                  Characterize what the signed incidence matrices look like.
+                </p>
+              </li>
+              <li>
+                <p>
+                  When are their columns independent if ever? Explain your answer.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="day18-ex-signed-add-edge-dependent">
+        <statement>
+          <p>
+            Explain why adding an edge to a network for which the columns of its signed incidence matrix are dependent can never make it independent.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="day18-ex-signed-five-nodes">
+        <statement>
+          <p>
+            Characterize which networks on at most 5 nodes are independent.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="day18-ex-signed-add-edge-independent">
+        <statement>
+          <p>
+            Take an independent network and add an edge between two nodes.
+            When does this stop the columns of the signed incidence matrix of the network from being independent and why?
+            When does it preserve independence?
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="day18-ex-signed-characterization">
+        <statement>
+          <p>
+            Propose a characterization of the networks for which the signed incidence matrices are independent.
+          </p>
+        </statement>
+      </exercise>
+
+      <p>
+        Use the following simulation for unsigned incidence matrices of networks at <url href="https://alexblackmath.github.io/Math2000/Simulations/UnsignedIncidenceMatrices" visual="alexblackmath.github.io/Math2000/Simulations/UnsignedIncidenceMatrices">this page</url>.
+        Our goal is to characterize when the column sets of these matrices are independent.
+      </p>
+
+      <exercise xml:id="day18-ex-unsigned-cycle">
+        <statement>
+          <p>
+            Start with networks that are just a cycle.
+            <ol marker="(a)">
+              <li>
+                <p>
+                  Characterize what the unsigned incidence matrices look like.
+                </p>
+              </li>
+              <li>
+                <p>
+                  When are their columns independent if ever? Explain your answer.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="day18-ex-unsigned-add-edge-dependent">
+        <statement>
+          <p>
+            Explain why adding an edge to a network for which the columns of its unsigned incidence matrix are dependent can never make it independent.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="day18-ex-unsigned-five-nodes">
+        <statement>
+          <p>
+            Characterize which networks on at most 5 nodes are independent.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="day18-ex-unsigned-add-edge-independent">
+        <statement>
+          <p>
+            Take an independent network and add an edge between two nodes.
+            When does this stop the columns of the unsigned incidence matrix of the network from being independent and why? When does it preserve independence?
+          </p>
+        </statement>
+      </exercise>
+    </subsection>
+
+
+  </section>

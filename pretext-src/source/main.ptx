@@ -23,10 +23,10 @@
 
   </docinfo>
 
-  <article xml:id="Spooky">
-    <title>Math 2301 Day 17 </title>
+  <article xml:id="Linkedin">
+    <title>Math 2000 Day 18 </title>
     <xi:include href="./frontmatter.ptx" />
-    <xi:include href="Math2301Day17.ptx" />
+    <xi:include href="Math2000Day18.ptx" />
 
   
   </article>

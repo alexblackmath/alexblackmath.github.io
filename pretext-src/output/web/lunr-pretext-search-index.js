@@ -1,76 +1,139 @@
 var ptx_lunr_search_style = "textbook";
 var ptx_lunr_docs = [
 {
-  "id": "Spooky",
+  "id": "Linkedin",
   "level": "1",
-  "url": "#Spooky",
+  "url": "#Linkedin",
   "type": "Article",
   "number": "",
-  "title": "Math 2301 Day 17",
-  "body": " Math 2301 Day 17       A Very Spooky Theorem   Review  Answer the following questions:   Given a linear operator, what is the corresponding quadratic form?    Given an matrix , what is an symmetric matrix that has the same quadratic form?       The Statement  We will prove the following strong version of the spectral theorem:   Real spectral theorem   Let be a self-adjoint operator on a finite-dimensional real inner-product space . Then has an orthonormal basis of eigenvectors of .     The proof here is involved in part because this requires some tools from outside of linear algebra.    Optimization and Eigenvectors  Recall from last class the quadratic form: The argument is then built from the following intuition. Given two vectors of unit length, by the Cauchy Schwarz inequality, is maximized when . More generally, Cauchy Schwarz says that the inner product is maximized when two vectors are parallel. The quadratic form measures exactly the inner product between a vector and its image under , . Thus, it is reasonable to expect the quadratic form is maximized at some point when and are parallel. That is precisely what it means to be an eigenvector. Thus, we can find an eigenvector by maximizing this quadratic form.  For this let .    Let be a self-adjoint operator on an inner product space . Let denote its associated quadratic form. Let be a maximizer of such that . Then is an eigenvector of .    We want to use that is a maximizer of . Another way to express that condition is that moving in any direction away from gives a smaller value. We are going to look at each line in an orthogonal direction parametrized by a single variable, so we can use the optimality conditions from single variable calculus to argue the result.  Let , and suppose that . Define by Since , by the Pythagorean theorem, Thus, Then and . Thus, is a real-valued function, and we can use calculus to understand it.  It turns out this single-variable function is really just a ratio of single-variable quadratic functions: The numerator of the expression at the end is quadratic. To simplify, I will call it , and write . Now we use the quotient rule from calculus to find Since is a maximizer of by assumption, Note that Thus, Up to this point, the argument has not used self-adjointness. This is where we finally use it. Note that, by self-adjointness, . Thus,   Therefore, for all orthogonal to , is orthogonal to . Hence, , which implies , and hence is a multiple of . Therefore, by definition is an eigenvector of .    Thus, a maximizer of over must be an eigenvector, but why does this function attain its maximum? It turns out this requires a fact from analysis.   Extreme Value Theorem   Let be a continuous function. Then attains its maximum.    Applying this tells us that an eigenvector always exists.    Decomposition  The hardest part of the proof in my opinion is showing an eigenvector exists. For the rest, we can use the tools we developed from studying orthogonality.    Let be a self-adjoint operator, and let be an eigenvector of . Then is invariant under .    Let . In other words, . Then, writing , Thus .    Using this insight allows us to prove the spectral theorem ( ) by induction.   We use induction on . The theorem is immediate for . Assume for the sake of induction that any self-adjoint operator on an -dimensional vector space has an orthonormal eigenbasis. We want to show it is true for an -dimensional space. Let be a self-adjoint operator on an -dimensional vector space. Then, by the first lemma we showed today, has a unit eigenvector . Its orthogonal complement has dimension and is invariant under by our second lemma from today, and the restricted operator is self-adjoint. By induction, has an orthonormal eigenbasis for . Adding yields an orthonormal eigenbasis for the whole space.     Exercises    Let be a real symmetric matrix. Use the spectral theorem to prove the following:    has an orthonormal basis of eigenvectors;     for an orthogonal and diagonal ;     ;     has a spectral decomposition          Try the following game .      "
+  "title": "Math 2000 Day 18",
+  "body": " Math 2000 Day 18       Linkedin   Review    For the McDonald's and Chick-fil-A Nugget sizes, which actual nugget sizes were needed to be able to generate anything?      Independence  Often a set of vectors contains redundancy, where you can get one as a combination of the others. For example, consider the following Note that so its inclusion does not change the span. That is But that's as far as it goes. No more can be removed. When you can't write any vector as a linear combination of the others, you call the set of vectors independent .  Recall that for vectors in , we already had an algorithm for checking independence. Simply row reduce the matrix with columns given by those vectors. Then they are independent exactly when every column is a pivot column.    Use row reduction of the following matrix to explain why its columns are not independent:       Are the columns of the following matrix independent?       Networks  A network is a collection of nodes, which you can think of as, for example, computers on the internet, and connections between nodes. Consider a network with nodes labeled . Here we are going to consider two ways to build a matrix from a network.  Recall that denotes the vector with in the th coordinate and zeroes in all other coordinates.  The signed incidence matrix: If two nodes are connected, add a column vector .  The unsigned incidence matrix: If two nodes are connected, add a column vector .  Given a network, when is the collection of vectors independent?    Consider the graph of a triangle.   Draw it.    Label the nodes .    Write down the vectors for the edges.    Are they independent for the signed incidence matrix?    What about for the unsigned incidence matrix?         Exercises  Use the following simulation for signed incidence matrices of networks on this page . Our goal is to characterize when the column sets of these matrices are independent.    Start with networks that are just a cycle.   Characterize what the signed incidence matrices look like.    When are their columns independent if ever? Explain your answer.         Explain why adding an edge to a network for which the columns of its signed incidence matrix are dependent can never make it independent.      Characterize which networks on at most 5 nodes are independent.      Take an independent network and add an edge between two nodes. When does this stop the columns of the signed incidence matrix of the network from being independent and why? When does it preserve independence?      Propose a characterization of the networks for which the signed incidence matrices are independent.    Use the following simulation for unsigned incidence matrices of networks at this page . Our goal is to characterize when the column sets of these matrices are independent.    Start with networks that are just a cycle.   Characterize what the unsigned incidence matrices look like.    When are their columns independent if ever? Explain your answer.         Explain why adding an edge to a network for which the columns of its unsigned incidence matrix are dependent can never make it independent.      Characterize which networks on at most 5 nodes are independent.      Take an independent network and add an edge between two nodes. When does this stop the columns of the unsigned incidence matrix of the network from being independent and why? When does it preserve independence?      "
 },
 {
-  "id": "thm-spectral",
+  "id": "day18-ex-nuggets",
   "level": "2",
-  "url": "#thm-spectral",
-  "type": "Theorem",
+  "url": "#day18-ex-nuggets",
+  "type": "Checkpoint",
   "number": "1.1",
-  "title": "Real spectral theorem.",
-  "body": " Real spectral theorem   Let be a self-adjoint operator on a finite-dimensional real inner-product space . Then has an orthonormal basis of eigenvectors of .   "
+  "title": "",
+  "body": "  For the McDonald's and Chick-fil-A Nugget sizes, which actual nugget sizes were needed to be able to generate anything?   "
 },
 {
-  "id": "lem-maximizer-eigenvector",
+  "id": "day18-independence-2",
   "level": "2",
-  "url": "#lem-maximizer-eigenvector",
-  "type": "Lemma",
+  "url": "#day18-independence-2",
+  "type": "Paragraph (with a defined term)",
+  "number": "",
+  "title": "",
+  "body": "independent "
+},
+{
+  "id": "day18-ex-rowreduce-dependent",
+  "level": "2",
+  "url": "#day18-ex-rowreduce-dependent",
+  "type": "Checkpoint",
   "number": "1.2",
   "title": "",
-  "body": "  Let be a self-adjoint operator on an inner product space . Let denote its associated quadratic form. Let be a maximizer of such that . Then is an eigenvector of .    We want to use that is a maximizer of . Another way to express that condition is that moving in any direction away from gives a smaller value. We are going to look at each line in an orthogonal direction parametrized by a single variable, so we can use the optimality conditions from single variable calculus to argue the result.  Let , and suppose that . Define by Since , by the Pythagorean theorem, Thus, Then and . Thus, is a real-valued function, and we can use calculus to understand it.  It turns out this single-variable function is really just a ratio of single-variable quadratic functions: The numerator of the expression at the end is quadratic. To simplify, I will call it , and write . Now we use the quotient rule from calculus to find Since is a maximizer of by assumption, Note that Thus, Up to this point, the argument has not used self-adjointness. This is where we finally use it. Note that, by self-adjointness, . Thus,   Therefore, for all orthogonal to , is orthogonal to . Hence, , which implies , and hence is a multiple of . Therefore, by definition is an eigenvector of .   "
+  "body": "  Use row reduction of the following matrix to explain why its columns are not independent:    "
 },
 {
-  "id": "thm-evt",
+  "id": "day18-ex-columns-independent",
   "level": "2",
-  "url": "#thm-evt",
-  "type": "Theorem",
+  "url": "#day18-ex-columns-independent",
+  "type": "Checkpoint",
   "number": "1.3",
-  "title": "Extreme Value Theorem.",
-  "body": " Extreme Value Theorem   Let be a continuous function. Then attains its maximum.   "
+  "title": "",
+  "body": "  Are the columns of the following matrix independent?    "
 },
 {
-  "id": "lem-invariant-complement",
+  "id": "day18-ex-triangle",
   "level": "2",
-  "url": "#lem-invariant-complement",
-  "type": "Lemma",
+  "url": "#day18-ex-triangle",
+  "type": "Checkpoint",
   "number": "1.4",
   "title": "",
-  "body": "  Let be a self-adjoint operator, and let be an eigenvector of . Then is invariant under .    Let . In other words, . Then, writing , Thus .   "
+  "body": "  Consider the graph of a triangle.   Draw it.    Label the nodes .    Write down the vectors for the edges.    Are they independent for the signed incidence matrix?    What about for the unsigned incidence matrix?      "
 },
 {
-  "id": "sec-decomposition-5",
+  "id": "day18-ex-signed-cycle",
   "level": "2",
-  "url": "#sec-decomposition-5",
-  "type": "Proof",
-  "number": "1.4.1",
+  "url": "#day18-ex-signed-cycle",
+  "type": "Checkpoint",
+  "number": "1.5",
   "title": "",
-  "body": " We use induction on . The theorem is immediate for . Assume for the sake of induction that any self-adjoint operator on an -dimensional vector space has an orthonormal eigenbasis. We want to show it is true for an -dimensional space. Let be a self-adjoint operator on an -dimensional vector space. Then, by the first lemma we showed today, has a unit eigenvector . Its orthogonal complement has dimension and is invariant under by our second lemma from today, and the restricted operator is self-adjoint. By induction, has an orthonormal eigenbasis for . Adding yields an orthonormal eigenbasis for the whole space.  "
+  "body": "  Start with networks that are just a cycle.   Characterize what the signed incidence matrices look like.    When are their columns independent if ever? Explain your answer.      "
 },
 {
-  "id": "ex-spectral-consequences",
+  "id": "day18-ex-signed-add-edge-dependent",
   "level": "2",
-  "url": "#ex-spectral-consequences",
-  "type": "Exercise",
-  "number": "1.5.1",
+  "url": "#day18-ex-signed-add-edge-dependent",
+  "type": "Checkpoint",
+  "number": "1.6",
   "title": "",
-  "body": "  Let be a real symmetric matrix. Use the spectral theorem to prove the following:    has an orthonormal basis of eigenvectors;     for an orthogonal and diagonal ;     ;     has a spectral decomposition       "
+  "body": "  Explain why adding an edge to a network for which the columns of its signed incidence matrix are dependent can never make it independent.   "
 },
 {
-  "id": "ex-circuit-walk",
+  "id": "day18-ex-signed-five-nodes",
   "level": "2",
-  "url": "#ex-circuit-walk",
-  "type": "Exercise",
-  "number": "1.5.2",
+  "url": "#day18-ex-signed-five-nodes",
+  "type": "Checkpoint",
+  "number": "1.7",
   "title": "",
-  "body": "  Try the following game .   "
+  "body": "  Characterize which networks on at most 5 nodes are independent.   "
+},
+{
+  "id": "day18-ex-signed-add-edge-independent",
+  "level": "2",
+  "url": "#day18-ex-signed-add-edge-independent",
+  "type": "Checkpoint",
+  "number": "1.8",
+  "title": "",
+  "body": "  Take an independent network and add an edge between two nodes. When does this stop the columns of the signed incidence matrix of the network from being independent and why? When does it preserve independence?   "
+},
+{
+  "id": "day18-ex-signed-characterization",
+  "level": "2",
+  "url": "#day18-ex-signed-characterization",
+  "type": "Checkpoint",
+  "number": "1.9",
+  "title": "",
+  "body": "  Propose a characterization of the networks for which the signed incidence matrices are independent.   "
+},
+{
+  "id": "day18-ex-unsigned-cycle",
+  "level": "2",
+  "url": "#day18-ex-unsigned-cycle",
+  "type": "Checkpoint",
+  "number": "1.10",
+  "title": "",
+  "body": "  Start with networks that are just a cycle.   Characterize what the unsigned incidence matrices look like.    When are their columns independent if ever? Explain your answer.      "
+},
+{
+  "id": "day18-ex-unsigned-add-edge-dependent",
+  "level": "2",
+  "url": "#day18-ex-unsigned-add-edge-dependent",
+  "type": "Checkpoint",
+  "number": "1.11",
+  "title": "",
+  "body": "  Explain why adding an edge to a network for which the columns of its unsigned incidence matrix are dependent can never make it independent.   "
+},
+{
+  "id": "day18-ex-unsigned-five-nodes",
+  "level": "2",
+  "url": "#day18-ex-unsigned-five-nodes",
+  "type": "Checkpoint",
+  "number": "1.12",
+  "title": "",
+  "body": "  Characterize which networks on at most 5 nodes are independent.   "
+},
+{
+  "id": "day18-ex-unsigned-add-edge-independent",
+  "level": "2",
+  "url": "#day18-ex-unsigned-add-edge-independent",
+  "type": "Checkpoint",
+  "number": "1.13",
+  "title": "",
+  "body": "  Take an independent network and add an edge between two nodes. When does this stop the columns of the unsigned incidence matrix of the network from being independent and why? When does it preserve independence?   "
 }
 ]
 
