@@ -1,139 +1,76 @@
 var ptx_lunr_search_style = "textbook";
 var ptx_lunr_docs = [
 {
-  "id": "McNuggs",
+  "id": "Spooky",
   "level": "1",
-  "url": "#McNuggs",
+  "url": "#Spooky",
   "type": "Article",
   "number": "",
-  "title": "Math 2000 Day 17",
-  "body": " Math 2000 Day 17       Nugget Theory    Review  What are the three things you need to check in order to see if a subset of a vector space is a subspace?     Exercises    Reexplain the four subspaces in your own words.      Explain why the vector cannot be obtained from any linear combination of the vectors , , and .      Is the collection of vectors in such that and a subspace of ?      Which of the following are linear subspaces of the vector space of matrices:  Invertible matrices  Noninvertible matrices  Upper triangular matrices  Permutation matrices  Diagonal matrices  Matrices with determinant  Orthogonal matrices (i.e., such that )        Consider the linear system: Use the Fredholm alternative to explain why it has no solution.      Consider the following linear system      Without row reducing, explain why this system has a solution and give an example solution.      Does this system have a solution in which each for each ?        Span  I would like to motivate span and why we care about it. For me, I often deal with problems where I care about the span, but the coefficients allowed are more restricted than to real numbers. I usually don't allow negatives and often restrict to whole numbers. Let's start with an illustrative example.     The Denver Nuggets  I love nuggets of all kinds, Denver, gold and chicken in that order especially. Suppose you are in desperate need of chicken nuggets, but you need a very particular number of nuggets. If you buy a bag of Dino nuggets, you can make them however you want. They're good. Very good even. But you know sometimes you want to make a day of it, so you seek out a professional fresh nugget manufacturer. But the question is: Can you still get your perfect preference of the exact number of nuggets to eat in one sitting? They are not good leftover, so it's important to be able to exactly match your appetite to avoid food waste.  This leads to the chicken nugget problem. Let's start with McDonald's.    McDonald's offers the following McNuggets sizes:  4 mcnuggs  6 mcnuggs  10 mcnuggs  20 mcnuggs  40 mcnuggs    I'm interested in the following questions:     Can you get 47 mcnuggs from a single order?      What about , or mcnuggs?      Characterize the different sizes of mcnuggs you can get.     Let's compare this to Chick-fil-A, which has a much superior product objectively.    Chick-fil-A offers the following nuggs sizes:  5 nuggs  8 nuggs  12 nuggs  30 nuggs    They also offer both grilled and fried nuggs. I typically go for the grilled. There's a location in South Portland. Let's ask the same questions:     Can you get 47 nuggs from a single order?      What about , or nuggs?      Characterize the different sizes of nuggs you can get.        Subset-Sum  The chicken nugget problem seems silly, but similar questions appear in computer science as fundamental subroutines in more complicated computational problems. For example, they have a limited stock of nuggets and they may already be prepackaged.    Say you're at Chick-fil-A and they have  6 packs of 5 nuggs left  1 pack of 8 nuggs left  2 packs of 12 nuggs left  1 pack of 30 nuggs left       Can I get 42 nuggs?      Can I get 50 nuggs?      Can I get nuggs?     These are examples of the subset sum problem in theoretical computer science. Namely, you want an algorithm to solve the following problem: Given a list of numbers and a number , can I find a subset that sums to exactly ?  This is really a linear algebra question. Equivalently, can you find all either or such that This is a single linear equation! If could have entries given by any real number, we know how to solve this. In general, this problem is actually provably hard. If you could prove you can solve it efficiently, you would literally get a million dollars. That's how much of a difference restricting coefficients makes. Amazingly though you can use linear algebra as a tool to help solve this in practice.     Independence  What you can observe is that sometimes some of the options are redundant:    Which sizes of mcnuggs are not needed to be able to generate new possibilities? What about for Chick-fil-A?    You can ask the same question for vectors in any vector space. Given a set of vectors, , are there any that we can throw out without changing the span? If there are none, we call the vectors linearly independent . This happens precisely when I can't get any of the vectors of the list by combining other vectors.     Exercises Again    Suppose you work at a competing McDonald's across the street from another McDonald's. Oh no, you're out of nuggets and now you need precisely nuggets for the rest of the day. Now you can both buy and sell nuggets at the McDonald's sizes. Can you get the exact amount of nuggets you need? How would that change what possible mcnugg numbers you can get?      You're Nicolas Cage. You heard a rumor the Declaration of Independence is in the Bowdoin College Museum of Art. You yearn to heist, but the movie industry has weighed you down. All those years. You can only take at most 20 lbs of goods with you. Here are the items and their value:        Item  Value  Weight  Number available    Declaration of Independence  million  lbs     Landscape paintings  each  lbs each     Busts  each  lbs each     Answer the following questions:     What should you steal to maximize your profit?      How much do you profit from the theft?        "
+  "title": "Math 2301 Day 17",
+  "body": " Math 2301 Day 17       A Very Spooky Theorem   Review  Answer the following questions:   Given a linear operator, what is the corresponding quadratic form?    Given an matrix , what is an symmetric matrix that has the same quadratic form?       The Statement  We will prove the following strong version of the spectral theorem:   Real spectral theorem   Let be a self-adjoint operator on a finite-dimensional real inner-product space . Then has an orthonormal basis of eigenvectors of .     The proof here is involved in part because this requires some tools from outside of linear algebra.    Optimization and Eigenvectors  Recall from last class the quadratic form: The argument is then built from the following intuition. Given two vectors of unit length, by the Cauchy Schwarz inequality, is maximized when . More generally, Cauchy Schwarz says that the inner product is maximized when two vectors are parallel. The quadratic form measures exactly the inner product between a vector and its image under , . Thus, it is reasonable to expect the quadratic form is maximized at some point when and are parallel. That is precisely what it means to be an eigenvector. Thus, we can find an eigenvector by maximizing this quadratic form.  For this let .    Let be a self-adjoint operator on an inner product space . Let denote its associated quadratic form. Let be a maximizer of such that . Then is an eigenvector of .    We want to use that is a maximizer of . Another way to express that condition is that moving in any direction away from gives a smaller value. We are going to look at each line in an orthogonal direction parametrized by a single variable, so we can use the optimality conditions from single variable calculus to argue the result.  Let , and suppose that . Define by Since , by the Pythagorean theorem, Thus, Then and . Thus, is a real-valued function, and we can use calculus to understand it.  It turns out this single-variable function is really just a ratio of single-variable quadratic functions: The numerator of the expression at the end is quadratic. To simplify, I will call it , and write . Now we use the quotient rule from calculus to find Since is a maximizer of by assumption, Note that Thus, Up to this point, the argument has not used self-adjointness. This is where we finally use it. Note that, by self-adjointness, . Thus,   Therefore, for all orthogonal to , is orthogonal to . Hence, , which implies , and hence is a multiple of . Therefore, by definition is an eigenvector of .    Thus, a maximizer of over must be an eigenvector, but why does this function attain its maximum? It turns out this requires a fact from analysis.   Extreme Value Theorem   Let be a continuous function. Then attains its maximum.    Applying this tells us that an eigenvector always exists.    Decomposition  The hardest part of the proof in my opinion is showing an eigenvector exists. For the rest, we can use the tools we developed from studying orthogonality.    Let be a self-adjoint operator, and let be an eigenvector of . Then is invariant under .    Let . In other words, . Then, writing , Thus .    Using this insight allows us to prove the spectral theorem ( ) by induction.   We use induction on . The theorem is immediate for . Assume for the sake of induction that any self-adjoint operator on an -dimensional vector space has an orthonormal eigenbasis. We want to show it is true for an -dimensional space. Let be a self-adjoint operator on an -dimensional vector space. Then, by the first lemma we showed today, has a unit eigenvector . Its orthogonal complement has dimension and is invariant under by our second lemma from today, and the restricted operator is self-adjoint. By induction, has an orthonormal eigenbasis for . Adding yields an orthonormal eigenbasis for the whole space.     Exercises    Let be a real symmetric matrix. Use the spectral theorem to prove the following:    has an orthonormal basis of eigenvectors;     for an orthogonal and diagonal ;     ;     has a spectral decomposition          Try the following game .      "
 },
 {
-  "id": "ex-four-subspaces",
+  "id": "thm-spectral",
   "level": "2",
-  "url": "#ex-four-subspaces",
-  "type": "Checkpoint",
+  "url": "#thm-spectral",
+  "type": "Theorem",
   "number": "1.1",
-  "title": "",
-  "body": "  Reexplain the four subspaces in your own words.   "
+  "title": "Real spectral theorem.",
+  "body": " Real spectral theorem   Let be a self-adjoint operator on a finite-dimensional real inner-product space . Then has an orthonormal basis of eigenvectors of .   "
 },
 {
-  "id": "ex-not-in-span",
+  "id": "lem-maximizer-eigenvector",
   "level": "2",
-  "url": "#ex-not-in-span",
-  "type": "Checkpoint",
+  "url": "#lem-maximizer-eigenvector",
+  "type": "Lemma",
   "number": "1.2",
   "title": "",
-  "body": "  Explain why the vector cannot be obtained from any linear combination of the vectors , , and .   "
+  "body": "  Let be a self-adjoint operator on an inner product space . Let denote its associated quadratic form. Let be a maximizer of such that . Then is an eigenvector of .    We want to use that is a maximizer of . Another way to express that condition is that moving in any direction away from gives a smaller value. We are going to look at each line in an orthogonal direction parametrized by a single variable, so we can use the optimality conditions from single variable calculus to argue the result.  Let , and suppose that . Define by Since , by the Pythagorean theorem, Thus, Then and . Thus, is a real-valued function, and we can use calculus to understand it.  It turns out this single-variable function is really just a ratio of single-variable quadratic functions: The numerator of the expression at the end is quadratic. To simplify, I will call it , and write . Now we use the quotient rule from calculus to find Since is a maximizer of by assumption, Note that Thus, Up to this point, the argument has not used self-adjointness. This is where we finally use it. Note that, by self-adjointness, . Thus,   Therefore, for all orthogonal to , is orthogonal to . Hence, , which implies , and hence is a multiple of . Therefore, by definition is an eigenvector of .   "
 },
 {
-  "id": "ex-quadrant",
+  "id": "thm-evt",
   "level": "2",
-  "url": "#ex-quadrant",
-  "type": "Checkpoint",
+  "url": "#thm-evt",
+  "type": "Theorem",
   "number": "1.3",
-  "title": "",
-  "body": "  Is the collection of vectors in such that and a subspace of ?   "
+  "title": "Extreme Value Theorem.",
+  "body": " Extreme Value Theorem   Let be a continuous function. Then attains its maximum.   "
 },
 {
-  "id": "ex-matrix-subspaces",
+  "id": "lem-invariant-complement",
   "level": "2",
-  "url": "#ex-matrix-subspaces",
-  "type": "Checkpoint",
+  "url": "#lem-invariant-complement",
+  "type": "Lemma",
   "number": "1.4",
   "title": "",
-  "body": "  Which of the following are linear subspaces of the vector space of matrices:  Invertible matrices  Noninvertible matrices  Upper triangular matrices  Permutation matrices  Diagonal matrices  Matrices with determinant  Orthogonal matrices (i.e., such that )     "
+  "body": "  Let be a self-adjoint operator, and let be an eigenvector of . Then is invariant under .    Let . In other words, . Then, writing , Thus .   "
 },
 {
-  "id": "ex-fredholm",
+  "id": "sec-decomposition-5",
   "level": "2",
-  "url": "#ex-fredholm",
-  "type": "Checkpoint",
-  "number": "1.5",
+  "url": "#sec-decomposition-5",
+  "type": "Proof",
+  "number": "1.4.1",
   "title": "",
-  "body": "  Consider the linear system: Use the Fredholm alternative to explain why it has no solution.   "
+  "body": " We use induction on . The theorem is immediate for . Assume for the sake of induction that any self-adjoint operator on an -dimensional vector space has an orthonormal eigenbasis. We want to show it is true for an -dimensional space. Let be a self-adjoint operator on an -dimensional vector space. Then, by the first lemma we showed today, has a unit eigenvector . Its orthogonal complement has dimension and is invariant under by our second lemma from today, and the restricted operator is self-adjoint. By induction, has an orthonormal eigenbasis for . Adding yields an orthonormal eigenbasis for the whole space.  "
 },
 {
-  "id": "ex-nonnegative-solution",
+  "id": "ex-spectral-consequences",
   "level": "2",
-  "url": "#ex-nonnegative-solution",
-  "type": "Checkpoint",
-  "number": "1.6",
+  "url": "#ex-spectral-consequences",
+  "type": "Exercise",
+  "number": "1.5.1",
   "title": "",
-  "body": "  Consider the following linear system      Without row reducing, explain why this system has a solution and give an example solution.      Does this system have a solution in which each for each ?    "
+  "body": "  Let be a real symmetric matrix. Use the spectral theorem to prove the following:    has an orthonormal basis of eigenvectors;     for an orthogonal and diagonal ;     ;     has a spectral decomposition       "
 },
 {
-  "id": "ex-mcdonalds",
+  "id": "ex-circuit-walk",
   "level": "2",
-  "url": "#ex-mcdonalds",
-  "type": "Checkpoint",
-  "number": "1.7",
+  "url": "#ex-circuit-walk",
+  "type": "Exercise",
+  "number": "1.5.2",
   "title": "",
-  "body": "  McDonald's offers the following McNuggets sizes:  4 mcnuggs  6 mcnuggs  10 mcnuggs  20 mcnuggs  40 mcnuggs    I'm interested in the following questions:     Can you get 47 mcnuggs from a single order?      What about , or mcnuggs?      Characterize the different sizes of mcnuggs you can get.    "
-},
-{
-  "id": "ex-chick-fil-a",
-  "level": "2",
-  "url": "#ex-chick-fil-a",
-  "type": "Checkpoint",
-  "number": "1.8",
-  "title": "",
-  "body": "  Chick-fil-A offers the following nuggs sizes:  5 nuggs  8 nuggs  12 nuggs  30 nuggs    They also offer both grilled and fried nuggs. I typically go for the grilled. There's a location in South Portland. Let's ask the same questions:     Can you get 47 nuggs from a single order?      What about , or nuggs?      Characterize the different sizes of nuggs you can get.    "
-},
-{
-  "id": "ex-limited-stock",
-  "level": "2",
-  "url": "#ex-limited-stock",
-  "type": "Checkpoint",
-  "number": "1.9",
-  "title": "",
-  "body": "  Say you're at Chick-fil-A and they have  6 packs of 5 nuggs left  1 pack of 8 nuggs left  2 packs of 12 nuggs left  1 pack of 30 nuggs left       Can I get 42 nuggs?      Can I get 50 nuggs?      Can I get nuggs?    "
-},
-{
-  "id": "sec-subset-sum-4",
-  "level": "2",
-  "url": "#sec-subset-sum-4",
-  "type": "Paragraph (with a defined term)",
-  "number": "",
-  "title": "",
-  "body": "subset sum "
-},
-{
-  "id": "ex-redundant-sizes",
-  "level": "2",
-  "url": "#ex-redundant-sizes",
-  "type": "Checkpoint",
-  "number": "1.10",
-  "title": "",
-  "body": "  Which sizes of mcnuggs are not needed to be able to generate new possibilities? What about for Chick-fil-A?   "
-},
-{
-  "id": "sec-independence-4",
-  "level": "2",
-  "url": "#sec-independence-4",
-  "type": "Paragraph (with a defined term)",
-  "number": "",
-  "title": "",
-  "body": "linearly independent "
-},
-{
-  "id": "ex-buy-and-sell",
-  "level": "2",
-  "url": "#ex-buy-and-sell",
-  "type": "Checkpoint",
-  "number": "1.11",
-  "title": "",
-  "body": "  Suppose you work at a competing McDonald's across the street from another McDonald's. Oh no, you're out of nuggets and now you need precisely nuggets for the rest of the day. Now you can both buy and sell nuggets at the McDonald's sizes. Can you get the exact amount of nuggets you need? How would that change what possible mcnugg numbers you can get?   "
-},
-{
-  "id": "ex-heist",
-  "level": "2",
-  "url": "#ex-heist",
-  "type": "Checkpoint",
-  "number": "1.12",
-  "title": "",
-  "body": "  You're Nicolas Cage. You heard a rumor the Declaration of Independence is in the Bowdoin College Museum of Art. You yearn to heist, but the movie industry has weighed you down. All those years. You can only take at most 20 lbs of goods with you. Here are the items and their value:        Item  Value  Weight  Number available    Declaration of Independence  million  lbs     Landscape paintings  each  lbs each     Busts  each  lbs each     Answer the following questions:     What should you steal to maximize your profit?      How much do you profit from the theft?    "
+  "body": "  Try the following game .   "
 }
 ]
 

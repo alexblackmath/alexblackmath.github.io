@@ -6,8 +6,9 @@
     <document-id>authorslastnamelowercase-ShortTitleCamelCase</document-id>
 
     <macros>\newcommand{\foo}{b^{ar}}
-          \newcommand{\ip}[2]{\left\langle #1,#2\right\rangle}
-      \newcommand{\norm}[1]{\left\| #1\right\|}
+        \newcommand{\ip}[2]{\left\langle #1,#2\right\rangle}
+        \newcommand{\norm}[1]{\left\| #1\right\|}
+        \newcommand{\trans}{^{\intercal}}
     </macros>
 
   <latex-image-preamble>
@@ -22,10 +23,10 @@
 
   </docinfo>
 
-  <article xml:id="McNuggs">
-    <title>Math 2000 Day 17 </title>
+  <article xml:id="Spooky">
+    <title>Math 2301 Day 17 </title>
     <xi:include href="./frontmatter.ptx" />
-    <xi:include href="Math2000Day17.ptx" />
+    <xi:include href="Math2301Day17.ptx" />
 
   
   </article>

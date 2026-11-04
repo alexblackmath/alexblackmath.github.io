@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<!--********************************************-->
+<!--*       Generated from PreTeXt source      *-->
+<!--*                                          *-->
+<!--*         https://pretextbook.org          *-->
+<!--*                                          *-->
+<!--********************************************-->
+<html lang="en-US" dir="ltr">
+<!--******************************************-->
+<!--*  Authored with PreTeXt                 *-->
+<!--*  pretextbook.org                       *-->
+<!--*  Theme: default-modern                 *-->
+<!--*  Palette:                              *-->
+<!--******************************************-->
+<head xmlns:og="http://ogp.me/ns#" xmlns:book="https://ogp.me/ns/book#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>The Path of Least Resistance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="_static/pretext/fonts/material-symbols-outlined.css">
+<link href="_static/pretext/css/theme.css" rel="stylesheet" type="text/css">
+<script type="module">import { startMathJax } from './_static/pretext/js/dist/mathjax_startup.js';
+startMathJax({
+hasWebworkReps: false,
+hasSage: false,
+isReact: false,
+htmlPresentation: false,
+lang: "en-US",
+});
+</script><script defer data-pretext-mathjax="true" onerror="this.dataset.loadFailed = 'true';" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script><meta name="Keywords" content="Authored in PreTeXt">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:type" content="article">
+<meta name="twitter:title" content="The Path of Least Resistance">
+<meta property="og:title" content="The Path of Least Resistance">
+<meta name="twitter:card" content="summary">
+<script src="_static/pretext/js/jquery.min.js"></script><script src="_static/pretext/js/dist/pretext-core.js?v=2.55"></script><script src="_static/pretext/js/dist/pretext-read-aloud.js?v=2.55"></script><!--** eBookCongig is necessary to configure interactive       **-->
+<!--** Runestone components to run locally in reader's browser **-->
+<!--** No external communication:                              **-->
+<!--**     log level is 0, Runestone Services are disabled     **-->
+<script type="text/javascript">
+eBookConfig = {};
+eBookConfig.useRunestoneServices = false;
+eBookConfig.host = 'http://127.0.0.1:8000';
+eBookConfig.course = 'PTX_Course_Title_Here';
+eBookConfig.basecourse = 'PTX_Base_Course';
+eBookConfig.isLoggedIn = false;
+eBookConfig.email = '';
+eBookConfig.isInstructor = false;
+eBookConfig.logLevel = 0;
+eBookConfig.username = '';
+eBookConfig.readings = null;
+eBookConfig.activities = null;
+eBookConfig.downloadsEnabled = false;
+eBookConfig.allow_pairs = false;
+eBookConfig.enableScratchAC = false;
+eBookConfig.build_info = "";
+eBookConfig.python3 = null;
+eBookConfig.runestone_version = '8.3.3';
+eBookConfig.jobehost = '';
+eBookConfig.proxyuri_runs = '';
+eBookConfig.proxyuri_files = '';
+eBookConfig.enable_chatcodes =  false;
+</script>
+<!--*** Runestone Services ***-->
+<script src="_static/prefix-runtime.dd07797f77620576.bundle.js"></script><script src="_static/prefix-926.5c7038c8ef173faf.bundle.js"></script><script src="_static/prefix-runestone.11d27cdc38930c2c.bundle.js"></script><link rel="stylesheet" type="text/css" href="_static/prefix-926.229729d09512acc9.css">
+<link rel="stylesheet" type="text/css" href="_static/prefix-runestone.347e2ecdeacfed99.css">
+<script src="_static/pretext/js/dist/lti_iframe_resizer.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js" integrity="sha512-4xUl/d6D6THrAnXAwGajXkoWaeMNwEKK4iNfq5DotEbLPAfk6FSxSP3ydNxqDgCw1c/0Z1Jg6L8h2j+++9BZmg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><script src="lunr-pretext-search-index.js" async=""></script><script src="_static/pretext/js/dist/pretext_search.js"></script><!--knowl.js code controls Sage Cells within knowls--><script>sagecellEvalName='Evaluate (Sage)';
+</script>
+</head>
+<body id="authorslastnamelowercase-ShortTitleCamelCase" class="pretext article ignore-math">
+<a class="assistive" href="#ptx-content">Skip to main content</a><header id="ptx-masthead" class="ptx-masthead" role="banner"><div class="ptx-banner"><div class="title-container">
+<h1 class="heading ptx-banner-heading"><a href="shortest-paths.html"><span class="title">The Path of Least Resistance</span></a></h1>
+<p class="byline"></p>
+</div></div></header><nav id="ptx-navbar" class="ptx-navbar navbar"><div class="ptx-navbar-contents">
+<button id="ptx-toc-toggle" type="button" aria-controls="ptx-sidebar" class="toc-toggle button hidden" title="Contents"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5d2;</span><span class="name">Contents</span></button><div class="ptx-search-box">
+<div class="ptx-search-widget"><button id="ptx-search-button" type="button" class="ptx-search-button button" title="Search Book"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe8b6;</span><span class="name">Search Book</span></button></div>
+<dialog id="ptx-search-dialog" class="ptx-dialog ptx-search-dialog"><div class="ptx-search-dialog-controls">
+<input aria-label="Search term" id="ptx-search-terms" class="ptx-search-terms" type="text" name="terms" placeholder="Search terms"><button aria-label="Close" id="ptx-search-close" class="ptx-search-close"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cd;</span></button>
+</div>
+<div id="ptx-search-status" class="ptx-search-status" aria-live="polite" aria-atomic="true"></div>
+<h2 class="heading ptx-search-results-heading">Search Results: </h2>
+<div id="ptx-search-empty" class="ptx-search-empty"><span>No results.</span></div>
+<ol id="ptx-search-results" class="ptx-search-results"></ol></dialog>
+</div>
+<span class="nav-other-controls"><button id="ptx-read-aloud-button" class="ptx-read-aloud-button button" title="Read aloud" aria-expanded="false"><span class="icon material-symbols-outlined" aria-hidden="true">&#xf1bc;</span><span class="name">Read aloud</span></button><div id="ptx-read-aloud-player" class="ptx-read-aloud-player" hidden="hidden" role="group" aria-label="Read aloud">
+<button id="ptx-read-aloud-prev" class="button" title="Previous sentence"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe045;</span></button><button id="ptx-read-aloud-toggle" class="ptx-read-aloud-toggle button" title="Play"><span class="ptx-read-aloud-icon-play"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe037;</span></span><span class="ptx-read-aloud-icon-pause"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe034;</span></span></button><button id="ptx-read-aloud-next" class="button" title="Next sentence"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe044;</span></button><a id="ptx-read-aloud-continue" class="ptx-read-aloud-continue button" hidden="hidden">Continue<span class="icon material-symbols-outlined" aria-hidden="true">&#xe037;</span></a><button id="ptx-read-aloud-settings-button" class="ptx-read-aloud-settings-button button" title="Reading settings"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe429;</span></button>
+</div>
+<dialog class="ptx-dialog ptx-read-aloud-settings-popup" id="ptx-read-aloud-settings-popup"><div class="ptx-readability-options-popup-controls">
+<h2 class="heading">Read aloud settings</h2>
+<button class="ptx-read-aloud-settings-close-button button" id="ptx-read-aloud-settings-close-button" title="Close"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cd;</span></button>
+</div>
+<div class="ptx-readability-options-group">
+<label for="ptx-read-aloud-voice"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe91f;</span><span>Voice</span></label><select id="ptx-read-aloud-voice"></select><label class="ptx-readability-slider-label" for="ptx-read-aloud-rate"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe9e4;</span><span>Reading speed</span><output id="ptx-read-aloud-rate-value" for="ptx-read-aloud-rate">1×</output></label><input type="range" id="ptx-read-aloud-rate" min="0.5" max="2" step="0.1" value="1"><label for="ptx-read-aloud-asides"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5d7;</span><span>Collapsed content</span></label><select id="ptx-read-aloud-asides"><option value="skip">Announce, do not read</option>
+<option value="read">Read automatically</option></select><label for="ptx-read-aloud-autoscroll"><input type="checkbox" id="ptx-read-aloud-autoscroll" checked><span>Follow along (auto-scroll)</span></label><label for="ptx-read-aloud-autocontinue"><input type="checkbox" id="ptx-read-aloud-autocontinue"><span>Continue to the next page automatically</span></label>
+</div></dialog><button id="ptx-readability-options-button" class="ptx-readability-options-button button" title="Readability settings"><span class="icon material-symbols-outlined" aria-hidden="true">&#xf6f1;</span><span class="name">Readability settings</span></button><dialog class="ptx-dialog ptx-readability-options-popup" id="ptx-readability-options-popup"><div class="ptx-readability-options-popup-controls">
+<h2 class="heading">Readability settings</h2>
+<button class="ptx-readability-options-close-button button" id="ptx-readability-options-close-button" title="Close"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cd;</span></button>
+</div>
+<div class="ptx-readability-options-group">
+<label class="ptx-readability-slider-label" for="ptx-readability-line-height"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe240;</span><span>Line height</span><output id="ptx-readability-line-height-value" for="ptx-readability-line-height">1.35</output></label><input type="range" id="ptx-readability-line-height" min="1.10" max="3" step="0.05" value="1.35">
+</div>
+<div class="ptx-readability-options-group">
+<label class="ptx-readability-slider-label" for="ptx-readability-font-size"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe245;</span><span>Content font size</span><output id="ptx-readability-font-size-value" for="ptx-readability-font-size">100%</output></label><input type="range" id="ptx-readability-font-size" min="0.8" max="1.5" step="0.05" value="1">
+</div>
+<fieldset class="ptx-readability-options-group ptx-readability-options-group-theme">
+<legend>Theme</legend>
+<label for="ptx-readability-theme-system"><input type="radio" name="ptx-readability-theme" id="ptx-readability-theme-system" value="system"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe1ab;</span><span>System</span></label><label for="ptx-readability-theme-light"><input type="radio" name="ptx-readability-theme" id="ptx-readability-theme-light" value="light"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe518;</span><span>Light</span></label><label for="ptx-readability-theme-dark"><input type="radio" name="ptx-readability-theme" id="ptx-readability-theme-dark" value="dark"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe51c;</span><span>Dark</span></label>
+</fieldset>
+<fieldset class="ptx-readability-options-group">
+<legend>Assistive technologies</legend>
+<label for="ptx-readability-accessible-permalinks"><input type="checkbox" id="ptx-readability-accessible-permalinks"><span>🔗</span><span>Expose permalinks</span></label>
+</fieldset>
+<div class="ptx-readability-options-group"><button type="button" class="ptx-readability-reset-button button" id="ptx-readability-reset-button"><span class="icon material-symbols-outlined" aria-hidden="true">&#xf053;</span><span class="name">Reset All</span></button></div></dialog></span><span class="treebuttons"><span class="previous-button button disabled"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cb;</span><span class="name">Prev</span></span><span class="up-button button disabled"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5ce;</span><span class="name">Up</span></span><span class="next-button button disabled"><span class="name">Next</span><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cc;</span></span></span>
+</div></nav><div id="latex-macros" class="hidden-content process-math" style="display:none"><span class="process-math">\(\newcommand{\foo}{b^{ar}}
+\newcommand{\lt}{&lt;}
+\newcommand{\gt}{&gt;}
+\newcommand{\amp}{&amp;}
+\definecolor{fillinmathshade}{gray}{0.9}
+\newcommand{\fillinmath}[1]{\mathchoice{\colorbox{fillinmathshade}{$\displaystyle     \phantom{\,#1\,}$}}{\colorbox{fillinmathshade}{$\textstyle        \phantom{\,#1\,}$}}{\colorbox{fillinmathshade}{$\scriptstyle      \phantom{\,#1\,}$}}{\colorbox{fillinmathshade}{$\scriptscriptstyle\phantom{\,#1\,}$}}}
+\)</span></div>
+<div class="ptx-page">
+<div id="ptx-sidebar" role="complementary" class="ptx-sidebar hidden"><nav id="ptx-toc" tabindex="-1" aria-label="Contents" class="ptx-toc depth0 focused" data-preexpanded-levels="0" data-max-levels="0"><ul class="structural toc-item-list contains-active">
+<li class="toc-item toc-frontmatter"><div class="toc-title-box"><a href="#shortest-paths-2" class="internal"><span class="title">Front Matter</span></a></div></li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="#exam-2" class="internal"><span class="codenumber">1</span> <span class="title">Exam 2</span></a></div>
+<ul id="ptx-toc-group-exam-2" class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#sec-cake-or-fake" class="internal"><span class="codenumber">1.1</span> <span class="title">Cake or Fake</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#sec-new-from-old" class="internal"><span class="codenumber">1.2</span> <span class="title">New from Old</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#sec-span-independence-bases" class="internal"><span class="codenumber">1.3</span> <span class="title">Span, Independence, Bases</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="#sec-applications" class="internal"><span class="codenumber">1.4</span> <span class="title">... And its Applications</span></a></div></li>
+</ul>
+</li>
+</ul></nav></div>
+<main class="ptx-main"><div id="ptx-content" class="ptx-content">
+<section class="article" id="shortest-paths">
+<section class="frontmatter" id="shortest-paths-2"><h1 class="heading"><span class="title">The Path of Least Resistance</span></h1>
+<div class="autopermalink" aria-hidden="true" data-description="Front Matter"><a tabindex="-1" href="#shortest-paths-2" title="Copy heading and permalink for Front Matter" aria-label="Copy heading and permalink for Front Matter">🔗</a></div>
+</section>
+<section class="section" id="exam-2">
+<h2 class="heading hide-type">
+<span class="type">Section</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Exam 2</span>
+</h2>
+<section class="subsection" id="sec-cake-or-fake">
+<h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.1</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Cake or Fake</span>
+</h3>
+<div class="para" id="sec-cake-or-fake-2">Prove or disprove that each object is a linear transformation or a linear subspace, as appropriate.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#sec-cake-or-fake-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="ex-cyclic-permutation" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.1</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="ex-cyclic-permutation-1-1">Is <span class="process-math">\(T:\mathbb{R}^{3}\to\mathbb{R}^{3}\)</span> defined by <span class="process-math">\(T(x,y,z)=(z,x,y)\)</span> a linear transformation?<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-cyclic-permutation-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="ex-cyclic-permutation-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para" id="ex-cyclic-permutation-2-1">Yes. Let <span class="process-math">\(\mathbf{u}=(x_1,y_1,z_1)\text{,}\)</span> <span class="process-math">\(\mathbf{v}=(x_2,y_2,z_2)\text{,}\)</span> and let <span class="process-math">\(a,b\in\mathbb{R}\text{.}\)</span> Then<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-cyclic-permutation-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="ex-cyclic-permutation-2-2">
+\begin{equation*}
+T(a\mathbf{u}+b\mathbf{v})
+=(az_1+bz_2,ax_1+bx_2,ay_1+by_2)
+=aT(\mathbf{u})+bT(\mathbf{v}).
+\end{equation*}
+</div>
+<div class="para" id="ex-cyclic-permutation-2-3">Therefore <span class="process-math">\(T\)</span> is linear.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-cyclic-permutation-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.1.1"><a tabindex="-1" href="#ex-cyclic-permutation-2" title="Copy heading and permalink for Solution 1.1.1" aria-label="Copy heading and permalink for Solution 1.1.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.1"><a tabindex="-1" href="#ex-cyclic-permutation" title="Copy heading and permalink for Checkpoint 1.1" aria-label="Copy heading and permalink for Checkpoint 1.1">🔗</a></div>
+</article></details>
+<details id="ex-polynomials-roots" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.2</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="ex-polynomials-roots-1-1">Let <span class="process-math">\(S\)</span> be the set of real polynomials that vanish at <span class="process-math">\(0\text{,}\)</span> <span class="process-math">\(1\text{,}\)</span> and <span class="process-math">\(-1\text{;}\)</span> that is,<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-polynomials-roots-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="ex-polynomials-roots-1-2">
+\begin{equation*}
+S=\{f\in\mathbb{R}[x]:f(1)=f(0)=f(-1)=0\}.
+\end{equation*}
+</div>
+<div class="para" id="ex-polynomials-roots-1-3">Is <span class="process-math">\(S\)</span> a linear subspace of <span class="process-math">\(\mathbb{R}[x]\text{?}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-polynomials-roots-1-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="ex-polynomials-roots-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para" id="ex-polynomials-roots-2-1">Yes. The zero polynomial belongs to <span class="process-math">\(S\text{.}\)</span> If <span class="process-math">\(f,g\in S\)</span> and <span class="process-math">\(a,b\in\mathbb{R}\text{,}\)</span> then for each <span class="process-math">\(r\in\{-1,0,1\}\text{,}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-polynomials-roots-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="ex-polynomials-roots-2-2">
+\begin{equation*}
+(af+bg)(r)=af(r)+bg(r)=0.
+\end{equation*}
+</div>
+<div class="para" id="ex-polynomials-roots-2-3">Thus <span class="process-math">\(af+bg\in S\text{,}\)</span> so <span class="process-math">\(S\)</span> is a subspace. Equivalently, every polynomial in <span class="process-math">\(S\)</span> is divisible by <span class="process-math">\(x(x-1)(x+1)\text{,}\)</span> so<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-polynomials-roots-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="ex-polynomials-roots-2-4">
+\begin{equation*}
+S=x(x-1)(x+1)\mathbb{R}[x].
+\end{equation*}
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.2.1"><a tabindex="-1" href="#ex-polynomials-roots-2" title="Copy heading and permalink for Solution 1.2.1" aria-label="Copy heading and permalink for Solution 1.2.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.2"><a tabindex="-1" href="#ex-polynomials-roots" title="Copy heading and permalink for Checkpoint 1.2" aria-label="Copy heading and permalink for Checkpoint 1.2">🔗</a></div>
+</article></details>
+<details id="ex-nonnegative-circulations" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.3</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="ex-nonnegative-circulations-1-1">Let <span class="process-math">\(W_{\geq 0}\)</span> be the set of nonnegative circulations on the directed cycle graph<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-nonnegative-circulations-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="ex-nonnegative-circulations-1-2">
+\begin{equation*}
+G=(\{1,2,3\},\{(1,2),(2,3),(3,1)\}).
+\end{equation*}
+</div>
+<div class="para" id="ex-nonnegative-circulations-1-3">Is <span class="process-math">\(W_{\geq 0}\)</span> a linear subspace?<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-nonnegative-circulations-1-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="ex-nonnegative-circulations-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para" id="ex-nonnegative-circulations-2-1">No. The circulation that assigns weight <span class="process-math">\(1\)</span> to each of the three edges is in <span class="process-math">\(W_{\geq 0}\text{.}\)</span> Multiplying it by <span class="process-math">\(-1\)</span> gives a circulation with weight <span class="process-math">\(-1\)</span> on every edge, which is not nonnegative. Hence <span class="process-math">\(W_{\geq 0}\)</span> is not closed under scalar multiplication and therefore is not a linear subspace.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-nonnegative-circulations-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.3.1"><a tabindex="-1" href="#ex-nonnegative-circulations-2" title="Copy heading and permalink for Solution 1.3.1" aria-label="Copy heading and permalink for Solution 1.3.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.3"><a tabindex="-1" href="#ex-nonnegative-circulations" title="Copy heading and permalink for Checkpoint 1.3" aria-label="Copy heading and permalink for Checkpoint 1.3">🔗</a></div>
+</article></details><div class="autopermalink" aria-hidden="true" data-description="Subsection 1.1: Cake or Fake"><a tabindex="-1" href="#sec-cake-or-fake" title="Copy heading and permalink for Subsection 1.1: Cake or Fake" aria-label="Copy heading and permalink for Subsection 1.1: Cake or Fake">🔗</a></div>
+</section>
+<section class="subsection" id="sec-new-from-old">
+<h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.2</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">New from Old</span>
+</h3>
+<div class="para" id="sec-new-from-old-2">Prove that each indicated way of combining two objects produces another object of the same type.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#sec-new-from-old-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="ex-sum-linear-maps" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.4</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="ex-sum-linear-maps-1-1">Let <span class="process-math">\(T_1:U\to V\)</span> and <span class="process-math">\(T_2:U\to V\)</span> be linear transformations. Define <span class="process-math">\(T=T_1+T_2\)</span> by <span class="process-math">\(T(\mathbf{x})=T_1(\mathbf{x})+T_2(\mathbf{x})\text{.}\)</span> Show that <span class="process-math">\(T\)</span> is a linear transformation.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-sum-linear-maps-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="ex-sum-linear-maps-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para" id="ex-sum-linear-maps-2-1">For <span class="process-math">\(\mathbf{u},\mathbf{v}\in U\)</span> and scalars <span class="process-math">\(a,b\text{,}\)</span> linearity of <span class="process-math">\(T_1\)</span> and <span class="process-math">\(T_2\)</span> gives<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-sum-linear-maps-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="ex-sum-linear-maps-2-2">
+\begin{equation*}
+\begin{aligned}
+T(a\mathbf{u}+b\mathbf{v})
+&amp;=T_1(a\mathbf{u}+b\mathbf{v})+T_2(a\mathbf{u}+b\mathbf{v})\\
+&amp;=aT_1(\mathbf{u})+bT_1(\mathbf{v})+aT_2(\mathbf{u})+bT_2(\mathbf{v})\\
+&amp;=aT(\mathbf{u})+bT(\mathbf{v}).
+\end{aligned}
+\end{equation*}
+</div>
+<div class="para" id="ex-sum-linear-maps-2-3">Thus <span class="process-math">\(T\)</span> is linear.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-sum-linear-maps-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.4.1"><a tabindex="-1" href="#ex-sum-linear-maps-2" title="Copy heading and permalink for Solution 1.4.1" aria-label="Copy heading and permalink for Solution 1.4.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.4"><a tabindex="-1" href="#ex-sum-linear-maps" title="Copy heading and permalink for Checkpoint 1.4" aria-label="Copy heading and permalink for Checkpoint 1.4">🔗</a></div>
+</article></details>
+<details id="ex-intersection-subspaces" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.5</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="ex-intersection-subspaces-1-1">Let <span class="process-math">\(V\)</span> be a vector space, and let <span class="process-math">\(S\)</span> and <span class="process-math">\(T\)</span> be subspaces of <span class="process-math">\(V\text{.}\)</span> Show that<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-intersection-subspaces-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="ex-intersection-subspaces-1-2">
+\begin{equation*}
+S\cap T=\{\mathbf{x}:\mathbf{x}\in S\text{ and }\mathbf{x}\in T\}
+\end{equation*}
+</div>
+<div class="para" id="ex-intersection-subspaces-1-3">is a linear subspace of <span class="process-math">\(V\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-intersection-subspaces-1-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="ex-intersection-subspaces-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para" id="ex-intersection-subspaces-2-1">Because <span class="process-math">\(S\)</span> and <span class="process-math">\(T\)</span> are subspaces, <span class="process-math">\(\mathbf{0}\)</span> lies in both, so <span class="process-math">\(\mathbf{0}\in S\cap T\text{.}\)</span> If <span class="process-math">\(\mathbf{x},\mathbf{y}\in S\cap T\)</span> and <span class="process-math">\(a,b\)</span> are scalars, then <span class="process-math">\(\mathbf{x},\mathbf{y}\in S\)</span> and <span class="process-math">\(\mathbf{x},\mathbf{y}\in T\text{.}\)</span> Since both sets are subspaces, <span class="process-math">\(a\mathbf{x}+b\mathbf{y}\)</span> belongs to both <span class="process-math">\(S\)</span> and <span class="process-math">\(T\text{.}\)</span> Therefore <span class="process-math">\(a\mathbf{x}+b\mathbf{y}\in S\cap T\text{,}\)</span> proving that <span class="process-math">\(S\cap T\)</span> is a subspace.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-intersection-subspaces-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.5.1"><a tabindex="-1" href="#ex-intersection-subspaces-2" title="Copy heading and permalink for Solution 1.5.1" aria-label="Copy heading and permalink for Solution 1.5.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.5"><a tabindex="-1" href="#ex-intersection-subspaces" title="Copy heading and permalink for Checkpoint 1.5" aria-label="Copy heading and permalink for Checkpoint 1.5">🔗</a></div>
+</article></details>
+<details id="ex-composition-linear-maps" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.6</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="ex-composition-linear-maps-1-1">Let <span class="process-math">\(T_1:U\to V\)</span> and <span class="process-math">\(T_2:V\to W\)</span> be linear transformations. Show that <span class="process-math">\(T_2\circ T_1\)</span> is a linear transformation.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-composition-linear-maps-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="ex-composition-linear-maps-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para" id="ex-composition-linear-maps-2-1">For <span class="process-math">\(\mathbf{u},\mathbf{v}\in U\)</span> and scalars <span class="process-math">\(a,b\text{,}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-composition-linear-maps-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="ex-composition-linear-maps-2-2">
+\begin{equation*}
+\begin{aligned}
+(T_2\circ T_1)(a\mathbf{u}+b\mathbf{v})
+&amp;=T_2\bigl(T_1(a\mathbf{u}+b\mathbf{v})\bigr)\\
+&amp;=T_2\bigl(aT_1(\mathbf{u})+bT_1(\mathbf{v})\bigr)\\
+&amp;=aT_2(T_1(\mathbf{u}))+bT_2(T_1(\mathbf{v}))\\
+&amp;=a(T_2\circ T_1)(\mathbf{u})+b(T_2\circ T_1)(\mathbf{v}).
+\end{aligned}
+\end{equation*}
+</div>
+<div class="para" id="ex-composition-linear-maps-2-3">Hence <span class="process-math">\(T_2\circ T_1\)</span> is linear.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-composition-linear-maps-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.6.1"><a tabindex="-1" href="#ex-composition-linear-maps-2" title="Copy heading and permalink for Solution 1.6.1" aria-label="Copy heading and permalink for Solution 1.6.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.6"><a tabindex="-1" href="#ex-composition-linear-maps" title="Copy heading and permalink for Checkpoint 1.6" aria-label="Copy heading and permalink for Checkpoint 1.6">🔗</a></div>
+</article></details><div class="autopermalink" aria-hidden="true" data-description="Subsection 1.2: New from Old"><a tabindex="-1" href="#sec-new-from-old" title="Copy heading and permalink for Subsection 1.2: New from Old" aria-label="Copy heading and permalink for Subsection 1.2: New from Old">🔗</a></div>
+</section>
+<section class="subsection" id="sec-span-independence-bases">
+<h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.3</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Span, Independence, Bases</span>
+</h3>
+<div class="para" id="sec-span-independence-bases-2">Use the given information about spanning or linear independence to draw the requested conclusions.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#sec-span-independence-bases-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="ex-image-spanning-set" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.7</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="ex-image-spanning-set-1-1">Let <span class="process-math">\(T:U\to V\)</span> be a linear transformation. Show that if <span class="process-math">\(S\subseteq U\)</span> spans <span class="process-math">\(U\text{,}\)</span> then<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-image-spanning-set-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="ex-image-spanning-set-1-2">
+\begin{equation*}
+T(S)=\{T(\mathbf{x}):\mathbf{x}\in S\}
+\end{equation*}
+</div>
+<div class="para" id="ex-image-spanning-set-1-3">spans <span class="process-math">\(\operatorname{Im}(T)\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-image-spanning-set-1-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="ex-image-spanning-set-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para" id="ex-image-spanning-set-2-1">Let <span class="process-math">\(\mathbf{y}\in\operatorname{Im}(T)\text{.}\)</span> Then <span class="process-math">\(\mathbf{y}=T(\mathbf{x})\)</span> for some <span class="process-math">\(\mathbf{x}\in U\text{.}\)</span> Since <span class="process-math">\(S\)</span> spans <span class="process-math">\(U\text{,}\)</span> there are vectors <span class="process-math">\(\mathbf{s}_1,\ldots,\mathbf{s}_k\in S\)</span> and scalars <span class="process-math">\(a_1,\ldots,a_k\)</span> such that<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-image-spanning-set-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="ex-image-spanning-set-2-2">
+\begin{equation*}
+\mathbf{x}=\sum_{i=1}^k a_i\mathbf{s}_i.
+\end{equation*}
+</div>
+<div class="para" id="ex-image-spanning-set-2-3">By linearity,<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-image-spanning-set-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="ex-image-spanning-set-2-4">
+\begin{equation*}
+\mathbf{y}=T(\mathbf{x})=\sum_{i=1}^k a_iT(\mathbf{s}_i).
+\end{equation*}
+</div>
+<div class="para" id="ex-image-spanning-set-2-5">Each <span class="process-math">\(T(\mathbf{s}_i)\)</span> lies in <span class="process-math">\(T(S)\text{,}\)</span> so every vector in <span class="process-math">\(\operatorname{Im}(T)\)</span> is a linear combination of vectors in <span class="process-math">\(T(S)\text{.}\)</span> Thus <span class="process-math">\(T(S)\)</span> spans <span class="process-math">\(\operatorname{Im}(T)\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-image-spanning-set-2-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.7.1"><a tabindex="-1" href="#ex-image-spanning-set-2" title="Copy heading and permalink for Solution 1.7.1" aria-label="Copy heading and permalink for Solution 1.7.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.7"><a tabindex="-1" href="#ex-image-spanning-set" title="Copy heading and permalink for Checkpoint 1.7" aria-label="Copy heading and permalink for Checkpoint 1.7">🔗</a></div>
+</article></details>
+<details id="ex-kernel-dependence" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.8</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="ex-kernel-dependence-1-1">Let <span class="process-math">\(S=\{\mathbf{x}_1,\ldots,\mathbf{x}_n\}\)</span> be a set of <span class="process-math">\(n\)</span> vectors in a vector space <span class="process-math">\(V\text{.}\)</span> Define <span class="process-math">\(T:\mathbb{R}^n\to V\)</span> by<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-kernel-dependence-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="ex-kernel-dependence-1-2">
+\begin{equation*}
+T(\mathbf{y})=\sum_{i=1}^n y_i\mathbf{x}_i.
+\end{equation*}
+</div>
+<div class="para" id="ex-kernel-dependence-1-3">Show that if <span class="process-math">\(\ker(T)\neq\{\mathbf{0}\}\text{,}\)</span> then the vectors in <span class="process-math">\(S\)</span> are linearly dependent.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-kernel-dependence-1-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="ex-kernel-dependence-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para" id="ex-kernel-dependence-2-1">Since <span class="process-math">\(\ker(T)\neq\{\mathbf{0}\}\text{,}\)</span> there is a nonzero vector <span class="process-math">\(\mathbf{y}=(y_1,\ldots,y_n)\)</span> such that <span class="process-math">\(T(\mathbf{y})=\mathbf{0}\text{.}\)</span> Therefore<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-kernel-dependence-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="ex-kernel-dependence-2-2">
+\begin{equation*}
+y_1\mathbf{x}_1+\cdots+y_n\mathbf{x}_n=\mathbf{0}.
+\end{equation*}
+</div>
+<div class="para" id="ex-kernel-dependence-2-3">Because <span class="process-math">\(\mathbf{y}\neq\mathbf{0}\text{,}\)</span> at least one coefficient <span class="process-math">\(y_i\)</span> is nonzero. This is a nontrivial linear relation among the vectors in <span class="process-math">\(S\text{,}\)</span> so they are linearly dependent.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-kernel-dependence-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.8.1"><a tabindex="-1" href="#ex-kernel-dependence-2" title="Copy heading and permalink for Solution 1.8.1" aria-label="Copy heading and permalink for Solution 1.8.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.8"><a tabindex="-1" href="#ex-kernel-dependence" title="Copy heading and permalink for Checkpoint 1.8" aria-label="Copy heading and permalink for Checkpoint 1.8">🔗</a></div>
+</article></details>
+<details id="ex-no-surjection-r2-r3" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.9</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="ex-no-surjection-r2-r3-1-1">Show that there is no linear transformation <span class="process-math">\(T:\mathbb{R}^2\to\mathbb{R}^3\)</span> such that <span class="process-math">\(\operatorname{Im}(T)=\mathbb{R}^3\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-no-surjection-r2-r3-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="ex-no-surjection-r2-r3-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para" id="ex-no-surjection-r2-r3-2-1">Let <span class="process-math">\(\mathbf{e}_1,\mathbf{e}_2\)</span> be the standard basis of <span class="process-math">\(\mathbb{R}^2\text{.}\)</span> Every vector in the image has the form<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-no-surjection-r2-r3-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="ex-no-surjection-r2-r3-2-2">
+\begin{equation*}
+T(a\mathbf{e}_1+b\mathbf{e}_2)=aT(\mathbf{e}_1)+bT(\mathbf{e}_2).
+\end{equation*}
+</div>
+<div class="para" id="ex-no-surjection-r2-r3-2-3">Thus <span class="process-math">\(\operatorname{Im}(T)\)</span> is spanned by at most two vectors, so <span class="process-math">\(\dim(\operatorname{Im}(T))\leq 2\text{.}\)</span> But <span class="process-math">\(\dim(\mathbb{R}^3)=3\text{.}\)</span> Therefore the image cannot equal <span class="process-math">\(\mathbb{R}^3\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-no-surjection-r2-r3-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.9.1"><a tabindex="-1" href="#ex-no-surjection-r2-r3-2" title="Copy heading and permalink for Solution 1.9.1" aria-label="Copy heading and permalink for Solution 1.9.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.9"><a tabindex="-1" href="#ex-no-surjection-r2-r3" title="Copy heading and permalink for Checkpoint 1.9" aria-label="Copy heading and permalink for Checkpoint 1.9">🔗</a></div>
+</article></details><div class="autopermalink" aria-hidden="true" data-description="Subsection 1.3: Span, Independence, Bases"><a tabindex="-1" href="#sec-span-independence-bases" title="Copy heading and permalink for Subsection 1.3: Span, Independence, Bases" aria-label="Copy heading and permalink for Subsection 1.3: Span, Independence, Bases">🔗</a></div>
+</section>
+<section class="subsection" id="sec-applications">
+<h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.4</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">... And its Applications</span>
+</h3>
+<details id="ex-d20-waiting-time" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.10</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="ex-d20-waiting-time-1-1">In Dungeons and Dragons, you roll a twenty-sided die to make decisions. If you roll a <span class="process-math">\(20\text{,}\)</span> you get a critical hit, and if you roll a <span class="process-math">\(1\text{,}\)</span> you get a critical failure. Assuming the die is fair, how many rolls do you expect to make until you get your first critical hit or critical failure?<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-d20-waiting-time-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="ex-d20-waiting-time-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para" id="ex-d20-waiting-time-2-1">On each roll, the probability of stopping is<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-d20-waiting-time-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="ex-d20-waiting-time-2-2">
+\begin{equation*}
+p=\frac{2}{20}=\frac{1}{10}.
+\end{equation*}
+</div>
+<div class="para" id="ex-d20-waiting-time-2-3">The waiting time is geometric with success probability <span class="process-math">\(p\text{,}\)</span> so its expectation is <span class="process-math">\(1/p=10\text{.}\)</span> Equivalently, if <span class="process-math">\(E\)</span> denotes the expected number of rolls, then<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-d20-waiting-time-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="ex-d20-waiting-time-2-4">
+\begin{equation*}
+E=1+\frac{9}{10}E,
+\end{equation*}
+</div>
+<div class="para" id="ex-d20-waiting-time-2-5">which gives <span class="process-math">\(E=10\text{.}\)</span> Thus the expected number of rolls is <span class="process-math">\(10\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-d20-waiting-time-2-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.10.1"><a tabindex="-1" href="#ex-d20-waiting-time-2" title="Copy heading and permalink for Solution 1.10.1" aria-label="Copy heading and permalink for Solution 1.10.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.10"><a tabindex="-1" href="#ex-d20-waiting-time" title="Copy heading and permalink for Checkpoint 1.10" aria-label="Copy heading and permalink for Checkpoint 1.10">🔗</a></div>
+</article></details>
+<details id="ex-directed-graph-circulations" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.11</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="introduction" id="ex-directed-graph-circulations-1">
+<div class="para" id="ex-directed-graph-circulations-1-1">Consider the directed graph<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-directed-graph-circulations-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="ex-directed-graph-circulations-1-2">
+\begin{equation*}
+G=(\{1,2,3,4\},\{(1,2),(1,3),(2,3),(4,3),(3,1)\}).
+\end{equation*}
+</div>
+</div>
+<article class="task exercise-like" id="task-draw-graph"><h5 class="heading"><span class="codenumber">(a)</span></h5>
+<div class="para" id="task-draw-graph-1-1">Draw <span class="process-math">\(G\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#task-draw-graph-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="task-draw-graph-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para" id="task-draw-graph-2-1">One drawing is shown below.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#task-draw-graph-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<figure class="figure figure-like" id="fig-directed-graph-g"><div class="image-box" style="width: 55%; margin-left: 22.5%; margin-right: 22.5%;"><img src="generated/latex-image/fig-directed-graph-g-2.svg" role="img" class="contained"></div>
+<figcaption><span class="type">Figure</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.12<span class="period heading-divison-mark heading-divison-mark__period">.</span></span><span class="space heading-divison-mark heading-divison-mark__space"> </span>The directed graph <span class="process-math">\(G\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Figure 1.12"><a tabindex="-1" href="#fig-directed-graph-g" title="Copy heading and permalink for Figure 1.12" aria-label="Copy heading and permalink for Figure 1.12">🔗</a></div></figcaption>
+</figure><div class="autopermalink" aria-hidden="true" data-description="Solution 1.11.a.1"><a tabindex="-1" href="#task-draw-graph-2" title="Copy heading and permalink for Solution 1.11.a.1" aria-label="Copy heading and permalink for Solution 1.11.a.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Task 1.11.a"><a tabindex="-1" href="#task-draw-graph" title="Copy heading and permalink for Task 1.11.a" aria-label="Copy heading and permalink for Task 1.11.a">🔗</a></div>
+</article>
+<article class="task exercise-like" id="task-find-cycles"><h5 class="heading"><span class="codenumber">(b)</span></h5>
+<div class="para" id="task-find-cycles-1-1">Write down all directed cycles of <span class="process-math">\(G\text{,}\)</span> up to cyclic rotation of the starting vertex.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#task-find-cycles-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="task-find-cycles-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para" id="task-find-cycles-2-1">The directed cycles are<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#task-find-cycles-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="task-find-cycles-2-2">
+\begin{equation*}
+1\to 3\to 1
+\end{equation*}
+</div>
+<div class="para" id="task-find-cycles-2-3">and<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#task-find-cycles-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="task-find-cycles-2-4">
+\begin{equation*}
+1\to 2\to 3\to 1.
+\end{equation*}
+</div>
+<div class="para" id="task-find-cycles-2-5">Vertex <span class="process-math">\(4\)</span> cannot lie on a directed cycle because no edge enters vertex <span class="process-math">\(4\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#task-find-cycles-2-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.11.b.1"><a tabindex="-1" href="#task-find-cycles-2" title="Copy heading and permalink for Solution 1.11.b.1" aria-label="Copy heading and permalink for Solution 1.11.b.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Task 1.11.b"><a tabindex="-1" href="#task-find-cycles" title="Copy heading and permalink for Task 1.11.b" aria-label="Copy heading and permalink for Task 1.11.b">🔗</a></div>
+</article>
+<article class="task exercise-like" id="task-generate-circulations"><h5 class="heading"><span class="codenumber">(c)</span></h5>
+<div class="para" id="task-generate-circulations-1-1">Write down a collection of weighted graphs such that every nonnegative circulation of <span class="process-math">\(G\)</span> is a nonnegative linear combination of them.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#task-generate-circulations-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="task-generate-circulations-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para" id="task-generate-circulations-2-1">Order the edges as<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#task-generate-circulations-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="task-generate-circulations-2-2">
+\begin{equation*}
+((1,2),(1,3),(2,3),(4,3),(3,1)).
+\end{equation*}
+</div>
+<div class="para" id="task-generate-circulations-2-3">Let<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#task-generate-circulations-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="task-generate-circulations-2-4">
+\begin{equation*}
+\mathbf{c}_1=(1,0,1,0,1),\qquad \mathbf{c}_2=(0,1,0,0,1).
+\end{equation*}
+</div>
+<div class="para" id="task-generate-circulations-2-5">The vector <span class="process-math">\(\mathbf{c}_1\)</span> is the unit circulation around <span class="process-math">\(1\to2\to3\to1\text{,}\)</span> and <span class="process-math">\(\mathbf{c}_2\)</span> is the unit circulation around <span class="process-math">\(1\to3\to1\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#task-generate-circulations-2-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="task-generate-circulations-2-6">To see that these generate all nonnegative circulations, write a circulation as <span class="process-math">\(\mathbf{w}=(a,b,c,d,e)\)</span> in the same edge order. Flow conservation at vertices <span class="process-math">\(1,2,3,4\)</span> gives<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#task-generate-circulations-2-6" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="task-generate-circulations-2-7">
+\begin{equation*}
+e=a+b,\qquad c=a,\qquad e=b+c+d,\qquad d=0.
+\end{equation*}
+</div>
+<div class="para" id="task-generate-circulations-2-8">Hence <span class="process-math">\(c=a\text{,}\)</span> <span class="process-math">\(d=0\text{,}\)</span> and <span class="process-math">\(e=a+b\text{.}\)</span> For a nonnegative circulation, <span class="process-math">\(a,b\geq0\text{,}\)</span> and therefore<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#task-generate-circulations-2-8" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="task-generate-circulations-2-9">
+\begin{equation*}
+\mathbf{w}=a\mathbf{c}_1+b\mathbf{c}_2.
+\end{equation*}
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.11.c.1"><a tabindex="-1" href="#task-generate-circulations-2" title="Copy heading and permalink for Solution 1.11.c.1" aria-label="Copy heading and permalink for Solution 1.11.c.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Task 1.11.c"><a tabindex="-1" href="#task-generate-circulations" title="Copy heading and permalink for Task 1.11.c" aria-label="Copy heading and permalink for Task 1.11.c">🔗</a></div>
+</article><div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.11"><a tabindex="-1" href="#ex-directed-graph-circulations" title="Copy heading and permalink for Checkpoint 1.11" aria-label="Copy heading and permalink for Checkpoint 1.11">🔗</a></div>
+</article></details>
+<details id="ex-total-inflow-outflow" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.13</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="ex-total-inflow-outflow-1-1">Let <span class="process-math">\(G=(N,E)\)</span> be a directed graph with edge-weight function <span class="process-math">\(w:E\to\mathbb{R}\text{.}\)</span> Show that the sum of the total inflow over all vertices equals the sum of the total outflow over all vertices.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-total-inflow-outflow-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions">
+<details id="ex-total-inflow-outflow-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary>
+<div class="solution solution-like knowl__content">
+<div class="para" id="ex-total-inflow-outflow-2-1">For a vertex <span class="process-math">\(v\text{,}\)</span> define<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-total-inflow-outflow-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="ex-total-inflow-outflow-2-2">
+\begin{equation*}
+\operatorname{in}(v)=\sum_{(u,v)\in E} w(u,v),\qquad
+\operatorname{out}(v)=\sum_{(v,u)\in E} w(v,u).
+\end{equation*}
+</div>
+<div class="para" id="ex-total-inflow-outflow-2-3">When we sum the inflows over all vertices, every directed edge <span class="process-math">\((u,v)\)</span> contributes its weight exactly once, at its head <span class="process-math">\(v\text{.}\)</span> Thus<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-total-inflow-outflow-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="ex-total-inflow-outflow-2-4">
+\begin{equation*}
+\sum_{v\in N}\operatorname{in}(v)=\sum_{(u,v)\in E}w(u,v).
+\end{equation*}
+</div>
+<div class="para" id="ex-total-inflow-outflow-2-5">Likewise, when we sum the outflows over all vertices, every directed edge contributes its weight exactly once, at its tail <span class="process-math">\(u\text{.}\)</span> Therefore<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-total-inflow-outflow-2-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" id="ex-total-inflow-outflow-2-6">
+\begin{equation*}
+\sum_{v\in N}\operatorname{out}(v)=\sum_{(u,v)\in E}w(u,v).
+\end{equation*}
+</div>
+<div class="para" id="ex-total-inflow-outflow-2-7">The two totals are equal.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-total-inflow-outflow-2-7" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Solution 1.13.1"><a tabindex="-1" href="#ex-total-inflow-outflow-2" title="Copy heading and permalink for Solution 1.13.1" aria-label="Copy heading and permalink for Solution 1.13.1">🔗</a></div>
+</div></details>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.13"><a tabindex="-1" href="#ex-total-inflow-outflow" title="Copy heading and permalink for Checkpoint 1.13" aria-label="Copy heading and permalink for Checkpoint 1.13">🔗</a></div>
+</article></details><div class="autopermalink" aria-hidden="true" data-description="Subsection 1.4: ... And its Applications"><a tabindex="-1" href="#sec-applications" title="Copy heading and permalink for Subsection 1.4: ... And its Applications" aria-label="Copy heading and permalink for Subsection 1.4: ... And its Applications">🔗</a></div>
+</section><div class="autopermalink" aria-hidden="true" data-description="Section 1: Exam 2"><a tabindex="-1" href="#exam-2" title="Copy heading and permalink for Section 1: Exam 2" aria-label="Copy heading and permalink for Section 1: Exam 2">🔗</a></div>
+</section><div class="autopermalink" aria-hidden="true" data-description="Article: The Path of Least Resistance"><a tabindex="-1" href="#shortest-paths" title="Copy heading and permalink for Article: The Path of Least Resistance" aria-label="Copy heading and permalink for Article: The Path of Least Resistance">🔗</a></div>
+</section>
+</div>
+<div id="ptx-content-footer" class="ptx-content-footer">
+<span class="previous-button button disabled"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cb;</span><span class="name">Prev</span></span><a class="top-button button" href="#" title="Top"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5ce;</span><span class="name">Top</span></a><span class="next-button button disabled"><span class="name">Next</span><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cc;</span></span>
+</div></main>
+</div>
+<div id="ptx-page-footer" class="ptx-page-footer">
+<a class="pretext-link" href="https://pretextbook.org" title="PreTeXt"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="338 3000 8772 6866" role="img"><title>PreTeXt logo</title><g style="stroke-width:.025in; stroke:currentColor; fill:none"><polyline points="472,3590 472,9732 " style="stroke-width:174; stroke-linejoin:miter; stroke-linecap:round; "></polyline><path style="stroke-width:126;stroke-linecap:butt;" d="M 4724,9448 A 4660 4660  0  0  1  8598  9259"></path><path style="stroke-width:174;stroke-linecap:butt;" d="M 4488,9685 A 4228 4228  0  0  0   472  9732"></path><path style="stroke-width:126;stroke-linecap:butt;" d="M 4724,3590 A 4241 4241  0  0  1  8598  3496"></path><path style="stroke-width:126;stroke-linecap:round;" d="M 850,3496  A 4241 4241  0  0  1  4724  3590"></path><path style="stroke-width:126;stroke-linecap:round;" d="M 850,9259  A 4507 4507  0  0  1  4724  9448"></path><polyline points="5385,4299 4062,8125" style="stroke-width:300; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="8598,3496 8598,9259" style="stroke-width:126; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="850,3496 850,9259" style="stroke-width:126; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="4960,9685 4488,9685" style="stroke-width:174; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="3070,4582 1889,6141 3070,7700" style="stroke-width:300; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="6418,4582 7600,6141 6418,7700" style="stroke-width:300; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="8976,3590 8976,9732" style="stroke-width:174; stroke-linejoin:miter; stroke-linecap:round;"></polyline><path style="stroke-width:174;stroke-linecap:butt;" d="M 4960,9685 A 4228 4228  0  0  1  8976  9732"></path></g></svg></div></a><a class="runestone-link" href="https://runestone.academy" title="Runestone Academy"><img class="logo" alt="Runestone Academy logo" src="data:image/png;base64,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"></a><a class="mathjax-link" href="https://www.mathjax.org" title="MathJax"><img class="logo" alt="MathJax logo" src="data:image/png;base64,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"></a>
+</div>
+</body>
+</html>

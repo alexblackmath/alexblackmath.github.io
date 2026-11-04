@@ -1,0 +1,271 @@
+
+
+  <section xml:id="Math2301Day17">
+    <title>A Very Spooky Theorem</title>
+
+    <subsection xml:id="sec-review">
+      <title>Review</title>
+      <p>
+        Answer the following questions:
+        <ul>
+          <li>
+            <p>
+              Given a linear operator, what is the corresponding quadratic form?
+            </p>
+          </li>
+          <li>
+            <p>
+              Given an <m>n\times n</m> matrix <m>A</m>, what is an <m>n \times n</m> symmetric matrix that has the same quadratic form?
+            </p>
+          </li>
+        </ul>
+      </p>
+    </subsection>
+
+    <subsection xml:id="sec-statement">
+      <title>The Statement</title>
+      <p>
+        We will prove the following strong version of the spectral theorem:
+      </p>
+
+      <theorem xml:id="thm-spectral">
+        <title>Real spectral theorem</title>
+        <statement>
+          <p>
+            Let <m>T</m> be a self-adjoint operator on a finite-dimensional real inner-product space <m>V</m>.
+            Then <m>V</m> has an orthonormal basis of eigenvectors of <m>T</m>.
+          </p>
+        </statement>
+      </theorem>
+
+      <!-- The spectral theorem guarantees a decomposition for the matrix stronger than regular diagonalization:
+
+      <definition xml:id="def-orthogonal-diagonalizable">
+        <statement>
+          <p>
+            A square matrix <m>Q</m> is <term>orthogonal</term> if <m>Q\trans Q=I</m>.
+            A matrix <m>A</m> is <term>orthogonally diagonalizable</term> if <m>A=QD Q\trans</m> for an orthogonal <m>Q</m> and diagonal matrix <m>D</m>.
+            In particular, <m>A</m> may be written as
+            <me>
+              A=\sum_i\lambda_i\vec{q}_i\vec{q}_i\trans
+            </me>
+            for orthonormal eigenvectors <m>q_i</m> is its <term>spectral decomposition</term>.
+          </p>
+        </statement>
+      </definition>
+      -->
+
+      <p>
+        The proof here is involved in part because this requires some tools from outside of linear algebra.
+      </p>
+    </subsection>
+
+    <subsection xml:id="sec-optimization">
+      <title>Optimization and Eigenvectors</title>
+      <p>
+        Recall from last class the quadratic form:
+        <me>
+          q_{T}(\vec{x})=\ip{\vec{x}}{T\vec{x}}
+        </me>
+        The argument is then built from the following intuition.
+        Given two vectors of unit length, by the Cauchy<ndash/>Schwarz inequality, <m>\ip{\vec{u}}{\vec{v}}</m> is maximized when <m>\vec{u} = \vec{v}</m>.
+        More generally, Cauchy<ndash/>Schwarz says that the inner product is maximized when two vectors are parallel.
+        The quadratic form measures exactly the inner product between a vector <m>\vec{x}</m> and its image under <m>T</m>, <m>T \vec{x}</m>.
+        Thus, it is reasonable to expect the quadratic form is maximized at some point when <m>\vec{x}</m> and <m>T\vec{x}</m> are parallel.
+        That is precisely what it means to be an eigenvector.
+        Thus, we can find an eigenvector by maximizing this quadratic form.
+      </p>
+
+      <p>
+        For this let <m>\mathbb{S}^{d-1} = \{\vec{x} \in \mathbb{R}^{d}: \norm{\vec{x}} = 1\}</m>.
+      </p>
+
+      <lemma xml:id="lem-maximizer-eigenvector">
+        <statement>
+          <p>
+            Let <m>T: V \to V</m> be a self-adjoint operator on an inner product space <m>V</m>.
+            Let <m>q_{T}</m> denote its associated quadratic form.
+            Let <m>\vec{v}</m> be a maximizer of <m>q_{T}(\vec{x})</m> such that <m>\vec{x} \in \mathbb{S}^{d-1}</m>.
+            Then <m>\vec{v}</m> is an eigenvector of <m>T</m>.
+          </p>
+        </statement>
+        <proof>
+          <p>
+            We want to use that <m>\vec{v}</m> is a maximizer of <m>q_{T}</m>.
+            Another way to express that condition is that moving in any direction away from <m>\vec{v}</m> gives a smaller value.
+            We are going to look at each line in an orthogonal direction parametrized by a single variable, so we can use the optimality conditions from single variable calculus to argue the result.
+          </p>
+
+          <p>
+            Let <m>\vec{w} \in \mathbb{S}^{d-1}</m>, and suppose that <m>\vec{w} \perp \vec{v}</m>.
+            Define <m>f: \mathbb{R} \to \mathbb{S}^{d-1}</m> by
+            <me>
+              f(t)=\frac{\vec{v}+t\vec{w}}{\norm{\vec{v}+t\vec{w}}}
+            </me>
+            Since <m>\vec{v} \perp \vec{w}</m>, by the Pythagorean theorem,
+            <me>
+              \|\vec{v} + t\vec{w}\|^{2} = \|\vec{v}\|^{2} + \|t\vec{w}\|^{2} = 1+t^{2}.
+            </me>
+            Thus,
+            <me>
+              f(t) = \frac{\vec{v}+t\vec{w}}{\sqrt{1+t^{2}}}.
+            </me>
+            Then <m>f: \mathbb{R} \to \mathbb{R}^{d}</m> and <m>q_{T}: \mathbb{R}^{d} \to \mathbb{R}</m>.
+            Thus, <m>q_{T}(f)</m> is a real-valued function, and we can use calculus to understand it.
+          </p>
+
+          <p>
+            It turns out this single-variable function is really just a ratio of single-variable quadratic functions:
+            <md>
+              <mrow>q_{T}(f(t)) &amp;= \ip{\frac{\vec{v}+t\vec{w}}{\sqrt{1+t^{2}}}}{T\left(\frac{\vec{v}+t\vec{w}}{\sqrt{1+t^{2}}}\right)}</mrow>
+              <mrow>&amp;= \frac{\ip{\vec{v}+t\vec{w}}{T(\vec{v}+t\vec{w})}}{1+t^{2}}</mrow>
+              <mrow>&amp;= \frac{\ip{\vec{v}}{T\vec{v}}+ \ip{\vec{v}}{tT\vec{w}} + \ip{t\vec{w}}{T\vec{v}} + \ip{t\vec{w}}{tT\vec{w}} }{1 + t^{2}}</mrow>
+              <mrow>&amp;= \frac{\ip{\vec{v}}{T\vec{v}} + t(\ip{\vec{v}}{T\vec{w}} + \ip{\vec{w}}{T\vec{v}}) + t^{2} \ip{\vec{w}}{T\vec{w}}}{1+t^{2}}.</mrow>
+            </md>
+            The numerator of the expression at the end is quadratic.
+            To simplify, I will call it <m>Q(t)</m>, and write <m>q(t) = q_{T}(f(t)) = \frac{Q(t)}{1+t^{2}}</m>.
+            Now we use the quotient rule from calculus to find
+            <me>
+              q'(t) = \frac{Q'(t)(1+t^{2}) - Q(t)2t}{(1+t^{2})^{2}}.
+            </me>
+            Since <m>0</m> is a maximizer of <m>q</m> by assumption,
+            <me>
+              0=q'(0) = \frac{Q'(0)(1+0^{2}) - Q(0)2(0)}{(1+0^{2})^{2}} = Q'(0).
+            </me>
+            Note that
+            <me>
+              Q'(t) = \ip{\vec{v}}{T\vec{w}} + \ip{\vec{w}}{T\vec{v}} + 2t \ip{\vec{w}}{T\vec{w}}.
+            </me>
+            Thus,
+            <me>
+              0=Q'(0) = \ip{\vec{v}}{T\vec{w}} + \ip{\vec{w}}{T\vec{v}}.
+            </me>
+            Up to this point, the argument has not used self-adjointness.
+            This is where we finally use it.
+            Note that, by self-adjointness, <m>\ip{\vec{w}}{T\vec{v}} = \ip{\vec{v}}{T\vec{w}}</m>.
+            Thus,
+            <me>
+              0 = Q'(0) = 2\ip{\vec{w}}{T\vec{v}}.
+            </me>
+          </p>
+
+          <p>
+            Therefore, for all <m>\vec{w}</m> orthogonal to <m>\vec{v}</m>, <m>\vec{w}</m> is orthogonal to <m>T\vec{v}</m>.
+            Hence, <m>\text{span}(T\vec{v})^{\perp} \supseteq \text{span}(\vec{v})^{\perp}</m>, which implies <m>\text{span}(\vec{v}) \supseteq \text{span}(T\vec{v})</m>, and hence <m>T\vec{v}</m> is a multiple of <m>\vec{v}</m>.
+            Therefore, by definition <m>\vec{v}</m> is an eigenvector of <m>T</m>.
+          </p>
+        </proof>
+      </lemma>
+
+      <p>
+        Thus, a maximizer of <m>q_{T}</m> over <m>\mathbb{S}^{d-1}</m> must be an eigenvector, but why does this function attain its maximum?
+        It turns out this requires a fact from analysis.
+      </p>
+
+      <theorem xml:id="thm-evt">
+        <title>Extreme Value Theorem</title>
+        <statement>
+          <p>
+            Let <m>f: \mathbb{S}^{d-1} \to \mathbb{R}</m> be a continuous function.
+            Then <m>f</m> attains its maximum.
+          </p>
+        </statement>
+      </theorem>
+
+      <p>
+        Applying this tells us that an eigenvector always exists.
+      </p>
+    </subsection>
+
+    <subsection xml:id="sec-decomposition">
+      <title>Decomposition</title>
+      <p>
+        The hardest part of the proof in my opinion is showing an eigenvector exists.
+        For the rest, we can use the tools we developed from studying orthogonality.
+      </p>
+
+      <lemma xml:id="lem-invariant-complement">
+        <statement>
+          <p>
+            Let <m>T</m> be a self-adjoint operator, and let <m>\vec{v}</m> be an eigenvector of <m>T</m>.
+            Then <m>\text{span}(\vec{v})^\perp</m> is invariant under <m>T</m>.
+          </p>
+        </statement>
+        <proof>
+          <p>
+            Let <m>\vec{w}\in \text{span}(\vec{v})^\perp</m>.
+            In other words, <m>\vec{w} \perp \vec{v}</m>.
+            Then, writing <m>T\vec{v} = \lambda\vec{v}</m>,
+            <me>
+              \ip{T\vec{w}}{\vec{v}}=\ip{\vec{w}}{T\vec{v}}=\ip{\vec{w}}{\lambda \vec{v}} =0.
+            </me>
+            Thus <m>T\vec{w}\in \text{span}(\vec{v})^\perp</m>.
+          </p>
+        </proof>
+      </lemma>
+
+      <p>
+        Using this insight allows us to prove the spectral theorem (<xref ref="thm-spectral"/>) by induction.
+      </p>
+
+      <proof>
+        <p>
+          We use induction on <m>n=\dim V</m>.
+          The theorem is immediate for <m>n=1</m>.
+          Assume for the sake of induction that any self-adjoint operator on an <m>n</m>-dimensional vector space has an orthonormal eigenbasis.
+          We want to show it is true for an <m>(n+1)</m>-dimensional space.
+          Let <m>T</m> be a self-adjoint operator on an <m>(n+1)</m>-dimensional vector space.
+          Then, by the first lemma we showed today, <m>T</m> has a unit eigenvector <m>\vec{v}_1</m>.
+          Its orthogonal complement <m>\text{span}(\vec{v}_1)^\perp</m> has dimension <m>n</m> and is invariant under <m>T</m> by our second lemma from today, and the restricted operator is self-adjoint.
+          By induction, <m>\text{span}(\vec{v}_1)^\perp</m> has an orthonormal eigenbasis for <m>T</m>.
+          Adding <m>\vec{v}_{1}</m> yields an orthonormal eigenbasis for the whole space.
+        </p>
+      </proof>
+    </subsection>
+
+    <exercises xml:id="sec-exercises">
+      <title>Exercises</title>
+
+      <exercise xml:id="ex-spectral-consequences">
+        <statement>
+          <p>
+            Let <m>A</m> be a real symmetric <m>n \times n</m> matrix.
+            Use the spectral theorem to prove the following:
+            <ol marker="(a)">
+              <li>
+                <p>
+                  <m>A</m> has an orthonormal basis of eigenvectors;
+                </p>
+              </li>
+              <li>
+                <p>
+                  <m>Q\trans AQ=\Lambda</m> for an orthogonal <m>Q</m> and diagonal <m>\Lambda</m>;
+                </p>
+              </li>
+              <li>
+                <p>
+                  <m>A=Q\Lambda Q\trans</m>;
+                </p>
+              </li>
+              <li>
+                <p>
+                  <m>A</m> has a spectral decomposition
+                  <me>
+                    A=\sum_{i=1}^n\lambda_iq_iq_i\trans.
+                  </me>
+                </p>
+              </li>
+            </ol>
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-circuit-walk">
+        <statement>
+          <p>
+            Try the following <url href="https://alexblackmath.github.io/games/CircuitWalk.html">game</url>.
+          </p>
+        </statement>
+      </exercise>
+    </exercises>
+  </section>
