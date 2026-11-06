@@ -1,0 +1,318 @@
+
+
+  <section xml:id="Math2301Exam2Practice">
+    <title>Into the Eigenverse</title>
+    <p> 
+      The exam will be <alert>five problems</alert>. The first four will each be one question from each the following categories and reflect the examples given. The last will be a challenging surprise. I will grade best four out of five.  
+    </p>
+    <!-- ============================================================ -->
+    <subsection xml:id="sec-notation">
+      <title>Notation</title>
+
+      <exercise xml:id="ex-self-adjoint">
+        <statement>
+          <p>
+            Let <m>T</m> be a self-adjoint operator. Show that
+            <me>\langle T\vec{u}, \vec{v}\rangle = \langle T\vec{v}, \vec{u}\rangle.</me>
+          </p>
+        </statement>
+        <solution>
+          <p>
+            By self-adjointness and symmetry,
+            <me>\langle T\vec{u}, \vec{v}\rangle = \langle \vec{u}, T\vec{v}\rangle = \langle T\vec{v}, \vec{u}\rangle.</me>
+          </p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="ex-triangle-equality">
+        <statement>
+          <p>
+            Show that <m>\|\vec{u} + \vec{v}\| = \|\vec{u}\| + \|\vec{v}\|</m> if and only if
+            <m>\|\vec{u}\|\|\vec{v}\| = \langle \vec{u},\vec{v}\rangle</m>.
+          </p>
+        </statement>
+        <solution>
+          <p>
+            Note that, by the Cauchy<ndash/>Schwarz inequality,
+            <md>
+              <mrow>\|\vec{u} + \vec{v}\|^{2} &amp;= \langle \vec{u}+ \vec{v}, \vec{u} +\vec{v}\rangle</mrow>
+              <mrow>&amp;= \langle \vec{u},\vec{u}\rangle + 2\langle \vec{u},\vec{v}\rangle + \langle \vec{v},\vec{v}\rangle</mrow>
+              <mrow>&amp;= \|\vec{u}\|^{2} + 2\langle \vec{u},\vec{v}\rangle + \|\vec{v}\|^{2}</mrow>
+              <mrow>&amp;\leq \|\vec{u}\|^{2} + 2 \|\vec{u}\|\|\vec{v}\| + \|\vec{v}\|^{2}</mrow>
+              <mrow>&amp;= (\|\vec{u}\|+\|\vec{v}\|)^{2}.</mrow>
+            </md>
+            Thus, <m>\|\vec{u}+\vec{v}\| = \|\vec{u}\| +\|\vec{v}\|</m> if and only if the
+            Cauchy<ndash/>Schwarz inequality when applied is an equality. This happens precisely when
+            <m>\langle \vec{u}, \vec{v}\rangle = \|\vec{u}\|\|\vec{v}\|</m>.
+          </p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="ex-quadratic-form-sum">
+        <statement>
+          <p>
+            Let <m>A</m> be an <m>n \times n</m> matrix. Show that
+            <me>\langle \vec{x}, A \vec{x} \rangle = \sum_{i=1}^{n} \sum_{j=1}^{n} A_{i,j} x_{i} x_{j}.</me>
+          </p>
+        </statement>
+        <solution>
+          <p>
+            Let <m>A_{\bullet, j}</m> denote the <m>j</m>th column of <m>A</m>. Then
+            <md>
+              <mrow>\langle \vec{x}, A \vec{x}\rangle &amp;= \left\langle \vec{x}, \sum_{j=1}^{n} x_{j}A_{\bullet, j} \right\rangle</mrow>
+              <mrow>&amp;= \sum_{i=1}^{n} x_{i} \left( \sum_{j=1}^{n} x_{j}A_{\bullet, j}\right)_{i}</mrow>
+              <mrow>&amp;= \sum_{i=1}^{n} x_{i} \sum_{j=1}^{n} x_{j}A_{i,j}</mrow>
+              <mrow>&amp;= \sum_{i=1}^{n}\sum_{j=1}^{n}A_{i,j}x_{i}x_{j}.</mrow>
+            </md>
+          </p>
+        </solution>
+      </exercise>
+    </subsection>
+
+    <!-- ============================================================ -->
+    <subsection xml:id="sec-regression">
+      <title>Regression</title>
+
+      <exercise xml:id="ex-line-best-fit">
+        <statement>
+          <p>
+            Write an equation of the form <m>A \begin{bmatrix} m\\b\end{bmatrix} = \vec{c}</m> for finding
+            <m>m</m> and <m>b</m>, where <m>y = mx +b</m> is the equation for the line of best fit through
+            the points <m>(1,1)</m>, <m>(2,2)</m>, <m>(3,2)</m>.
+          </p>
+        </statement>
+        <solution>
+          <p>
+            To check if there is a line through these points, you would solve the equation
+            <me>\begin{bmatrix} 1 &amp; 1 \\ 2 &amp; 1 \\ 3 &amp; 1 \end{bmatrix} \begin{bmatrix} m\\b \end{bmatrix} = \begin{bmatrix} 1 \\ 2 \\ 2\end{bmatrix}.</me>
+            To find the best approximation of a solution, you use the normal equations:
+            <me>\begin{bmatrix}1 &amp; 2 &amp; 3\\1 &amp; 1 &amp; 1 \end{bmatrix}\begin{bmatrix} 1 &amp; 1 \\ 2 &amp; 1 \\ 3 &amp; 1 \end{bmatrix} \begin{bmatrix} m\\b\end{bmatrix} = \begin{bmatrix}1 &amp; 2 &amp; 3\\1 &amp; 1 &amp; 1 \end{bmatrix}\begin{bmatrix} 1\\2\\2 \end{bmatrix}.</me>
+          </p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="ex-parabola">
+        <statement>
+          <p>
+            Write a system of linear equations for finding <m>a,b,c</m>, where <m>ax^{2} + bx +c</m> is the
+            equation for a parabola through the points <m>(1,1)</m>, <m>(2,2)</m>, and <m>(3,2)</m>.
+          </p>
+        </statement>
+        <solution>
+          <p>
+            You can use the following system:
+            <me>\begin{pmatrix} 1 &amp; 1 &amp; 1 \\ 4 &amp; 2 &amp; 1 \\ 9 &amp; 3 &amp; 1\end{pmatrix}\begin{pmatrix} a \\ b \\ c \end{pmatrix} = \begin{pmatrix} 1 \\ 2 \\ 2\end{pmatrix}.</me>
+          </p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="ex-trig-fit">
+        <statement>
+          <p>
+            Consider the following graph of a function:
+          </p>
+          <image xml:id="img-sin-cos2" width="80%">
+            <shortdescription>
+              Graph of a periodic function on the interval from 0 to 2 pi. It starts at height 1,
+              rises slightly, dips to 0 at pi over 2, rises back to about 1.1, crosses 1 at pi,
+              falls to a minimum of negative 2 at 3 pi over 2, and returns to 1 at 2 pi.
+            </shortdescription>
+            <latex-image>
+              \begin{tikzpicture}
+              \begin{axis}[
+                width=12cm, height=6.5cm,
+                axis lines=middle,
+                xmin=-0.4, xmax=6.8, ymin=-2.5, ymax=1.7,
+                xtick={1.5708,3.1416,4.7124,6.2832},
+                xticklabels={$\frac{\pi}{2}$,$\pi$,$\frac{3\pi}{2}$,$2\pi$},
+                minor xtick={0.5236,1.0472,2.0944,2.6180,3.6652,4.1888,5.2360,5.7596},
+                ytick={-2,-1,1},
+                minor ytick={-1.5,-0.5,0.5,1.5},
+                grid=both,
+                major grid style={gray!40},
+                minor grid style={gray!15},
+                xlabel={$t$}, ylabel={$y$},
+                every axis x label/.style={at={(ticklabel* cs:1)}, anchor=west},
+                every axis y label/.style={at={(ticklabel* cs:1)}, anchor=south},
+              ]
+              \addplot[domain=0:2*pi, samples=300, very thick, blue]
+                {sin(deg(x)) + cos(deg(2*x))};
+              \end{axis}
+              \end{tikzpicture}
+            </latex-image>
+          </image>
+          <p>
+            It is a linear combination of <m>\sin(t)</m>, <m>\cos(t)</m>, <m>\sin(2t)</m>, and <m>\cos(2t)</m>.
+            Write a system of linear equations for finding the coefficients.
+          </p>
+        </statement>
+        <solution>
+          <p>
+            Write the function as
+            <me>f(t) = a\sin(t) + b\cos(t) + c\sin(2t) + d\cos(2t).</me>
+            Each point <m>(t, f(t))</m> read off the graph gives one linear equation in <m>a,b,c,d</m>, so we
+            need four points. Be careful: <m>\sin(2t) = 0</m> at every multiple of <m>\frac{\pi}{2}</m>, so if
+            all four points are at multiples of <m>\frac{\pi}{2}</m> the coefficient <m>c</m> drops out and the
+            system cannot determine it. Using the gridlines, we can read off
+            <me>f(0) = 1, \quad f\left(\tfrac{\pi}{6}\right) = 1, \quad f\left(\tfrac{\pi}{2}\right) = 0, \quad f(\pi) = 1.</me>
+            Plugging these in gives the system
+            <me>\begin{bmatrix}
+              0 &amp; 1 &amp; 0 &amp; 1 \\
+              \frac{1}{2} &amp; \frac{\sqrt{3}}{2} &amp; \frac{\sqrt{3}}{2} &amp; \frac{1}{2} \\
+              1 &amp; 0 &amp; 0 &amp; -1 \\
+              0 &amp; -1 &amp; 0 &amp; 1
+            \end{bmatrix}
+            \begin{bmatrix} a \\ b \\ c \\ d \end{bmatrix}
+            = \begin{bmatrix} 1 \\ 1 \\ 0 \\ 1 \end{bmatrix}.</me>
+          </p>
+        </solution>
+      </exercise>
+    </subsection>
+
+    <!-- ============================================================ -->
+    <subsection xml:id="sec-orthogonality">
+      <title>Orthogonality</title>
+
+      <exercise xml:id="ex-orthogonal-preserves-norm">
+        <statement>
+          <p>
+            Let <m>Q</m> be an orthogonal <m>n \times n</m> matrix (i.e., <m>Q^{\intercal}Q = I_{n}</m>). Show that
+            <me>\|\vec{x}\| = \|Q \vec{x}\|</me>
+            for all <m>\vec{x} \in \mathbb{R}^{n}</m>.
+          </p>
+        </statement>
+        <solution>
+          <p>
+            Note that
+            <me>\|\vec{x}\|^{2} = \langle \vec{x}, \vec{x} \rangle = \langle \vec{x}, Q^{\intercal} Q \vec{x}\rangle = \langle Q\vec{x}, Q \vec{x}\rangle = \|Q\vec{x}\|^{2}.</me>
+            Since norms are non-negative, this implies <m>\|\vec{x}\| = \|Q \vec{x}\|</m>.
+          </p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="ex-W-subset-perpperp">
+        <statement>
+          <p>
+            Let <m>W</m> be a subspace of an inner product space <m>V</m>. Show that
+            <m>W \subseteq (W^{\perp})^{\perp}</m>.
+          </p>
+        </statement>
+        <solution>
+          <p>
+            Let <m>\vec{x} \in W</m>. Let <m>\vec{y} \in W^{\perp}</m>. Then
+            <m>\langle \vec{x}, \vec{y} \rangle = 0</m>. Thus, <m>\vec{x}</m> is orthogonal to every element of
+            <m>W^{\perp}</m>. By definition, <m>\vec{x} \in (W^{\perp})^{\perp}</m>.
+          </p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="ex-W-supset-perpperp">
+        <statement>
+          <p>
+            Let <m>W</m> be a subspace of an inner product space <m>V</m>. Show that
+            <m>W \supseteq (W^{\perp})^{\perp}</m>.
+          </p>
+        </statement>
+        <solution>
+          <p>
+            Let <m>\vec{y} \in (W^{\perp})^{\perp}</m>. Then, by orthogonal decomposition,
+            <m>\vec{y} = \vec{u} + \vec{v}</m> for a unique <m>\vec{u} \in W</m> and <m>\vec{v} \in W^{\perp}</m>.
+            Since <m>\vec{y} \in (W^{\perp})^{\perp}</m> and <m>\vec{v} \in W^{\perp}</m>,
+            <me>0 = \langle \vec{v}, \vec{y}\rangle = \langle \vec{v}, \vec{u} + \vec{v}\rangle = \langle\vec{v}, \vec{u} \rangle + \langle \vec{v}, \vec{v}\rangle = 0 +\|\vec{v}\|^{2},</me>
+            so <m>\|\vec{v}\|^{2} = 0</m>, meaning that <m>\vec{v} = \vec{0}</m>. It follows that
+            <m>\vec{y} = \vec{u} + \vec{v} = \vec{u} \in W</m>. Hence, <m>(W^{\perp})^{\perp} \subseteq W</m>.
+          </p>
+        </solution>
+      </exercise>
+    </subsection>
+
+    <!-- ============================================================ -->
+    <subsection xml:id="sec-spectral-theorem">
+      <title>Spectral Theorem</title>
+
+      <exercise xml:id="ex-orthogonal-diagonalization">
+        <statement>
+          <p>
+            Show that for any <m>n \times n</m> symmetric matrix <m>A</m>, there exists a matrix <m>Q</m> such
+            that <m>Q^{\intercal}Q = I_{n}</m> and <m>Q^{\intercal} A Q</m> is diagonal.
+          </p>
+        </statement>
+        <solution>
+          <p>
+            By the spectral theorem there is an orthonormal basis <m>\vec{q}_{1}, \dots, \vec{q}_{n}</m> of
+            <m>\mathbb{R}^{n}</m> consisting of eigenvectors of <m>A</m> with eigenvalues
+            <m>\lambda_{1}, \dots, \lambda_{n}</m>. Let <m>Q</m> be the matrix with columns given by that basis.
+            By orthonormality <m>Q^{\intercal} = Q^{-1}</m>. Then
+            <md>
+              <mrow>Q^{\intercal}A Q\vec{x} &amp;= Q^{\intercal}A\sum_{i=1}^{n} x_{i}\vec{q}_{i}</mrow>
+              <mrow>&amp;= Q^{\intercal} \sum_{i=1}^{n}x_{i}A \vec{q}_{i}</mrow>
+              <mrow>&amp;= Q^{\intercal} \sum_{i=1}^{n}\lambda_{i}x_{i}\vec{q}_{i}</mrow>
+              <mrow>&amp;= \sum_{i=1}^{n}\lambda_{i}x_{i}Q^{\intercal}\vec{q}_{i}</mrow>
+              <mrow>&amp;= \sum_{i=1}^{n}\lambda_{i}x_{i}Q^{-1}\vec{q}_{i}</mrow>
+              <mrow>&amp;= \sum_{i=1}^{n}\lambda_{i}x_{i} \vec{e}_{i}</mrow>
+              <mrow>&amp;= \begin{bmatrix} \lambda_{1} &amp; 0 &amp; \dots &amp; 0 \\ 0 &amp; \lambda_{2} &amp; \dots &amp; 0 \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ 0 &amp; 0 &amp; \dots &amp; \lambda_{n}\end{bmatrix} \vec{x}.</mrow>
+            </md>
+            Thus, <m>Q^{\intercal} A Q</m> is diagonal.
+          </p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="ex-positive-definite">
+        <statement>
+          <p>
+            Let <m>A</m> be a symmetric <m>n \times n</m> matrix. Show that if all eigenvalues of <m>A</m> are
+            positive, then <m>q_{A}(\vec{x}) > 0</m> for all <m>\vec{x} \neq \vec{0}</m>.
+          </p>
+        </statement>
+        <solution>
+          <p>
+            Note that <m>A</m> has an orthonormal basis of eigenvectors <m>\vec{q}_{1}, \dots, \vec{q}_{n}</m> by
+            the spectral theorem with eigenvalues <m>\lambda_{1}, \dots, \lambda_{n}</m>. Let
+            <m>\vec{x} \in \mathbb{R}^{n}</m>. Then <m>\vec{x} = \sum_{i=1}^{n} a_{i} \vec{q}_{i}</m>.
+          </p>
+          <p>
+            Then by the definition of an inner product,
+            <md>
+              <mrow>q_{A}(\vec{x}) &amp;= \langle \vec{x}, A\vec{x}\rangle</mrow>
+              <mrow>&amp;= \left\langle \sum_{i=1}^{n}a_{i}\vec{q}_{i}, \sum_{j=1}^{n}A(a_{j} \vec{q}_{j}) \right\rangle</mrow>
+              <mrow>&amp;= \left\langle \sum_{i=1}^{n} a_{i} \vec{q}_{i}, \sum_{j=1}^{n} \lambda_{j}a_{j}\vec{q}_{j} \right\rangle</mrow>
+              <mrow>&amp;= \sum_{i=1}^{n} \left\langle a_{i}\vec{q}_{i}, \sum_{j=1}^{n} \lambda_{j}a_{j} \vec{q}_{j} \right\rangle</mrow>
+              <mrow>&amp;= \sum_{i=1}^{n}\sum_{j=1}^{n} \langle a_{i}\vec{q}_{i}, \lambda_{j}a_{j}\vec{q}_{j}\rangle</mrow>
+              <mrow>&amp;= \sum_{i=1}^{n}\sum_{j=1}^{n} \lambda_{j} a_{i} a_{j} \langle \vec{q}_{i}, \vec{q}_{j} \rangle.</mrow>
+            </md>
+            Note that, by orthonormality, <m>\langle \vec{q}_{i}, \vec{q}_{j} \rangle = 1</m> if <m>i = j</m> and
+            <m>0</m> otherwise. Therefore,
+            <me>q_{A}(\vec{x}) = \sum_{i=1}^{n}\sum_{j=1}^{n} \lambda_{j}a_{i} a_{j} \langle \vec{q}_{i}, \vec{q}_{j} \rangle = \sum_{i=1}^{n} \lambda_{i} a_{i}^{2}.</me>
+            By assumption each <m>\lambda_{i}</m> is positive, so when <m>\vec{x} \neq \vec{0}</m>,
+            <m>q_{A}(\vec{x}) > 0</m>.
+          </p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="ex-projection-eigenbasis">
+        <statement>
+          <p>
+            Let <m>W</m> be a linear subspace of an inner product space <m>V</m>. Let <m>P_{W}</m> be the
+            projection operator onto <m>W</m>. Show that any orthonormal basis
+            <m>\vec{q}_{1}, \dots, \vec{q}_{n}</m> for <m>V</m> such that <m>\vec{q}_{1}, \dots, \vec{q}_{k}</m>
+            is a basis for <m>W</m> is an orthonormal basis of <m>V</m> consisting of eigenvectors of
+            <m>P_{W}</m>.
+          </p>
+        </statement>
+        <solution>
+          <p>
+            Let <m>1 \leq i \leq k</m>. Then <m>\vec{q}_{i} \in W</m> by assumption, so
+            <m>P_{W}(\vec{q}_{i}) = \vec{q}_{i}</m>. Hence, <m>\vec{q}_{i}</m> is an eigenvector of <m>P_{W}</m>
+            with eigenvalue <m>1</m>.
+          </p>
+          <p>
+            Let <m>k+1 \leq j \leq n</m>. Then <m>\vec{q}_{j}</m> is orthogonal to each of
+            <m>\vec{q}_{1}, \dots, \vec{q}_{k}</m>, which are the elements of a basis for <m>W</m>. It follows
+            that <m>\vec{q}_{j} \in W^{\perp}</m>. Hence, by the definition of a projection operator,
+            <m>P_{W}(\vec{q}_{j}) = \vec{0}</m>, so <m>\vec{q}_{j}</m> is an eigenvector of <m>P_{W}</m> with
+            eigenvalue <m>0</m>.
+          </p>
+        </solution>
+      </exercise>
+    </subsection>
+  </section>

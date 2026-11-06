@@ -1,139 +1,121 @@
 var ptx_lunr_search_style = "textbook";
 var ptx_lunr_docs = [
 {
-  "id": "Linkedin",
+  "id": "Eigenverse",
   "level": "1",
-  "url": "#Linkedin",
+  "url": "#Eigenverse",
   "type": "Article",
   "number": "",
-  "title": "Math 2000 Day 18",
-  "body": " Math 2000 Day 18       Linkedin   Review    For the McDonald's and Chick-fil-A Nugget sizes, which actual nugget sizes were needed to be able to generate anything?      Independence  Often a set of vectors contains redundancy, where you can get one as a combination of the others. For example, consider the following Note that so its inclusion does not change the span. That is But that's as far as it goes. No more can be removed. When you can't write any vector as a linear combination of the others, you call the set of vectors independent .  Recall that for vectors in , we already had an algorithm for checking independence. Simply row reduce the matrix with columns given by those vectors. Then they are independent exactly when every column is a pivot column.    Use row reduction of the following matrix to explain why its columns are not independent:       Are the columns of the following matrix independent?       Networks  A network is a collection of nodes, which you can think of as, for example, computers on the internet, and connections between nodes. Consider a network with nodes labeled . Here we are going to consider two ways to build a matrix from a network.  Recall that denotes the vector with in the th coordinate and zeroes in all other coordinates.  The signed incidence matrix: If two nodes are connected, add a column vector .  The unsigned incidence matrix: If two nodes are connected, add a column vector .  Given a network, when is the collection of vectors independent?    Consider the graph of a triangle.   Draw it.    Label the nodes .    Write down the vectors for the edges.    Are they independent for the signed incidence matrix?    What about for the unsigned incidence matrix?         Exercises  Use the following simulation for signed incidence matrices of networks on this page . Our goal is to characterize when the column sets of these matrices are independent.    Start with networks that are just a cycle.   Characterize what the signed incidence matrices look like.    When are their columns independent if ever? Explain your answer.         Explain why adding an edge to a network for which the columns of its signed incidence matrix are dependent can never make it independent.      Characterize which networks on at most 5 nodes are independent.      Take an independent network and add an edge between two nodes. When does this stop the columns of the signed incidence matrix of the network from being independent and why? When does it preserve independence?      Propose a characterization of the networks for which the signed incidence matrices are independent.    Use the following simulation for unsigned incidence matrices of networks at this page . Our goal is to characterize when the column sets of these matrices are independent.    Start with networks that are just a cycle.   Characterize what the unsigned incidence matrices look like.    When are their columns independent if ever? Explain your answer.         Explain why adding an edge to a network for which the columns of its unsigned incidence matrix are dependent can never make it independent.      Characterize which networks on at most 5 nodes are independent.      Take an independent network and add an edge between two nodes. When does this stop the columns of the unsigned incidence matrix of the network from being independent and why? When does it preserve independence?      "
+  "title": "Math 2301 Exam 2 Practice",
+  "body": " Math 2301 Exam 2 Practice       Into the Eigenverse  The exam will be five problems . The first four will each be one question from each the following categories and reflect the examples given. The last will be a challenging surprise. I will grade best four out of five.    Notation    Let be a self-adjoint operator. Show that     By self-adjointness and symmetry,       Show that if and only if .    Note that, by the Cauchy Schwarz inequality, Thus, if and only if the Cauchy Schwarz inequality when applied is an equality. This happens precisely when .      Let be an matrix. Show that     Let denote the th column of . Then        Regression    Write an equation of the form for finding and , where is the equation for the line of best fit through the points , , .    To check if there is a line through these points, you would solve the equation To find the best approximation of a solution, you use the normal equations:       Write a system of linear equations for finding , where is the equation for a parabola through the points , , and .    You can use the following system:       Consider the following graph of a function:   Graph of a periodic function on the interval from 0 to 2 pi. It starts at height 1, rises slightly, dips to 0 at pi over 2, rises back to about 1.1, crosses 1 at pi, falls to a minimum of negative 2 at 3 pi over 2, and returns to 1 at 2 pi.    It is a linear combination of , , , and . Write a system of linear equations for finding the coefficients.    Write the function as Each point read off the graph gives one linear equation in , so we need four points. Be careful: at every multiple of , so if all four points are at multiples of the coefficient drops out and the system cannot determine it. Using the gridlines, we can read off Plugging these in gives the system        Orthogonality    Let be an orthogonal matrix (i.e., ). Show that for all .    Note that Since norms are non-negative, this implies .      Let be a subspace of an inner product space . Show that .    Let . Let . Then . Thus, is orthogonal to every element of . By definition, .      Let be a subspace of an inner product space . Show that .    Let . Then, by orthogonal decomposition, for a unique and . Since and , so , meaning that . It follows that . Hence, .       Spectral Theorem    Show that for any symmetric matrix , there exists a matrix such that and is diagonal.    By the spectral theorem there is an orthonormal basis of consisting of eigenvectors of with eigenvalues . Let be the matrix with columns given by that basis. By orthonormality . Then Thus, is diagonal.      Let be a symmetric matrix. Show that if all eigenvalues of are positive, then for all .    Note that has an orthonormal basis of eigenvectors by the spectral theorem with eigenvalues . Let . Then .  Then by the definition of an inner product, Note that, by orthonormality, if and otherwise. Therefore, By assumption each is positive, so when , .      Let be a linear subspace of an inner product space . Let be the projection operator onto . Show that any orthonormal basis for such that is a basis for is an orthonormal basis of consisting of eigenvectors of .    Let . Then by assumption, so . Hence, is an eigenvector of with eigenvalue .  Let . Then is orthogonal to each of , which are the elements of a basis for . It follows that . Hence, by the definition of a projection operator, , so is an eigenvector of with eigenvalue .      "
 },
 {
-  "id": "day18-ex-nuggets",
+  "id": "ex-self-adjoint",
   "level": "2",
-  "url": "#day18-ex-nuggets",
+  "url": "#ex-self-adjoint",
   "type": "Checkpoint",
   "number": "1.1",
   "title": "",
-  "body": "  For the McDonald's and Chick-fil-A Nugget sizes, which actual nugget sizes were needed to be able to generate anything?   "
+  "body": "  Let be a self-adjoint operator. Show that     By self-adjointness and symmetry,    "
 },
 {
-  "id": "day18-independence-2",
+  "id": "ex-triangle-equality",
   "level": "2",
-  "url": "#day18-independence-2",
-  "type": "Paragraph (with a defined term)",
-  "number": "",
-  "title": "",
-  "body": "independent "
-},
-{
-  "id": "day18-ex-rowreduce-dependent",
-  "level": "2",
-  "url": "#day18-ex-rowreduce-dependent",
+  "url": "#ex-triangle-equality",
   "type": "Checkpoint",
   "number": "1.2",
   "title": "",
-  "body": "  Use row reduction of the following matrix to explain why its columns are not independent:    "
+  "body": "  Show that if and only if .    Note that, by the Cauchy Schwarz inequality, Thus, if and only if the Cauchy Schwarz inequality when applied is an equality. This happens precisely when .   "
 },
 {
-  "id": "day18-ex-columns-independent",
+  "id": "ex-quadratic-form-sum",
   "level": "2",
-  "url": "#day18-ex-columns-independent",
+  "url": "#ex-quadratic-form-sum",
   "type": "Checkpoint",
   "number": "1.3",
   "title": "",
-  "body": "  Are the columns of the following matrix independent?    "
+  "body": "  Let be an matrix. Show that     Let denote the th column of . Then    "
 },
 {
-  "id": "day18-ex-triangle",
+  "id": "ex-line-best-fit",
   "level": "2",
-  "url": "#day18-ex-triangle",
+  "url": "#ex-line-best-fit",
   "type": "Checkpoint",
   "number": "1.4",
   "title": "",
-  "body": "  Consider the graph of a triangle.   Draw it.    Label the nodes .    Write down the vectors for the edges.    Are they independent for the signed incidence matrix?    What about for the unsigned incidence matrix?      "
+  "body": "  Write an equation of the form for finding and , where is the equation for the line of best fit through the points , , .    To check if there is a line through these points, you would solve the equation To find the best approximation of a solution, you use the normal equations:    "
 },
 {
-  "id": "day18-ex-signed-cycle",
+  "id": "ex-parabola",
   "level": "2",
-  "url": "#day18-ex-signed-cycle",
+  "url": "#ex-parabola",
   "type": "Checkpoint",
   "number": "1.5",
   "title": "",
-  "body": "  Start with networks that are just a cycle.   Characterize what the signed incidence matrices look like.    When are their columns independent if ever? Explain your answer.      "
+  "body": "  Write a system of linear equations for finding , where is the equation for a parabola through the points , , and .    You can use the following system:    "
 },
 {
-  "id": "day18-ex-signed-add-edge-dependent",
+  "id": "ex-trig-fit",
   "level": "2",
-  "url": "#day18-ex-signed-add-edge-dependent",
+  "url": "#ex-trig-fit",
   "type": "Checkpoint",
   "number": "1.6",
   "title": "",
-  "body": "  Explain why adding an edge to a network for which the columns of its signed incidence matrix are dependent can never make it independent.   "
+  "body": "  Consider the following graph of a function:   Graph of a periodic function on the interval from 0 to 2 pi. It starts at height 1, rises slightly, dips to 0 at pi over 2, rises back to about 1.1, crosses 1 at pi, falls to a minimum of negative 2 at 3 pi over 2, and returns to 1 at 2 pi.    It is a linear combination of , , , and . Write a system of linear equations for finding the coefficients.    Write the function as Each point read off the graph gives one linear equation in , so we need four points. Be careful: at every multiple of , so if all four points are at multiples of the coefficient drops out and the system cannot determine it. Using the gridlines, we can read off Plugging these in gives the system    "
 },
 {
-  "id": "day18-ex-signed-five-nodes",
+  "id": "ex-orthogonal-preserves-norm",
   "level": "2",
-  "url": "#day18-ex-signed-five-nodes",
+  "url": "#ex-orthogonal-preserves-norm",
   "type": "Checkpoint",
   "number": "1.7",
   "title": "",
-  "body": "  Characterize which networks on at most 5 nodes are independent.   "
+  "body": "  Let be an orthogonal matrix (i.e., ). Show that for all .    Note that Since norms are non-negative, this implies .   "
 },
 {
-  "id": "day18-ex-signed-add-edge-independent",
+  "id": "ex-W-subset-perpperp",
   "level": "2",
-  "url": "#day18-ex-signed-add-edge-independent",
+  "url": "#ex-W-subset-perpperp",
   "type": "Checkpoint",
   "number": "1.8",
   "title": "",
-  "body": "  Take an independent network and add an edge between two nodes. When does this stop the columns of the signed incidence matrix of the network from being independent and why? When does it preserve independence?   "
+  "body": "  Let be a subspace of an inner product space . Show that .    Let . Let . Then . Thus, is orthogonal to every element of . By definition, .   "
 },
 {
-  "id": "day18-ex-signed-characterization",
+  "id": "ex-W-supset-perpperp",
   "level": "2",
-  "url": "#day18-ex-signed-characterization",
+  "url": "#ex-W-supset-perpperp",
   "type": "Checkpoint",
   "number": "1.9",
   "title": "",
-  "body": "  Propose a characterization of the networks for which the signed incidence matrices are independent.   "
+  "body": "  Let be a subspace of an inner product space . Show that .    Let . Then, by orthogonal decomposition, for a unique and . Since and , so , meaning that . It follows that . Hence, .   "
 },
 {
-  "id": "day18-ex-unsigned-cycle",
+  "id": "ex-orthogonal-diagonalization",
   "level": "2",
-  "url": "#day18-ex-unsigned-cycle",
+  "url": "#ex-orthogonal-diagonalization",
   "type": "Checkpoint",
   "number": "1.10",
   "title": "",
-  "body": "  Start with networks that are just a cycle.   Characterize what the unsigned incidence matrices look like.    When are their columns independent if ever? Explain your answer.      "
+  "body": "  Show that for any symmetric matrix , there exists a matrix such that and is diagonal.    By the spectral theorem there is an orthonormal basis of consisting of eigenvectors of with eigenvalues . Let be the matrix with columns given by that basis. By orthonormality . Then Thus, is diagonal.   "
 },
 {
-  "id": "day18-ex-unsigned-add-edge-dependent",
+  "id": "ex-positive-definite",
   "level": "2",
-  "url": "#day18-ex-unsigned-add-edge-dependent",
+  "url": "#ex-positive-definite",
   "type": "Checkpoint",
   "number": "1.11",
   "title": "",
-  "body": "  Explain why adding an edge to a network for which the columns of its unsigned incidence matrix are dependent can never make it independent.   "
+  "body": "  Let be a symmetric matrix. Show that if all eigenvalues of are positive, then for all .    Note that has an orthonormal basis of eigenvectors by the spectral theorem with eigenvalues . Let . Then .  Then by the definition of an inner product, Note that, by orthonormality, if and otherwise. Therefore, By assumption each is positive, so when , .   "
 },
 {
-  "id": "day18-ex-unsigned-five-nodes",
+  "id": "ex-projection-eigenbasis",
   "level": "2",
-  "url": "#day18-ex-unsigned-five-nodes",
+  "url": "#ex-projection-eigenbasis",
   "type": "Checkpoint",
   "number": "1.12",
   "title": "",
-  "body": "  Characterize which networks on at most 5 nodes are independent.   "
-},
-{
-  "id": "day18-ex-unsigned-add-edge-independent",
-  "level": "2",
-  "url": "#day18-ex-unsigned-add-edge-independent",
-  "type": "Checkpoint",
-  "number": "1.13",
-  "title": "",
-  "body": "  Take an independent network and add an edge between two nodes. When does this stop the columns of the unsigned incidence matrix of the network from being independent and why? When does it preserve independence?   "
+  "body": "  Let be a linear subspace of an inner product space . Let be the projection operator onto . Show that any orthonormal basis for such that is a basis for is an orthonormal basis of consisting of eigenvectors of .    Let . Then by assumption, so . Hence, is an eigenvector of with eigenvalue .  Let . Then is orthogonal to each of , which are the elements of a basis for . It follows that . Hence, by the definition of a projection operator, , so is an eigenvector of with eigenvalue .   "
 }
 ]
 
