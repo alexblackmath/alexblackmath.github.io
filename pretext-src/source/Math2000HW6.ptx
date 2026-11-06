@@ -1,0 +1,183 @@
+
+
+  <section xml:id="Math2000HW6">
+    <title>National Treasure</title>
+
+    <subsection xml:id="sec-span">
+      <title>Span</title>
+
+      <exercise xml:id="ex-heist">
+        <introduction>
+          <p>
+            You're Nicolas Cage.
+            You heard a rumor the Declaration of Independence is in the Bowdoin College Museum of Art.
+            You yearn to heist, but the movie industry has weighed you down.
+            All those years.
+            You can only take at most <m>20</m> lbs of goods with you.
+            Here are the items and their value:
+          </p>
+
+          <tabular halign="center" top="major" bottom="major">
+            <col halign="left"/>
+            <col halign="right"/>
+            <col halign="right"/>
+            <col halign="right"/>
+            <row header="yes" bottom="minor">
+              <cell>Item</cell>
+              <cell>Value (each)</cell>
+              <cell>Weight (each)</cell>
+              <cell>Number available</cell>
+            </row>
+            <row>
+              <cell>Declaration of Independence</cell>
+              <cell>$1.6 million</cell>
+              <cell><m>0.1</m> lbs</cell>
+              <cell><m>1</m></cell>
+            </row>
+            <row>
+              <cell>Landscape paintings</cell>
+              <cell>$50</cell>
+              <cell><m>2</m> lbs</cell>
+              <cell><m>500</m></cell>
+            </row>
+            <row>
+              <cell>Busts</cell>
+              <cell>$300</cell>
+              <cell><m>6</m> lbs</cell>
+              <cell><m>3</m></cell>
+            </row>
+          </tabular>
+
+          <p>
+            Answer the following questions:
+          </p>
+        </introduction>
+
+        <task>
+          <statement>
+            <p>
+              What should you steal to maximize your profit?
+            </p>
+          </statement>
+        </task>
+
+        <task>
+          <statement>
+            <p>
+              How much do you profit from the theft?
+            </p>
+          </statement>
+        </task>
+      </exercise>
+
+      <p>
+        We call a set of vectors in <m>\R^{n}</m> <term>spanning</term> if every vector in <m>\R^{n}</m> is in their span.
+      </p>
+
+      <exercise xml:id="ex-signed-incidence">
+        <statement>
+          <p>
+            Use the Fredholm alternative to argue that the set of columns of a signed incidence matrix of a network is never spanning.
+          </p>
+        </statement>
+      </exercise>
+
+      <p>
+        One can detect if a matrix is spanning from its reduced row echelon form.
+        This happens exactly when there are number of rows many pivot columns.
+      </p>
+
+      <exercise xml:id="ex-unsigned-incidence">
+        <statement>
+          <p>
+            Characterize when the set of columns of an unsigned incidence matrix of a network is spanning in terms of the network.
+          </p>
+        </statement>
+      </exercise>
+    </subsection>
+
+    <subsection xml:id="sec-independence">
+      <title>Independence</title>
+
+      <exercise xml:id="ex-rref-columns">
+        <introduction>
+          <p>
+            Consider the following matrix:
+            <me>
+              A = \begin{bmatrix}
+                1 &amp; 1 &amp; 1 &amp; 1 \\
+                1 &amp; 2 &amp; 3 &amp; 4 \\
+                1 &amp; 3 &amp; 5 &amp; 7
+              \end{bmatrix}
+            </me>
+            Its reduced row echelon form is
+            <me>
+              B = \begin{bmatrix}
+                1 &amp; 0 &amp; -1 &amp; -2 \\
+                0 &amp; 1 &amp; 2 &amp; 3 \\
+                0 &amp; 0 &amp; 0 &amp; 0
+              \end{bmatrix}.
+            </me>
+          </p>
+        </introduction>
+
+        <task>
+          <statement>
+            <p>
+              Write the third column of <m>A</m> as a linear combination of the first two.
+            </p>
+          </statement>
+        </task>
+
+        <task>
+          <statement>
+            <p>
+              Write the fourth column of <m>A</m> as a linear combination of the first two.
+            </p>
+          </statement>
+        </task>
+
+        <task>
+          <statement>
+            <p>
+              Explain how you could solve (a) and (b) using <m>B</m>.
+            </p>
+          </statement>
+        </task>
+
+        <task>
+          <statement>
+            <p>
+              Find a linearly independent subset of the columns of <m>A</m> with the same span.
+            </p>
+          </statement>
+        </task>
+      </exercise>
+
+      <exercise xml:id="ex-sin-cos">
+        <statement>
+          <p>
+            Use the following
+            <ul>
+              <li><m>\sin(0) = 0</m></li>
+              <li><m>\sin(\pi/2) = 1</m></li>
+              <li><m>\cos(0) = 1</m></li>
+              <li><m>\cos(\pi/2) = 0</m></li>
+            </ul>
+            to argue that <m>\sin(t)</m> and <m>\cos(t)</m> are linearly independent in the vector space of functions.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-extend-independent">
+        <statement>
+          <p>
+            Consider a vector space <m>V</m> and a subspace <m>W</m> of <m>V</m>.
+            Let <m>\vec{u}</m> and <m>\vec{v}</m> be linearly independent vectors in <m>W</m>.
+            Let <m>\vec{w}</m> be a vector not in <m>W</m>.
+            Explain why <m>\vec{u}</m>, <m>\vec{v}</m>, and <m>\vec{w}</m> are therefore linearly independent.
+          </p>
+        </statement>
+      </exercise>
+    </subsection>
+  </section>
