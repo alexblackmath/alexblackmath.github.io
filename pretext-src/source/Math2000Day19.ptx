@@ -1,0 +1,268 @@
+
+
+  <section xml:id="Math2000Day19">
+    <title>Through the Looking Glass</title>
+
+    <subsection xml:id="sec-review">
+      <title>Review</title>
+
+      <p>
+        Recall the following definitions:
+        <ul>
+          <li>What is the span of a collection of vectors?</li>
+          <li>What does it mean for a collection of vectors to be independent?</li>
+          <li>What does it mean for them to be spanning?</li>
+        </ul>
+      </p>
+    </subsection>
+
+    <subsection xml:id="sec-bases">
+      <title>Bases</title>
+
+      <p>
+        A basis for a vector space is a collection of vectors that is both <alert>independent</alert> and <alert>spanning</alert>.
+      </p>
+
+      <theorem xml:id="thm-basis-invertible">
+        <statement>
+          <p>
+            The columns of a matrix are a basis if and only if the matrix is invertible.
+          </p>
+        </statement>
+      </theorem>
+
+      <p>
+        Why? Being a basis means independent and spanning.
+        Spanning means that every vector is in the columnspan.
+        In other words, <m>A \vec{x} = \vec{b}</m> has a solution for all <m>\vec{b}</m>.
+        Independence means <m>A \vec{x} = \vec{b}</m> has a unique solution when it exists.
+        If you had two different ones, it would mean you could throw out one of your vectors and still have a solution.
+        Then <m>A^{-1}\vec{b}</m> is just the unique solution to <m>A \vec{x} = \vec{b}</m>.
+      </p>
+    </subsection>
+
+    <subsection xml:id="sec-coordinate-systems">
+      <title>Coordinate Systems</title>
+
+      <p>
+        Different bases encode different information.
+      </p>
+
+      <exercise xml:id="ex-near-miss">
+        <statement>
+          <p>
+            Play the following game: <url href="https://alexblackmath.github.io/games/NearMiss.html">here</url>.
+          </p>
+        </statement>
+      </exercise>
+
+      <p>
+        In that game, you use <term>barycentric coordinates</term>.
+        For these, you take the vertices of a triangle <m>(x_{1},y_{1})</m>, <m>(x_{2},y_{2})</m>, and <m>(x_{3},y_{3})</m> in <m>\mathbb{R}^{2}</m>.
+        Then you append a <m>1</m> as a new last coordinate: <m>(x_{1},y_{1},1)</m>, <m>(x_{2},y_{2},1)</m>, <m>(x_{3},y_{3},1)</m>.
+      </p>
+
+      <theorem xml:id="thm-triangle-basis">
+        <statement>
+          <p>
+            The vectors <m>(x_{1},y_{1})</m>, <m>(x_{2}, y_{2})</m>, <m>(x_{3},y_{3})</m> are the vertices of a triangle if and only if <m>(x_{1},y_{1},1)</m>, <m>(x_{2},y_{2},1)</m>, <m>(x_{3},y_{3},1)</m> is a basis.
+          </p>
+        </statement>
+      </theorem>
+
+      <p>
+        Why? They are a triangle unless they all lie on a line segment.
+        This continues to be true when you add the last coordinate.
+        A line segment is always contained in a plane through the origin in <m>\mathbb{R}^{3}</m> and so cannot span.
+      </p>
+
+      <p>
+        But this so far only gives you a basis.
+        Given a basis, the <term>coordinates</term> with respect to that basis are the coefficients of a vector written in that basis.
+      </p>
+
+      <p>
+        In particular, barycentric coordinates are given by
+        <me>
+          \begin{bmatrix} x_{1} &amp; x_{2} &amp; x_{3} \\ y_{1} &amp; y_{2} &amp; y_{3} \\ 1 &amp; 1 &amp; 1 \end{bmatrix}^{-1} \begin{bmatrix} x\\y\\1\end{bmatrix}.
+        </me>
+      </p>
+    </subsection>
+
+    <subsection xml:id="sec-video-game-graphics">
+      <title>Video Game Graphics</title>
+
+      <p>
+        For a 3-D game, you want to show it on a 2-D screen.
+        How is that possible?
+        First of all, everything in a video game is secretly a triangle.
+      </p>
+
+      <p>
+        Here is how we model this.
+        We have a camera in <m>\mathbb{R}^{3}</m> that is in some location, and we define coordinates relative to that camera.
+      </p>
+
+      <p>
+        For us, we'll assume the camera is pointing straight up, so a point is determined by <m>(x,y,z)</m>, where <m>z</m> denotes the distance to the camera relative to the direction it is pointing.
+      </p>
+
+      <p>
+        Then to get a point on the screen, we replace the point <m>(x,y,z)</m> with <m>(x/z,y/z)</m>.
+        Now if I want to draw a single triangle, this is all I need to know.
+        I just compute that map on each of the vertices, and I get the triangle I want to draw.
+      </p>
+
+      <p>
+        In general, we model shapes as many triangles.
+        Then we project each triangle to the screen to check which one we see first.
+      </p>
+
+      <p>
+        Thus, for a stationary picture, you
+        <ul>
+          <li>Check pixel by pixel which projected triangle contains it</li>
+          <li>Check which point on a 3-D triangle in a mesh is closest if there are multiple options</li>
+          <li>Draw the color for that closest point</li>
+        </ul>
+      </p>
+
+      <p>
+        How do you check which is closest?
+        Take the barycentric coordinates <m>(b_{1}, b_{2}, b_{3})</m> for the 2-D projection.
+        Then we can compute the distance as follows.
+        Let's first go the other way.
+        Take a point <m>w_{1}(x_{1},y_{1},z_{1})+ w_{2}(x_{2},y_{2},z_{2}) + w_{3}(x_{3},y_{3},z_{3})</m> in the triangle.
+        We want to find the <m>z</m>-coordinate of this point, which is
+        <me>
+          d = w_{1}z_{1} +w_{2}z_{2} + w_{3}z_{3}.
+        </me>
+      </p>
+
+      <p>
+        Then the projection map yields
+        <me>
+          \frac{w_{1}z_{1}(x_{1}/z_{1},y_{1}/z_{1}) + w_{2}z_{2}(x_{2}/z_{2},y_{2}/z_{2}) + w_{3}z_{3}(x_{3}/z_{3},y_{3}/z_{3})}{d}.
+        </me>
+        Then we get
+        <me>
+          b_{1} = \frac{w_{1}z_{1}}{d}, \quad b_{2} = \frac{w_{2}z_{2}}{d}, \text{ and } b_{3} = \frac{w_{3}z_{3}}{d}.
+        </me>
+        It follows that
+        <me>
+          \frac{d b_{1}}{z_{1}} + \frac{d b_{2}}{z_{2}} + \frac{d b_{3}}{z_{3}} = w_{1} + w_{2} + w_{3} = 1.
+        </me>
+        Therefore,
+        <me>
+          d = \frac{1}{\dfrac{b_{1}}{z_{1}} + \dfrac{b_{2}}{z_{2}} + \dfrac{b_{3}}{z_{3}}}.
+        </me>
+      </p>
+
+      <p>
+        This formula tells you the distance to your point.
+        Then you just check across each point which is closest using this distance measure.
+      </p>
+
+      <p>
+        This all works for a stationary camera.
+        In the exercises, I'll have you think about a camera in motion.
+      </p>
+    </subsection>
+
+    <subsection xml:id="sec-exercises">
+      <title>Exercises</title>
+
+      <exercise xml:id="ex-mcnuggets">
+        <statement>
+          <p>
+            Recall that for McNuggets sizes, the minimum sizes you needed to get all the sizes you could were <m>4</m> and <m>6</m>.
+            Nonetheless, give an example where there are multiple ways to get an order of a given size.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-point-in-triangle">
+        <statement>
+          <p>
+            Is the point <m>(1,1)</m> in the triangle <m>(0,0)</m>, <m>(2,3)</m>, <m>(2,0)</m>?
+            Use barycentric coordinates to justify your answer.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-project-triangle">
+        <statement>
+          <p>
+            I am drawing a 3-D scene on my computer and want to depict a triangle with vertices <m>(1,1,1)</m>, <m>(2,2,2)</m>, <m>(3,2,3)</m> in 3-D.
+            What are the vertices of the corresponding triangle in 2-D?
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-point-in-3d-triangle">
+        <statement>
+          <p>
+            Is the point <m>(1/2,1/2,1/2)</m> contained in the triangle with vertices <m>(1,1,0)</m>, <m>(1,0,1)</m>, <m>(0,1,1)</m>?
+            Justify your answer.
+            What about the point <m>(2/3,2/3,2/3)</m>?
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-polygon">
+        <statement>
+          <p>
+            Explain in words: How can you use the barycentric coordinates to tell if a point is contained in a polygon?
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-moving-camera">
+        <introduction>
+          <p>
+            Suppose you're playing a first person game like Skyrim, and your character moves forward a step from <m>(0,0,0)</m> to <m>(0,0,1)</m>.
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>
+              How should you update the positions of all the 3-D triangles relative to the camera?
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              How should you update the positions of all the 2-D triangles relative to the camera?
+            </p>
+          </statement>
+        </task>
+      </exercise>
+
+      <exercise xml:id="ex-rotation">
+        <statement>
+          <p>
+            You may recall that rotation corresponds to multiplying by a matrix.
+            Say you rotate and that corresponds to multiplying by a matrix <m>A</m>.
+            How would you update the positions of all the points?
+          </p>
+        </statement>
+      </exercise>
+
+      <p>
+        In actual games, you represent points using vectors of length <m>4</m> of the form <m>(x,y,z,1)</m>.
+        This is in part because it makes writing down an important transformation as matrix multiplication easier:
+      </p>
+
+      <exercise xml:id="ex-translation-matrix">
+        <statement>
+          <p>
+            Find a <m>4 \times 4</m> matrix such that when you multiply it by the point <m>(x,y,z,1)</m> you get <m>(x,y,z+1,1)</m>.
+            More generally, can you get <m>(x+a,y+b,z+c,1)</m> for any <m>a,b,c</m>?
+            Is the resulting matrix invertible?
+          </p>
+        </statement>
+      </exercise>
+    </subsection>
+
+  </section>
