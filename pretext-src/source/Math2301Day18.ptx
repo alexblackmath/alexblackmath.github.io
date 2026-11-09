@@ -1,0 +1,257 @@
+
+  <section xml:id="Math2301Day18">
+    <title>Across the Eigenverse</title>
+
+    <!-- ============================================================ -->
+    <subsection xml:id="sec-inner-products-norms">
+      <title>Inner Products and Norms</title>
+
+      <p>
+        We mentioned that inner products are more general than dot products.
+        Here is the most prominent example:
+      </p>
+
+      <exercise xml:id="ex-integral-inner-product">
+        <statement>
+          <p>
+            Let <m>C([0,1])</m> be the set of all <m>f: [0,1]\to \mathbb{R}</m>
+            such that <m>f</m> is continuous. Then define
+            <me>\langle f, g \rangle = \int_{0}^{1} f(x)g(x)\,dx</me>.
+            Show that <m>\langle \cdot, \cdot \rangle</m> is an inner product.
+          </p>
+        </statement>
+      </exercise>
+
+      <p>
+        We noted in class that inner products induce norms. However, norms can be
+        defined more generally: A <term>norm</term>
+        <m>\|\cdot \|: V \to \mathbb{R}</m> is a function satisfying the following
+        for all <m>\vec{x},\vec{y} \in V</m> and <m>\lambda \in \mathbb{R}</m>:
+      </p>
+      <ol marker="(a)">
+        <li>
+          <p>
+            Positive definiteness: <m>\|\vec{x}\| \gt 0</m> for all
+            <m>\vec{x} \neq \vec{0}</m> and <m>\|\vec{0}\| = 0</m>.
+          </p>
+        </li>
+        <li>
+          <p>
+            Positive homogeneity:
+            <m>\|\lambda \vec{x}\| = |\lambda|\, \|\vec{x}\|</m>.
+          </p>
+        </li>
+        <li>
+          <p>
+            Triangle inequality:
+            <m>\|\vec{x} + \vec{y}\| \leq \|\vec{x}\| +\|\vec{y}\|</m>.
+          </p>
+        </li>
+      </ol>
+
+      <exercise xml:id="ex-infinity-norm">
+        <statement>
+          <p>
+            Define the <m>\infty</m>-norm on <m>\mathbb{R}^{n}</m> by
+            <me>\|\vec{x}\|_{\infty} = \max(|x_{i}| : 1 \leq i \leq n)</me>.
+            Show that <m>\|\cdot \|_{\infty}</m> is a norm.
+          </p>
+        </statement>
+      </exercise>
+
+      <!-- CORRECTED: original had |<u,v>| = sqrt(...)/2, which is false
+           (e.g. u = v = e_1 gives 1 on the left, sqrt(2)/2 on the right),
+           and was missing a \| in \|u+v\|. This is the polarization identity. -->
+      <exercise xml:id="ex-polarization">
+        <statement>
+          <p>
+            Let <m>V</m> be an inner product space. Then show that
+            <me>
+              \langle \vec{u},\vec{v}\rangle
+              = \frac{\|\vec{u}+\vec{v}\|^{2} - \|\vec{u}\|^{2}-\|\vec{v}\|^{2}}{2}
+            </me>.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-infinity-norm-not-inner">
+        <statement>
+          <p>
+            Show that the <m>\infty</m>-norm does not come from an inner product.
+          </p>
+        </statement>
+      </exercise>
+    </subsection>
+
+    <!-- ============================================================ -->
+    <subsection xml:id="sec-nilpotence">
+      <title>Nilpotence</title>
+
+      <p>
+        We call an operator <m>T</m> <term>nilpotent</term> if there exists some
+        <m>k \gt 0</m> such that <m>T^{k} \vec{v} = \vec{0}</m> for all
+        <m>\vec{v} \in V</m>.
+      </p>
+
+      <exercise xml:id="ex-derivative-nilpotent">
+        <introduction>
+          <p>
+            Let <m>V_{k}</m> be the vector space of polynomials of degree at
+            most <m>k</m>.
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>
+              Show that <m>\frac{d}{dx}</m> is nilpotent.
+            </p>
+          </statement>
+        </task>
+        <!-- CORRECTED: original said "no polynomial", but constant polynomials
+             satisfy p' = 0 * p (and the zero polynomial satisfies p' = c * p
+             for every c). Intended claim: d/dx has no nonzero eigenvalue. -->
+        <task>
+          <statement>
+            <p>
+              Show that there is no nonzero polynomial whose derivative is a
+              nonzero scalar multiple of itself.
+            </p>
+          </statement>
+        </task>
+      </exercise>
+
+      <!-- CORRECTED: "eigenvectors" -> "eigenvalues". Eigenvectors are nonzero
+           by definition, and nilpotent operators do have them (eigenvalue 0). -->
+      <exercise xml:id="ex-nilpotent-eigenvalues">
+        <statement>
+          <p>
+            Show that any nilpotent operator <m>T</m> has no nonzero eigenvalues.
+            Conclude that <m>\ker(T)</m> is the unique eigenspace of <m>T</m>.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-symmetric-nilpotent">
+        <statement>
+          <p>
+            Show that the zero matrix is the unique symmetric nilpotent
+            <m>n \times n</m> matrix.
+          </p>
+        </statement>
+      </exercise>
+    </subsection>
+
+    <!-- ============================================================ -->
+    <subsection xml:id="sec-commuting-matrices">
+      <title>Commuting Matrices</title>
+
+      <exercise xml:id="ex-same-eigenbasis-commute">
+        <statement>
+          <p>
+            Let <m>M</m> and <m>N</m> be two diagonalizable <m>n \times n</m>
+            matrices with the same eigenbasis. Show that <m>MN = NM</m>.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-invariant-subspace-diagonalizable">
+        <introduction>
+          <p>
+            Let <m>T</m> be a diagonalizable operator on a finite-dimensional
+            vector space <m>V</m>. Let <m>W</m> be a subspace of <m>V</m>.
+            Suppose that <m>T(W) \subseteq W</m>.
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>
+              Let <m>\vec{v} \in W</m>. Since <m>T</m> is diagonalizable,
+              <m>\vec{v} = \vec{v}_{1} + \dots + \vec{v}_{k}</m>, where each
+              <m>\vec{v}_{i}</m> is an eigenvector with pairwise distinct
+              eigenvalues <m>\lambda_{1},\dots,\lambda_{k}</m> or equal to
+              <m>\vec{0}</m>. Prove by induction on the number of nonzero
+              components that each <m>\vec{v}_{i} \in W</m>.
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Let <m>V_{\lambda_{1}}, \dots, V_{\lambda_{k}}</m> be the
+              eigenspaces of <m>T</m>. Show that
+              <me>W = \sum_{i=1}^{k} W \cap V_{\lambda_{i}}</me>.
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Show that <m>T|_{W}: W \to W</m> is still diagonalizable.
+            </p>
+          </statement>
+        </task>
+      </exercise>
+
+      <exercise xml:id="ex-simultaneous-diagonalization">
+        <introduction>
+          <p>
+            Let <m>M</m> and <m>N</m> be two diagonalizable <m>n \times n</m>
+            matrices, and suppose that <m>MN = NM</m>.
+          </p>
+        </introduction>
+        <!-- CORRECTED: N v can be the zero vector, which is not an eigenvector. -->
+        <task>
+          <statement>
+            <p>
+              Show that if <m>\vec{v}</m> is an eigenvector of <m>M</m>, then
+              <m>N\vec{v}</m> is either <m>\vec{0}</m> or an eigenvector of
+              <m>M</m> with the same eigenvalue.
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Let <m>V_{\lambda}</m> be the eigenspace of <m>M</m> with
+              eigenvalue <m>\lambda</m>. Show that there is a basis of
+              <m>V_{\lambda}</m> consisting of eigenvectors of <m>N</m>.
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Show that there is a basis that is an eigenbasis for both
+              <m>M</m> and <m>N</m> simultaneously.
+            </p>
+          </statement>
+        </task>
+      </exercise>
+    </subsection>
+
+    <!-- ============================================================ -->
+    <subsection xml:id="sec-quadratic-forms">
+      <title>Quadratic Forms</title>
+
+      <exercise xml:id="ex-zero-quadratic-form">
+        <statement>
+          <p>
+            Show that if <m>A</m> is symmetric, <m>q_{A}(\vec{x}) = 0</m> for all
+            <m>\vec{x} \in \mathbb{R}^{n}</m> if and only if <m>A</m> is the
+            <m>0</m> matrix.
+          </p>
+        </statement>
+      </exercise>
+
+      <!-- NEW (suggested): companion to the previous exercise. Delete if unwanted. -->
+      <exercise xml:id="ex-symmetric-part">
+          <statement>
+            <p>
+              Show that two symmetric matrices <m>A</m> and <m>B</m> satisfy
+              <m>q_{A} = q_{B}</m> if and only if <m>A = B</m>. 
+            </p>
+          </statement>
+      </exercise>
+    </subsection>
+
+  </section>

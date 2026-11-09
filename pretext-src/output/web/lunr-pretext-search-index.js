@@ -1,76 +1,139 @@
 var ptx_lunr_search_style = "textbook";
 var ptx_lunr_docs = [
 {
-  "id": "NationalTreasure",
+  "id": "Across",
   "level": "1",
-  "url": "#NationalTreasure",
+  "url": "#Across",
   "type": "Article",
   "number": "",
-  "title": "Math 2000 Homework 6",
-  "body": " Math 2000 Homework 6       National Treasure   Span    You're Nicolas Cage. You heard a rumor the Declaration of Independence is in the Bowdoin College Museum of Art. You yearn to heist, but the movie industry has weighed you down. All those years. You can only take at most lbs of goods with you. Here are the items and their value:        Item  Value (each)  Weight (each)  Number available    Declaration of Independence  $1.6 million  lbs     Landscape paintings  $50  lbs     Busts  $300  lbs     Answer the following questions:     What should you steal to maximize your profit?      How much do you profit from the theft?     We call a set of vectors in  spanning if every vector in is in their span.    Use the Fredholm alternative to argue that the set of columns of a signed incidence matrix of a network is never spanning.    One can detect if a matrix is spanning from its reduced row echelon form. This happens exactly when there are number of rows many pivot columns.    Characterize when the set of columns of an unsigned incidence matrix of a network is spanning in terms of the network.      Independence    Consider the following matrix: Its reduced row echelon form is      Write the third column of as a linear combination of the first two.      Write the fourth column of as a linear combination of the first two.      Explain how you could solve (a) and (b) using .      Find a linearly independent subset of the columns of with the same span.       Use the following      to argue that and are linearly independent in the vector space of functions.      Consider a vector space and a subspace of . Let and be linearly independent vectors in . Let be a vector not in . Explain why , , and are therefore linearly independent.      "
+  "title": "Math 2301 Day 18",
+  "body": " Math 2301 Day 18       Across the Eigenverse    Inner Products and Norms  We mentioned that inner products are more general than dot products. Here is the most prominent example:    Let be the set of all such that is continuous. Then define . Show that is an inner product.    We noted in class that inner products induce norms. However, norms can be defined more generally: A norm  is a function satisfying the following for all and :    Positive definiteness: for all and .    Positive homogeneity: .    Triangle inequality: .      Define the -norm on by . Show that is a norm.       Let be an inner product space. Then show that .      Show that the -norm does not come from an inner product.       Nilpotence  We call an operator  nilpotent if there exists some such that for all .    Let be the vector space of polynomials of degree at most .     Show that is nilpotent.       Show that there is no nonzero polynomial whose derivative is a nonzero scalar multiple of itself.        Show that any nilpotent operator has no nonzero eigenvalues. Conclude that is the unique eigenspace of .      Show that the zero matrix is the unique symmetric nilpotent matrix.       Commuting Matrices    Let and be two diagonalizable matrices with the same eigenbasis. Show that .      Let be a diagonalizable operator on a finite-dimensional vector space . Let be a subspace of . Suppose that .     Let . Since is diagonalizable, , where each is an eigenvector with pairwise distinct eigenvalues or equal to . Prove by induction on the number of nonzero components that each .      Let be the eigenspaces of . Show that .      Show that is still diagonalizable.       Let and be two diagonalizable matrices, and suppose that .      Show that if is an eigenvector of , then is either or an eigenvector of with the same eigenvalue.      Let be the eigenspace of with eigenvalue . Show that there is a basis of consisting of eigenvectors of .      Show that there is a basis that is an eigenbasis for both and simultaneously.        Quadratic Forms    Show that if is symmetric, for all if and only if is the matrix.       Show that two symmetric matrices and satisfy if and only if .      "
 },
 {
-  "id": "ex-heist",
+  "id": "ex-integral-inner-product",
   "level": "2",
-  "url": "#ex-heist",
+  "url": "#ex-integral-inner-product",
   "type": "Checkpoint",
   "number": "1.1",
   "title": "",
-  "body": "  You're Nicolas Cage. You heard a rumor the Declaration of Independence is in the Bowdoin College Museum of Art. You yearn to heist, but the movie industry has weighed you down. All those years. You can only take at most lbs of goods with you. Here are the items and their value:        Item  Value (each)  Weight (each)  Number available    Declaration of Independence  $1.6 million  lbs     Landscape paintings  $50  lbs     Busts  $300  lbs     Answer the following questions:     What should you steal to maximize your profit?      How much do you profit from the theft?    "
+  "body": "  Let be the set of all such that is continuous. Then define . Show that is an inner product.   "
 },
 {
-  "id": "sec-span-3",
+  "id": "sec-inner-products-norms-4",
   "level": "2",
-  "url": "#sec-span-3",
+  "url": "#sec-inner-products-norms-4",
   "type": "Paragraph (with a defined term)",
   "number": "",
   "title": "",
-  "body": "spanning "
+  "body": "norm "
 },
 {
-  "id": "ex-signed-incidence",
+  "id": "ex-infinity-norm",
   "level": "2",
-  "url": "#ex-signed-incidence",
+  "url": "#ex-infinity-norm",
   "type": "Checkpoint",
   "number": "1.2",
   "title": "",
-  "body": "  Use the Fredholm alternative to argue that the set of columns of a signed incidence matrix of a network is never spanning.   "
+  "body": "  Define the -norm on by . Show that is a norm.   "
 },
 {
-  "id": "ex-unsigned-incidence",
+  "id": "ex-polarization",
   "level": "2",
-  "url": "#ex-unsigned-incidence",
+  "url": "#ex-polarization",
   "type": "Checkpoint",
   "number": "1.3",
   "title": "",
-  "body": "  Characterize when the set of columns of an unsigned incidence matrix of a network is spanning in terms of the network.   "
+  "body": "  Let be an inner product space. Then show that .   "
 },
 {
-  "id": "ex-rref-columns",
+  "id": "ex-infinity-norm-not-inner",
   "level": "2",
-  "url": "#ex-rref-columns",
+  "url": "#ex-infinity-norm-not-inner",
   "type": "Checkpoint",
   "number": "1.4",
   "title": "",
-  "body": "  Consider the following matrix: Its reduced row echelon form is      Write the third column of as a linear combination of the first two.      Write the fourth column of as a linear combination of the first two.      Explain how you could solve (a) and (b) using .      Find a linearly independent subset of the columns of with the same span.    "
+  "body": "  Show that the -norm does not come from an inner product.   "
 },
 {
-  "id": "ex-sin-cos",
+  "id": "sec-nilpotence-2",
   "level": "2",
-  "url": "#ex-sin-cos",
+  "url": "#sec-nilpotence-2",
+  "type": "Paragraph (with a defined term)",
+  "number": "",
+  "title": "",
+  "body": "nilpotent "
+},
+{
+  "id": "ex-derivative-nilpotent",
+  "level": "2",
+  "url": "#ex-derivative-nilpotent",
   "type": "Checkpoint",
   "number": "1.5",
   "title": "",
-  "body": "  Use the following      to argue that and are linearly independent in the vector space of functions.   "
+  "body": "  Let be the vector space of polynomials of degree at most .     Show that is nilpotent.       Show that there is no nonzero polynomial whose derivative is a nonzero scalar multiple of itself.    "
 },
 {
-  "id": "ex-extend-independent",
+  "id": "ex-nilpotent-eigenvalues",
   "level": "2",
-  "url": "#ex-extend-independent",
+  "url": "#ex-nilpotent-eigenvalues",
   "type": "Checkpoint",
   "number": "1.6",
   "title": "",
-  "body": "  Consider a vector space and a subspace of . Let and be linearly independent vectors in . Let be a vector not in . Explain why , , and are therefore linearly independent.   "
+  "body": "  Show that any nilpotent operator has no nonzero eigenvalues. Conclude that is the unique eigenspace of .   "
+},
+{
+  "id": "ex-symmetric-nilpotent",
+  "level": "2",
+  "url": "#ex-symmetric-nilpotent",
+  "type": "Checkpoint",
+  "number": "1.7",
+  "title": "",
+  "body": "  Show that the zero matrix is the unique symmetric nilpotent matrix.   "
+},
+{
+  "id": "ex-same-eigenbasis-commute",
+  "level": "2",
+  "url": "#ex-same-eigenbasis-commute",
+  "type": "Checkpoint",
+  "number": "1.8",
+  "title": "",
+  "body": "  Let and be two diagonalizable matrices with the same eigenbasis. Show that .   "
+},
+{
+  "id": "ex-invariant-subspace-diagonalizable",
+  "level": "2",
+  "url": "#ex-invariant-subspace-diagonalizable",
+  "type": "Checkpoint",
+  "number": "1.9",
+  "title": "",
+  "body": "  Let be a diagonalizable operator on a finite-dimensional vector space . Let be a subspace of . Suppose that .     Let . Since is diagonalizable, , where each is an eigenvector with pairwise distinct eigenvalues or equal to . Prove by induction on the number of nonzero components that each .      Let be the eigenspaces of . Show that .      Show that is still diagonalizable.    "
+},
+{
+  "id": "ex-simultaneous-diagonalization",
+  "level": "2",
+  "url": "#ex-simultaneous-diagonalization",
+  "type": "Checkpoint",
+  "number": "1.10",
+  "title": "",
+  "body": "  Let and be two diagonalizable matrices, and suppose that .      Show that if is an eigenvector of , then is either or an eigenvector of with the same eigenvalue.      Let be the eigenspace of with eigenvalue . Show that there is a basis of consisting of eigenvectors of .      Show that there is a basis that is an eigenbasis for both and simultaneously.    "
+},
+{
+  "id": "ex-zero-quadratic-form",
+  "level": "2",
+  "url": "#ex-zero-quadratic-form",
+  "type": "Checkpoint",
+  "number": "1.11",
+  "title": "",
+  "body": "  Show that if is symmetric, for all if and only if is the matrix.   "
+},
+{
+  "id": "ex-symmetric-part",
+  "level": "2",
+  "url": "#ex-symmetric-part",
+  "type": "Checkpoint",
+  "number": "1.12",
+  "title": "",
+  "body": "  Show that two symmetric matrices and satisfy if and only if .   "
 }
 ]
 
