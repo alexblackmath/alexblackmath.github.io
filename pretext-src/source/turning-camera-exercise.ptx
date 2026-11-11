@@ -1,0 +1,82 @@
+      <exercise xml:id="ex-turning-camera">
+        <title>Turning the camera</title>
+        <introduction>
+          <p>
+            We describe a 2D scene in world coordinates, written as <m>(x,y,1)</m> so that translations are matrices.
+            A camera records each point by its own coordinates: how far <em>forward</em> the point is, and how far to the <em>left</em>.
+            The camera's position and orientation, called its <term>pose</term>, are given by a <m>3 \times 3</m> matrix <m>P</m>.
+            The columns of <m>P</m> are the camera's forward direction, its left direction, and its position, each in world coordinates.
+            At the start, the camera sits at the origin facing the positive <m>x</m>-axis, so <m>P = I</m> and camera coordinates equal world coordinates.
+            The scene contains a tree at <m>(3,0)</m> and a house at <m>(0,3)</m>.
+            Let
+            <me>
+              R = \begin{pmatrix} 0 &amp; -1 &amp; 0 \\ 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{pmatrix},
+              \qquad
+              T = \begin{pmatrix} 1 &amp; 0 &amp; 2 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}
+            </me>.
+          </p>
+        </introduction>
+
+        <task xml:id="ex-turning-camera-a">
+          <statement>
+            <p>
+              The camera turns <m>90^{\circ}</m> counterclockwise in place, so its pose becomes <m>P = R</m>.
+              Using the fact that <m>A^{-1}\vec{b}</m> gives the coordinates of <m>\vec{b}</m> in the basis given by the columns of <m>A</m>, explain why the camera coordinates of a point <m>\vec{p}</m> are now <m>R^{-1}\vec{p}</m>.
+            </p>
+          </statement>
+        </task>
+
+        <task xml:id="ex-turning-camera-b">
+          <statement>
+            <p>
+              Compute the camera coordinates of the tree and the house after the turn.
+              Check your answers against a picture: which object is now straight ahead, and which is to the side?
+            </p>
+          </statement>
+        </task>
+
+        <task xml:id="ex-turning-camera-c">
+          <statement>
+            <p>
+              A student models the turn by applying <m>R</m> to every point instead of <m>R^{-1}</m>.
+              Where would the student say the tree is?
+              Explain using your picture why this is wrong.
+            </p>
+          </statement>
+        </task>
+
+        <task xml:id="ex-turning-camera-d">
+          <statement>
+            <p>
+              The camera now moves forward <m>2</m> units in the direction it is facing.
+              This is a move in the camera's own frame, so the new pose is <m>P = RT</m>.
+              Find the camera's new position in world coordinates.
+              Then explain why the matrix applied to the scene changes from <m>R^{-1}</m> to <m>T^{-1}R^{-1}</m>.
+              In other words, each new camera move contributes its inverse, multiplied on the left.
+              Compute the new camera coordinates of the tree and the house.
+            </p>
+          </statement>
+        </task>
+
+        <task xml:id="ex-turning-camera-e">
+          <statement>
+            <p>
+              Suppose instead the camera first moved <m>2</m> units along the world <m>x</m>-axis and then turned in place, giving the pose <m>TR</m>.
+              Where does the camera end up, and what are the camera coordinates of the tree and the house?
+              Use this to explain why the order of camera moves matters.
+            </p>
+          </statement>
+        </task>
+
+        <task xml:id="ex-turning-camera-f">
+          <statement>
+            <p>
+              Objects in the scene can move too.
+              Suppose a windmill blade rotates about the tree, and in world coordinates this motion is the matrix <m>M</m>.
+              Explain why, in camera coordinates, the same motion is <m>P^{-1}MP</m>.
+              This is the <m>BAB^{-1}</m> pattern with <m>B = P^{-1}</m>.
+              Then show, without computing <m>M</m>, that <m>P^{-1}MP</m> leaves the camera coordinates of the tree unchanged.
+            </p>
+          </statement>
+        </task>
+      </exercise>

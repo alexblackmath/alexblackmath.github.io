@@ -1,0 +1,13 @@
+INFO    : Building target web
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.55.0/core/xsl/utilities/pretext-enhanced-source.xsl
+ERROR   : Error loading /workspaces/alexblackmath.github.io/pretext-src/source/Math2000Day20.ptx: xmlParseEntityRef: no name, line 311, column 34 (Math2000Day20.ptx, line 311)
+ERROR   : Error assembling source file: xmlParseEntityRef: no name, line 311, column 34 (Math2000Day20.ptx, line 311)
+FATAL   : XML syntax for source file is invalid
+INFO    : ------------------------
+exit    : Failed to build without errors.  Exiting...
+INFO    : 
+----------------------------------------------------
+INFO    : While running pretext, the following errors occurred:
+
+INFO    : (see log messages above or in the 'logs' folder for more information)
+INFO    : ----------------------------------------------------

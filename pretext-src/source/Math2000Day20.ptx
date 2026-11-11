@@ -1,0 +1,315 @@
+
+
+  <section xml:id="Math2000Day20">
+    <title>Turning Things Around</title>
+
+    <subsection xml:id="sec-review">
+      <title>Independence, Span, Basis Review</title>
+
+      <p>
+        Is the following a basis for polynomials of degree at most <m>2</m>?
+        <me>\{1+x,\ 1+x^{2},\ x+x^{2}\}</me>
+        If so, find the coordinates of <m>x^{2} + 2x + 1</m> in that basis.
+      </p>
+    </subsection>
+
+    <subsection xml:id="sec-representing">
+      <title>Representing in a Basis</title>
+
+      <p>
+        In order to apply linear algebra tools to an abstract vector space <m>V</m>, the first step is to find a basis for <m>V</m>.
+        Namely, given a linear transformation between two vector spaces, so long as the vector spaces are finite dimensional, one can always write the linear transformation in the form of a matrix.
+      </p>
+
+      <p>
+        For example, for polynomials, we could take <m>\vec{v}_{i} = x^{i}</m>.
+        Then if we want to use matrix tools, we write out our vectors in that basis:
+        <me>1 + 3x^{3} - 3x^{6} + x^{9} = \vec{v}_{0} + 3\vec{v}_{3} - 3\vec{v}_{6} + \vec{v}_{9}</me>.
+      </p>
+
+      <p>
+        Doing so allows us to convert operations that don't seem linear algebraic into ones that are.
+        For example, consider the linear transformation <m>T</m> on polynomials given by <m>T(f) = f(x^{2})</m>.
+        For example,
+        <me>T(1 + 3x) = 1 + 3x^{2}</me>.
+        Instead of doing that computation, we can think of <m>T</m> as a linear transformation given by <m>T(\vec{v}_{i}) = \vec{v}_{2i}</m>.
+        In matrix form <m>T</m> restricted to linear polynomials (i.e., <m>T: \text{span}(1,x) \to \text{span}(1,x,x^{2})</m>) is <m>T(\vec{v}_{0}) = \vec{v}_{0}</m> and <m>T(\vec{v}_{1}) = \vec{v}_{2}</m>, so the matrix is
+        <me>\begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}</me>.
+      </p>
+    </subsection>
+
+    <subsection xml:id="sec-changing-basis">
+      <title>Changing a Basis</title>
+
+      <p>
+        Frequently, in applications of linear algebra, there is a basis we need to work in other than the standard basis.
+        This in particular comes up when we care about the signs of the coefficients.
+      </p>
+
+      <p>
+        For example, if I want my vectors to be increasing, then I would work in the basis <m>\vec{v}_{1} = (0,0,1)</m>, <m>\vec{v}_{2} = (0,1,1)</m>, <m>\vec{v}_{3} = (1,1,1)</m>.
+        Then a vector is non-negative and increasing if and only if its coefficients are non-negative in this basis.
+        Then it becomes relevant, given a vector such as <m>(1,2,3)</m>, how do I write it in a given basis?
+        That is, how do I find <m>a</m>, <m>b</m>, and <m>c</m> such that
+        <me>a\vec{v}_{1} + b\vec{v}_{2} + c\vec{v}_{3} = (1,2,3)</me>?
+        For this, we just put the vectors as columns in a matrix, and then finding <m>a</m>, <m>b</m>, and <m>c</m> is equivalent to finding the solution to
+        <me>
+          \begin{pmatrix} 0 &amp; 0 &amp; 1 \\ 0 &amp; 1 &amp; 1 \\ 1 &amp; 1 &amp; 1 \end{pmatrix}
+          \begin{pmatrix} a \\ b \\ c \end{pmatrix}
+          = \begin{pmatrix} 1 \\ 2 \\ 3 \end{pmatrix}
+        </me>.
+        The columns of the matrix correspond in order to <m>\vec{v}_{1}</m>, <m>\vec{v}_{2}</m>, and <m>\vec{v}_{3}</m>.
+        This is solving a linear system, which we can do via row reduction.
+        However, this can be laborious if we need to write many vectors in a basis.
+      </p>
+
+      <p>
+        Alternatively, if we need to do this many times, we just compute the inverse of the matrix.
+        Let's do this for our matrix <m>A</m> with columns <m>\vec{v}_{1}</m>, <m>\vec{v}_{2}</m>, and <m>\vec{v}_{3}</m>.
+      </p>
+
+      <p>
+        Let me show you a new way to do it.
+        We want to convert from the standard basis <m>e_{1}, e_{2}, e_{3}</m> to the basis <m>\vec{v}_{1}, \vec{v}_{2}, \vec{v}_{3}</m>.
+        To do this, we write each <m>e_{i}</m> in terms of the new basis.
+        Note that
+        <me>e_{1} = -\vec{v}_{2} + \vec{v}_{3}, \quad e_{2} = -\vec{v}_{1} + \vec{v}_{2}, \quad \text{and} \quad e_{3} = \vec{v}_{1}</me>.
+        The coefficients tell us the columns of the inverse matrix:
+        <me>A^{-1} = \begin{pmatrix} 0 &amp; -1 &amp; 1 \\ -1 &amp; 1 &amp; 0 \\ 1 &amp; 0 &amp; 0 \end{pmatrix}</me>.
+      </p>
+
+      <!--
+        Commented out in the original LaTeX source (row-reduction method):
+
+        First we append an identity matrix on the end of it:
+          [ 0 0 1 | 1 0 0 ]
+          [ 0 1 1 | 0 1 0 ]
+          [ 1 1 1 | 0 0 1 ]
+        Then we row reduce. First I'd swap rows 1 and 3 to get:
+          [ 1 1 1 | 0 0 1 ]
+          [ 0 1 1 | 0 1 0 ]
+          [ 0 0 1 | 1 0 0 ]
+        Then I'd replace row 1 with row 1 minus row 2 to get:
+          [ 1 0 0 | 0 -1 1 ]
+          [ 0 1 1 | 0  1 0 ]
+          [ 0 0 1 | 1  0 0 ]
+        Finally, I'd replace row 2 with row 2 minus row 3 to get:
+          [ 1 0 0 |  0 -1 1 ]
+          [ 0 1 0 | -1  1 0 ]
+          [ 0 0 1 |  1  0 0 ]
+        Thus, the inverse of the matrix is the right-hand block.
+        Then to figure out the coefficients in the basis, we just multiply the matrix by the vector:
+      -->
+
+      <p>
+        Then to figure out the coefficients in the basis, we just multiply the matrix by the vector:
+        <me>
+          \begin{pmatrix} 0 &amp; -1 &amp; 1 \\ -1 &amp; 1 &amp; 0 \\ 1 &amp; 0 &amp; 0 \end{pmatrix}
+          \begin{pmatrix} 1 \\ 2 \\ 3 \end{pmatrix}
+          = \begin{pmatrix} 1 \\ 1 \\ 1 \end{pmatrix}
+        </me>.
+        You can see that
+        <me>1(0,0,1) + 1(0,1,1) + 1(1,1,1) = (1,2,3)</me>.
+        Thus, <m>A^{-1}\vec{b}</m> tells you the coordinates of <m>\vec{b}</m> in the basis given by the columns of <m>A</m>.
+      </p>
+    </subsection>
+
+    <subsection xml:id="sec-new-basis-multiplication">
+      <title>Matrix Multiplication in a New Basis</title>
+
+      <p>
+        What often happens is you talk to someone, and they tell you their favorite basis, and their whole world is written in that basis.
+        Even their <alert>linear transformations</alert> are written in this strange unearthly language.
+        If someone speaks the language of <m>\vec{v}_{1}, \vec{v}_{2}, \vec{v}_{3}</m>, they would write the familiar vector <m>(1,2,3)</m> as <m>(1,1,1)</m>.
+        This is just like how we can think of the polynomial <m>1+2x+x^{2}</m> as the vector <m>(1,2,1)</m>.
+        This becomes even stranger when one is working with applying linear transformations in an unfamiliar basis.
+      </p>
+
+      <p>
+        For example, if I am living in the world with basis <m>\vec{v}_{1}, \vec{v}_{2}, \vec{v}_{3}</m>, I may consider the linear map sending <m>\vec{v}_{1}</m> to <m>\vec{v}_{1} + \vec{v}_{2}</m>, <m>\vec{v}_{2}</m> to <m>\vec{v}_{1} + \vec{v}_{3}</m>, and <m>\vec{v}_{3}</m> to <m>\vec{v}_{2} + \vec{v}_{3}</m>.
+        In the basis <m>\vec{v}_{1}, \vec{v}_{2}, \vec{v}_{3}</m>, this may be written in matrix form:
+        <me>\begin{pmatrix} 1 &amp; 1 &amp; 0 \\ 1 &amp; 0 &amp; 1 \\ 0 &amp; 1 &amp; 1 \end{pmatrix}</me>.
+        For example, if I were to apply this to the vector <m>(1,2,3)</m>, I would first write <m>(1,2,3)</m> as <m>\vec{v}_{1} + \vec{v}_{2} + \vec{v}_{3}</m>.
+        Then
+        <me>
+          \begin{pmatrix} 1 &amp; 1 &amp; 0 \\ 1 &amp; 0 &amp; 1 \\ 0 &amp; 1 &amp; 1 \end{pmatrix}
+          \begin{pmatrix} 1 \\ 1 \\ 1 \end{pmatrix}
+          = \begin{pmatrix} 2 \\ 2 \\ 2 \end{pmatrix}
+        </me>,
+        which is <m>2\vec{v}_{1} + 2\vec{v}_{2} + 2\vec{v}_{3} = 2(0,0,1) + 2(0,1,1) + 2(1,1,1) = (2,4,6)</m>.
+      </p>
+
+      <p>
+        It turns out there's a general way to deal with this that reflects what we have done.
+        Suppose that you have a linear transformation defined with respect to a basis <m>\vec{v}_{1}, \vec{v}_{2}, \dots, \vec{v}_{n}</m>.
+        That is, I know <m>A(\vec{v}_{i}) = \sum_{j=1}^{n} A_{j,i}\vec{v}_{j}</m>.
+        Then to figure out how this matrix works in our more familiar basis, we take the matrix
+        <me>B = \begin{pmatrix} \vec{v}_{1} &amp; \vec{v}_{2} &amp; \dots &amp; \vec{v}_{n} \end{pmatrix}</me>.
+        Then if we want to apply <m>A</m> to a vector <m>\vec{x}</m> in our language, we first translate <m>\vec{x}</m> into the language of the <m>\vec{v}_{i}</m> by applying <m>B^{-1}</m>.
+        Then we apply <m>A</m> in that resulting basis, and apply <m>B</m> to convert back to our language.
+        Hence, for a linear transformation <m>A</m> written in the basis <m>\vec{v}_{1}, \dots, \vec{v}_{n}</m>, the result is <m>BAB^{-1}\vec{x}</m> in the more familiar basis.
+      </p>
+
+      <p>
+        For example, taking <m>\vec{x} = (1,2,3)</m>, we get
+        <md>
+          <mrow>BAB^{-1}\vec{x} &amp;= \begin{pmatrix} 0 &amp; 0 &amp; 1 \\ 0 &amp; 1 &amp; 1 \\ 1 &amp; 1 &amp; 1 \end{pmatrix}\begin{pmatrix} 1 &amp; 1 &amp; 0 \\ 1 &amp; 0 &amp; 1 \\ 0 &amp; 1 &amp; 1 \end{pmatrix}\begin{pmatrix} 0 &amp; -1 &amp; 1 \\ -1 &amp; 1 &amp; 0 \\ 1 &amp; 0 &amp; 0 \end{pmatrix}\begin{pmatrix} 1 \\ 2 \\ 3 \end{pmatrix}</mrow>
+          <mrow>&amp;= \begin{pmatrix} 0 &amp; 0 &amp; 1 \\ 0 &amp; 1 &amp; 1 \\ 1 &amp; 1 &amp; 1 \end{pmatrix}\begin{pmatrix} 1 &amp; 1 &amp; 0 \\ 1 &amp; 0 &amp; 1 \\ 0 &amp; 1 &amp; 1 \end{pmatrix}\begin{pmatrix} 1 \\ 1 \\ 1 \end{pmatrix}</mrow>
+          <mrow>&amp;= \begin{pmatrix} 0 &amp; 0 &amp; 1 \\ 0 &amp; 1 &amp; 1 \\ 1 &amp; 1 &amp; 1 \end{pmatrix}\begin{pmatrix} 2 \\ 2 \\ 2 \end{pmatrix}</mrow>
+          <mrow>&amp;= \begin{pmatrix} 2 \\ 4 \\ 6 \end{pmatrix}</mrow>
+        </md>.
+      </p>
+
+      <p>
+        What this observation gives rise to is that given a matrix <m>A</m>, there may be a more natural basis to write your matrix in.
+        Is it true that, up to a change of basis, every matrix is diagonal?
+        The answer is no in general, but it turns out that almost every matrix is a diagonal matrix in disguise.
+        That is, there is some basis for which it is a diagonal matrix.
+        Furthermore, up to reordering the elements of the diagonal, the diagonal matrix is unique when it exists.
+        The next unit is devoted to that question.
+      </p>
+    </subsection>
+
+    <subsection xml:id="sec-exercises">
+      <title>Exercises</title>
+
+      <exercise xml:id="ex-evaluate-at-zero">
+        <statement>
+          <p>
+            Write down the matrix corresponding to the linear transformation of polynomials of degree at most <m>2</m> given by <m>T(f) = f(0)</m>.
+          </p>
+        </statement>
+      </exercise>
+
+      <p>
+        We say that we <term>write a vector in a basis</term> if we say the coefficients of that vector when written as a linear combination of those basis elements.
+      </p>
+
+      <exercise xml:id="ex-scaled-standard-basis">
+        <statement>
+          <p>
+            Consider the vectors <m>\vec{v}_{1} = (2,0,0)</m>, <m>\vec{v}_{2} = (0,2,0)</m>, and <m>\vec{v}_{3} = (0,0,2)</m>.
+            Explain why they are a basis, and write the vector <m>(4,2,6)</m> in this basis.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-shifted-polynomial-basis">
+        <introduction>
+          <p>
+            Consider the basis for polynomials <m>1, (1+x), (1+x)^{2}, (1+x)^{3}</m>.
+          </p>
+        </introduction>
+        <task>
+          <p>Write <m>1</m> in that basis.</p>
+        </task>
+        <task>
+          <p>Write <m>1-x</m> in that basis.</p>
+        </task>
+        <task>
+          <p>Write <m>(1-x)^{2}</m> in that basis.</p>
+        </task>
+        <task>
+          <p>Write <m>(1-x)^{3}</m> in that basis.</p>
+        </task>
+      </exercise>
+
+      <exercise xml:id="ex-derivative-matrix">
+        <statement>
+          <p>
+            Write the matrix of the linear transformation <m>\frac{d}{dx}</m> from <m>\text{span}(1,x,x^{2},x^{3})</m> to <m>\text{span}(1,x,x^{2})</m> with respect to the standard basis for polynomials.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-cyclic-map">
+        <introduction>
+          <p>
+            Consider the vectors <m>\vec{v}_{1} = (1,1,0)</m>, <m>\vec{v}_{2} = (1,0,1)</m>, and <m>\vec{v}_{3} = (0,1,1)</m>.
+          </p>
+        </introduction>
+        <task>
+          <p>Explain why <m>\vec{v}_{1}, \vec{v}_{2}, \vec{v}_{3}</m> is a basis.</p>
+        </task>
+        <task>
+          <p>Write <m>(1,0,0)</m>, <m>(0,1,0)</m>, and <m>(0,0,1)</m> in that basis.</p>
+        </task>
+        <task>
+          <p>
+            Consider the linear transformation <m>T(\vec{v}_{1}) = \vec{v}_{2}</m>, <m>T(\vec{v}_{2}) = \vec{v}_{3}</m>, and <m>T(\vec{v}_{3}) = \vec{v}_{1}</m>.
+            Write down the matrix of this linear transformation with respect to the basis <m>\vec{v}_{1}, \vec{v}_{2}, \vec{v}_{3}</m>.
+          </p>
+        </task>
+        <task>
+          <p>Write down an expression of the form <m>BAB^{-1}</m> for writing the matrix <m>A</m> with respect to the standard basis.</p>
+        </task>
+      </exercise>
+
+      <exercise xml:id="ex-barycentric">
+        <introduction>
+          <p>
+            The map <m>T(x_{1},x_{2},1) = (x_{1}+1,x_{2},1)</m> can be represented by multiplication by a <m>3 \times 3</m> invertible matrix <m>A</m>.
+          </p>
+        </introduction>
+        <task>
+          <p>Find <m>A</m>.</p>
+        </task>
+        <task>
+          <p>Find the basis for <m>\mathbb{R}^{3}</m> for barycentric coordinates with respect to the triangle <m>(0,0), (1,0), (0,1)</m>.</p>
+        </task>
+        <task>
+          <p>Rewrite the matrix <m>A</m> in the barycentric coordinate basis.</p>
+        </task>
+      </exercise>
+    </subsection>
+
+          <exercise xml:id="ex-turning-camera">
+        <introduction>
+          <p>
+             In Stage 2 of Contra 3: The Alien Wars, you play a shirtless man with a laser gun and a bandana who is not Rambo (His name is actually Bill Rizer). Stage 2 has a top down view with Bill at the center of the screen, and his gun always points upward in the direction <m>(0,1)</m>. In the game, you can rotate Bill, and the camera rotates with him, always maintaining that Bill is pointed upward. 
+             
+            Because we want to model translation as a linear transformation, we will work with coordinates <m>(x,y,1)</m> in <m>3</m>-D. 
+          </p>
+        </introduction>
+
+        <task xml:id="ex-turning-camera-a">
+          <statement>
+            <p>
+              Bill moves forward by a step in the direction <m>(0,1)</m>, but the screen is still centered on him, so the camera moves forward by a step as well. There is a stationary turret on screen at the point <m>(4,5)</m>. What is its position in the new coordinate system?
+            </p>
+          </statement>
+        </task>
+
+        <task xml:id="ex-turning-camera-b">
+          <statement>
+            <p>
+              Write the matrix that you would multiple <m>(x,y,1)</m> by to update the position after moving in the direction <m>(0,1,0)</m>. 
+            </p>
+          </statement>
+        </task>
+
+
+        <task xml:id="ex-turning-camera-c">
+          <statement>
+            <p>
+              The turret shoots at Bill from its position <m>(4,4)</m>. Bill rotates in place by <m>90</m> degrees clockwise right as the bullet hits <m>(2,2)</m>. Where should the bullet be on screen after the rotation? What direction is the bullet moving in after the rotation?
+            </p>
+          </statement>
+        </task>
+
+        <task xml:id="ex-turning-camera-d">
+          <statement>
+            <p>
+              The matrix representing translating for the bullet is 
+              <me>\begin{pmatrix} 1 &amp; 0 &amp; -1 \\ 0 &amp; 1 &amp; -1 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}</me>.
+              The matrix representing the rotation is
+              <me>\begin{pmatrix} 0 &amp; 1 &amp; 0 \\ -1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}</me>. Find the matrix representing the translation of the bullet on screen after rotating.
+            </p>
+          </statement>
+        </task>
+
+
+      </exercise>
+
+
+  </section>
