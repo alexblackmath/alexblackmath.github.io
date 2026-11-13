@@ -1,0 +1,76 @@
+INFO    : Building target web
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.55.0/core/xsl/utilities/pretext-enhanced-source.xsl
+INFO    : successful application of /home/codespace/.ptx/2.55.0/core/xsl/utilities/pretext-enhanced-source.xsl
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : verifying and expanding input directory: /workspaces/alexblackmath.github.io/pretext-src/source/../assets
+INFO    : input directory expanded to absolute path: /workspaces/alexblackmath.github.io/pretext-src/assets
+INFO    : Generating any needed assets.
+WARNING : Now generating latex images
+INFO    : converting latex-image pictures from /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx to svg graphics for placement in /workspaces/alexblackmath.github.io/pretext-src/generated-assets/latex-image
+INFO    : extracting latex-image pictures from /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx
+INFO    : string parameters passed to extraction stylesheet: {'cli.version': '2.55', 'publisher': '/workspaces/alexblackmath.github.io/pretext-src/publication/publication.ptx'}
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : verifying and expanding input directory: /workspaces/alexblackmath.github.io/pretext-src/source/../assets
+INFO    : input directory expanded to absolute path: /workspaces/alexblackmath.github.io/pretext-src/assets
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.55.0/core/xsl/extract-latex-image.xsl
+INFO    : successful application of /home/codespace/.ptx/2.55.0/core/xsl/extract-latex-image.xsl
+INFO    : converting img-five-cycle.tex to img-five-cycle.pdf
+INFO    : cropping img-five-cycle.pdf to cropped-img-five-cycle.pdf
+INFO    : renaming cropped-img-five-cycle.pdf to img-five-cycle.pdf
+INFO    : converting img-five-cycle.pdf to img-five-cycle.svg
+INFO    : converting img-trapezoid.tex to img-trapezoid.pdf
+INFO    : cropping img-trapezoid.pdf to cropped-img-trapezoid.pdf
+INFO    : renaming cropped-img-trapezoid.pdf to img-trapezoid.pdf
+INFO    : converting img-trapezoid.pdf to img-trapezoid.svg
+INFO    : Removing temporary directory /tmp/ptx-oio62gxw
+INFO    : Finished generating assets.
+
+INFO    : Preparing to build into /workspaces/alexblackmath.github.io/pretext-src/output/web.
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : verifying and expanding input directory: /workspaces/alexblackmath.github.io/pretext-src/source/../assets
+INFO    : input directory expanded to absolute path: /workspaces/alexblackmath.github.io/pretext-src/assets
+INFO    : discovering source file's directory name: /workspaces/alexblackmath.github.io/pretext-src/source
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.55.0/core/xsl/utilities/report-publisher-variables.xsl
+INFO    : successful application of /home/codespace/.ptx/2.55.0/core/xsl/utilities/report-publisher-variables.xsl
+INFO    : Downloading rs services file from https://runestone.academy/cdn/runestone/latest/webpack_static_imports.xml.
+INFO    : Runestone Services via online CDN query: version 8.4.0
+INFO    : Downloading Runestone Services, version 8.4.0
+INFO    : Extracting Runestone Services from archive file
+INFO    : Building custom css theme: theme-default-modern
+INFO    : converting /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx to HTML in /tmp/ptx-o1x018lx
+INFO    : XSL conversion of /workspaces/alexblackmath.github.io/pretext-src/source/main.ptx by /home/codespace/.ptx/2.55.0/core/xsl/pretext-html.xsl
+INFO    : messages from the log for XSL processing (prefaced with a *):
+INFO    : * PTX:INFO:   checking all deprecated elements.
+WARNING : * PTX:DEPRECATE: (2026-05-11) the "me" and "men" elements have been deprecated.  The replacement is an "md" with no "mrow" children, and numbering is controlled by the "@number" attribute, or a global setting in "docinfo". (25 times)
+INFO    : *              located at: pretext/article/section/subsection/exercise/solution/p/me
+INFO    : *              located within: "ex-polynomials-basis" (xml:id)
+INFO    : *              located at: pretext/article/section/subsection/exercise/solution/p/me
+INFO    : *              located within: "ex-polynomials-basis" (xml:id)
+INFO    : *              located at: pretext/article/section/subsection/exercise/solution/p/me
+INFO    : *              located within: "ex-polynomials-basis" (xml:id)
+INFO    : *              located at: pretext/article/section/subsection/exercise/solution/p/me
+INFO    : *              located within: "ex-polynomials-basis" (xml:id)
+INFO    : *              located at: pretext/article/section/subsection/exercise/solution/p/me
+INFO    : *              located within: "ex-change-of-basis-r2" (xml:id)
+INFO    : *              located at: pretext/article/section/subsection/exercise/solution/p/me
+INFO    : *              located within: "ex-change-of-basis-r2" (xml:id)
+INFO    : *              located at: pretext/article/section/subsection/exercise/solution/p/me
+INFO    : *              located within: "ex-fredholm-3x2" (xml:id)
+INFO    : *              located at: pretext/article/section/subsection/exercise/solution/p/me
+INFO    : *              located within: "ex-fredholm-3x2" (xml:id)
+INFO    : * --------------
+WARNING : * PTX:DEPRECATE: (2026-08-23) a "sidebyside" now requires at least two panels.  Conversions will continue to honor a single panel until at least 2028-08-23.  Please convert: to size or center a lone "image", use its "width" attribute; otherwise place the lone item outside any "sidebyside" (1 time)
+INFO    : *              located at: pretext/article/section/subsection/exercise/statement/sidebyside
+INFO    : *              located within: "ex-skyrim" (xml:id)
+INFO    : * --------------
+INFO    : successful application of /home/codespace/.ptx/2.55.0/core/xsl/pretext-html.xsl
+INFO    : Removing temporary directory /tmp/ptx-o1x018lx
+INFO    : Removing temporary directory /tmp/ptx-l36hexob
+INFO    : 
+Finished build for target web. Run `pretext view web` to see the results.
+
+INFO    : 
+Success!  Built requested target(s) without errors.
+
+INFO    : 

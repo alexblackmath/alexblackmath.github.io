@@ -26,10 +26,10 @@
 
   </docinfo>
 
-  <article xml:id="Camera">
-    <title>Math 2000 Day 20 </title>
+  <article xml:id="Skyrim">
+    <title>Math 2000 Exam 3 Practice </title>
     <xi:include href="./frontmatter.ptx" />
-    <xi:include href="Math2000Day20.ptx" />
+    <xi:include href="Math2000Exam3.ptx" />
 
   
   </article>

@@ -1,0 +1,847 @@
+
+
+  <section xml:id="Math2000Exam3">
+    <title>Needing Some Vector Space</title>
+
+    <!-- Solutions: the LaTeX \ifsolutions toggle is replaced by PreTeXt's   -->
+    <!-- publisher file. For a student version, hide inline exercise        -->
+    <!-- solutions there (e.g. exercise-inline solution="no").              -->
+
+    <introduction>
+      <p>
+        The exam will consist of <alert>4 questions</alert>.
+        There are three categories.
+        The first two contribute one question each, and the last one contributes two questions.
+      </p>
+    </introduction>
+
+    <!-- ============================================================= -->
+    <subsection xml:id="sec-matrix-computations">
+      <title>Matrix Computations</title>
+
+      <p>
+        I'm going to give you a set of vectors in some vector space, and possibly a linear transformation, and I'm going to ask you to compute stuff for them.
+      </p>
+
+      <exercise xml:id="ex-polynomials-basis">
+        <statement>
+          <p>
+            Consider the polynomials <m>(x+1)^{2}, (x-1)^{2}</m>, and <m>1</m>.
+            <ol marker="(a)">
+              <li>
+                <p>
+                  Explain why these are not a basis for polynomials of degree at most <m>3</m>.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Write the matrix corresponding to these polynomials in the basis <m>1,x,x^{2}</m>.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Are these polynomials a basis for <m>\text{span}(1,x,x^{2})</m>?
+                </p>
+              </li>
+              <li>
+                <p>
+                  Note that <m>2x</m> is in <m>\text{span}((x+1)^{2}, (x-1)^{2}, 1)</m>.
+                  Find coefficients such that they add to <m>2x</m>.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Use the Fredholm alternative to argue <m>1</m> is not in <m>\text{span}((x+1)^{2}, (x-1)^{2})</m>.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </statement>
+        <solution>
+          <p>
+            (a) Polynomials of degree at most <m>3</m> form a <m>4</m>-dimensional space (a basis is <m>1,x,x^{2},x^{3}</m>), and three vectors can never span a <m>4</m>-dimensional space.
+            Concretely, none of the three involves <m>x^{3}</m>, so <m>x^{3}</m> is not in their span.
+          </p>
+          <p>
+            (b) Expanding, <m>(x+1)^{2} = 1 + 2x + x^{2}</m>, <m>(x-1)^{2} = 1 - 2x + x^{2}</m>, and <m>1 = 1</m>.
+            The columns are the coordinate vectors in the basis <m>1,x,x^{2}</m>:
+            <me>
+              M = \begin{bmatrix} 1 &amp; 1 &amp; 1 \\ 2 &amp; -2 &amp; 0 \\ 1 &amp; 1 &amp; 0\end{bmatrix}.
+            </me>
+          </p>
+          <p>
+            (c) Yes. Cofactor expanding about the last column,
+            <me>
+              \det M = \det\begin{bmatrix} 2 &amp; -2 \\ 1 &amp; 1 \end{bmatrix} = 2 - (-2) = 4 \neq 0,
+            </me>
+            so <m>M</m> is invertible and therefore its columns are a basis.
+            Thus, the polynomials corresponding to them are a basis.
+          </p>
+          <p>
+            (d) We want <m>a(x+1)^{2} + b(x-1)^{2} + c\cdot 1 = 2x</m>, <ie/> <m>M(a,b,c)^{\intercal} = (0,2,0)^{\intercal}</m>:
+            <me>
+              a+b+c = 0, \qquad 2a - 2b = 2, \qquad a + b = 0.
+            </me>
+            The last two give <m>a = \tfrac{1}{2}</m>, <m>b = -\tfrac{1}{2}</m>, and then <m>c = 0</m>.
+          </p>
+          <p>
+            (e) In coordinates, the question is whether <m>(1,0,0)</m> is in the column span of <m>A = \begin{bmatrix} 1 &amp; 1 \\ 2 &amp; -2 \\ 1 &amp; 1\end{bmatrix}</m> or equally whether
+            <me>
+              A\vec{x} = \begin{bmatrix} 1\\0\\0\end{bmatrix}
+            </me>
+            has a solution.
+            Note that <m>(1,0,-1)</m> is in <m>\text{ker}(A^{\intercal})</m>, and <m>(1,0,-1) \cdot (1,0,0) = 1 \neq 0</m>, so by the Fredholm alternative, this equation has no solution.
+          </p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="ex-change-of-basis-r2">
+        <statement>
+          <p>
+            Consider the vectors <m>\vec{u} = (1,0)</m> and <m>\vec{v}= (1,1)</m>.
+            <ol marker="(a)">
+              <li>
+                <p>
+                  Explain why these vectors are a basis for <m>\mathbb{R}^{2}</m>.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Find coordinates for <m>(10,10)</m> in that basis.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Consider the linear transformation defined by <m>T(\vec{u}) = \vec{u} -\vec{v}</m> and <m>T(\vec{v}) = \vec{u} + 2\vec{v}</m>.
+                  Write <m>T</m> as a matrix in the basis <m>\vec{u}, \vec{v}</m>.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Take <m>T</m> from part (c) and write it in the standard basis <m>(1,0)</m>, <m>(0,1)</m>.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Apply <m>T</m> to <m>(1,5)</m>.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </statement>
+        <solution>
+          <p>
+            (a) The matrix with columns <m>\vec{u},\vec{v}</m> is <m>P = \begin{bmatrix} 1 &amp; 1 \\ 0 &amp; 1\end{bmatrix}</m>, with <m>\det P = 1 \neq 0</m>.
+            So <m>\vec{u},\vec{v}</m> are independent, and two independent vectors in the <m>2</m>-dimensional space <m>\mathbb{R}^{2}</m> are a basis.
+          </p>
+          <p>
+            (b) <m>(10,10) = 0\,\vec{u} + 10\,\vec{v}</m>, so the coordinates are <m>(0,10)</m>.
+          </p>
+          <p>
+            (c) The columns are the coordinates of <m>T(\vec{u}) = 1\vec{u} + (-1)\vec{v}</m> and <m>T(\vec{v}) = 1\vec{u} + 2\vec{v}</m>:
+            <me>
+              [T]_{\vec{u},\vec{v}} = \begin{bmatrix} 1 &amp; 1 \\ -1 &amp; 2\end{bmatrix}.
+            </me>
+          </p>
+          <p>
+            (d) With <m>P</m> from (a), <m>P^{-1} = \begin{bmatrix} 1 &amp; -1 \\ 0 &amp; 1\end{bmatrix}</m>, and
+            <me>
+              [T]_{\text{std}} = P\,[T]_{\vec{u},\vec{v}}\,P^{-1} = \begin{bmatrix} 1 &amp; 1 \\ 0 &amp; 1\end{bmatrix}\begin{bmatrix} 1 &amp; 1 \\ -1 &amp; 2\end{bmatrix}\begin{bmatrix} 1 &amp; -1 \\ 0 &amp; 1\end{bmatrix} = \begin{bmatrix} 0 &amp; 3 \\ -1 &amp; 3\end{bmatrix}.
+            </me>
+            Note that this is to go from a matrix in a weird basis to the normal basis, and so it is <m>P A P^{-1}</m> instead of <m>P^{-1} A P</m>.
+          </p>
+          <p>
+            (e) <m>T(1,5) = \begin{bmatrix} 0 &amp; 3 \\ -1 &amp; 3\end{bmatrix}\begin{bmatrix} 1 \\ 5\end{bmatrix} = \begin{bmatrix} 15 \\ 14\end{bmatrix}</m>.
+          </p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="ex-fredholm-3x2">
+        <statement>
+          <p>
+            Consider the matrix <m>B = \begin{bmatrix} 1 &amp;0 \\1&amp; 1 \\ 0 &amp;1\end{bmatrix}</m>.
+            <ol marker="(a)">
+              <li>
+                <p>
+                  Explain why the columns of <m>B</m> are independent.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Are the rows of <m>B</m> independent?
+                </p>
+              </li>
+              <li>
+                <p>
+                  Is there a column one can add to <m>B</m> such that the resulting set of columns is a basis?
+                  If so, find it.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Find a nonzero vector in <m>\ker(B^{\intercal})</m>.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Use the Fredholm alternative to argue that <m>(1,1,1)</m> is not in <m>\text{span}((1,1,0), (0,1,1))</m>.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </statement>
+        <solution>
+          <p>
+            (a) There's no way to get either column from scaling the other, so the span changes if you remove either of them meaning they are independent.
+          </p>
+          <p>
+            (b) No. <m>(1,1) = (1,0) + (0,1)</m>, so <m>(1,1)</m> is redundant.
+          </p>
+          <p>
+            (c) Yes. Take for example
+            <me>
+              \begin{bmatrix} 1\\0\\1 \end{bmatrix}.
+            </me>
+          </p>
+          <p>
+            (d) <m>B^{\intercal}\vec{y} = \vec{0}</m> means <m>y_{1} + y_{2} = 0</m> and <m>y_{2} + y_{3} = 0</m>.
+            Taking <m>y_{2} = -1</m> gives <m>\vec{y} = (1,-1,1)</m>.
+          </p>
+          <p>
+            (e) For <m>(1,1,1)</m> to be in <m>\text{span}((1,1,0), (0,1,1))</m>,
+            <me>
+              \begin{pmatrix} 1 &amp; 0\\1 &amp;1 \\0 &amp;1 \end{pmatrix} \vec{x} = \begin{pmatrix} 1\\1\\1 \end{pmatrix}
+            </me>
+            would have to have a solution.
+            But by (d), <m>(1,-1,1)</m> is in <m>\text{ker}(B^{\intercal})</m> and <m>(1,-1,1) \cdot (1,1,1) = 1 \neq 0</m>, so by the Fredholm alternative, it has no solution.
+          </p>
+        </solution>
+      </exercise>
+    </subsection>
+
+    <!-- ============================================================= -->
+    <subsection xml:id="sec-subspaces">
+      <title>Subspaces</title>
+
+      <p>
+        The exercise will focus on the four fundamental subspaces.
+        I will give you a matrix and its reduced row echelon form and ask about the four fundamental subspaces.
+      </p>
+
+      <!-- Columns are neither spanning nor independent -->
+      <exercise xml:id="ex-subspaces-neither">
+        <statement>
+          <p>
+            Consider the following matrix
+            <me>
+              A = \begin{bmatrix} 1 &amp; 2 &amp; 0 &amp; 2 &amp; 1\\ 1 &amp; 2 &amp; 1 &amp; 1 &amp; 2\\ 0 &amp; 0 &amp; 1 &amp; 1 &amp; 3\\ 2 &amp; 4 &amp; 1 &amp; 3 &amp; 3\end{bmatrix}
+            </me>
+            The reduced row echelon form of <m>A</m> is
+            <me>
+              \begin{bmatrix} 1 &amp; 2 &amp; 0 &amp; 0 &amp; -1\\ 0 &amp; 0 &amp; 1 &amp; 0 &amp; 2\\ 0 &amp; 0 &amp; 0 &amp; 1 &amp; 1\\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\end{bmatrix}
+            </me>
+            <ol marker="(a)">
+              <li>
+                <p>
+                  Explain why the columns of <m>A</m> are neither spanning nor independent in <m>\mathbb{R}^{4}</m>.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Find a subset of columns of <m>A</m> that is a basis for the column span of <m>A</m>.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Find <m>\vec{u}, \vec{v}</m> in <m>\text{ker}(A)</m> with <m>u_{2} = -1</m> and <m>v_{5} = -1</m>.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Are the rows of <m>A</m> independent?
+                </p>
+              </li>
+              <li>
+                <p>
+                  Are the rows of <m>A</m> spanning?
+                </p>
+              </li>
+            </ol>
+          </p>
+        </statement>
+        <solution>
+          <p>
+            Write <m>\vec{a}_{1},\dots,\vec{a}_{5}</m> for the columns of <m>A</m>.
+          </p>
+          <p>
+            (a) Not spanning because the RREF has a zero row, and not independent, because not all columns are pivot columns.
+          </p>
+          <p>
+            (b) Pivot columns are always a basis for their column span, so columns <m>1</m>, <m>3</m>, and <m>4</m> of <m>A</m> are a basis for the column span.
+          </p>
+          <p>
+            (c) From <m>\vec{a}_{2} = 2\vec{a}_{1}</m> we get <m>2\vec{a}_{1} - \vec{a}_{2} = \vec{0}</m>, so <m>\vec{u} = (2,-1,0,0,0)</m>.
+            From the last column of the RREF, <m>-\vec{a}_{1} + 2\vec{a}_{3} + \vec{a}_{4} - \vec{a}_{5} = \vec{0}</m>, so <m>\vec{v} = (-1,0,2,1,-1)</m>.
+          </p>
+          <p>
+            (d) No. Independence of rows is preserved under row operations.
+            Since <m>(0,0,0,0,0)</m> is one of the vectors, they cannot be independent as it is always redundant.
+          </p>
+          <p>
+            (e) No. <m>4</m> vectors can never span <m>\mathbb{R}^{5}</m>.
+          </p>
+        </solution>
+      </exercise>
+
+      <!-- Columns are independent but not spanning -->
+      <exercise xml:id="ex-subspaces-independent">
+        <statement>
+          <p>
+            Consider the following matrix
+            <me>
+              A = \begin{bmatrix} 1 &amp; 0 &amp; 0\\ 1 &amp; 1 &amp; 0\\ 0 &amp; 1 &amp; 1\\ 0 &amp; 0 &amp; 1\end{bmatrix}
+            </me>
+            The reduced row echelon form of <m>A</m> is
+            <me>
+              \begin{bmatrix} 1 &amp; 0 &amp; 0\\ 0 &amp; 1 &amp; 0\\ 0 &amp; 0 &amp; 1\\ 0 &amp; 0 &amp; 0\end{bmatrix}
+            </me>
+            <ol marker="(a)">
+              <li>
+                <p>
+                  Explain why the columns of <m>A</m> are independent.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Explain why the columns of <m>A</m> are not spanning in <m>\mathbb{R}^{4}</m>.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Find a vector not in <m>\text{colspan}(A)</m>.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Find a nonzero vector in <m>\text{ker}(A^{\intercal})</m>.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Find a basis for <m>\text{ker}(A^{\intercal})</m>.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </statement>
+        <solution>
+          <p>
+            (a) Every column of the reduced row echelon form is a pivot column.
+          </p>
+          <p>
+            (b) It has a zero row.
+          </p>
+          <p>
+            (c) Take <m>(0,0,0,1)</m> for example.
+            If you add it to the columns of <m>A</m>, the resulting matrix is lower triangular and has determinant <m>1</m> and so they are a basis.
+            Then the columns are independent meaning that <m>(0,0,0,1)</m> is not in the span of the earlier three columns.
+          </p>
+          <p>
+            (d) Take <m>(1,-1,1,-1)</m>.
+          </p>
+          <p>
+            (e) Note that <m>3 =\text{rank}(A) = \text{rank}(A^{\intercal})</m>, so by rank-nullity, <m>\text{ker}(A^{\intercal})</m> is <m>1</m>-dimensional meaning that <m>(1,-1,1,-1)</m> is a basis.
+          </p>
+        </solution>
+      </exercise>
+
+      <!-- Columns are a basis -->
+      <exercise xml:id="ex-subspaces-basis">
+        <statement>
+          <p>
+            Consider the following matrix
+            <me>
+              A = \begin{bmatrix} 1 &amp; 1 &amp; 0\\ 0 &amp; 1 &amp; 1\\ 1 &amp; 2 &amp; 2\end{bmatrix}
+            </me>
+            The reduced row echelon form of <m>A</m> is
+            <me>
+              \begin{bmatrix} 1 &amp; 0 &amp; 0\\ 0 &amp; 1 &amp; 0\\ 0 &amp; 0 &amp; 1\end{bmatrix}
+            </me>
+            <ol marker="(a)">
+              <li>
+                <p>
+                  Explain why the columns of <m>A</m> are a basis for <m>\mathbb{R}^{3}</m>.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Are the rows of <m>A</m> a basis for <m>\mathbb{R}^{3}</m>? Explain.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Find a <m>3 \times 4</m> matrix <m>B</m> with the same first three columns as <m>A</m> and reduced row echelon form
+                  <me>
+                    \begin{bmatrix} 1 &amp; 0 &amp;0 &amp;1 \\0 &amp;1 &amp;0  &amp;0 \\0 &amp;0 &amp;1 &amp;2 \end{bmatrix}.
+                  </me>
+                </p>
+              </li>
+              <li>
+                <p>
+                  Explain why <m>\text{ker}(B)</m> is <m>1</m> dimensional.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Find a basis for <m>\text{ker}(B)</m>.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </statement>
+        <solution>
+          <p>
+            (a) The columns of a square matrix are a basis exactly when its reduced row echelon form is the identity matrix.
+          </p>
+          <p>
+            (b) Yes. <m>A</m> is a basis means <m>A</m> is invertible.
+            Since <m>\text{det}(A) = \text{det}(A^{\intercal})</m>, that means <m>A^{\intercal}</m> is invertible, so the rows are a basis too.
+          </p>
+          <p>
+            (c) You get
+            <me>
+              B = \begin{bmatrix} 1 &amp; 1 &amp; 0&amp;1\\ 0 &amp; 1 &amp; 1&amp; 2\\ 1 &amp; 2 &amp; 2&amp; 5\end{bmatrix}.
+            </me>
+          </p>
+          <p>
+            (d) Since <m>\text{rank}(B)</m> is <m>3</m> and <m>B</m> has <m>4</m> columns, the rank-nullity theorem says the dimension of <m>\text{ker}(B)</m> is <m>4 - 3 = 1</m>.
+          </p>
+          <p>
+            (e) Since <m>\text{ker}(B)</m> is <m>1</m> dimensional, any nonzero vector in it is a basis.
+            Take <m>(1,0,2,-1)</m> for example.
+          </p>
+        </solution>
+      </exercise>
+    </subsection>
+
+    <!-- =============================================================
+         Commented out in the original LaTeX source; kept here, converted
+         to PreTeXt, so it can be restored by removing this comment.
+
+    <section xml:id="sec-spanning-independent-basis">
+      <title>Spanning, Independent, Basis, or None</title>
+
+      <p>
+        In this exercise, I will give you 5 situations. In each, there are four possibilities:
+        <ol marker="(a)">
+          <li><p>The vectors are spanning but not independent</p></li>
+          <li><p>The vectors are independent but not spanning</p></li>
+          <li><p>The vectors are a basis</p></li>
+          <li><p>The vectors are neither spanning nor independent</p></li>
+        </ol>
+        Your job will be to determine for each which situation you are in and <alert>explain why.</alert>
+        You will lose points for an incorrect explanation.
+        This includes saying multiple possible explanations even if one of them is right so long as at least one of them is wrong.
+      </p>
+
+      <exercise>
+        <statement>
+          <p>
+            For each of the following sets of vectors, determine whether they are independent but not spanning, spanning but not independent, a basis, or neither spanning nor independent. <alert>Explain why for each.</alert>
+            <ol marker="(a)">
+              <li><p>The polynomials <m>xf</m> and <m>xg</m>, where <m>f</m> and <m>g</m> are linearly independent polynomials in the vector space of all polynomials.</p></li>
+              <li><p>The functions <m>\sin(x)</m> and <m>\sin^{2}(x)</m> in the space of functions.</p></li>
+              <li><p>The vectors <m>(0,1,1), (1,1,1), (2,3,3)</m> in <m>\mathbb{R}^{3}</m>.</p></li>
+              <li><p>The function <m>f(x) = e^{x}</m> in <m>\text{span}(e^{x})</m>.</p></li>
+              <li><p>A set of two vectors in a vector space of dimension <m>2</m> that are not multiples of one another.</p></li>
+            </ol>
+          </p>
+        </statement>
+        <solution>
+          <p>(a) <alert>Independent but not spanning</alert> (in the space of all polynomials). Independent: if <m>a\,xf + b\,xg = 0</m>, then <m>x(af + bg) = 0</m>. A product of polynomials is zero only if one factor is zero, and <m>x \neq 0</m>, so <m>af + bg = 0</m>. Since <m>f,g</m> are independent, <m>a = b = 0</m>. Not spanning: everything in the span is a multiple of <m>x</m>, so it has constant term <m>0</m>. Hence <m>1</m> is not in the span.</p>
+          <p>(b) <alert>Independent but not spanning.</alert> Independent: suppose <m>a\sin(x) + b\sin^{2}(x) = 0</m> for all <m>x</m>. At <m>x = \pi/2</m> this says <m>a + b = 0</m>, and at <m>x = -\pi/2</m> it says <m>-a + b = 0</m>, so <m>a = b = 0</m>. Not spanning: every combination is <m>0</m> at <m>x = 0</m>, so the constant function <m>1</m> is not in the span.</p>
+          <p>(c) <alert>Neither spanning nor independent.</alert> Not independent: <m>(2,3,3) = 2(1,1,1) + (0,1,1)</m>. Not spanning: every vector in the span has equal second and third coordinates, so <m>(0,1,0)</m> is not in the span.</p>
+          <p>(d) <alert>A basis.</alert> The function <m>e^{x}</m> is not the zero function, so the set <m>\{e^{x}\}</m> is independent. It spans <m>\text{span}(e^{x})</m> by definition.</p>
+          <p>(e) <alert>A basis.</alert> Two vectors that are not multiples of one another are independent. Since they are in a space of dimension <m>2</m>, they must also be a basis.</p>
+        </solution>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>
+            For each of the following sets of vectors, determine whether they are independent but not spanning, spanning but not independent, a basis, or neither spanning nor independent. <alert>Explain why for each.</alert>
+            <ol marker="(a)">
+              <li><p>The functions <m>\sin(x)</m> and <m>\sin(x) + 1</m> in the space of all functions.</p></li>
+              <li><p>The set of polynomials <m>\{1, x,x^{2}\}</m> in <m>\mathbb{R}[x]</m>.</p></li>
+              <li><p>The set <m>\{\vec{v}_{1} - \vec{v}_{2}, \vec{v}_{2} - \vec{v}_{3}, \vec{v}_{3}-\vec{v}_{4}\}</m> where <m>\vec{v}_{1}, \vec{v}_{2}, \vec{v}_{3}, \vec{v}_{4}</m> is a basis of a <m>4</m>-dimensional vector space.</p></li>
+              <li><p>A spanning set of vectors <m>\vec{v}_{0}, \vec{v}_{1},</m> and <m>\vec{v}_{2}</m> in a vector space of dimension <m>3</m>.</p></li>
+              <li><p>The set <m>\begin{bmatrix} 1 &amp; 0 \\ 0  &amp;1 \end{bmatrix}</m> and <m>\begin{bmatrix} 0 &amp; 1 \\ -1 &amp;0 \end{bmatrix}</m> in the vector space of <m>2 \times 2</m> matrices.</p></li>
+            </ol>
+          </p>
+        </statement>
+        <solution>
+          <p>(a) <alert>Independent but not spanning.</alert> Independent: suppose that <m>a\sin(x) + b(\sin(x) + 1) = 0</m> for all <m>x</m>. At <m>x = 0</m> this gives <m>b = 0</m>; then at <m>x = \pi/2</m> it gives <m>a = 0</m>. Not spanning: the space of all functions contains the independent functions <m>1, x, x^{2}</m>, so it has dimension at least <m>3</m>, and two vectors cannot span it.</p>
+          <p>(b) <alert>Independent but not spanning.</alert> Independent: <m>a + bx + cx^{2}</m> is the zero polynomial only when <m>a = b = c = 0</m>. Not spanning: every combination has degree at most <m>2</m>, so <m>x^{3}</m> is not in the span.</p>
+          <p>(c) <alert>Independent but not spanning.</alert> Independent:
+            <me>a(\vec{v}_{1}-\vec{v}_{2}) + b(\vec{v}_{2}-\vec{v}_{3}) + c(\vec{v}_{3}-\vec{v}_{4}) = a\vec{v}_{1} + (b-a)\vec{v}_{2} + (c-b)\vec{v}_{3} - c\vec{v}_{4}.</me>
+            If this is <m>\vec{0}</m>, then since the <m>\vec{v}_{i}</m> are a basis, all coefficients vanish: <m>a = 0</m>, <m>c = 0</m>, and then <m>b = 0</m>. Not spanning: three vectors cannot span a <m>4</m>-dimensional space.</p>
+          <p>(d) <alert>A basis.</alert> A spanning set can always be trimmed down to a basis. Every basis of a <m>3</m>-dimensional space has exactly <m>3</m> vectors, so nothing gets removed: the three vectors already are a basis.</p>
+          <p>(e) <alert>Independent but not spanning.</alert> Independent:
+            <me>a\begin{bmatrix} 1 &amp; 0 \\ 0 &amp; 1\end{bmatrix} + b\begin{bmatrix} 0 &amp; 1 \\ -1 &amp; 0\end{bmatrix} = \begin{bmatrix} a &amp; b \\ -b &amp; a\end{bmatrix},</me>
+            which is the zero matrix only when <m>a = b = 0</m>. Not spanning: <m>2 \times 2</m> matrices form a <m>4</m>-dimensional space, so two matrices cannot span it. For example, <m>\begin{bmatrix} 1 &amp; 0 \\ 0 &amp; 0\end{bmatrix}</m> is not in the span, since every matrix in the span has equal diagonal entries.</p>
+        </solution>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>
+            For each of the following sets of vectors, determine whether they are independent but not spanning, spanning but not independent, a basis, or neither spanning nor independent. <alert>Explain why for each.</alert>
+            <ol marker="(a)">
+              <li><p>The set of polynomials <m>\{1,x,x^{2}\}</m> in the set of polynomials of degree at most <m>3</m>.</p></li>
+              <li><p>The set <m>\begin{bmatrix} 1 &amp; 0 \\ 0 &amp;0 \end{bmatrix}</m>, <m>\begin{bmatrix} 0 &amp; 1 \\ 0 &amp;0 \end{bmatrix}</m>, <m>\begin{bmatrix} 0 &amp; 0 \\ 1 &amp;0 \end{bmatrix}</m>, and <m>\begin{bmatrix} 0 &amp; 0 \\ 0 &amp;1 \end{bmatrix}</m> in the set of <m>2 \times 2</m> matrices.</p></li>
+              <li><p>The set of vectors <m>\vec{v}_{1}, \vec{v}_{2}, \vec{v}_{3}, \vec{v}_{4}</m>, where <m>\vec{v}_{1}, \vec{v}_{2},</m> and <m>\vec{v}_{3}</m> are spanning in some vector space <m>V</m>.</p></li>
+              <li><p>A set of three vectors in a vector space of dimension <m>3</m>, none of which is in the span of the other two.</p></li>
+              <li><p>The vectors <m>A \vec{v}_{1}, A \vec{v}_{2}, A\vec{v}_{3}</m>, where <m>\vec{v}_{1}, \vec{v}_{2}, \vec{v}_{3}</m> is a basis and <m>A</m> is an invertible linear transformation between two <m>3</m> dimensional vector spaces.</p></li>
+            </ol>
+          </p>
+        </statement>
+        <solution>
+          <p>(a) <alert>Independent but not spanning.</alert> Independent: <m>a + bx + cx^{2} = 0</m> only when <m>a = b = c = 0</m>. Not spanning: polynomials of degree at most <m>3</m> form a <m>4</m>-dimensional space, and <m>x^{3}</m> is not in the span of <m>1, x, x^{2}</m>.</p>
+          <p>(b) <alert>A basis.</alert> Writing <m>E_{11}, E_{12}, E_{21}, E_{22}</m> for the four matrices,
+            <me>aE_{11} + bE_{12} + cE_{21} + dE_{22} = \begin{bmatrix} a &amp; b \\ c &amp; d\end{bmatrix}.</me>
+            So every <m>2\times 2</m> matrix is a combination of them (spanning), and the combination is the zero matrix only when <m>a = b = c = d = 0</m> (independent).</p>
+          <p>(c) <alert>Spanning but not independent.</alert> Spanning: every vector in <m>V</m> is a combination of <m>\vec{v}_{1}, \vec{v}_{2}, \vec{v}_{3}</m>, hence of all four (use coefficient <m>0</m> on <m>\vec{v}_{4}</m>). Not independent: <m>\vec{v}_{4} \in V = \text{span}(\vec{v}_{1}, \vec{v}_{2}, \vec{v}_{3})</m>, so <m>\vec{v}_{4} = a\vec{v}_{1} + b\vec{v}_{2} + c\vec{v}_{3}</m> for some scalars, and then
+            <me>a\vec{v}_{1} + b\vec{v}_{2} + c\vec{v}_{3} - \vec{v}_{4} = \vec{0}</me>
+            is a nontrivial relation, since the coefficient of <m>\vec{v}_{4}</m> is <m>-1 \neq 0</m>.</p>
+          <p>(d) <alert>A basis.</alert> If the vectors were dependent, there would be a relation <m>a\vec{w}_{1} + b\vec{w}_{2} + c\vec{w}_{3} = \vec{0}</m> with some coefficient nonzero, say <m>a \neq 0</m>. Then <m>\vec{w}_{1} = -\tfrac{b}{a}\vec{w}_{2} - \tfrac{c}{a}\vec{w}_{3}</m> is in the span of the other two, a contradiction. So they are independent, and three independent vectors in a <m>3</m>-dimensional space are a basis.</p>
+          <p>(e) <alert>A basis.</alert> Suppose <m>aA\vec{v}_{1} + bA\vec{v}_{2} + cA\vec{v}_{3} = \vec{0}</m>. By linearity, <m>A(a\vec{v}_{1} + b\vec{v}_{2} + c\vec{v}_{3}) = \vec{0}</m>. Since <m>A</m> is invertible, its kernel is only <m>\vec{0}</m>, so <m>a\vec{v}_{1} + b\vec{v}_{2} + c\vec{v}_{3} = \vec{0}</m>, and since the <m>\vec{v}_{i}</m> are a basis, <m>a = b = c = 0</m>. So the <m>A\vec{v}_{i}</m> are three independent vectors in the <m>3</m>-dimensional codomain, hence a basis of it.</p>
+        </solution>
+      </exercise>
+    </section>
+
+         End of commented-out section.
+    ============================================================= -->
+
+    <!-- ============================================================= -->
+    <subsection xml:id="sec-modeling-applications">
+      <title>Modeling and Applications</title>
+
+      <p>
+        There will be two problems from this category dealing with the applications we have discussed.
+      </p>
+
+      <exercise xml:id="ex-skyrim">
+        <statement>
+          <p>
+            In <pubtitle>The Elder Scrolls V: Skyrim</pubtitle>, you carry around items of various weights but have a limited carrying capacity.
+            Each of these items also comes with some value.
+            Consider the following items:
+          </p>
+          <sidebyside width="70%">
+            <tabular top="minor" left="minor">
+              <col halign="left" right="minor"/>
+              <col halign="center" right="minor"/>
+              <col halign="right" right="minor"/>
+              <row header="yes" bottom="minor">
+                <cell>Item</cell>
+                <cell>Weight</cell>
+                <cell>Cost (In Septims)</cell>
+              </row>
+              <row>
+                <cell>Daedric Cuirass</cell>
+                <cell>50</cell>
+                <cell>3200</cell>
+              </row>
+              <row>
+                <cell>Daedric Helmet</cell>
+                <cell>15</cell>
+                <cell>1600</cell>
+              </row>
+              <row>
+                <cell>Daedric Shield</cell>
+                <cell>15</cell>
+                <cell>1600</cell>
+              </row>
+              <row>
+                <cell>Daedric Boots</cell>
+                <cell>10</cell>
+                <cell>625</cell>
+              </row>
+              <row bottom="minor">
+                <cell>Daedric Gauntlets</cell>
+                <cell>6</cell>
+                <cell>625</cell>
+              </row>
+            </tabular>
+          </sidebyside>
+          <p>
+            <ol marker="(a)">
+              <li>
+                <p>
+                  Can you earn precisely <m>1500</m> septims by selling these items?
+                </p>
+              </li>
+              <li>
+                <p>
+                  Can you earn precisely <m>2500</m> septims by selling these items?
+                </p>
+              </li>
+              <li>
+                <p>
+                  Say you have a total weight of <m>50</m> available.
+                  Which items should you obtain to maximize value?
+                </p>
+              </li>
+              <li>
+                <p>
+                  Find a minimal set of items for getting precisely the set of possible values of items you can generate.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Find a minimal set of items for getting precisely the set of possible weights of items you can generate.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </statement>
+        <solution>
+          <p>
+            For (a), no.
+            The only items of value less than <m>1500</m> have value <m>625</m>, and <m>1500</m> is not a multiple of <m>625</m>.
+          </p>
+          <p>
+            For (b), take <m>4</m> Daedric boots for example.
+          </p>
+          <p>
+            For (c), the best is two Daedric helmets and three Daedric gauntlets giving a value <m>5075</m> septims.
+          </p>
+          <p>
+            For (d), take Daedric Shield and Daedric Boots.
+          </p>
+          <p>
+            For (e), you can take Daedric Gauntlets, Boots, and Shield.
+          </p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="ex-zelda">
+        <statement>
+          <p>
+            Link in <pubtitle>Legend of Zelda</pubtitle> just ate a suspicious leaf, and now the game display is wigging out.
+            <ol marker="(a)">
+              <li>
+                <p>
+                  Link's experiencing tunnel vision.
+                  Now Link's view narrows to only seeing the middle half in both the horizontal and vertical directions of the screen.
+                  How would you describe the new basis after the sus leaf if the initial basis is the standard one?
+                </p>
+              </li>
+              <li>
+                <p>
+                  There's a vase on screen at the point <m>(2,2)</m> before eating the leaf.
+                  Where is it after eating the leaf?
+                </p>
+              </li>
+              <li>
+                <p>
+                  There was an arrow moving on screen in the direction <m>(-1,-1)</m>.
+                  How do you model that movement as matrix multiplication?
+                </p>
+              </li>
+              <li>
+                <p>
+                  How does the direction of the arrow change after the sus leaf consumption?
+                </p>
+              </li>
+              <li>
+                <p>
+                  Without calculating, write out the change of basis formula to go from your answer in part (c) to your answer in part (d).
+                </p>
+              </li>
+            </ol>
+          </p>
+        </statement>
+        <solution>
+          <p>
+            (a) Everything on screen is stretched by a factor of <m>2</m>: an object at old coordinates <m>(x,y)</m> is now drawn at <m>(2x,2y)</m>.
+            So one unit on the new screen is half of an old unit, and the new basis (written in old coordinates) is
+            <me>
+              \vec{b}_{1} = \left(\tfrac12, 0\right), \qquad \vec{b}_{2} = \left(0, \tfrac12\right), \qquad P = \begin{bmatrix} \tfrac12 &amp; 0 \\ 0 &amp; \tfrac12 \end{bmatrix}.
+            </me>
+          </p>
+          <p>
+            (b) Note that
+            <me>
+              \begin{bmatrix} 1/2 &amp;0 \\0&amp; 1/2 \end{bmatrix}^{-1} \begin{bmatrix} 2\\2 \end{bmatrix} = \begin{bmatrix} 2 &amp; 0\\ 0 &amp;2 \end{bmatrix} \begin{bmatrix} 2\\2 \end{bmatrix} = \begin{bmatrix} 4\\4 \end{bmatrix}
+            </me>
+          </p>
+          <p>
+            (c) Moving one step in the direction <m>(-1,-1)</m> sends <m>(x,y)</m> to <m>(x-1,y-1)</m>.
+            A translation is not linear on <m>\mathbb{R}^{2}</m>, so we use homogeneous coordinates <m>(x,y,1)</m>:
+            <me>
+              M = \begin{bmatrix} 1 &amp; 0 &amp; -1 \\ 0 &amp; 1 &amp; -1 \\ 0 &amp; 0 &amp; 1\end{bmatrix}, \qquad M\begin{bmatrix} x \\ y \\ 1\end{bmatrix} = \begin{bmatrix} x - 1 \\ y - 1 \\ 1\end{bmatrix}.
+            </me>
+          </p>
+          <p>
+            (d) The arrow still points the same way, but its speed increases so it moves twice the distance.
+            Instead of translating by <m>(-1,-1)</m> it goes by <m>(-2,-2)</m>.
+          </p>
+          <p>
+            (e) Extend <m>P</m> to homogeneous coordinates as <m>\tilde{P} = \begin{bmatrix} \tfrac12 &amp; 0 &amp; 0 \\ 0 &amp; \tfrac12 &amp; 0 \\ 0 &amp; 0 &amp; 1\end{bmatrix}</m>.
+            Then
+            <me>
+              M' = \tilde{P}^{-1} M \tilde{P}.
+            </me>
+          </p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="ex-network">
+        <statement>
+          <p>
+            Consider a network with nodes <m>1,2,3,4,5</m> and edges <m>(1,2)</m>, <m>(2,3)</m>, <m>(3,4)</m>, <m>(4,5)</m>, and <m>(1,5)</m>.
+            <ol marker="(a)">
+              <li>
+                <p>
+                  Draw the network.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Write an unsigned incidence matrix of the network.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Write a signed incidence matrix for the network.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Are the columns of the unsigned incidence matrix spanning or not?
+                </p>
+              </li>
+              <li>
+                <p>
+                  Are the columns of the signed incidence matrix independent or not?
+                </p>
+              </li>
+            </ol>
+          </p>
+        </statement>
+        <solution>
+          <p>
+            (a) The network is a <m>5</m>-cycle:
+          </p>
+          <image xml:id="img-five-cycle" width="35%">
+            <description>A five-cycle graph: nodes 1 through 5 placed evenly around a circle, with edges 1–2, 2–3, 3–4, 4–5, and 5–1.</description>
+            <latex-image>
+              \begin{tikzpicture}[scale=1.3]
+                \foreach \i in {1,...,5} {
+                  \node[circle, draw, minimum size=6mm] (n\i) at ({90 - 72*(\i-1)}:1.3) {\i};
+                }
+                \draw (n1) -- (n2) -- (n3) -- (n4) -- (n5) -- (n1);
+              \end{tikzpicture}
+            </latex-image>
+          </image>
+          <p>
+            (b) Rows are nodes <m>1</m><ndash/><m>5</m> and columns are the edges in the order <m>(1,2)</m>, <m>(2,3)</m>, <m>(3,4)</m>, <m>(4,5)</m>, <m>(1,5)</m>:
+            <me>
+              N = \begin{bmatrix} 1 &amp; 0 &amp; 0 &amp; 0 &amp; 1 \\ 1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 1 &amp; 1\end{bmatrix}.
+            </me>
+          </p>
+          <p>
+            (c) Orient each edge from the smaller node to the larger one, with <m>-1</m> at the start and <m>+1</m> at the end:
+            <me>
+              D = \begin{bmatrix} -1 &amp; 0 &amp; 0 &amp; 0 &amp; -1 \\ 1 &amp; -1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; -1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; -1 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 1 &amp; 1\end{bmatrix}.
+            </me>
+          </p>
+          <p>
+            (d) <alert>Spanning.</alert>
+            We observed in class that an odd cycle guarantees independence for the unsigned incidence matrix.
+            Independence implies spanning for square matrices (but not for rectangular ones!).
+          </p>
+          <p>
+            (e) <alert>Not independent.</alert>
+            You can take <m>(1,1,1,1,-1)</m>, and it is in the kernel of <m>D</m>.
+            To be independent, there can't be any nonzero vector in the kernel.
+          </p>
+        </solution>
+      </exercise>
+
+      <exercise xml:id="ex-polygon">
+        <statement>
+          <p>
+            Consider the polygon with vertices in order <m>(0,0)</m>, <m>(1,1)</m>, <m>(2,1)</m>, <m>(3,0)</m>.
+            <ol marker="(a)">
+              <li>
+                <p>
+                  Draw the polygon.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Triangulate the polygon using two triangles.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Write the two barycentric bases for <m>\mathbb{R}^{3}</m> coming from each triangle.
+                </p>
+              </li>
+              <li>
+                <p>
+                  Is the point <m>(2,.5)</m> in either triangle?
+                  Argue using the bases.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </statement>
+        <solution>
+          <p>
+            (a) and (b) The polygon is a trapezoid.
+            Cutting along the diagonal from <m>(0,0)</m> to <m>(2,1)</m> gives the triangles <m>T_{1}</m> with vertices <m>(0,0),(1,1),(2,1)</m> and <m>T_{2}</m> with vertices <m>(0,0),(2,1),(3,0)</m>.
+            The point <m>(2,.5)</m> from part (d) is marked.
+          </p>
+          <image xml:id="img-trapezoid" width="60%">
+            <description>A trapezoid with vertices (0,0), (1,1), (2,1), (3,0), split by a dashed diagonal from (0,0) to (2,1) into an upper triangle T1 and a lower triangle T2. The point (2, .5) is marked in red inside T2.</description>
+            <latex-image>
+              \begin{tikzpicture}[scale=1.6]
+                \draw[->, gray] (-0.3,0) -- (3.5,0);
+                \draw[->, gray] (0,-0.3) -- (0,1.5);
+                \draw[thick] (0,0) -- (1,1) -- (2,1) -- (3,0) -- cycle;
+                \draw[dashed] (0,0) -- (2,1);
+                \foreach \p/\lab/\pos in {(0,0)/{(0,0)}/below left, (1,1)/{(1,1)}/above, (2,1)/{(2,1)}/above, (3,0)/{(3,0)}/below}
+                  \fill \p circle (1.2pt) node[\pos] {\small $\lab$};
+                \node at (1,0.67) {$T_{1}$};
+                \node at (1.2,0.22) {$T_{2}$};
+                \fill[red] (2,0.5) circle (1.2pt) node[left] {\small $(2,.5)$};
+              \end{tikzpicture}
+            </latex-image>
+          </image>
+          <p>
+            (c) Use homogeneous coordinates to send each <m>(x,y)</m> to <m>(x,y,1)</m>:
+            <me>
+              B_{1}:\ (0,0,1),\ (1,1,1),\ (2,1,1), \qquad B_{2}:\ (0,0,1),\ (2,1,1),\ (3,0,1).
+            </me>
+          </p>
+          <p>
+            (d) A point is in a triangle exactly when all of its barycentric coordinates are nonnegative, so we write <m>(2,.5,1)</m> in each basis.
+            In the basis from <m>T_{1}</m>:
+            <me>
+              (2,.5,1) = \tfrac12(0,0,1) - 1\,(1,1,1) + \tfrac32(2,1,1).
+            </me>
+            One coefficient is negative, so <m>(2,.5)</m> is <alert>not</alert> in <m>T_{1}</m>.
+            In the basis from <m>T_{2}</m>:
+            <me>
+              (2,.5,1) = \tfrac16(0,0,1) + \tfrac12(2,1,1) + \tfrac13(3,0,1).
+            </me>
+            All coefficients are positive, so <m>(2,.5)</m> <alert>is</alert> in <m>T_{2}</m> (in fact in its interior).
+          </p>
+        </solution>
+      </exercise>
+    </subsection>
+
+  </section>
