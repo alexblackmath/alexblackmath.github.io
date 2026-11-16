@@ -1,0 +1,137 @@
+
+
+  <section xml:id="Math2301Day20">
+    <title>Treeson</title>
+
+
+    <p>
+      Recall that a <term>graph</term> is a network with a collection of vertices <m>V</m> and edges <m>E</m> given as a set of pairs of vertices.
+      This week we will discuss a few ways to build a matrix from a graph and how to relate properties of that graph to properties of the matrix.
+    </p>
+
+    <p>
+      Recall that <m>e_{i}</m> denotes the vector with <m>1</m> in the <m>i</m>th coordinate and zeroes otherwise.
+      The <term>signed incidence matrix</term>: if two nodes <m>i \lt j</m> are connected, add a column vector <m>e_{i} - e_{j}</m>.
+      Note that the order of the column vectors does not really matter for modeling purposes.
+    </p>
+
+    <p>
+      Use the following computational tool <url href="https://alexblackmath.github.io/Math2000/Simulations/SignedIncidenceMatrices">on this site</url> to help answer the following questions:
+    </p>
+
+    <!-- and <url href="https://alexblackmath.github.io/Math2000/Simulations/UnsignedIncidenceMatrices">on this site</url> -->
+
+    <exercise xml:id="day20-cycles">
+      <introduction>
+        <p>
+          Start with networks that are just a cycle.
+        </p>
+      </introduction>
+      <task>
+        <statement>
+          <p>
+            Characterize what the signed incidence matrices look like.
+          </p>
+        </statement>
+      </task>
+      <task>
+        <statement>
+          <p>
+            When are their columns independent, if ever? Explain your answer.
+          </p>
+        </statement>
+      </task>
+    </exercise>
+
+    <exercise xml:id="day20-add-edge-dependent">
+      <statement>
+        <p>
+          Explain why adding an edge to a network for which the columns of its signed incidence matrix are dependent can never make it independent.
+        </p>
+      </statement>
+    </exercise>
+
+    <exercise xml:id="day20-five-vertices">
+      <statement>
+        <p>
+          Characterize which networks on at most 5 vertices are independent.
+        </p>
+      </statement>
+    </exercise>
+
+    <exercise xml:id="day20-add-edge-independent">
+      <statement>
+        <p>
+          Take an independent network and add an edge between two nodes.
+          When does this stop the columns of the signed incidence matrix of the network from being independent and why?
+          When does it preserve independence?
+        </p>
+      </statement>
+    </exercise>
+
+    <exercise xml:id="day20-when-independent">
+      <statement>
+        <p>
+          When are the columns of such a matrix independent?
+        </p>
+      </statement>
+    </exercise>
+
+    <exercise xml:id="day20-never-spanning">
+      <statement>
+        <p>
+          Prove that the columns are never spanning.
+        </p>
+      </statement>
+    </exercise>
+
+    <exercise xml:id="day20-max-rank">
+      <statement>
+        <p>
+          What is the maximum rank of such a matrix? When is the maximum attained?
+        </p>
+      </statement>
+    </exercise>
+
+    <exercise xml:id="day20-independent-max-rank">
+      <statement>
+        <p>
+          When are the columns both independent and the rank maximal?
+        </p>
+      </statement>
+    </exercise>
+
+    <exercise xml:id="day20-laplacian">
+      <introduction>
+        <p>
+          Let <m>B</m> be such an incidence matrix.
+        </p>
+      </introduction>
+      <task>
+        <statement>
+          <p>
+            Show that
+            <me>
+              q_{BB^{\intercal}}(\vec{x}) = \sum_{(i,j) \in E} (x_{i}-x_{j})^{2}.
+            </me>
+          </p>
+        </statement>
+      </task>
+      <task>
+        <statement>
+          <p>
+            Show that <m>BB^{\intercal}</m> is positive semidefinite.
+          </p>
+        </statement>
+      </task>
+      <task>
+        <statement>
+          <p>
+            Show that <m>BB^{\intercal} = D - A</m>, where <m>D</m> is the diagonal matrix with <m>D_{i,i}</m> equal to the number of vertices adjacent to vertex <m>i</m> and <m>A_{i,j} = 1</m> if <m>i</m> and <m>j</m> are adjacent and <m>0</m> otherwise.
+          </p>
+        </statement>
+      </task>
+    </exercise>
+
+  </section>
+
