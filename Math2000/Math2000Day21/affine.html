@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<!--********************************************-->
+<!--*       Generated from PreTeXt source      *-->
+<!--*                                          *-->
+<!--*         https://pretextbook.org          *-->
+<!--*                                          *-->
+<!--********************************************-->
+<html lang="en-US" dir="ltr">
+<!--******************************************-->
+<!--*  Authored with PreTeXt                 *-->
+<!--*  pretextbook.org                       *-->
+<!--*  Theme: default-modern                 *-->
+<!--*  Palette:                              *-->
+<!--******************************************-->
+<head xmlns:og="http://ogp.me/ns#" xmlns:book="https://ogp.me/ns/book#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Basic Math</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+<link href="_static/pretext/css/theme.css" rel="stylesheet" type="text/css">
+<script type="module">import { startMathJax } from './_static/pretext/js/dist/mathjax_startup.js';
+startMathJax({
+hasWebworkReps: false,
+hasSage: false,
+isReact: false,
+htmlPresentation: false,
+lang: "en-US",
+});
+</script><script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script><meta name="Keywords" content="Authored in PreTeXt">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:type" content="article">
+<meta name="twitter:title" content="Basic Math">
+<meta property="og:title" content="Basic Math">
+<meta name="twitter:card" content="summary">
+<script src="_static/pretext/js/jquery.min.js"></script><script src="_static/pretext/js/dist/pretext-core.js?v=2.52"></script><script src="_static/pretext/js/dist/pretext-read-aloud.js?v=2.52"></script><!--** eBookCongig is necessary to configure interactive       **-->
+<!--** Runestone components to run locally in reader's browser **-->
+<!--** No external communication:                              **-->
+<!--**     log level is 0, Runestone Services are disabled     **-->
+<script type="text/javascript">
+eBookConfig = {};
+eBookConfig.useRunestoneServices = false;
+eBookConfig.host = 'http://127.0.0.1:8000';
+eBookConfig.course = 'PTX_Course_Title_Here';
+eBookConfig.basecourse = 'PTX_Base_Course';
+eBookConfig.isLoggedIn = false;
+eBookConfig.email = '';
+eBookConfig.isInstructor = false;
+eBookConfig.logLevel = 0;
+eBookConfig.username = '';
+eBookConfig.readings = null;
+eBookConfig.activities = null;
+eBookConfig.downloadsEnabled = false;
+eBookConfig.allow_pairs = false;
+eBookConfig.enableScratchAC = false;
+eBookConfig.build_info = "";
+eBookConfig.python3 = null;
+eBookConfig.runestone_version = '8.2.12';
+eBookConfig.jobehost = '';
+eBookConfig.proxyuri_runs = '';
+eBookConfig.proxyuri_files = '';
+eBookConfig.enable_chatcodes =  false;
+</script>
+<!--*** Runestone Services ***-->
+<script src="_static/prefix-runtime.e3f9706509fcf6f7.bundle.js"></script><script src="_static/prefix-926.5c7038c8ef173faf.bundle.js"></script><script src="_static/prefix-runestone.c5ba0ffa5f963084.bundle.js"></script><link rel="stylesheet" type="text/css" href="_static/prefix-926.229729d09512acc9.css">
+<link rel="stylesheet" type="text/css" href="_static/prefix-runestone.561f7165d9bf3626.css">
+<script src="_static/pretext/js/dist/lti_iframe_resizer.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js" integrity="sha512-4xUl/d6D6THrAnXAwGajXkoWaeMNwEKK4iNfq5DotEbLPAfk6FSxSP3ydNxqDgCw1c/0Z1Jg6L8h2j+++9BZmg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><script src="lunr-pretext-search-index.js" async=""></script><script src="_static/pretext/js/dist/pretext_search.js"></script><!--knowl.js code controls Sage Cells within knowls--><script>sagecellEvalName='Evaluate (Sage)';
+</script>
+</head>
+<body id="authorslastnamelowercase-ShortTitleCamelCase" class="pretext article ignore-math">
+<a class="assistive" href="#ptx-content">Skip to main content</a><header id="ptx-masthead" class="ptx-masthead" role="banner"><div class="ptx-banner"><div class="title-container">
+<h1 class="heading ptx-banner-heading"><a href="affine.html"><span class="title">Basic Math</span></a></h1>
+<p class="byline"></p>
+</div></div></header><nav id="ptx-navbar" class="ptx-navbar navbar"><div class="ptx-navbar-contents">
+<button id="ptx-toc-toggle" type="button" aria-controls="ptx-sidebar" class="toc-toggle button hidden" title="Contents"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5d2;</span><span class="name">Contents</span></button><div class="ptx-search-box">
+<div class="ptx-search-widget"><button id="ptx-search-button" type="button" class="ptx-search-button button" title="Search Book"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe8b6;</span><span class="name">Search Book</span></button></div>
+<dialog id="ptx-search-dialog" class="ptx-dialog ptx-search-dialog"><div class="ptx-search-dialog-controls">
+<input aria-label="Search term" id="ptx-search-terms" class="ptx-search-terms" type="text" name="terms" placeholder="Search terms"><button aria-label="Close" id="ptx-search-close" class="ptx-search-close"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cd;</span></button>
+</div>
+<div id="ptx-search-status" class="ptx-search-status" aria-live="polite" aria-atomic="true"></div>
+<h2 class="heading ptx-search-results-heading">Search Results: </h2>
+<div id="ptx-search-empty" class="ptx-search-empty"><span>No results.</span></div>
+<ol id="ptx-search-results" class="ptx-search-results"></ol></dialog>
+</div>
+<span class="nav-other-controls"><button id="ptx-read-aloud-button" class="ptx-read-aloud-button button" title="Read aloud" aria-expanded="false"><span class="icon material-symbols-outlined" aria-hidden="true">&#xf1bc;</span><span class="name">Read aloud</span></button><div id="ptx-read-aloud-player" class="ptx-read-aloud-player" hidden="hidden" role="group" aria-label="Read aloud">
+<button id="ptx-read-aloud-prev" class="button" title="Previous sentence"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe045;</span></button><button id="ptx-read-aloud-toggle" class="ptx-read-aloud-toggle button" title="Play"><span class="ptx-read-aloud-icon-play"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe037;</span></span><span class="ptx-read-aloud-icon-pause"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe034;</span></span></button><button id="ptx-read-aloud-next" class="button" title="Next sentence"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe044;</span></button><a id="ptx-read-aloud-continue" class="ptx-read-aloud-continue button" hidden="hidden">Continue<span class="icon material-symbols-outlined" aria-hidden="true">&#xe037;</span></a><button id="ptx-read-aloud-settings-button" class="ptx-read-aloud-settings-button button" title="Reading settings"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe429;</span></button>
+</div>
+<dialog class="ptx-dialog ptx-read-aloud-settings-popup" id="ptx-read-aloud-settings-popup"><div class="ptx-readability-options-popup-controls">
+<h2 class="heading">Read aloud settings</h2>
+<button class="ptx-read-aloud-settings-close-button button" id="ptx-read-aloud-settings-close-button" title="Close"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cd;</span></button>
+</div>
+<div class="ptx-readability-options-group">
+<label for="ptx-read-aloud-voice"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe91f;</span><span>Voice</span></label><select id="ptx-read-aloud-voice"></select><label class="ptx-readability-slider-label" for="ptx-read-aloud-rate"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe9e4;</span><span>Reading speed</span><output id="ptx-read-aloud-rate-value" for="ptx-read-aloud-rate">1×</output></label><input type="range" id="ptx-read-aloud-rate" min="0.5" max="2" step="0.1" value="1"><label for="ptx-read-aloud-asides"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5d7;</span><span>Collapsed content</span></label><select id="ptx-read-aloud-asides"><option value="skip">Announce, do not read</option>
+<option value="read">Read automatically</option></select><label for="ptx-read-aloud-autoscroll"><input type="checkbox" id="ptx-read-aloud-autoscroll" checked><span>Follow along (auto-scroll)</span></label><label for="ptx-read-aloud-autocontinue"><input type="checkbox" id="ptx-read-aloud-autocontinue"><span>Continue to the next page automatically</span></label>
+</div></dialog><button id="ptx-readability-options-button" class="ptx-readability-options-button button" title="Readability settings"><span class="icon material-symbols-outlined" aria-hidden="true">&#xf6f1;</span><span class="name">Readability settings</span></button><dialog class="ptx-dialog ptx-readability-options-popup" id="ptx-readability-options-popup"><div class="ptx-readability-options-popup-controls">
+<h2 class="heading">Readability settings</h2>
+<button class="ptx-readability-options-close-button button" id="ptx-readability-options-close-button" title="Close"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cd;</span></button>
+</div>
+<div class="ptx-readability-options-group">
+<label class="ptx-readability-slider-label" for="ptx-readability-line-height"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe240;</span><span>Line height</span><output id="ptx-readability-line-height-value" for="ptx-readability-line-height">1.35</output></label><input type="range" id="ptx-readability-line-height" min="1.10" max="3" step="0.05" value="1.35">
+</div>
+<div class="ptx-readability-options-group">
+<label class="ptx-readability-slider-label" for="ptx-readability-font-size"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe245;</span><span>Content font size</span><output id="ptx-readability-font-size-value" for="ptx-readability-font-size">100%</output></label><input type="range" id="ptx-readability-font-size" min="0.8" max="1.5" step="0.05" value="1">
+</div>
+<fieldset class="ptx-readability-options-group ptx-readability-options-group-theme">
+<legend>Theme</legend>
+<label for="ptx-readability-theme-system"><input type="radio" name="ptx-readability-theme" id="ptx-readability-theme-system" value="system"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe1ab;</span><span>System</span></label><label for="ptx-readability-theme-light"><input type="radio" name="ptx-readability-theme" id="ptx-readability-theme-light" value="light"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe518;</span><span>Light</span></label><label for="ptx-readability-theme-dark"><input type="radio" name="ptx-readability-theme" id="ptx-readability-theme-dark" value="dark"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe51c;</span><span>Dark</span></label>
+</fieldset>
+<fieldset class="ptx-readability-options-group">
+<legend>Assistive technologies</legend>
+<label for="ptx-readability-accessible-permalinks"><input type="checkbox" id="ptx-readability-accessible-permalinks"><span>🔗</span><span>Expose permalinks</span></label>
+</fieldset>
+<div class="ptx-readability-options-group"><button type="button" class="ptx-readability-reset-button button" id="ptx-readability-reset-button"><span class="icon material-symbols-outlined" aria-hidden="true">&#xf053;</span><span class="name">Reset All</span></button></div></dialog></span><span class="treebuttons"><span class="previous-button button disabled"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cb;</span><span class="name">Prev</span></span><span class="up-button button disabled"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5ce;</span><span class="name">Up</span></span><span class="next-button button disabled"><span class="name">Next</span><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cc;</span></span></span>
+</div></nav><div id="latex-macros" class="hidden-content process-math" style="display:none"><span class="process-math">\(\newcommand{\foo}{b^{ar}}
+\newcommand{\lt}{&lt;}
+\newcommand{\gt}{&gt;}
+\newcommand{\amp}{&amp;}
+\definecolor{fillinmathshade}{gray}{0.9}
+\newcommand{\fillinmath}[1]{\mathchoice{\colorbox{fillinmathshade}{$\displaystyle     \phantom{\,#1\,}$}}{\colorbox{fillinmathshade}{$\textstyle        \phantom{\,#1\,}$}}{\colorbox{fillinmathshade}{$\scriptstyle      \phantom{\,#1\,}$}}{\colorbox{fillinmathshade}{$\scriptscriptstyle\phantom{\,#1\,}$}}}
+\)</span></div>
+<div class="ptx-page">
+<div id="ptx-sidebar" role="complementary" class="ptx-sidebar hidden"><nav id="ptx-toc" tabindex="-1" aria-label="Contents" class="ptx-toc depth0 focused" data-preexpanded-levels="0" data-max-levels="0"><ul class="structural toc-item-list contains-active">
+<li class="toc-item toc-frontmatter"><div class="toc-title-box"><a href="#affine-2" class="internal"><span class="title">Front Matter</span></a></div></li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="#review" class="internal"><span class="codenumber">1</span> <span class="title">Review</span></a></div></li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="#Section-1" class="internal"><span class="codenumber">2</span> <span class="title">Bases</span></a></div></li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="#exercises" class="internal"><span class="codenumber">3</span> <span class="title">Exercises</span></a></div></li>
+</ul></nav></div>
+<main class="ptx-main"><div id="ptx-content" class="ptx-content">
+<section class="article" id="affine">
+<section class="frontmatter" id="affine-2"><h1 class="heading"><span class="title">Basic Math</span></h1>
+<div class="autopermalink" aria-hidden="true" data-description="Front Matter"><a tabindex="-1" href="#affine-2" title="Copy heading and permalink for Front Matter" aria-label="Copy heading and permalink for Front Matter">🔗</a></div>
+</section>
+<section class="section" id="review">
+<h2 class="heading hide-type">
+<span class="type">Section</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Review</span>
+</h2>
+<ul class="disc" id="review-2">
+<li id="review-2-1">
+<div class="para" id="review-2-1-1">What does it mean for a set of vectors to be <em class="emphasis">linearly independent</em>?<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#review-2-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item"><a tabindex="-1" href="#review-2-1" title="Copy heading and permalink for Item" aria-label="Copy heading and permalink for Item">🔗</a></div>
+</li>
+<li id="review-2-2">
+<div class="para" id="review-2-2-1">What does it mean for a set of vectors to <em class="emphasis">span</em> a vector space?<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#review-2-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Item"><a tabindex="-1" href="#review-2-2" title="Copy heading and permalink for Item" aria-label="Copy heading and permalink for Item">🔗</a></div>
+</li>
+</ul>
+<details id="ex-independent-extension" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h3 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">1.1</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h3></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="ex-independent-extension-1-1">Let <span class="process-math">\(\mathbf{v}_1,\dots,\mathbf{v}_k\in V\text{,}\)</span> and suppose they are linearly independent. Let <span class="process-math">\(\mathbf{u}\in V\text{.}\)</span> Then <span class="process-math">\(\mathbf{v}_1,\dots,\mathbf{v}_k,\mathbf{u}\)</span> are linearly independent if and only if <span class="process-math">\(\mathbf{u}\notin\operatorname{span}(\mathbf{v}_1,\dots,\mathbf{v}_k)\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-independent-extension-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 1.1"><a tabindex="-1" href="#ex-independent-extension" title="Copy heading and permalink for Checkpoint 1.1" aria-label="Copy heading and permalink for Checkpoint 1.1">🔗</a></div>
+</article></details><div class="autopermalink" aria-hidden="true" data-description="Section 1: Review"><a tabindex="-1" href="#review" title="Copy heading and permalink for Section 1: Review" aria-label="Copy heading and permalink for Section 1: Review">🔗</a></div>
+</section>
+<section class="section" id="Section-1">
+<h2 class="heading hide-type">
+<span class="type">Section</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">2</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Bases</span>
+</h2>
+<div class="para" id="Section-1-2">A <dfn class="terminology">basis</dfn> of a vector space <span class="process-math">\(V\)</span> is a subset of <span class="process-math">\(V\)</span> that is both linearly independent and spanning.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Section-1-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<article class="theorem theorem-like" id="thm-finite-spanning-set-has-basis"><h3 class="heading">
+<span class="type">Theorem</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">2.1</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h3>
+<div class="para" id="thm-finite-spanning-set-has-basis-1-1">Any vector space <span class="process-math">\(V\)</span> of the form <span class="process-math">\(\operatorname{span}(S)\text{,}\)</span> where <span class="process-math">\(S\)</span> is finite, has a basis.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#thm-finite-spanning-set-has-basis-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Theorem 2.1"><a tabindex="-1" href="#thm-finite-spanning-set-has-basis" title="Copy heading and permalink for Theorem 2.1" aria-label="Copy heading and permalink for Theorem 2.1">🔗</a></div>
+</article>
+<details id="thm-finite-spanning-set-has-basis-2" class="hiddenproof born-hidden-knowl"><summary class="knowl__link"><h3 class="heading"><span class="type">Proof<span class="period heading-divison-mark heading-divison-mark__period">.</span></span></h3></summary>
+<article class="hiddenproof knowl__content">
+<div class="para" id="thm-finite-spanning-set-has-basis-2-1">Choose a linearly independent subset <span class="process-math">\(I\subseteq S\)</span> of maximal cardinality; this is possible because <span class="process-math">\(S\)</span> is finite. If <span class="process-math">\(I=S\text{,}\)</span> then <span class="process-math">\(I\)</span> is both spanning and linearly independent, so it is a basis.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#thm-finite-spanning-set-has-basis-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="thm-finite-spanning-set-has-basis-2-2">Otherwise, let <span class="process-math">\(\mathbf{s}\in S\setminus I\text{.}\)</span> Maximality of <span class="process-math">\(I\)</span> implies that <span class="process-math">\(I\cup\{\mathbf{s}\}\)</span> is linearly dependent. By <a href="#ex-independent-extension" class="xref" data-knowl="./knowl/xref/ex-independent-extension.html" data-reveal-label="Reveal" data-close-label="Close" title="Checkpoint 1.1">Checkpoint 1.1</a>, <span class="process-math">\(\mathbf{s}\in\operatorname{span}(I)\text{.}\)</span> Thus every element of <span class="process-math">\(S\)</span> lies in <span class="process-math">\(\operatorname{span}(I)\text{,}\)</span> so<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#thm-finite-spanning-set-has-basis-2-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" data-contains-math-knowls="./knowl/xref/ex-independent-extension.html" id="thm-finite-spanning-set-has-basis-2-3">
+\begin{equation*}
+V=\operatorname{span}(S)\subseteq\operatorname{span}(I)\subseteq V.
+\end{equation*}
+</div>
+<div class="para" id="thm-finite-spanning-set-has-basis-2-4">Hence <span class="process-math">\(\operatorname{span}(I)=V\text{,}\)</span> and <span class="process-math">\(I\)</span> is a basis.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#thm-finite-spanning-set-has-basis-2-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Proof 2.1.1"><a tabindex="-1" href="#thm-finite-spanning-set-has-basis-2" title="Copy heading and permalink for Proof 2.1.1" aria-label="Copy heading and permalink for Proof 2.1.1">🔗</a></div>
+</article></details>
+<details id="ex-where-finiteness" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h3 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">2.2</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h3></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="ex-where-finiteness-1-1">Which step used finiteness?<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-where-finiteness-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 2.2"><a tabindex="-1" href="#ex-where-finiteness" title="Copy heading and permalink for Checkpoint 2.2" aria-label="Copy heading and permalink for Checkpoint 2.2">🔗</a></div>
+</article></details>
+<div class="para" id="Section-1-5">A vector space that can be written as the span of finitely many vectors is called <dfn class="terminology">finite-dimensional</dfn>. We call the size of a basis the <dfn class="terminology">dimension</dfn> of a vector space. By the previous result, every finite-dimensional vector space has a finite basis, which is where the term comes from. However, this definition could hypothetically fail to make sense: if a vector space had one basis of size <span class="process-math">\(2\)</span> and another of size <span class="process-math">\(3\text{,}\)</span> what would its dimension be? Luckily, we can prove this cannot happen.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Section-1-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<article class="theorem theorem-like" id="thm-base-size"><h3 class="heading">
+<span class="type">Theorem</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">2.3</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h3>
+<div class="para" id="thm-base-size-1-1">Every basis of a finite-dimensional vector space has the same finite size.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#thm-base-size-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Theorem 2.3"><a tabindex="-1" href="#thm-base-size" title="Copy heading and permalink for Theorem 2.3" aria-label="Copy heading and permalink for Theorem 2.3">🔗</a></div>
+</article>
+<div class="para" id="Section-1-7">To prove this, we will use a famous lemma that gives a way to swap elements of bases.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Section-1-7" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<article class="lemma theorem-like" id="lem-steinitz-exchange"><h3 class="heading">
+<span class="type">Lemma</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">2.4</span><span class="period heading-divison-mark heading-divison-mark__period">.</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Steinitz Exchange Lemma.</span>
+</h3>
+<div class="para" id="lem-steinitz-exchange-2-1">Let <span class="process-math">\(B_1\)</span> and <span class="process-math">\(B_2\)</span> be two bases of a finite-dimensional vector space. For any <span class="process-math">\(\mathbf{v}\in B_2\setminus B_1\text{,}\)</span> there exists <span class="process-math">\(\mathbf{u}\in B_1\setminus B_2\)</span> such that <span class="process-math">\((B_1\setminus\{\mathbf{u}\})\cup\{\mathbf{v}\}\)</span> is a basis.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#lem-steinitz-exchange-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Lemma 2.4: Steinitz Exchange Lemma"><a tabindex="-1" href="#lem-steinitz-exchange" title="Copy heading and permalink for Lemma 2.4: Steinitz Exchange Lemma" aria-label="Copy heading and permalink for Lemma 2.4: Steinitz Exchange Lemma">🔗</a></div>
+</article>
+<details id="lem-steinitz-exchange-3" class="hiddenproof born-hidden-knowl"><summary class="knowl__link"><h3 class="heading"><span class="type">Proof<span class="period heading-divison-mark heading-divison-mark__period">.</span></span></h3></summary>
+<article class="hiddenproof knowl__content">
+<div class="para" id="lem-steinitz-exchange-3-1">Let <span class="process-math">\(\mathbf{v}\in B_2\setminus B_1\text{.}\)</span> Since <span class="process-math">\(B_1\)</span> is a basis, there are distinct vectors <span class="process-math">\(\mathbf{u}_1,\dots,\mathbf{u}_n\in B_1\)</span> and scalars <span class="process-math">\(a_1,\dots,a_n\text{,}\)</span> not all zero, such that<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#lem-steinitz-exchange-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" data-contains-math-knowls="./knowl/xref/ex-independent-extension.html" id="lem-steinitz-exchange-3-2">
+\begin{equation*}
+\mathbf{v}=\sum_{i=1}^{n}a_i\mathbf{u}_i.
+\end{equation*}
+</div>
+<div class="para" id="lem-steinitz-exchange-3-3">Some <span class="process-math">\(\mathbf{u}_i\)</span> with <span class="process-math">\(a_i\neq 0\)</span> must lie in <span class="process-math">\(B_1\setminus B_2\text{.}\)</span> Otherwise every <span class="process-math">\(\mathbf{u}_i\)</span> with nonzero coefficient would lie in <span class="process-math">\(B_2\text{;}\)</span> because <span class="process-math">\(\mathbf{v}\notin B_1\text{,}\)</span> the vector <span class="process-math">\(\mathbf{v}\)</span> is distinct from all of these <span class="process-math">\(\mathbf{u}_i\text{,}\)</span> and the displayed equation would give a nontrivial linear dependence among elements of <span class="process-math">\(B_2\text{.}\)</span> Relabel if necessary so that <span class="process-math">\(a_n\neq 0\)</span> and <span class="process-math">\(\mathbf{u}_n\in B_1\setminus B_2\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#lem-steinitz-exchange-3-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="lem-steinitz-exchange-3-4">We claim that <span class="process-math">\((B_1\setminus\{\mathbf{u}_n\})\cup\{\mathbf{v}\}\)</span> is a basis. First, it is linearly independent. Indeed, <span class="process-math">\(\mathbf{v}\notin\operatorname{span}(B_1\setminus\{\mathbf{u}_n\})\text{:}\)</span> if it were, then <span class="process-math">\(\mathbf{v}\)</span> would have an expression in the basis <span class="process-math">\(B_1\)</span> with coefficient <span class="process-math">\(0\)</span> on <span class="process-math">\(\mathbf{u}_n\text{,}\)</span> contradicting uniqueness of basis coordinates since the displayed expression has <span class="process-math">\(a_n\neq 0\text{.}\)</span> By <a href="#ex-independent-extension" class="xref" data-knowl="./knowl/xref/ex-independent-extension.html" data-reveal-label="Reveal" data-close-label="Close" title="Checkpoint 1.1">Checkpoint 1.1</a>, replacing <span class="process-math">\(\mathbf{u}_n\)</span> by <span class="process-math">\(\mathbf{v}\)</span> therefore preserves linear independence.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#lem-steinitz-exchange-3-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="lem-steinitz-exchange-3-5">To show spanning, solve the displayed equation for <span class="process-math">\(\mathbf{u}_n\text{:}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#lem-steinitz-exchange-3-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="displaymath process-math" data-contains-math-knowls="./knowl/xref/ex-independent-extension.html" id="lem-steinitz-exchange-3-6">
+\begin{equation*}
+\mathbf{u}_n=\frac{1}{a_n}\left(\mathbf{v}-\sum_{i=1}^{n-1}a_i\mathbf{u}_i\right).
+\end{equation*}
+</div>
+<div class="para" id="lem-steinitz-exchange-3-7">Thus <span class="process-math">\(\mathbf{u}_n\in\operatorname{span}((B_1\setminus\{\mathbf{u}_n\})\cup\{\mathbf{v}\})\text{.}\)</span> Every other element of <span class="process-math">\(B_1\)</span> is already in the replacement set, so that set spans <span class="process-math">\(B_1\text{,}\)</span> and hence spans <span class="process-math">\(V\text{.}\)</span> Therefore <span class="process-math">\((B_1\setminus\{\mathbf{u}_n\})\cup\{\mathbf{v}\}\)</span> is a basis.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#lem-steinitz-exchange-3-7" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Proof 2.4.1"><a tabindex="-1" href="#lem-steinitz-exchange-3" title="Copy heading and permalink for Proof 2.4.1" aria-label="Copy heading and permalink for Proof 2.4.1">🔗</a></div>
+</article></details>
+<div class="para" id="Section-1-9">Using the exchange lemma, we can prove <a href="#thm-base-size" class="xref" data-knowl="./knowl/xref/thm-base-size.html" data-reveal-label="Reveal" data-close-label="Close" title="Theorem 2.3">Theorem 2.3</a>.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Section-1-9" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="Section-1-10" class="hiddenproof born-hidden-knowl"><summary class="knowl__link"><h3 class="heading"><span class="title">Proof of the basis-size theorem.</span></h3></summary>
+<article class="hiddenproof knowl__content">
+<div class="para" id="Section-1-10-2">By <a href="#thm-finite-spanning-set-has-basis" class="xref" data-knowl="./knowl/xref/thm-finite-spanning-set-has-basis.html" data-reveal-label="Reveal" data-close-label="Close" title="Theorem 2.1">Theorem 2.1</a>, choose a finite basis <span class="process-math">\(B=\{\mathbf{b}_1,\dots,\mathbf{b}_n\}\)</span> of <span class="process-math">\(V\text{.}\)</span> Let <span class="process-math">\(C\)</span> be any other basis. We first show that <span class="process-math">\(C\)</span> has at most <span class="process-math">\(n\)</span> elements.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Section-1-10-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="Section-1-10-3">Suppose instead that <span class="process-math">\(C\)</span> contains <span class="process-math">\(n+1\)</span> distinct vectors <span class="process-math">\(\mathbf{c}_1,\dots,\mathbf{c}_{n+1}\text{.}\)</span> Starting from <span class="process-math">\(B\text{,}\)</span> process these vectors one at a time. If <span class="process-math">\(\mathbf{c}_j\)</span> is already in the current basis, make no change. If it is not, apply <a href="#lem-steinitz-exchange" class="xref" data-knowl="./knowl/xref/lem-steinitz-exchange.html" data-reveal-label="Reveal" data-close-label="Close" title="Lemma 2.4: Steinitz Exchange Lemma">Lemma 2.4</a> to exchange <span class="process-math">\(\mathbf{c}_j\)</span> into the current basis while removing an element not in <span class="process-math">\(C\text{.}\)</span> Consequently, none of the previously inserted vectors <span class="process-math">\(\mathbf{c}_1,\dots,\mathbf{c}_{j-1}\)</span> is removed.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Section-1-10-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="Section-1-10-4">After processing all <span class="process-math">\(n+1\)</span> vectors, we would have a basis with exactly <span class="process-math">\(n\)</span> elements that contains the <span class="process-math">\(n+1\)</span> distinct vectors <span class="process-math">\(\mathbf{c}_1,\dots,\mathbf{c}_{n+1}\text{,}\)</span> which is impossible. Hence <span class="process-math">\(|C|\leq n\text{.}\)</span> In particular, <span class="process-math">\(C\)</span> is finite. Applying the same argument with <span class="process-math">\(C\)</span> as the finite basis and <span class="process-math">\(B\)</span> as the other basis gives <span class="process-math">\(n\leq |C|\text{.}\)</span> Therefore <span class="process-math">\(|C|=n\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#Section-1-10-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Proof 2.1: Proof of the basis-size theorem"><a tabindex="-1" href="#Section-1-10" title="Copy heading and permalink for Proof 2.1: Proof of the basis-size theorem" aria-label="Copy heading and permalink for Proof 2.1: Proof of the basis-size theorem">🔗</a></div>
+</article></details><div class="autopermalink" aria-hidden="true" data-description="Section 2: Bases"><a tabindex="-1" href="#Section-1" title="Copy heading and permalink for Section 2: Bases" aria-label="Copy heading and permalink for Section 2: Bases">🔗</a></div>
+</section>
+<section class="section" id="exercises">
+<h2 class="heading hide-type">
+<span class="type">Section</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Exercises</span>
+</h2>
+<details id="ex-steinitz-example" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h3 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.1</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h3></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="ex-steinitz-example-1-1">Apply <a href="#lem-steinitz-exchange" class="xref" data-knowl="./knowl/xref/lem-steinitz-exchange.html" data-reveal-label="Reveal" data-close-label="Close" title="Lemma 2.4: Steinitz Exchange Lemma">Lemma 2.4</a> to <span class="process-math">\(B_1=\{(1,0,0),(0,1,0),(0,0,1)\}\)</span> and <span class="process-math">\(B_2=\{(1,0,0),(1,1,0),(1,1,1)\}\)</span> with <span class="process-math">\(\mathbf{v}=(1,1,0)\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-steinitz-example-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 3.1"><a tabindex="-1" href="#ex-steinitz-example" title="Copy heading and permalink for Checkpoint 3.1" aria-label="Copy heading and permalink for Checkpoint 3.1">🔗</a></div>
+</article></details>
+<details id="ex-spanning-contains-basis" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h3 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.2</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h3></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="ex-spanning-contains-basis-1-1">Show that a set of vectors is spanning in a finite-dimensional vector space if and only if it contains a basis.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-spanning-contains-basis-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 3.2"><a tabindex="-1" href="#ex-spanning-contains-basis" title="Copy heading and permalink for Checkpoint 3.2" aria-label="Copy heading and permalink for Checkpoint 3.2">🔗</a></div>
+</article></details>
+<details id="ex-independent-contained-basis" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h3 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.3</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h3></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="para" id="ex-independent-contained-basis-1-1">Show that a set of vectors is linearly independent in a finite-dimensional vector space if and only if it is contained in a basis.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-independent-contained-basis-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 3.3"><a tabindex="-1" href="#ex-independent-contained-basis" title="Copy heading and permalink for Checkpoint 3.3" aria-label="Copy heading and permalink for Checkpoint 3.3">🔗</a></div>
+</article></details>
+<div class="para" id="exercises-5">Some properties of bases break down if we use integer coefficients instead of coefficients from a field such as <span class="process-math">\(\mathbb{R}\text{.}\)</span> Let <span class="process-math">\(\operatorname{span}_{\mathbb{Z}}(S)\)</span> denote the set of integer linear combinations of elements of <span class="process-math">\(S\text{.}\)</span> We call a set of vectors <dfn class="terminology">integer-linearly independent</dfn> if the only integer linear combination of them that equals <span class="process-math">\(0\)</span> is the trivial combination, in which all coefficients are zero.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#exercises-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="ex-integer-span-counterexample" class="exercise exercise-like born-hidden-knowl"><summary class="knowl__link"><h3 class="heading">
+<span class="type">Checkpoint</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.4</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h3></summary>
+<article class="exercise exercise-like knowl__content">
+<div class="introduction" id="ex-integer-span-counterexample-1">
+<div class="para" id="ex-integer-span-counterexample-1-1">Let <span class="process-math">\(\mathbb{Z}\)</span> denote the integers.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-integer-span-counterexample-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+</div>
+<article class="task exercise-like" id="ex-integer-span-counterexample-2"><h4 class="heading"><span class="codenumber">(a)</span></h4>
+<div class="para" id="ex-integer-span-counterexample-2-1">Explain why <span class="process-math">\(\mathbb{Z}\neq\operatorname{span}_{\mathbb{Z}}\{2\}\)</span> and <span class="process-math">\(\mathbb{Z}\neq\operatorname{span}_{\mathbb{Z}}\{3\}\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-integer-span-counterexample-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Task 3.4.a"><a tabindex="-1" href="#ex-integer-span-counterexample-2" title="Copy heading and permalink for Task 3.4.a" aria-label="Copy heading and permalink for Task 3.4.a">🔗</a></div>
+</article>
+<article class="task exercise-like" id="ex-integer-span-counterexample-3"><h4 class="heading"><span class="codenumber">(b)</span></h4>
+<div class="para" id="ex-integer-span-counterexample-3-1">Show that <span class="process-math">\(\mathbb{Z}=\operatorname{span}_{\mathbb{Z}}\{2,3\}\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-integer-span-counterexample-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Task 3.4.b"><a tabindex="-1" href="#ex-integer-span-counterexample-3" title="Copy heading and permalink for Task 3.4.b" aria-label="Copy heading and permalink for Task 3.4.b">🔗</a></div>
+</article>
+<article class="task exercise-like" id="ex-integer-span-counterexample-4"><h4 class="heading"><span class="codenumber">(c)</span></h4>
+<div class="para" id="ex-integer-span-counterexample-4-1">Show that a nontrivial integer linear combination of <span class="process-math">\(2\)</span> and <span class="process-math">\(3\)</span> equals <span class="process-math">\(0\text{.}\)</span><div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-integer-span-counterexample-4-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Task 3.4.c"><a tabindex="-1" href="#ex-integer-span-counterexample-4" title="Copy heading and permalink for Task 3.4.c" aria-label="Copy heading and permalink for Task 3.4.c">🔗</a></div>
+</article>
+<div class="conclusion" id="ex-integer-span-counterexample-5">
+<div class="para" id="ex-integer-span-counterexample-5-1">Conclude that although <span class="process-math">\(\{2,3\}\)</span> spans <span class="process-math">\(\mathbb{Z}\)</span> over <span class="process-math">\(\mathbb{Z}\text{,}\)</span> it contains no subset that both spans <span class="process-math">\(\mathbb{Z}\)</span> over <span class="process-math">\(\mathbb{Z}\)</span> and is integer-linearly independent.<div class="autopermalink" aria-hidden="true" data-description="Paragraph"><a tabindex="-1" href="#ex-integer-span-counterexample-5-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+</div>
+<div class="autopermalink" aria-hidden="true" data-description="Checkpoint 3.4"><a tabindex="-1" href="#ex-integer-span-counterexample" title="Copy heading and permalink for Checkpoint 3.4" aria-label="Copy heading and permalink for Checkpoint 3.4">🔗</a></div>
+</article></details><div class="autopermalink" aria-hidden="true" data-description="Section 3: Exercises"><a tabindex="-1" href="#exercises" title="Copy heading and permalink for Section 3: Exercises" aria-label="Copy heading and permalink for Section 3: Exercises">🔗</a></div>
+</section><div class="autopermalink" aria-hidden="true" data-description="Article: Basic Math"><a tabindex="-1" href="#affine" title="Copy heading and permalink for Article: Basic Math" aria-label="Copy heading and permalink for Article: Basic Math">🔗</a></div>
+</section>
+</div>
+<div id="ptx-content-footer" class="ptx-content-footer">
+<span class="previous-button button disabled"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cb;</span><span class="name">Prev</span></span><a class="top-button button" href="#" title="Top"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5ce;</span><span class="name">Top</span></a><span class="next-button button disabled"><span class="name">Next</span><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cc;</span></span>
+</div></main>
+</div>
+<div id="ptx-page-footer" class="ptx-page-footer">
+<a class="pretext-link" href="https://pretextbook.org" title="PreTeXt"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="338 3000 8772 6866" role="img"><title>PreTeXt logo</title><g style="stroke-width:.025in; stroke:currentColor; fill:none"><polyline points="472,3590 472,9732 " style="stroke-width:174; stroke-linejoin:miter; stroke-linecap:round; "></polyline><path style="stroke-width:126;stroke-linecap:butt;" d="M 4724,9448 A 4660 4660  0  0  1  8598  9259"></path><path style="stroke-width:174;stroke-linecap:butt;" d="M 4488,9685 A 4228 4228  0  0  0   472  9732"></path><path style="stroke-width:126;stroke-linecap:butt;" d="M 4724,3590 A 4241 4241  0  0  1  8598  3496"></path><path style="stroke-width:126;stroke-linecap:round;" d="M 850,3496  A 4241 4241  0  0  1  4724  3590"></path><path style="stroke-width:126;stroke-linecap:round;" d="M 850,9259  A 4507 4507  0  0  1  4724  9448"></path><polyline points="5385,4299 4062,8125" style="stroke-width:300; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="8598,3496 8598,9259" style="stroke-width:126; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="850,3496 850,9259" style="stroke-width:126; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="4960,9685 4488,9685" style="stroke-width:174; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="3070,4582 1889,6141 3070,7700" style="stroke-width:300; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="6418,4582 7600,6141 6418,7700" style="stroke-width:300; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="8976,3590 8976,9732" style="stroke-width:174; stroke-linejoin:miter; stroke-linecap:round;"></polyline><path style="stroke-width:174;stroke-linecap:butt;" d="M 4960,9685 A 4228 4228  0  0  1  8976  9732"></path></g></svg></div></a><a class="runestone-link" href="https://runestone.academy" title="Runestone Academy"><img class="logo" src="https://runestone.academy/runestone/static/images/RAIcon_cropped.png" alt="Runstone Academy logo"></a><a class="mathjax-link" href="https://www.mathjax.org" title="MathJax"><img class="logo" src="https://www.mathjax.org/badge/badge-square-2.png" alt="MathJax logo"></a>
+</div>
+</body>
+</html>

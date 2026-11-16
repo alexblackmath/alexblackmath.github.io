@@ -1,0 +1,301 @@
+  <section xml:id="Math2000Day21" xml:lang="en-US">
+    <title>...And its Applications</title>
+
+
+    <!-- ============================================================ -->
+    <subsection xml:id="sec-reverse-row-reduction">
+      <title>Reverse Row Reduction</title>
+
+      <exercise xml:id="ex-reverse-rr-1">
+        <introduction>
+          <p>
+            Consider the following reduced row echelon form matrix
+            <me>
+              R = \begin{bmatrix} 1 &amp; 10 &amp; 0 &amp; 1 &amp; -1 \\ 0 &amp; 0 &amp; 1 &amp; -1 &amp; 1 \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \end{bmatrix}
+            </me>
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>
+              Is there a matrix <m>A</m> with first column
+              <m>\begin{bmatrix} 1 \\ 1 \\ 1 \end{bmatrix}</m>
+              and third column
+              <m>\begin{bmatrix} 1 \\ 0 \\ 1 \end{bmatrix}</m>
+              with reduced row echelon form <m>R</m>?
+              If so, construct it. Otherwise, explain why not.
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Is there a matrix <m>B</m> with first column
+              <m>\begin{bmatrix} 1 \\ -1 \\ 0 \end{bmatrix}</m>
+              and third column
+              <m>\begin{bmatrix} -1 \\ 1 \\ 0 \end{bmatrix}</m>
+              and reduced row echelon form <m>R</m>?
+              If so, construct it. Otherwise, explain why not.
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Which columns of <m>A</m> are in the span of the first column?
+            </p>
+          </statement>
+        </task>
+      </exercise>
+
+      <!-- New problems begin here -->
+      <exercise xml:id="ex-reverse-rr-2">
+        <introduction>
+          <p>
+            Consider the following reduced row echelon form matrix
+            <me>
+              R = \begin{bmatrix} 1 &amp; 0 &amp; 2 &amp; 0 &amp; 3 \\ 0 &amp; 1 &amp; -1 &amp; 0 &amp; 2 \\ 0 &amp; 0 &amp; 0 &amp; 1 &amp; -4 \end{bmatrix}
+            </me>
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>
+              Is there a matrix <m>A</m> with first column
+              <m>\begin{bmatrix} 1 \\ 0 \\ 1 \end{bmatrix}</m>,
+              second column
+              <m>\begin{bmatrix} 0 \\ 1 \\ 1 \end{bmatrix}</m>,
+              and fourth column
+              <m>\begin{bmatrix} 1 \\ 1 \\ 0 \end{bmatrix}</m>
+              with reduced row echelon form <m>R</m>?
+              If so, construct it. Otherwise, explain why not.
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Is there a matrix <m>B</m> with first column
+              <m>\begin{bmatrix} 1 \\ 2 \\ 0 \end{bmatrix}</m>,
+              second column
+              <m>\begin{bmatrix} 0 \\ 1 \\ 1 \end{bmatrix}</m>,
+              and fourth column
+              <m>\begin{bmatrix} 1 \\ 3 \\ 1 \end{bmatrix}</m>
+              with reduced row echelon form <m>R</m>?
+              If so, construct it. Otherwise, explain why not.
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Which columns of <m>A</m> are in the span of the first two columns?
+            </p>
+          </statement>
+        </task>
+      </exercise>
+
+      <exercise xml:id="ex-reverse-rr-3">
+        <introduction>
+          <p>
+            This time you are given the non-pivot columns instead of the pivot columns.
+            Consider the following reduced row echelon form matrix
+            <me>
+              R = \begin{bmatrix} 1 &amp; 0 &amp; -1 &amp; 2 \\ 0 &amp; 1 &amp; 3 &amp; -1 \\ 0 &amp; 0 &amp; 0 &amp; 0 \end{bmatrix}
+            </me>
+          </p>
+        </introduction>
+        <task>
+          <statement>
+            <p>
+              Find a matrix <m>A</m> with third column
+              <m>\begin{bmatrix} -1 \\ 3 \\ 2 \end{bmatrix}</m>
+              and fourth column
+              <m>\begin{bmatrix} 2 \\ -1 \\ 1 \end{bmatrix}</m>
+              whose reduced row echelon form is <m>R</m>.
+              Is your answer the only possibility?
+            </p>
+          </statement>
+        </task>
+        <task>
+          <statement>
+            <p>
+              Is there a matrix <m>B</m> with third column
+              <m>\begin{bmatrix} 1 \\ 1 \\ 1 \end{bmatrix}</m>
+              and fourth column
+              <m>\begin{bmatrix} -1 \\ -1 \\ -1 \end{bmatrix}</m>
+              and reduced row echelon form <m>R</m>?
+              If so, construct it. Otherwise, explain why not.
+            </p>
+          </statement>
+        </task>
+      </exercise>
+
+      <exercise xml:id="ex-reverse-rr-4">
+        <statement>
+          <p>
+            Find a <m>3 \times 3</m> matrix with no zero entries whose reduced row echelon form is
+            <me>
+              \begin{bmatrix} 1 &amp; 0 &amp; 2 \\ 0 &amp; 1 &amp; -1 \\ 0 &amp; 0 &amp; 0 \end{bmatrix}
+            </me>.
+            Can you find one where every entry is positive?
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise xml:id="ex-reverse-rr-5">
+        <statement>
+          <p>
+            Suppose a matrix <m>A</m> has reduced row echelon form <m>R</m>,
+            and column <m>k</m> of <m>R</m> is not a pivot column.
+            Explain how to use the entries of column <m>k</m> of <m>R</m>
+            to write column <m>k</m> of <m>A</m> as a linear combination
+            of the pivot columns of <m>A</m>.
+            Why do row operations not change this relationship?
+          </p>
+        </statement>
+      </exercise>
+    </subsection>
+
+    <!-- ============================================================ -->
+    <subsection xml:id="sec-matrix-subspaces">
+      <title>Matrix Subspaces and Bases</title>
+
+      <p>
+        As a vector space <m>m \times n</m> matrices have a standard basis analogous to that of vectors.
+        It consists of matrices with <m>1</m> in a single coordinate and <m>0</m>'s otherwise.
+      </p>
+
+      <p>
+        Recall that the dimension of a vector space is the number of vectors in any basis.
+      </p>
+
+      <exercise>
+        <statement>
+          <p>
+            What is the dimension of the vector space of <m>m \times n</m> matrices?
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>
+            Find a basis for the subspace of diagonal <m>3 \times 3</m> matrices.
+            What is the dimension?
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>
+            Find a general expression for the dimension of the set of diagonal <m>n \times n</m> matrices.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>
+            Find a basis for the subspace of upper triangular <m>3 \times 3</m> matrices.
+            What is the dimension?
+          </p>
+        </statement>
+      </exercise>
+    </subsection>
+
+    <!-- ============================================================ -->
+    <subsection xml:id="sec-rotation-fixed-point">
+      <title>Rotation About a Fixed Point</title>
+
+      <p>
+        We learned long ago that rotation is a linear transformation, but this technically depends on your reference frame.
+        If you rotate around the origin <m>(0,0)</m>, that is a linear transformation and thus corresponds to multiplication by a matrix.
+        But what if you were rotating with respect to <m>(1,1)</m>
+        (i.e., <m>(1,1)</m> is fixed and everything rotates around it)?
+      </p>
+
+      <exercise>
+        <statement>
+          <p>
+            Take the point <m>(0,0)</m> and rotate it <m>90</m> degrees counterclockwise about <m>(1,1)</m>.
+            What do you get?
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>
+            Explain why rotation about <m>(1,1)</m> is not a linear transformation.
+          </p>
+        </statement>
+      </exercise>
+
+      <p>
+        But we can fix this the same way we fix translation.
+        Use homogeneous coordinates <m>(x,y,1)</m> instead of <m>(x,y)</m>.
+        In fact, you can think of this as a change of basis.
+      </p>
+
+      <exercise>
+        <statement>
+          <p>
+            Explain intuitively why the following three step procedure would correspond to rotating about
+            <m>(1,1)</m> by <m>\theta</m> degrees counterclockwise:
+          </p>
+          <ol marker="(i)">
+            <li><p>Translate by <m>-(1,1)</m></p></li>
+            <li><p>Rotate <m>\theta</m> degrees about <m>(0,0)</m> counterclockwise</p></li>
+            <li><p>Translate by <m>+(1,1)</m>.</p></li>
+          </ol>
+          <p>
+            How would you interpret that in terms of changes of basis?
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>
+            Find a matrix representing rotation by <m>\theta</m> degrees about the point <m>(2,-2)</m>.
+          </p>
+        </statement>
+      </exercise>
+    </subsection>
+
+    <!-- ============================================================ -->
+    <subsection xml:id="sec-signed-incidence">
+      <title>Signed Incidence Matrices</title>
+
+      <p>
+        Recall the following website for
+        <url href="https://alexblackmath.github.io/Math2000/Simulations/SignedIncidenceMatrices">signed incidence matrices</url>.
+      </p>
+
+      <exercise>
+        <statement>
+          <p>
+            What is the maximum rank of a signed incidence matrix for a network on <m>n</m> nodes?
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>
+            Characterize when signed incidence matrices attain their maximum rank.
+          </p>
+        </statement>
+      </exercise>
+
+      <exercise>
+        <statement>
+          <p>
+            Characterize when signed incidence matrices attain their maximum rank and have independent columns.
+          </p>
+        </statement>
+      </exercise>
+    </subsection>
+  </section>

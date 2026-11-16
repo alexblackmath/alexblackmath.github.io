@@ -6,107 +6,152 @@ var ptx_lunr_docs = [
   "url": "#Treeson",
   "type": "Article",
   "number": "",
-  "title": "Math 2301 Day 20",
-  "body": " Math 2301 Day 20       Treeson  Recall that a graph is a network with a collection of vertices and edges given as a set of pairs of vertices. This week we will discuss a few ways to build a matrix from a graph and how to relate properties of that graph to properties of the matrix.  Recall that denotes the vector with in the th coordinate and zeroes otherwise. The signed incidence matrix : if two nodes are connected, add a column vector . Note that the order of the column vectors does not really matter for modeling purposes.  Use the following computational tool on this site to help answer the following questions:     Start with networks that are just a cycle.     Characterize what the signed incidence matrices look like.      When are their columns independent, if ever? Explain your answer.       Explain why adding an edge to a network for which the columns of its signed incidence matrix are dependent can never make it independent.      Characterize which networks on at most 5 vertices are independent.      Take an independent network and add an edge between two nodes. When does this stop the columns of the signed incidence matrix of the network from being independent and why? When does it preserve independence?      When are the columns of such a matrix independent?      Prove that the columns are never spanning.      What is the maximum rank of such a matrix? When is the maximum attained?      When are the columns both independent and the rank maximal?      Let be such an incidence matrix.     Show that       Show that is positive semidefinite.      Show that , where is the diagonal matrix with equal to the number of vertices adjacent to vertex and if and are adjacent and otherwise.      "
+  "title": "Math 2000 Day 21",
+  "body": " Math 2000 Day 21       ...And its Applications    Reverse Row Reduction    Consider the following reduced row echelon form matrix      Is there a matrix with first column and third column with reduced row echelon form ? If so, construct it. Otherwise, explain why not.      Is there a matrix with first column and third column and reduced row echelon form ? If so, construct it. Otherwise, explain why not.      Which columns of are in the span of the first column?        Consider the following reduced row echelon form matrix      Is there a matrix with first column , second column , and fourth column with reduced row echelon form ? If so, construct it. Otherwise, explain why not.      Is there a matrix with first column , second column , and fourth column with reduced row echelon form ? If so, construct it. Otherwise, explain why not.      Which columns of are in the span of the first two columns?       This time you are given the non-pivot columns instead of the pivot columns. Consider the following reduced row echelon form matrix      Find a matrix with third column and fourth column whose reduced row echelon form is . Is your answer the only possibility?      Is there a matrix with third column and fourth column and reduced row echelon form ? If so, construct it. Otherwise, explain why not.       Find a matrix with no zero entries whose reduced row echelon form is . Can you find one where every entry is positive?      Suppose a matrix has reduced row echelon form , and column of is not a pivot column. Explain how to use the entries of column of to write column of as a linear combination of the pivot columns of . Why do row operations not change this relationship?       Matrix Subspaces and Bases  As a vector space matrices have a standard basis analogous to that of vectors. It consists of matrices with in a single coordinate and 's otherwise.  Recall that the dimension of a vector space is the number of vectors in any basis.    What is the dimension of the vector space of matrices?      Find a basis for the subspace of diagonal matrices. What is the dimension?      Find a general expression for the dimension of the set of diagonal matrices.      Find a basis for the subspace of upper triangular matrices. What is the dimension?       Rotation About a Fixed Point  We learned long ago that rotation is a linear transformation, but this technically depends on your reference frame. If you rotate around the origin , that is a linear transformation and thus corresponds to multiplication by a matrix. But what if you were rotating with respect to (i.e., is fixed and everything rotates around it)?    Take the point and rotate it degrees counterclockwise about . What do you get?      Explain why rotation about is not a linear transformation.    But we can fix this the same way we fix translation. Use homogeneous coordinates instead of . In fact, you can think of this as a change of basis.    Explain intuitively why the following three step procedure would correspond to rotating about by degrees counterclockwise:   Translate by  Rotate degrees about counterclockwise  Translate by .   How would you interpret that in terms of changes of basis?      Find a matrix representing rotation by degrees about the point .       Signed Incidence Matrices  Recall the following website for signed incidence matrices .    What is the maximum rank of a signed incidence matrix for a network on nodes?      Characterize when signed incidence matrices attain their maximum rank.      Characterize when signed incidence matrices attain their maximum rank and have independent columns.      "
 },
 {
-  "id": "Math2301Day20-2",
+  "id": "ex-reverse-rr-1",
   "level": "2",
-  "url": "#Math2301Day20-2",
-  "type": "Paragraph (with a defined term)",
-  "number": "",
-  "title": "",
-  "body": "graph "
-},
-{
-  "id": "Math2301Day20-3",
-  "level": "2",
-  "url": "#Math2301Day20-3",
-  "type": "Paragraph (with a defined term)",
-  "number": "",
-  "title": "",
-  "body": "signed incidence matrix "
-},
-{
-  "id": "day20-cycles",
-  "level": "2",
-  "url": "#day20-cycles",
+  "url": "#ex-reverse-rr-1",
   "type": "Checkpoint",
   "number": "1.1",
   "title": "",
-  "body": "  Start with networks that are just a cycle.     Characterize what the signed incidence matrices look like.      When are their columns independent, if ever? Explain your answer.    "
+  "body": "  Consider the following reduced row echelon form matrix      Is there a matrix with first column and third column with reduced row echelon form ? If so, construct it. Otherwise, explain why not.      Is there a matrix with first column and third column and reduced row echelon form ? If so, construct it. Otherwise, explain why not.      Which columns of are in the span of the first column?    "
 },
 {
-  "id": "day20-add-edge-dependent",
+  "id": "ex-reverse-rr-2",
   "level": "2",
-  "url": "#day20-add-edge-dependent",
+  "url": "#ex-reverse-rr-2",
   "type": "Checkpoint",
   "number": "1.2",
   "title": "",
-  "body": "  Explain why adding an edge to a network for which the columns of its signed incidence matrix are dependent can never make it independent.   "
+  "body": "  Consider the following reduced row echelon form matrix      Is there a matrix with first column , second column , and fourth column with reduced row echelon form ? If so, construct it. Otherwise, explain why not.      Is there a matrix with first column , second column , and fourth column with reduced row echelon form ? If so, construct it. Otherwise, explain why not.      Which columns of are in the span of the first two columns?    "
 },
 {
-  "id": "day20-five-vertices",
+  "id": "ex-reverse-rr-3",
   "level": "2",
-  "url": "#day20-five-vertices",
+  "url": "#ex-reverse-rr-3",
   "type": "Checkpoint",
   "number": "1.3",
   "title": "",
-  "body": "  Characterize which networks on at most 5 vertices are independent.   "
+  "body": "  This time you are given the non-pivot columns instead of the pivot columns. Consider the following reduced row echelon form matrix      Find a matrix with third column and fourth column whose reduced row echelon form is . Is your answer the only possibility?      Is there a matrix with third column and fourth column and reduced row echelon form ? If so, construct it. Otherwise, explain why not.    "
 },
 {
-  "id": "day20-add-edge-independent",
+  "id": "ex-reverse-rr-4",
   "level": "2",
-  "url": "#day20-add-edge-independent",
+  "url": "#ex-reverse-rr-4",
   "type": "Checkpoint",
   "number": "1.4",
   "title": "",
-  "body": "  Take an independent network and add an edge between two nodes. When does this stop the columns of the signed incidence matrix of the network from being independent and why? When does it preserve independence?   "
+  "body": "  Find a matrix with no zero entries whose reduced row echelon form is . Can you find one where every entry is positive?   "
 },
 {
-  "id": "day20-when-independent",
+  "id": "ex-reverse-rr-5",
   "level": "2",
-  "url": "#day20-when-independent",
+  "url": "#ex-reverse-rr-5",
   "type": "Checkpoint",
   "number": "1.5",
   "title": "",
-  "body": "  When are the columns of such a matrix independent?   "
+  "body": "  Suppose a matrix has reduced row echelon form , and column of is not a pivot column. Explain how to use the entries of column of to write column of as a linear combination of the pivot columns of . Why do row operations not change this relationship?   "
 },
 {
-  "id": "day20-never-spanning",
+  "id": "sec-matrix-subspaces-4",
   "level": "2",
-  "url": "#day20-never-spanning",
+  "url": "#sec-matrix-subspaces-4",
   "type": "Checkpoint",
   "number": "1.6",
   "title": "",
-  "body": "  Prove that the columns are never spanning.   "
+  "body": "  What is the dimension of the vector space of matrices?   "
 },
 {
-  "id": "day20-max-rank",
+  "id": "sec-matrix-subspaces-5",
   "level": "2",
-  "url": "#day20-max-rank",
+  "url": "#sec-matrix-subspaces-5",
   "type": "Checkpoint",
   "number": "1.7",
   "title": "",
-  "body": "  What is the maximum rank of such a matrix? When is the maximum attained?   "
+  "body": "  Find a basis for the subspace of diagonal matrices. What is the dimension?   "
 },
 {
-  "id": "day20-independent-max-rank",
+  "id": "sec-matrix-subspaces-6",
   "level": "2",
-  "url": "#day20-independent-max-rank",
+  "url": "#sec-matrix-subspaces-6",
   "type": "Checkpoint",
   "number": "1.8",
   "title": "",
-  "body": "  When are the columns both independent and the rank maximal?   "
+  "body": "  Find a general expression for the dimension of the set of diagonal matrices.   "
 },
 {
-  "id": "day20-laplacian",
+  "id": "sec-matrix-subspaces-7",
   "level": "2",
-  "url": "#day20-laplacian",
+  "url": "#sec-matrix-subspaces-7",
   "type": "Checkpoint",
   "number": "1.9",
   "title": "",
-  "body": "  Let be such an incidence matrix.     Show that       Show that is positive semidefinite.      Show that , where is the diagonal matrix with equal to the number of vertices adjacent to vertex and if and are adjacent and otherwise.    "
+  "body": "  Find a basis for the subspace of upper triangular matrices. What is the dimension?   "
+},
+{
+  "id": "sec-rotation-fixed-point-3",
+  "level": "2",
+  "url": "#sec-rotation-fixed-point-3",
+  "type": "Checkpoint",
+  "number": "1.10",
+  "title": "",
+  "body": "  Take the point and rotate it degrees counterclockwise about . What do you get?   "
+},
+{
+  "id": "sec-rotation-fixed-point-4",
+  "level": "2",
+  "url": "#sec-rotation-fixed-point-4",
+  "type": "Checkpoint",
+  "number": "1.11",
+  "title": "",
+  "body": "  Explain why rotation about is not a linear transformation.   "
+},
+{
+  "id": "sec-rotation-fixed-point-6",
+  "level": "2",
+  "url": "#sec-rotation-fixed-point-6",
+  "type": "Checkpoint",
+  "number": "1.12",
+  "title": "",
+  "body": "  Explain intuitively why the following three step procedure would correspond to rotating about by degrees counterclockwise:   Translate by  Rotate degrees about counterclockwise  Translate by .   How would you interpret that in terms of changes of basis?   "
+},
+{
+  "id": "sec-rotation-fixed-point-7",
+  "level": "2",
+  "url": "#sec-rotation-fixed-point-7",
+  "type": "Checkpoint",
+  "number": "1.13",
+  "title": "",
+  "body": "  Find a matrix representing rotation by degrees about the point .   "
+},
+{
+  "id": "sec-signed-incidence-3",
+  "level": "2",
+  "url": "#sec-signed-incidence-3",
+  "type": "Checkpoint",
+  "number": "1.14",
+  "title": "",
+  "body": "  What is the maximum rank of a signed incidence matrix for a network on nodes?   "
+},
+{
+  "id": "sec-signed-incidence-4",
+  "level": "2",
+  "url": "#sec-signed-incidence-4",
+  "type": "Checkpoint",
+  "number": "1.15",
+  "title": "",
+  "body": "  Characterize when signed incidence matrices attain their maximum rank.   "
+},
+{
+  "id": "sec-signed-incidence-5",
+  "level": "2",
+  "url": "#sec-signed-incidence-5",
+  "type": "Checkpoint",
+  "number": "1.16",
+  "title": "",
+  "body": "  Characterize when signed incidence matrices attain their maximum rank and have independent columns.   "
 }
 ]
 
