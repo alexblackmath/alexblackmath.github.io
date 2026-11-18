@@ -155,6 +155,26 @@ body.inv{--bg:#FFFFFF;--bg2:#FFFFFF;--panel:#FFFFFF;--line:#D6D6D6;--ink:#0A0A0A
 .cell.c3 input{border-bottom:2px solid rgba(255,177,59,.65)}
 .cell input:focus-visible{outline:none;border-color:var(--cyan);box-shadow:0 0 0 1px var(--cyan),0 0 14px rgba(60,242,255,.35)}
 .cell.bad input{border-color:var(--red);color:var(--red)}
+.bmat{position:relative;display:grid;gap:2px 10px;padding:6px 18px;margin:-16px 36px 0;font:600 15px 'Chakra Petch',sans-serif;
+  font-variant-numeric:tabular-nums;color:var(--mag);text-align:center}
+.bmat.hidden{display:none}
+.bmat::before,.bmat::after{content:"";position:absolute;top:0;bottom:0;width:10px;border:2px solid var(--mag);box-shadow:0 0 8px rgba(255,43,214,.5)}
+.bmat::before{left:0;border-right:none}.bmat::after{right:0;border-left:none}
+.bmat span{padding:3px 0}
+.bwall{fill:none;stroke-linecap:round;opacity:.9}
+.bhull{fill:rgba(255,43,214,.10);stroke:var(--mag);stroke-width:3;stroke-linejoin:round}
+.bgrid{stroke:var(--mag);stroke-opacity:.35;stroke-width:1}
+.laser{stroke:#FF4D5E;stroke-opacity:.75;stroke-linecap:round}
+.laserwarn{stroke:#FF4D5E;stroke-width:1.5;stroke-dasharray:6 6;stroke-opacity:.7}
+.bstorm{fill:none;stroke:#8C7BFF;stroke-opacity:.35;stroke-width:1.2;stroke-dasharray:4 5}
+.blat{stroke:#7CFF9E;stroke-opacity:.35;stroke-width:1.2}
+.bstud{fill:rgba(124,255,158,.25);stroke:#7CFF9E;stroke-width:1.2}
+.baxis{stroke:#CFE8FF;stroke-opacity:.35;stroke-width:1.2;stroke-dasharray:10 6}
+.bwing{fill:rgba(207,232,255,.10);stroke:#CFE8FF;stroke-width:2.5;stroke-linejoin:round}
+.bdrone{fill:none;stroke:#CFE8FF;stroke-width:1.5;stroke-dasharray:3 3;opacity:.8}
+.wkoct{fill:rgba(255,177,59,.25);stroke:#FFB13B;stroke-width:2.2}
+.wkcore{fill:#FFFFFF}
+.wkring{fill:none;stroke:#FFB13B;stroke-width:1.2;stroke-dasharray:3 5;transform-box:fill-box;transform-origin:center;animation:spin 6s linear infinite}
 .jrow{width:100%;height:18px;display:block}
 .gas{display:flex;align-items:center;gap:12px}
 .gas.hidden{display:none}
@@ -236,7 +256,7 @@ body.inv{--bg:#FFFFFF;--bg2:#FFFFFF;--panel:#FFFFFF;--line:#D6D6D6;--ink:#0A0A0A
     <div class="rec" aria-hidden="true"><svg viewBox="0 0 46 26"><polygon points="2,2 20,13 2,24" fill="var(--mag)"/><polygon points="22,2 40,13 22,24" fill="var(--mag)"/><rect x="41" y="2" width="4" height="22" fill="var(--mag)"/></svg></div>
   </main>
   <aside class="panel" aria-label="Transform controls">
-    <svg id="prog" viewBox="0 0 280 100" aria-label="Level progression"></svg>
+    <svg id="prog" viewBox="0 0 280 120" aria-label="Level progression"></svg>
     <div class="matrix" id="matrix">
       <div class="cell c1"><input id="m-a" inputmode="decimal" aria-label="Row 1, column 1"></div>
       <div class="cell c2"><input id="m-b" inputmode="decimal" aria-label="Row 1, column 2"></div>
@@ -248,6 +268,7 @@ body.inv{--bg:#FFFFFF;--bg2:#FFFFFF;--panel:#FFFFFF;--line:#D6D6D6;--ink:#0A0A0A
       <div class="cell"><div class="fixed">0</div></div>
       <div class="cell"><div class="fixed">1</div></div>
     </div>
+    <div class="bmat hidden" id="bmat" aria-label="Boss matrix"></div>
     <svg class="jrow" id="jumps" viewBox="0 0 280 18" aria-label="Jumps left"></svg>
     <div class="gas hidden" id="gasWrap" aria-label="Gas">
       <svg viewBox="0 0 22 22" aria-hidden="true"><path d="M6 4h7l4 4v11H6z" fill="none" stroke="var(--amber)" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 4V2h4" fill="none" stroke="var(--amber)" stroke-width="1.6"/><path d="M11.5 9.5c1.6 2 2.4 3.3 2.4 4.4a2.4 2.4 0 0 1-4.8 0c0-1.1.8-2.4 2.4-4.4z" fill="var(--mag)"/></svg>
@@ -374,7 +395,7 @@ function shortestRoute(start,goal,rocks){
 
 /* ---------- random level generation ---------- */
 const rnd=(a,b)=>a+Math.random()*(b-a);
-const TYPES=6, UNLOCK=3, BSPD=2.4, BLIFE=9, HULL5=0.45, BR=0.15;
+const TYPES=11, BOSS0=6, UNLOCK=3, BSPD=2.4, BLIFE=9, HULL5=0.45, BR=0.15;
 function genDuel(type){
   const n=type-2,foes=[];let g=0;
   while(foes.length<n&&g++<800){
@@ -385,7 +406,9 @@ function genDuel(type){
   }
   return {type,F0:I,target:[0,0],tr:0,heading:null,jumps:Infinity,gas:null,rocks:[],foes};
 }
+const isDuel=()=>!!L&&L.type>=3&&L.type<BOSS0, isBoss=()=>!!L&&L.type>=BOSS0;
 function genLevel(type){
+  if(type>=BOSS0)return {type,F0:I,target:[0,0],tr:0,heading:null,jumps:Infinity,gas:null,rocks:[]};
   if(type>=3)return genDuel(type);
   for(let tries=0;tries<500;tries++){
     const F0=I;
@@ -425,7 +448,7 @@ try{const sv=JSON.parse(localStorage.getItem('rh-progress-v2')||'null');
 while(prog.cleared.length<TYPES)prog.cleared.push(0);
 if(!(prog.type>=0&&prog.type<TYPES))prog.type=0;
 const saveProg=()=>{try{localStorage.setItem('rh-progress-v2',JSON.stringify(prog))}catch(e){}};
-const unlocked=()=>true;
+const unlocked=t=>t<BOSS0||prog.cleared.slice(0,BOSS0).every(n=>n>0);   // bosses open once levels 1-6 have each been beaten
 
 /* ---------- state ---------- */
 /* the ship: a regular octagon (circumradius RC, flat side facing each of the 8 directions),
@@ -572,7 +595,7 @@ function render(){
     tg+=`<polygon class="enemy" points="${pts(eb)}"/><circle class="spark" cx="${S(W2S(c))[0].toFixed(1)}" cy="${S(W2S(c))[1].toFixed(1)}" r="2.5"/>`;
     const es=S(W2S(c));tg+=`<circle class="ereticle" cx="${es[0].toFixed(1)}" cy="${es[1].toFixed(1)}" r="${(R*1.9*U/Math.sqrt(Math.abs(det(F)))).toFixed(1)}"/>`;
   }
-  if(L.type>=3&&plan5){
+  if(isDuel()&&plan5){
     const tt=tickT,lp=(a,b,t)=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t],me=ap(inv(G),[0,0]);
     plan5.fs.forEach(o=>{if(o.f.dead||(tt!=null&&tt>=o.killT))return;const c=tt==null?o.p0:lp(o.p0,o.p1,tt);
       if(tt==null&&state==='plan'&&!replaying){const a=S(W2S(o.p0)),b=S(W2S(o.p1));
@@ -593,8 +616,11 @@ function render(){
         if(!b.fresh)tg+=`<circle class="ebullet" cx="${a[0].toFixed(1)}" cy="${a[1].toFixed(1)}" r="${(BR*U).toFixed(1)}"/>`}
       else{const q=S(W2S([b.p0[0]+b.v[0]*tt,b.p0[1]+b.v[1]*tt]));tg+=`<circle class="ebullet" cx="${q[0].toFixed(1)}" cy="${q[1].toFixed(1)}" r="${(BR*U).toFixed(1)}"/>`}});
   }
+  if(isBoss()){const bd=drawBoss();w+=bd.body;tg+=bd.glow}
   w+=`<g filter="url(#glow)">${tg}</g>`;
-  const goal=phase==='travel'?L.target:(enemy&&!enemy.dead?enemy.w:null);
+  let goal=phase==='travel'?L.target:(enemy&&!enemy.dead?enemy.w:null);
+  if(isBoss()&&boss&&!boss.hidden){const me=ap(inv(G),[0,0]),tau=boss.tick+(tickT||0);let bd=1e9;
+    for(const w2 of bossActive(boss)){const p=w2.pos(tau),d=Math.hypot(p[0]-me[0],p[1]-me[1]);if(d<bd){bd=d;goal=p}}}
   const tcs=goal?S(W2S(goal)):[0,0],mx=W/2-34,my=H/2-34;
   if(goal&&(Math.abs(tcs[0])>mx||Math.abs(tcs[1])>my)){
     const k=Math.min(mx/Math.abs(tcs[0]||1e-9),my/Math.abs(tcs[1]||1e-9));const px=tcs[0]*k,py=tcs[1]*k,an=Math.atan2(py,px);
@@ -605,7 +631,7 @@ function render(){
 
   let p='';
   const far=Math.hypot(W,H)/U;
-  if(phase==='combat'&&!dead&&!replaying)p+=`<line class="aim" x1="0" y1="${(-.7*U).toFixed(1)}" x2="0" y2="${(-far*U).toFixed(1)}"/>`;
+  if((phase==='combat'||phase==='boss')&&!dead&&!replaying)p+=`<line class="aim" x1="0" y1="${(-.7*U).toFixed(1)}" x2="0" y2="${(-far*U).toFixed(1)}"/>`;
   if(shot)p+=`<line class="mtrail" x1="${shot.a[0].toFixed(1)}" y1="${shot.a[1].toFixed(1)}" x2="${shot.b[0].toFixed(1)}" y2="${shot.b[1].toFixed(1)}"/><circle class="missile" cx="${shot.b[0].toFixed(1)}" cy="${shot.b[1].toFixed(1)}" r="3.5"/>`;
   /* no preview of the jump: where the ship ends up has to be worked out from the matrix itself */
   prevL.innerHTML=p;
@@ -680,8 +706,15 @@ function muzzle(){
 }
 
 /* ---------- panel: progression, jumps, gas ---------- */
-const TX=[25,71,117,163,209,255];
+const TX1=[25,71,117,163,209,255],TX2=[40,90,140,190,240];
+const lvPos=t=>t<BOSS0?[TX1[t],22]:[TX2[t-BOSS0],66];
 function glyph(t,x,y,c){
+  const st=`fill="none" stroke="${c}" stroke-width="1.4"`;
+  if(t===6)return `<circle cx="${x}" cy="${y}" r="9" ${st} stroke-dasharray="44 12"/><circle cx="${x}" cy="${y}" r="5.5" ${st} stroke-dasharray="26 9" transform="rotate(120 ${x} ${y})"/><circle cx="${x}" cy="${y}" r="2" fill="${c}"/>`;
+  if(t===7)return `<polygon points="${x-9},${y+5} ${x+3},${y+5} ${x+9},${y-5} ${x-3},${y-5}" ${st}/><line x1="${x-3}" y1="${y+5}" x2="${x+3}" y2="${y-5}" stroke="${c}" stroke-width=".8"/>`;
+  if(t===8)return `<line x1="${x-9}" y1="${y+4}" x2="${x+9}" y2="${y-4}" stroke="${c}" stroke-width="1.4"/><line x1="${x-4}" y1="${y-8}" x2="${x+4}" y2="${y+8}" stroke="${c}" stroke-width="1.4" stroke-dasharray="2 2"/><circle cx="${x}" cy="${y}" r="2" fill="${c}"/>`;
+  if(t===9){let h='';for(let k=0;k<3;k++){h+=`<line x1="${x-8+k*5}" y1="${y+7}" x2="${x-4+k*5}" y2="${y-7}" stroke="${c}" stroke-width="1.1"/><line x1="${x-8+k*2}" y1="${y+7-k*7}" x2="${x+6+k*2}" y2="${y+7-k*7}" stroke="${c}" stroke-width="1.1"/>`}return h}
+  if(t===10)return `<line x1="${x}" y1="${y-10}" x2="${x}" y2="${y+10}" stroke="${c}" stroke-width="1.2" stroke-dasharray="3 2"/><polygon points="${x-2},${y-6} ${x-9},${y} ${x-2},${y+6}" ${st}/><polygon points="${x+2},${y-6} ${x+9},${y} ${x+2},${y+6}" ${st}/>`;
   if(t>=3){let d="";for(let k=0;k<t-2;k++)d+=`<circle cx="${x+(k-(t-3)/2)*4.5}" cy="${y+7.5}" r="1.4" fill="${c}"/>`;return `<polygon points="${x},${y+4} ${x+6},${y-2} ${x+3},${y-7.5} ${x},${y-4.5} ${x-3},${y-7.5} ${x-6},${y-2}" fill="${c}" stroke="${c}" stroke-width="1" stroke-linejoin="round"/>`+d}
   if(t===0)return `<circle cx="${x}" cy="${y}" r="6" fill="none" stroke="${c}" stroke-width="1.6"/><circle cx="${x}" cy="${y}" r="1.8" fill="${c}"/>`;
   if(t===1)return `<circle cx="${x}" cy="${y}" r="7" fill="none" stroke="${c}" stroke-width="1.4"/><line x1="${x-10}" y1="${y}" x2="${x-4}" y2="${y}" stroke="${c}" stroke-width="1.4"/><line x1="${x+4}" y1="${y}" x2="${x+10}" y2="${y}" stroke="${c}" stroke-width="1.4"/><line x1="${x}" y1="${y-10}" x2="${x}" y2="${y-4}" stroke="${c}" stroke-width="1.4"/><line x1="${x}" y1="${y+4}" x2="${x}" y2="${y+10}" stroke="${c}" stroke-width="1.4"/><circle cx="${x}" cy="${y}" r="1.8" fill="${c}"/>`;
@@ -691,22 +724,20 @@ function glyph(t,x,y,c){
 }
 function drawProg(){
   let g=`<defs><filter id="pglow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
-  let last=0;for(let t=1;t<TYPES;t++)if(unlocked(t))last=t;
-  g+=`<line x1="${TX[0]}" y1="28" x2="${TX[TYPES-1]}" y2="28" stroke="var(--line)" stroke-width="2"/>`;
-  if(last>0)g+=`<line x1="${TX[0]}" y1="28" x2="${TX[last]}" y2="28" stroke="var(--amber)" stroke-width="2"/>`;
+  g+=`<line x1="${TX1[0]}" y1="22" x2="${TX1[5]}" y2="22" stroke="var(--amber)" stroke-width="2"/><line x1="${TX2[0]}" y1="66" x2="${TX2[4]}" y2="66" stroke="var(--mag)" stroke-opacity=".6" stroke-width="2"/>`;
   for(let t=0;t<TYPES;t++){
-    const here=t===prog.type,open=unlocked(t),R=here?18:15;
-    const hx=[];for(let k=0;k<6;k++){const a=k/6*2*Math.PI+Math.PI/6;hx.push((TX[t]+Math.cos(a)*R).toFixed(1)+','+(28+Math.sin(a)*R).toFixed(1))}
-    const c=here?'var(--cyan)':open?'var(--amber)':'var(--faint)';
+    const here=t===prog.type,open=unlocked(t),bo=t>=BOSS0,R=here?(bo?19:17):(bo?16:14.5),[px,py]=lvPos(t);
+    const hx=[];for(let k=0;k<6;k++){const a=k/6*2*Math.PI+Math.PI/6;hx.push((px+Math.cos(a)*R).toFixed(1)+','+(py+Math.sin(a)*R).toFixed(1))}
+    const c=here?'var(--cyan)':!open?'var(--faint)':bo?'var(--mag)':'var(--amber)';
     const fill=here?'rgba(60,242,255,.12)':open&&prog.cleared[t]>=UNLOCK?'rgba(255,177,59,.18)':'var(--panel)';
     // unlock pips
-    let pips='';for(let k=0;k<UNLOCK;k++){const on=prog.cleared[t]>k;pips+=`<circle cx="${TX[t]+(k-1)*6}" cy="54" r="2.2" fill="${on?'var(--amber)':'none'}" stroke="${on?'var(--amber)':'var(--faint)'}" stroke-width="1"/>`}
+    let pips='';for(let k=0;k<UNLOCK;k++){const on=prog.cleared[t]>k;pips+=`<circle cx="${px+(k-1)*6}" cy="${py+21}" r="2.2" fill="${on?'var(--amber)':'none'}" stroke="${on?'var(--amber)':'var(--faint)'}" stroke-width="1"/>`}
     g+=`<g class="lv${open?'':' locked'}" data-t="${t}" ${open?'tabindex="0" role="button"':''} aria-label="Level type ${t+1}">
-      <polygon class="lvhex" points="${hx.join(' ')}" fill="${fill}" stroke="${c}" stroke-width="2" ${here?'filter="url(#pglow)"':''}/>${glyph(t,TX[t],28,c)}</g>${pips}`;
+      <polygon class="lvhex" points="${hx.join(' ')}" fill="${fill}" stroke="${c}" stroke-width="2" ${here?'filter="url(#pglow)"':''}/>${glyph(t,px,py,c)}</g>${pips}`;
   }
   // level strip for current type
   const n=prog.cleared[prog.type],show=Math.min(n,10),total=show+1,sp=21,x0=140-(total-1)*sp/2;
-  for(let i=0;i<total;i++){const x=x0+i*sp,y=84,curr=i===total-1,R=curr?8:6.5;
+  for(let i=0;i<total;i++){const x=x0+i*sp,y=108,curr=i===total-1,R=curr?8:6.5;
     const hx=[];for(let k=0;k<6;k++){const a=k/6*2*Math.PI+Math.PI/6;hx.push((x+Math.cos(a)*R).toFixed(1)+','+(y+Math.sin(a)*R).toFixed(1))}
     const fade=n>10&&i===0?' opacity=".35"':'';
     g+=`<polygon points="${hx.join(' ')}" fill="${curr?'rgba(60,242,255,.15)':'rgba(255,177,59,.3)'}" stroke="${curr?'var(--cyan)':'var(--amber)'}" stroke-width="1.5"${fade}/>`;
@@ -715,6 +746,13 @@ function drawProg(){
   progEl.innerHTML=g;
 }
 function drawJumps(){
+  if(isBoss()&&boss){const n=boss.weak.length,left=boss.weak.filter(w=>w.alive).length,sp=17,ms=14,wd=maxMissiles*ms+22+n*sp,xs=140-wd/2;let g='';
+    for(let k=0;k<maxMissiles;k++){const x=xs+k*ms+6,on=k<missiles;
+      g+=`<path d="M${x} 2c1.8 1.8 2.3 3.8 2.3 6v3l1.9 2.3h-8.4l1.9-2.3V8c0-2.2.5-4.2 2.3-6z" fill="${on?'var(--mag)':'none'}" stroke="${on?'var(--mag)':'var(--faint)'}" stroke-width="1.1"/>`}
+    const x0=xs+maxMissiles*ms+22+sp/2;
+    for(let k=0;k<n;k++){const x=x0+k*sp,on=k<left,oc=[...Array(8)].map((_,j)=>{const a=(22.5+45*j)*D2R;return (x+Math.cos(a)*6).toFixed(1)+','+(9+Math.sin(a)*6).toFixed(1)}).join(' ');
+      g+=`<polygon points="${oc}" fill="${on?'rgba(255,177,59,.35)':'none'}" stroke="${on?'var(--amber)':'var(--faint)'}" stroke-width="1.3"/>`}
+    $('jumps').innerHTML=g;return}
   if(phase==='combat'){const sp=22,x0=140-(maxMissiles-1)*sp/2;let g='';
     for(let k=0;k<maxMissiles;k++){const x=x0+k*sp,on=k<missiles;
       g+=`<path d="M${x} 1c2.4 2.4 3 5 3 8v4l2.5 3h-11l2.5-3V9c0-3 .6-5.6 3-8z" fill="${on?'var(--mag)':'none'}" stroke="${on?'var(--mag)':'var(--faint)'}" stroke-width="1.2"/>`}
@@ -735,8 +773,11 @@ function drawGas(){
   $('gbar').classList.toggle('short',!!(show&&cur.short));
 }
 function updatePanel(){
+  const bm=$('bmat'),mt=isBoss()&&boss&&boss.mat&&!boss.dying?boss.mat():null;
+  bm.classList.toggle('hidden',!mt);
+  if(mt){bm.style.gridTemplateColumns=`repeat(${mt.cols},1fr)`;bm.innerHTML=mt.v.map(v=>`<span>${fmt2(v)}</span>`).join('')}
   $('go').disabled=replaying||state!=='plan'||!cur||!cur.ok||cur.singular;
-  $('fire').classList.toggle('hidden',phase!=='combat');$('fire').disabled=replaying||phase!=='combat'||state!=='plan'||missiles<=0;
+  const armed=phase==='combat'||phase==='boss';$('fire').classList.toggle('hidden',!armed);$('fire').disabled=replaying||!armed||state!=='plan'||missiles<=0;
   drawProg();drawJumps();drawGas();
 }
 progEl.addEventListener('click',e=>{const t=e.target.closest('.lv');if(!t||t.classList.contains('locked')||(state==='anim'&&!replaying))return;pickType(+t.dataset.t)});
@@ -746,6 +787,7 @@ function pickType(t){prog.type=t;saveProg();newLevel()}
 /* ---------- matrix input ---------- */
 function setInputs(o){for(const k in o)inputs[k].value=o[k];readMatrix()}
 function readMatrix(){
+  if(state==='anim')return;
   const v={};let ok=true;
   for(const k of 'abcdef'){const el=inputs[k];let x;try{x=evalExpr(el.value)}catch(e){x=NaN}
     const bad=!isFinite(x);el.parentElement.classList.toggle('bad',bad);if(bad)ok=false;v[k]=x}
@@ -756,12 +798,13 @@ function readMatrix(){
   if(ok){
     const M={a:v.a,b:v.b,c:v.c,d:v.d,e:v.e,f:v.f};cur.M=M;cur.singular=Math.abs(det(M))<0.05;
     cur.hit=replaying?null:hullHit(M);
-    if(L.type>=3){plan5=planTick(M);const h=replaying?null:dangerHit(M);if(h!==null&&(cur.hit===null||h<cur.hit))cur.hit=h}
+    if(isBoss()&&boss&&!cur.singular){bplan=planBoss(M);if(bplan.hitT!==null&&(cur.hit===null||bplan.hitT<cur.hit))cur.hit=bplan.hitT}
+    if(isDuel()){plan5=planTick(M);const h=replaying?null:dangerHit(M);if(h!==null&&(cur.hit===null||h<cur.hit))cur.hit=h}
     cur.cost=gasCost(M);cur.short=L.gas!=null&&cur.cost>gas+1e-9;cur.stop=cur.short?gas/cur.cost:1;
     cur.win=cur.singular||phase!=='travel'?{pos:false,head:false}:onTarget(mul(F,M));
-    cur.aimed=phase==='combat'&&L.type<3&&!cur.singular&&aimCheck(mul(F,M),true).hit;
+    cur.aimed=phase==='combat'&&!isDuel()&&!cur.singular&&aimCheck(mul(F,M),true).hit;
   }
-  if(L.type>=3&&!cur.ok)plan5=planTick();
+  if(isDuel()&&!cur.ok)plan5=planTick();
   updatePanel();render();
 }
 Object.values(inputs).forEach(el=>{el.addEventListener('input',readMatrix);
@@ -826,7 +869,9 @@ function execute(opt){
     else{const TH=Math.atan2(M.d,M.a),th=TH*t,c=Math.cos(th),sn=Math.sin(th),de=u<.5?12*u*u:3*Math.pow(-2*u+2,2),dde=u<.5?24*u:-12*(2-2*u),sec=dur/1000;
       setThrust(c*M.c+sn*M.f,-sn*M.c+c*M.f,u<1?de/1.5:0);
       setTurn(u<1?TH*tEnd*de/sec:0,u<1?TH*tEnd*dde/(sec*sec):0)}
-    liveArc.push(live);tickT=L.type>=3?t:null;
+    liveArc.push(live);tickT=isDuel()||isBoss()?t:null;
+    if(tickT!=null&&isBoss()&&bplan){for(const tc of bplan.touches)if(!tc.boomed&&tc.t<=t){tc.boomed=true;burst(S(W2S(tc.wp.pos(boss.tick+tc.t))),'var(--amber)')}
+      for(const q of bplan.ms)if(q.at&&!q.boomed&&q.end<=t){q.boomed=true;burst(S(W2S(q.at)),'var(--rock)')}}
     if(tickT!=null&&plan5)for(const o of plan5.fs)if(!o.boomed&&o.killT<=t){o.boomed=true;   // blow up the instant the missile connects
       burst(S(W2S([o.p0[0]+(o.p1[0]-o.p0[0])*o.killT,o.p0[1]+(o.p1[1]-o.p0[1])*o.killT])),'var(--mag)',o.f)}
     if(L.gas!=null){gas=Math.max(0,gas0-cost*t);$('gfill').style.width=Math.max(0,gas/L.gas*100)+'%'}
@@ -856,7 +901,8 @@ function finish(M,tEnd,crash,dry,cost,gas0){
       fxL.innerHTML=`<g filter="url(#glow)"><circle class="boom-ring good" cx="0" cy="0" r="4"/></g>`;
     }else if(used>=L.jumps){fail();return}
   }
-  if(L.type>=3){fxL.innerHTML='';commitTick();
+  if(isBoss()){commitBoss();if(boss.done){bossDeath();return}}
+  if(isDuel()){fxL.innerHTML='';commitTick();
     if(foes.every(f=>f.dead)){win();return}
     if(missiles<=0&&!pmiss.length){fail();return}}
   state='plan';drawShip();setInputs({a:'1',b:'0',c:'0',d:'0',e:'1',f:'0'});
@@ -894,7 +940,7 @@ function startReplay(actions){
       step(t);return;
     }
     const a=actions[i++];
-    if(L.type>=3){fire();replayTimer=setTimeout(()=>next(performance.now()),pause)}
+    if(isDuel()||isBoss()){fire();replayTimer=setTimeout(()=>next(performance.now()),pause)}
     else fire({onDone:()=>{replayTimer=setTimeout(()=>next(performance.now()),pause*.5)}});
   };
   replayTimer=setTimeout(()=>next(performance.now()),reduceMotion?150:450);
@@ -926,7 +972,7 @@ function aimCheck(Fr,future){
   for(const [cx,cy,r] of L.rocks){const fx=O[0]-cx,fy=O[1]-cy,B=fx*dx+fy*dy,C=fx*fx+fy*fy-r*r,disc=B*B-C;
     if(disc<0)continue;const s=-B-Math.sqrt(disc);if(s>0&&s<block)block=s}
   let hit=false,dist=60,target=null;
-  const list=L.type>=3?(future&&plan5?plan5.fs.filter(o=>!o.f.dead).map(o=>({w:o.p1,r:o.f.r})):foes.filter(f=>!f.dead)):(enemy&&!enemy.dead?[enemy]:[]);
+  const list=isDuel()?(future&&plan5?plan5.fs.filter(o=>!o.f.dead).map(o=>({w:o.p1,r:o.f.r})):foes.filter(f=>!f.dead)):(enemy&&!enemy.dead?[enemy]:[]);
   for(const en of list){const vx=en.w[0]-O[0],vy=en.w[1]-O[1],proj=vx*dx+vy*dy,perp=Math.abs(vx*dy-vy*dx);
     if(proj>0&&perp<=en.r&&proj<block&&proj<dist){hit=true;dist=proj;target=en}}
   if(!hit&&block<Infinity)dist=block;
@@ -938,9 +984,15 @@ function fire5(){
   pmiss.push({p:[O[0]+dx*.7,O[1]+dy*.7],v:[dx*MSPD,dy*MSPD],life:12});
   plan5=planTick();readMatrix();
 }
+function fireBoss(){
+  if(state!=='plan'||missiles<=0||!boss)return;
+  missiles--;log.push({k:'f'});muzzle();let dx=F.b,dy=F.e;const l=Math.hypot(dx,dy)||1;dx/=l;dy/=l;const O=ap(F,[0,0]);
+  boss.miss.push({p:[O[0]+dx*.7,O[1]+dy*.7],v:[dx*MSPD,dy*MSPD],life:12});readMatrix();
+}
 function fire(opt){
   opt=opt||{};
-  if(L.type>=3){fire5();return}
+  if(isDuel()){fire5();return}
+  if(isBoss()){fireBoss();return}
   if(phase!=='combat'||state!=='plan'||missiles<=0)return;
   missiles--;log.push({k:'f'});muzzle();state='anim';updatePanel();const ep=epoch;
   const A=aimCheck(F),t0=performance.now(),dur=reduceMotion?200:Math.min(900,250+A.dist*U*.9);
@@ -953,7 +1005,7 @@ function fire(opt){
     if(u<1){requestAnimationFrame(frame);return}
     shot=null;
     if(A.hit){A.target.dead=true;burst(tip,'var(--mag)');
-      if(L.type<3||foes.every(f=>f.dead)){win();return}
+      if(!isDuel()||foes.every(f=>f.dead)){win();return}
       plan5=planTick()}
     if(A.blocked)burst(tip,'var(--rock)');
     if(missiles<=0){fail();return}
@@ -1066,15 +1118,238 @@ function explode(){
   if(!reduceMotion)shake(true);
 }
 
+/* ===================== BOSSES (levels 7-11) =====================
+   Shared rules: time only moves when you jump. Every hazard is a function of boss time tau
+   (one tick per jump), sampled continuously along your jump. Weak points are destroyed by
+   flying into them; destroy every weak point of a phase to start the next. */
+let boss=null,bplan=null;
+const dirv=deg=>[Math.cos(deg*D2R),Math.sin(deg*D2R)];
+const lerp2=(a,b,t)=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];
+const angd=(a,b)=>Math.atan2(Math.sin(a-b),Math.cos(a-b));
+const nrm=v=>{const l=Math.hypot(v[0],v[1])||1;return [v[0]/l,v[1]/l]};
+const mapA=(A,v)=>[A[0]*v[0]+A[1]*v[1],A[2]*v[0]+A[3]*v[1]];   // A=[a,b,d,e]
+function segDist(p,a,b){const dx=b[0]-a[0],dy=b[1]-a[1],l2=dx*dx+dy*dy;let t=l2?((p[0]-a[0])*dx+(p[1]-a[1])*dy)/l2:0;t=Math.max(0,Math.min(1,t));return Math.hypot(p[0]-a[0]-dx*t,p[1]-a[1]-dy*t)}
+function inPoly(p,P){let c=false;for(let i=0,j=P.length-1;i<P.length;j=i++){const a=P[i],b=P[j];if((a[1]>p[1])!==(b[1]>p[1])&&p[0]<(b[0]-a[0])*(p[1]-a[1])/(b[1]-a[1])+a[0])c=!c}return c}
+function polyHit(s,P,pad){if(inPoly(s,P))return true;for(let i=0;i<P.length;i++)if(segDist(s,P[i],P[(i+1)%P.length])<pad)return true;return false}
+const fmt2=v=>{let s=(Math.round(v*100)/100).toFixed(2);if(s==='-0.00')s='0.00';return s.replace('-','−')};
+
+/* ---- 7. The Gyre: three armoured rings turning at 90, -45 and 30 degrees per tick ---- */
+function makeGyre(){
+  const C=[0,11.5],R=[3,6,9],W=[90,-45,30],A0=[35,160,-90],GW=3.2,COL=['#8C7BFF','#3CF2FF','#FF2BD6'];
+  const B={c:C,range:28};
+  const gap=(i,tau)=>(A0[i]+W[i]*tau)*D2R;
+  B.weak=[{pos:()=>C,r:.75,phase:0}];
+  B.wallHit=(s,tau,rr=HULL5)=>{const dx=s[0]-C[0],dy=s[1]-C[1],d=Math.hypot(dx,dy),a=Math.atan2(dy,dx);
+    for(let i=0;i<3;i++)if(Math.abs(d-R[i])<rr+.18&&Math.abs(angd(a,gap(i,tau)))>(GW/2-rr*.9)/R[i])return true;return false};
+  B.keep=(p0,p1,tau0)=>{const r0=Math.hypot(p0[0]-C[0],p0[1]-C[1]),r1=Math.hypot(p1[0]-C[0],p1[1]-C[1]);
+    for(let i=0;i<3;i++)if((r0-R[i])*(r1-R[i])<0){const f=(R[i]-r0)/(r1-r0),x=lerp2(p0,p1,f),a=Math.atan2(x[1]-C[1],x[0]-C[0]);
+      if(Math.abs(angd(a,gap(i,tau0+f)))>GW/2/R[i])return false}
+    return true};
+  B.spawn=()=>{const k=B.tick;
+    for(let j=0;j<4;j++){const d=dirv(22.5*k+90*j);B.bullets.push({p:[C[0]+d[0]*.9,C[1]+d[1]*.9],v:[d[0]*1.3,d[1]*1.3],life:12})}
+    if(k%2===1)for(let j=0;j<10;j++){const d=dirv(18*k+36*j);B.bullets.push({p:[C[0]+d[0]*9.8,C[1]+d[1]*9.8],v:[d[0]*1.5,d[1]*1.5],life:9})}};
+  B.draw=tau=>{let h='';
+    for(let i=0;i<3;i++){const g=gap(i,tau),half=GW/2/R[i],P=[];
+      for(let k=0;k<=72;k++){const a=g+half+(2*Math.PI-2*half)*k/72;P.push(W2S([C[0]+R[i]*Math.cos(a),C[1]+R[i]*Math.sin(a)]))}
+      h+=`<polyline class="bwall" style="stroke:${COL[i]}" stroke-width="${(U*.34).toFixed(1)}" points="${pts(P)}"/>`;
+      for(const e of [g+half,g-half]){const q=S(W2S([C[0]+R[i]*Math.cos(e),C[1]+R[i]*Math.sin(e)]));h+=`<circle cx="${q[0].toFixed(1)}" cy="${q[1].toFixed(1)}" r="${(U*.22).toFixed(1)}" style="fill:${COL[i]}"/>`}}
+    for(let j=0;j<8;j++){const d=dirv(j*45+tau*15),a=S(W2S([C[0]+d[0]*1.1,C[1]+d[1]*1.1])),b=S(W2S([C[0]+d[0]*2.5,C[1]+d[1]*2.5]));
+      h+=`<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" stroke="#FFB13B" stroke-opacity=".35" stroke-width="1.5"/>`}
+    return h};
+  B.mat=null;
+  return B;
+}
+
+/* ---- 8. The Parallelogram: its hull is the image of the unit square under a changing matrix ---- */
+function makePara(){
+  const o=[-3,6.5],S5=5,K=[[1,0,0,1],[1,.5,0,1],[1.1,.5,-.35,.9],[.9,-.35,.3,1.1],[1.15,0,.2,.8]];
+  const B={c:[o[0]+2.5,o[1]+2.5],range:26,collapse:null};
+  const Akey=k=>K[((k%K.length)+K.length)%K.length].map(v=>v*S5);
+  B.A=tau=>{
+    if(B.collapse!=null&&tau>=B.collapse){const f=Math.min(1,(tau-B.collapse)/2);return B.Acol.map((v,i)=>v+(B.R1[i]-v)*f)}
+    const k=Math.floor(tau),f=tau-k,a=Akey(k),b=Akey(k+1);return a.map((v,i)=>v+(b[i]-v)*f)};
+  const corners=tau=>{const A=B.A(tau);return [o,[o[0]+A[0],o[1]+A[2]],[o[0]+A[0]+A[1],o[1]+A[2]+A[3]],[o[0]+A[1],o[1]+A[3]]]};
+  const node=i=>tau=>{const q=corners(tau),cen=lerp2(q[0],q[2],.5),p=q[i],d=nrm([p[0]-cen[0],p[1]-cen[1]]);return [p[0]+d[0]*.9,p[1]+d[1]*.9]};
+  B.weak=[{pos:node(1),r:.7,phase:0},{pos:node(2),r:.7,phase:0},{pos:node(3),r:.7,phase:0},{pos:()=>o,r:.85,phase:1}];
+  const laserOn=k=>B.collapse!=null&&k>=B.collapse+2&&(k-B.collapse)%2===0;
+  B.wallHit=(s,tau,rr=HULL5)=>polyHit(s,corners(tau),rr+.1);
+  B.laserHit=(s,tau)=>{if(!laserOn(Math.floor(tau)))return false;const u=B.u,d=[s[0]-o[0],s[1]-o[1]];return Math.abs(d[0]*u[1]-d[1]*u[0])<.6};
+  B.onPhase=()=>{B.Acol=B.A(B.tick);B.collapse=B.tick;const A=B.Acol;B.u=nrm([A[0]+A[1],A[2]+A[3]]);
+    B.R1=[B.u[0]*S5*1.3,B.u[0]*S5*.5,B.u[1]*S5*1.3,B.u[1]*S5*.5]};
+  B.spawn=()=>{const k=B.tick,q=corners(k),A=B.A(k);
+    if(B.phase===0){const e=k%4,a=q[e],b=q[(e+1)%4],out=nrm([[-A[1],-A[3]],[A[0],A[2]],[A[1],A[3]],[-A[0],-A[2]]][e].slice());
+      for(const f of [.1,.3,.5,.7,.9]){const p=lerp2(a,b,f);B.bullets.push({p:[p[0]+out[0]*.3,p[1]+out[1]*.3],v:[out[0]*1.4,out[1]*1.4],life:10})}}
+    else{const n=[-B.u[1],B.u[0]],sg=k%2?1:-1;for(const f of [.15,.35,.55,.75,.95]){const p=lerp2(q[0],q[2],f);B.bullets.push({p:[p[0]+n[0]*sg*.5,p[1]+n[1]*sg*.5],v:[n[0]*sg*1.2,n[1]*sg*1.2],life:10})}}};
+  B.draw=tau=>{const q=corners(tau),A=B.A(tau);let h=`<polygon class="bhull" points="${pts(q.map(W2S))}"/>`;
+    for(const f of [.25,.5,.75]){const a=S(W2S([o[0]+A[0]*f,o[1]+A[2]*f])),b=S(W2S([o[0]+A[0]*f+A[1],o[1]+A[2]*f+A[3]]));
+      const c=S(W2S([o[0]+A[1]*f,o[1]+A[3]*f])),d=S(W2S([o[0]+A[1]*f+A[0],o[1]+A[3]*f+A[2]]));
+      h+=`<line class="bgrid" x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}"/><line class="bgrid" x1="${c[0].toFixed(1)}" y1="${c[1].toFixed(1)}" x2="${d[0].toFixed(1)}" y2="${d[1].toFixed(1)}"/>`}
+    if(B.collapse!=null){const u=B.u,a=S(W2S([o[0]-u[0]*40,o[1]-u[1]*40])),b=S(W2S([o[0]+u[0]*40,o[1]+u[1]*40])),on=laserOn(Math.floor(tau));
+      h+=on?`<line class="laser" x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" stroke-width="${(U*1.1).toFixed(1)}"/><line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" stroke="#FFFFFF" stroke-width="${(U*.25).toFixed(1)}"/>`
+        :`<line class="laserwarn" x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}"/>`}
+    return h};
+  B.mat=()=>{const A=B.A(B.tick+1);return {cols:3,v:[A[0],A[1],o[0],A[2],A[3],o[1]]}};   // where its frame will be after your next move
+  return B;
+}
+
+/* ---- 9. The Eigenstorm: every bullet is moved by the same linear map each tick ---- */
+function makeEigen(){
+  const C=[0,9];
+  const mk=(l1,a1,l2,a2)=>{const v1=dirv(a1),v2=dirv(a2),dt=v1[0]*v2[1]-v2[0]*v1[1],Vi=[v2[1]/dt,-v2[0]/dt,-v1[1]/dt,v1[0]/dt],M=[v1[0]*l1,v2[0]*l2,v1[1]*l1,v2[1]*l2];
+    return [M[0]*Vi[0]+M[1]*Vi[2],M[0]*Vi[1]+M[1]*Vi[3],M[2]*Vi[0]+M[3]*Vi[2],M[2]*Vi[1]+M[3]*Vi[3]]};
+  const sp=1.12,maps=[mk(1.3,20,.65,250),mk(1.3,150,.65,295),[sp*Math.cos(30*D2R),-sp*Math.sin(30*D2R),sp*Math.sin(30*D2R),sp*Math.cos(30*D2R)]];
+  const lanes=[250,295];
+  const B={c:C,range:15};
+  const on=(deg,d)=>{const v=dirv(deg);return ()=>[C[0]+v[0]*d,C[1]+v[1]*d]};
+  B.weak=[{pos:on(250,6.5),r:.65,phase:0},{pos:on(250,3.5),r:.65,phase:0},{pos:on(295,6),r:.65,phase:1},{pos:on(295,3),r:.65,phase:1},{pos:()=>C,r:.8,phase:2}];
+  B.next=b=>{const w=mapA(maps[Math.min(B.phase,2)],[b.p[0]-C[0],b.p[1]-C[1]]);return [C[0]+w[0],C[1]+w[1]]};
+  const offLane=p=>{const ln=lanes[B.phase];if(ln==null)return true;const v=dirv(ln),d=[p[0]-C[0],p[1]-C[1]];return Math.abs(d[0]*v[1]-d[1]*v[0])>1.3};
+  const me=()=>ap(F,[0,0]);
+  B.spawn=()=>{const s=me();
+    if(B.phase<2){for(let j=0;j<9;j++){const d=dirv(lr()*360),p=[C[0]+d[0]*9,C[1]+d[1]*9];if(offLane(p)&&Math.hypot(p[0]-s[0],p[1]-s[1])>2.4)B.bullets.push({p,life:40})}}
+    else for(let j=0;j<6;j++){const d=dirv(60*j+23*B.tick);B.bullets.push({p:[C[0]+d[0]*1.5,C[1]+d[1]*1.5],life:40})}};
+  B.init=()=>{let g=0;while(B.bullets.length<46&&g++<2000){const d=dirv(lr()*360),r=3+lr()*6,p=[C[0]+d[0]*r,C[1]+d[1]*r];
+    if(offLane(p)&&Math.hypot(p[0],p[1])>3.2)B.bullets.push({p,life:40})}};
+  B.draw=tau=>{const A=maps[Math.min(B.phase,2)];let h='';
+    for(const r of [1.2,2.4,3.6]){const P=[];for(let k=0;k<=48;k++){const a=k/48*2*Math.PI+tau*.4,w=mapA(A,[Math.cos(a)*r*.8,Math.sin(a)*r*.8]);P.push(W2S([C[0]+w[0],C[1]+w[1]]))}
+      h+=`<polyline class="bstorm" points="${pts(P)}"/>`}
+    return h};
+  B.mat=()=>{const A=maps[Math.min(B.phase,2)];return {cols:2,v:A}};
+  return B;
+}
+
+/* ---- 10. The Lattice Hydra: heads sit at whole-number points of its own skewed basis ---- */
+function makeHydra(){
+  const bases=[{b1:[1.8,.4],b2:[.5,1.7],O:[-4.5,4]},{b1:[1.6,-.5],b2:[.9,1.6],O:[-4,5]},{b1:[2,.6],b2:[-.5,1.8],O:[-3,4]},{b1:[1.7,0],b2:[.8,1.7],O:[-4,4.5]}];
+  const heads=[[3,1],[1,3],[4,4]],N=5;
+  const B={c:[0,8],range:22,k:0,kPrev:0,kT:-10};
+  const bas=tau=>{const cur=bases[B.k];if(tau>=B.kT+1)return cur;const p=bases[B.kPrev],f=Math.max(0,tau-B.kT);
+    return {b1:lerp2(p.b1,cur.b1,f),b2:lerp2(p.b2,cur.b2,f),O:lerp2(p.O,cur.O,f)}};
+  const L2W=(i,j,tau)=>{const q=bas(tau);return [q.O[0]+i*q.b1[0]+j*q.b2[0],q.O[1]+i*q.b1[1]+j*q.b2[1]]};
+  B.weak=heads.map(([i,j])=>({pos:tau=>L2W(i,j,tau),r:.65,phase:0}));
+  const isHead=(i,j)=>heads.some(h=>h[0]===i&&h[1]===j);
+  B.wallHit=(s,tau,rr=HULL5)=>{for(let i=0;i<=N;i++)for(let j=0;j<=N;j++){if(isHead(i,j))continue;const p=L2W(i,j,tau);if(Math.hypot(s[0]-p[0],s[1]-p[1])<.3+rr)return true}return false};
+  B.onTouch=()=>{B.kPrev=B.k;B.k=(B.k+1)%bases.length;B.kT=B.tick};
+  B.spawn=()=>{const k=B.tick,q=bases[B.k];
+    if(k%2===0){for(let j=0;j<=N;j++)if((j+k/2)%2===0)B.bullets.push({p:L2W(-1,j,k+5),v:q.b1.slice(),life:8})}
+    else for(let i=0;i<=N;i++)if((i+(k-1)/2)%2===0)B.bullets.push({p:L2W(i,-1,k+5),v:q.b2.slice(),life:8})};
+  B.draw=tau=>{let h='';
+    for(let i=0;i<=N;i++){const a=S(W2S(L2W(i,0,tau))),b=S(W2S(L2W(i,N,tau)));h+=`<line class="blat" x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}"/>`}
+    for(let j=0;j<=N;j++){const a=S(W2S(L2W(0,j,tau))),b=S(W2S(L2W(N,j,tau)));h+=`<line class="blat" x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}"/>`}
+    for(let i=0;i<=N;i++)for(let j=0;j<=N;j++){if(isHead(i,j))continue;const p=S(W2S(L2W(i,j,tau)));h+=`<circle class="bstud" cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${(U*.3).toFixed(1)}"/>`}
+    return h};
+  B.mat=()=>{const q=bases[B.k];return {cols:3,v:[q.b1[0],q.b2[0],q.O[0],q.b1[1],q.b2[1],q.O[1]]}};
+  return B;
+}
+
+/* ---- 11. The Mirror Sovereign: symmetric across a tilting axis; its drone is your reflection ---- */
+function makeMirror(){
+  const C=[0,9],AX=[90,55,125],WP=[[0,-4.5],[0,-4],[0,1]];
+  const B={c:C,range:24,axT:-10,axPrev:90};
+  const alpha=tau=>{const tgt=AX[Math.min(B.phase,2)];if(tau>=B.axT+1)return tgt;const f=Math.max(0,tau-B.axT);return B.axPrev+(tgt-B.axPrev)*f};
+  const toW=(x,y,tau)=>{const a=alpha(tau)*D2R,dv=[Math.cos(a),Math.sin(a)],pv=[Math.sin(a),-Math.cos(a)];return [C[0]+x*pv[0]+y*dv[0],C[1]+x*pv[1]+y*dv[1]]};
+  const wingR=[[.95,-1.2],[3.6,-2.2],[4.8,1.2],[3.2,4.6],[.95,3.2]];
+  const wings=tau=>[wingR.map(([x,y])=>toW(x,y,tau)),wingR.map(([x,y])=>toW(-x,y,tau))];
+  B.weak=WP.map((q,i)=>({pos:tau=>toW(q[0],q[1],tau),r:.7,phase:i}));
+  B.wallHit=(s,tau,rr=HULL5)=>wings(tau).some(P=>polyHit(s,P,rr));
+  B.onPhase=()=>{B.axPrev=AX[B.phase-1];B.axT=B.tick};
+  B.reflect=(p,tau)=>{const a=alpha(tau)*D2R,c=Math.cos(2*a),s2=Math.sin(2*a),d=[p[0]-C[0],p[1]-C[1]];return [C[0]+c*d[0]+s2*d[1],C[1]+s2*d[0]-c*d[1]]};
+  B.spawn=()=>{const k=B.tick,s=ap(F,[0,0]),m=B.reflect(s,k);
+    if(Math.hypot(s[0]-m[0],s[1]-m[1])>2.5){const v=nrm([s[0]-m[0],s[1]-m[1]]);B.bullets.push({p:m,v:[v[0]*1.6,v[1]*1.6],life:10})}
+    const em=k%2?[4.8,1.2]:[3.6,-2.2],q=[0,-4.5+(k%3)*1.5];
+    for(const sx of [1,-1]){const p=toW(sx*em[0],em[1],k),t=toW(0,q[1],k),v=nrm([t[0]-p[0],t[1]-p[1]]);B.bullets.push({p,v:[v[0]*1.5,v[1]*1.5],life:9})}};
+  B.draw=tau=>{let h='';const a=toW(0,-14,tau),b=toW(0,10,tau),A=S(W2S(a)),Bb=S(W2S(b));
+    h+=`<line class="baxis" x1="${A[0].toFixed(1)}" y1="${A[1].toFixed(1)}" x2="${Bb[0].toFixed(1)}" y2="${Bb[1].toFixed(1)}"/>`;
+    for(const P of wings(tau))h+=`<polygon class="bwing" points="${pts(P.map(W2S))}"/>`;
+    const me=ap(inv(G),[0,0]),m=S(W2S(B.reflect(me,tau)));
+    h+=`<polygon class="bdrone" points="${OCT.map(q=>(m[0]+q[0]*U*SK).toFixed(1)+','+(m[1]-q[1]*U*SK).toFixed(1)).join(' ')}"/>`;
+    return h};
+  B.mat=()=>{const a=alpha(B.tick+1)*D2R;return {cols:2,v:[Math.cos(2*a),Math.sin(2*a),Math.sin(2*a),-Math.cos(2*a)]}};   // its reflection matrix
+  return B;
+}
+
+function makeBoss(type){
+  const B=[makeGyre,makePara,makeEigen,makeHydra,makeMirror][type-BOSS0]();
+  B.tick=0;B.phase=0;B.bullets=[];B.miss=[];B.done=false;B.dying=false;B.hidden=false;
+  B.weak.forEach(w=>{w.alive=true});
+  if(B.init)B.init();B.spawn();
+  return B;
+}
+const bossActive=B=>B.weak.filter(w=>w.alive&&w.phase===B.phase);
+const bossNext=b=>boss.next?boss.next(b):[b.p[0]+b.v[0],b.p[1]+b.v[1]];
+function planBoss(M){
+  const B=boss,N=140,list=bossActive(B),bs=B.bullets.map(b=>({b,p0:b.p,p1:bossNext(b)}));
+  const ms=B.miss.map(m=>({m,p0:m.p,v:m.v,end:Infinity,hit:false}));   // your missiles: frozen until you jump, then 3 units per tick
+  let hitT=null;const touches=[],got=new Set();
+  for(let i=0;i<=N;i++){const t=i/N,FL=mul(F,lerpFrame(M,t)),s=[FL.c,FL.f],tau=B.tick+t;
+    for(const q of ms){if(q.end<Infinity)continue;const x=[q.p0[0]+q.v[0]*t,q.p0[1]+q.v[1]*t];
+      for(const w of list){if(got.has(w))continue;const p=w.pos(tau);if(Math.hypot(x[0]-p[0],x[1]-p[1])<w.r+.2){got.add(w);touches.push({wp:w,t});q.end=t;q.hit=true;break}}
+      if(q.end===Infinity&&B.wallHit&&B.wallHit(x,tau,.15)){q.end=t;q.at=x}}
+    for(const w of list){if(got.has(w))continue;const p=w.pos(tau);if(Math.hypot(s[0]-p[0],s[1]-p[1])<w.r+HULL5){got.add(w);touches.push({wp:w,t})}}
+    let dead=false;
+    for(const q of bs){const x=q.p0[0]+(q.p1[0]-q.p0[0])*t,y=q.p0[1]+(q.p1[1]-q.p0[1])*t;if(Math.hypot(s[0]-x,s[1]-y)<HULL5+BR){dead=true;break}}
+    if(!dead&&B.wallHit&&B.wallHit(s,tau))dead=true;
+    if(!dead&&B.laserHit&&B.laserHit(s,tau))dead=true;
+    if(dead){hitT=t;break}
+    if(got.size===list.length&&list.length&&!B.weak.some(w=>w.alive&&w.phase>B.phase))break;   // last weak point: the fight ends here
+  }
+  return {bs,touches,hitT,ms};
+}
+function commitBoss(){
+  const B=boss,P=bplan,tau0=B.tick;
+  B.bullets=P.bs.filter(q=>!B.keep||B.keep(q.p0,q.p1,tau0)).map(q=>({...q.b,p:q.p1,life:(q.b.life||10)-1}))
+    .filter(b=>b.life>0&&Math.hypot(b.p[0]-B.c[0],b.p[1]-B.c[1])<B.range+6);
+  B.miss=P.ms.filter(q=>q.end===Infinity).map(q=>({p:[q.p0[0]+q.v[0],q.p0[1]+q.v[1]],v:q.v,life:q.m.life-1})).filter(m=>m.life>0);
+  B.tick++;
+  for(const tc of P.touches){tc.wp.alive=false;if(B.onTouch)B.onTouch(tc.wp)}
+  if(!bossActive(B).length){B.phase++;if(!B.weak.some(w=>w.phase===B.phase)){B.done=true;return}if(B.onPhase)B.onPhase()}
+  const nb=B.bullets.length;B.spawn();
+  const me=ap(F,[0,0]);B.bullets=B.bullets.filter((b,i)=>i<nb||Math.hypot(b.p[0]-me[0],b.p[1]-me[1])>1.6);   // never spawn a bullet on top of the ship
+  bplan=null;
+}
+function bossDeath(){
+  state='over';thrM=0;updateThrusters();setTurn(0,0);
+  const ep=epoch,c=boss.c;boss.dying=true;render();drawShip();updatePanel();
+  const spots=[[0,0],[1.5,1],[-1.3,1.4],[.9,-1.6],[-1.6,-.6],[0,0]];
+  spots.forEach((o,i)=>setTimeout(()=>{if(ep!==epoch)return;const last=i===spots.length-1;
+    boom(S(W2S([c[0]+o[0]*1.8,c[1]+o[1]*1.8])),{size:last?2.6:1.3,color:i%2?'var(--mag)':'var(--amber)',big:last});
+    if(!reduceMotion)shake(last);if(last){boss.hidden=true;render()}},i*(reduceMotion?60:170)));
+  setTimeout(()=>{if(ep===epoch)win()},reduceMotion?600:1700);
+}
+function drawBoss(){
+  const B=boss;if(!B||B.hidden)return {body:'',glow:''};
+  const tau=B.tick+(tickT!=null?tickT:0);let body=B.draw(tau),glow='';
+  const sc=U*Math.sqrt(Math.abs(det(G))),ph=(-(performance.now()%60000)/1000).toFixed(2);
+  const gone=new Set(bplan&&tickT!=null?bplan.touches.filter(tc=>tc.t<=tickT).map(tc=>tc.wp):[]);
+  for(const w of bossActive(B)){if(gone.has(w))continue;const p=S(W2S(w.pos(tau))),r=w.r*sc;
+    const oct=[...Array(8)].map((_,k)=>{const a=(22.5+45*k)*D2R;return (p[0]+Math.cos(a)*r).toFixed(1)+','+(p[1]+Math.sin(a)*r).toFixed(1)}).join(' ');
+    glow+=`<circle class="wkring" style="animation-delay:${ph}s" cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${(r*1.7).toFixed(1)}"/><polygon class="wkoct" points="${oct}"/><circle class="wkcore" cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${(r*.4).toFixed(1)}"/>`}
+  const tt=tickT;
+  B.miss.forEach((m,i)=>{const q=bplan&&bplan.ms[i],end=q?q.end:Infinity,l=Math.hypot(m.v[0],m.v[1])||1,ux=m.v[0]/l,uy=m.v[1]/l;
+    const at=tt==null?0:tt;if(at>=end)return;
+    const pos=[m.p[0]+m.v[0]*at,m.p[1]+m.v[1]*at],a=S(W2S(pos)),tl=S(W2S([pos[0]-ux*.55,pos[1]-uy*.55]));
+    if(tt==null&&state==='plan'&&!replaying){const e=S(W2S([m.p[0]+m.v[0],m.p[1]+m.v[1]]));body+=`<line class="pmtrail" x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${e[0].toFixed(1)}" y2="${e[1].toFixed(1)}"/>`}
+    glow+=`<line class="pmtrail" style="stroke-dasharray:none;stroke-width:2.5;stroke-opacity:1" x1="${tl[0].toFixed(1)}" y1="${tl[1].toFixed(1)}" x2="${a[0].toFixed(1)}" y2="${a[1].toFixed(1)}"/><circle class="pm" cx="${a[0].toFixed(1)}" cy="${a[1].toFixed(1)}" r="3.5"/>`});
+  for(const b of B.bullets){const n=bossNext(b);
+    if(tt==null){const a=S(W2S(b.p)),e=S(W2S(n));
+      if(state==='plan'&&!replaying)body+=`<line class="btrail" x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${e[0].toFixed(1)}" y2="${e[1].toFixed(1)}"/>`;
+      glow+=`<circle class="ebullet" cx="${a[0].toFixed(1)}" cy="${a[1].toFixed(1)}" r="${(BR*U).toFixed(1)}"/>`}
+    else{const q=S(W2S(lerp2(b.p,n,tt)));glow+=`<circle class="ebullet" cx="${q[0].toFixed(1)}" cy="${q[1].toFixed(1)}" r="${(BR*U).toFixed(1)}"/>`}}
+  return {body,glow};
+}
+
 /* ---------- levels ---------- */
 function startLevel(){
   epoch++;thrM=0;turnW=0;turnA=0;fxParts=[];$('fx2L').innerHTML='';lr=rng(L.seed);log=[];
-  const duel=L.type>=3;
-  phase=duel?'combat':'travel';enemy=null;shot=null;tickT=null;
+  const duel=isDuel();
+  {const U0=U;U=Math.max(13,Math.min(W,H)/(isBoss()?28:18));if(U!==U0)gridKey=''}
+  boss=isBoss()?makeBoss(L.type):null;bplan=null;
+  phase=duel?'combat':isBoss()?'boss':'travel';enemy=null;shot=null;tickT=null;
   F=L.F0;G=inv(F);used=0;gas=L.gas!=null?L.gas:0;trail=[[0,0]];trailArc=[[0,0]];liveArc=[];live=null;state='plan';dead=false;stalled=false;fxL.innerHTML='';
   foes=duel?L.foes.map(f=>({...f,w:f.w.slice()})):[];bullets=[];pmiss=[];
   missiles=duel?foes.length+2:0;maxMissiles=duel?missiles:MISSILES;
   plan5=duel?planTick():null;
+  if(boss){missiles=maxMissiles=8}
   document.body.classList.toggle('inv',duel);$('matrix').classList.add('l5');
   inputs.a.readOnly=inputs.d.readOnly=true;inputs.a.tabIndex=inputs.d.tabIndex=-1;
   for(const [k,v] of Object.entries({a:'1',b:'0',c:'0',d:'0',e:'1',f:'0'}))inputs[k].value=v;
@@ -1092,7 +1367,7 @@ svg.addEventListener('click',()=>{if(replaying)newLevel()});   // clicking only 
 
 /* ---------- sizing ---------- */
 function resize(){const r=svg.getBoundingClientRect();W=Math.max(200,r.width);H=Math.max(200,r.height);
-  U=Math.max(16,Math.min(W,H)/18);svg.setAttribute('viewBox',`${-W/2} ${-H/2} ${W} ${H}`);if(L){drawShip();render()}}
+  U=Math.max(13,Math.min(W,H)/(isBoss()?28:18));svg.setAttribute('viewBox',`${-W/2} ${-H/2} ${W} ${H}`);if(L){drawShip();render()}}
 new ResizeObserver(resize).observe($('field'));
 
 if(!unlocked(prog.type))prog.type=0;
