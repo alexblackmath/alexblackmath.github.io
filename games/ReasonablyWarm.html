@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Reasonably Hot</title>
+<title>Reasonably Warm</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600&family=Major+Mono+Display&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#0A0418; --bg2:#1A0838; --panel:#0E0522; --line:#2C1859;
@@ -188,10 +188,40 @@ body.inv{--bg:#FFFFFF;--bg2:#FFFFFF;--panel:#FFFFFF;--line:#D6D6D6;--ink:#0A0A0A
   .field{height:60vh;flex:none}
   .panel{width:auto;border-left:none;border-top:1px solid var(--line);gap:22px}
 }
+/* title screen */
+.title{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(18px,4vh,40px);
+  padding:env(safe-area-inset-top,0px) 20px env(safe-area-inset-bottom,0px);background:radial-gradient(ellipse at 50% 45%,#1E0A42 0%,#0A0418 72%);
+  transition:opacity .7s ease,visibility .7s;color-scheme:dark}
+.title.gone{opacity:0;visibility:hidden}
+.title::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(60,242,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(60,242,255,.07) 1px,transparent 1px);
+  background-size:46px 46px;background-position:center;-webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 75%);mask-image:radial-gradient(ellipse at center,#000 30%,transparent 75%)}
+.tname{position:relative;margin:0;text-align:center;font-family:'Major Mono Display','Courier New',monospace;font-weight:400;
+  font-size:clamp(38px,8.5vw,116px);line-height:1.05;color:#FFFFFF;letter-spacing:.02em}
+.tname .r{text-shadow:0 0 5px #3CF2FF,0 0 22px rgba(60,242,255,.65)}
+.tname .h{color:#FFE9F9;text-shadow:0 0 6px #FF2BD6,0 0 24px #FF2BD6,0 0 52px rgba(255,177,59,.65);animation:neon 5s infinite}
+@keyframes neon{0%,17%,21%,63%,66%,100%{opacity:1}19%,64.5%{opacity:.3}}
+.tship{position:relative;width:clamp(120px,17vw,180px);height:auto;overflow:visible;animation:bob 3.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px)}}
+.tship .tcore{transform-box:fill-box;transform-origin:center;animation:spin 7s linear infinite}
+.tship .jet{fill:#FF2BD6;transform-box:fill-box;transform-origin:0% 50%;animation:jetflick .09s infinite alternate}
+.tstart{position:relative;width:84px;height:84px;border:none;background:none;padding:0;cursor:pointer}
+.tstart svg{width:100%;height:100%;display:block}
+.tstart .gohex{fill:rgba(255,177,59,.15);stroke:#FFB13B;stroke-width:2}
+.tstart .gotri{fill:#FFB13B}
+.tstart:hover svg{filter:drop-shadow(0 0 12px rgba(255,177,59,.8))}
+.tstart:focus-visible{outline:none}
+.tstart:focus-visible svg{filter:drop-shadow(0 0 10px rgba(60,242,255,.9))}
+@media (prefers-reduced-motion:reduce){.tname .h,.tship,.tship .tcore{animation:none}.title{transition:none}}
 @media (prefers-reduced-motion:reduce){.jet,.jetcore{animation:none}.orbitfx,.stalkfx{animation:none}#game.shake,#game.shake-big{animation:none}.field.replay .rec{animation:none}.flame,.hexring{animation:none}.gfill{transition:none}}
 </style>
 </head>
 <body>
+<div class="title" id="title" role="dialog" aria-label="Reasonably Warm">
+  <h1 class="tname"><span class="r">Reasonably</span> <span class="h">Warm</span></h1>
+  <svg class="tship" id="tship" viewBox="-70 -78 140 170" aria-hidden="true"></svg>
+  <button class="tstart" id="tstart" aria-label="Start"><svg viewBox="0 0 72 72"><polygon class="gohex" points="36,3 65,19.5 65,52.5 36,69 7,52.5 7,19.5"/><polygon class="gotri" points="29,24 49,36 29,48"/></svg></button>
+</div>
 <div class="app">
   <main class="field" id="field">
     <svg id="game" aria-label="Play field" role="img">
@@ -577,20 +607,7 @@ function render(){
   const far=Math.hypot(W,H)/U;
   if(phase==='combat'&&!dead&&!replaying)p+=`<line class="aim" x1="0" y1="${(-.7*U).toFixed(1)}" x2="0" y2="${(-far*U).toFixed(1)}"/>`;
   if(shot)p+=`<line class="mtrail" x1="${shot.a[0].toFixed(1)}" y1="${shot.a[1].toFixed(1)}" x2="${shot.b[0].toFixed(1)}" y2="${shot.b[1].toFixed(1)}"/><circle class="missile" cx="${shot.b[0].toFixed(1)}" cy="${shot.b[1].toFixed(1)}" r="3.5"/>`;
-  if(state==='plan'&&!replaying&&cur&&cur.ok&&!cur.singular){
-    const M=cur.M,t=[M.c,M.f],a1=[M.a,M.d],a2=[M.b,M.e];
-    const bad=cur.hit!==null||cur.short;
-    p+=`<polygon class="para" points="${pts([t,add(t,a1),add(add(t,a1),a2),add(t,a2)])}"/>`;
-    const arc=[];for(let i=0;i<=48;i++){const Lt=lerpFrame(M,i/48);arc.push([Lt.c,Lt.f])}
-    p+=`<polyline class="path${bad?' hot':''}" fill="none" points="${pts(arc)}"/>`;
-    p+=arrow(t,add(t,a1),'a1');p+=arrow(t,add(t,a2),'a2');
-    if(phase==='combat'){const l=Math.hypot(a2[0],a2[1])||1,e2=[t[0]+a2[0]/l*far,t[1]+a2[1]/l*far],e1=S(add(t,a2)),e3=S(e2);
-      p+=`<line class="aim ghostaim" x1="${e1[0].toFixed(1)}" y1="${e1[1].toFixed(1)}" x2="${e3[0].toFixed(1)}" y2="${e3[1].toFixed(1)}"/>`}
-    p+=`<polygon class="ghost${bad?' bad':(cur.win.pos&&cur.win.head)||cur.aimed?' win':''}" style="stroke:var(--cyan)" points="${pts(SHIP.map(q=>ap(M,q)))}"/>`;
-    if(cur.hit!==null&&(!cur.short||cur.hit<cur.stop)){const Lh=lerpFrame(M,cur.hit),hp=S([Lh.c,Lh.f]),r=7;
-      p+=`<line class="hitx" x1="${hp[0]-r}" y1="${hp[1]-r}" x2="${hp[0]+r}" y2="${hp[1]+r}"/><line class="hitx" x1="${hp[0]-r}" y1="${hp[1]+r}" x2="${hp[0]+r}" y2="${hp[1]-r}"/>`}
-    else if(cur.short){const Ls=lerpFrame(M,cur.stop),sp2=S([Ls.c,Ls.f]);p+=`<circle class="stopo" cx="${sp2[0].toFixed(1)}" cy="${sp2[1].toFixed(1)}" r="7"/>`}
-  }
+  /* no preview of the jump: where the ship ends up has to be worked out from the matrix itself */
   prevL.innerHTML=p;
 }
 function arrow(a,b,cls,extra=''){
@@ -751,7 +768,7 @@ Object.values(inputs).forEach(el=>{el.addEventListener('input',readMatrix);
   el.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();if(!replaying)execute()}})});
 $('go').addEventListener('click',()=>{if(!replaying)execute()});
 $('fire').addEventListener('click',()=>{if(!replaying)fire()});
-document.addEventListener('keydown',e=>{if((e.key==='f'||e.key==='F')&&!(e.target instanceof HTMLInputElement)){e.preventDefault();if(!replaying)fire()}});
+document.addEventListener('keydown',e=>{if(titleUp)return;if((e.key==='f'||e.key==='F')&&!(e.target instanceof HTMLInputElement)){e.preventDefault();if(!replaying)fire()}});
 
 /* ---------- jumping ---------- */
 /* replay timing: constant speed, so time spent on a jump is proportional to how far it moves and turns */
@@ -1071,7 +1088,7 @@ function ptr(e){const r=svg.getBoundingClientRect();return [(e.clientX-r.left-W/
 svg.addEventListener('pointermove',e=>{const q=S(ptr(e));
   curL.innerHTML=`<line class="cur" x1="${q[0]-8}" y1="${q[1]}" x2="${q[0]+8}" y2="${q[1]}"/><line class="cur" x1="${q[0]}" y1="${q[1]-8}" x2="${q[0]}" y2="${q[1]+8}"/>`});
 svg.addEventListener('pointerleave',()=>{curL.innerHTML=''});
-svg.addEventListener('click',e=>{if(replaying){newLevel();return}if(state!=='plan')return;const p=ptr(e);setInputs({c:plain(p[0]),f:plain(p[1])})});
+svg.addEventListener('click',()=>{if(replaying)newLevel()});   // clicking only skips a replay; moving is done through the matrix alone
 
 /* ---------- sizing ---------- */
 function resize(){const r=svg.getBoundingClientRect();W=Math.max(200,r.width);H=Math.max(200,r.height);
@@ -1079,6 +1096,23 @@ function resize(){const r=svg.getBoundingClientRect();W=Math.max(200,r.width);H=
 new ResizeObserver(resize).observe($('field'));
 
 if(!unlocked(prog.type))prog.type=0;
+/* ---------- title screen ---------- */
+let titleUp=true;
+(function(){
+  const k=95,P=q=>(q[0]*k).toFixed(1)+','+(-q[1]*k).toFixed(1);let h='';
+  for(let i=0;i<8;i++){const a=i*45,m=[RIN*Math.cos(a*D2R),RIN*Math.sin(a*D2R)],nw=(i===2?.06:.09)*k,nl=.07*k;
+    h+=`<g transform="translate(${P(m)}) rotate(${-a})">${i===6?`<polygon class="jet" points="${nl},${-nw} ${nl},${nw} ${nl+.48*k},0"/>`:''}<polygon points="0,${-nw*.7} 0,${nw*.7} ${nl},${nw} ${nl},${-nw}" fill="#14062E" stroke="#3CF2FF" stroke-width="1.2"/></g>`}
+  for(const x of [CANX,-CANX])h+=`<rect x="${((x-.035)*k).toFixed(1)}" y="${(-(RIN+CANL)*k).toFixed(1)}" width="${(.07*k).toFixed(1)}" height="${(CANL*k).toFixed(1)}" rx="1.5" fill="#14062E" stroke="#3CF2FF" stroke-width="1.6"/>`;
+  h+=`<polygon points="${OCT.map(P).join(' ')}" fill="#14062E" stroke="#3CF2FF" stroke-width="2.4" stroke-linejoin="round"/>`;
+  h+=`<g class="tcore">${OCT.map(v=>`<line x1="0" y1="0" x2="${(v[0]*k).toFixed(1)}" y2="${(-v[1]*k).toFixed(1)}" stroke="#3CF2FF" stroke-opacity=".35"/>`).join('')}
+    <polygon points="${OCT.map(q=>P([q[0]*.55,q[1]*.55])).join(' ')}" fill="none" stroke="#3CF2FF" stroke-opacity=".6"/>
+    <circle cx="0" cy="${(-RC*.55*k).toFixed(1)}" r="4" fill="#3CF2FF"/><circle r="6.5" fill="#3CF2FF"/></g>`;
+  $('tship').innerHTML=`<g filter="url(#tglow)">${h}</g><defs><filter id="tglow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
+  const start=()=>{if(!titleUp)return;titleUp=false;$('title').classList.add('gone');setTimeout(()=>inputs.b.focus(),350)};
+  $('tstart').addEventListener('click',start);
+  document.addEventListener('keydown',e=>{if(titleUp&&(e.key==='Enter'||e.key===' ')){e.preventDefault();start()}});
+  setTimeout(()=>{if(titleUp)$('tstart').focus()},50);
+})();
 newLevel();resize();
 })();
 </script>

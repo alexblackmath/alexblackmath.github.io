@@ -84,9 +84,9 @@ git push
  -->
 
  <!-- 
-rm -rf ../Math2301/Math2301Day20
-mkdir ../Math2301/Math2301Day20
-cp -a output/web/. ../Math2301/Math2301Day20
+rm -rf ../Math2301/Math2301Day21
+mkdir ../Math2301/Math2301Day21
+cp -a output/web/. ../Math2301/Math2301Day21
 
 cd ..
 git add .

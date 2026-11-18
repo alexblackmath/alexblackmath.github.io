@@ -1,0 +1,127 @@
+
+
+  <section xml:id="math2301-day21">
+    <title>Reasonably Warm</title>
+
+
+    <p>
+      I made the following game <url href="https://alexblackmath.github.io/games/ReasonablyWarm">on this site</url> to help answer the following questions:
+    </p>
+
+    <exercise xml:id="ex-rotate">
+      <statement>
+        <p>
+          How do you change what direction you are facing without moving? What matrix do you use and why?
+        </p>
+      </statement>
+    </exercise>
+
+    <exercise xml:id="ex-translate">
+      <statement>
+        <p>
+          How do you move your ship without rotating? What matrix do you multiply by and why?
+        </p>
+      </statement>
+    </exercise>
+
+    <exercise xml:id="ex-new-basis">
+      <statement>
+        <p>
+          After you move, you update the coordinates so that the center is at <m>(0,0)</m>. You can interpret this as rewriting everything in a new basis. How do you find the coordinates in the new basis?
+        </p>
+      </statement>
+    </exercise>
+
+    <exercise xml:id="ex-translation-not-linear">
+      <statement>
+        <p>
+          Explain why for <m>\vec{y} \in \mathbb{R}^{n}</m> with <m>\vec{y} \neq \vec{0}</m>, the function <m>T_{\vec{y}}(\vec{x}) = \vec{x} + \vec{y}</m> is not a linear transformation.
+        </p>
+      </statement>
+    </exercise>
+
+    <p>
+      To deal with this, we introduce <term>homogeneous coordinates</term>, where we just add a <m>1</m> to the end of a vector. This opens us up to more possible transformations.
+    </p>
+
+    <exercise xml:id="ex-translation-homogeneous">
+      <statement>
+        <p>
+          Let <m>\vec{y} \in \mathbb{R}^{n}</m>. Find a linear transformation <m>T_{\vec{y}}: \mathbb{R}^{n+1} \to \mathbb{R}^{n+1}</m> such that <m>T_{\vec{y}}((\vec{x},1)) = (\vec{x}+\vec{y},1)</m> for all <m>\vec{x} \in \mathbb{R}^{n}</m>.
+        </p>
+      </statement>
+    </exercise>
+
+    <p>
+      For example, in <m>\mathbb{R}^{2}</m>, the linear transformation is given by
+      <me>
+        T_{(a,b)} = \begin{bmatrix} 1 &amp; 0 &amp; a \\ 0 &amp; 1 &amp; b \\ 0 &amp; 0 &amp; 1 \end{bmatrix}
+      </me>
+    </p>
+
+    <exercise xml:id="ex-translation-inverse">
+      <statement>
+        <p>
+          Find the inverse of <m>T_{(a,b)}</m>. Give an intuitive geometric explanation for why your choice of inverse makes sense.
+        </p>
+      </statement>
+    </exercise>
+
+    <p>
+      Homogeneous coordinates preserve all the linear transformations we know and love.
+    </p>
+
+    <exercise xml:id="ex-homogenization">
+      <statement>
+        <p>
+          Let <m>A</m> be an <m>n \times n</m> matrix. Show that
+          <me>
+            \begin{bmatrix} A &amp; \vec{0} \\ \vec{0}^{\intercal} &amp; 1 \end{bmatrix}\begin{bmatrix} \vec{x} \\ 1 \end{bmatrix} = \begin{bmatrix} A \vec{x} \\ 1 \end{bmatrix}.
+          </me>
+        </p>
+      </statement>
+    </exercise>
+
+    <p>
+      We call the matrix for acting in homogeneous coordinates the <term>homogenization</term> of <m>A</m>.
+    </p>
+
+    <exercise xml:id="ex-rotation-homogeneous">
+      <introduction>
+        <p>
+          Recall that rotation counterclockwise by <m>\theta</m> degrees is given by
+          <me>
+            R_{\theta}(\vec{x}) = \begin{bmatrix} \cos(\theta) &amp; -\sin(\theta) \\ \sin(\theta) &amp; \cos(\theta) \end{bmatrix}\vec{x}.
+          </me>
+        </p>
+      </introduction>
+      <task>
+        <p>
+          Find an expression for a rotation matrix <m>R_{\theta}</m> in homogeneous coordinates.
+        </p>
+      </task>
+      <task>
+        <p>
+          Show that its columns form an orthonormal basis.
+        </p>
+      </task>
+      <task>
+        <p>
+          Find a <m>2 \times 2</m> matrix with columns that form an orthonormal basis that is not a rotation matrix.
+        </p>
+      </task>
+    </exercise>
+
+    <exercise xml:id="ex-commuting-translation">
+      <statement>
+        <p>
+          Let <m>A</m> be an <m>n \times n</m> matrix with an eigenvector <m>\vec{v}</m> with eigenvalue <m>1</m>. Let <m>\tilde{A}</m> be its homogenization. Let <m>B_{\vec{v}}</m> be the matrix for translating by <m>\vec{v}</m>. Show that
+          <me>
+            B_{\vec{v}}\tilde{A} = \tilde{A} B_{\vec{v}}.
+          </me>
+        </p>
+      </statement>
+    </exercise>
+
+  </section>
+
