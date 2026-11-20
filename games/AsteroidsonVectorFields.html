@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Curl &amp; Flux</title>
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --page:#e6e9f5;--ink:#141935;--hue:#08698f;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--page:#04050d;--ink:#e3eaff;--hue:#46f0ff;color-scheme:dark}
+}
+:root[data-theme="dark"]{--page:#04050d;--ink:#e3eaff;--hue:#46f0ff;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+body{margin:0;height:100%;background:var(--page);color:var(--ink)}
+math{font-family:"STIX Two Math","Cambria Math","Latin Modern Math",math,serif}
+
+.app{display:grid;grid-template-columns:minmax(0,1fr) clamp(240px,27vw,440px);gap:20px;padding:16px;height:100%;align-items:center}
+.stage-col{min-width:0;height:100%;display:flex;justify-content:center;align-items:center}
+.stage{position:relative;contain:strict;
+  width:min(100%, calc((100dvh - 32px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)) * 1.5));
+  aspect-ratio:3/2;background:#050614;border-radius:6px 22px 6px 22px;overflow:hidden;outline:1px solid #1c2563}
+.stage img,.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.stage img{will-change:transform;pointer-events:none}
+.stage svg{touch-action:none;user-select:none;-webkit-user-select:none}
+
+.eqpanel{min-width:0;padding:6px 0 6px 18px;border-left:3px solid var(--hue)}
+.eq{font-size:clamp(16px,1.7vw,27px);overflow-x:auto}
+.eq.long{font-size:clamp(13px,1.15vw,20px)}
+.eq math{margin:.25em 0}
+
+.touch{position:absolute;left:0;right:0;bottom:0;display:none;justify-content:space-between;align-items:flex-end;
+  padding:10px 12px;pointer-events:none;z-index:2}
+@media (pointer:coarse){.touch{display:flex}}
+.touch .grp{display:flex;gap:10px}
+.touch button{pointer-events:auto;width:clamp(44px,9vw,72px);aspect-ratio:1;border-radius:50%;
+  border:1px solid #46f0ff77;background:rgba(10,14,44,.45);color:#c9f8ff;font-size:clamp(15px,2.6vw,24px);
+  touch-action:none;user-select:none;-webkit-user-select:none}
+
+@media (max-width:1000px){
+  .app{grid-template-columns:1fr;height:auto;align-items:start}
+  .stage-col{height:auto}
+  .stage{width:100%}
+  .eq{font-size:clamp(17px,4.4vw,24px)}
+  .eq.long{font-size:clamp(12px,3.3vw,18px)}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <main class="stage-col">
+    <div class="stage">
+      <img id="bg" alt="" decoding="sync">
+      <svg id="game" viewBox="0 0 1200 800" aria-label="Game playfield">
+        <path id="pEdge" stroke="none"/>
+        <path id="pTrails" fill="none" stroke="#ffc24a" stroke-opacity=".5" stroke-width="1.6" stroke-linejoin="round"/>
+        <path id="pBullets" fill="#fff6c8"/>
+        <path id="pRocks" fill="none" stroke-width="2" stroke-linejoin="round"/>
+        <path id="pShipF" fill="none" stroke="#ffc24a" stroke-width="1.6" stroke-linecap="round"/>
+        <path id="pFlame" fill="none" stroke="#ff7a59" stroke-width="1.6" stroke-linejoin="round"/>
+        <path id="pShip" fill="#050614" stroke="#e8fdff" stroke-width="2" stroke-linejoin="round"/>
+        <path id="pLives" fill="none" stroke="#e8fdff" stroke-width="1.4" stroke-linejoin="round"/>
+        <g id="gPause" style="display:none">
+          <rect width="1200" height="800" fill="#03040e" fill-opacity=".55"/>
+          <rect x="566" y="360" width="22" height="80" rx="3" fill="#e8fdff"/>
+          <rect x="612" y="360" width="22" height="80" rx="3" fill="#e8fdff"/>
+        </g>
+      </svg>
+      <div class="touch" aria-hidden="true">
+        <div class="grp"><button data-k="arrowleft">◀</button><button data-k="arrowright">▶</button></div>
+        <div class="grp"><button data-k="shift">✦</button><button data-k="arrowup">▲</button><button data-k=" ">●</button></div>
+      </div>
+    </div>
+  </main>
+  <aside class="eqpanel" aria-live="polite"><div class="eq" id="fEq"></div></aside>
+</div>
+
+<script>
+(() => {
+'use strict';
+const W = 1200, H = 800, CAP = 280, MARGIN = 360, TAU = Math.PI * 2, PI = Math.PI;
+const $ = id => document.getElementById(id);
+const rnd = (a, b) => a + Math.random() * (b - a);
+const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
+const sqrt = Math.sqrt, cos = Math.cos, sin = Math.sin;
+const n0 = v => Math.round(v);          // integer coords keep path strings short
+const f1 = v => Math.round(v * 10) / 10;
+
+/* ---------------- MathML helpers ---------------- */
+const mi = s => `<mi>${s}</mi>`, mn = s => `<mn>${s}</mn>`, mo = s => `<mo>${s}</mo>`;
+const r = (...a) => `<mrow>${a.join('')}</mrow>`;
+const fr = (a, b) => `<mfrac>${a}${b}</mfrac>`;
+const sq = a => `<msup>${a}${mn(2)}</msup>`;
+const X = mi('x'), Y = mi('y'), MINUS = mo('−'), PLUS = mo('+'), EQ = mo('='), COMMA = mo(',');
+const IT = '<mo>&#x2062;</mo>', AF = '<mo>&#x2061;</mo>';
+const SP = '<mspace width="0.17em"/>';
+const BF = '<mi>𝐅</mi>';
+const LA = '<mo stretchy="false">⟨</mo>', RA = '<mo stretchy="false">⟩</mo>';
+const vec = (p, q) => r(LA, p, COMMA, q, RA);
+const par = a => r(mo('('), a, mo(')'));
+const FXY = r(BF, par(r(X, COMMA, Y)));
+const M = (...a) => `<math display="block">${r(...a)}</math>`;
+const fn = (n, a) => r(SP, mi(n), AF, SP, a);
+const sinx = fn('sin', X), siny = fn('sin', Y), cosx = fn('cos', X), cosy = fn('cos', Y);
+const R2 = r(sq(X), PLUS, sq(Y));
+const Q1 = r(sq(par(r(X, PLUS, mn(2)))), PLUS, sq(Y)), Q2 = r(sq(par(r(X, MINUS, mn(2)))), PLUS, sq(Y));
+
+/* ---------------- fields ---------------- */
+const nearOrigin = (a, b) => () => { const t = rnd(0, TAU), q = rnd(a, b); return [q * Math.cos(t), q * Math.sin(t)]; };
+const nearPts = (pts, rad) => () => { const p = pts[Math.floor(Math.random() * pts.length)], t = rnd(0, TAU), q = rnd(0.05, rad); return [p[0] + q * Math.cos(t), p[1] + q * Math.sin(t)]; };
+const gMax = [[PI/2, PI/2], [-PI/2, -PI/2], [-3*PI/2, PI/2], [3*PI/2, -PI/2]];
+const gMin = [[PI/2, -PI/2], [-PI/2, PI/2], [3*PI/2, PI/2], [-3*PI/2, -PI/2]];
+const grid = (xs, ys, t) => xs.flatMap(x => ys.map(y => ({x, y, t})));
+
+const LEVELS = [
+{ R: 6, k: 0.36, mode: 'wrap', hue: '#46f0ff', count: 3,
+  F: (x, y) => [2, 1],
+  eq: M(FXY, EQ, vec(mn(2), mn(1))),
+  },
+{ R: 6, k: 0.25, mode: 'flow', hue: '#ffc24a', count: 4,
+  F: (x, y) => [x, y],
+  eq: M(FXY, EQ, vec(X, Y)),
+  marks: [{x: 0, y: 0, t: 'source'}], inject: nearOrigin(0.2, 0.7) },
+{ R: 6, k: 0.25, mode: 'flow', hue: '#ff4fd8', count: 4,
+  F: (x, y) => [-x, -y],
+  eq: M(FXY, EQ, vec(r(MINUS, X), r(MINUS, Y))),
+  marks: [{x: 0, y: 0, t: 'sink'}] },
+{ R: 6, k: 0.2, mode: 'flow', hue: '#9b7bff', count: 4, spawn: [0, 0],
+  F: (x, y) => [-y, x],
+  eq: M(FXY, EQ, vec(r(MINUS, Y), X)),
+  marks: [{x: 0, y: 0, t: 'center'}] },
+{ R: 6, k: 0.3, mode: 'wrap', hue: '#7dffb0', count: 4,
+  F: (x, y) => [y, 0],
+  eq: M(FXY, EQ, vec(Y, mn(0))),
+  eqline: true },
+{ R: 6, k: 0.28, mode: 'flow', hue: '#ff7a59', count: 5,
+  F: (x, y) => [x, -y],
+  eq: M(FXY, EQ, vec(X, r(MINUS, Y))),
+  marks: [{x: 0, y: 0, t: 'saddle'}] },
+{ R: 6, k: 0.22, mode: 'flow', hue: '#46f0ff', count: 5,
+  F: (x, y) => [-0.3 * x - y, x - 0.3 * y],
+  eq: M(FXY, EQ, vec(r(MINUS, mn('0.3'), IT, X, MINUS, Y), r(X, MINUS, mn('0.3'), IT, Y))),
+  marks: [{x: 0, y: 0, t: 'spiral'}] },
+{ R: 5.2, k: 0.7, mode: 'flow', hue: '#ffc24a', count: 5, piTicks: true,
+  F: (x, y) => [Math.cos(x) * Math.sin(y), Math.sin(x) * Math.cos(y)],
+  eq: M(FXY, EQ, vec(r(cosx, IT, siny), r(sinx, IT, cosy))),
+  marks: [...gMax.map(([x, y]) => ({x, y, t: 'sink'})), ...gMin.map(([x, y]) => ({x, y, t: 'source'})),
+          ...grid([-PI, 0, PI], [-PI, 0, PI], 'saddle')],
+  inject: nearPts(gMin, 0.35) },
+{ R: 2 * PI, k: 1.0, mode: 'flow', hue: '#9b7bff', count: 5, piTicks: true, spawn: [0, 0.01],
+  F: (x, y) => [Math.sin(x) * Math.cos(y), -Math.cos(x) * Math.sin(y)],
+  eq: M(FXY, EQ, vec(r(sinx, IT, cosy), r(MINUS, cosx, IT, siny))),
+  marks: [...grid([-3*PI/2, -PI/2, PI/2, 3*PI/2], [-PI/2, PI/2], 'center'), ...grid([-PI, 0, PI], [-PI, 0, PI], 'saddle')] },
+{ R: 5, k: 1.3, mode: 'flow', hue: '#ff4fd8', count: 5,
+  F: (x, y) => { const q = x*x + y*y; return [-y / q, x / q]; },
+  eq: M(FXY, EQ, fr(vec(r(MINUS, Y), X), R2)),
+  marks: [{x: 0, y: 0, t: 'singular'}] },
+{ R: 5, k: 1.2, mode: 'flow', hue: '#7dffb0', count: 5, spawn: [0, -2.4], long: true,
+  F: (x, y) => { const a = x + 2, b = x - 2, q1 = a*a + y*y, q2 = b*b + y*y; return [a / q1 - b / q2, y / q1 - y / q2]; },
+  eq: M(FXY, EQ, vec(mi('P'), mi('Q'))) +
+      M(mi('P'), EQ, fr(r(X, PLUS, mn(2)), Q1), MINUS, fr(r(X, MINUS, mn(2)), Q2)) +
+      M(mi('Q'), EQ, fr(Y, Q1), MINUS, fr(Y, Q2)),
+  marks: [{x: -2, y: 0, t: 'source'}, {x: 2, y: 0, t: 'sink'}], inject: nearPts([[-2, 0]], 0.35) },
+{ R: 2.4, k: 0.4, mode: 'flow', hue: '#ffc24a', count: 6, spawn: [0, 0], cycleR: 1,
+  F: (x, y) => { const q = x*x + y*y; return [x - y - x * q, x + y - y * q]; },
+  eq: M(FXY, EQ, vec(mi('P'), mi('Q'))) +
+      M(mi('P'), EQ, X, MINUS, Y, MINUS, X, IT, par(R2)) +
+      M(mi('Q'), EQ, X, PLUS, Y, MINUS, Y, IT, par(R2)),
+  marks: [{x: 0, y: 0, t: 'spiral'}], inject: nearOrigin(0.1, 0.3) }
+];
+
+
+/* ---------------- state ---------------- */
+const LV = LEVELS.length;
+const G = { idx: 0, cycle: 0, fs: 1, state: 'ready', lives: 3, sound: true, lastLives: -1, lastPause: null };
+let L, R, S, HM, K;                     // K = c·S·fieldScale, folded once per level
+let ship, rocks = [], bullets = [];
+const keys = {};
+const el = {};
+for (const id of ['bg', 'game', 'fEq', 'pEdge', 'pTrails', 'pBullets', 'pRocks', 'pShipF', 'pFlame', 'pShip', 'pLives', 'gPause']) el[id] = $(id);
+
+const toPx = (x, y) => [W / 2 + x * S, H / 2 - y * S];
+
+// field velocity in px/s at a screen point, capped; written into out[] to avoid allocation
+const FV = [0, 0];
+function fieldPx(px, py) {
+  const F = L.F((px - W / 2) / S, (H / 2 - py) / S);
+  let vx = F[0] * K, vy = -F[1] * K;
+  const sp = sqrt(vx * vx + vy * vy);
+  if (!(sp < Infinity)) { FV[0] = 0; FV[1] = 0; return FV; }
+  if (sp > CAP) { vx *= CAP / sp; vy *= CAP / sp; }
+  FV[0] = vx; FV[1] = vy; return FV;
+}
+// rocks spin at half the local curl (in the same time units as the flow)
+function spinRate(px, py) {
+  const x = (px - W / 2) / S, y = (H / 2 - py) / S, h = 1e-4 * R;
+  const a = L.F(x + h, y)[1], b = L.F(x - h, y)[1], c = L.F(x, y + h)[0], d = L.F(x, y - h)[0];
+  const curl = (a - b - c + d) / (2 * h);
+  return curl === curl && curl !== Infinity && curl !== -Infinity ? clamp(0.5 * curl * L.k * G.fs, -4, 4) : 0;
+}
+
+/* ---------------- audio ---------------- */
+let AC = null, NOISE = null;
+function ac() {
+  if (!AC) { try { AC = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { AC = null; } }
+  if (AC && AC.state === 'suspended') AC.resume();
+  return AC;
+}
+function beep(f0, f1v, dur, type = 'square', vol = 0.035) {
+  if (!G.sound) return; const a = ac(); if (!a) return;
+  const o = a.createOscillator(), g = a.createGain(), t = a.currentTime;
+  o.type = type; o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1v, t + dur);
+  g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  o.connect(g).connect(a.destination); o.start(t); o.stop(t + dur + 0.02);
+}
+function boom(size) {
+  if (!G.sound) return; const a = ac(); if (!a) return;
+  if (!NOISE) { NOISE = a.createBuffer(1, a.sampleRate * 0.6, a.sampleRate); const d = NOISE.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; }
+  const s = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain(), t = a.currentTime, dur = 0.18 + size * 0.12;
+  s.buffer = NOISE; f.type = 'lowpass'; f.frequency.setValueAtTime(400 + size * 500, t); f.frequency.exponentialRampToValueAtTime(80, t + dur);
+  g.gain.setValueAtTime(0.12, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  s.connect(f).connect(g).connect(a.destination); s.start(t); s.stop(t + dur + 0.05);
+}
+
+/* ---------------- entities ---------------- */
+const RAD = [0, 14, 26, 44];
+function makeRock(x, y, size) {
+  const n = size === 3 ? 11 : size === 2 ? 9 : 7, rr = RAD[size], va = new Float32Array(n), vr = new Float32Array(n);
+  for (let i = 0; i < n; i++) { va[i] = (i + rnd(-0.25, 0.25)) / n * TAU; vr[i] = rr * rnd(0.72, 1.05); }
+  return { x, y, size, r: rr, va, vr, th: rnd(0, TAU), off: 0, limbo: false };
+}
+function spawnPoint() { return toPx(...(L.spawn || [0, -HM * 0.5])); }
+
+function setupLevel(idx) {
+  G.idx = idx; L = LEVELS[idx % LV]; G.cycle = Math.floor(idx / LV); G.fs = 1 + 0.2 * G.cycle;
+  R = L.R; S = (W / 2) / R; HM = (H / 2) / S; K = L.k * G.fs * S;
+  rocks = []; bullets = [];
+  const sp = spawnPoint();
+  ship = { x: sp[0], y: sp[1], vx: 0, vy: 0, a: PI / 2, alive: false, inv: 0, cool: 0, hcool: 0, thrust: false, resp: 0 };
+  const n = L.count + G.cycle * 2;
+  for (let i = 0; i < n; i++) {
+    let x, y, t = 0;
+    do { x = rnd(50, W - 50); y = rnd(50, H - 50); t++; } while ((x - sp[0]) ** 2 + (y - sp[1]) ** 2 < 250 * 250 && t < 300);
+    rocks.push(makeRock(x, y, 3));
+  }
+  document.documentElement.style.setProperty('--hue', L.hue);
+  el.fEq.innerHTML = L.eq; el.fEq.classList.toggle('long', !!L.long);
+  el.pRocks.setAttribute('stroke', L.hue); el.pEdge.setAttribute('fill', L.hue);
+  buildBackground();
+  G.state = 'ready'; G.lastLives = -1;
+}
+function spawnShip() {
+  const sp = spawnPoint();
+  Object.assign(ship, { x: sp[0], y: sp[1], vx: 0, vy: 0, a: PI / 2, alive: true, inv: 2.2, cool: 0.25, hcool: 0 });
+}
+function startPlay() { if (G.state !== 'ready') return; G.state = 'play'; spawnShip(); beep(300, 900, 0.18, 'triangle', 0.04); }
+function gotoLevel(i) { G.lives = 3; setupLevel(((i % LV) + LV) % LV); }
+
+/* ---------------- static background: drawn once per field, shown as a cached image ---------------- */
+function niceStep(raw) {
+  const p = Math.pow(10, Math.floor(Math.log10(raw))), m = raw / p;
+  return (m < 1.5 ? 1 : m < 3.5 ? 2 : m < 7.5 ? 5 : 10) * p;
+}
+function arrowGlyph(x0, y0, x1, y1, hs) {
+  const a = Math.atan2(y1 - y0, x1 - x0), s = 0.45;
+  return `M${f1(x0)} ${f1(y0)}L${f1(x1)} ${f1(y1)}M${f1(x1 - hs * cos(a - s))} ${f1(y1 - hs * sin(a - s))}L${f1(x1)} ${f1(y1)}L${f1(x1 - hs * cos(a + s))} ${f1(y1 - hs * sin(a + s))}`;
+}
+function buildBackground() {
+  const step = L.piTicks ? PI / 2 : niceStep(2 * R / 12);
+  let gl = '', ax = '';
+  for (let i = Math.ceil(-R / step); i <= Math.floor(R / step); i++) {
+    const px = f1(W / 2 + i * step * S);
+    if (i === 0) ax += `M${px} 0V${H}`; else { gl += `M${px} 0V${H}`; ax += `M${px} ${H / 2 - 5}v10`; }
+  }
+  for (let j = Math.ceil(-HM / step); j <= Math.floor(HM / step); j++) {
+    const py = f1(H / 2 - j * step * S);
+    if (j === 0) ax += `M0 ${py}H${W}`; else { gl += `M0 ${py}H${W}`; ax += `M${W / 2 - 5} ${py}h10`; }
+  }
+  // quiver plot, coloured by magnitude in four bands
+  const sp = 50, arr = [], mags = [];
+  for (let py = sp / 2; py < H; py += sp) for (let px = sp / 2; px < W; px += sp) {
+    const F = L.F((px - W / 2) / S, (H / 2 - py) / S), m = sqrt(F[0] * F[0] + F[1] * F[1]);
+    if (!isFinite(m)) continue; arr.push([px, py, F[0], F[1], m]); mags.push(m);
+  }
+  mags.sort((a, b) => a - b);
+  const ref = mags[Math.floor(mags.length * 0.9)] || 1, bk = ['', '', '', ''];
+  for (const [px, py, P, Q, m] of arr) {
+    if (m < 1e-9) { bk[0] += `M${px - 1} ${py}h2`; continue; }
+    const t = Math.min(1, m / ref), len = 7 + 17 * t, ux = P / m, uy = -Q / m;
+    bk[t < 0.3 ? 0 : t < 0.55 ? 1 : t < 0.8 ? 2 : 3] += arrowGlyph(px - ux * len / 2, py - uy * len / 2, px + ux * len / 2, py + uy * len / 2, 3.5 + 2.5 * t);
+  }
+  const qc = ['#2a3cff', '#2f9cff', '#a14bff', '#ff4fd8'], qo = [.55, .6, .7, .8];
+  // equilibria and other invariant sets
+  const amber = '#ffc24a';
+  let mk = '';
+  if (L.eqline) mk += `<path d="M0 ${H/2}H${W}" stroke="${amber}" stroke-width="1.5" stroke-dasharray="6 6" opacity=".7"/>`;
+  if (L.cycleR) mk += `<circle cx="${W/2}" cy="${H/2}" r="${L.cycleR * S}" fill="none" stroke="${amber}" stroke-width="1.5" stroke-dasharray="8 6" opacity=".75"/>`;
+  const ticks = (r0, r1) => [0, 1, 2, 3, 4, 5].map(i => { const a = i * PI / 3; return `M${f1(r0*cos(a))} ${f1(r0*sin(a))}L${f1(r1*cos(a))} ${f1(r1*sin(a))}`; }).join('');
+  for (const m of (L.marks || [])) {
+    const [px, py] = toPx(m.x, m.y);
+    if (px < -10 || px > W + 10 || py < -10 || py > H + 10) continue;
+    let g = '';
+    switch (m.t) {
+      case 'source': g = `<circle r="6" fill="none"/><path d="${ticks(9, 14)}"/>`; break;
+      case 'sink': g = `<circle r="6" fill="${amber}" fill-opacity=".35"/><path d="${ticks(14, 9)}"/>`; break;
+      case 'saddle': g = `<path d="M-7 -7L7 7M-7 7L7 -7"/><circle r="2.5" fill="${amber}"/>`; break;
+      case 'center': g = `<circle r="4" fill="none"/><circle r="9" fill="none" stroke-dasharray="3 3"/>`; break;
+      case 'spiral': g = `<circle r="3" fill="${amber}"/><path d="M0 -10A10 10 0 1 1 -8.7 5" fill="none"/>`; break;
+      case 'singular': g = `<circle r="8" fill="none" stroke="#ff4fd8"/><path d="M-5 -5L5 5M-5 5L5 -5" stroke="#ff4fd8"/>`; break;
+    }
+    mk += `<g transform="translate(${f1(px)} ${f1(py)})" stroke="${amber}" stroke-width="1.5">${g}</g>`;
+  }
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W * 2}" height="${H * 2}">` +
+    `<defs><filter id="g" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>` +
+    `<rect width="${W}" height="${H}" fill="#050614"/>` +
+    `<path d="${gl}" stroke="#121a44" stroke-width="1" fill="none"/>` +
+    `<path d="${ax}" stroke="#2c3c94" stroke-width="1.2" fill="none"/>` +
+    `<g fill="none" stroke-linecap="round" stroke-width="1.3" filter="url(#g)">` +
+    bk.map((d, i) => `<path d="${d}" stroke="${qc[i]}" stroke-opacity="${qo[i]}"/>`).join('') + `</g>` +
+    `<g filter="url(#g)">${mk}</g></svg>`;
+  el.bg.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
+/* ---------------- gameplay ---------------- */
+function defaultInject(rr) {
+  for (let t = 0; t < 60; t++) {
+    const side = (Math.random() * 4) | 0; let px, py, nx, ny;
+    if (side === 0) { px = rnd(0, W); py = -rr - 4; nx = 0; ny = 1; }
+    else if (side === 1) { px = W + rr + 4; py = rnd(0, H); nx = -1; ny = 0; }
+    else if (side === 2) { px = rnd(0, W); py = H + rr + 4; nx = 0; ny = -1; }
+    else { px = -rr - 4; py = rnd(0, H); nx = 1; ny = 0; }
+    const v = fieldPx(px, py);
+    if (v[0] * nx + v[1] * ny > 15) return [px, py];
+  }
+  return [rnd(60, W - 60), rnd(60, H - 60)];
+}
+// re-seed a rock that has left the flow region (e.g. at a source)
+function inject(k) {
+  const p = L.inject ? toPx(...L.inject()) : defaultInject(k.r);
+  k.x = p[0]; k.y = p[1]; k.off = 0;
+  k.limbo = ship.alive && (k.x - ship.x) ** 2 + (k.y - ship.y) ** 2 < 190 * 190;
+}
+const onScreen = k => k.x > -k.r && k.x < W + k.r && k.y > -k.r && k.y < H + k.r;
+
+function hitRock(i) {
+  const k = rocks[i];
+  boom(k.size);
+  rocks[i] = rocks[rocks.length - 1]; rocks.pop();
+  if (k.size > 1) {
+    // fragments are placed inside the parent's footprint with no push: only the field moves them
+    const a = rnd(0, TAU), off = RAD[k.size - 1] * 0.9, ox = cos(a) * off, oy = sin(a) * off;
+    const c1 = makeRock(k.x + ox, k.y + oy, k.size - 1), c2 = makeRock(k.x - ox, k.y - oy, k.size - 1);
+    c1.th = c2.th = k.th;
+    rocks.push(c1, c2);
+  }
+}
+function killShip() {
+  ship.alive = false; G.lives--;
+  boom(3); beep(400, 60, 0.6, 'sawtooth', 0.04);
+  if (G.lives <= 0) G.timer = 2.2; else ship.resp = 1.6;
+}
+function hyperspace() {
+  if (G.state !== 'play' || !ship.alive || ship.hcool > 0) return;
+  let x, y, t = 0;
+  do { x = rnd(60, W - 60); y = rnd(60, H - 60); t++; } while (t < 30 && rocks.some(k => !k.limbo && (k.x - x) ** 2 + (k.y - y) ** 2 < (k.r + 110) ** 2));
+  ship.x = x; ship.y = y; ship.vx *= 0.3; ship.vy *= 0.3; ship.inv = Math.max(ship.inv, 0.5); ship.hcool = 1.4;
+  beep(1200, 200, 0.25, 'sine', 0.05);
+}
+
+function updateShip(dt) {
+  if (!ship.alive) {
+    if (G.lives > 0 && ship.resp > 0) {
+      ship.resp -= dt;
+      if (ship.resp <= 0) {
+        const sp = spawnPoint();
+        if (rocks.some(k => !k.limbo && (k.x - sp[0]) ** 2 + (k.y - sp[1]) ** 2 < (k.r + 110) ** 2)) ship.resp = 0.2;
+        else spawnShip();
+      }
+    }
+    return;
+  }
+  if (keys.arrowleft || keys.a) ship.a += 4.3 * dt;
+  if (keys.arrowright || keys.d) ship.a -= 4.3 * dt;
+  const cx = cos(ship.a), cy = -sin(ship.a);
+  ship.thrust = !!(keys.arrowup || keys.w);
+  if (ship.thrust) { ship.vx += cx * 380 * dt; ship.vy += cy * 380 * dt; }
+  const damp = Math.exp(-0.45 * dt); ship.vx *= damp; ship.vy *= damp;
+  const sp = sqrt(ship.vx * ship.vx + ship.vy * ship.vy); if (sp > 400) { ship.vx *= 400 / sp; ship.vy *= 400 / sp; }
+  const v = fieldPx(ship.x, ship.y);
+  ship.x += (ship.vx + 0.6 * v[0]) * dt; ship.y += (ship.vy + 0.6 * v[1]) * dt;
+  if (L.mode === 'wrap') {
+    if (ship.x < -14) ship.x += W + 28; else if (ship.x > W + 14) ship.x -= W + 28;
+    if (ship.y < -14) ship.y += H + 28; else if (ship.y > H + 14) ship.y -= H + 28;
+  } else {
+    if (ship.x < 14) { ship.x = 14; if (ship.vx < 0) ship.vx = 0; }
+    if (ship.x > W - 14) { ship.x = W - 14; if (ship.vx > 0) ship.vx = 0; }
+    if (ship.y < 14) { ship.y = 14; if (ship.vy < 0) ship.vy = 0; }
+    if (ship.y > H - 14) { ship.y = H - 14; if (ship.vy > 0) ship.vy = 0; }
+  }
+  if (ship.inv > 0) ship.inv -= dt;
+  ship.cool -= dt; ship.hcool -= dt;
+  if (keys[' '] && ship.cool <= 0 && bullets.length < 10) {
+    bullets.push({ x: ship.x + cx * 16, y: ship.y + cy * 16, vx: cx * 460 + ship.vx, vy: cy * 460 + ship.vy, life: 1.7, trail: [], tt: 0 });
+    ship.cool = 0.17; beep(900, 380, 0.07);
+  }
+}
+function updateBullets(dt) {
+  const wrap = L.mode === 'wrap';
+  for (let i = bullets.length - 1; i >= 0; i--) {
+    const b = bullets[i], v = fieldPx(b.x, b.y);
+    b.tt += dt;
+    if (b.tt > 0.03) { b.tt = 0; b.trail.push(b.x, b.y); if (b.trail.length > 20) b.trail.splice(0, 2); }
+    b.x += (b.vx + v[0]) * dt; b.y += (b.vy + v[1]) * dt; b.life -= dt;
+    let dead = b.life <= 0;
+    if (wrap) {
+      let w = false;
+      if (b.x < 0) { b.x += W; w = true; } else if (b.x > W) { b.x -= W; w = true; }
+      if (b.y < 0) { b.y += H; w = true; } else if (b.y > H) { b.y -= H; w = true; }
+      if (w) b.trail.length = 0;
+    } else if (b.x < -20 || b.x > W + 20 || b.y < -20 || b.y > H + 20) dead = true;
+    if (!dead) for (let j = rocks.length - 1; j >= 0; j--) {
+      const k = rocks[j];
+      if (k.limbo || !onScreen(k)) continue;
+      const dx = k.x - b.x, dy = k.y - b.y, rr = k.r * 0.92;
+      if (dx * dx + dy * dy < rr * rr) { hitRock(j); dead = true; break; }
+    }
+    if (dead) { bullets[i] = bullets[bullets.length - 1]; bullets.pop(); }
+  }
+}
+function updateRocks(dt) {
+  const wrap = L.mode === 'wrap';
+  for (const k of rocks) {
+    if (k.limbo) { inject(k); continue; }
+    const v = fieldPx(k.x, k.y);
+    k.x += v[0] * dt; k.y += v[1] * dt;
+    k.th += spinRate(k.x, k.y) * dt;
+    if (wrap) {
+      if (k.x < -k.r) k.x += W + 2 * k.r; else if (k.x > W + k.r) k.x -= W + 2 * k.r;
+      if (k.y < -k.r) k.y += H + 2 * k.r; else if (k.y > H + k.r) k.y -= H + 2 * k.r;
+    } else {
+      k.off = onScreen(k) ? 0 : k.off + dt;
+      if (k.x < -MARGIN || k.x > W + MARGIN || k.y < -MARGIN || k.y > H + MARGIN || k.off > 7) inject(k);
+    }
+  }
+  if (ship.alive && ship.inv <= 0) {
+    for (const k of rocks) {
+      if (k.limbo || !onScreen(k)) continue;
+      const dx = k.x - ship.x, dy = k.y - ship.y, rr = k.r * 0.82 + 10;
+      if (dx * dx + dy * dy < rr * rr) { killShip(); break; }
+    }
+  }
+}
+
+function update(dt) {
+  const st = G.state;
+  if (st === 'play' || st === 'clear' || st === 'over') updateRocks(dt);
+  if (st === 'play' || st === 'clear') { updateShip(dt); updateBullets(dt); }
+  if (st === 'play') {
+    if (!ship.alive && G.lives <= 0) G.state = 'over';
+    else if (rocks.length === 0) {
+      G.state = 'clear'; G.timer = 1.8;
+      [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => beep(f, f, 0.16, 'triangle', 0.045), i * 110));
+    }
+  } else if (st === 'clear') {
+    G.timer -= dt; if (G.timer <= 0) setupLevel(G.idx + 1);
+  } else if (st === 'over') {
+    G.timer -= dt; if (G.timer <= 0) { G.lives = 3; setupLevel(G.idx); }
+  }
+}
+
+/* ---------------- render: one path string per layer per frame ---------------- */
+function shipPath(x, y, a, sc) {
+  const c = cos(a) * sc, s = sin(a) * sc;
+  const T = (u, v) => `${n0(x + u * c - v * s)} ${n0(y - u * s - v * c)}`;
+  return `M${T(17, 0)}L${T(-11, 9.5)}L${T(-6, 0)}L${T(-11, -9.5)}Z`;
+}
+let lastShipD = '', lastFlame = '', lastShipF = '';
+function setD(e, d, key) { if (e[key] !== d) { e[key] = d; e.setAttribute('d', d); } }
+function render(now) {
+  let dr = '', de = '';
+  const wrap = L.mode === 'wrap';
+  for (const k of rocks) {
+    if (k.limbo) continue;
+    if (!onScreen(k)) {
+      if (!wrap) {
+        const ex = clamp(k.x, 9, W - 9), ey = clamp(k.y, 9, H - 9), dx = k.x - ex, dy = k.y - ey;
+        const dl = sqrt(dx * dx + dy * dy) || 1, ux = dx / dl, uy = dy / dl, s = 4 + k.size * 2;
+        de += `M${n0(ex + ux * s)} ${n0(ey + uy * s)}L${n0(ex - uy * s * 0.7)} ${n0(ey + ux * s * 0.7)}L${n0(ex + uy * s * 0.7)} ${n0(ey - ux * s * 0.7)}Z`;
+      }
+      continue;
+    }
+    const va = k.va, vr = k.vr, n = va.length, th = k.th;
+    dr += `M${n0(k.x + vr[0] * cos(va[0] + th))} ${n0(k.y - vr[0] * sin(va[0] + th))}`;
+    for (let i = 1; i < n; i++) dr += `L${n0(k.x + vr[i] * cos(va[i] + th))} ${n0(k.y - vr[i] * sin(va[i] + th))}`;
+    dr += 'Z';
+  }
+  el.pRocks.setAttribute('d', dr);
+  setD(el.pEdge, de, '_d');
+
+  let db = '', dtl = '';
+  for (const b of bullets) {
+    db += `M${n0(b.x) - 3} ${n0(b.y)}a3 3 0 1 0 6 0a3 3 0 1 0-6 0`;
+    const t = b.trail;
+    if (t.length > 2) {
+      dtl += `M${n0(t[0])} ${n0(t[1])}`;
+      for (let i = 2; i < t.length; i += 2) dtl += `L${n0(t[i])} ${n0(t[i + 1])}`;
+      dtl += `L${n0(b.x)} ${n0(b.y)}`;
+    }
+  }
+  setD(el.pBullets, db, '_d'); setD(el.pTrails, dtl, '_d');
+
+  const ready = G.state === 'ready';
+  const showShip = ready ? ((now * 2.5) | 0) % 2 === 0 : ship.alive && (ship.inv <= 0 || ((ship.inv * 10) | 0) % 2 === 0);
+  const sd = showShip ? shipPath(ship.x, ship.y, ship.a, 1) : '';
+  setD(el.pShip, sd, '_d');
+  let fl = '';
+  if (showShip && !ready && ship.thrust) {
+    const c = cos(ship.a), s = sin(ship.a), T = (u, v) => `${n0(ship.x + u * c - v * s)} ${n0(ship.y - u * s - v * c)}`;
+    fl = `M${T(-8, 5)}L${T(-17 - Math.random() * 10, 0)}L${T(-8, -5)}`;
+  }
+  setD(el.pFlame, fl, '_d');
+  let sf = '';
+  if (ship.alive || ready) {
+    const v = fieldPx(ship.x, ship.y), m = sqrt(v[0] * v[0] + v[1] * v[1]);
+    if (m > 3) { const l = Math.min(70, 14 + m * 0.3) / m; sf = arrowGlyph(ship.x, ship.y, ship.x + v[0] * l, ship.y + v[1] * l, 6); }
+  }
+  setD(el.pShipF, sf, '_d');
+
+  const spare = Math.max(0, G.lives - (ship.alive || ready ? 1 : 0));
+  if (spare !== G.lastLives) {
+    G.lastLives = spare;
+    let dl = ''; for (let i = 0; i < spare; i++) dl += shipPath(1172 - i * 24, 30, PI / 2, 0.65);
+    el.pLives.setAttribute('d', dl);
+  }
+  const paused = G.state === 'paused';
+  if (paused !== G.lastPause) { G.lastPause = paused; el.gPause.style.display = paused ? '' : 'none'; }
+}
+
+/* ---------------- input ---------------- */
+const START_KEYS = new Set([' ', 'enter', 'arrowup', 'arrowleft', 'arrowright', 'w', 'a', 'd']);
+addEventListener('keydown', e => {
+  const k = e.key.toLowerCase();
+  if (k === ' ' || k.startsWith('arrow')) e.preventDefault();
+  keys[k] = true;
+  if (e.repeat) return;
+  ac();
+  if (G.state === 'ready' && START_KEYS.has(k)) startPlay();
+  if (k === 'p' || k === 'escape') { if (G.state === 'play') G.state = 'paused'; else if (G.state === 'paused') G.state = 'play'; }
+  if (k === 'shift') hyperspace();
+  if (k === ']' || k === 'pagedown') gotoLevel(G.idx % LV + 1);
+  if (k === '[' || k === 'pageup') gotoLevel(G.idx % LV - 1);
+  if (k === 'm') G.sound = !G.sound;
+});
+addEventListener('keyup', e => { keys[e.key.toLowerCase()] = false; });
+addEventListener('blur', () => { for (const k in keys) keys[k] = false; if (G.state === 'play') G.state = 'paused'; });
+document.addEventListener('visibilitychange', () => { if (document.hidden && G.state === 'play') G.state = 'paused'; });
+for (const b of document.querySelectorAll('.touch button')) {
+  const k = b.dataset.k;
+  b.addEventListener('pointerdown', e => {
+    e.preventDefault(); ac(); keys[k] = true;
+    if (G.state === 'ready') startPlay(); else if (G.state === 'paused') G.state = 'play';
+    if (k === 'shift') hyperspace();
+  });
+  const off = () => { keys[k] = false; };
+  b.addEventListener('pointerup', off); b.addEventListener('pointercancel', off); b.addEventListener('pointerleave', off);
+}
+el.game.addEventListener('pointerdown', () => { ac(); if (G.state === 'ready') startPlay(); else if (G.state === 'paused') G.state = 'play'; });
+
+/* ---------------- loop ---------------- */
+let last = performance.now();
+function frame(t) {
+  const dt = Math.min(0.033, (t - last) / 1000); last = t;
+  if (G.state !== 'paused') update(dt);
+  render(t / 1000);
+  requestAnimationFrame(frame);
+}
+setupLevel(0);
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
