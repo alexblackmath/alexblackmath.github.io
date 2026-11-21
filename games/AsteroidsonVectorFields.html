@@ -3,19 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Curl &amp; Flux</title>
+<title>Asteroid Fields</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
-  --page:#e6e9f5;--ink:#141935;--hue:#08698f;
+  --page:#e6e9f5;--ink:#141935;--hue:#08698f;--muted:#59618a;--line:#cfd5ec;--chip:#ffffff;--chip-on:#e3f4fb;--field:#ffffff;--accent:#08698f;--err:#c2185b;
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){--page:#04050d;--ink:#e3eaff;--hue:#46f0ff;color-scheme:dark}
+  :root:not([data-theme="light"]){--page:#04050d;--ink:#e3eaff;--hue:#46f0ff;--muted:#8790bd;--line:#1d2452;--chip:#0b0f2a;--chip-on:#132048;--field:#0b0f2a;--accent:#46f0ff;--err:#ff6b9d;color-scheme:dark}
 }
-:root[data-theme="dark"]{--page:#04050d;--ink:#e3eaff;--hue:#46f0ff;color-scheme:dark}
+:root[data-theme="dark"]{--page:#04050d;--ink:#e3eaff;--hue:#46f0ff;--muted:#8790bd;--line:#1d2452;--chip:#0b0f2a;--chip-on:#132048;--field:#0b0f2a;--accent:#46f0ff;--err:#ff6b9d;color-scheme:dark}
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
 body{margin:0;height:100%;background:var(--page);color:var(--ink)}
@@ -23,14 +26,81 @@ math{font-family:"STIX Two Math","Cambria Math","Latin Modern Math",math,serif}
 
 .app{display:grid;grid-template-columns:minmax(0,1fr) clamp(240px,27vw,440px);gap:20px;padding:16px;height:100%;align-items:center}
 .stage-col{min-width:0;height:100%;display:flex;justify-content:center;align-items:center}
-.stage{position:relative;contain:strict;
+.stage{position:relative;contain:strict;container-type:inline-size;
   width:min(100%, calc((100dvh - 32px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)) * 1.5));
   aspect-ratio:3/2;background:#050614;border-radius:6px 22px 6px 22px;overflow:hidden;outline:1px solid #1c2563}
-.stage img,.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block}
-.stage img{will-change:transform;pointer-events:none}
-.stage svg{touch-action:none;user-select:none;-webkit-user-select:none}
+.stage>img,.stage>svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.stage>img{will-change:transform;pointer-events:none;object-fit:cover}
+.stage>svg{touch-action:none;user-select:none;-webkit-user-select:none}
 
-.eqpanel{min-width:0;padding:6px 0 6px 18px;border-left:3px solid var(--hue)}
+.eqpanel{min-width:0;max-height:100%;overflow-y:auto;display:flex;flex-direction:column;gap:18px;padding:2px 2px 2px 0;
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+.eqblock{padding:6px 0 6px 18px;border-left:3px solid var(--hue)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* screens inside the stage (always dark, like the playfield) */
+.screen{position:absolute;inset:0;z-index:4;overflow-y:auto;color:#dce6ff;background:rgba(4,5,16,.76);
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif;padding:clamp(14px,3.2cqw,40px)}
+.screen[hidden]{display:none !important}
+.screen :focus-visible{outline:2px solid #46f0ff;outline-offset:2px}
+#scrTitle{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:clamp(8px,1.6cqw,18px);
+  background:radial-gradient(ellipse at center,rgba(4,5,16,.45),rgba(4,5,16,.9))}
+.brand{margin:0;font:700 clamp(36px,10.5cqw,128px)/.95 "Chakra Petch",system-ui,sans-serif;letter-spacing:-.01em;
+  background:linear-gradient(90deg,#46f0ff,#9b7bff 55%,#ff4fd8);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 18px rgba(70,240,255,.35))}
+.tag{margin:0;color:#9aa6dc;font-size:clamp(13px,2cqw,22px)}
+.menu{display:flex;gap:clamp(8px,1.4cqw,16px);flex-wrap:wrap;justify-content:center;margin-top:clamp(6px,1.6cqw,22px)}
+.btn{cursor:pointer;min-width:9em;padding:.6em 1.4em;border:1px solid #2e3a8c;background:rgba(10,14,44,.75);color:#e6edff;
+  border-radius:3px 12px 3px 12px;font:600 clamp(14px,2cqw,21px) "Chakra Petch",system-ui,sans-serif}
+.btn.primary{border-color:#46f0ff;box-shadow:0 0 24px -8px #46f0ff}
+.btn:hover,.card:hover,.back:hover{border-color:#46f0ff}
+.hint{margin:clamp(4px,1.2cqw,14px) 0 0;color:#6f7ab3;font-size:clamp(11px,1.4cqw,14px)}
+.hint kbd{font:inherit;border:1px solid #2e3a8c;border-radius:4px;padding:0 .35em;color:#c8d2f5}
+.scr-head{display:flex;align-items:center;gap:14px;margin-bottom:clamp(10px,2cqw,24px)}
+.scr-head h2{margin:0;font:600 clamp(18px,3cqw,34px) "Chakra Petch",system-ui,sans-serif;color:#fff}
+.back{cursor:pointer;border:1px solid #2e3a8c;background:rgba(10,14,44,.75);color:#c8d2f5;border-radius:999px;padding:.35em .9em;
+  font:clamp(12px,1.5cqw,15px) system-ui,sans-serif;white-space:nowrap}
+.sub{margin:clamp(14px,2.2cqw,26px) 0 clamp(6px,1cqw,12px);font:600 clamp(13px,1.8cqw,18px) "Chakra Petch",system-ui,sans-serif;color:#9aa6dc}
+.cards{display:grid;grid-template-columns:repeat(6,1fr);gap:clamp(6px,1.1cqw,14px)}
+.card{cursor:pointer;border:1px solid #232c6e;background:rgba(8,11,34,.9);border-radius:3px 12px 3px 12px;
+  padding:clamp(4px,.8cqw,10px);display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
+.card svg{width:100%;height:auto;display:block}
+.card .num{font:600 clamp(11px,1.4cqw,15px) "Chakra Petch",system-ui,sans-serif;color:#9aa6dc}
+.cards.custom{grid-template-columns:repeat(3,1fr)}
+.cards.custom .card{padding:clamp(8px,1.4cqw,16px) 6px;justify-content:center}
+.card .cm{font-size:clamp(11px,1.5cqw,17px);color:#fff;max-width:100%;overflow:hidden}
+.card .lbl{font:600 clamp(12px,1.5cqw,16px) "Chakra Petch",system-ui,sans-serif;color:#9aa6dc}
+.edit-body{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(12px,2.4cqw,32px);align-items:start}
+.editor{display:grid;gap:10px;font-size:clamp(13px,1.5cqw,15px)}
+.editor .tpl{margin:0;font-size:clamp(14px,1.8cqw,19px);color:#9aa6dc}
+.editor .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.editor label{display:flex;align-items:center;gap:6px;font-family:"STIX Two Math","Cambria Math",serif;font-style:italic;font-size:clamp(15px,1.8cqw,19px);color:#e6edff}
+.editor label.plain{font-family:system-ui,sans-serif;font-style:normal;font-size:13px;color:#9aa6dc}
+.editor label.grow{flex:1 1 100%}
+.editor input{font:14px ui-monospace,Menlo,Consolas,monospace;width:5.2em;padding:6px 8px;border:1px solid #2e3a8c;border-radius:6px;
+  background:#0a0e2a;color:#e6edff;min-width:0}
+.editor label.grow input{flex:1;width:auto}
+.editor input:focus{outline:2px solid #46f0ff;outline-offset:0;border-color:transparent}
+.editor input[aria-invalid="true"]{border-color:#ff6b9d}
+.editor .err{margin:0;color:#ff6b9d;font-size:13px}
+.editor .err:empty{display:none}
+.editor .help{margin:0;color:#7f8abf;font-size:12.5px;line-height:1.45}
+.editor .btn{justify-self:start;margin-top:4px;min-width:7em;font-size:clamp(14px,1.6cqw,18px)}
+.preview.stale svg,.preview.stale .pveq{opacity:.35}
+.preview{display:grid;gap:8px}
+.preview svg{width:100%;height:auto;display:block;background:#050614;border:1px solid #232c6e;border-radius:3px 12px 3px 12px}
+.pveq{font-size:clamp(13px,1.7cqw,19px);color:#fff;overflow-x:auto}
+@container (max-width:620px){
+  .cards{grid-template-columns:repeat(4,1fr)}
+  .cards.custom,.edit-body{grid-template-columns:1fr}
+}
+.home{position:absolute;top:clamp(6px,1.2cqw,14px);left:clamp(6px,1.2cqw,14px);z-index:3;width:clamp(30px,3.6cqw,42px);aspect-ratio:1;
+  display:grid;place-items:center;padding:0;border-radius:50%;border:1px solid #2e3a8c;background:rgba(8,11,34,.7);color:#c8d2f5;cursor:pointer}
+.home svg{width:58%;height:58%}
+.home:hover{border-color:#46f0ff;color:#fff}
+body:not([data-screen="game"]) .home,body:not([data-screen="game"]) #game,body:not([data-screen="game"]) .touch,
+body:not([data-screen="game"]) .eqpanel{display:none}
+body:not([data-screen="game"]) .app{grid-template-columns:minmax(0,1fr)}
 .eq{font-size:clamp(16px,1.7vw,27px);overflow-x:auto}
 .eq.long{font-size:clamp(13px,1.15vw,20px)}
 .eq math{margin:.25em 0}
@@ -44,7 +114,9 @@ math{font-family:"STIX Two Math","Cambria Math","Latin Modern Math",math,serif}
   touch-action:none;user-select:none;-webkit-user-select:none}
 
 @media (max-width:1000px){
+  body:not([data-screen="game"]) .stage{aspect-ratio:auto;min-height:calc(100dvh - 32px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
   .app{grid-template-columns:1fr;height:auto;align-items:start}
+  .eqpanel{max-height:none;overflow:visible}
   .stage-col{height:auto}
   .stage{width:100%}
   .eq{font-size:clamp(17px,4.4vw,24px)}
@@ -52,7 +124,7 @@ math{font-family:"STIX Two Math","Cambria Math","Latin Modern Math",math,serif}
 }
 </style>
 </head>
-<body>
+<body data-screen="title">
 <div class="app">
   <main class="stage-col">
     <div class="stage">
@@ -72,13 +144,46 @@ math{font-family:"STIX Two Math","Cambria Math","Latin Modern Math",math,serif}
           <rect x="612" y="360" width="22" height="80" rx="3" fill="#e8fdff"/>
         </g>
       </svg>
+      <button class="home" id="homeBtn" type="button" aria-label="Back to title" title="Back to title">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 11 12 4l8.5 7M6.5 9v11h11V9" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+
+      <section class="screen" id="scrTitle" aria-label="Title">
+        <h1 class="brand">Asteroid Fields</h1>
+        <div class="menu">
+          <button class="btn primary" type="button" data-go="play">Play</button>
+          <button class="btn" type="button" data-go="select">Choose a field</button>
+        </div>
+        <p class="hint"><kbd>←</kbd> <kbd>→</kbd> steer, <kbd>↑</kbd> thrust, <kbd>Space</kbd> fire, <kbd>Shift</kbd> jump, <kbd>P</kbd> pause</p>
+      </section>
+
+      <section class="screen" id="scrSelect" aria-label="Choose a field" hidden>
+        <div class="scr-head"><button class="back" type="button" data-go="title">← Title</button><h2>Choose a field</h2></div>
+        <div class="cards" id="chips"></div>
+        <h3 class="sub">Build your own</h3>
+        <div class="cards custom" id="customBtns"></div>
+      </section>
+
+      <section class="screen" id="scrEdit" aria-label="Build a field" hidden>
+        <div class="scr-head"><button class="back" type="button" data-go="select">← Fields</button><h2 id="edTitle"></h2></div>
+        <div class="edit-body">
+          <form class="editor" id="editor" autocomplete="off" novalidate></form>
+          <div class="preview" aria-live="polite">
+            <svg id="pvSvg" viewBox="0 0 120 80" aria-label="Preview of the field"></svg>
+            <div class="pveq" id="pvEq"></div>
+          </div>
+        </div>
+      </section>
+
       <div class="touch" aria-hidden="true">
         <div class="grp"><button data-k="arrowleft">◀</button><button data-k="arrowright">▶</button></div>
         <div class="grp"><button data-k="shift">✦</button><button data-k="arrowup">▲</button><button data-k=" ">●</button></div>
       </div>
     </div>
   </main>
-  <aside class="eqpanel" aria-live="polite"><div class="eq" id="fEq"></div></aside>
+  <aside class="eqpanel">
+    <div class="eqblock" aria-live="polite"><div class="eq" id="fEq"></div></div>
+  </aside>
 </div>
 
 <script>
@@ -178,12 +283,17 @@ const LEVELS = [
 
 /* ---------------- state ---------------- */
 const LV = LEVELS.length;
-const G = { idx: 0, cycle: 0, fs: 1, state: 'ready', lives: 3, sound: true, lastLives: -1, lastPause: null };
+const G = { idx: 0, cycle: 0, fs: 1, state: 'ready', lives: 3, sound: true, lastLives: -1, lastPause: null, custom: null, editing: null,
+  cp: {
+    const: { a: '1', b: '0.5' },
+    linear: { a: '1', b: '2', e: '1', c: '2', d: '-2', f: '-1', R: '6' },
+    expr: { P: 'y', Q: '-sin(x) - 0.2y', R: '7' }
+  } };
 let L, R, S, HM, K;                     // K = c·S·fieldScale, folded once per level
 let ship, rocks = [], bullets = [];
 const keys = {};
 const el = {};
-for (const id of ['bg', 'game', 'fEq', 'pEdge', 'pTrails', 'pBullets', 'pRocks', 'pShipF', 'pFlame', 'pShip', 'pLives', 'gPause']) el[id] = $(id);
+for (const id of ['bg', 'game', 'fEq', 'editor', 'chips', 'customBtns', 'scrTitle', 'scrSelect', 'scrEdit', 'edTitle', 'pvSvg', 'pvEq', 'homeBtn', 'pEdge', 'pTrails', 'pBullets', 'pRocks', 'pShipF', 'pFlame', 'pShip', 'pLives', 'gPause']) el[id] = $(id);
 
 const toPx = (x, y) => [W / 2 + x * S, H / 2 - y * S];
 
@@ -238,7 +348,16 @@ function makeRock(x, y, size) {
 function spawnPoint() { return toPx(...(L.spawn || [0, -HM * 0.5])); }
 
 function setupLevel(idx) {
-  G.idx = idx; L = LEVELS[idx % LV]; G.cycle = Math.floor(idx / LV); G.fs = 1 + 0.2 * G.cycle;
+  G.custom = null;
+  G.idx = idx; G.cycle = Math.floor(idx / LV); G.fs = 1 + 0.2 * G.cycle;
+  loadField(LEVELS[idx % LV]);
+}
+function setupCustom(def) {
+  G.custom = def; G.cycle = 0; G.fs = 1;
+  loadField(def);
+}
+function loadField(def) {
+  L = def;
   R = L.R; S = (W / 2) / R; HM = (H / 2) / S; K = L.k * G.fs * S;
   rocks = []; bullets = [];
   const sp = spawnPoint();
@@ -252,7 +371,7 @@ function setupLevel(idx) {
   document.documentElement.style.setProperty('--hue', L.hue);
   el.fEq.innerHTML = L.eq; el.fEq.classList.toggle('long', !!L.long);
   el.pRocks.setAttribute('stroke', L.hue); el.pEdge.setAttribute('fill', L.hue);
-  buildBackground();
+  el.bg.src = buildBackground();
   G.state = 'ready'; G.lastLives = -1;
 }
 function spawnShip() {
@@ -261,6 +380,7 @@ function spawnShip() {
 }
 function startPlay() { if (G.state !== 'ready') return; G.state = 'play'; spawnShip(); beep(300, 900, 0.18, 'triangle', 0.04); }
 function gotoLevel(i) { G.lives = 3; setupLevel(((i % LV) + LV) % LV); }
+const restartField = () => G.custom ? setupCustom(G.custom) : setupLevel(G.idx);
 
 /* ---------------- static background: drawn once per field, shown as a cached image ---------------- */
 function niceStep(raw) {
@@ -324,7 +444,7 @@ function buildBackground() {
     `<g fill="none" stroke-linecap="round" stroke-width="1.3" filter="url(#g)">` +
     bk.map((d, i) => `<path d="${d}" stroke="${qc[i]}" stroke-opacity="${qo[i]}"/>`).join('') + `</g>` +
     `<g filter="url(#g)">${mk}</g></svg>`;
-  el.bg.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
 }
 
 /* ---------------- gameplay ---------------- */
@@ -468,9 +588,9 @@ function update(dt) {
       [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => beep(f, f, 0.16, 'triangle', 0.045), i * 110));
     }
   } else if (st === 'clear') {
-    G.timer -= dt; if (G.timer <= 0) setupLevel(G.idx + 1);
+    G.timer -= dt; if (G.timer <= 0) { if (G.custom) setupCustom(G.custom); else setupLevel(G.idx + 1); }
   } else if (st === 'over') {
-    G.timer -= dt; if (G.timer <= 0) { G.lives = 3; setupLevel(G.idx); }
+    G.timer -= dt; if (G.timer <= 0) { G.lives = 3; restartField(); }
   }
 }
 
@@ -544,8 +664,16 @@ function render(now) {
 
 /* ---------------- input ---------------- */
 const START_KEYS = new Set([' ', 'enter', 'arrowup', 'arrowleft', 'arrowright', 'w', 'a', 'd']);
+const typing = e => e.target instanceof Element && !!e.target.closest('input, textarea');
 addEventListener('keydown', e => {
+  if (typing(e)) return;
   const k = e.key.toLowerCase();
+  if (G.screen !== 'game') {
+    if (e.repeat || e.target.closest?.('button')) return;
+    if (k === 'enter' && G.screen === 'title') startField(0);
+    if (k === 'escape') go(G.screen === 'edit' ? 'select' : 'title');
+    return;
+  }
   if (k === ' ' || k.startsWith('arrow')) e.preventDefault();
   keys[k] = true;
   if (e.repeat) return;
@@ -553,8 +681,8 @@ addEventListener('keydown', e => {
   if (G.state === 'ready' && START_KEYS.has(k)) startPlay();
   if (k === 'p' || k === 'escape') { if (G.state === 'play') G.state = 'paused'; else if (G.state === 'paused') G.state = 'play'; }
   if (k === 'shift') hyperspace();
-  if (k === ']' || k === 'pagedown') gotoLevel(G.idx % LV + 1);
-  if (k === '[' || k === 'pageup') gotoLevel(G.idx % LV - 1);
+  if (k === ']' || k === 'pagedown') gotoLevel(G.custom ? 0 : G.idx % LV + 1);
+  if (k === '[' || k === 'pageup') gotoLevel(G.custom ? LV - 1 : G.idx % LV - 1);
   if (k === 'm') G.sound = !G.sound;
 });
 addEventListener('keyup', e => { keys[e.key.toLowerCase()] = false; });
@@ -572,15 +700,348 @@ for (const b of document.querySelectorAll('.touch button')) {
 }
 el.game.addEventListener('pointerdown', () => { ac(); if (G.state === 'ready') startPlay(); else if (G.state === 'paused') G.state = 'play'; });
 
+/* ---------------- expression parser: typed text -> AST -> fast closures + MathML ---------------- */
+const Mi = (...a) => `<math>${r(...a)}</math>`;
+const FUNCS = { sin: Math.sin, cos: Math.cos, tan: Math.tan, sec: v => 1 / Math.cos(v), csc: v => 1 / Math.sin(v), cot: v => 1 / Math.tan(v),
+  arcsin: Math.asin, arccos: Math.acos, arctan: Math.atan, asin: Math.asin, acos: Math.acos, atan: Math.atan,
+  sinh: Math.sinh, cosh: Math.cosh, tanh: Math.tanh, exp: Math.exp, ln: Math.log, log: Math.log10, sqrt: Math.sqrt, abs: Math.abs };
+const FNAME = { asin: 'arcsin', acos: 'arccos', atan: 'arctan' };
+const NAMES = [...Object.keys(FUNCS), 'theta', 'pi', 'e', 'x', 'y', 'r'].sort((a, b) => b.length - a.length);
+const OPS = { '+': '+', '-': '-', '−': '-', '–': '-', '*': '*', '×': '*', '·': '*', '/': '/', '÷': '/', '^': '^', '(': '(', ')': ')' };
+
+function tokenize(src) {
+  const t = [];
+  let i = 0;
+  while (i < src.length) {
+    const c = src[i];
+    if (/\s/.test(c)) { i++; continue; }
+    if (/[0-9.]/.test(c)) {
+      const m = /^(\d+\.?\d*|\.\d+)(e[+-]?\d+)?/i.exec(src.slice(i));
+      if (!m) throw new Error(`I can’t read the number starting at “${src.slice(i, i + 6)}”.`);
+      t.push({ k: 'num', v: parseFloat(m[0]), s: m[0] }); i += m[0].length; continue;
+    }
+    if (c === 'π') { t.push({ k: 'id', v: 'pi', s: c }); i++; continue; }
+    if (c === 'θ') { t.push({ k: 'id', v: 'theta', s: c }); i++; continue; }
+    if (/[a-z]/i.test(c)) {
+      const rest = src.slice(i).toLowerCase(), name = NAMES.find(n => rest.startsWith(n));
+      if (!name) throw new Error(`“${(/^[a-z]+/i.exec(src.slice(i)) || [c])[0]}” isn’t a variable or function I know.`);
+      t.push({ k: 'id', v: name, s: src.substr(i, name.length) }); i += name.length; continue;
+    }
+    if (c === '*' && src[i + 1] === '*') { t.push({ k: 'op', v: '^', s: '**' }); i += 2; continue; }
+    if (OPS[c]) { t.push({ k: 'op', v: OPS[c], s: c }); i++; continue; }
+    throw new Error(`I don’t know the symbol “${c}”.`);
+  }
+  if (!t.length) throw new Error('This box is empty.');
+  return t;
+}
+function parseExpr(src) {
+  const T = tokenize(src);
+  let p = 0;
+  const is = v => T[p] && T[p].k === 'op' && T[p].v === v;
+  const expect = v => { if (!is(v)) throw new Error(T[p] ? `Expected “${v}” before “${T[p].s}”.` : `A “${v}” is missing at the end.`); p++; };
+  const startsAtom = () => T[p] && (T[p].k === 'num' || T[p].k === 'id' || is('('));
+  function expr() { let a = term(); while (is('+') || is('-')) { const op = T[p++].v; a = { t: 'bin', op, a, b: term() }; } return a; }
+  function term() {
+    let a = unary();
+    for (;;) {
+      if (is('*') || is('/')) { const op = T[p++].v; a = { t: 'bin', op, a, b: unary() }; }
+      else if (startsAtom()) a = { t: 'bin', op: '*', a, b: power() };      // implicit product: 2x, x y, (x+1)(x-1)
+      else return a;
+    }
+  }
+  function unary() { if (is('-')) { p++; return { t: 'neg', a: unary() }; } if (is('+')) { p++; return unary(); } return power(); }
+  function power() { const a = atom(); if (is('^')) { p++; return { t: 'pow', a, b: unary() }; } return a; }
+  function atom() {
+    const k = T[p++];
+    if (!k) throw new Error('The expression ends too early.');
+    if (k.k === 'num') return { t: 'num', v: k.v };
+    if (k.k === 'id') {
+      if (FUNCS[k.v]) {
+        let ex = null;
+        if (is('^')) { p++; ex = unary(); }                                   // sin^2(x)
+        let arg;
+        if (is('(')) { p++; arg = expr(); expect(')'); } else arg = power();  // sin(x) or sin x
+        const n = { t: 'fn', n: k.v, a: arg };
+        return ex ? { t: 'pow', a: n, b: ex } : n;
+      }
+      if (k.v === 'pi' || k.v === 'e') return { t: 'const', n: k.v };
+      return { t: 'var', n: k.v };
+    }
+    if (k.v === '(') { const a = expr(); expect(')'); return a; }
+    throw new Error(`Unexpected “${k.s}”.`);
+  }
+  const a = expr();
+  if (p < T.length) throw new Error(`Unexpected “${T[p].s}”.`);
+  return a;
+}
+const usesVars = n => n.t === 'var' || (n.a && usesVars(n.a)) || (n.b && usesVars(n.b));
+const nodeCount = n => 1 + (n.a ? nodeCount(n.a) : 0) + (n.b ? nodeCount(n.b) : 0);
+function compile(n) {                                     // constant subtrees are folded once
+  if (!usesVars(n)) { const v = rawCompile(n)(0, 0); return () => v; }
+  return rawCompile(n);
+}
+function rawCompile(n) {
+  switch (n.t) {
+    case 'num': { const v = n.v; return () => v; }
+    case 'const': { const v = n.n === 'pi' ? Math.PI : Math.E; return () => v; }
+    case 'var':
+      if (n.n === 'x') return x => x;
+      if (n.n === 'y') return (x, y) => y;
+      if (n.n === 'r') return (x, y) => Math.sqrt(x * x + y * y);
+      return (x, y) => Math.atan2(y, x);
+    case 'neg': { const a = compile(n.a); return (x, y) => -a(x, y); }
+    case 'pow': { const a = compile(n.a), b = compile(n.b); return (x, y) => Math.pow(a(x, y), b(x, y)); }
+    case 'fn': { const f = FUNCS[n.n], a = compile(n.a); return (x, y) => f(a(x, y)); }
+    case 'bin': {
+      const a = compile(n.a), b = compile(n.b);
+      if (n.op === '+') return (x, y) => a(x, y) + b(x, y);
+      if (n.op === '-') return (x, y) => a(x, y) - b(x, y);
+      if (n.op === '*') return (x, y) => a(x, y) * b(x, y);
+      return (x, y) => a(x, y) / b(x, y);
+    }
+  }
+}
+function fmt(v) { return Number.isInteger(v) ? String(v) : String(+v.toPrecision(6)); }
+const numMM = v => v < 0 ? r(MINUS, mn(fmt(-v))) : mn(fmt(v));
+function leftLeaf(n) { while (n.t === 'bin' || n.t === 'pow') n = n.a; return n; }
+function mm(n, ctx = 0) {                                // AST -> MathML with minimal parentheses
+  let s, p;
+  switch (n.t) {
+    case 'num': s = mn(fmt(n.v)); p = 5; break;
+    case 'const': s = mi(n.n === 'pi' ? 'π' : 'e'); p = 5; break;
+    case 'var': s = mi(n.n === 'theta' ? 'θ' : n.n); p = 5; break;
+    case 'neg': s = r(MINUS, mm(n.a, 2.1)); p = 2; break;
+    case 'pow':
+      if (n.a.t === 'fn' && !['sqrt', 'abs', 'exp'].includes(n.a.n) && n.b.t === 'num') {   // sin²x
+        const f = n.a;
+        s = r(SP, `<msup>${mi(FNAME[f.n] || f.n)}${mn(fmt(n.b.v))}</msup>`, AF, ['num', 'var', 'const'].includes(f.a.t) ? r(SP, mm(f.a)) : r(mo('('), mm(f.a), mo(')')));
+        p = 3; break;
+      }
+      s = `<msup>${mm(n.a, 5)}${mm(n.b)}</msup>`; p = 4; break;
+    case 'fn':
+      if (n.n === 'sqrt') { s = `<msqrt>${mm(n.a)}</msqrt>`; p = 5; break; }
+      if (n.n === 'abs') { s = r(mo('|'), mm(n.a), mo('|')); p = 5; break; }
+      if (n.n === 'exp') { s = `<msup>${mi('e')}${mm(n.a)}</msup>`; p = 4; break; }
+      s = r(SP, mi(FNAME[n.n] || n.n), AF, ['num', 'var', 'const'].includes(n.a.t) ? r(SP, mm(n.a)) : r(mo('('), mm(n.a), mo(')')));
+      p = 3; break;
+    case 'bin':
+      if (n.op === '+' || n.op === '-') {
+        let b = n.b, op = n.op;
+        if (b.t === 'neg') { b = b.a; op = op === '+' ? '-' : '+'; }
+        s = r(mm(n.a, 1), op === '+' ? PLUS : MINUS, mm(b, op === '-' ? 2 : 1)); p = 1;
+      } else if (n.op === '/') { s = fr(mm(n.a), mm(n.b)); p = 4; }
+      else { s = r(mm(n.a, 2), leftLeaf(n.b).t === 'num' ? mo('·') : IT, mm(n.b, 2.1)); p = 2; }
+      break;
+  }
+  return p < ctx ? r(mo('('), s, mo(')')) : s;
+}
+
+/* ---------------- custom fields ---------------- */
+function fieldError(field, msg) { const e = new Error(msg); e.field = field; return e; }
+function parseNumber(str, field, label) {
+  let ast;
+  try { ast = parseExpr(String(str).trim() || '0'); } catch (err) { throw fieldError(field, `${label}: ${err.message}`); }
+  if (usesVars(ast)) throw fieldError(field, `${label} must be a number, so it can’t contain x, y, r or θ.`);
+  const v = compile(ast)(0, 0);
+  if (!isFinite(v)) throw fieldError(field, `${label} doesn’t evaluate to a finite number.`);
+  return v;
+}
+function parseWindow(str) {
+  const v = parseNumber(str, 'R', 'Half-width');
+  if (v < 0.2 || v > 200) throw fieldError('R', 'Half-width should be between 0.2 and 200.');
+  return v;
+}
+function autoK(F, Rr) {                                  // pick a time scale so typical rock speed is comfortable
+  const Ss = (W / 2) / Rr, Hm = (H / 2) / Ss, m = [];
+  for (let i = 0; i < 24; i++) for (let j = 0; j < 16; j++) {
+    const v = F(-Rr + (i + 0.5) * Rr / 12, -Hm + (j + 0.5) * Hm / 8), q = sqrt(v[0] * v[0] + v[1] * v[1]);
+    if (isFinite(q)) m.push(q);
+  }
+  m.sort((a, b) => a - b);
+  const ref = m.length ? m[Math.floor(m.length * 0.75)] : 0;
+  return ref > 1e-9 ? 110 / (Ss * ref) : 1;
+}
+function linMM(terms) {
+  let out = '', first = true;
+  for (const [c, v] of terms) {
+    if (Math.abs(c) < 1e-12) continue;
+    const a = Math.abs(c), body = v ? (Math.abs(a - 1) < 1e-12 ? mi(v) : r(mn(fmt(a)), IT, mi(v))) : mn(fmt(a));
+    out += first ? (c < 0 ? r(MINUS, body) : body) : (c < 0 ? MINUS : PLUS) + body;
+    first = false;
+  }
+  return first ? mn(0) : r(out);
+}
+function linearMarks(a, b, c, d, e, f) {                // equilibrium of F = A r + b, classified by trace and determinant
+  const det = a * d - b * c, tr = a + d;
+  if (Math.abs(det) < 1e-9) return [];
+  const x = (-d * e + b * f) / det, y = (c * e - a * f) / det, disc = tr * tr - 4 * det;
+  let t;
+  if (det < 0) t = 'saddle';
+  else if (Math.abs(tr) < 1e-9) t = 'center';
+  else if (disc < 0) t = 'spiral';
+  else t = tr < 0 ? 'sink' : 'source';
+  return [{ x, y, t }];
+}
+function buildCustom(kind, p) {
+  if (kind === 'const') {
+    const a = parseNumber(p.a, 'a', 'a'), b = parseNumber(p.b, 'b', 'b'), v = [a, b];
+    const def = { kind, R: 6, mode: 'wrap', hue: '#46f0ff', count: 4, F: () => v, eq: M(FXY, EQ, vec(numMM(a), numMM(b))) };
+    def.k = autoK(def.F, def.R);
+    return def;
+  }
+  if (kind === 'linear') {
+    const n = {};
+    for (const key of ['a', 'b', 'e', 'c', 'd', 'f']) n[key] = parseNumber(p[key], key, key);
+    const { a, b, c, d, e, f } = n, Rr = parseWindow(p.R);
+    const def = { kind, R: Rr, mode: 'flow', hue: '#9b7bff', count: 4,
+      F: (x, y) => [a * x + b * y + e, c * x + d * y + f],
+      eq: [a, b, c, d, e, f].filter(v => Math.abs(v) > 1e-12).length <= 4
+        ? M(FXY, EQ, vec(linMM([[a, 'x'], [b, 'y'], [e, null]]), linMM([[c, 'x'], [d, 'y'], [f, null]])))
+        : M(FXY, EQ, vec(mi('P'), mi('Q'))) + M(mi('P'), EQ, linMM([[a, 'x'], [b, 'y'], [e, null]])) + M(mi('Q'), EQ, linMM([[c, 'x'], [d, 'y'], [f, null]])),
+      marks: linearMarks(a, b, c, d, e, f) };
+    def.k = autoK(def.F, Rr);
+    return def;
+  }
+  const asts = {};
+  for (const key of ['P', 'Q']) {
+    try { asts[key] = parseExpr(p[key]); } catch (err) { throw fieldError(key, `${key}: ${err.message}`); }
+  }
+  const Rr = parseWindow(p.R), fp = compile(asts.P), fq = compile(asts.Q);
+  const short = nodeCount(asts.P) + nodeCount(asts.Q) <= 14;
+  const def = { kind, R: Rr, mode: 'flow', hue: '#7dffb0', count: 4, long: !short,
+    F: (x, y) => [fp(x, y), fq(x, y)],
+    eq: short ? M(FXY, EQ, vec(mm(asts.P), mm(asts.Q)))
+              : M(FXY, EQ, vec(mi('P'), mi('Q'))) + M(mi('P'), EQ, mm(asts.P)) + M(mi('Q'), EQ, mm(asts.Q)) };
+  def.k = autoK(def.F, Rr);
+  return def;
+}
+
+const esc = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+function inp(name, val, cls = '') { return `<input name="${name}" value="${esc(val)}" spellcheck="false" autocapitalize="off" ${cls ? `class="${cls}"` : 'inputmode="decimal"'} aria-label="${name}">`; }
+const ED_TITLE = { const: 'Constant field', linear: 'Linear field', expr: 'Any field' };
+function renderEditor(kind) {
+  const p = G.cp[kind];
+  let h = '';
+  if (kind === 'const') {
+    h = `<p class="tpl">${Mi(BF, EQ, vec(mi('a'), mi('b')))}</p>
+      <div class="row"><label>a ${inp('a', p.a)}</label><label>b ${inp('b', p.b)}</label></div>`;
+  } else if (kind === 'linear') {
+    h = `<p class="tpl">${Mi(BF, EQ, vec(r(mi('a'), IT, X, PLUS, mi('b'), IT, Y, PLUS, mi('e')), r(mi('c'), IT, X, PLUS, mi('d'), IT, Y, PLUS, mi('f'))))}</p>
+      <div class="row"><label>a ${inp('a', p.a)}</label><label>b ${inp('b', p.b)}</label><label>e ${inp('e', p.e)}</label></div>
+      <div class="row"><label>c ${inp('c', p.c)}</label><label>d ${inp('d', p.d)}</label><label>f ${inp('f', p.f)}</label></div>
+      <div class="row"><label class="plain">View x from −R to R, R = ${inp('R', p.R)}</label></div>`;
+  } else {
+    h = `<div class="row"><label class="grow">P(x, y) = ${inp('P', p.P, 'expr')}</label></div>
+      <div class="row"><label class="grow">Q(x, y) = ${inp('Q', p.Q, 'expr')}</label></div>
+      <div class="row"><label class="plain">View x from −R to R, R = ${inp('R', p.R)}</label></div>
+      <p class="help">Use x, y, r, θ (or theta), pi, e, the operators + − * / ^, products like 2x or x y, and sin, cos, tan, sec, csc, cot, arcsin, arccos, arctan, sinh, cosh, tanh, exp, ln, log, sqrt, abs.</p>`;
+  }
+  el.editor.innerHTML = h + `<p class="err" role="alert"></p><button class="btn primary" type="submit">Play</button>`;
+  el.edTitle.textContent = ED_TITLE[kind];
+}
+function readEditor() {
+  const vals = {};
+  for (const i of el.editor.querySelectorAll('input')) { i.removeAttribute('aria-invalid'); vals[i.name] = i.value; }
+  return vals;
+}
+// live preview: parse on every edit, show the equation and a small arrow plot, or the error
+function previewEditor() {
+  const vals = readEditor(), err = el.editor.querySelector('.err');
+  try {
+    const def = buildCustom(G.editing, vals);
+    err.textContent = '';
+    el.pvEq.innerHTML = def.eq;
+    el.pvSvg.innerHTML = `<path d="${miniQuiver(def.F, def.R, 12, 8, 10)}" fill="none" stroke="${def.hue}" stroke-width=".5" stroke-linecap="round"/>`;
+    el.pvSvg.parentNode.classList.remove('stale');
+    return def;
+  } catch (e) {
+    err.textContent = e.message;
+    el.pvSvg.parentNode.classList.add('stale');
+    const bad = e.field && el.editor.querySelector(`[name="${e.field}"]`);
+    if (bad) bad.setAttribute('aria-invalid', 'true');
+    return null;
+  }
+}
+let pvTimer = 0;
+el.editor.addEventListener('input', () => { clearTimeout(pvTimer); pvTimer = setTimeout(previewEditor, 120); });
+el.editor.addEventListener('submit', e => {
+  e.preventDefault();
+  const def = previewEditor();
+  if (!def) { el.editor.querySelector('[aria-invalid="true"]')?.focus(); return; }
+  G.cp[G.editing] = readEditor(); G.lives = 3;
+  setupCustom(def); go('game');
+});
+function openEditor(kind) { G.editing = kind; renderEditor(kind); previewEditor(); go('edit'); }
+
+/* ---------------- screens ---------------- */
+function miniQuiver(F, sR, cols, rows, cell) {
+  const sH = sR * 2 / 3, len = cell * 0.36;
+  let d = '';
+  for (let a = 0; a < cols; a++) for (let b = 0; b < rows; b++) {
+    const v = F(-sR + (a + 0.5) * (2 * sR / cols), sH - (b + 0.5) * (2 * sH / rows)), m = sqrt(v[0] * v[0] + v[1] * v[1]);
+    const cx = cell / 2 + a * cell, cy = cell / 2 + b * cell;
+    if (!isFinite(m) || m < 1e-9) { d += `M${cx - 0.6} ${cy}h1.2`; continue; }
+    const ux = v[0] / m * len, uy = -v[1] / m * len;
+    d += arrowGlyph(cx - ux, cy - uy, cx + ux, cy + uy, cell * 0.2);
+  }
+  return d;
+}
+function buildMenus() {
+  LEVELS.forEach((lv, i) => {
+    const btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'card'; btn.setAttribute('aria-label', `Field ${i + 1}`);
+    btn.innerHTML = `<svg viewBox="0 0 60 40" aria-hidden="true"><path d="${miniQuiver(lv.F, lv.R, 6, 4, 10)}" fill="none" stroke="${lv.hue}" stroke-width="1" stroke-linecap="round"/></svg><span class="num">${i + 1}</span>`;
+    btn.addEventListener('click', () => startField(i));
+    el.chips.appendChild(btn);
+  });
+  const custom = [
+    ['const', Mi(vec(mi('a'), mi('b'))), 'Constant'],
+    ['linear', Mi(vec(r(mi('a'), IT, X, PLUS, mi('b'), IT, Y, PLUS, mi('e')), r(mi('c'), IT, X, PLUS, mi('d'), IT, Y, PLUS, mi('f')))), 'Linear'],
+    ['expr', Mi(vec(r(mi('P'), par(r(X, COMMA, Y))), r(mi('Q'), par(r(X, COMMA, Y))))), 'Any function']
+  ];
+  for (const [kind, math, label] of custom) {
+    const btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'card';
+    btn.innerHTML = `<span class="cm">${math}</span><span class="lbl">${label}</span>`;
+    btn.addEventListener('click', () => openEditor(kind));
+    el.customBtns.appendChild(btn);
+  }
+  for (const b of document.querySelectorAll('[data-go]')) b.addEventListener('click', () => {
+    const t = b.dataset.go;
+    if (t === 'play') startField(0); else go(t);
+  });
+  el.homeBtn.addEventListener('click', () => go('title'));
+}
+let menuBg = '';
+function go(screen) {
+  G.screen = screen;
+  document.body.dataset.screen = screen;
+  el.scrTitle.hidden = screen !== 'title';
+  el.scrSelect.hidden = screen !== 'select';
+  el.scrEdit.hidden = screen !== 'edit';
+  for (const k in keys) keys[k] = false;
+  if (screen === 'game') { document.activeElement?.blur(); return; }
+  el.bg.src = menuBg;
+  const first = { title: '#scrTitle .btn', select: '#chips .card', edit: '#editor input' }[screen];
+  document.querySelector(first)?.focus({ preventScroll: true });
+}
+function startField(i) { G.lives = 3; setupLevel(i); go('game'); }
+
 /* ---------------- loop ---------------- */
 let last = performance.now();
 function frame(t) {
   const dt = Math.min(0.033, (t - last) / 1000); last = t;
-  if (G.state !== 'paused') update(dt);
-  render(t / 1000);
+  if (G.screen === 'game') {                       // menus cost nothing per frame
+    if (G.state !== 'paused') update(dt);
+    render(t / 1000);
+  }
   requestAnimationFrame(frame);
 }
-setupLevel(0);
+buildMenus();
+// menu backdrop: the cellular-flow arrow plot, drawn once
+L = LEVELS[8]; R = L.R; S = (W / 2) / R; HM = (H / 2) / S;
+menuBg = buildBackground();
+G.screen = 'title'; el.bg.src = menuBg;
 requestAnimationFrame(frame);
 })();
 </script>
